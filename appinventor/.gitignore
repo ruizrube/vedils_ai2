@@ -1,0 +1,9 @@
+/bin/
+/build/
+/appengine/build/
+/blocklyeditor/build/
+/buildserver/build/
+/components/build/
+/common/build/
+.classpath
+.project
