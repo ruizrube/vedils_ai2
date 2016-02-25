@@ -31,7 +31,7 @@ public class VirtualObject implements Parcelable {
 	private String overlaidText;
 	private String overlaidImage;
 	
-	
+	//private PhysicalObject poObject;
 
 
 
@@ -232,6 +232,14 @@ public class VirtualObject implements Parcelable {
 	public void setOverlaidText(String overlaidText) {
 		this.overlaidText = overlaidText;
 	}
+	
+	public void setPhysicalObject(PhysicalObject poObject) {
+		poObject.addVirtualObject(this);
+	}
+	
+	public void removePhysicalObject(PhysicalObject poObject) {
+		poObject.removeVirtualObject(this);
+	}
 
 	
 	/**
@@ -272,6 +280,7 @@ public class VirtualObject implements Parcelable {
 		
 		// parcel. When we read from parcel, they
 		// will come back in the same order
+		//dest.writeParcelable(poObject, flags);
 		
 		dest.writeValue(enabled);
 		dest.writeString(id);
@@ -312,6 +321,8 @@ public class VirtualObject implements Parcelable {
 		// We just need to read back each
 		// field in the order that it was
 		// written to the parcel
+		//poObject = in.readParcelable(PhysicalObject.class.getClassLoader());
+		
 		this.setEnabled((Boolean) in.readValue(null));
 		this.setId(in.readString());
 		this.setPositionX(in.readFloat());

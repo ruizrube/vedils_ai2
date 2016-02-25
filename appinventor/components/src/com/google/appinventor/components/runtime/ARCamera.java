@@ -81,8 +81,8 @@ public class ARCamera extends AndroidNonvisibleComponent
 	ARCameraBroadCastReceiver cameraEventBroadCastReceiver = new ARCameraBroadCastReceiver();
 
 	public Camera data;
-	public static HashMap<String, ARVirtualObject> mapOfARVirtualObjects = new HashMap<String, ARVirtualObject>();
-	public static HashMap<String, ARPhysicalObject> mapOfARPhysicalObjects = new HashMap<String, ARPhysicalObject>();
+	public /*static*/ HashMap<String, ARVirtualObject> mapOfARVirtualObjects = new HashMap<String, ARVirtualObject>();
+	public /*static*/ HashMap<String, ARPhysicalObject> mapOfARPhysicalObjects = new HashMap<String, ARPhysicalObject>();
 
 	/////////////////
 	// CONSTRUCTOR //
@@ -165,8 +165,8 @@ public class ARCamera extends AndroidNonvisibleComponent
 		intent.setClassName(container.$context(), AR_ACTIVITY_CLASS);
 
 		intent.putExtra(ARActivity.AR_ACTIVITY_ARG_CAMERAOBJECT, this.data);
-		intent.putExtra(ARActivity.AR_ACTIVITY_ARG_VIRTUALOBJECTS, extractPureVO(ARCamera.mapOfARVirtualObjects));
-		intent.putExtra(ARActivity.AR_ACTIVITY_ARG_PHYSICALOBJECTS, extractPurePO(ARCamera.mapOfARPhysicalObjects));
+		intent.putExtra(ARActivity.AR_ACTIVITY_ARG_VIRTUALOBJECTS, extractPureVO(mapOfARVirtualObjects));
+		intent.putExtra(ARActivity.AR_ACTIVITY_ARG_PHYSICALOBJECTS, extractPurePO(mapOfARPhysicalObjects));
 
 		
 		
@@ -431,11 +431,11 @@ public class ARCamera extends AndroidNonvisibleComponent
 	public void Refresh() {
 		Intent intent = new Intent(ARActivity.AR_ACTIVITY_SIGNAL_REFRESH);
 
-		ArrayList<VirtualObject> aux = extractPureVO(ARCamera.mapOfARVirtualObjects);
+		ArrayList<VirtualObject> aux = extractPureVO(mapOfARVirtualObjects);
 
 		intent.putExtra(ARActivity.AR_ACTIVITY_ARG_CAMERAOBJECT, this.data);
 		intent.putExtra(ARActivity.AR_ACTIVITY_ARG_VIRTUALOBJECTS, aux);
-		intent.putExtra(ARActivity.AR_ACTIVITY_ARG_PHYSICALOBJECTS, extractPurePO(ARCamera.mapOfARPhysicalObjects));
+		intent.putExtra(ARActivity.AR_ACTIVITY_ARG_PHYSICALOBJECTS, extractPurePO(mapOfARPhysicalObjects));
 		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(intent);
 
 	}

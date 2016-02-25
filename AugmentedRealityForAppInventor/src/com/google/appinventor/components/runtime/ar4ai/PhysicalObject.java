@@ -1,5 +1,7 @@
 package com.google.appinventor.components.runtime.ar4ai;
 
+import java.util.ArrayList;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -19,7 +21,7 @@ public class PhysicalObject implements Parcelable {
 
 	private boolean enabled = true;
 
-	private VirtualObject voObject;
+	private ArrayList<VirtualObject> voObjects = new ArrayList<VirtualObject>();
 
 	private String id;
 	private int trackerType;
@@ -285,16 +287,20 @@ public class PhysicalObject implements Parcelable {
 	/**
 	 * @return the voObject
 	 */
-	public VirtualObject getVirtualObject() {
-		return voObject;
+	public ArrayList<VirtualObject> getVirtualObject() {
+		return voObjects;
 	}
 
 	/**
 	 * @param voObject
 	 *            the voObject to set
 	 */
-	public void setVirtualObject(VirtualObject voObject) {
-		this.voObject = voObject;
+	public void addVirtualObject(VirtualObject voObject) {
+		this.voObjects.add(voObject);
+	}
+	
+	public void removeVirtualObject(VirtualObject voObject) {
+		this.voObjects.remove(voObject);
 	}
 	
 	public boolean isExtendedTrackingEnabled() {
@@ -316,7 +322,8 @@ public class PhysicalObject implements Parcelable {
 
 		// The writeParcel method needs the flag
 		// as well - but thats easy.
-		dest.writeParcelable(voObject, flags);
+		dest.writeParcelableArray(voObjects.toArray(new VirtualObject[voObjects.size()]), flags);
+		//dest.writeParcelable(voObjects, flags);
 
 		// parcel. When we read from parcel, they
 		// will come back in the same order
@@ -349,8 +356,10 @@ public class PhysicalObject implements Parcelable {
 		// but that can be picked up from the class
 		// This will solve the BadParcelableException
 		// because of ClassNotFoundException
-		voObject = in.readParcelable(VirtualObject.class.getClassLoader());
-
+		//voObjects = in.readParcelable(VirtualObject.class.getClassLoader());
+		Parcelable[] aux = in.readParcelableArray(VirtualObject.class.getClassLoader());
+		for (Parcelable vo : aux)
+			voObjects.add((VirtualObject)vo);
 		// We just need to read back each
 		// field in the order that it was
 		// written to the parcel

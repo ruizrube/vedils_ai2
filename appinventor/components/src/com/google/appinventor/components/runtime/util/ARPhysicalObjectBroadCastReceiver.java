@@ -29,7 +29,8 @@ public class ARPhysicalObjectBroadCastReceiver extends BroadcastReceiver {
 		float z = intent.getFloatExtra("z", -1f);
 
 		// Locate the ARPhysicalObject
-		ARPhysicalObject arPO = ARCamera.mapOfARPhysicalObjects.get(uuid);
+		//ARPhysicalObject arPO = ARCamera.mapOfARPhysicalObjects.get(uuid);
+		ARPhysicalObject arPO = ARCamera.getInstance().mapOfARPhysicalObjects.get(uuid);
 
 		
 		if (arPO != null) {

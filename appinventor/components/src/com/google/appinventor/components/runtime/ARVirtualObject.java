@@ -12,6 +12,7 @@ import com.google.appinventor.components.annotations.SimpleEvent;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.common.PropertyTypeConstants;
+import com.google.appinventor.components.runtime.ar4ai.PhysicalObject;
 import com.google.appinventor.components.runtime.ar4ai.VirtualObject;
 import com.google.appinventor.components.runtime.util.OnInitializeListener;
 
@@ -45,6 +46,9 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 
 	private final ComponentContainer container;
 	private final Handler androidUIHandler; // for posting actions
+	
+	protected ARPhysicalObject arPO;
+	protected ARCamera camera;
 
 	protected VirtualObject data;
 
@@ -66,7 +70,7 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 
 		data = new VirtualObject(UUID.randomUUID().toString());
 
-		ARCamera.mapOfARVirtualObjects.put(this.getData().getId(), this);
+		//ARCamera.mapOfARVirtualObjects.put(this.getData().getId(), this);
 
 		
 	}
@@ -352,7 +356,41 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	public void Scale(float scale) {
 		this.data.setScale(scale);
 	}
+	
+	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
+	public ARPhysicalObject StickTo() {
+		return arPO;
+	}
+	
+	
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_COMPONENT, defaultValue = "")
+	@SimpleProperty(description = "Stick the virtual object to a given physical Object", userVisible = true)
+	public void StickTo(ARPhysicalObject arPO) {
+		if (this.arPO != null)
+			this.data.removePhysicalObject(this.arPO.getData());
+		this.arPO = arPO;
+		this.data.setPhysicalObject(arPO.getData());
+		if (camera != null)
+			camera.mapOfARPhysicalObjects.put(arPO.getData().getId(), arPO);
+	}
 
+	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
+	public ARCamera ARCamera() {
+		return camera;
+	}
+	
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_COMPONENT, defaultValue = "")
+	@SimpleProperty(description = "Stick the virtual object to a given Camera", userVisible = true)
+	public void ARCamera(ARCamera camera) {
+		if (camera != null) {
+			camera.mapOfARVirtualObjects.put(this.getData().getId(), this);
+			if (arPO != null)
+				camera.mapOfARPhysicalObjects.put(arPO.getData().getId(), arPO);
+		}
+		else
+			this.camera.mapOfARVirtualObjects.remove(this.getData().getId());
+		this.camera = camera;
+	}
 	
 
 	/**

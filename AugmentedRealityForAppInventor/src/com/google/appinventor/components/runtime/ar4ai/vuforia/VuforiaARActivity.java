@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.appinventor.components.runtime.ar4ai.ARActivity;
 import com.google.appinventor.components.runtime.ar4ai.PhysicalObject;
+import com.google.appinventor.components.runtime.ar4ai.VirtualObject;
 import com.google.appinventor.components.runtime.ar4ai.common.VuforiaApplicationControl;
 import com.google.appinventor.components.runtime.ar4ai.common.VuforiaApplicationException;
 import com.google.appinventor.components.runtime.ar4ai.common.VuforiaApplicationSession;
@@ -264,10 +265,12 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 					LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 					Log.d(LOGTAG, "Notificamos disappears PO"+po.getId());
 	
-					if (po.getVirtualObject() != null) {
-						this.mRenderer.eworld.getInfo(po.getVirtualObject().getId()).setVisibility(false);
+					for (VirtualObject vo : po.getVirtualObject())
+						this.mRenderer.eworld.getInfo(vo.getId()).setVisibility(false);
+					//if (po.getVirtualObject() != null) {
+						//this.mRenderer.eworld.getInfo(po.getVirtualObject().getId()).setVisibility(false);
 						//obj3D.build();
-					}
+					//}
 
 			}
 		}
@@ -296,13 +299,17 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 
 				LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
-				if (po.getVirtualObject() != null && po.getVirtualObject().isEnabled()) {
-					this.mRenderer.eworld.getInfo(po.getVirtualObject().getId()).setVisibility(true);
+				for (VirtualObject vo : po.getVirtualObject()) {
+					if (vo.isEnabled())
+						this.mRenderer.eworld.getInfo(vo.getId()).setVisibility(true);
+				}
+				//if (po.getVirtualObject() != null && po.getVirtualObject().isEnabled()) {
+					//this.mRenderer.eworld.getInfo(po.getVirtualObject().getId()).setVisibility(true);
 					
 					//Object3D obj3D = this.mRenderer.mWorld.getObjectByName(po.getVirtualObject().getId());
 					//obj3D.setVisibility(true);
 					//obj3D.build();
-				}
+				//}
 
 			}
 		}

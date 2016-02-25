@@ -32,7 +32,7 @@ public abstract class ARPhysicalObject extends AndroidNonvisibleComponent implem
 
 	protected PhysicalObject data;
 
-	protected ARVirtualObject arVO;
+	//protected ARVirtualObject arVO;
 
 	/////////////////////
 	// CONSTRUCTOR //
@@ -50,7 +50,7 @@ public abstract class ARPhysicalObject extends AndroidNonvisibleComponent implem
 
 		data = new PhysicalObject(UUID.randomUUID().toString());
 
-		ARCamera.mapOfARPhysicalObjects.put(this.getData().getId(), this);
+		//ARCamera.mapOfARPhysicalObjects.put(this.getData().getId(), this);
 
 	}
 
@@ -184,26 +184,26 @@ public abstract class ARPhysicalObject extends AndroidNonvisibleComponent implem
 		this.data.setSensitivityThresholdZ(sensitivityThresholdZ);
 	}
 
-	/**
-	 * @return the ARVirtualObject
-	 */
-	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
-	public ARVirtualObject StickTo() {
-		return arVO;
+//	/**
+//	 * @return the ARVirtualObject
+//	 */
+//	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
+//	public ARVirtualObject StickTo() {
+//		return arVO;
+//
+//	}
 
-	}
-
-	/**
-	 * @param ARVirtualObject
-	 *            the ARVirtualObject to set
-	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_COMPONENT, defaultValue = "")
-	@SimpleProperty(description = "Stick the physical object to a given virtual Object", userVisible = true)
-	public void StickTo(ARVirtualObject vo) {
-		arVO = vo;
-		this.data.setVirtualObject(arVO.getData());
-
-	}
+//	/**
+//	 * @param ARVirtualObject
+//	 *            the ARVirtualObject to set
+//	 */
+//	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_COMPONENT, defaultValue = "")
+//	@SimpleProperty(description = "Stick the physical object to a given virtual Object", userVisible = true)
+//	public void StickTo(ARVirtualObject vo) {
+//		arVO = vo;
+//		this.data.addVirtualObject(arVO.getData());
+//
+//	}
 	
 	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
 	public boolean ExtendedTracking() {

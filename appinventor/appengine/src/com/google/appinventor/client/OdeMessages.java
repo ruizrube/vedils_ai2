@@ -5477,10 +5477,6 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("SensitivityThresholdZ")
 	@Description("")
 	String SensitivityThresholdZProperties();
-	
-	@DefaultMessage("StickTo")
-	@Description("")
-	String StickToProperties();
 
 	@DefaultMessage("Appears")
 	@Description("")
@@ -5541,6 +5537,14 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("*Transparency")
 	@Description("")
 	String TransparencyProperties();
+	
+	@DefaultMessage("StickTo")
+	@Description("")
+	String StickToProperties();
+	
+	@DefaultMessage("Camera")
+	@Description("")
+	String ARCameraProperties();
 
 	@DefaultMessage("*Mass")
 	@Description("")
