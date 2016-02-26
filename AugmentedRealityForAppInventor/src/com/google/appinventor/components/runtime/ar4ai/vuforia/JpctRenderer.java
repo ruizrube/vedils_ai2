@@ -256,8 +256,11 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 				Matrix44F modelVieMatrix = Tool.convertPose2GLMatrix(matrix34F);
 				Matrix44F inverseMV = SampleMath.Matrix44FInverse(modelVieMatrix);
 				Matrix44F invTranspMV = SampleMath.Matrix44FTranspose(inverseMV);
-				for (VirtualObject vo : po.getVirtualObject())
-					eworld.getInfo(vo.getId()).setMat(invTranspMV.getData());
+				for (VirtualObject vo : po.getVirtualObject()) {
+					//Captura de nulo para evitar crash durante el refresco de la camara.
+					if (eworld.getInfo(vo.getId()) != null)
+						eworld.getInfo(vo.getId()).setMat(invTranspMV.getData());
+				}
 			} else {
 				Log.d(LOGTAG, "No se encuentra el PO asociado al tracker");
 
