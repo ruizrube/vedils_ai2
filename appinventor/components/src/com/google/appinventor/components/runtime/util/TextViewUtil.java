@@ -107,7 +107,7 @@ public class TextViewUtil {
     textview.setTextSize(size);
     textview.requestLayout();
   }
-
+  
   /**
    * Sets the font typeface for a {@link TextView}.
    *

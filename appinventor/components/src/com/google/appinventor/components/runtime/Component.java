@@ -101,6 +101,22 @@ public interface Component {
   static final int TYPEFACE_SANSSERIF = 1;
   static final int TYPEFACE_SERIF = 2;
   static final int TYPEFACE_MONOSPACE = 3;
+  
+  /*
+   * Synchronization mode constants.
+   */
+  
+  static final int REALTIME = 0;
+  static final int BATCH = 1;
+  static final int ON_DEMAND = 2;
+  
+  
+  /*
+   * Communication mode constants.
+   */
+  static final int ONLY_WIFI = 0;
+  static final int INDIFFERENT = 1;
+  
 
   /*
    * Length constants (for width and height).
