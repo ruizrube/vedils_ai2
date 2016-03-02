@@ -393,7 +393,8 @@ public class BuildServer {
     // cleanUp.
     inputZip = inputZipFile;
     inputZip.deleteOnExit(); // In case build server is killed before cleanUp executes.
-    String requesting_host = (new URL(callbackUrlStr)).getHost();
+    final String callbackUrlStr2 = callbackUrlStr.replaceAll("localhost:8888","localhost:80");
+    String requesting_host = (new URL(callbackUrlStr2)).getHost();
 
     //for the request for update part, the file should be empty
     if (inputZip.length() == 0L) {
@@ -451,8 +452,8 @@ public class BuildServer {
               checkMemory();
               buildAndCreateZip(userName, inputZipFile);
               // Send zip back to the callbackUrl
-              LOG.info("CallbackURL: " + callbackUrlStr);
-              URL callbackUrl = new URL(callbackUrlStr);
+              LOG.info("CallbackURL: " + callbackUrlStr2);
+              URL callbackUrl = new URL(callbackUrlStr2);
               HttpURLConnection connection = (HttpURLConnection) callbackUrl.openConnection();
               connection.setDoOutput(true);
               connection.setRequestMethod("POST");
@@ -656,4 +657,3 @@ public class BuildServer {
     }
   }
 }
-
