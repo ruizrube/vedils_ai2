@@ -1,17 +1,5 @@
 package com.google.appinventor.components.runtime;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.api.client.extensions.android2.AndroidHttp;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.api.client.googleapis.services.GoogleKeyInitializer;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.services.fusiontables.Fusiontables;
-import com.google.api.services.fusiontables.Fusiontables.Query.Sql;
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
@@ -23,17 +11,12 @@ import com.google.appinventor.components.annotations.UsesLibraries;
 import com.google.appinventor.components.annotations.UsesPermissions;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
-import com.google.appinventor.components.runtime.util.ErrorMessages;
-import com.google.appinventor.components.runtime.util.MediaUtil;
-import com.google.appinventor.components.runtime.util.OAuth2Helper;
+import com.google.appinventor.components.runtime.util.FusionTablesConnection;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.wifi.WifiManager;
-import android.os.AsyncTask;
 import android.text.format.Formatter;
-import android.util.Log;
 
 @UsesAssets(fileNames = "ruizrube-cd84632c4ea8.p12, ruizrube-4718dd8c5168.json")
 @UsesLibraries(libraries =
@@ -61,60 +44,54 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	
 	private String userTrackerId;
 	private final Activity activity;
+	@SuppressWarnings("unused")
 	private final ComponentContainer componentContainer;
 	private String tableId;
 	private String columns;
 	private String values;
 	private String email;
 	private String apiKey;
-	private FusiontablesControlWithoutDialog fusiontablesControl;
+	private FusionTablesConnection fusionTablesConnection;
 	private String path;
 	private LocationSensor locationSensor;
 	private Context context;
+	private int synchronizationMode;
+	private int batchTime;
+	private int communicationMode;
+	
 	
 	public ActivityTracker(ComponentContainer componentContainer) {
 		super(componentContainer.$form());
 		
 		this.componentContainer = componentContainer; 
 		this.activity = componentContainer.$context();
-		fusiontablesControl = new FusiontablesControlWithoutDialog(componentContainer);
 		this.locationSensor = new LocationSensor(componentContainer);
 		context = componentContainer.$context();
 		
-		//Define data for FusionTableControl connection.
+		//Default mode
+		this.synchronizationMode = Component.REALTIME;
+		this.batchTime = 0;
+		this.communicationMode = Component.INDIFFERENT;
 		
-		columns = "UserID, IP, MAC, Latitude, Longitude, Date, AppID, ScreenID, ComponentID, ComponentType, ActionID, ActionType, Params";
+		//Define data for FusionTableControl connection.
+        
+		columns = "UserID, IP, MAC, Latitude, Longitude, Date, AppID, ScreenID, ComponentID, ComponentType, ActionID, ActionType, Param1, Param2, Param3";
 		tableId = "1xZCj24xYWpj6jHWN2IK2xiErYPY7XbeHAqXVR4Bw";
 		email = "1075849932338-n26pqlvqfea3dspaebf52vnacch77nhf@developer.gserviceaccount.com";
 		apiKey = "AIzaSyDL9s7r6ZIr9DN47_kNIIzRcm2JhWxy7ZU";
 		path = ASSET_DIRECTORY + '/' + "ruizrube-cd84632c4ea8.p12";
 		
-		//Configuration of FusionTableControl.
+		//Connection with FusionTables
 		
-		fusiontablesControl.ServiceAccountEmail(email);
-		fusiontablesControl.ApiKey(apiKey);
-		fusiontablesControl.UseServiceAuthentication(true);
-		fusiontablesControl.KeyFile(path);
-		
-		this.userTrackerId = new String();
+		fusionTablesConnection = new FusionTablesConnection(columns, apiKey, path, email, componentContainer, true);
 		System.out.println("ActivityTracker created.");
 		
 	}
 	
 	//Record Data
 	
-	private String recordParamsValues(List<String> values) {
-		String paramsValues = new String();
-		
-		for(String value: values) {
-			System.out.println("Value: "+value);
-			paramsValues = paramsValues + value + ";";
-		}
-		return paramsValues;
-	}
-	
 	@SuppressWarnings("deprecation")
-	private void recordData(String actionId, String paramsValues) {
+	private void recordData(String actionId, String param1, String param2, String param3) {
 		
 		WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 		String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
@@ -124,14 +101,8 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	    String screenName = activity.getTitle().toString(); 
 	    String actionType = "SPECIFIC";
 	    //componentContainer.$form().getLocalClassName() (Devuelve el ScreenX también)
-	    
-	    
-		System.out.println("Date: "+ Clock.FormatDate(Clock.Now(), "MM/dd/yyyy HH:mm:ss"));
-		System.out.println("Latitude: " +locationSensor.Latitude());
-		System.out.println("Longitude: " +locationSensor.Longitude());
-		System.out.println("IP: " +ip);
-		System.out.println("MAC: " +mac);
 		
+	    //Do the query
 		values = "'" + this.userTrackerId + "','" + 
 		ip + "','" +
 	    mac + "'," +
@@ -144,9 +115,12 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 		"" + "','" +
 		actionId + "','" +
 		actionType + "','" +
-		paramsValues + "'";
-		String query = "INSERT INTO " + tableId + " (" + columns + ")" + " VALUES " + "(" + values + ")";
-		new QueryProcessorV1WithoutDialog(fusiontablesControl, activity).execute(query);
+		param1 + "','" +
+		param2 + "','" +
+		param3 + "'";
+		
+		//Send the values to FusionTables
+		fusionTablesConnection.insertRow(values, this.tableId);
 	}
 	
 	/**
@@ -194,6 +168,79 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 		return this.tableId;
 	}
 	
+	/**
+	 * Specifies the communication mode.
+	 * @param communicationMode
+	 */
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_COMMUNICATIONMODE,
+		      defaultValue = Component.INDIFFERENT + "")
+		  @SimpleProperty(
+		      userVisible = false)
+	public void CommunicationMode(int communicationMode) {
+		this.communicationMode = communicationMode;
+    }
+	
+	/**
+	 * Returns the current communication mode.
+	 * @return  one of {@link Component#COMMUNICATIONMODE_ONLY_WIFI} or
+	 *          {@link Component#COMMUNICATIONMODE_INDIFFERENT}
+	 */
+	@SimpleProperty(
+		      category = PropertyCategory.BEHAVIOR,
+		      description = "Communication mode for ActivityTracker component.",
+		      userVisible = false)
+    public int CommunicationMode() {
+		return this.communicationMode;
+    }
+	
+	/**
+	 * Specifies the synchronization mode.
+	 * @param synchronizationMode
+	 */
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_SYNCHRONIZATIONMODE,
+		      defaultValue = Component.REALTIME + "")
+		  @SimpleProperty(
+		      userVisible = false)
+	public void SynchronizationMode(int synchronizationMode) {
+		this.synchronizationMode = synchronizationMode;
+    }
+	
+	/**
+	 * Returns the current synchronization mode.
+	 * @return  one of {@link Component#SYNCHRONIZATIONMODE_REALTIME},
+	 *          {@link Component#SYNCHRONIZATIONMODE_BATCH} or
+	 *          {@link Component#SYNCHRONIZATIONMODE_ONDEMAND}
+	 */
+	@SimpleProperty(
+		      category = PropertyCategory.BEHAVIOR,
+		      description = "Synchronization mode for ActivityTracker component.",
+		      userVisible = false)
+    public int SynchronizationMode() {
+		return this.synchronizationMode;
+    }
+	
+	/**
+	 * Specifies the bachTime for the batch type connection.
+	 * 
+	 * @param bachTime
+	 */
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_INTEGER,
+		      defaultValue = "0")
+	@SimpleProperty
+	public void BatchTime(int batchTime) {
+		this.batchTime = batchTime;
+	}
+	
+	/**
+	 * Returns the id of the current Fusion Table.
+	 * 
+	 * @return batchTime
+	 */
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR, description = "Returns the current bachTime in seconds.", userVisible = true)
+	public int BatchTime() {
+		return this.batchTime;
+	}
+	
 	
 	/**
 	 *Function to notify a specific action (version without parameters).
@@ -202,9 +249,7 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	 */
 	@SimpleFunction(description="Function to notify a specific action (version without arguments).")
 	public void NotifyWithoutArguments(String actionId) {
-		System.out.println("Notify1");
-		List<String> values = new ArrayList<String>();
-		recordData(actionId, recordParamsValues(values));
+		recordData(actionId, "", "", "");
 	}
 	
 	
@@ -216,11 +261,7 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	 */
 	@SimpleFunction(description="Function to notify a specific action (version with one argument).")
 	public void NotifyWithOneArgument(String actionId, String valueArgument) {
-		System.out.println("Notify2");
-		List<String> values = new ArrayList<String>();
-		values.add(valueArgument);
-		recordData(actionId, recordParamsValues(values));
-		
+		recordData(actionId, valueArgument, "", "");
 	}
 	
 	
@@ -233,12 +274,7 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	 */
 	@SimpleFunction(description="Function to notify a specific action (version with two arguments).")
 	public void NotifyWithTwoArguments(String actionId, String valueArgument, String valueArgument2) {
-		System.out.println("Notify3");
-		List<String> values = new ArrayList<String>();
-		values.add(valueArgument);
-		values.add(valueArgument2);
-		recordData(actionId, recordParamsValues(values));
-		
+		recordData(actionId, valueArgument, valueArgument2, "");
 	}
 	
 	/**
@@ -251,40 +287,6 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	 */
 	@SimpleFunction(description="Function to notify a specific action (version with three arguments).")
 	public void NotifyWithThreeArguments(String actionId, String valueArgument, String valueArgument2, String valueArgument3) {
-		System.out.println("Notify4");
-		List<String> values = new ArrayList<String>();
-		values.add(valueArgument);
-		values.add(valueArgument2);
-		values.add(valueArgument3);
-		recordData(actionId, recordParamsValues(values));
-		
-	}
-	
-	public class FusiontablesControlWithoutDialog extends FusiontablesControl {
-
-		public FusiontablesControlWithoutDialog(ComponentContainer componentContainer) {
-			super(componentContainer);
-			// TODO Auto-generated constructor stub
-		}
-		
-		@Override
-		void signalJsonResponseError(String query, String parsedException) {}
-		
-	}
-	
-	public class QueryProcessorV1WithoutDialog extends FusiontablesControl.QueryProcessorV1 {
-
-		QueryProcessorV1WithoutDialog(FusiontablesControl fusiontablesControl, Activity activity) {
-			fusiontablesControl.super(activity);
-			// TODO Auto-generated constructor stub
-		}
-		
-		@Override
-		protected void onPreExecute() {}
-		
-		@Override
-		protected void onPostExecute(String result) {
-		      fusiontablesControl.GotResult(result);
-		}
+		recordData(actionId, valueArgument, valueArgument2, valueArgument3);
 	}
 }

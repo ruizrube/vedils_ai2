@@ -762,7 +762,7 @@ public class FusiontablesControl extends AndroidNonvisibleComponent implements C
    *
    * This version uses the Fusion Tabes V1.0 API.
    */
-  protected class QueryProcessorV1 extends AsyncTask<String, Void, String> {
+  private class QueryProcessorV1 extends AsyncTask<String, Void, String> {
     private static final String TAG = "QueryProcessorV1";
 
     // alternative log tab used in service account processing

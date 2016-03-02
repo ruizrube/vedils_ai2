@@ -1069,6 +1069,30 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("monospace")
 	@Description("Text for font typeface choice 'monospace '")
 	String monospaceFontTypeface();
+	
+	// Used in
+	// editor/youngandroid/properties/YoungAndroidSynchronizationModeChoicePropertyEditor.java
+	@DefaultMessage("realtime")
+	@Description("Text for synchronization mode 'realtime '")
+	String realtimeSynchronizationMode();
+	
+	@DefaultMessage("batch")
+	@Description("Text for synchronization mode 'batch '")
+	String batchSynchronizationMode();
+	
+	@DefaultMessage("on demand")
+	@Description("Text for synchronization mode 'on demand '")
+	String onDemandSynchronizationMode();
+	
+	// Used in
+	// editor/youngandroid/properties/YoungAndroidCommunicationModeChoicePropertyEditor.java
+	@DefaultMessage("only wifi")
+	@Description("Text for synchronization mode 'Only wifi '")
+	String onlywifiCommunicationMode();
+		
+	@DefaultMessage("indifferent")
+	@Description("Text for synchronization mode 'indifferent '")
+	String indifferentCommunicationMode();
 
 	// Used in
 	// editor/youngandroid/properties/YoungAndroidLengthPropertyEditor.java
@@ -5589,6 +5613,14 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("TableId")
 	@Description("")
 	String TableIdProperties();
+	
+	@DefaultMessage("SynchronizationMode")
+	@Description("")
+	String SynchronizationModeProperties();
+	
+	@DefaultMessage("CommunicationMode")
+	@Description("")
+	String CommunicationModeProperties();
 
 	@DefaultMessage("NotifyWithoutArguments")
 	@Description("")
@@ -5605,5 +5637,9 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("NotifyWithThreeArguments")
 	@Description("")
 	String NotifyWithThreeArgumentsMethods();
+	
+	@DefaultMessage("BatchTime")
+	@Description("")
+	String BatchTimeProperties();
 	
 }
