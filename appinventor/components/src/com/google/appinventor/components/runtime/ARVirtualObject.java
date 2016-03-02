@@ -363,7 +363,7 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	}
 	
 	
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_COMPONENT, defaultValue = "")
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_KIND_OF_TRACKERS, defaultValue = "")
 	@SimpleProperty(description = "Stick the virtual object to a given physical Object", userVisible = true)
 	public void StickTo(ARPhysicalObject arPO) {
 		if (this.arPO != null)
@@ -379,7 +379,7 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 		return camera;
 	}
 	
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_COMPONENT, defaultValue = "")
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_ONLY_ARCAMERA, defaultValue = "")
 	@SimpleProperty(description = "Stick the virtual object to a given Camera", userVisible = true)
 	public void ARCamera(ARCamera camera) {
 		if (camera != null) {

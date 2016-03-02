@@ -41,6 +41,8 @@ public final class YoungAndroidAssetSelectorPropertyEditor extends AdditionalCho
   private final ListWithNone choices;
 
   private final YoungAndroidAssetsFolder assetsFolder;
+  //Lista de archivos que soporta el componente
+  private final String[] fileTypes;
 
   /**
    * Creates a new property editor for selecting a Young Android asset.
@@ -48,6 +50,11 @@ public final class YoungAndroidAssetSelectorPropertyEditor extends AdditionalCho
    * @param editor the editor that this property editor belongs to
    */
   public YoungAndroidAssetSelectorPropertyEditor(final YaFormEditor editor) {
+	  this(editor, null);
+  }
+  
+  public YoungAndroidAssetSelectorPropertyEditor(final YaFormEditor editor, final String [] fileTypes) {
+	this.fileTypes = fileTypes;
     Project project = Ode.getInstance().getProjectManager().getProject(editor.getProjectId());
     assetsFolder = ((YoungAndroidProjectNode) project.getRootNode()).getAssetsFolder();
     project.addProjectChangeListener(this);
@@ -83,7 +90,7 @@ public final class YoungAndroidAssetSelectorPropertyEditor extends AdditionalCho
     // Fill choices with the assets.
     if (assetsFolder != null) {
       for (ProjectNode node : assetsFolder.getChildren()) {
-        choices.addItem(node.getName());
+    	addChoiceToList(node);
       }
     }
 
@@ -97,7 +104,10 @@ public final class YoungAndroidAssetSelectorPropertyEditor extends AdditionalCho
           public void onFileUploaded(FolderNode folderNode, FileNode fileNode) {
             // At this point, the asset has been uploaded to the server, and
             // has even been added to the assetsFolder. We are all set!
-            choices.selectValue(fileNode.getName());
+        	for (String fileType : fileTypes) {
+        		if (fileNode.getName().toLowerCase().endsWith(fileType))
+        			 choices.selectValue(fileNode.getName());
+        	}
             closeAdditionalChoiceDialog(true);
           }
         };
@@ -185,7 +195,7 @@ public final class YoungAndroidAssetSelectorPropertyEditor extends AdditionalCho
       // It could already be there if the user adds an asset that's already there, which is the way
       // to replace the asset.
       if (!choices.containsValue(assetName)) {
-        choices.addItem(assetName);
+        addChoiceToList(node);
       }
 
       // Check whether our asset was updated.
@@ -215,5 +225,22 @@ public final class YoungAndroidAssetSelectorPropertyEditor extends AdditionalCho
       // Remove the asset from the list.
       choices.removeValue(assetName);
     }
+  }
+  
+  private void addChoiceToList(ProjectNode node) {
+	  if (fileTypes != null) {
+  		boolean found = false;
+  		int i=0;
+  		while (!found && i<fileTypes.length) {
+  			if (node.getName().toLowerCase().endsWith(fileTypes[i])) {
+  				choices.addItem(node.getName());
+  				found = true;
+  			}
+  			else
+  				i++;
+  		}
+  	}
+  	else
+  		choices.addItem(node.getName());
   }
 }

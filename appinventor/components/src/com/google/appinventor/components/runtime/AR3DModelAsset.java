@@ -51,7 +51,7 @@ public class AR3DModelAsset extends ARVirtualObject{
 	 * @param path
 	 *            the path of the 3d model
 	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_ASSET, defaultValue = "")
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_ASSET_3DMODEL, defaultValue = "")
 	@SimpleProperty(userVisible = true)
 	public void OverlaidModel3D(String path) {
 		data.setOverlaid3DModel((path == null) ? "" : path);
@@ -102,7 +102,7 @@ public class AR3DModelAsset extends ARVirtualObject{
 	 * @param path
 	 *            the path of the 3d model
 	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_ASSET, defaultValue = "")
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_ASSET_IMAGE, defaultValue = "")
 	@SimpleProperty(userVisible = true)
 	public void ImageTexture(String path) {
 		data.setImageTexture((path == null) ? "" : path);
@@ -153,7 +153,7 @@ public class AR3DModelAsset extends ARVirtualObject{
 	 * @param path
 	 *            the path of the material file
 	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_ASSET, defaultValue = "")
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_ASSET_MATERIAL, defaultValue = "")
 	@SimpleProperty(userVisible = true)
 	public void Material(String path) {
 		data.setMaterial((path == null) ? "" : path);

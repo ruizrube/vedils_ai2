@@ -56,7 +56,7 @@ public class ARImageTracker extends ARPhysicalObject {
 	 * @param path
 	 *            the path of the image's picture
 	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_ASSET, defaultValue = "")
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_ASSET_IMAGE, defaultValue = "")
 	@SimpleProperty(userVisible = true)
 	public void ImageTracker(String path) {
 		data.setPathImageTracker((path == null) ? "" : path);

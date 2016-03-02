@@ -6,8 +6,10 @@
 
 package com.google.appinventor.client.editor.youngandroid.palette;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import com.google.appinventor.client.ComponentsTranslation;
@@ -71,6 +73,19 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 
   private final StackPanel stackPalette;
   private final Map<ComponentCategory, VerticalPanel> categoryPanels;
+  
+  //Lista de objetos de tipo tracker
+  private static final String[] TRACKERS_TYPES = {"ARTextTracker", "ARImageTracker",
+		  "ARMarkerTracker", "ARObjectTracker"};
+  //Lista de objetos de tipo asset
+  private static final String[] ASSETS_TYPES = {"AR3DModelAsset", "ARImageAsset",
+		  "ARTextAsset"};
+  //Listas de terminaciones de ficheros
+  private static final String[] MODEL_FILETYPES = {"md2", "obj", "3ds", "asc"};
+  
+  private static final String[] MATERIAL_FILETYPES = {"mtl"};
+  
+  private static final String[] IMAGE_FILETYPES = {"png", "jpg"};
 
   /**
    * Creates a new component palette panel.
@@ -218,6 +233,25 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
       return new CountryChoicePropertyEditor();
     } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TEXT_TO_SPEECH_LANGUAGES)) {
       return new LanguageChoicePropertyEditor();
+    } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_KIND_OF_TRACKERS)) {
+      return new YoungAndroidComponentSelectorPropertyEditor(editor,
+    		  new HashSet<String>(Arrays.asList(TRACKERS_TYPES)));
+    } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_KIND_OF_VISUALASSETS)) {
+      return new YoungAndroidComponentSelectorPropertyEditor(editor,
+    		  new HashSet<String>(Arrays.asList(ASSETS_TYPES)));
+    } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_ARCAMERA)) {
+      return new YoungAndroidComponentSelectorPropertyEditor(editor,
+    		  Collections.singleton("ARCamera"));
+    } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ASSET_3DMODEL)) {
+      return new YoungAndroidAssetSelectorPropertyEditor(editor, MODEL_FILETYPES);
+    } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ASSET_MATERIAL)) {
+      return new YoungAndroidAssetSelectorPropertyEditor(editor, MATERIAL_FILETYPES);
+    } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ASSET_IMAGE)) {
+      return new YoungAndroidAssetSelectorPropertyEditor(editor, IMAGE_FILETYPES);
+    } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ASSET_DATABASE_DAT)) {
+      return new YoungAndroidAssetSelectorPropertyEditor(editor, new String[]{"dat"});
+    } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ASSET_DATABASE_XML)) {
+      return new YoungAndroidAssetSelectorPropertyEditor(editor, new String[]{"xml"});
     } else {
       return new TextPropertyEditor();
     }

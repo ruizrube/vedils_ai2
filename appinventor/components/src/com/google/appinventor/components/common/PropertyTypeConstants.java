@@ -202,5 +202,17 @@ public class PropertyTypeConstants {
    * com.google.appinventor.client.widgets.properties.VisualAssetChoicePropertyEditor}.
    */
   public static final String PROPERTY_TYPE_KIND_OF_VISUALASSETS = "visualassets";
- 
+  
+  public static final String PROPERTY_TYPE_ONLY_ARCAMERA = "arcamera";
+  
+  public static final String PROPERTY_TYPE_ASSET_3DMODEL = "asset3dmodel";
+  
+  public static final String PROPERTY_TYPE_ASSET_MATERIAL = "assetmaterial";
+  
+  public static final String PROPERTY_TYPE_ASSET_IMAGE = "assetimage";
+  
+  public static final String PROPERTY_TYPE_ASSET_DATABASE_DAT = "assetdbdat";
+  
+  public static final String PROPERTY_TYPE_ASSET_DATABASE_XML = "assetdbxml";
+  
 }

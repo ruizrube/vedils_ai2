@@ -336,7 +336,7 @@ public class ARCamera extends AndroidNonvisibleComponent
 	 * @param path
 	 *            the path of the XML file of the object database
 	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_ASSET, defaultValue = "")
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_ASSET_DATABASE_XML, defaultValue = "")
 	@SimpleProperty(userVisible = true)
 	public void ObjectDatabaseXML(String path) {
 		data.setPathTargetDBXML((path == null) ? "" : path);
@@ -352,7 +352,7 @@ public class ARCamera extends AndroidNonvisibleComponent
 	 * @param path
 	 *            the path of the DAT file of the object database
 	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_ASSET, defaultValue = "")
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_ASSET_DATABASE_DAT, defaultValue = "")
 	@SimpleProperty(userVisible = true)
 	public void ObjectDatabaseDAT(String path) {
 		data.setPathTargetDBDAT((path == null) ? "" : path);

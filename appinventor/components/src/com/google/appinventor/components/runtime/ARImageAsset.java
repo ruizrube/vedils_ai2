@@ -49,7 +49,7 @@ public class ARImageAsset extends ARVirtualObject{
 	 * @param path
 	 *            the path of the 2d image to render
 	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_ASSET, defaultValue = "")
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_ASSET_IMAGE, defaultValue = "")
 	@SimpleProperty(userVisible = true)
 	public void OverlaidImage(String path) {
 		data.setOverlaidImage((path == null) ? "" : path);
