@@ -5642,4 +5642,8 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String BatchTimeProperties();
 	
+	@DefaultMessage("PublishActivities")
+	@Description("")
+	String PublishActivitiesMethods();
+	
 }

@@ -37,6 +37,10 @@ import com.google.appinventor.components.runtime.util.OAuth2Helper;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.NetworkInfo.State;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -72,7 +76,7 @@ public class FusionTablesConnection {
 	   this.serviceAccountEmail = email;
 	   this.query = DEFAULT_QUERY;
 	   this.container = container;
-	   this.activity = container.$context();
+	   activity = container.$context();
 	   this.isServiceAuth = isServiceAuth;
 	   this.keyPath = keyPath;
 	   this.columns = columns;
@@ -82,6 +86,21 @@ public class FusionTablesConnection {
 	   query = "INSERT INTO " + tableId + " (" + columns + ")" + " VALUES " + "(" + values + ")";
 	   new QueryProcessorV1().execute(query);
    }
+   
+   /*
+    * Check the internet access to send data or save
+    */
+   public boolean internetAccess() {
+	   ConnectivityManager connectivity = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+	   if(connectivity != null) {
+		   NetworkInfo wifi = connectivity.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		   NetworkInfo data = connectivity.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		   
+		   return wifi.getState().equals(State.CONNECTED) || data.getState().equals(State.CONNECTED);
+	   }
+	   return false;
+   }
+   
    
    /**
     * First uses OAuth2Helper to acquire an access token and then sends the

@@ -1,5 +1,8 @@
 package com.google.appinventor.components.runtime;
 
+import java.util.List;
+import java.util.Timer;
+
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
@@ -12,6 +15,7 @@ import com.google.appinventor.components.annotations.UsesPermissions;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
 import com.google.appinventor.components.runtime.util.FusionTablesConnection;
+import com.google.appinventor.components.runtime.util.TimerSendData;
 
 import android.app.Activity;
 import android.content.Context;
@@ -58,7 +62,10 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	private int synchronizationMode;
 	private int batchTime;
 	private int communicationMode;
-	
+	private TinyDB tinyDB;
+	private int tagDB;
+	private TimerSendData timerSendData;
+	private String currentIP;
 	
 	public ActivityTracker(ComponentContainer componentContainer) {
 		super(componentContainer.$form());
@@ -66,7 +73,9 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 		this.componentContainer = componentContainer; 
 		this.activity = componentContainer.$context();
 		this.locationSensor = new LocationSensor(componentContainer);
-		context = componentContainer.$context();
+		this.context = componentContainer.$context();
+		this.tinyDB = new TinyDB(componentContainer);
+		this.tagDB = 0;
 		
 		//Default mode
 		this.synchronizationMode = Component.REALTIME;
@@ -83,14 +92,15 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 		
 		//Connection with FusionTables
 		
-		fusionTablesConnection = new FusionTablesConnection(columns, apiKey, path, email, componentContainer, true);
+		this.fusionTablesConnection = new FusionTablesConnection(columns, apiKey, path, email, componentContainer, true);
+		this.timerSendData = new TimerSendData(tinyDB, fusionTablesConnection, "0.0.0.0", this.tableId);
 		System.out.println("ActivityTracker created.");
 		
 	}
 	
 	//Record Data
 	
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "unchecked" })
 	private void recordData(String actionId, String param1, String param2, String param3) {
 		
 		WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
@@ -119,9 +129,59 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 		param2 + "','" +
 		param3 + "'";
 		
-		//Send the values to FusionTables
-		fusionTablesConnection.insertRow(values, this.tableId);
+		currentIP = ip;
+		
+		if(fusionTablesConnection.internetAccess()) {
+			//If internet access then send the values to FusionTables
+			
+			if(synchronizationMode == Component.REALTIME) {
+				
+				fusionTablesConnection.insertRow(values, this.tableId);
+				
+				//And if db is not empty send the content too
+				sendDataBatch();
+			} else if(synchronizationMode == Component.BATCH) {
+				
+				if(tagDB == 0) { //if is the first call the function to wait batch sec.
+					 Timer timer = new Timer();
+					 timer.schedule(timerSendData, 0, this.batchTime * 1000);
+				} 
+				timerSendData.updateIP(this.currentIP);
+				timerSendData.updateTinyDB().StoreValue(Integer.toString(tagDB), values);
+				System.out.println("Store value in TinyDB to wait batch sec: " +values);
+				tagDB++;
+			} else { //Is ON_DEMAND then only save in tinyDB to wait the user call.
+				tinyDB.StoreValue(Integer.toString(tagDB), values);
+				System.out.println("Store value in TinyDB on demand: " +values);
+				tagDB++;
+			}
+			
+		} else {
+			if(synchronizationMode == Component.REALTIME || synchronizationMode == Component.ON_DEMAND) {
+				//In another case, save in the db
+				tinyDB.StoreValue(Integer.toString(tagDB), values);
+			} else { //If is batch use the tinyDB of the timer class.
+				timerSendData.updateIP(this.currentIP);
+				timerSendData.updateTinyDB().StoreValue(Integer.toString(tagDB), values);
+			}
+			System.out.println("Store value in TinyDB without connection: " +values);
+			tagDB++;
+		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	private void sendDataBatch() {
+		List<String> listTags = (List<String>) tinyDB.GetTags();
+		
+		for(String tagAux: listTags) {
+			//Check the connection if it changes
+			if(fusionTablesConnection.internetAccess()) {
+				fusionTablesConnection.insertRow(tinyDB.GetValue(tagAux, "").toString().replaceAll("0.0.0.0", this.currentIP), this.tableId);
+				tinyDB.ClearTag(tagAux);
+			}
+		}
+	}
+	
 	
 	/**
 	 * Specifies the userId of the application.
@@ -288,5 +348,13 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	@SimpleFunction(description="Function to notify a specific action (version with three arguments).")
 	public void NotifyWithThreeArguments(String actionId, String valueArgument, String valueArgument2, String valueArgument3) {
 		recordData(actionId, valueArgument, valueArgument2, valueArgument3);
+	}
+	
+	/**
+	 * Function to send data on user demand.
+	 */
+	@SimpleFunction(description="Function to send data on user demand.")
+	public void PublishActivities() {
+		sendDataBatch();
 	}
 }
