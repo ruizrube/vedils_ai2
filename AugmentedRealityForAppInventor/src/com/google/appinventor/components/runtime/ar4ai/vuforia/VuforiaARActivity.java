@@ -3,14 +3,17 @@ package com.google.appinventor.components.runtime.ar4ai.vuforia;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import com.google.appinventor.components.runtime.ar4ai.ARActivity;
 import com.google.appinventor.components.runtime.ar4ai.PhysicalObject;
+import com.google.appinventor.components.runtime.ar4ai.R;
 import com.google.appinventor.components.runtime.ar4ai.VirtualObject;
 import com.google.appinventor.components.runtime.ar4ai.common.VuforiaApplicationControl;
 import com.google.appinventor.components.runtime.ar4ai.common.VuforiaApplicationException;
 import com.google.appinventor.components.runtime.ar4ai.common.VuforiaApplicationSession;
 import com.google.appinventor.components.runtime.ar4ai.utils.SampleApplicationGLView;
+import com.google.appinventor.components.runtime.ar4ai.utils.UserInterface;
 import com.qualcomm.vuforia.CameraDevice;
 import com.qualcomm.vuforia.DataSet;
 import com.qualcomm.vuforia.Marker;
@@ -37,9 +40,11 @@ import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
@@ -194,13 +199,15 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 			initApplicationAR();
 
 			getmRenderer().mIsActive = true;
-
 			// Now add the GL surface view. It is important
 			// that the OpenGL ES surface view gets added
 			// BEFORE the camera is started and video
 			// background is configured.
 			addContentView(getmGlView(), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
+			getmGlView().setZOrderMediaOverlay(true);
+			//View view = LayoutInflater.from(this).inflate(R.layout.uilayout, null);
+			//addContentView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+			//addContentView(new UserInterface(this), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 			try {
 
 				if (this.camera.isFrontCamera()) {
@@ -300,7 +307,7 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 				LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
 				for (VirtualObject vo : po.getVirtualObject()) {
-					if (vo.isEnabled())
+					if (vo.isEnabled() && mRenderer.eworld.getInfo(vo.getId()) != null)
 						this.mRenderer.eworld.getInfo(vo.getId()).setVisibility(true);
 				}
 				//if (po.getVirtualObject() != null && po.getVirtualObject().isEnabled()) {
