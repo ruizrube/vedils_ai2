@@ -273,7 +273,8 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 					Log.d(LOGTAG, "Notificamos disappears PO"+po.getId());
 	
 					for (VirtualObject vo : po.getVirtualObject())
-						this.mRenderer.eworld.getInfo(vo.getId()).setVisibility(false);
+						if (this.mRenderer.eworld.getInfo(vo.getId()) != null)
+							this.mRenderer.eworld.getInfo(vo.getId()).setVisibility(false);
 					//if (po.getVirtualObject() != null) {
 						//this.mRenderer.eworld.getInfo(po.getVirtualObject().getId()).setVisibility(false);
 						//obj3D.build();
