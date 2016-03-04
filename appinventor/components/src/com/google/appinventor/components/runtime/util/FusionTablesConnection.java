@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -28,6 +29,7 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.fusiontables.Fusiontables;
 import com.google.api.services.fusiontables.Fusiontables.Query.Sql;
 import com.google.appinventor.components.annotations.SimpleFunction;
+import com.google.appinventor.components.runtime.Component;
 import com.google.appinventor.components.runtime.ComponentContainer;
 import com.google.appinventor.components.runtime.EventDispatcher;
 import com.google.appinventor.components.runtime.FusiontablesControl;
@@ -87,16 +89,42 @@ public class FusionTablesConnection {
 	   new QueryProcessorV1().execute(query);
    }
    
+   public void insertRows(List<String> values, String tableId) {
+	   query = "";
+	   //Append the rest.
+	   if(values.size() < 500) { //Limit of 500 statements in one request.
+		   for(String valuesAux : values) {
+			   query = query + "INSERT INTO " + tableId + " (" + columns + ")" + " VALUES " + "(" + valuesAux + ");";
+		   }
+		   new QueryProcessorV1().execute(query);
+	   } else {
+		   List<String> valuesInit = values.subList(0, 450);
+		   List<String> valuesEnd = values.subList(451, values.size());
+		   
+		   for(String valuesAux : valuesInit) {
+			   query = query + "INSERT INTO " + tableId + " (" + columns + ")" + " VALUES " + "(" + valuesAux + ");";
+		   }
+		   new QueryProcessorV1().execute(query);
+		   
+		   insertRows(valuesEnd, tableId);
+		   
+	   }
+   }
+   
    /*
     * Check the internet access to send data or save
     */
-   public boolean internetAccess() {
+   public boolean internetAccess(int communicationMode) {
 	   ConnectivityManager connectivity = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
 	   if(connectivity != null) {
 		   NetworkInfo wifi = connectivity.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		   NetworkInfo data = connectivity.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 		   
-		   return wifi.getState().equals(State.CONNECTED) || data.getState().equals(State.CONNECTED);
+		   if(communicationMode == Component.INDIFFERENT) {
+			   return wifi.getState().equals(State.CONNECTED) || data.getState().equals(State.CONNECTED);
+		   } else { //only wifi
+			   return wifi.getState().equals(State.CONNECTED);
+		   }
 	   }
 	   return false;
    }

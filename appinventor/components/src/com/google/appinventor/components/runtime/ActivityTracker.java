@@ -1,5 +1,6 @@
 package com.google.appinventor.components.runtime;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
@@ -76,6 +77,7 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 		this.context = componentContainer.$context();
 		this.tinyDB = new TinyDB(componentContainer);
 		this.tagDB = 0;
+		this.currentIP = "0.0.0.0";
 		
 		//Default mode
 		this.synchronizationMode = Component.REALTIME;
@@ -93,14 +95,14 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 		//Connection with FusionTables
 		
 		this.fusionTablesConnection = new FusionTablesConnection(columns, apiKey, path, email, componentContainer, true);
-		this.timerSendData = new TimerSendData(tinyDB, fusionTablesConnection, "0.0.0.0", this.tableId);
+		this.timerSendData = new TimerSendData(this);
 		System.out.println("ActivityTracker created.");
 		
 	}
 	
 	//Record Data
 	
-	@SuppressWarnings({ "deprecation", "unchecked" })
+	@SuppressWarnings({ "deprecation", "unchecked"})
 	private void recordData(String actionId, String param1, String param2, String param3) {
 		
 		WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
@@ -131,54 +133,44 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 		
 		currentIP = ip;
 		
-		if(fusionTablesConnection.internetAccess()) {
+		if(fusionTablesConnection.internetAccess(this.communicationMode) && synchronizationMode == Component.REALTIME) {
 			//If internet access then send the values to FusionTables
-			
-			if(synchronizationMode == Component.REALTIME) {
 				
-				fusionTablesConnection.insertRow(values, this.tableId);
+			fusionTablesConnection.insertRow(values, this.tableId);
 				
-				//And if db is not empty send the content too
+			//And if db is not empty send the content too
+			List<String> listTags = (List<String>) tinyDB.GetTags();
+			if(!listTags.isEmpty()) {
 				sendDataBatch();
-			} else if(synchronizationMode == Component.BATCH) {
-				
-				if(tagDB == 0) { //if is the first call the function to wait batch sec.
-					 Timer timer = new Timer();
-					 timer.schedule(timerSendData, 0, this.batchTime * 1000);
-				} 
-				timerSendData.updateIP(this.currentIP);
-				timerSendData.updateTinyDB().StoreValue(Integer.toString(tagDB), values);
-				System.out.println("Store value in TinyDB to wait batch sec: " +values);
-				tagDB++;
-			} else { //Is ON_DEMAND then only save in tinyDB to wait the user call.
-				tinyDB.StoreValue(Integer.toString(tagDB), values);
-				System.out.println("Store value in TinyDB on demand: " +values);
-				tagDB++;
 			}
 			
 		} else {
-			if(synchronizationMode == Component.REALTIME || synchronizationMode == Component.ON_DEMAND) {
-				//In another case, save in the db
-				tinyDB.StoreValue(Integer.toString(tagDB), values);
-			} else { //If is batch use the tinyDB of the timer class.
-				timerSendData.updateIP(this.currentIP);
-				timerSendData.updateTinyDB().StoreValue(Integer.toString(tagDB), values);
-			}
-			System.out.println("Store value in TinyDB without connection: " +values);
+				
+			if(synchronizationMode == Component.BATCH && tagDB == 0) { //if is the first call the function to wait batch sec.
+				Timer timer = new Timer();
+				timer.schedule(timerSendData, 0, this.batchTime * 1000);
+			} 
+				
+				
+			tinyDB.StoreValue(Integer.toString(tagDB), values);
+			System.out.println("Store value in TinyDB: " +values);
 			tagDB++;
+				
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void sendDataBatch() {
+	public void sendDataBatch() {
 		List<String> listTags = (List<String>) tinyDB.GetTags();
+		List<String> listValues = new ArrayList<String>();
 		
 		for(String tagAux: listTags) {
-			//Check the connection if it changes
-			if(fusionTablesConnection.internetAccess()) {
-				fusionTablesConnection.insertRow(tinyDB.GetValue(tagAux, "").toString().replaceAll("0.0.0.0", this.currentIP), this.tableId);
-				tinyDB.ClearTag(tagAux);
-			}
+			listValues.add(tinyDB.GetValue(tagAux, "").toString().replaceFirst("'0.0.0.0'", "'" + this.currentIP + "'"));
+		}
+		
+		if(fusionTablesConnection.internetAccess(this.communicationMode)) {
+			fusionTablesConnection.insertRows(listValues, this.tableId);
+			tinyDB.ClearAll();
 		}
 	}
 	
