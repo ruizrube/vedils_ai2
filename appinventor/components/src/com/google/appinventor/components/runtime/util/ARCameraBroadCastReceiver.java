@@ -28,5 +28,13 @@ public class ARCameraBroadCastReceiver extends BroadcastReceiver {
 		if (status.equals(ARActivity.AR_ACTIVITY_EVENT_CAMERA_LONGPRESS)) {
 			ARCamera.getInstance().Touched(x, y, false);
 		}
+		
+		if (status.equals(ARActivity.AR_ACTIVITY_EVENT_CAMERA_RIGHTBUTTON)) {
+			ARCamera.getInstance().RightButtonClick();
+		}
+		
+		if (status.equals(ARActivity.AR_ACTIVITY_EVENT_CAMERA_LEFTBUTTON)) {
+			ARCamera.getInstance().LeftButtonClick();
+		}
 	}
 }

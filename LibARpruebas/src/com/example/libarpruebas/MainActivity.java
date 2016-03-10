@@ -23,6 +23,7 @@ public class MainActivity extends Activity {
 	private static final String TAG = "MyActivity DEMO";
 	private static final String AR_ACTIVITY_CLASS = "com.google.appinventor.components.runtime.ar4ai.vuforia.VuforiaARActivity";
 	Button button;
+	boolean buttonPressed = false;
 
 	// Elementos para comunicar al Intent
 	private Camera data = new Camera();
@@ -41,6 +42,11 @@ public class MainActivity extends Activity {
 		data.setTitle("HOLA!");
 		data.setPathTargetDBDAT("UALGise.dat");
 		data.setPathTargetDBXML("UALGise.xml");
+		data.setLeftBtEnabled(true);
+		data.setLeftBtText("Reft");
+		data.setRightBtEnabled(true);
+		data.setRightBtText("Ruait");
+		data.setFloatingText("Textico");
 //		
 //		data.setPathTargetDBDAT("IvanDatabase.dat");
 //		data.setPathTargetDBXML("IvanDatabase.xml");
@@ -53,21 +59,21 @@ public class MainActivity extends Activity {
 
 		Log.v(TAG, "Después de configurar variables ");
 
-//		PhysicalObject mPhysicalObject1 = new PhysicalObject(UUID.randomUUID().toString());
-//		mPhysicalObject1.setTrackerType(PhysicalObject.TRACKER_MARKER);
-//		mPhysicalObject1.setMarkerTracker(1);
-//		
-//		PhysicalObject mPhysicalObject3 = new PhysicalObject(UUID.randomUUID().toString());
-//		mPhysicalObject3.setTrackerType(PhysicalObject.TRACKER_MARKER);
-//		mPhysicalObject3.setMarkerTracker(3);
-		
 		PhysicalObject mPhysicalObject1 = new PhysicalObject(UUID.randomUUID().toString());
-		mPhysicalObject1.setTrackerType(PhysicalObject.TRACKER_TARGETDB);
-		mPhysicalObject1.setTargetDBTracker("EX1_1");
-		
+		mPhysicalObject1.setTrackerType(PhysicalObject.TRACKER_MARKER);
+		mPhysicalObject1.setMarkerTracker(1);
+//		
 		PhysicalObject mPhysicalObject3 = new PhysicalObject(UUID.randomUUID().toString());
-		mPhysicalObject3.setTrackerType(PhysicalObject.TRACKER_TARGETDB);
-		mPhysicalObject3.setTargetDBTracker("EX1_2");
+		mPhysicalObject3.setTrackerType(PhysicalObject.TRACKER_MARKER);
+		mPhysicalObject3.setMarkerTracker(3);
+		
+//		PhysicalObject mPhysicalObject1 = new PhysicalObject(UUID.randomUUID().toString());
+//		mPhysicalObject1.setTrackerType(PhysicalObject.TRACKER_TARGETDB);
+//		mPhysicalObject1.setTargetDBTracker("EX1_1");
+		
+//		PhysicalObject mPhysicalObject3 = new PhysicalObject(UUID.randomUUID().toString());
+//		mPhysicalObject3.setTrackerType(PhysicalObject.TRACKER_TARGETDB);
+//		mPhysicalObject3.setTargetDBTracker("EX1_2");
 		
 //		PhysicalObject mPhysicalObject1 = new PhysicalObject(UUID.randomUUID().toString());
 //		mPhysicalObject1.setTrackerType(PhysicalObject.TRACKER_TARGETDB);
@@ -94,10 +100,10 @@ public class MainActivity extends Activity {
 //		mVirtualObject3.setMaterial("EX1_2.mtl");
 //		mVirtualObject3.setColorTexture(Color.YELLOW);
 		
-//		VirtualObject mVirtualObject1 = new VirtualObject(UUID.randomUUID().toString());
-//		mVirtualObject1.setVisualAssetType(VirtualObject.ASSET_3DMODEL);	
-//		mVirtualObject1.setOverlaid3DModel("Arrow1.md2");
-//		mVirtualObject1.setColorTexture(Color.BLUE);
+		VirtualObject mVirtualObject2 = new VirtualObject(UUID.randomUUID().toString());
+		mVirtualObject2.setVisualAssetType(VirtualObject.ASSET_3DMODEL);	
+		mVirtualObject2.setOverlaid3DModel("Arrow1.md2");
+		mVirtualObject2.setColorTexture(Color.BLUE);
 //		
 //		VirtualObject mVirtualObject1 = new VirtualObject(UUID.randomUUID().toString());
 //		mVirtualObject1.setVisualAssetType(VirtualObject.ASSET_3DMODEL);	
@@ -111,12 +117,13 @@ public class MainActivity extends Activity {
 	
 		
 		
-		mPhysicalObject1.setVirtualObject(mVirtualObject1);
-		mPhysicalObject3.setVirtualObject(mVirtualObject3);
+		mVirtualObject1.setPhysicalObject(mPhysicalObject1);
+		mVirtualObject3.setPhysicalObject(mPhysicalObject3);
 		
 
 		arrayOfVirtualObjects.add(mVirtualObject1);
 		arrayOfVirtualObjects.add(mVirtualObject3);
+		arrayOfVirtualObjects.add(mVirtualObject2);
 		arrayOfPhysicalObject.add(mPhysicalObject1);
 		arrayOfPhysicalObject.add(mPhysicalObject3);
 
@@ -157,6 +164,13 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Log.v(TAG, "Boton Pulsado");
+				if (buttonPressed) {
+					arrayOfVirtualObjects.get(0).removePhysicalObject(arrayOfPhysicalObject.get(0));
+					arrayOfVirtualObjects.get(2).setPhysicalObject(arrayOfPhysicalObject.get(0));
+				}
+				else
+					buttonPressed = true;
+				
 				startActivity(mIntent);
 			}
 

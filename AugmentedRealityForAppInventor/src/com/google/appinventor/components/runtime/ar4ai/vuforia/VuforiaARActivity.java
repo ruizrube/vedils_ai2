@@ -1,10 +1,7 @@
 package com.google.appinventor.components.runtime.ar4ai.vuforia;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
-
 import com.google.appinventor.components.runtime.ar4ai.ARActivity;
 import com.google.appinventor.components.runtime.ar4ai.PhysicalObject;
 import com.google.appinventor.components.runtime.ar4ai.R;
@@ -44,7 +41,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
@@ -68,6 +64,7 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 	private List<TrackableResult> previouslyRecognizedTrackables = new ArrayList<TrackableResult>();
 	private List<TrackableResult> currentRecognizedTrackables = new ArrayList<TrackableResult>();
 
+	private UserInterface ui;
 	
 	/////////////////////////
 	// ACTIVITY LIFECYCLE //
@@ -207,7 +204,9 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 			getmGlView().setZOrderMediaOverlay(true);
 			//View view = LayoutInflater.from(this).inflate(R.layout.uilayout, null);
 			//addContentView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-			//addContentView(new UserInterface(this), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+			ui = new UserInterface(this, camera);
+			ViewGroup.LayoutParams uiParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+			addContentView(ui, uiParams);
 			try {
 
 				if (this.camera.isFrontCamera()) {
@@ -770,8 +769,9 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 	public void refreshARScene() {
 		Log.d(LOGTAG, "Refrescando la scene AR");
 		doUnloadTrackersData();
-		doLoadTrackersData();
 		doReloadRenderData();
+		ui.updateInterface(camera);
+		doLoadTrackersData();
 
 	}
 

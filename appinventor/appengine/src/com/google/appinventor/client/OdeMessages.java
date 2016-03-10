@@ -5461,6 +5461,33 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String UpdateHeaderMethods();
 	
+	@DefaultMessage("LeftButtonEnabled")
+	@Description("")
+	String LeftButtonEnabledProperties();
+	
+	@DefaultMessage("RightButtonEnabled")
+	@Description("")
+	String RightButtonEnabledProperties();
+	
+	@DefaultMessage("LeftButtonText")
+	@Description("")
+	String LeftButtonTextProperties();
+	
+	@DefaultMessage("RightButtonText")
+	@Description("")
+	String RightButtonTextProperties();
+	
+	@DefaultMessage("FloatingText")
+	@Description("")
+	String FloatingTextProperties();
+	
+	@DefaultMessage("LeftButtonClick")
+	@Description("")
+	String LeftButtonClickEvents();
+	
+	@DefaultMessage("RightButtonClick")
+	@Description("")
+	String RightButtonClickEvents();
 	////////////////////////
 	// AR Physical Object //
 	////////////////////////

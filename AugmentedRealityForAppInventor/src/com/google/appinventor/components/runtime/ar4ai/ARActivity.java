@@ -31,7 +31,9 @@ public abstract class ARActivity extends Activity {
 
 	public static final String AR_ACTIVITY_EVENT_CAMERA = AR_ACTIVITY_CLASS + ".eventCamera";
 	public static final String AR_ACTIVITY_EVENT_CAMERA_LONGPRESS = AR_ACTIVITY_EVENT_CAMERA + ".longpress";
-
+	public static final String AR_ACTIVITY_EVENT_CAMERA_LEFTBUTTON = AR_ACTIVITY_EVENT_CAMERA + ".leftbutton";
+	public static final String AR_ACTIVITY_EVENT_CAMERA_RIGHTBUTTON = AR_ACTIVITY_EVENT_CAMERA + ".rightbutton";
+	
 	public static final String AR_ACTIVITY_EVENT_VO = AR_ACTIVITY_CLASS + ".eventVO";
 
 	/////////////////////
