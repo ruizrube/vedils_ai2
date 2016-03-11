@@ -119,7 +119,9 @@
         <pathelement location="lib/ar4ai/jpct_shaders.zip" />
         <pathelement location="lib/ar4ai/armeabi-v7a/libVuforia.so" />
         <pathelement location="lib/ar4ai/android-support-v4.jar" />
-      
+        <pathelement location="lib/gc4ai/LeapJava.jar" />
+        <pathelement location="lib/gc4ai/armeabi-v7a/libLeapJava.so" />
+       
         
         <fileset dir="buildserver/lib" includes="**/*.jar"/>
         <!-- oauth libs -->

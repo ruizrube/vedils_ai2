@@ -61,8 +61,9 @@ import java.util.Map;
     // UNINITIALIZED is used as a default value so Swing libraries can still compile
     UNINITIALIZED("Uninitialized"),
     VEDILSAUGMENTEDREALITY("VEDILS Augmented Reality"),
-    VEDILSLEARNINGANALYTICS("VEDILS Learning Analytics");
-	
+    VEDILSLEARNINGANALYTICS("VEDILS Learning Analytics"),
+	VEDILSGESTURECONTROL("VEDILS Gesture Control");
+		
 		    
 
 

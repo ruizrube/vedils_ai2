@@ -132,6 +132,8 @@ public final class SimpleComponentDescriptor {
     bundledImages.put("images/arImageAsset.png", images.arImageAsset());
     bundledImages.put("images/arTextAsset.png", images.arTextAsset());
     bundledImages.put("images/arColorTracker.png", images.activityTracker());
+    bundledImages.put("images/handGestureSensor.png", images.handGestureSensor());
+    
     //bundledImages.put("images/arColorTracker.png", images.notificableDummy());
     imagesInitialized = true;
   }

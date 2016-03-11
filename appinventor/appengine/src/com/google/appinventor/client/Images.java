@@ -556,4 +556,10 @@ public interface Images extends Resources {
 	@Source("com/google/appinventor/images/arColorTracker.png")
 	ImageResource activityTracker();
 
+	/**
+	 * Designer palette item: ActivityTracker component
+	 */
+	@Source("com/google/appinventor/images/handGestureSensor.png")
+	ImageResource handGestureSensor();
+
 }

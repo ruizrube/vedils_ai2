@@ -141,6 +141,8 @@
          
          <pathelement location="${lib.dir}/ar4ai/android-support-v4.jar" />
          
+         <pathelement location="${lib.dir}/gc4ai/LeapJava.jar" />
+       
          
       </classpath>
     </ai.javac5>
@@ -253,6 +255,8 @@
               
          <pathelement location="${lib.dir}/ar4ai/android-support-v4.jar" />
      
+         <pathelement location="${lib.dir}/gc4ai/LeapJava.jar" />
+      
           
         </classpath>
         <compilerarg line="-processorpath ${local.build.dir}/AnnotationProcessors.jar"/>

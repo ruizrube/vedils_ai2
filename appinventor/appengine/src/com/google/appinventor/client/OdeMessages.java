@@ -5673,4 +5673,41 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String PublishActivitiesMethods();
 	
+	
+	@DefaultMessage("CircleGesture")
+	@Description("")
+	String CircleGestureEvents();
+
+	@DefaultMessage("SwipeGesture")
+	@Description("")
+	String SwipeGestureEvents();
+
+	@DefaultMessage("KeyTapGesture")
+	@Description("")
+	String KeyTapGestureEvents();
+
+	@DefaultMessage("ScreenTapGesture")
+	@Description("")
+	String ScreenTapGestureEvents();
+
+	@DefaultMessage("RotateHand")
+	@Description("")
+	String RotateHandEvents();
+	
+	@DefaultMessage("TranslateHand")
+	@Description("")
+	String TranslateHandEvents();
+	
+	@DefaultMessage("ScaleHand")
+	@Description("")
+	String ScaleHandEvents();
+	
+	@DefaultMessage("HandAppears")
+	@Description("")
+	String HandAppearsEvents();
+	
+	@DefaultMessage("HandDisappears")
+	@Description("")
+	String HandDisappearsEvents();
+	
 }
