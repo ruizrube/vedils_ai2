@@ -5461,6 +5461,10 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String UpdateHeaderMethods();
 	
+	@DefaultMessage("OverLayer")
+	@Description("")
+	String OverLayerProperties();
+	
 	@DefaultMessage("LeftButtonEnabled")
 	@Description("")
 	String LeftButtonEnabledProperties();

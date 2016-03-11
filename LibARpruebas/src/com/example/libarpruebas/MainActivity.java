@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.google.appinventor.components.runtime.ar4ai.Camera;
 import com.google.appinventor.components.runtime.ar4ai.PhysicalObject;
 import com.google.appinventor.components.runtime.ar4ai.VirtualObject;
+import com.google.appinventor.components.runtime.ar4ai.UIVariables;
 import com.google.appinventor.components.runtime.ar4ai.vuforia.VuforiaARActivity;
 
 import android.app.Activity;
@@ -24,6 +25,7 @@ public class MainActivity extends Activity {
 	private static final String AR_ACTIVITY_CLASS = "com.google.appinventor.components.runtime.ar4ai.vuforia.VuforiaARActivity";
 	Button button;
 	boolean buttonPressed = false;
+	UIVariables uivariables;
 
 	// Elementos para comunicar al Intent
 	private Camera data = new Camera();
@@ -42,11 +44,13 @@ public class MainActivity extends Activity {
 		data.setTitle("HOLA!");
 		data.setPathTargetDBDAT("UALGise.dat");
 		data.setPathTargetDBXML("UALGise.xml");
-		data.setLeftBtEnabled(true);
-		data.setLeftBtText("Reft");
-		data.setRightBtEnabled(true);
-		data.setRightBtText("Ruait");
-		data.setFloatingText("Textico");
+		uivariables = new UIVariables();
+		uivariables.setLeftBtEnabled(true);
+		uivariables.setLeftBtText("Reft");
+		uivariables.setRightBtEnabled(true);
+		uivariables.setRightBtText("Ruait");
+		uivariables.setFloatingText("Textico");
+		data.setUivariables(uivariables);
 //		
 //		data.setPathTargetDBDAT("IvanDatabase.dat");
 //		data.setPathTargetDBXML("IvanDatabase.xml");
@@ -165,8 +169,10 @@ public class MainActivity extends Activity {
 				// TODO Auto-generated method stub
 				Log.v(TAG, "Boton Pulsado");
 				if (buttonPressed) {
-					arrayOfVirtualObjects.get(0).removePhysicalObject(arrayOfPhysicalObject.get(0));
-					arrayOfVirtualObjects.get(2).setPhysicalObject(arrayOfPhysicalObject.get(0));
+					//arrayOfVirtualObjects.get(0).removePhysicalObject(arrayOfPhysicalObject.get(0));
+					//arrayOfVirtualObjects.get(2).setPhysicalObject(arrayOfPhysicalObject.get(0));
+					data.getUivariables().setFloatingText("Botonaco pursao");
+					uivariables.setLeftBtText("Trucaso");
 				}
 				else
 					buttonPressed = true;

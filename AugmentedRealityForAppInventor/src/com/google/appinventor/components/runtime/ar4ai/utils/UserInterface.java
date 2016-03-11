@@ -1,7 +1,7 @@
 package com.google.appinventor.components.runtime.ar4ai.utils;
 
 import com.google.appinventor.components.runtime.ar4ai.ARActivity;
-import com.google.appinventor.components.runtime.ar4ai.Camera;
+import com.google.appinventor.components.runtime.ar4ai.UIVariables;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,12 +19,12 @@ public class UserInterface extends RelativeLayout {
 	private Button rightButton, leftButton;
 	private TextView text;
 
-	public UserInterface(final Context context, Camera camera) {
+	public UserInterface(final Context context, UIVariables uivariables) {
 		super(context);
 			rightButton = new Button(context);
-			if (!camera.isRightBtEnabled())
+			if (!uivariables.isRightBtEnabled())
 				rightButton.setVisibility(INVISIBLE);
-			rightButton.setText(camera.getRightBtText());
+			rightButton.setText(uivariables.getRightBtText());
 			rightButton.setId(45235);
 			rightButton.setOnClickListener(new OnClickListener() {
 				@Override
@@ -40,11 +39,11 @@ public class UserInterface extends RelativeLayout {
 			b1params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
 			b1params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
 			addView(rightButton, b1params);
-		if (!camera.isLeftBtEnabled()) {
+		if (!uivariables.isLeftBtEnabled()) {
 			leftButton.setVisibility(INVISIBLE);
 		}
 		leftButton = new Button(context);
-		leftButton.setText(camera.getLeftBtText());
+		leftButton.setText(uivariables.getLeftBtText());
 		leftButton.setId(235);
 		leftButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -59,7 +58,7 @@ public class UserInterface extends RelativeLayout {
 		b2params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
 		addView(leftButton, b2params);
 		text = new TextView(context);
-		text.setText(camera.getFloatingText());
+		text.setText(uivariables.getFloatingText());
 		text.setTextSize(20f);
 		text.setBackgroundColor(Color.GRAY);
 		text.setTextColor(Color.BLACK);
@@ -72,17 +71,17 @@ public class UserInterface extends RelativeLayout {
 		addView(text, tparams);
 	}
 	
-	public void updateInterface(Camera camera) {
-		if (camera.isRightBtEnabled() && rightButton.getVisibility() == INVISIBLE)
+	public void updateInterface(UIVariables uivariables) {
+		if (uivariables.isRightBtEnabled() && rightButton.getVisibility() == INVISIBLE)
 			rightButton.setVisibility(VISIBLE);
-		else if (!camera.isRightBtEnabled() && rightButton.getVisibility() == VISIBLE)
+		else if (!uivariables.isRightBtEnabled() && rightButton.getVisibility() == VISIBLE)
 			rightButton.setVisibility(INVISIBLE);
-		rightButton.setText(camera.getRightBtText());
-		if (camera.isLeftBtEnabled() && leftButton.getVisibility() == INVISIBLE)
+		rightButton.setText(uivariables.getRightBtText());
+		if (uivariables.isLeftBtEnabled() && leftButton.getVisibility() == INVISIBLE)
 			leftButton.setVisibility(VISIBLE);
-		else if (!camera.isLeftBtEnabled() && leftButton.getVisibility() == VISIBLE)
+		else if (!uivariables.isLeftBtEnabled() && leftButton.getVisibility() == VISIBLE)
 			leftButton.setVisibility(INVISIBLE);
-		leftButton.setText(camera.getLeftBtText());
-		text.setText(camera.getFloatingText());
+		leftButton.setText(uivariables.getLeftBtText());
+		text.setText(uivariables.getFloatingText());
 	}
 }

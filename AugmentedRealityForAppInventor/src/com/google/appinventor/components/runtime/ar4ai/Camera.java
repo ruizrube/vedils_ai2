@@ -13,11 +13,7 @@ public class Camera implements Parcelable {
 	private String title;
 	private String subtitle;
 	private String pathUIXML;
-	private boolean leftBtEnabled=false;
-	private boolean rightBtEnabled=false;
-	private String leftBtText;
-	private String rightBtText;
-	private String floatingText;
+	private UIVariables uivariables;
 	
 
 	public Camera() {
@@ -126,53 +122,13 @@ public class Camera implements Parcelable {
 		this.pathUIXML = pathUIXML;
 	}
 
-	public boolean isLeftBtEnabled() {
-		return leftBtEnabled;
+	public UIVariables getUivariables() {
+		return uivariables;
 	}
 
 
-	public void setLeftBtEnabled(boolean leftBtEnabled) {
-		this.leftBtEnabled = leftBtEnabled;
-	}
-
-
-	public boolean isRightBtEnabled() {
-		return rightBtEnabled;
-	}
-
-
-	public void setRightBtEnabled(boolean rightBtEnabled) {
-		this.rightBtEnabled = rightBtEnabled;
-	}
-
-
-	public String getLeftBtText() {
-		return leftBtText;
-	}
-
-
-	public void setLeftBtText(String leftBtText) {
-		this.leftBtText = leftBtText;
-	}
-
-
-	public String getRightBtText() {
-		return rightBtText;
-	}
-
-
-	public void setRightBtText(String rightBtText) {
-		this.rightBtText = rightBtText;
-	}
-
-
-	public String getFloatingText() {
-		return floatingText;
-	}
-
-
-	public void setFloatingText(String floatingText) {
-		this.floatingText = floatingText;
+	public void setUivariables(UIVariables uivariables) {
+		this.uivariables = uivariables;
 	}
 
 
@@ -195,11 +151,7 @@ public class Camera implements Parcelable {
 		dest.writeString(pathTargetDBDAT);
 		dest.writeString(title);
 		dest.writeString(subtitle);
-		dest.writeByte((byte) (leftBtEnabled ? 1 : 0));
-		dest.writeByte((byte) (rightBtEnabled ? 1 : 0));
-		dest.writeString(leftBtText);
-		dest.writeString(rightBtText);
-		dest.writeString(floatingText);
+		dest.writeParcelable(uivariables, flags);
 		
 	}
 
@@ -223,11 +175,7 @@ public class Camera implements Parcelable {
 		this.setPathTargetDBDAT(in.readString());
 		this.setTitle(in.readString());
 		this.setSubtitle(in.readString());
-		this.setLeftBtEnabled(in.readByte() != 0);
-		this.setRightBtEnabled(in.readByte() != 0);
-		this.setLeftBtText(in.readString());
-		this.setRightBtText(in.readString());
-		this.setFloatingText(in.readString());
+		this.setUivariables((UIVariables) in.readParcelable(UIVariables.class.getClassLoader()));
 		
 	}
 

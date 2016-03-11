@@ -83,6 +83,8 @@ public class ARCamera extends AndroidNonvisibleComponent
 	public Camera data;
 	public /*static*/ HashMap<String, ARVirtualObject> mapOfARVirtualObjects = new HashMap<String, ARVirtualObject>();
 	public /*static*/ HashMap<String, ARPhysicalObject> mapOfARPhysicalObjects = new HashMap<String, ARPhysicalObject>();
+	
+	public ARCameraOverLayer overLayer;
 
 	/////////////////
 	// CONSTRUCTOR //
@@ -394,60 +396,18 @@ public class ARCamera extends AndroidNonvisibleComponent
 		this.data.setSubtitle(text);
 	}
 	
-	@SimpleProperty(category = PropertyCategory.BEHAVIOR, userVisible = true)
-	public boolean LeftButtonEnabled() {
-		return data.isLeftBtEnabled();
-	}
-	
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN, defaultValue = "False")
-	@SimpleProperty(description = "Enables the left button on the user interface over the camera", userVisible = true)
-	public void LeftButtonEnabled(boolean enable) {
-		this.data.setLeftBtEnabled(enable);
-	}
-	
-	@SimpleProperty(category = PropertyCategory.BEHAVIOR, userVisible = true)
-	public boolean RightButtonEnabled() {
-		return data.isRightBtEnabled();
-	}
-	
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN, defaultValue = "False")
-	@SimpleProperty(description = "Enables the right button on the user interface over the camera", userVisible = true)
-	public void RightButtonEnabled(boolean enable) {
-		this.data.setRightBtEnabled(enable);
-	}
-	
 	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
-	public String LeftButtonText() {
-		return data.getLeftBtText();
+	public ARCameraOverLayer OverLayer() {
+		return overLayer;
 	}
 	
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING, defaultValue = "")
-	@SimpleProperty(description = "Sets the text for the left button on the user interface over the camera", userVisible = true)
-	public void LeftButtonText(String text) {
-		this.data.setLeftBtText(text);
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_ONLY_ARCAMERAOVERLAYER, defaultValue="")
+	@SimpleProperty(description = "Sets the interface components over the camera", userVisible = true)
+	public void OverLayer(ARCameraOverLayer overLayer) {
+		this.overLayer = overLayer;
+		this.data.setUivariables(overLayer.data);
 	}
 	
-	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
-	public String RightButtonText() {
-		return data.getRightBtText();
-	}
-	
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING, defaultValue = "")
-	@SimpleProperty(description = "Sets the text for the left button on the user interface over the camera", userVisible = true)
-	public void RightButtonText(String text) {
-		this.data.setRightBtText(text);
-	}
-	
-	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
-	public String FloatingText() {
-		return data.getFloatingText();
-	}
-	
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING, defaultValue = "")
-	@SimpleProperty(description = "Sets the text in the middle of the buttons on the user interface over the camera", userVisible = true)
-	public void FloatingText(String text) {
-		this.data.setFloatingText(text);
-	}
 	////////////////
 	// FUNCTIONS //
 	////////////////
@@ -457,6 +417,7 @@ public class ARCamera extends AndroidNonvisibleComponent
 	 */
 	@SimpleFunction(description = "Start the augmented reality camera", userVisible = true)
 	public void Start() {
+		instance = this;
 		if (data.getRequestCode() == 0) { // only need to register once
 			data.setRequestCode(container.$form().registerForActivityResult(this));
 		}
@@ -536,16 +497,6 @@ public class ARCamera extends AndroidNonvisibleComponent
 	@SimpleEvent(description = "When the AR camera has been closed", userVisible = true)
 	public void AfterARCameraClosed() {
 		EventDispatcher.dispatchEvent(this, "AfterARCameraClosed");
-	}
-	
-	@SimpleEvent(description = "When the left button is clicked", userVisible = true)
-	public void LeftButtonClick() {
-		EventDispatcher.dispatchEvent(this, "LeftButtonClick");
-	}
-	
-	@SimpleEvent(description = "When the right button is clicked", userVisible = true)
-	public void RightButtonClick() {
-		EventDispatcher.dispatchEvent(this, "RightButtonClick");
 	}
 
 }

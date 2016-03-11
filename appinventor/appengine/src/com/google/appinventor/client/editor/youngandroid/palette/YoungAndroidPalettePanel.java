@@ -87,7 +87,7 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
   
   private static final String[] MATERIAL_FILETYPES = {"mtl"};
   
-  private static final String[] IMAGE_FILETYPES = {"png", "jpg"};
+  private static final String[] IMAGE_FILETYPES = {"png", "jpg", "jpeg"};
 
   /**
    * Creates a new component palette panel.
@@ -248,6 +248,9 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
     } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_ARCAMERA)) {
       return new YoungAndroidComponentSelectorPropertyEditor(editor,
     		  Collections.singleton("ARCamera"));
+    } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_ARCAMERAOVERLAYER)) {
+      return new YoungAndroidComponentSelectorPropertyEditor(editor,
+    		  Collections.singleton("ARCameraOverLayer"));
     } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ASSET_3DMODEL)) {
       return new YoungAndroidAssetSelectorPropertyEditor(editor, MODEL_FILETYPES);
     } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ASSET_MATERIAL)) {

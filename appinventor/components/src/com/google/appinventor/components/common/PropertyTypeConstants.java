@@ -217,6 +217,8 @@ public class PropertyTypeConstants {
   
   public static final String PROPERTY_TYPE_ONLY_ARCAMERA = "arcamera";
   
+  public static final String PROPERTY_TYPE_ONLY_ARCAMERAOVERLAYER = "arcameraoverlayer";
+  
   public static final String PROPERTY_TYPE_ASSET_3DMODEL = "asset3dmodel";
   
   public static final String PROPERTY_TYPE_ASSET_MATERIAL = "assetmaterial";
