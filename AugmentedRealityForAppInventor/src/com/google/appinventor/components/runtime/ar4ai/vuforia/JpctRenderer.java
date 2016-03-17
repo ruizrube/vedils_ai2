@@ -346,18 +346,24 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 						// compile object?
 
 						// Set position
-						// myObject3D.translate(myVO.getPositionX(),
-						// myVO.getPositionY(), myVO.getPositionZ());
+						myObject3D.translate(myVO.getPositionX(),
+						myVO.getPositionY(), myVO.getPositionZ());
 						// myObject3D.translate(0,0,0);
+						
+						Log.d(LOGTAG, "Posicionando modelos");
 
 						// Set rotation
-						// myObject3D.rotateX(myVO.getRotationX()));
-						// myObject3D.rotateY(myVO.getRotationY());
-						// myObject3D.rotateZ(myVO.getRotationZ());
+						myObject3D.rotateX((float) (myVO.getRotationX()*Math.PI/180));
+						myObject3D.rotateY((float) (myVO.getRotationY()*Math.PI/180));
+						myObject3D.rotateZ((float) (myVO.getRotationZ()*Math.PI/180));
+						
+						Log.d(LOGTAG, "Rotando modelos");
 
 						// Set translation
-						// myObject3D.translate(myVO.getTranslationX(),
-						// myVO.getTranslationY(), myVO.getTranslationZ());
+						myObject3D.translate(myVO.getTranslationX(),
+						myVO.getTranslationY(), myVO.getTranslationZ());
+						
+						Log.d(LOGTAG, "Moviendo modelos");
 
 						// Ahora los añados a sus mundos
 

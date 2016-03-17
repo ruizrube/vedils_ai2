@@ -65,7 +65,7 @@ public class MainActivity extends Activity {
 
 		PhysicalObject mPhysicalObject1 = new PhysicalObject(UUID.randomUUID().toString());
 		mPhysicalObject1.setTrackerType(PhysicalObject.TRACKER_MARKER);
-		mPhysicalObject1.setMarkerTracker(1);
+		mPhysicalObject1.setMarkerTracker(3);
 //		
 		PhysicalObject mPhysicalObject3 = new PhysicalObject(UUID.randomUUID().toString());
 		mPhysicalObject3.setTrackerType(PhysicalObject.TRACKER_MARKER);
@@ -94,11 +94,14 @@ public class MainActivity extends Activity {
 		mVirtualObject1.setVisualAssetType(VirtualObject.ASSET_3DMODEL);	
 		mVirtualObject1.setOverlaid3DModel("7_Exercicio_5.obj");
 		mVirtualObject1.setMaterial("7_Exercicio_5.mtl");
+		mVirtualObject1.setRotationZ(270);
 		//mVirtualObject1.setColorTexture(Color.BLUE);
 		
 		VirtualObject mVirtualObject3 = new VirtualObject(UUID.randomUUID().toString());
 		mVirtualObject3.setVisualAssetType(VirtualObject.ASSET_IMAGE);
 		mVirtualObject3.setOverlaidImage("amyWinehouse.png");
+		mVirtualObject3.setPositionX(90);
+		mVirtualObject3.setTranslationY(90);
 //		mVirtualObject3.setVisualAssetType(VirtualObject.ASSET_3DMODEL);	
 //		mVirtualObject3.setOverlaid3DModel("EX1_2.obj");
 //		mVirtualObject3.setMaterial("EX1_2.mtl");
