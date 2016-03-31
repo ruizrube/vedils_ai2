@@ -65,7 +65,7 @@ public class MainActivity extends Activity {
 
 		PhysicalObject mPhysicalObject1 = new PhysicalObject(UUID.randomUUID().toString());
 		mPhysicalObject1.setTrackerType(PhysicalObject.TRACKER_MARKER);
-		mPhysicalObject1.setMarkerTracker(3);
+		mPhysicalObject1.setMarkerTracker(1);
 //		
 		PhysicalObject mPhysicalObject3 = new PhysicalObject(UUID.randomUUID().toString());
 		mPhysicalObject3.setTrackerType(PhysicalObject.TRACKER_MARKER);
@@ -109,8 +109,9 @@ public class MainActivity extends Activity {
 		
 		VirtualObject mVirtualObject2 = new VirtualObject(UUID.randomUUID().toString());
 		mVirtualObject2.setVisualAssetType(VirtualObject.ASSET_3DMODEL);	
-		mVirtualObject2.setOverlaid3DModel("Arrow1.md2");
-		mVirtualObject2.setColorTexture(Color.BLUE);
+		mVirtualObject2.setOverlaid3DModel("ogro.md2");
+		//mVirtualObject2.setColorTexture(Color.BLUE);
+		mVirtualObject2.setAnimated(true);
 //		
 //		VirtualObject mVirtualObject1 = new VirtualObject(UUID.randomUUID().toString());
 //		mVirtualObject1.setVisualAssetType(VirtualObject.ASSET_3DMODEL);	
@@ -124,8 +125,9 @@ public class MainActivity extends Activity {
 	
 		
 		
-		mVirtualObject1.setPhysicalObject(mPhysicalObject1);
-		mVirtualObject3.setPhysicalObject(mPhysicalObject3);
+		//mVirtualObject1.setPhysicalObject(mPhysicalObject1);
+		//mVirtualObject3.setPhysicalObject(mPhysicalObject3);
+		mVirtualObject2.setPhysicalObject(mPhysicalObject1);
 		
 
 		arrayOfVirtualObjects.add(mVirtualObject1);

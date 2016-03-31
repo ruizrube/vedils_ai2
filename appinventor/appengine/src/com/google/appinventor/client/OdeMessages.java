@@ -5629,6 +5629,10 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String MaterialProperties();
 	
+	@DefaultMessage("AnimationSecuence")
+	@Description("")
+	String AnimationSecuenceProperties();
+	
 	@DefaultMessage("AssetType")
 	@Description("")
 	String AssetTypeProperties();	

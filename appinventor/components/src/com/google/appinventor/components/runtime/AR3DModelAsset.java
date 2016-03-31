@@ -160,5 +160,26 @@ public class AR3DModelAsset extends ARVirtualObject{
 
 	}
 	
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR, userVisible = true)
+	public boolean Animation() {
+		return data.isAnimated();
+	}
+	
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN, defaultValue = "False")
+	@SimpleProperty(userVisible = true)
+	public void Animation(boolean animated) {
+		data.setAnimated(animated);
+	}
+	
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR, userVisible = true)
+	public int AnimationSecuence() {
+		return data.getAnimationSecuence();
+	}
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_INTEGER, defaultValue = "0")
+	@SimpleProperty(userVisible = true)
+	public void AnimationSecuence(int animationSecuence) {
+		data.setAnimationSecuence(animationSecuence);
+	}
+	
 
 }

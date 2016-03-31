@@ -26,6 +26,8 @@ public class VirtualObject implements Parcelable {
 	private float translationZ;
 	private float scale = 1f;
 	private int transparency;
+	private boolean animated=false;
+	private int animationSecuence;
 	
 	private String overlaid3DModel;
 	private String overlaidText;
@@ -200,6 +202,22 @@ public class VirtualObject implements Parcelable {
 	public void setScale(float scale) {
 		this.scale = scale;
 	}
+	
+	public boolean isAnimated() {
+		return animated;
+	}
+	
+	public void setAnimated(boolean animated) {
+		this.animated = animated;
+	}
+	
+	public int getAnimationSecuence() {
+		return animationSecuence;
+	}
+	
+	public void setAnimationSecuence(int animationSecuence) {
+		this.animationSecuence = animationSecuence;
+	}
 
 	public int getTransparency() {
 		return transparency;
@@ -294,6 +312,8 @@ public class VirtualObject implements Parcelable {
 		dest.writeFloat(translationY);
 		dest.writeFloat(translationZ);
 		dest.writeFloat(scale);
+		dest.writeByte((byte) (animated ? 1 : 0));
+		dest.writeInt(animationSecuence);
 		dest.writeInt(transparency);
 		dest.writeFloat(mass);
 		dest.writeInt(visualAssetType);
@@ -335,6 +355,8 @@ public class VirtualObject implements Parcelable {
 		this.setTranslationY(in.readFloat());
 		this.setTranslationZ(in.readFloat());
 		this.setScale(in.readFloat());
+		this.setAnimated(in.readByte() != 0);
+		this.setAnimationSecuence(in.readInt());
 		this.setTransparency(in.readInt());
 		this.setMass(in.readFloat());
 		this.setVisualAssetType(in.readInt());	

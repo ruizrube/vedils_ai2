@@ -25,6 +25,7 @@ import com.google.appinventor.components.runtime.ar4ai.common.VuforiaApplication
 import com.google.appinventor.components.runtime.ar4ai.utils.CubeShaders;
 import com.google.appinventor.components.runtime.ar4ai.utils.SampleMath;
 import com.google.appinventor.components.runtime.ar4ai.utils.SampleUtils;
+import com.google.appinventor.components.runtime.ar4ai.utils.Ticker;
 import com.qualcomm.vuforia.CameraCalibration;
 import com.qualcomm.vuforia.CameraDevice;
 import com.qualcomm.vuforia.Matrix34F;
@@ -59,6 +60,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
+import android.os.Environment;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -91,6 +93,10 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 	private boolean primeraVez;
 	private float posXinit;
 	private float posYinit;
+	
+	private float index = 0;
+	
+	private Ticker ticker = new Ticker(16);
 
 	public JpctRenderer(VuforiaARActivity activity, VuforiaApplicationSession session, Context applicationContext) throws Exception {
 		mActivity = activity;
@@ -149,6 +155,9 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 			return;
 
 		// IRR: this.mActivity.updateRenderView();
+		
+		//Actualiza las animaciones de los modelos
+		updateAnimations();
 
 		// Call our function to render content
 		renderFrame();
@@ -158,6 +167,23 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 
 		mFrameBuffer.display();
 
+	}
+	
+	private void updateAnimations() {
+		for (VirtualObject vo : this.mActivity.arrayOfVirtualObjects) {
+			if (vo.isAnimated()) {
+				Log.d(LOGTAG, "Llego");
+				int ticks = ticker.getTicks();
+				if (ticks > 0) {
+					index += 0.016f * ticks;
+					if (index > 1)
+						index -= 1;
+					Object3D object = eworld.getWorld(vo.getId()).getObjectByName(vo.getId());
+					Log.d(LOGTAG, "Sacado el objeto "+object.getName()+ " con index "+index);
+					object.animate(index, vo.getAnimationSecuence());
+				}
+			}
+		}
 	}
 
 	private void updateCameraWorld() {
@@ -200,6 +226,7 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 				world.renderScene(mFrameBuffer);
 				world.draw(mFrameBuffer);
 				Log.d(LOGTAG, "------->¡HOLA2Renderizando el Mundo de " + vo.getId());
+				
 			}
 
 		}
@@ -334,8 +361,9 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 						myObject3D.clearTranslation();
 						myObject3D.setVisibility(true);						
 						myObject3D.setUserObject(myVO);
+						myObject3D.rotateY((float) (Math.PI));
+						myObject3D.rotateZ((float) (Math.PI));
 						myObject3D.build();
-
 						Log.d(LOGTAG, "Centrando modelos");
 						
 						myObject3D.scale(myVO.getScale());
@@ -431,14 +459,14 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 			// loading texture with Image
 			myTexture = new com.threed.jpct.Texture(mContext.getAssets().open((myVO.getImageTexture())));
 			TextureManager.getInstance().addTexture(myVO.getImageTexture(), myTexture);
-			myObject3D.calcTextureWrap();
+			//myObject3D.calcTextureWrap();
 			myObject3D.setTexture(myVO.getImageTexture());
 		} else if (myVO.getColorTexture() != Color.TRANSPARENT) {
 			// loading texture with color
 			RGBColor myColor = new com.threed.jpct.RGBColor(Color.red(myVO.getColorTexture()), Color.green(myVO.getColorTexture()), Color.blue(myVO.getColorTexture()));
 			myTexture = new com.threed.jpct.Texture(150, 150, myColor);
 			TextureManager.getInstance().addTexture("ColorForVO" + myVO.getId(), myTexture);
-			myObject3D.calcTextureWrap();
+			//myObject3D.calcTextureWrap();
 			myObject3D.setTexture("ColorForVO" + myVO.getId());
 		}
 
@@ -450,8 +478,8 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 		Log.d(LOGTAG, "Creating in the world the asset Image" + myVO.getId());
 		Object3D myObject3D = new Object3D(Primitives.getPlane(1, 70));
 		//myObject3D.setEnvmapped(Object3D.ENVMAP_ENABLED);
-		myObject3D.rotateY((float) (Math.PI));
-		myObject3D.rotateZ((float) (Math.PI));
+		//myObject3D.rotateY((float) (Math.PI));
+		//myObject3D.rotateZ((float) (Math.PI));
 		// myObject3D.translate(0, 0, 0.5f);
 		myObject3D.setName(myVO.getId());
 
@@ -575,6 +603,7 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 					Object3D objeto = world.getObjectByName(vo.getId());
 					objeto.rotateX(-movY/100);
 					objeto.rotateY(movX/100);
+					
 				}
 			}
 		}
