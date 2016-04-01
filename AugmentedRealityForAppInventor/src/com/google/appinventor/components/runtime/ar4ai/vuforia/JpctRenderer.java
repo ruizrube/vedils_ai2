@@ -13,6 +13,7 @@ https://360.autodesk.com/ViewerPage?id=dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YTM2M
 
 package com.google.appinventor.components.runtime.ar4ai.vuforia;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -60,7 +61,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.os.Environment;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -102,6 +102,7 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 		mActivity = activity;
 		vuforiaAppSession = session;
 		this.mContext = applicationContext;
+		
 
 		Config.viewportOffsetAffectsRenderTarget = true;
 
@@ -178,9 +179,12 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 					index += 0.016f * ticks;
 					if (index > 1)
 						index -= 1;
-					Object3D object = eworld.getWorld(vo.getId()).getObjectByName(vo.getId());
-					Log.d(LOGTAG, "Sacado el objeto "+object.getName()+ " con index "+index);
-					object.animate(index, vo.getAnimationSecuence());
+					if (eworld.getWorld(vo.getId()) != null &&
+							eworld.getWorld(vo.getId()).getObjectByName(vo.getId()) != null) {
+						Object3D object = eworld.getWorld(vo.getId()).getObjectByName(vo.getId());
+						Log.d(LOGTAG, "Sacado el objeto "+object.getName()+ " con index "+index);
+						object.animate(index, vo.getAnimationSecuence());
+					}
 				}
 			}
 		}
@@ -217,15 +221,17 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 				// --- FIN - Cambio respecto a original
 
 				World world = this.eworld.getWorld(vo.getId());
-				Camera cam = world.getCamera();
-				cam.setOrientation(camDirection, camUp);
-				cam.setPosition(camPosition);
-				cam.setFOV(fov);
-				cam.setYFOV(fovy);
-
-				world.renderScene(mFrameBuffer);
-				world.draw(mFrameBuffer);
-				Log.d(LOGTAG, "------->¡HOLA2Renderizando el Mundo de " + vo.getId());
+				if (world != null) {
+					Camera cam = world.getCamera();
+					cam.setOrientation(camDirection, camUp);
+					cam.setPosition(camPosition);
+					cam.setFOV(fov);
+					cam.setYFOV(fovy);
+	
+					world.renderScene(mFrameBuffer);
+					world.draw(mFrameBuffer);
+					Log.d(LOGTAG, "------->¡HOLA2Renderizando el Mundo de " + vo.getId());
+				}
 				
 			}
 
@@ -298,6 +304,17 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 		//GLES20.glDisable(GLES20.GL_DEPTH_TEST);
 		Renderer.getInstance().end();
 
+	}
+	
+	private InputStream getAssetPath(String path) throws IOException {
+		if (mActivity.isAiCompanionActive()) {
+	    	Log.d(LOGTAG, "Trabajando con aiCompanion");
+	    	return new FileInputStream("/sdcard/AppInventor/assets/"+path);
+		}
+		else {
+			Log.d(LOGTAG, "Aplicacion arrancando desde la apk");
+			return mContext.getAssets().open(path);
+		}
 	}
 
 	public void createWorld() throws Exception {
@@ -427,37 +444,38 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 
 		// VIRTUAL OBJECT: 3d Model
 		if (myVO.getOverlaid3DModel().toLowerCase().endsWith("md2")) {
-			myObject3D = Loader.loadMD2(mContext.getAssets().open(myVO.getOverlaid3DModel()), 1f);
-			Log.d(LOGTAG, "Creating in the world the asset MD2 Model3d" + myVO.getId());
+			myObject3D = Loader.loadMD2(getAssetPath(myVO.getOverlaid3DModel()), 1f);
+		    Log.d(LOGTAG, "Creating in the world the asset MD2 Model3d" + myVO.getId());
 
 		} else if (myVO.getOverlaid3DModel().toLowerCase().endsWith("obj")) {
 			if (myVO.getMaterial() != null && myVO.getMaterial().toLowerCase().endsWith("mtl")) {
 				Config.useNormalsFromOBJ = true;
 				//myObject3D = loadModel(mContext.getAssets().open(myVO.getOverlaid3DModel()), mContext.getAssets().open(myVO.getMaterial()), 1f);
-				myObject3D = Object3D.mergeAll(Loader.loadOBJ(mContext.getAssets().open(myVO.getOverlaid3DModel()), mContext.getAssets().open(myVO.getMaterial()), 1f));
+				myObject3D = Object3D.mergeAll(Loader.loadOBJ(getAssetPath(myVO.getOverlaid3DModel()), getAssetPath(myVO.getMaterial()), 1f));
 				Log.d(LOGTAG, "Creating in the world the asset OBJ Model3d with materials" + myVO.getId());
 			} else {
 				Config.useNormalsFromOBJ = true;
 				//myObject3D = loadModel(mContext.getAssets().open(myVO.getOverlaid3DModel()), null, 1f);
-				myObject3D = Object3D.mergeAll(Loader.loadOBJ(mContext.getAssets().open(myVO.getOverlaid3DModel()), null, 1f));
+				myObject3D = Object3D.mergeAll(Loader.loadOBJ(getAssetPath(myVO.getOverlaid3DModel()), null, 1f));
 				Log.d(LOGTAG, "Creating in the world the asset OBJ Model3d without materials" + myVO.getId());
 			}
 
 		} else if (myVO.getOverlaid3DModel().toLowerCase().endsWith("3ds")) {
-			myObject3D = Object3D.mergeAll(Loader.load3DS(mContext.getAssets().open(myVO.getOverlaid3DModel()), 0.2f));
+			myObject3D = Object3D.mergeAll(Loader.load3DS(getAssetPath(myVO.getOverlaid3DModel()), 0.2f));
 			Log.d(LOGTAG, "Creating in the world the asset 3DS Model3d" + myVO.getId());
 
 		} else if (myVO.getOverlaid3DModel().toLowerCase().endsWith("asc")) {
-			myObject3D = Loader.loadASC(mContext.getAssets().open(myVO.getOverlaid3DModel()), 1f, false);
+			myObject3D = Loader.loadASC(getAssetPath(myVO.getOverlaid3DModel()), 1f, false);
 			Log.d(LOGTAG, "Creating in the world the asset ASC Model3d" + myVO.getId());
 		}
 
 		myObject3D.setName(myVO.getId());
-
+		myObject3D.rotateY((float)(Math.PI/2));
+		
 		Texture myTexture;
 		if (myVO.getImageTexture() != null && !myVO.getImageTexture().trim().equals("")) {
 			// loading texture with Image
-			myTexture = new com.threed.jpct.Texture(mContext.getAssets().open((myVO.getImageTexture())));
+			myTexture = new com.threed.jpct.Texture(getAssetPath(myVO.getImageTexture()));
 			TextureManager.getInstance().addTexture(myVO.getImageTexture(), myTexture);
 			//myObject3D.calcTextureWrap();
 			myObject3D.setTexture(myVO.getImageTexture());
@@ -484,7 +502,7 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 		myObject3D.setName(myVO.getId());
 
 		// loading texture with the image to render
-		Texture myTexture = new com.threed.jpct.Texture(BitmapHelper.rescale(BitmapHelper.loadImage(mContext.getAssets().open(myVO.getOverlaidImage())), 128, 128), true);
+		Texture myTexture = new com.threed.jpct.Texture(BitmapHelper.rescale(BitmapHelper.loadImage(getAssetPath(myVO.getOverlaidImage())), 128, 128), true);
 		TextureManager.getInstance().addTexture(myVO.getOverlaidImage(), myTexture);
 		//myObject3D.calcTextureWrap();
 		myObject3D.setTransparency(100);

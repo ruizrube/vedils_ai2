@@ -166,6 +166,7 @@ public class ARCamera extends AndroidNonvisibleComponent
 		Intent intent = new Intent();
 		intent.setClassName(container.$context(), AR_ACTIVITY_CLASS);
 
+		intent.putExtra(ARActivity.AR_ACTIVITY_ARG_AICOMPANION, container.$form() instanceof ReplForm);
 		intent.putExtra(ARActivity.AR_ACTIVITY_ARG_CAMERAOBJECT, this.data);
 		intent.putExtra(ARActivity.AR_ACTIVITY_ARG_VIRTUALOBJECTS, extractPureVO(mapOfARVirtualObjects));
 		intent.putExtra(ARActivity.AR_ACTIVITY_ARG_PHYSICALOBJECTS, extractPurePO(mapOfARPhysicalObjects));

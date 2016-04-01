@@ -19,6 +19,7 @@ public abstract class ARActivity extends Activity {
 
 	public static final String AR_ACTIVITY_CLASS = "com.google.appinventor.components.runtime.ar4ai.vuforia.VuforiaARActivity";
 
+	public static final String AR_ACTIVITY_ARG_AICOMPANION = AR_ACTIVITY_CLASS + ".isAiCompainionActive";
 	public static final String AR_ACTIVITY_ARG_CAMERAOBJECT = AR_ACTIVITY_CLASS + ".cameraObject";
 	public static final String AR_ACTIVITY_ARG_VIRTUALOBJECTS = AR_ACTIVITY_CLASS + ".arrayOfVirtualObjects";
 	public static final String AR_ACTIVITY_ARG_PHYSICALOBJECTS = AR_ACTIVITY_CLASS + ".arrayOfPhysicalObject";
@@ -44,6 +45,7 @@ public abstract class ARActivity extends Activity {
 
 	public static final int MAX_TRACKERS = 25;
 
+	public boolean aiCompanionActive;
 	public Camera camera;
 	public ArrayList<VirtualObject> arrayOfVirtualObjects;
 	public ArrayList<PhysicalObject> arrayOfPhysicalObject;
@@ -157,6 +159,14 @@ public abstract class ARActivity extends Activity {
 	// ACCESSOR METHODS //
 	//////////////////////
 
+	public boolean isAiCompanionActive() {
+		return aiCompanionActive;
+	}
+	
+	public void setAiCompanionActive(boolean aiCompanionActive) {
+		this.aiCompanionActive = aiCompanionActive;
+	}
+	
 	public Camera getCamera() {
 		return camera;
 	}
@@ -190,6 +200,11 @@ public abstract class ARActivity extends Activity {
 		// Obtenemos los datos definidoss para la camara y los objetos fisicos y
 		// virtuales de AppInventor
 
+		if (myIntent.hasExtra(AR_ACTIVITY_ARG_AICOMPANION)) {
+			this.setAiCompanionActive(myIntent.getBooleanExtra(AR_ACTIVITY_ARG_AICOMPANION, false));
+			Log.d(LOGTAG, "Usando AiCompanion: " + this.isAiCompanionActive());
+		}
+		
 		if (myIntent.hasExtra(AR_ACTIVITY_ARG_CAMERAOBJECT)) {
 
 			this.setCamera((Camera) myIntent.getExtras().getParcelable(AR_ACTIVITY_ARG_CAMERAOBJECT));
