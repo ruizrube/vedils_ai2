@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import com.google.appinventor.components.runtime.ar4ai.ARActivity;
 import com.google.appinventor.components.runtime.ar4ai.PhysicalObject;
-import com.google.appinventor.components.runtime.ar4ai.R;
 import com.google.appinventor.components.runtime.ar4ai.VirtualObject;
 import com.google.appinventor.components.runtime.ar4ai.common.VuforiaApplicationControl;
 import com.google.appinventor.components.runtime.ar4ai.common.VuforiaApplicationException;
@@ -37,7 +36,6 @@ import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -204,9 +202,11 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 			getmGlView().setZOrderMediaOverlay(true);
 			//View view = LayoutInflater.from(this).inflate(R.layout.uilayout, null);
 			//addContentView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-			ui = new UserInterface(this, camera.getUivariables());
-			ViewGroup.LayoutParams uiParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-			addContentView(ui, uiParams);
+			if (camera.getUivariables() != null) {
+				ui = new UserInterface(this, camera.getUivariables());
+				ViewGroup.LayoutParams uiParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+				addContentView(ui, uiParams);
+			}
 			try {
 
 				if (this.camera.isFrontCamera()) {
@@ -450,9 +450,15 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 
 			if (imageDataset == null)
 				return false;
-
-			if (!imageDataset.load(this.getCamera().getPathTargetDBXML(), STORAGE_TYPE.STORAGE_APPRESOURCE))
-				return false;
+			if (isAiCompanionActive()) {
+				if (!imageDataset.load("/sdcard/AppInventor/assets/"+this.getCamera().getPathTargetDBXML(), STORAGE_TYPE.STORAGE_ABSOLUTE))
+					return false;
+			}
+			else {
+				if (!imageDataset.load(this.getCamera().getPathTargetDBXML(), STORAGE_TYPE.STORAGE_APPRESOURCE))
+					return false;
+			}
+			
 
 			if (!objectTracker.activateDataSet(imageDataset))
 				return false;
@@ -485,6 +491,9 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 
 				} else if (poAux.getTrackerType() == PhysicalObject.TRACKER_MARKER) {
 					markerAux = markerTracker.createFrameMarker(poAux.getMarkerTracker(), poAux.getId(), new Vec2F(50, 50));
+					if (poAux.isExtendedTrackingEnabled()) { // isExtendedTrackingActive()
+						markerAux.startExtendedTracking();
+					}
 					markerAux.setUserData(poAux);
 
 					if (markerAux == null) {

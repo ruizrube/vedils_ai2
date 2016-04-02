@@ -21,6 +21,7 @@ public class UserInterface extends RelativeLayout {
 
 	public UserInterface(final Context context, UIVariables uivariables) {
 		super(context);
+		if (uivariables != null) {
 			rightButton = new Button(context);
 			if (!uivariables.isRightBtEnabled())
 				rightButton.setVisibility(INVISIBLE);
@@ -39,36 +40,37 @@ public class UserInterface extends RelativeLayout {
 			b1params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
 			b1params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
 			addView(rightButton, b1params);
-		if (!uivariables.isLeftBtEnabled()) {
-			leftButton.setVisibility(INVISIBLE);
-		}
-		leftButton = new Button(context);
-		leftButton.setText(uivariables.getLeftBtText());
-		leftButton.setId(235);
-		leftButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(ARActivity.AR_ACTIVITY_EVENT_CAMERA);
-				intent.putExtra("status", ARActivity.AR_ACTIVITY_EVENT_CAMERA_LEFTBUTTON);
-				LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+			if (!uivariables.isLeftBtEnabled()) {
+				leftButton.setVisibility(INVISIBLE);
 			}
-		});
-		RelativeLayout.LayoutParams b2params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		b2params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-		b2params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-		addView(leftButton, b2params);
-		text = new TextView(context);
-		text.setText(uivariables.getFloatingText());
-		text.setTextSize(20f);
-		text.setBackgroundColor(Color.GRAY);
-		text.setTextColor(Color.BLACK);
-		//text.setTextAppearance(android.R.attr.textAppearanceLarge);
-		RelativeLayout.LayoutParams tparams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		tparams.addRule(ALIGN_BASELINE, leftButton.getId());
-		tparams.addRule(ALIGN_BOTTOM, leftButton.getId());
-		tparams.addRule(RIGHT_OF, leftButton.getId());
-		tparams.addRule(LEFT_OF, rightButton.getId());
-		addView(text, tparams);
+			leftButton = new Button(context);
+			leftButton.setText(uivariables.getLeftBtText());
+			leftButton.setId(235);
+			leftButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(ARActivity.AR_ACTIVITY_EVENT_CAMERA);
+					intent.putExtra("status", ARActivity.AR_ACTIVITY_EVENT_CAMERA_LEFTBUTTON);
+					LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+				}
+			});
+			RelativeLayout.LayoutParams b2params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			b2params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+			b2params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+			addView(leftButton, b2params);
+			text = new TextView(context);
+			text.setText(uivariables.getFloatingText());
+			text.setTextSize(20f);
+			text.setBackgroundColor(Color.GRAY);
+			text.setTextColor(Color.BLACK);
+			//text.setTextAppearance(android.R.attr.textAppearanceLarge);
+			RelativeLayout.LayoutParams tparams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			tparams.addRule(ALIGN_BASELINE, leftButton.getId());
+			tparams.addRule(ALIGN_BOTTOM, leftButton.getId());
+			tparams.addRule(RIGHT_OF, leftButton.getId());
+			tparams.addRule(LEFT_OF, rightButton.getId());
+			addView(text, tparams);
+		}
 	}
 	
 	public void updateInterface(UIVariables uivariables) {
