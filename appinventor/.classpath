@@ -185,5 +185,8 @@
 	<classpathentry kind="lib" path="lib/ar4ai/Vuforia.jar"/>
 	<classpathentry kind="lib" path="lib/ar4ai/jpct_ae.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/AugmentedRealityForAppInventor"/>
+	<classpathentry kind="lib" path="/LearningAnalyticsForAppInventor/bin/learninganalyticsforappinventor.jar"/>
+	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/la4ai/la4ai.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

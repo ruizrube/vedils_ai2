@@ -16,12 +16,16 @@ import com.google.appinventor.components.annotations.UsesPermissions;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
 import com.google.appinventor.components.runtime.util.FusionTablesConnection;
+import com.google.appinventor.components.runtime.util.TextViewUtil;
 import com.google.appinventor.components.runtime.util.TimerSendData;
+import com.google.appinventor.components.runtime.util.ActivityTrackerInstances;
+import com.google.appinventor.components.runtime.util.ActivityTrackerManager;
+
+import com.google.appinventor.components.runtime.la4ai.util.ConnectionInfo;
+import com.google.appinventor.components.runtime.la4ai.util.TinyDB;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.wifi.WifiManager;
-import android.text.format.Formatter;
 
 @UsesAssets(fileNames = "ruizrube-cd84632c4ea8.p12, ruizrube-4718dd8c5168.json")
 @UsesLibraries(libraries =
@@ -33,7 +37,9 @@ import android.text.format.Formatter;
 "google-http-client-android3-beta.jar," +
 "google-oauth-client-beta.jar," +
 "guava-14.0.1.jar," +
-"gson-2.1.jar")
+"gson-2.1.jar," +
+"la4ai.jar," +
+"aspectjrt-1.8.8.jar")
 @SimpleObject
 @DesignerComponent(nonVisible= true, version = 1, description = "ActivityTracker Component (by SPI-FM at UCA)", category = ComponentCategory.VEDILSLEARNINGANALYTICS, iconName = "images/arColorTracker.png")
 @UsesPermissions(permissionNames = 
@@ -48,72 +54,86 @@ import android.text.format.Formatter;
 public class ActivityTracker extends AndroidNonvisibleComponent implements Component {
 	
 	private String userTrackerId;
-	private final Activity activity;
+	//private final Activity activity;
 	@SuppressWarnings("unused")
 	private final ComponentContainer componentContainer;
 	private String tableId;
-	private String columns;
-	private String values;
-	private String email;
-	private String apiKey;
-	private FusionTablesConnection fusionTablesConnection;
-	private String path;
-	private LocationSensor locationSensor;
-	private Context context;
+	//private String columns;
+	//private String values;
+	//private String email;
+	//private String apiKey;
+	//private FusionTablesConnection fusionTablesConnection;
+	//private String path;
+	//private LocationSensor locationSensor;
+	//private Context context;
 	private int synchronizationMode;
 	private int batchTime;
 	private int communicationMode;
-	private TinyDB tinyDB;
-	private int tagDB;
-	private TimerSendData timerSendData;
-	private String currentIP;
+	private boolean startTracking;
+	private boolean publishEvents;
+	private boolean publishMethods;
+	private boolean publishGetters;
+	private boolean publishSetters;
+	//private TinyDB tinyDB;
+	//private int tagDB;
+	//private TimerSendData timerSendData;
+	//private String currentIP;
+	private ActivityTrackerManager activityTrackerManager;
 	
 	public ActivityTracker(ComponentContainer componentContainer) {
 		super(componentContainer.$form());
 		
+		activityTrackerManager = new ActivityTrackerManager(this, componentContainer);
 		this.componentContainer = componentContainer; 
-		this.activity = componentContainer.$context();
-		this.locationSensor = new LocationSensor(componentContainer);
-		this.context = componentContainer.$context();
-		this.tinyDB = new TinyDB(componentContainer);
-		this.tagDB = 0;
-		this.currentIP = "0.0.0.0";
+		//this.activity = componentContainer.$context();
+		//this.locationSensor = new LocationSensor(componentContainer);
+		//this.context = componentContainer.$context();
+		//this.tinyDB = new TinyDB(componentContainer.$context());
+		//this.tagDB = 0;
+		//this.currentIP = "0.0.0.0";
 		
 		//Default mode
 		this.synchronizationMode = Component.REALTIME;
 		this.batchTime = 0;
 		this.communicationMode = Component.INDIFFERENT;
-		
+		this.startTracking = false;
+		this.publishEvents = true;
+		this.publishMethods = true;
+		this.publishGetters = true;
+		this.publishSetters = true;
 		//Define data for FusionTableControl connection.
         
-		columns = "UserID, IP, MAC, Latitude, Longitude, Date, AppID, ScreenID, ComponentID, ComponentType, ActionID, ActionType, Param1, Param2, Param3";
+		//columns = "UserID, IP, MAC, Latitude, Longitude, Date, AppID, ScreenID, ComponentID, ComponentType, ActionID, ActionType, Param1, Param2, Param3";
 		tableId = "1xZCj24xYWpj6jHWN2IK2xiErYPY7XbeHAqXVR4Bw";
-		email = "1075849932338-n26pqlvqfea3dspaebf52vnacch77nhf@developer.gserviceaccount.com";
-		apiKey = "AIzaSyDL9s7r6ZIr9DN47_kNIIzRcm2JhWxy7ZU";
-		path = ASSET_DIRECTORY + '/' + "ruizrube-cd84632c4ea8.p12";
+		//email = "1075849932338-n26pqlvqfea3dspaebf52vnacch77nhf@developer.gserviceaccount.com";
+		//apiKey = "AIzaSyDL9s7r6ZIr9DN47_kNIIzRcm2JhWxy7ZU";
+		//path = ASSET_DIRECTORY + '/' + "ruizrube-cd84632c4ea8.p12";
 		
 		//Connection with FusionTables
 		
-		this.fusionTablesConnection = new FusionTablesConnection(columns, apiKey, path, email, componentContainer, true);
-		this.timerSendData = new TimerSendData(this);
-		System.out.println("ActivityTracker created.");
+		//this.fusionTablesConnection = new FusionTablesConnection(columns, apiKey, path, email, componentContainer, true);
+		//this.timerSendData = new TimerSendData(this);
+		
+		//And finally, save the current ActivityTracker
+		ActivityTrackerInstances.insertActivityTracker(componentContainer.$context().getTitle().toString(), this);
+		
+		System.out.println("ActivityTracker created - AspectJ.");
 		
 	}
 	
 	//Record Data
 	
-	@SuppressWarnings({ "deprecation", "unchecked"})
+	/*@SuppressWarnings({"unchecked"})
 	private void recordData(String actionId, String param1, String param2, String param3) {
 		
-		WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-		String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
-		String mac = wm.getConnectionInfo().getMacAddress();
+		String ip = ConnectionInfo.getCurrentIP(communicationMode, context);
+		String mac = ConnectionInfo.getMAC(context);
 
 	    String appName = context.getApplicationInfo().packageName;
 	    String screenName = activity.getTitle().toString(); 
 	    String actionType = "SPECIFIC";
 	    //componentContainer.$form().getLocalClassName() (Devuelve el ScreenX también)
-		
+	    
 	    //Do the query
 		values = "'" + this.userTrackerId + "','" + 
 		ip + "','" +
@@ -141,7 +161,7 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 			//And if db is not empty send the content too
 			List<String> listTags = (List<String>) tinyDB.GetTags();
 			if(!listTags.isEmpty()) {
-				sendDataBatch();
+				recordDataBatch();
 			}
 			
 		} else {
@@ -149,18 +169,17 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 			if(synchronizationMode == Component.BATCH && tagDB == 0) { //if is the first call the function to wait batch sec.
 				Timer timer = new Timer();
 				timer.schedule(timerSendData, 0, this.batchTime * 1000);
-			} 
-				
+			}
 				
 			tinyDB.StoreValue(Integer.toString(tagDB), values);
 			System.out.println("Store value in TinyDB: " +values);
 			tagDB++;
 				
 		}
-	}
+	}*/
 	
-	@SuppressWarnings("unchecked")
-	public void sendDataBatch() {
+	/*@SuppressWarnings("unchecked")
+	public void recordDataBatch() {
 		List<String> listTags = (List<String>) tinyDB.GetTags();
 		List<String> listValues = new ArrayList<String>();
 		
@@ -172,8 +191,16 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 			fusionTablesConnection.insertRows(listValues, this.tableId);
 			tinyDB.ClearAll();
 		}
-	}
+	}*/
 	
+	/**
+	 * Returns the current ActivityTrackerManager.
+	 * 
+	 * @return ActivityTrackerManager
+	 */
+	public ActivityTrackerManager getActivityTrackerManager() {
+		return activityTrackerManager;
+	}
 	
 	/**
 	 * Specifies the userId of the application.
@@ -198,6 +225,10 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 		return this.userTrackerId;
 	}
 	
+	public String getUserTrackerId() {
+		return this.userTrackerId;
+	}
+	
 	/**
 	 * Specifies the tableId of Fusion Table (Google) to establish the connection.
 	 * 
@@ -206,8 +237,8 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING,
 		      defaultValue = "1xZCj24xYWpj6jHWN2IK2xiErYPY7XbeHAqXVR4Bw")
 	@SimpleProperty
-	public void TableId(String tableId) {
-		this.tableId = tableId;
+	public void TableId(String newtableId) {
+		tableId = newtableId;
 	}
 	
 	/**
@@ -217,7 +248,11 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	 */
 	@SimpleProperty(category = PropertyCategory.BEHAVIOR, description = "Returns the id of the current Fusion Table", userVisible = true)
 	public String TableId() {
-		return this.tableId;
+		return tableId;
+	}
+	
+	public String getTableId() {
+		return tableId;
 	}
 	
 	/**
@@ -245,6 +280,10 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 		return this.communicationMode;
     }
 	
+	public int getCommunicationMode() {
+		return this.communicationMode;
+	}
+	
 	/**
 	 * Specifies the synchronization mode.
 	 * @param synchronizationMode
@@ -271,6 +310,10 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 		return this.synchronizationMode;
     }
 	
+	public int getSynchronizationMode() {
+		return this.synchronizationMode;
+	}
+	
 	/**
 	 * Specifies the bachTime for the batch type connection.
 	 * 
@@ -293,6 +336,10 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 		return this.batchTime;
 	}
 	
+	public int getBatchTime() {
+		return this.batchTime;
+	}
+	
 	
 	/**
 	 *Function to notify a specific action (version without parameters).
@@ -301,7 +348,7 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	 */
 	@SimpleFunction(description="Function to notify a specific action (version without arguments).")
 	public void NotifyWithoutArguments(String actionId) {
-		recordData(actionId, "", "", "");
+		activityTrackerManager.prepareQueryManual(actionId, "", "", "");
 	}
 	
 	
@@ -313,7 +360,7 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	 */
 	@SimpleFunction(description="Function to notify a specific action (version with one argument).")
 	public void NotifyWithOneArgument(String actionId, String valueArgument) {
-		recordData(actionId, valueArgument, "", "");
+		activityTrackerManager.prepareQueryManual(actionId, valueArgument, "", "");
 	}
 	
 	
@@ -326,7 +373,7 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	 */
 	@SimpleFunction(description="Function to notify a specific action (version with two arguments).")
 	public void NotifyWithTwoArguments(String actionId, String valueArgument, String valueArgument2) {
-		recordData(actionId, valueArgument, valueArgument2, "");
+		activityTrackerManager.prepareQueryManual(actionId, valueArgument, valueArgument2, "");
 	}
 	
 	/**
@@ -339,7 +386,7 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	 */
 	@SimpleFunction(description="Function to notify a specific action (version with three arguments).")
 	public void NotifyWithThreeArguments(String actionId, String valueArgument, String valueArgument2, String valueArgument3) {
-		recordData(actionId, valueArgument, valueArgument2, valueArgument3);
+		activityTrackerManager.prepareQueryManual(actionId, valueArgument, valueArgument2, valueArgument3);
 	}
 	
 	/**
@@ -347,6 +394,86 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	 */
 	@SimpleFunction(description="Function to send data on user demand.")
 	public void PublishActivities() {
-		sendDataBatch();
+		activityTrackerManager.recordDataBatch();
+	}
+	
+	/**
+	 * Function to start automatic tracking.
+	 */
+	@SimpleFunction(description="Function to start automatic tracking.")
+	public void StartTracking() {
+		this.startTracking = true;
+	}
+	
+	/**
+	 * Function to stop automatic tracking.
+	 */
+	@SimpleFunction(description="Function to stop automatic tracking.")
+	public void StopTracking() {
+		this.startTracking = false;
+	}
+	
+	public boolean getTrackingStatus() {
+		return this.startTracking;
+	}
+	
+	/**
+	 * Specifies when the events are tracked.
+	 * @param publishEvents
+	 */
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN,
+	      defaultValue = "True")
+	@SimpleProperty
+	public void PublishEvents(boolean publishEvents) {
+	  this.publishEvents = publishEvents;
+	}
+	
+	public boolean getPublishEventsStatus() {
+		return this.publishEvents;
+	}
+	
+	/**
+	 * Specifies when the methods (functions) are tracked.
+	 * @param publishMethods
+	 */
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN,
+	      defaultValue = "True")
+	@SimpleProperty
+	public void PublishMethods(boolean publishMethods) {
+	  this.publishMethods = publishMethods;
+	}
+	
+	public boolean getPublishMethodsStatus() {
+		return this.publishMethods;
+	}
+	
+	/**
+	 * Specifies when the Getters are tracked.
+	 * @param publishGetters
+	 */
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN,
+	      defaultValue = "True")
+	@SimpleProperty
+	public void PublishGetters(boolean publishGetters) {
+	  this.publishGetters = publishGetters;
+	}
+	
+	public boolean getPublishGettersStatus() {
+		return this.publishGetters;
+	}
+	
+	/**
+	 * Specifies when the Setters are tracked.
+	 * @param publishSetters
+	 */
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN,
+	      defaultValue = "True")
+	@SimpleProperty
+	public void PublishSetters(boolean publishSetters) {
+	  this.publishSetters = publishSetters;
+	}
+	
+	public boolean getPublishSettersStatus() {
+		return this.publishSetters;
 	}
 }

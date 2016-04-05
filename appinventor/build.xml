@@ -121,6 +121,8 @@
         <pathelement location="lib/ar4ai/android-support-v4.jar" />
         <pathelement location="lib/gc4ai/LeapJava.jar" />
         <pathelement location="lib/gc4ai/armeabi-v7a/libLeapJava.so" />
+        
+        <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
        
         
         <fileset dir="buildserver/lib" includes="**/*.jar"/>

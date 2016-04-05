@@ -100,16 +100,79 @@
                 aij-dir="${components.pkg}/common" >
     </ai.dojunit>
   </target>
-
+   
   <!-- =====================================================================
        AndroidRuntime: library providing runtime support for components
-       ===================================================================== -->
+       ===================================================================== -->  
   <target name="AndroidRuntime"
           description="Generate runtime library implementing components"
           depends="CommonConstants,HtmlEntities,common_CommonVersion">
     <property name="AndroidRuntime-class.dir" location="${class.dir}/AndroidRuntime" />
     <mkdir dir="${AndroidRuntime-class.dir}" />
-
+    
+    <!-- AspectJ compilation -->
+    
+    <echo level="info">--- AspectJ (start) ---</echo>
+    
+    <taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties">
+        <classpath>
+            <pathelement location="${lib.dir}/la4ai/aspectjtools-1.8.8.jar"/>
+        </classpath>
+    </taskdef>
+    
+    <iajc destdir="${AndroidRuntime-class.dir}" 
+        source="1.7" target="1.7">
+        
+        <include name="${components.pkg}/annotations/*.java" />
+        <include name="${components.pkg}/runtime/**/*.java" />
+        
+   		<sourceroots>
+      		<pathelement location="src/${components.pkg}/runtime/"/>
+      		<pathelement location="src/${components.pkg}/annotations/"/>
+   		</sourceroots>
+   		
+   		<classpath>
+           <pathelement location="${lib.dir}/la4ai/aspectjrt-1.8.8.jar"/> 
+           
+           <!-- JavaC ClassPath -->
+           
+	        <pathelement location="${local.build.dir}/HtmlEntities.jar" />
+	        <pathelement location="${public.build.dir}/CommonConstants.jar" />
+	        <pathelement location="${build.dir}/common/CommonVersion.jar" />
+	        <pathelement location="${lib.dir}/android/4.2.2/android.jar" />
+	        <pathelement location="${lib.dir}/kawa/kawa-1.11-modified.jar" />
+	        <pathelement location="${lib.dir}/acra/acra-4.4.0.jar" />
+	        <pathelement location="${lib.dir}/guava/guava-14.0.1.jar" />
+	        <!-- Conditionally included libraries --> 
+	        <pathelement location="${lib.dir}/twitter/twitter4j-core-3.0.5.jar" />
+	        <pathelement location="${lib.dir}/twitter/twitter4j-media-support-3.0.5.jar" />
+	        <pathelement location="${lib.dir}/fusiontables/fusiontables.jar" />
+	        <pathelement location="${lib.dir}/oauth/google-api-client-1.10.3-beta.jar" />
+	        <pathelement location="${lib.dir}/oauth/google-api-client-android2-1.10.3-beta.jar" />
+	        <pathelement location="${lib.dir}/oauth/google-http-client-1.10.3-beta.jar" />
+	        <pathelement location="${lib.dir}/oauth/google-http-client-android2-1.10.3-beta.jar" />
+	        <pathelement location="${lib.dir}/oauth/google-http-client-android3-1.10.3-beta.jar" />
+	        <pathelement location="${lib.dir}/oauth/google-oauth-client-1.10.1-beta.jar" />
+	        <pathelement location="${lib.dir}/gson/gson-2.1.jar" />
+	        <pathelement location="${lib.dir}/json/json.jar" />
+	        
+	        <pathelement location="${lib.dir}/ar4ai/ar4ai.jar" />
+	        <pathelement location="${lib.dir}/ar4ai/Vuforia.jar" />
+	        <pathelement location="${lib.dir}/ar4ai/jpct_ae.jar" />
+	        <pathelement location="${lib.dir}/ar4ai/jpct_shaders.zip" />
+	         
+	        <pathelement location="${lib.dir}/ar4ai/android-support-v4.jar" />
+	         
+	        <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
+	         
+	        <pathelement location="${lib.dir}/gc4ai/LeapJava.jar" />
+           
+        </classpath>
+   		
+	</iajc>
+   
+    <echo level="info">--- AspectJ (end) ---</echo>
+    <!--  
     <ai.javac5 destdir="${AndroidRuntime-class.dir}">
       <include name="${components.pkg}/annotations/*.java" />
       <include name="${components.pkg}/runtime/**/*.java" />
@@ -121,7 +184,7 @@
         <pathelement location="${lib.dir}/kawa/kawa-1.11-modified.jar" />
         <pathelement location="${lib.dir}/acra/acra-4.4.0.jar" />
         <pathelement location="${lib.dir}/guava/guava-14.0.1.jar" />
-        <!-- Conditionally included libraries -->
+
         <pathelement location="${lib.dir}/twitter/twitter4j-core-3.0.5.jar" />
         <pathelement location="${lib.dir}/twitter/twitter4j-media-support-3.0.5.jar" />
         <pathelement location="${lib.dir}/fusiontables/fusiontables.jar" />
@@ -141,11 +204,14 @@
          
          <pathelement location="${lib.dir}/ar4ai/android-support-v4.jar" />
          
+         <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
+         
          <pathelement location="${lib.dir}/gc4ai/LeapJava.jar" />
        
          
       </classpath>
-    </ai.javac5>
+    </ai.javac5>-->
+    
 
     <jar basedir="${AndroidRuntime-class.dir}"
          destfile="${public.build.dir}/AndroidRuntime.jar">
@@ -256,6 +322,8 @@
          <pathelement location="${lib.dir}/ar4ai/android-support-v4.jar" />
      
          <pathelement location="${lib.dir}/gc4ai/LeapJava.jar" />
+         
+         <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
       
           
         </classpath>

@@ -5629,10 +5629,6 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String MaterialProperties();
 	
-	@DefaultMessage("AnimationSecuence")
-	@Description("")
-	String AnimationSecuenceProperties();
-	
 	@DefaultMessage("AssetType")
 	@Description("")
 	String AssetTypeProperties();	
@@ -5681,6 +5677,33 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String PublishActivitiesMethods();
 	
+	@DefaultMessage("StartTracking")
+	@Description("")
+	String StartTrackingMethods();
+	
+	@DefaultMessage("StopTracking")
+	@Description("")
+	String StopTrackingMethods();
+	
+	@DefaultMessage("PublishEvents")
+	@Description("")
+	String PublishEventsProperties();
+	
+	@DefaultMessage("PublishMethods")
+	@Description("")
+	String PublishMethodsProperties();
+	
+	@DefaultMessage("PublishGetters")
+	@Description("")
+	String PublishGettersProperties();
+	
+	@DefaultMessage("PublishSetters")
+	@Description("")
+	String PublishSettersProperties();
+	
+	@DefaultMessage("Notificable")
+	@Description("")
+	String NotificableProperties();
 	
 	@DefaultMessage("CircleGesture")
 	@Description("")
@@ -5717,5 +5740,4 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("HandDisappears")
 	@Description("")
 	String HandDisappearsEvents();
-	
 }

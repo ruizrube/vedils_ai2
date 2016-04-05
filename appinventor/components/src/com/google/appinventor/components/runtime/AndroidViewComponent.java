@@ -26,6 +26,7 @@ import android.view.View;
 public abstract class AndroidViewComponent extends VisibleComponent {
 
   protected final ComponentContainer container;
+  private boolean notificable;
 
   private int lastSetWidth = LENGTH_UNKNOWN;
   private int lastSetHeight = LENGTH_UNKNOWN;
@@ -40,6 +41,7 @@ public abstract class AndroidViewComponent extends VisibleComponent {
    */
   protected AndroidViewComponent(ComponentContainer container) {
     this.container = container;
+    this.notificable = true;
   }
 
   /**
@@ -192,4 +194,20 @@ public abstract class AndroidViewComponent extends VisibleComponent {
   public HandlesEventDispatching getDispatchDelegate() {
     return container.$form();
   }
+  
+  	/**
+	 * Specifies when the component are tracked.
+	 * @param no
+	 */
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN,
+		      defaultValue = "True")
+	@SimpleProperty
+	public void Notificable(boolean notificable) {
+		  this.notificable = notificable;
+	}
+	
+	public boolean getNotificable() {
+		  return this.notificable;
+	}
+  
 }

@@ -6,7 +6,13 @@
 
 package com.google.appinventor.components.runtime;
 
+import com.google.appinventor.components.annotations.DesignerProperty;
+import com.google.appinventor.components.annotations.PropertyCategory;
 import com.google.appinventor.components.annotations.SimpleObject;
+import com.google.appinventor.components.annotations.SimpleProperty;
+import com.google.appinventor.components.common.PropertyTypeConstants;
+
+import android.view.View;
 
 /**
  * Base class for all non-visible components.
@@ -17,6 +23,7 @@ import com.google.appinventor.components.annotations.SimpleObject;
 public abstract class AndroidNonvisibleComponent implements Component {
 
   protected final Form form;
+  private boolean notificable;
 
   /**
    * Creates a new AndroidNonvisibleComponent.
@@ -25,6 +32,7 @@ public abstract class AndroidNonvisibleComponent implements Component {
    */
   protected AndroidNonvisibleComponent(Form form) {
     this.form = form;
+    this.notificable = true;
   }
 
   // Component implementation
@@ -33,4 +41,20 @@ public abstract class AndroidNonvisibleComponent implements Component {
   public HandlesEventDispatching getDispatchDelegate() {
     return form;
   }
+
+  /**
+	 * Specifies when the component are tracked.
+	 * @param no
+	 */
+  @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN,
+	      defaultValue = "True")
+  @SimpleProperty
+  public void Notificable(boolean notificable) {
+	  this.notificable = notificable;
+  }
+  
+  public boolean getNotificable() {
+	  return this.notificable;
+  }
+  
 }

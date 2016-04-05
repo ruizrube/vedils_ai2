@@ -25,7 +25,7 @@ public interface Component {
    * Components asset directory.
    */
   public static final String ASSET_DIRECTORY = "component";
-
+  
   /*
    * Text alignment constants.
    */
