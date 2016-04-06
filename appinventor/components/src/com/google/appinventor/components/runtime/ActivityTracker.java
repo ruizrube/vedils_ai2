@@ -25,8 +25,7 @@ import com.google.appinventor.components.runtime.util.ActivityTrackerManager;
 "google-oauth-client-beta.jar," +
 "guava-14.0.1.jar," +
 "gson-2.1.jar," +
-"la4ai.jar," +
-"aspectjrt-1.8.8.jar")
+"la4ai.jar")
 @SimpleObject
 @DesignerComponent(nonVisible= true, version = 1, description = "ActivityTracker Component (by SPI-FM at UCA)", category = ComponentCategory.VEDILSLEARNINGANALYTICS, iconName = "images/arColorTracker.png")
 @UsesPermissions(permissionNames = 
