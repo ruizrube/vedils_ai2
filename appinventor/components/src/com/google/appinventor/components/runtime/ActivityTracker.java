@@ -1,9 +1,5 @@
 package com.google.appinventor.components.runtime;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
@@ -15,17 +11,8 @@ import com.google.appinventor.components.annotations.UsesLibraries;
 import com.google.appinventor.components.annotations.UsesPermissions;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
-import com.google.appinventor.components.runtime.util.FusionTablesConnection;
-import com.google.appinventor.components.runtime.util.TextViewUtil;
-import com.google.appinventor.components.runtime.util.TimerSendData;
 import com.google.appinventor.components.runtime.util.ActivityTrackerInstances;
 import com.google.appinventor.components.runtime.util.ActivityTrackerManager;
-
-import com.google.appinventor.components.runtime.la4ai.util.ConnectionInfo;
-import com.google.appinventor.components.runtime.la4ai.util.TinyDB;
-
-import android.app.Activity;
-import android.content.Context;
 
 @UsesAssets(fileNames = "ruizrube-cd84632c4ea8.p12, ruizrube-4718dd8c5168.json")
 @UsesLibraries(libraries =
@@ -54,18 +41,9 @@ import android.content.Context;
 public class ActivityTracker extends AndroidNonvisibleComponent implements Component {
 	
 	private String userTrackerId;
-	//private final Activity activity;
 	@SuppressWarnings("unused")
 	private final ComponentContainer componentContainer;
 	private String tableId;
-	//private String columns;
-	//private String values;
-	//private String email;
-	//private String apiKey;
-	//private FusionTablesConnection fusionTablesConnection;
-	//private String path;
-	//private LocationSensor locationSensor;
-	//private Context context;
 	private int synchronizationMode;
 	private int batchTime;
 	private int communicationMode;
@@ -74,10 +52,6 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	private boolean publishMethods;
 	private boolean publishGetters;
 	private boolean publishSetters;
-	//private TinyDB tinyDB;
-	//private int tagDB;
-	//private TimerSendData timerSendData;
-	//private String currentIP;
 	private ActivityTrackerManager activityTrackerManager;
 	
 	public ActivityTracker(ComponentContainer componentContainer) {
@@ -85,12 +59,6 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 		
 		activityTrackerManager = new ActivityTrackerManager(this, componentContainer);
 		this.componentContainer = componentContainer; 
-		//this.activity = componentContainer.$context();
-		//this.locationSensor = new LocationSensor(componentContainer);
-		//this.context = componentContainer.$context();
-		//this.tinyDB = new TinyDB(componentContainer.$context());
-		//this.tagDB = 0;
-		//this.currentIP = "0.0.0.0";
 		
 		//Default mode
 		this.synchronizationMode = Component.REALTIME;
@@ -101,97 +69,16 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 		this.publishMethods = true;
 		this.publishGetters = true;
 		this.publishSetters = true;
+		
 		//Define data for FusionTableControl connection.
-        
-		//columns = "UserID, IP, MAC, Latitude, Longitude, Date, AppID, ScreenID, ComponentID, ComponentType, ActionID, ActionType, Param1, Param2, Param3";
 		tableId = "1xZCj24xYWpj6jHWN2IK2xiErYPY7XbeHAqXVR4Bw";
-		//email = "1075849932338-n26pqlvqfea3dspaebf52vnacch77nhf@developer.gserviceaccount.com";
-		//apiKey = "AIzaSyDL9s7r6ZIr9DN47_kNIIzRcm2JhWxy7ZU";
-		//path = ASSET_DIRECTORY + '/' + "ruizrube-cd84632c4ea8.p12";
 		
-		//Connection with FusionTables
-		
-		//this.fusionTablesConnection = new FusionTablesConnection(columns, apiKey, path, email, componentContainer, true);
-		//this.timerSendData = new TimerSendData(this);
-		
-		//And finally, save the current ActivityTracker
+		//Record current ActivityTracker
 		ActivityTrackerInstances.insertActivityTracker(componentContainer.$context().getTitle().toString(), this);
 		
 		System.out.println("ActivityTracker created - AspectJ.");
 		
 	}
-	
-	//Record Data
-	
-	/*@SuppressWarnings({"unchecked"})
-	private void recordData(String actionId, String param1, String param2, String param3) {
-		
-		String ip = ConnectionInfo.getCurrentIP(communicationMode, context);
-		String mac = ConnectionInfo.getMAC(context);
-
-	    String appName = context.getApplicationInfo().packageName;
-	    String screenName = activity.getTitle().toString(); 
-	    String actionType = "SPECIFIC";
-	    //componentContainer.$form().getLocalClassName() (Devuelve el ScreenX también)
-	    
-	    //Do the query
-		values = "'" + this.userTrackerId + "','" + 
-		ip + "','" +
-	    mac + "'," +
-		locationSensor.Latitude() + "," +
-		locationSensor.Longitude() + ",'" +
-		Clock.FormatDate(Clock.Now(), "MM/dd/yyyy HH:mm:ss") + "','" +
-		appName + "','" +
-		screenName + "','" +
-		"" + "','" +
-		"" + "','" +
-		actionId + "','" +
-		actionType + "','" +
-		param1 + "','" +
-		param2 + "','" +
-		param3 + "'";
-		
-		currentIP = ip;
-		
-		if(fusionTablesConnection.internetAccess(this.communicationMode) && synchronizationMode == Component.REALTIME) {
-			//If internet access then send the values to FusionTables
-				
-			fusionTablesConnection.insertRow(values, this.tableId);
-				
-			//And if db is not empty send the content too
-			List<String> listTags = (List<String>) tinyDB.GetTags();
-			if(!listTags.isEmpty()) {
-				recordDataBatch();
-			}
-			
-		} else {
-				
-			if(synchronizationMode == Component.BATCH && tagDB == 0) { //if is the first call the function to wait batch sec.
-				Timer timer = new Timer();
-				timer.schedule(timerSendData, 0, this.batchTime * 1000);
-			}
-				
-			tinyDB.StoreValue(Integer.toString(tagDB), values);
-			System.out.println("Store value in TinyDB: " +values);
-			tagDB++;
-				
-		}
-	}*/
-	
-	/*@SuppressWarnings("unchecked")
-	public void recordDataBatch() {
-		List<String> listTags = (List<String>) tinyDB.GetTags();
-		List<String> listValues = new ArrayList<String>();
-		
-		for(String tagAux: listTags) {
-			listValues.add(tinyDB.GetValue(tagAux, "").toString().replaceFirst("'0.0.0.0'", "'" + this.currentIP + "'"));
-		}
-		
-		if(fusionTablesConnection.internetAccess(this.communicationMode)) {
-			fusionTablesConnection.insertRows(listValues, this.tableId);
-			tinyDB.ClearAll();
-		}
-	}*/
 	
 	/**
 	 * Returns the current ActivityTrackerManager.
