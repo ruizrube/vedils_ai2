@@ -20,9 +20,9 @@ public class GPSTracker extends Service implements LocationListener {
     // flag for network status
     boolean isNetworkEnabled = false;
  
-    Location location; // location
-    double latitude; // latitude
-    double longitude; // longitude
+    Location location; 
+    double latitude; 
+    double longitude;
  
     // The minimum distance to change Updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
@@ -56,9 +56,25 @@ public class GPSTracker extends Service implements LocationListener {
             if (!isGPSEnabled && !isNetworkEnabled) {
             	System.out.println("No network provider is enabled.");
             } else {
-                // First get location from Network Provider
-                if (isNetworkEnabled) {
-                    locationManager.requestLocationUpdates(
+            	//First, get location from GPS if is possible
+            	if(isGPSEnabled) {
+            		locationManager.requestLocationUpdates(
+                            LocationManager.GPS_PROVIDER,
+                            MIN_TIME_BW_UPDATES,
+                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                    Log.d("GPS Enabled", "GPS Enabled");
+                    if (locationManager != null) {
+                        location = locationManager
+                                .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        if (location != null) {
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+                        }
+                    }
+            	}
+            	//In other case, get location from Network Provider
+            	if(isNetworkEnabled && latitude == 0.0 && longitude == 0.0) {
+            		locationManager.requestLocationUpdates(
                             LocationManager.NETWORK_PROVIDER,
                             MIN_TIME_BW_UPDATES,
                             MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
@@ -71,25 +87,7 @@ public class GPSTracker extends Service implements LocationListener {
                             longitude = location.getLongitude();
                         }
                     }
-                }
-                // if GPS Enabled get lat/long using GPS Services
-                else if (isGPSEnabled) {
-                    if (location == null) {
-                        locationManager.requestLocationUpdates(
-                                LocationManager.GPS_PROVIDER,
-                                MIN_TIME_BW_UPDATES,
-                                MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-                        Log.d("GPS Enabled", "GPS Enabled");
-                        if (locationManager != null) {
-                            location = locationManager
-                                    .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                            if (location != null) {
-                                latitude = location.getLatitude();
-                                longitude = location.getLongitude();
-                            }
-                        }
-                    }
-                }
+            	}
             }
  
         } catch (Exception e) {
