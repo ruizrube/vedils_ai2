@@ -40,10 +40,10 @@ public class UserInterface extends RelativeLayout {
 			b1params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
 			b1params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
 			addView(rightButton, b1params);
+			leftButton = new Button(context);
 			if (!uivariables.isLeftBtEnabled()) {
 				leftButton.setVisibility(INVISIBLE);
 			}
-			leftButton = new Button(context);
 			leftButton.setText(uivariables.getLeftBtText());
 			leftButton.setId(235);
 			leftButton.setOnClickListener(new OnClickListener() {
