@@ -99,8 +99,6 @@
     <copy toFile="${classes.files.dir}/ruizrube-4718dd8c5168.json" file="${lib.dir}/la4ai/resources/ruizrube-4718dd8c5168.json" />
     <copy toFile="${classes.files.dir}/ruizrube-cd84632c4ea8.p12" file="${lib.dir}/la4ai/resources/ruizrube-cd84632c4ea8.p12" />
     <copy toFile="${classes.files.dir}/la4ai.jar" file="${lib.dir}/la4ai/la4ai.jar" />
-    <copy toFile="${classes.files.dir}/aspectjrt-1.8.8.jar" file="${lib.dir}/la4ai/aspectjrt-1.8.8.jar" />
-    
       
     <copy todir="${classes.files.dir}/armeabi-v7a">
     	<fileset dir="${lib.dir}/ar4ai/armeabi-v7a" includes="*.so" />

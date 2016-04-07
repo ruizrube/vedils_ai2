@@ -132,8 +132,7 @@
    		</sourceroots>
    		
    		<classpath>
-           <pathelement location="${lib.dir}/la4ai/aspectjrt-1.8.8.jar"/> 
-           
+           <pathelement location="${lib.dir}/la4ai/aspectjrt-1.8.8.jar"/>
            <!-- JavaC ClassPath -->
            
 	        <pathelement location="${local.build.dir}/HtmlEntities.jar" />
@@ -218,6 +217,7 @@
       <zipfileset src="${local.build.dir}/HtmlEntities.jar"/>
       <zipfileset src="${public.build.dir}/CommonConstants.jar"/>
       <zipfileset src="${build.dir}/common/CommonVersion.jar" />
+      <zipfileset src="${lib.dir}/la4ai/aspectjrt-1.8.8.jar"/>
     </jar>
   </target>
 
