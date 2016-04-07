@@ -202,11 +202,9 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 			getmGlView().setZOrderMediaOverlay(true);
 			//View view = LayoutInflater.from(this).inflate(R.layout.uilayout, null);
 			//addContentView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-			if (camera.getUivariables() != null) {
-				ui = new UserInterface(this, camera.getUivariables());
-				ViewGroup.LayoutParams uiParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-				addContentView(ui, uiParams);
-			}
+			ui = new UserInterface(this, camera.getUivariables());
+			ViewGroup.LayoutParams uiParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+			addContentView(ui, uiParams);
 			try {
 
 				if (this.camera.isFrontCamera()) {
@@ -778,8 +776,8 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 	public void refreshARScene() {
 		Log.d(LOGTAG, "Refrescando la scene AR");
 		doUnloadTrackersData();
-		doReloadRenderData();
 		ui.updateInterface(camera.getUivariables());
+		doReloadRenderData();
 		doLoadTrackersData();
 
 	}
