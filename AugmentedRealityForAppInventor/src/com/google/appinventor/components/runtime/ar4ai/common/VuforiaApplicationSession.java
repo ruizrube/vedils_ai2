@@ -268,6 +268,7 @@ public class VuforiaApplicationSession implements UpdateCallbackInterface {
 	}
 
 	public void onSurfaceChanged(int width, int height) {
+		onConfigurationChanged();
 		Vuforia.onSurfaceChanged(width, height);
 	}
 
@@ -434,6 +435,16 @@ public class VuforiaApplicationSession implements UpdateCallbackInterface {
 
 	// Stores the orientation depending on the current resources configuration
 	private void updateActivityOrientation() {
+		/*switch(screenOrientation) {
+		case ActivityInfo.SCREEN_ORIENTATION_PORTRAIT:
+			mIsPortrait = true;
+			break;
+		case ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE:
+			mIsPortrait = false;
+			break;
+		default:
+			break;
+		}*/
 		Configuration config = mActivity.getResources().getConfiguration();
 
 		switch (config.orientation) {
