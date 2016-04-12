@@ -55,7 +55,7 @@ public class UserInterface extends RelativeLayout {
 		text = new TextView(context);
 		text.setTextSize(20f);
 		//text.setBackgroundColor(Color.GRAY);
-		text.setTextColor(Color.BLACK);
+		text.setTextColor(Color.WHITE);
 		//text.setTextAppearance(android.R.attr.textAppearanceLarge);
 		RelativeLayout.LayoutParams tparams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		tparams.addRule(ALIGN_BASELINE, leftButton.getId());
@@ -72,7 +72,7 @@ public class UserInterface extends RelativeLayout {
 			leftButton.setText(uivariables.getLeftBtText());
 			text.setText(uivariables.getFloatingText());
 			if (uivariables.getFloatingText() != null && !uivariables.getFloatingText().equals(""))
-				text.setBackgroundColor(Color.GRAY);
+				text.setBackgroundColor(Color.BLACK);
 		}
 	}
 	
@@ -89,7 +89,7 @@ public class UserInterface extends RelativeLayout {
 		leftButton.setText(uivariables.getLeftBtText());
 		text.setText(uivariables.getFloatingText());
 		if (uivariables.getFloatingText() != null && !uivariables.getFloatingText().equals(""))
-			text.setBackgroundColor(Color.GRAY);
+			text.setBackgroundColor(Color.BLACK);
 		else
 			text.setBackgroundColor(Color.TRANSPARENT);
 	}
