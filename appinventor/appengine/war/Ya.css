@@ -117,7 +117,7 @@ select {
 }
 
 .ode-Box-header {
-  background: rgba(102, 153, 0, 0.3);
+  background: rgba(202, 0, 0, 0.3);
   height: 31px;
   border: 1px solid;
   border-color: #d2d2d2 #d2d2d2 #b0b2a7 #d2d2d2;
@@ -582,7 +582,7 @@ select {
 /* Young Android Toolbar */
 
 .ya-Toolbar {
-  background-color: #8fc202;
+  background-color: #641818;
   margin-bottom: 4px;
 }
 

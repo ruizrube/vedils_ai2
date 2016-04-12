@@ -5176,7 +5176,7 @@ public interface OdeMessages extends Messages {
 	String YandexTranslateHelpStringComponentPallette();
 
 	// Ode.java messages
-	@DefaultMessage("Welcome to App Inventor 2!")
+	@DefaultMessage("Welcome to VEDILS!")
 	@Description("")
 	String createNoProjectsDialogText();
 
@@ -5640,6 +5640,10 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("Refresh")
 	@Description("")
 	String RefreshMethods();
+	
+	//
+	// ActivityTracker
+	//
 
 	@DefaultMessage("UserTrackerId")
 	@Description("")
@@ -5708,6 +5712,10 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("Notificable")
 	@Description("")
 	String NotificableProperties();
+	
+	/*@DefaultMessage("SelectedComponents")
+	@Description("")
+	String SelectedComponentsProperties();*/
 	
 	@DefaultMessage("CircleGesture")
 	@Description("")
