@@ -476,14 +476,22 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 		if (myVO.getImageTexture() != null && !myVO.getImageTexture().trim().equals("")) {
 			// loading texture with Image
 			myTexture = new com.threed.jpct.Texture(getAssetPath(myVO.getImageTexture()));
-			TextureManager.getInstance().addTexture(myVO.getImageTexture(), myTexture);
+			try {
+				TextureManager.getInstance().addTexture(myVO.getImageTexture(), myTexture);
+			} catch (RuntimeException e) {
+				Log.w(LOGTAG, "Textura ya incluida. No se volverá a incluir");
+			}
 			//myObject3D.calcTextureWrap();
 			myObject3D.setTexture(myVO.getImageTexture());
 		} else if (myVO.getColorTexture() != Color.TRANSPARENT) {
 			// loading texture with color
 			RGBColor myColor = new com.threed.jpct.RGBColor(Color.red(myVO.getColorTexture()), Color.green(myVO.getColorTexture()), Color.blue(myVO.getColorTexture()));
 			myTexture = new com.threed.jpct.Texture(150, 150, myColor);
-			TextureManager.getInstance().addTexture("ColorForVO" + myVO.getId(), myTexture);
+			try {
+				TextureManager.getInstance().addTexture("ColorForVO" + myVO.getId(), myTexture);
+			} catch (RuntimeException e) {
+				Log.w(LOGTAG, "Textura ya incluida. No se volverá a incluir");
+			}
 			//myObject3D.calcTextureWrap();
 			myObject3D.setTexture("ColorForVO" + myVO.getId());
 		}
@@ -503,7 +511,11 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 
 		// loading texture with the image to render
 		Texture myTexture = new com.threed.jpct.Texture(BitmapHelper.rescale(BitmapHelper.loadImage(getAssetPath(myVO.getOverlaidImage())), 128, 128), true);
-		TextureManager.getInstance().addTexture(myVO.getOverlaidImage(), myTexture);
+		try {
+			TextureManager.getInstance().addTexture(myVO.getOverlaidImage(), myTexture);
+		} catch (RuntimeException e) {
+			Log.w(LOGTAG, "Textura ya incluida. No se volverá a incluir");
+		}
 		//myObject3D.calcTextureWrap();
 		myObject3D.setTransparency(100);
 		myObject3D.setTexture(myVO.getOverlaidImage());
