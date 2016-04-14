@@ -23,7 +23,7 @@ $Source $Yail
  (set-and-coerce-property! 'Screen1 'BackgroundImage "mooning.png" 'text)
  (set-and-coerce-property! 'Screen1 'Icon "AI2Companion-Icon.png" 'text)
  (set-and-coerce-property! 'Screen1 'Scrollable #t 'boolean)
- (set-and-coerce-property! 'Screen1 'Title "MIT App Inventor 2 Companion" 'text)
+ (set-and-coerce-property! 'Screen1 'Title "VEDILS Companion" 'text)
 )
 
 (define-event Screen1 Initialize()(set-this-form)
