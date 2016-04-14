@@ -77,20 +77,22 @@ public class UserInterface extends RelativeLayout {
 	}
 	
 	public void updateInterface(UIVariables uivariables) {
-		if (uivariables.isRightBtEnabled() && rightButton.getVisibility() == INVISIBLE)
-			rightButton.setVisibility(VISIBLE);
-		else if (!uivariables.isRightBtEnabled() && rightButton.getVisibility() == VISIBLE)
-			rightButton.setVisibility(INVISIBLE);
-		rightButton.setText(uivariables.getRightBtText());
-		if (uivariables.isLeftBtEnabled() && leftButton.getVisibility() == INVISIBLE)
-			leftButton.setVisibility(VISIBLE);
-		else if (!uivariables.isLeftBtEnabled() && leftButton.getVisibility() == VISIBLE)
-			leftButton.setVisibility(INVISIBLE);
-		leftButton.setText(uivariables.getLeftBtText());
-		text.setText(uivariables.getFloatingText());
-		if (uivariables.getFloatingText() != null && !uivariables.getFloatingText().equals(""))
-			text.setBackgroundColor(Color.BLACK);
-		else
-			text.setBackgroundColor(Color.TRANSPARENT);
+		if (uivariables != null) {
+			if (uivariables.isRightBtEnabled() && rightButton.getVisibility() == INVISIBLE)
+				rightButton.setVisibility(VISIBLE);
+			else if (!uivariables.isRightBtEnabled() && rightButton.getVisibility() == VISIBLE)
+				rightButton.setVisibility(INVISIBLE);
+			rightButton.setText(uivariables.getRightBtText());
+			if (uivariables.isLeftBtEnabled() && leftButton.getVisibility() == INVISIBLE)
+				leftButton.setVisibility(VISIBLE);
+			else if (!uivariables.isLeftBtEnabled() && leftButton.getVisibility() == VISIBLE)
+				leftButton.setVisibility(INVISIBLE);
+			leftButton.setText(uivariables.getLeftBtText());
+			text.setText(uivariables.getFloatingText());
+			if (uivariables.getFloatingText() != null && !uivariables.getFloatingText().equals(""))
+				text.setBackgroundColor(Color.BLACK);
+			else
+				text.setBackgroundColor(Color.TRANSPARENT);
+		}
 	}
 }
