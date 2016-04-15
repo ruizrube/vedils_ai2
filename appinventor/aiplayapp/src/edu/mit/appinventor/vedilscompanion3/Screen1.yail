@@ -2,7 +2,7 @@
 $Source $Yail
 |#
 
-(define-repl-form edu.mit.appinventor.aicompanion3.Screen1 Screen1)
+(define-repl-form edu.mit.appinventor.vedilscompanion3.Screen1 Screen1)
 (require <com.google.youngandroid.runtime>)
 
 (def (p$badversion )  (set-and-coerce-property! 'ErrorLabel 'Text "The version of App Inventor you are using is not compatible with this Companion app. " 'text))
