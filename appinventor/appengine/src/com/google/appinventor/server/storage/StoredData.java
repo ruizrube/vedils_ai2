@@ -6,16 +6,20 @@
 
 package com.google.appinventor.server.storage;
 
-import com.googlecode.objectify.Key;
-import com.googlecode.objectify.annotation.Cached;
-import com.googlecode.objectify.annotation.Parent;
-import com.googlecode.objectify.annotation.Indexed;
-import com.googlecode.objectify.annotation.Unindexed;
-
 import java.io.Serializable;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.Date;
 
 import javax.persistence.Id;
+
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.annotation.Cached;
+import com.googlecode.objectify.annotation.Indexed;
+import com.googlecode.objectify.annotation.Parent;
+import com.googlecode.objectify.annotation.Unindexed;
 
 /**
  * Classes for the data objects that are stored in the Objectify database.
@@ -32,6 +36,14 @@ import javax.persistence.Id;
  *
  */
 public class StoredData {
+	
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target({ElementType.FIELD})
+	public @interface TAGExcluir {
+	  // IRR: Etiqueta para que no se produzca descarga del campo content en FieldData
+	}
+	
+	
   // The UserData class is an entity root, and the parent of UserFileData
   // and UserProjectData
   @Unindexed
@@ -133,7 +145,7 @@ public class StoredData {
 
     // File content, these are raw bytes. Note that Objectify automatically
     // converts byte[] to Blob.
-    byte[] content;
+    @TAGExcluir byte[] content;
 
     // File settings
     // TODO(user): is this ever used?
@@ -165,7 +177,7 @@ public class StoredData {
     // converts byte[] to an App Engine Datastore Blob (which is not the same thing as a Blobstore
     // Blob).  Consequently, if isBlob is true, the content field should be ignored and the data
     // should be retrieved from Blobstore.
-    byte[] content;
+    @TAGExcluir byte[] content;
 
     // Is this file stored in Blobstore.  If it is, the blobstorePath will contain the path to use
     // to retrieve the data from Blobstore.

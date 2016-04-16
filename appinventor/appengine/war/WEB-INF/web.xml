@@ -359,4 +359,17 @@
     <url-pattern>/appstats/*</url-pattern>
   </servlet-mapping>
 
+
+<!-- SPECIFIC FOR VEDILS -->
+
+   <servlet>
+    <servlet-name>exportVedilsData</servlet-name>
+    <servlet-class>com.google.appinventor.server.storage.ExportVedilsData</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>exportVedilsData</servlet-name>
+    <url-pattern>/exportVedilsData</url-pattern>
+  </servlet-mapping>
+ 
+  
 </web-app>
