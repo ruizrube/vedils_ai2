@@ -13,6 +13,9 @@ import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
 import com.google.appinventor.components.runtime.util.ActivityTrackerInstances;
 import com.google.appinventor.components.runtime.util.ActivityTrackerManager;
+//import java.util.List;
+//import java.util.ArrayList;
+import android.app.Activity;
 
 @UsesAssets(fileNames = "ruizrube-cd84632c4ea8.p12, ruizrube-4718dd8c5168.json")
 @UsesLibraries(libraries =
@@ -51,6 +54,7 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	private boolean publishMethods;
 	private boolean publishGetters;
 	private boolean publishSetters;
+	//private List<String> componentsNames;
 	private ActivityTrackerManager activityTrackerManager;
 	
 	public ActivityTracker(ComponentContainer componentContainer) {
@@ -68,12 +72,13 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 		this.publishMethods = true;
 		this.publishGetters = true;
 		this.publishSetters = true;
+		//this.componentsNames = new ArrayList<String>();
 		
 		//Define data for FusionTableControl connection.
 		tableId = "1xZCj24xYWpj6jHWN2IK2xiErYPY7XbeHAqXVR4Bw";
 		
 		//Record current ActivityTracker
-		ActivityTrackerInstances.insertActivityTracker(componentContainer.$context().getTitle().toString(), this);
+		ActivityTrackerInstances.insertActivityTracker((Activity)componentContainer.$context(), this);
 		
 		System.out.println("ActivityTracker created - AspectJ.");
 		
@@ -199,6 +204,17 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	public int getSynchronizationMode() {
 		return this.synchronizationMode;
 	}
+	
+	/**
+	 * Returns the current selected components for notification
+	 */
+	/*@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_CHECKABLETREE,
+		      defaultValue = "")
+		  @SimpleProperty(
+		      userVisible = false)
+    public void SelectedComponents(List<String> componentsNames) {
+		this.componentsNames = componentsNames;
+    }*/
 	
 	/**
 	 * Specifies the bachTime for the batch type connection.
