@@ -212,8 +212,8 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT, defaultValue = DEFAULT_POSITION + "")
 	@SimpleProperty(description = "Specifies the virtual object's position in the X axis.")
 	public void PositionX(float positionX) {
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("PositionX", positionX - data.getPositionX()));
 		this.data.setPositionX(positionX);
-		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("PositionX", positionX));
 	}
 
 	/**
@@ -231,7 +231,8 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT, defaultValue = DEFAULT_POSITION + "")
 	@SimpleProperty(description = "Specifies the virtual object's position in the Y axis.")
 	public void PositionY(float positionY) {
-		this.data.setPositionY(positionY);LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("PositionY", positionY));
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("PositionY", positionY - data.getPositionY()));
+		this.data.setPositionY(positionY);
 	}
 
 	/**
@@ -249,8 +250,8 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT, defaultValue = DEFAULT_POSITION + "")
 	@SimpleProperty(description = "Specifies the virtual object's position in the Z axis.")
 	public void PositionZ(float positionZ) {
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("PositionZ", positionZ - data.getPositionZ()));
 		this.data.setPositionZ(positionZ);
-		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("PositionZ", positionZ));
 	}
 
 	/**
@@ -268,8 +269,8 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT, defaultValue = DEFAULT_ROTATION + "")
 	@SimpleProperty(description = "Specifies the virtual object's rotation in the X axis.")
 	public void RotationX(float rotationX) {
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("RotationX", rotationX - data.getRotationX()));
 		this.data.setRotationX(rotationX);
-		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("RotationX", rotationX));
 	}
 
 	/**
@@ -287,8 +288,8 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT, defaultValue = DEFAULT_ROTATION + "")
 	@SimpleProperty(description = "Specifies the virtual object's rotation in the Y axis.")
 	public void RotationY(float rotationY) {
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("RotationY", rotationY - data.getRotationY()));
 		this.data.setRotationY(rotationY);
-		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("RotationY", rotationY));
 	}
 
 	/**
@@ -306,8 +307,8 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT, defaultValue = DEFAULT_ROTATION + "")
 	@SimpleProperty(description = "Specifies the virtual object's rotation in the Z axis.")
 	public void RotationZ(float rotationZ) {
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("RotationZ", rotationZ - data.getRotationZ()));
 		this.data.setRotationZ(rotationZ);
-		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("RotationZ", rotationZ));
 	}
 
 	/**
@@ -325,8 +326,8 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT, defaultValue = DEFAULT_TRANSLATION + "")
 	@SimpleProperty(description = "Specifies the virtual object's translation in the X axis.")
 	public void TranslationX(float translationX) {
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("TranslationX", translationX - data.getTranslationX()));
 		this.data.setTranslationX(translationX);
-		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("TranslationX", translationX));
 	}
 
 	/**
@@ -344,8 +345,8 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT, defaultValue = DEFAULT_TRANSLATION + "")
 	@SimpleProperty(description = "Specifies the virtual object's translation in the Y axis.")
 	public void TranslationY(float translationY) {
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("TranslationY", translationY - data.getTranslationY()));
 		this.data.setTranslationY(translationY);
-		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("TranslationY", translationY));
 	}
 
 	/**
@@ -363,8 +364,8 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT, defaultValue = DEFAULT_TRANSLATION + "")
 	@SimpleProperty(description = "Specifies the virtual object's translation in the Z axis.")
 	public void TranslationZ(float translationZ) {
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("TranslationZ", translationZ - data.getTranslationZ()));
 		this.data.setTranslationZ(translationZ);
-		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("TranslationZ", translationZ));
 	}
 	
 	@SimpleProperty(category = PropertyCategory.APPEARANCE, description = "Returns the scale of the object")
@@ -375,8 +376,8 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT, defaultValue = DEFAULT_SCALE + "")
 	@SimpleProperty(userVisible = true, description ="Specifies the virtual object's scale")
 	public void Scale(float scale) {
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("Scale", scale - data.getScale()));
 		this.data.setScale(scale);
-		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("Scale", scale));
 	}
 	
 	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
