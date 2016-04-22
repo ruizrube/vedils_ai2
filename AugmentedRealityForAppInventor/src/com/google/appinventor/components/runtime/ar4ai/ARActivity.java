@@ -27,6 +27,7 @@ public abstract class ARActivity extends Activity {
 	public static final String AR_ACTIVITY_SIGNAL_STOP = AR_ACTIVITY_CLASS + ".signalStop";
 	public static final String AR_ACTIVITY_SIGNAL_REFRESH = AR_ACTIVITY_CLASS + ".signalRefresh";
 	public static final String AR_ACTIVITY_SIGNAL_UPDATE_ACTIONBAR = AR_ACTIVITY_CLASS + ".signalUpdateActionBar";
+	public static final String AR_ACTIVITY_SIGNAL_REFRESH_MODELS = AR_ACTIVITY_CLASS + ".signalRefreshModels";
 
 	public static final String AR_ACTIVITY_EVENT_PO = AR_ACTIVITY_CLASS + ".eventPO";
 
@@ -36,6 +37,8 @@ public abstract class ARActivity extends Activity {
 	public static final String AR_ACTIVITY_EVENT_CAMERA_RIGHTBUTTON = AR_ACTIVITY_EVENT_CAMERA + ".rightbutton";
 	
 	public static final String AR_ACTIVITY_EVENT_VO = AR_ACTIVITY_CLASS + ".eventVO";
+	
+
 
 	/////////////////////
 	// LOCAL ATTRIBUTES //
@@ -82,8 +85,19 @@ public abstract class ARActivity extends Activity {
 		}
 
 	};
+	
+	private BroadcastReceiver refreshModelsBroadCastReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Log.d(LOGTAG, "AR4AI RECIBE: AR_ACTIVITY_SIGNAL_REFRESH_MODELS");
+			refreshModels(intent.getStringExtra("uuid"), intent.getStringExtra("parameter"),
+					intent.getFloatExtra("value", 0f));
+			
+		}
+	};
 
 	abstract protected void refreshARScene();
+	abstract protected void refreshModels(String uuid, String parameter, float value);
 
 	/////////////////////////
 	// ACTIVITY LIFECYCLE //
@@ -135,6 +149,7 @@ public abstract class ARActivity extends Activity {
 		LocalBroadcastManager.getInstance(this).registerReceiver(stopEventBroadCastReceiver, new IntentFilter(AR_ACTIVITY_SIGNAL_STOP));
 		LocalBroadcastManager.getInstance(this).registerReceiver(refreshEventBroadCastReceiver, new IntentFilter(AR_ACTIVITY_SIGNAL_REFRESH));
 		LocalBroadcastManager.getInstance(this).registerReceiver(updateActionBarEventBroadCastReceiver, new IntentFilter(AR_ACTIVITY_SIGNAL_UPDATE_ACTIONBAR));
+		LocalBroadcastManager.getInstance(this).registerReceiver(refreshModelsBroadCastReceiver, new IntentFilter(AR_ACTIVITY_SIGNAL_REFRESH_MODELS));
 
 	}
 
@@ -146,7 +161,7 @@ public abstract class ARActivity extends Activity {
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(this.stopEventBroadCastReceiver);
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(this.refreshEventBroadCastReceiver);
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(this.updateActionBarEventBroadCastReceiver);
-
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(this.refreshModelsBroadCastReceiver);
 	}
 
 	@Override

@@ -12,11 +12,14 @@ import com.google.appinventor.components.annotations.SimpleEvent;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.common.PropertyTypeConstants;
+import com.google.appinventor.components.runtime.ar4ai.ARActivity;
 import com.google.appinventor.components.runtime.ar4ai.PhysicalObject;
 import com.google.appinventor.components.runtime.ar4ai.VirtualObject;
 import com.google.appinventor.components.runtime.util.OnInitializeListener;
 
+import android.content.Intent;
 import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
 
 /**
  * @author ivanruizrube
@@ -160,6 +163,16 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 			}
 		});
 	}
+	
+	private Intent getIntent(String name, float value) {
+		Intent intent = new Intent(ARActivity.AR_ACTIVITY_SIGNAL_REFRESH_MODELS);
+		
+		intent.putExtra("uuid", data.getId());
+		intent.putExtra("parameter", name);
+		intent.putExtra("value", value);
+		
+		return intent;
+	}
 
 	///////////////////////
 	// PROPERTIES //
@@ -200,6 +213,7 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@SimpleProperty(description = "Specifies the virtual object's position in the X axis.")
 	public void PositionX(float positionX) {
 		this.data.setPositionX(positionX);
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("PositionX", positionX));
 	}
 
 	/**
@@ -217,7 +231,7 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT, defaultValue = DEFAULT_POSITION + "")
 	@SimpleProperty(description = "Specifies the virtual object's position in the Y axis.")
 	public void PositionY(float positionY) {
-		this.data.setPositionY(positionY);
+		this.data.setPositionY(positionY);LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("PositionY", positionY));
 	}
 
 	/**
@@ -236,6 +250,7 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@SimpleProperty(description = "Specifies the virtual object's position in the Z axis.")
 	public void PositionZ(float positionZ) {
 		this.data.setPositionZ(positionZ);
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("PositionZ", positionZ));
 	}
 
 	/**
@@ -254,6 +269,7 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@SimpleProperty(description = "Specifies the virtual object's rotation in the X axis.")
 	public void RotationX(float rotationX) {
 		this.data.setRotationX(rotationX);
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("RotationX", rotationX));
 	}
 
 	/**
@@ -272,6 +288,7 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@SimpleProperty(description = "Specifies the virtual object's rotation in the Y axis.")
 	public void RotationY(float rotationY) {
 		this.data.setRotationY(rotationY);
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("RotationY", rotationY));
 	}
 
 	/**
@@ -290,6 +307,7 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@SimpleProperty(description = "Specifies the virtual object's rotation in the Z axis.")
 	public void RotationZ(float rotationZ) {
 		this.data.setRotationZ(rotationZ);
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("RotationZ", rotationZ));
 	}
 
 	/**
@@ -308,6 +326,7 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@SimpleProperty(description = "Specifies the virtual object's translation in the X axis.")
 	public void TranslationX(float translationX) {
 		this.data.setTranslationX(translationX);
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("TranslationX", translationX));
 	}
 
 	/**
@@ -326,6 +345,7 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@SimpleProperty(description = "Specifies the virtual object's translation in the Y axis.")
 	public void TranslationY(float translationY) {
 		this.data.setTranslationY(translationY);
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("TranslationY", translationY));
 	}
 
 	/**
@@ -344,6 +364,7 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@SimpleProperty(description = "Specifies the virtual object's translation in the Z axis.")
 	public void TranslationZ(float translationZ) {
 		this.data.setTranslationZ(translationZ);
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("TranslationZ", translationZ));
 	}
 	
 	@SimpleProperty(category = PropertyCategory.APPEARANCE, description = "Returns the scale of the object")
@@ -355,6 +376,7 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@SimpleProperty(userVisible = true, description ="Specifies the virtual object's scale")
 	public void Scale(float scale) {
 		this.data.setScale(scale);
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("Scale", scale));
 	}
 	
 	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)

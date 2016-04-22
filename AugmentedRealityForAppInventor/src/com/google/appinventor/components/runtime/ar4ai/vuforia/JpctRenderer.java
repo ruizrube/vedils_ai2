@@ -173,7 +173,6 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 	private void updateAnimations() {
 		for (VirtualObject vo : this.mActivity.arrayOfVirtualObjects) {
 			if (vo.isAnimated()) {
-				Log.d(LOGTAG, "Llego");
 				int ticks = ticker.getTicks();
 				if (ticks > 0) {
 					index += 0.016f * ticks;
@@ -185,6 +184,37 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 						Log.d(LOGTAG, "Sacado el objeto "+object.getName()+ " con index "+index);
 						object.animate(index, vo.getAnimationSecuence());
 					}
+				}
+			}
+		}
+	}
+	
+	public void updateModelParameter(String uuid, String parameter, float value) {
+		Log.d(LOGTAG, "uuid recibida: "+uuid);
+		if (eworld != null) {
+			if (eworld.getWorld(uuid) != null) {
+				Object3D object = eworld.getWorld(uuid).getObjectByName(uuid);
+				if (object != null) {
+					if (parameter.equals("PositionX"))
+						object.translate(value, 0, 0);
+					else if (parameter.equals("PositionY"))
+						object.translate(0, value, 0);
+					else if (parameter.equals("PositionZ"))
+						object.translate(0, 0, value);
+					else if (parameter.equals("RotationX"))
+						object.rotateX(value);
+					else if (parameter.equals("RotationY"))
+						object.rotateY(value);
+					else if (parameter.equals("RotationZ"))
+						object.rotateZ(value);
+					else if (parameter.equals("TranslationX"))
+						object.translate(value, 0, 0);
+					else if (parameter.equals("TranslationY"))
+						object.translate(0, value, 0);
+					else if (parameter.equals("TranslationZ"))
+						object.translate(0, 0, value);
+					else if (parameter.equals("Scale"))
+						object.scale(value);
 				}
 			}
 		}
