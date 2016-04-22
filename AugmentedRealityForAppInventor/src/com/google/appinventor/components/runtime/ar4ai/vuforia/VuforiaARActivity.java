@@ -795,7 +795,8 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 
 	@Override
 	protected void refreshModels(String uuid, String parameter, float value) {
-		getmRenderer().updateModelParameter(uuid, parameter, value);
+		if (getmRenderer() != null)
+			getmRenderer().updateModelParameter(uuid, parameter, value);
 	}
 	
 	
