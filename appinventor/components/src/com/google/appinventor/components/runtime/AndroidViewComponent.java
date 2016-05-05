@@ -26,14 +26,17 @@ import android.view.View;
 public abstract class AndroidViewComponent extends VisibleComponent {
 
   protected final ComponentContainer container;
-  private boolean notificable;
 
   private int lastSetWidth = LENGTH_UNKNOWN;
   private int lastSetHeight = LENGTH_UNKNOWN;
 
   private int column = ComponentConstants.DEFAULT_ROW_COLUMN;
   private int row = ComponentConstants.DEFAULT_ROW_COLUMN;
-
+  
+  // Fields for ActivityTracker component.
+  private String activitiesNames;
+  private String name;
+  
   /**
    * Creates a new AndroidViewComponent.
    *
@@ -41,7 +44,7 @@ public abstract class AndroidViewComponent extends VisibleComponent {
    */
   protected AndroidViewComponent(ComponentContainer container) {
     this.container = container;
-    this.notificable = true;
+    this.activitiesNames = "";
   }
 
   /**
@@ -195,19 +198,34 @@ public abstract class AndroidViewComponent extends VisibleComponent {
     return container.$form();
   }
   
-  	/**
-	 * Specifies when the component are tracked.
-	 * @param no
-	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN,
-		      defaultValue = "True")
-	@SimpleProperty
-	public void Notificable(boolean notificable) {
-		  this.notificable = notificable;
-	}
-	
-	public boolean getNotificable() {
-		  return this.notificable;
-	}
+  /**
+   * Specifies the activities to record for ActivityTracker notification.
+   */
+   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_CHECKABLETREE,
+ 		      defaultValue = "")
+ 		  @SimpleProperty(
+ 		      userVisible = false)
+   public void ActivitiesToNotify(String activitiesNames) {
+ 		this.activitiesNames = activitiesNames;
+   }
+   
+   public String getActivitiesToNotify() {
+	   return this.activitiesNames;
+   }
+  
+  /**
+   * Specifies the instance component name
+   */
+   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING,
+ 		      defaultValue = "")
+ 		  @SimpleProperty(
+ 		      userVisible = false)
+   public void ComponentName(String name) {
+ 		this.name = name;
+   }
+   
+   public String getName() {
+   	return this.name;
+   }
   
 }

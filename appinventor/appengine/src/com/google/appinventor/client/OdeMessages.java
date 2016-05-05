@@ -5321,15 +5321,15 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String GetRowsWithConditionsMethods();
 
-	@DefaultMessage("简体中文")
+	@DefaultMessage("ç®€ä½“ä¸­æ–‡")
 	@Description("")
 	String SwitchToSimplifiedChinese();
 
-	@DefaultMessage("繁体中文")
+	@DefaultMessage("ç¹�ä½“ä¸­æ–‡")
 	@Description("")
 	String SwitchToTraditionalChinese();
 
-	@DefaultMessage("Español")
+	@DefaultMessage("EspaÃ±ol")
 	@Description("")
 	String SwitchToSpanish();
 
@@ -5693,29 +5693,13 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String StopTrackingMethods();
 	
-	@DefaultMessage("PublishEvents")
+	@DefaultMessage("ActivitiesToNotify")
 	@Description("")
-	String PublishEventsProperties();
+	String ActivitiesToNotifyProperties();
 	
-	@DefaultMessage("PublishMethods")
+	@DefaultMessage("ComponentName")
 	@Description("")
-	String PublishMethodsProperties();
-	
-	@DefaultMessage("PublishGetters")
-	@Description("")
-	String PublishGettersProperties();
-	
-	@DefaultMessage("PublishSetters")
-	@Description("")
-	String PublishSettersProperties();
-	
-	@DefaultMessage("Notificable")
-	@Description("")
-	String NotificableProperties();
-	
-	/*@DefaultMessage("SelectedComponents")
-	@Description("")
-	String SelectedComponentsProperties();*/
+	String ComponentNameProperties();
 	
 	@DefaultMessage("CircleGesture")
 	@Description("")

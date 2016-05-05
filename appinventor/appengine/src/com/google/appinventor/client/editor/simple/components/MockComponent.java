@@ -79,6 +79,7 @@ public abstract class MockComponent extends Composite implements PropertyChangeL
     SourcesMouseEvents, DragSource {
   // Common property names (not all components support all properties).
   protected static final String PROPERTY_NAME_NAME = "Name";
+  protected static final String PROPERTY_COMPONENT_NAME = "ComponentName";
   protected static final String PROPERTY_NAME_UUID = "Uuid";
   protected static final String PROPERTY_NAME_SOURCE = "Source";
   protected static final List<String> YAIL_NAMES = Arrays.asList("CsvUtil", "Double", "Float",
@@ -156,6 +157,10 @@ public abstract class MockComponent extends Composite implements PropertyChangeL
       } else if (validate(newName)) {
         hide();
         String oldName = getName();
+        if(hasProperty("ComponentName")) { 
+        	changeProperty("ComponentName", newName);
+        	getForm().fireComponentPropertyChanged(MockComponent.this,"ComponentName", oldName);
+        }
         changeProperty(PROPERTY_NAME_NAME, newName);
         getForm().fireComponentRenamed(MockComponent.this, oldName);
       } else {
@@ -348,7 +353,7 @@ public abstract class MockComponent extends Composite implements PropertyChangeL
     // default values when it generates JSON for a component.
     addProperty(PROPERTY_NAME_UUID, "-1", null, new TextPropertyEditor());
     changeProperty(PROPERTY_NAME_UUID, "" + Random.nextInt());
-
+    
     editor.getComponentPalettePanel().configureComponent(this);
   }
 
@@ -361,7 +366,8 @@ public abstract class MockComponent extends Composite implements PropertyChangeL
 
   protected boolean isPropertyVisible(String propertyName) {
     if (propertyName.equals(PROPERTY_NAME_NAME) ||
-        propertyName.equals(PROPERTY_NAME_UUID)) {
+        propertyName.equals(PROPERTY_NAME_UUID) ||
+        propertyName.equals(PROPERTY_COMPONENT_NAME)) {
       return false;
     }
     return true;
@@ -375,6 +381,7 @@ public abstract class MockComponent extends Composite implements PropertyChangeL
    * caption may want to initialize the caption to match the component's name.
    */
   public void onCreateFromPalette() {
+	  changeProperty(PROPERTY_COMPONENT_NAME, getName());
   }
 
   /**
@@ -569,6 +576,9 @@ public abstract class MockComponent extends Composite implements PropertyChangeL
    * Selects this component in the visual editor.
    */
   public final void select() {
+	//Cuando lo selecciono actualizo
+	if(hasProperty(PROPERTY_COMPONENT_NAME)) { changeProperty(PROPERTY_COMPONENT_NAME, getName()); 
+	getForm().fireComponentPropertyChanged(MockComponent.this,PROPERTY_COMPONENT_NAME, getName()); }
     getForm().setSelectedComponent(this);
   }
 
@@ -921,6 +931,7 @@ public abstract class MockComponent extends Composite implements PropertyChangeL
   public void onPropertyChange(String propertyName, String newValue) {
     if (propertyName.equals(PROPERTY_NAME_NAME)) {
       setTitle(newValue);
+      changeProperty(PROPERTY_COMPONENT_NAME, newValue);
     } else if (getContainer() != null || isForm()) {
       /* If we've already placed the component onto a Form (and therefore
        * into a container) then call fireComponentPropertyChanged().

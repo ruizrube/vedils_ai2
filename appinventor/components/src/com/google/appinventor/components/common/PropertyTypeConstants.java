@@ -178,6 +178,19 @@ public class PropertyTypeConstants {
    * com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCommunicationModeChoicePropertyEditor}
    */
   public static final String PROPERTY_TYPE_COMMUNICATIONMODE = "communicationMode";
+  
+  /**
+   * Choices in checkableTree offered by {@link
+   * com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCheckableTreeSelector}
+   */
+  public static final String PROPERTY_TYPE_CHECKABLETREE = "checkableTree";
+  
+  
+  /**
+   * Select current component name by {@link
+   * com.google.appinventor.client.editor.youngandroid.properties.YoungComponentNameSelector}
+   */
+  public static final String PROPERTY_COMPONENT_NAME = "componentName";
 
   /**
    * Choices of visibility for view components offered by {@link

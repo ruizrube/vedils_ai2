@@ -7,12 +7,9 @@
 package com.google.appinventor.components.runtime;
 
 import com.google.appinventor.components.annotations.DesignerProperty;
-import com.google.appinventor.components.annotations.PropertyCategory;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.common.PropertyTypeConstants;
-
-import android.view.View;
 
 /**
  * Base class for all non-visible components.
@@ -23,7 +20,10 @@ import android.view.View;
 public abstract class AndroidNonvisibleComponent implements Component {
 
   protected final Form form;
-  private boolean notificable;
+  
+  // Fields for ActivityTracker Component.
+  private String activitiesNames;
+  private String name;
 
   /**
    * Creates a new AndroidNonvisibleComponent.
@@ -32,7 +32,7 @@ public abstract class AndroidNonvisibleComponent implements Component {
    */
   protected AndroidNonvisibleComponent(Form form) {
     this.form = form;
-    this.notificable = true;
+    this.activitiesNames = "";
   }
 
   // Component implementation
@@ -41,20 +41,35 @@ public abstract class AndroidNonvisibleComponent implements Component {
   public HandlesEventDispatching getDispatchDelegate() {
     return form;
   }
-
-  /**
-	 * Specifies when the component are tracked.
-	 * @param no
-	 */
-  @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN,
-	      defaultValue = "True")
-  @SimpleProperty
-  public void Notificable(boolean notificable) {
-	  this.notificable = notificable;
-  }
   
-  public boolean getNotificable() {
-	  return this.notificable;
-  }
+  /**
+   * Specifies the activities to record for ActivityTracker notification.
+   */
+   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_CHECKABLETREE,
+ 		      defaultValue = "")
+ 		  @SimpleProperty(
+ 		      userVisible = false)
+   public void ActivitiesToNotify(String activitiesNames) {
+ 		this.activitiesNames = activitiesNames;
+   }
+   
+   public String getActivitiesToNotify() {
+	   return this.activitiesNames;
+   }
+   
+   /**
+    * Specifies the instance component name
+    */
+    @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING,
+  		      defaultValue = "")
+  		  @SimpleProperty(
+  		      userVisible = false)
+    public void ComponentName(String name) {
+  		this.name = name;
+    }
+    
+    public String getName() {
+    	return this.name;
+    }    
   
 }

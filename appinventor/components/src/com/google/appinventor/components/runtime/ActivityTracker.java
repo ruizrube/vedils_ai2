@@ -50,11 +50,6 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	private int batchTime;
 	private int communicationMode;
 	private boolean startTracking;
-	private boolean publishEvents;
-	private boolean publishMethods;
-	private boolean publishGetters;
-	private boolean publishSetters;
-	//private List<String> componentsNames;
 	private ActivityTrackerManager activityTrackerManager;
 	
 	public ActivityTracker(ComponentContainer componentContainer) {
@@ -68,11 +63,6 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 		this.batchTime = 0;
 		this.communicationMode = Component.INDIFFERENT;
 		this.startTracking = false;
-		this.publishEvents = true;
-		this.publishMethods = true;
-		this.publishGetters = true;
-		this.publishSetters = true;
-		//this.componentsNames = new ArrayList<String>();
 		
 		//Define data for FusionTableControl connection.
 		tableId = "1xZCj24xYWpj6jHWN2IK2xiErYPY7XbeHAqXVR4Bw";
@@ -206,17 +196,6 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	}
 	
 	/**
-	 * Returns the current selected components for notification
-	 */
-	/*@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_CHECKABLETREE,
-		      defaultValue = "")
-		  @SimpleProperty(
-		      userVisible = false)
-    public void SelectedComponents(List<String> componentsNames) {
-		this.componentsNames = componentsNames;
-    }*/
-	
-	/**
 	 * Specifies the bachTime for the batch type connection.
 	 * 
 	 * @param bachTime
@@ -317,65 +296,5 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	
 	public boolean getTrackingStatus() {
 		return this.startTracking;
-	}
-	
-	/**
-	 * Specifies when the events are tracked.
-	 * @param publishEvents
-	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN,
-	      defaultValue = "True")
-	@SimpleProperty
-	public void PublishEvents(boolean publishEvents) {
-	  this.publishEvents = publishEvents;
-	}
-	
-	public boolean getPublishEventsStatus() {
-		return this.publishEvents;
-	}
-	
-	/**
-	 * Specifies when the methods (functions) are tracked.
-	 * @param publishMethods
-	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN,
-	      defaultValue = "True")
-	@SimpleProperty
-	public void PublishMethods(boolean publishMethods) {
-	  this.publishMethods = publishMethods;
-	}
-	
-	public boolean getPublishMethodsStatus() {
-		return this.publishMethods;
-	}
-	
-	/**
-	 * Specifies when the Getters are tracked.
-	 * @param publishGetters
-	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN,
-	      defaultValue = "True")
-	@SimpleProperty
-	public void PublishGetters(boolean publishGetters) {
-	  this.publishGetters = publishGetters;
-	}
-	
-	public boolean getPublishGettersStatus() {
-		return this.publishGetters;
-	}
-	
-	/**
-	 * Specifies when the Setters are tracked.
-	 * @param publishSetters
-	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN,
-	      defaultValue = "True")
-	@SimpleProperty
-	public void PublishSetters(boolean publishSetters) {
-	  this.publishSetters = publishSetters;
-	}
-	
-	public boolean getPublishSettersStatus() {
-		return this.publishSetters;
 	}
 }

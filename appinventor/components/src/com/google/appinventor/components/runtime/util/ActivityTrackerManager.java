@@ -21,7 +21,7 @@ public class ActivityTrackerManager {
 	private ComponentContainer componentContainer;
 	
 	//FusionTablesConnection data
-	private String columns = "UserID, IP, MAC, Latitude, Longitude, Date, AppID, ScreenID, ComponentID, ComponentType, ActionID, ActionType, Param1, Param2, Param3";
+	private String columns = "UserID, IP, MAC, Latitude, Longitude, Date, AppID, ScreenID, ComponentID, ComponentType, ActionID, ActionType, InputParam1, InputParam2, InputParam3, OutputParam";
 	private String values;
 	private String email = "1075849932338-n26pqlvqfea3dspaebf52vnacch77nhf@developer.gserviceaccount.com";
 	private String apiKey = "AIzaSyDL9s7r6ZIr9DN47_kNIIzRcm2JhWxy7ZU";
@@ -47,7 +47,7 @@ public class ActivityTrackerManager {
 		gpsTracker = new GPSTracker(componentContainer.$context());
 	}
 	
-	public void prepareQueryAutomatic(String actionType, String actionId, String componentType, String componentId, String param1, String param2, String param3) {
+	public void prepareQueryAutomatic(String actionType, String actionId, String componentType, String componentId, String param1, String param2, String param3, String returnValue) {
 		String ip = ConnectionInfo.getCurrentIP(currentActivityTracker.getCommunicationMode(), this.componentContainer.$context());
 		String mac = ConnectionInfo.getMAC(componentContainer.$context());
 	    String appName = componentContainer.$context().getApplicationInfo().packageName;
@@ -70,7 +70,8 @@ public class ActivityTrackerManager {
 		actionType + "','" +
 		param1 + "','" +
 		param2 + "','" +
-		param3 + "'";
+		param3 + "','" +
+		returnValue + "'";
 		
 		//And try to send data to FusionTables
 		recordData();
@@ -102,7 +103,8 @@ public class ActivityTrackerManager {
 		actionType + "','" +
 		param1 + "','" +
 		param2 + "','" +
-		param3 + "'";
+		param3 + "','" +
+		"" + "'";
 		
 		//And try to send data to FusionTables
 		recordData();
