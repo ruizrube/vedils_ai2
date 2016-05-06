@@ -268,10 +268,16 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 					intent.putExtra("status", po.getStatus());
 					LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 					Log.d(LOGTAG, "Notificamos disappears PO"+po.getId());
+					
+					if (this.mRenderer.eworld.getInfo(po.getId()) != null) {
+						this.mRenderer.eworld.getInfo(po.getId()).setVisibility(false);
+					}
 	
-					for (VirtualObject vo : po.getVirtualObject())
-						if (this.mRenderer.eworld.getInfo(vo.getId()) != null)
-							this.mRenderer.eworld.getInfo(vo.getId()).setVisibility(false);
+					/*for (VirtualObject vo : po.getVirtualObject())
+						if (this.mRenderer.world_info_list.get(vo.getId()) != null) {
+							this.mRenderer.world_info_list.get(vo.getId()).setVisibility(false);
+							this.mRenderer.world.getObjectByName(vo.getId()).setVisibility(false);
+						}*/
 					//if (po.getVirtualObject() != null) {
 						//this.mRenderer.eworld.getInfo(po.getVirtualObject().getId()).setVisibility(false);
 						//obj3D.build();
@@ -303,11 +309,17 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 				Log.d(LOGTAG, "Notificamos appears PO"+po.getId());
 
 				LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-
-				for (VirtualObject vo : po.getVirtualObject()) {
-					if (vo.isEnabled() && mRenderer.eworld.getInfo(vo.getId()) != null)
-						this.mRenderer.eworld.getInfo(vo.getId()).setVisibility(true);
+				
+				if (this.mRenderer.eworld.getInfo(po.getId()) != null) {
+					this.mRenderer.eworld.getInfo(po.getId()).setVisibility(true);
 				}
+
+				/*for (VirtualObject vo : po.getVirtualObject()) {
+					if (vo.isEnabled() && mRenderer.world_info_list.get(vo.getId()) != null) {
+						this.mRenderer.world_info_list.get(vo.getId()).setVisibility(true);
+						this.mRenderer.world.getObjectByName(vo.getId()).setVisibility(true);
+					}
+				}*/
 				//if (po.getVirtualObject() != null && po.getVirtualObject().isEnabled()) {
 					//this.mRenderer.eworld.getInfo(po.getVirtualObject().getId()).setVisibility(true);
 					
@@ -799,6 +811,14 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 			getmRenderer().updateModelParameter(uuid, parameter, value);
 	}
 	
-	
+	public void onCollision(String uuidDoCollision, String uuidReceiveCollision) {
+		Log.d(LOGTAG, uuidDoCollision+" se chocó con "+uuidReceiveCollision);
+		Intent intent = new Intent(ARActivity.AR_ACTIVITY_EVENT_VO);
+		intent.putExtra("action", "collision");
+		intent.putExtra("giver", uuidDoCollision);
+		intent.putExtra("receiver", uuidReceiveCollision);
+		
+		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+	}
 
 }

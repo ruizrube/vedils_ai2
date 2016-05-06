@@ -445,7 +445,7 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 
 	@SimpleEvent(description = "Event to be raised after a virtual object collides with another", userVisible = true)
 	public void CollidedWith(ARVirtualObject other) {
-		postEvent(this, "CollidedWith", other);
+		EventDispatcher.dispatchEvent(this, "CollidedWith", other);
 	}
 
 }
