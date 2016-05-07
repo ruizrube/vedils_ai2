@@ -5645,21 +5645,21 @@ public interface OdeMessages extends Messages {
 	// GoogleCloudMessaging
 	//
 	
-	//@DefaultMessage("SenderId")
-	//@Description("")
-	//String SenderIdProperties();
+	/*@DefaultMessage("SenderId")
+	@Description("")
+	String SenderIdProperties();
 	
-	//@DefaultMessage("Register")
-	//@Description("")
-	//String RegisterMethods();
+	@DefaultMessage("Register")
+	@Description("")
+	String RegisterMethods();*/
 	
 	//
-	// IMEITracker
+	// DeviceInfo
 	//
 	
-	//@DefaultMessage("Imei")
-	//@Description("")
-	//String ImeiProperties();
+	@DefaultMessage("Imei")
+	@Description("")
+	String ImeiProperties();
 	
 	//
 	// ActivityTracker
@@ -5673,9 +5673,9 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String TableIdProperties();
 	
-	@DefaultMessage("TableIdSetup")
+	/*@DefaultMessage("TableIdSetup")
 	@Description("")
-	String TableIdSetupProperties();
+	String TableIdSetupProperties();*/
 	
 	@DefaultMessage("SynchronizationMode")
 	@Description("")

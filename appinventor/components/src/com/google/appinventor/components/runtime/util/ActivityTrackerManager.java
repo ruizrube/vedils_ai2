@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Timer;
 
 import com.google.appinventor.components.runtime.ActivityTracker;
+import com.google.appinventor.components.runtime.DeviceInfo;
 import com.google.appinventor.components.runtime.Clock;
 import com.google.appinventor.components.runtime.Component;
 import com.google.appinventor.components.runtime.ComponentContainer;
@@ -21,7 +22,7 @@ public class ActivityTrackerManager {
 	private ComponentContainer componentContainer;
 	
 	//FusionTablesConnection data
-	private String columns = "UserID, IP, MAC, Latitude, Longitude, Date, AppID, ScreenID, ComponentID, ComponentType, ActionID, ActionType, InputParam1, InputParam2, InputParam3, OutputParam";
+	private String columns = "UserID, IP, MAC, IMEI, Latitude, Longitude, Date, AppID, ScreenID, ComponentID, ComponentType, ActionID, ActionType, InputParam1, InputParam2, InputParam3, OutputParam";
 	private String values;
 	private String email = "1075849932338-n26pqlvqfea3dspaebf52vnacch77nhf@developer.gserviceaccount.com";
 	private String apiKey = "AIzaSyDL9s7r6ZIr9DN47_kNIIzRcm2JhWxy7ZU";
@@ -35,6 +36,7 @@ public class ActivityTrackerManager {
 	private TimerSendData timerSendData;
 	private String currentIP;
 	private GPSTracker gpsTracker;
+	private DeviceInfo deviceInfo;
 	
 	
 	public ActivityTrackerManager(ActivityTracker currentActivityTracker, ComponentContainer componentContainer) {
@@ -44,6 +46,7 @@ public class ActivityTrackerManager {
 		this.tinyDB = new TinyDB(componentContainer.$context());
 		this.tagDB = 0;
 		this.timerSendData = new TimerSendData(this);
+		this.deviceInfo = new DeviceInfo(componentContainer);
 		gpsTracker = new GPSTracker(componentContainer.$context());
 	}
 	
@@ -58,7 +61,8 @@ public class ActivityTrackerManager {
 	    //Do the query
 		values = "'" + currentActivityTracker.getUserTrackerId() + "','" + 
 		ip + "','" +
-	    mac + "'," +
+	    mac + "','" +
+		deviceInfo.getImei() + "'," +
 		gpsTracker.getLatitude() + "," +
 		gpsTracker.getLongitude() + ",'" +
 		Clock.FormatDate(Clock.Now(), "MM/dd/yyyy HH:mm:ss") + "','" +
@@ -91,7 +95,8 @@ public class ActivityTrackerManager {
 	    //Do the query
 		values = "'" + currentActivityTracker.getUserTrackerId() + "','" + 
 		ip + "','" +
-	    mac + "'," +
+	    mac + "','" +
+		deviceInfo.getImei() + "'," +
 		gpsTracker.getLatitude() + "," +
 		gpsTracker.getLongitude() + ",'" +
 		Clock.FormatDate(Clock.Now(), "MM/dd/yyyy HH:mm:ss") + "','" +
