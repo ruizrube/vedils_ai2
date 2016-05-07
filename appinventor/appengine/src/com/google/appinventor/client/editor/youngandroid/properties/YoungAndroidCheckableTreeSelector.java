@@ -27,7 +27,7 @@ public final class YoungAndroidCheckableTreeSelector extends AdditionalChoicePro
   
   public YoungAndroidCheckableTreeSelector(final YaFormEditor editor, final SimpleComponentDatabase COMPONENT_DATABASE, final String componentType) {
     ScrollPanel selectorPanel = new ScrollPanel();
-    selectorPanel.setSize("220px", "220px");
+    selectorPanel.setSize("190px", "290px");
     
     tree = new CheckableTree();
     tree.setWidth("60px");
