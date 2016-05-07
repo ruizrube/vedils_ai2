@@ -5642,16 +5642,40 @@ public interface OdeMessages extends Messages {
 	String RefreshMethods();
 	
 	//
+	// GoogleCloudMessaging
+	//
+	
+	//@DefaultMessage("SenderId")
+	//@Description("")
+	//String SenderIdProperties();
+	
+	//@DefaultMessage("Register")
+	//@Description("")
+	//String RegisterMethods();
+	
+	//
+	// IMEITracker
+	//
+	
+	//@DefaultMessage("Imei")
+	//@Description("")
+	//String ImeiProperties();
+	
+	//
 	// ActivityTracker
 	//
 
 	@DefaultMessage("UserTrackerId")
 	@Description("")
 	String UserTrackerIdProperties();
-
+	
 	@DefaultMessage("TableId")
 	@Description("")
 	String TableIdProperties();
+	
+	@DefaultMessage("TableIdSetup")
+	@Description("")
+	String TableIdSetupProperties();
 	
 	@DefaultMessage("SynchronizationMode")
 	@Description("")
@@ -5693,9 +5717,9 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String StopTrackingMethods();
 	
-	@DefaultMessage("ActivitiesToNotify")
+	@DefaultMessage("ActivitiesToTrack")
 	@Description("")
-	String ActivitiesToNotifyProperties();
+	String ActivitiesToTrackProperties();
 	
 	@DefaultMessage("ComponentName")
 	@Description("")

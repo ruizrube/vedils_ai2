@@ -27,7 +27,7 @@ public final class YoungAndroidCheckableTreeSelector extends AdditionalChoicePro
   
   public YoungAndroidCheckableTreeSelector(final YaFormEditor editor, final SimpleComponentDatabase COMPONENT_DATABASE, final String componentType) {
     ScrollPanel selectorPanel = new ScrollPanel();
-    selectorPanel.setSize("190px", "190px");
+    selectorPanel.setSize("220px", "220px");
     
     tree = new CheckableTree();
     tree.setWidth("60px");
@@ -41,14 +41,16 @@ public final class YoungAndroidCheckableTreeSelector extends AdditionalChoicePro
     get.setHTML("<b> Getters </b>");
     
 	for(PropertyDefinition property: COMPONENT_DATABASE.getPropertyDefinitions(componentType)) {
-		TreeItem itemPropertyget = new CheckableTreeItem("Get - "+property.getName());
-		itemPropertyget.setHTML(property.getName());
-		itemPropertyget.setTitle("Get - "+property.getName());
-		get.addItem(itemPropertyget);
-		TreeItem itemPropertyset = new CheckableTreeItem("Set - "+property.getName());
-		itemPropertyset.setHTML(property.getName());
-		set.addItem(itemPropertyset);
-		itemPropertyset.setTitle("Set - "+property.getName());
+		if(!property.getName().equals("ComponentName") && !property.getName().equals("ActivitiesToTrack")) {
+			TreeItem itemPropertyget = new CheckableTreeItem("Get - "+property.getName());
+			itemPropertyget.setHTML(property.getName());
+			itemPropertyget.setTitle("Get - "+property.getName());
+			get.addItem(itemPropertyget);
+			TreeItem itemPropertyset = new CheckableTreeItem("Set - "+property.getName());
+			itemPropertyset.setHTML(property.getName());
+			set.addItem(itemPropertyset);
+			itemPropertyset.setTitle("Set - "+property.getName());
+		}
 	}
 	
     all.addItem(set);

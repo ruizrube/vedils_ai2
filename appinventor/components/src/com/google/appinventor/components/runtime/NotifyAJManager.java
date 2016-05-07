@@ -31,17 +31,17 @@ public class NotifyAJManager {
 			
 			AndroidNonvisibleComponent nonvisibleComponent = (AndroidNonvisibleComponent) pointcut.getThis();
 			currentActivity = nonvisibleComponent.form.$context();
-			selectedActivities = nonvisibleComponent.getActivitiesToNotify();
+			selectedActivities = nonvisibleComponent.getActivitiesToTrack();
 			componentName = nonvisibleComponent.getName();
-			System.out.println("Activities to Notify: "+nonvisibleComponent.getActivitiesToNotify() + "- AspectJ.");
+			System.out.println("Activities to Notify: "+nonvisibleComponent.getActivitiesToTrack() + "- AspectJ.");
 			
 		} else if(pointcut.getThis() instanceof AndroidViewComponent) {
 			System.out.println("AndroidViewComponent - AspectJ.");
 			AndroidViewComponent viewComponent = (AndroidViewComponent) pointcut.getThis();
 			currentActivity = (Activity) viewComponent.getView().getContext();
-			selectedActivities = viewComponent.getActivitiesToNotify();
+			selectedActivities = viewComponent.getActivitiesToTrack();
 			componentName = viewComponent.getName();
-			System.out.println("Activities to Notify: "+viewComponent.getActivitiesToNotify() + "- AspectJ.");
+			System.out.println("Activities to Notify: "+viewComponent.getActivitiesToTrack() + "- AspectJ.");
 		} else {
 			System.out.println("Other type - AspectJ.");
 		}

@@ -49,11 +49,11 @@ public abstract class AndroidNonvisibleComponent implements Component {
  		      defaultValue = "")
  		  @SimpleProperty(
  		      userVisible = false)
-   public void ActivitiesToNotify(String activitiesNames) {
+   public void ActivitiesToTrack(String activitiesNames) {
  		this.activitiesNames = activitiesNames;
    }
    
-   public String getActivitiesToNotify() {
+   public String getActivitiesToTrack() {
 	   return this.activitiesNames;
    }
    
