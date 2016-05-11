@@ -39,13 +39,15 @@ import android.app.Activity;
 "android.permission.ACCESS_FINE_LOCATION," +
 "android.permission.ACCESS_COARSE_LOCATION," +
 "android.permission.ACCESS_MOCK_LOCATION," +
-"android.permission.ACCESS_LOCATION_EXTRA_COMMANDS")
+"android.permission.ACCESS_LOCATION_EXTRA_COMMANDS," +
+"android.permission.READ_PHONE_STATE")
 public class ActivityTracker extends AndroidNonvisibleComponent implements Component {
 	
 	private String userTrackerId;
 	@SuppressWarnings("unused")
 	private final ComponentContainer componentContainer;
 	private String tableId;
+	private String tableIdSetup;
 	private int synchronizationMode;
 	private int batchTime;
 	private int communicationMode;
@@ -66,6 +68,7 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 		
 		//Define data for FusionTableControl connection.
 		tableId = "1xZCj24xYWpj6jHWN2IK2xiErYPY7XbeHAqXVR4Bw";
+		tableIdSetup = "1xZCj24xYWpj6jHWN2IK2xiErYPY7XbeHAqXVR4Bw";
 		
 		//Record current ActivityTracker
 		ActivityTrackerInstances.insertActivityTracker((Activity)componentContainer.$context(), this);
@@ -135,6 +138,22 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	public String getTableId() {
 		return tableId;
 	}
+	
+	/**
+	 * Returns the id of the current Fusion Table.
+	 * 
+	 * @return tableIdSetup
+	 */
+	/*@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_HYPERLINK)
+	@SimpleProperty
+	public String TableIdSetup(String tableId) {
+		return tableIdSetup;
+	}
+	
+	public String getTableIdSetup() {
+		return tableIdSetup;
+	}*/
+	
 	
 	/**
 	 * Specifies the communication mode.

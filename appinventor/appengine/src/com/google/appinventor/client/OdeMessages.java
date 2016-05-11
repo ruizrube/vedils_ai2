@@ -803,6 +803,14 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("Display hidden components in Viewer")
 	@Description("Checkbox controlling whether to display invisible components in the designer.")
 	String showHiddenComponentsCheckbox();
+	
+	@DefaultMessage("Check to see Preview on Tablet size.")
+	@Description("Checkbox (check) controlling whether to display a preview on Tablet size.")
+	String previewTabletSize();
+
+	@DefaultMessage("Un-check to see Preview on Phone size.")
+	@Description("Checkbox (un-check) controlling whether to display a preview on Phone size.")
+	String previewPhoneSize();
 
 	// Used in editor/simple/components/MockComponent.java
 
@@ -858,6 +866,10 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("Height")
 	@Description("Caption for the height property")
 	String heightPropertyCaption();
+	
+	@DefaultMessage("HeightPercent")
+	@Description("")
+	String HeightPercentProperties();
 
 	// Used in editor/simple/components/MockTextBoxBase.java
 
@@ -909,6 +921,14 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("strong")
 	@Description("Text for accelerometer sensitivity choice 'strong'")
 	String strongAccelerometerSensitivity();
+	
+	@DefaultMessage("Fixed")
+	@Description("Text for Sizing choice 'fixed' -- scale to fit device screen")
+	String fixedSizing();
+	
+	@DefaultMessage("Responsive")
+	@Description("Text for Sizing choice 'responsive' -- size based on device type")
+	String responsiveSizing();
 
 	// Used in
 	// editor/youngandroid/properties/YoungAndroidAlignmentChoicePropertyEditor.java
@@ -1104,6 +1124,10 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("Fill parent")
 	@Description("Caption and summary for Fill Parent choice")
 	String fillParentCaption();
+	
+	@DefaultMessage("percent")
+	@Description("Caption for percent label")
+	String percentCaption();
 
 	@DefaultMessage("pixels")
 	@Description("Caption for pixels label")
@@ -1112,10 +1136,18 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("{0} pixels")
 	@Description("Summary for custom length in pixels")
 	String pixelsSummary(String pixels);
+	
+	@DefaultMessage("{0} percent")
+	@Description("Summary for length in percent")
+	String percentSummary(String percent);
 
 	@DefaultMessage("The value must be a number greater than or equal to 0")
 	@Description("Error shown after validation of custom length field failed.")
 	String nonnumericInputError();
+	
+	@DefaultMessage("Percentage input values should be between 1 and 100")
+    @Description("Error shown after validation of percentage input fields.")
+	String nonvalidPercentValue();
 
 	// Used in
 	// editor/youngandroid/properties/YoungAndroidScreenAnimationChoicePropertyEditor.java
@@ -2720,6 +2752,10 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("VersionName")
 	@Description("")
 	String VersionNameProperties();
+	
+	@DefaultMessage("Sizing")
+	@Description("")
+	String SizingProperties();
 
 	@DefaultMessage("Visible")
 	@Description("")
@@ -3116,6 +3152,10 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("Width")
 	@Description("")
 	String WidthProperties();
+	
+	@DefaultMessage("WidthPercent")
+	@Description("")
+	String WidthPercentProperties();
 
 	@DefaultMessage("WebViewString")
 	@Description("")
@@ -5432,6 +5472,11 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("XMLTextDecode")
 	@Description("")
 	String XMLTextDecodeMethods();
+	
+	@DefaultMessage("ExtraKey and ExtraValue are deprecated and will not be supported. " +
+		      "Please use the new Extras property in Blocks.\n")
+	@Description("")
+	String extraKeyValueWarning();
 
 	///////////////
 	// AR Camera //
@@ -5645,13 +5690,29 @@ public interface OdeMessages extends Messages {
 	// GoogleCloudMessaging
 	//
 	
-	/*@DefaultMessage("SenderId")
+	@DefaultMessage("SenderId")
 	@Description("")
 	String SenderIdProperties();
 	
 	@DefaultMessage("Register")
 	@Description("")
-	String RegisterMethods();*/
+	String RegisterMethods();
+	
+	//
+	// ThingSpeakLocationSensor
+	//
+	
+	@DefaultMessage("ApiKey")
+	@Description("")
+	String ChannelApiKeyProperties();
+	
+	@DefaultMessage("ChannelId")
+	@Description("")
+	String ChannelIdProperties();
+	
+	@DefaultMessage("SendLocationDataToThingSpeak")
+	@Description("")
+	String SendLocationDataToThingSpeakMethods();
 	
 	//
 	// DeviceInfo
@@ -5673,9 +5734,9 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String TableIdProperties();
 	
-	/*@DefaultMessage("TableIdSetup")
+	@DefaultMessage("TableIdSetup")
 	@Description("")
-	String TableIdSetupProperties();*/
+	String TableIdSetupProperties();
 	
 	@DefaultMessage("SynchronizationMode")
 	@Description("")

@@ -150,6 +150,10 @@
         <pathelement location="lib/appengine/appengine-java-sdk-1.9.17/lib/user/orm/geronimo-jpa_3.0_spec-1.1.1.jar"/>
         <!-- prevent error importing GitBuildId if it has been generated -->
         <pathelement location="common/build/classes/CommonVersion" />
+        
+        <!-- Google Play Services library -->
+        <pathelement location="lib/la4ai/google_play_services/google-play-services.jar" />
+        
       </classpath>
       <!-- TODO(opensource) - Add more <link> elements that correspond to the jars on the
            classpath above,so our javadoc will link appropriate online javadoc for libraries we

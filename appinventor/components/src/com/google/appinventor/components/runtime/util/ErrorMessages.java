@@ -179,6 +179,9 @@ public final class ErrorMessages {
 
   //TextToSpeech errors
   public static final int ERROR_TTS_NOT_READY = 2701;
+  
+  //AndroidViewComponent errors
+  public static final int ERROR_BAD_PERCENT = 2801;
 
   // Please start the next group of error numbers at 2801.
 
@@ -452,6 +455,8 @@ public final class ErrorMessages {
     // TextToSpeech errors
     errorMessages.put(ERROR_TTS_NOT_READY,
        "TextToSpeech is not yet ready to perform this operation");
+    // AndroidViewComponent errors
+    errorMessages.put(ERROR_BAD_PERCENT, "Percent values should be between 0 and 100.");
   }
 
   private ErrorMessages() {

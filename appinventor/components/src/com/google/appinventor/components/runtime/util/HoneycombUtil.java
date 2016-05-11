@@ -19,6 +19,9 @@ import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.Data;
 
+import android.view.View;
+import android.view.ViewGroup;
+
 import java.io.InputStream;
 
 /**
@@ -27,6 +30,8 @@ import java.io.InputStream;
  *
  */
 public class HoneycombUtil {
+	
+  public static final int VIEWGROUP_MEASURED_HEIGHT_STATE_SHIFT = ViewGroup.MEASURED_HEIGHT_STATE_SHIFT;
 
   private HoneycombUtil() {
   }
@@ -212,5 +217,17 @@ public class HoneycombUtil {
   public static String getTimesContacted() {
     return Data.TIMES_CONTACTED;
   }
+  
+  public static int combineMeasuredStates(ViewGroup view, int curState, int newState) {
+	 return view.combineMeasuredStates(curState, newState);
+  }
+
+   public static int getMeasuredState(View view) {
+	 return view.getMeasuredState();
+   }
+
+   public static int resolveSizeAndState(ViewGroup view, int maxWidth, int widthMeasureSpec, int childState) {
+	 return view.resolveSizeAndState(maxWidth, widthMeasureSpec, childState);
+   }
 
 }

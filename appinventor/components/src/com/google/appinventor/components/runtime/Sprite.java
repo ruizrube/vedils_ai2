@@ -71,6 +71,8 @@ public abstract class Sprite extends VisibleComponent
   protected double zLayer;     // z-coordinate, higher values go in front
   protected float speed;       // magnitude in pixels
 
+  protected Form form;
+
   /**
    * The angle, in degrees above the positive x-axis, specified by the user.
    * This is private in order to enforce that changing it also changes
@@ -112,6 +114,8 @@ public abstract class Sprite extends VisibleComponent
 
     // Set in motion.
     timerInternal = new TimerInternal(this, DEFAULT_ENABLED, DEFAULT_INTERVAL, handler);
+
+    this.form = container.$form();
 
     // Set default property values.
     Heading(0);  // Default initial heading
@@ -480,7 +484,6 @@ public abstract class Sprite extends VisibleComponent
    * @param heading  the heading of the fling
    * @param xvel  the speed in x-direction of the fling
    * @param yvel  the speed in y-direction of the fling
-
    */
   @SimpleEvent
   public void Flung(float x, float y, float speed, float heading, float xvel, float yvel) {

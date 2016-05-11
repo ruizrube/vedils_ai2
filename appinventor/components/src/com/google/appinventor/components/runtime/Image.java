@@ -104,6 +104,14 @@ public final class Image extends AndroidViewComponent {
 
     ViewUtil.setImage(view, drawable);
   }
+  
+  @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN,
+		  defaultValue = "False")
+  @SimpleProperty
+  public void ScalePictureToFit(boolean scale) {
+	  if (scale)
+		  view.setScaleType(ImageView.ScaleType.FIT_XY);
+  }
 
 
   /**

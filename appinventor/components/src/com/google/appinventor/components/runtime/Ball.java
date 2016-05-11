@@ -1,9 +1,3 @@
-// -*- mode: java; c-basic-offset: 2; -*-
-// Copyright 2009-2011 Google, All Rights reserved
-// Copyright 2011-2012 MIT, All rights reserved
-// Released under the Apache License, Version 2.0
-// http://www.apache.org/licenses/LICENSE-2.0
-
 package com.google.appinventor.components.runtime;
 
 import com.google.appinventor.components.annotations.DesignerComponent;
@@ -62,7 +56,11 @@ public final class Ball extends Sprite {
   @Override
   protected void onDraw(Canvas canvas) {
     if (visible) {
-      canvas.drawCircle((float) xLeft + radius, (float) yTop + radius, radius, paint);
+      float correctedXLeft = (float)(xLeft * form.deviceDensity());
+      float correctedYTop =  (float)(yTop * form.deviceDensity());
+      float correctedRadius = radius * form.deviceDensity();
+      canvas.drawCircle(correctedXLeft + correctedRadius, correctedYTop +
+          correctedRadius, correctedRadius, paint);
     }
   }
 
@@ -80,12 +78,22 @@ public final class Ball extends Sprite {
   }
 
   @Override
+  public void HeightPercent(int pCent) {
+    // ignored
+  }
+
+  @Override
   public int Width() {
     return 2 * radius;
   }
 
   @Override
   public void Width(int width) {
+    // ignored
+  }
+
+  @Override
+  public void WidthPercent(int pCent) {
     // ignored
   }
 

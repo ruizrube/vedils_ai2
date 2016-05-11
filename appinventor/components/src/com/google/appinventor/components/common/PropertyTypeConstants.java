@@ -190,7 +190,13 @@ public class PropertyTypeConstants {
    * Select current component name by {@link
    * com.google.appinventor.client.editor.youngandroid.properties.YoungComponentNameSelector}
    */
-  public static final String PROPERTY_COMPONENT_NAME = "componentName";
+  //public static final String PROPERTY_COMPONENT_NAME = "componentName";
+  
+  /**
+   * Select current component name by {@link
+   * com.google.appinventor.client.editor.youngandroid.properties.YoungComponentNameSelector}
+   */
+  public static final String PROPERTY_TYPE_HYPERLINK = "hyperLink";
 
   /**
    * Choices of visibility for view components offered by {@link
@@ -215,6 +221,13 @@ public class PropertyTypeConstants {
    * com.google.appinventor.client.widgets.properties.LanguageChoicePropertyEditor}.
    */
   public static final String PROPERTY_TYPE_TEXT_TO_SPEECH_LANGUAGES = "languages";
+  
+  /**
+   * Choices of the "Sizing" property in Form.java. Used to specify if we are going to use
+   * the true size of the real screen (responsize) or scale automatically to make all devices
+   * look like an old phone (fixed).
+   */
+  public static final String PROPERTY_TYPE_SIZING = "sizing";
 
   /**
    * Choices of text-to-speech languages. {@link

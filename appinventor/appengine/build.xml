@@ -187,6 +187,9 @@
     <copy todir="${build.war.dir}/WEB-INF/lib" flatten="true">
       <fileset dir="${appengine.sdk}/lib/user" includes="**/*.jar"/>
     </copy>
+    <copy todir="${build.war.dir}/WEB-INF/lib" flatten="true">
+      <fileset dir="${lib.dir}/la4ai/fusiontables_v2/libs/" includes="*.jar"/>
+    </copy>
   </target>
 
   <!-- =====================================================================
@@ -379,6 +382,8 @@
         <pathelement location="${gwt.sdk}/gwt-user.jar"/>
         <!-- la4ai lib -->
         <pathelement location="${lib.dir}/la4ai/la4ai.jar"/>
+        <pathelement location="¢{lib.dir}/la4ai/fusiontables_v2/libs/google-api-client-1.22.0.jar"/>
+        <pathelement location="¢{lib.dir}/la4ai/fusiontables_v2/libs/google-oauth-client-java6-1.22.0.jar"/>
       </classpath>
     </ai.javac>
     <copy todir="${build.war.dir}/WEB-INF/classes/com/google/appinventor"

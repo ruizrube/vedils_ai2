@@ -2,6 +2,7 @@ package com.google.appinventor.components.runtime;
 
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
+import com.google.appinventor.components.annotations.PropertyCategory;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.annotations.UsesPermissions;
@@ -11,7 +12,7 @@ import android.content.Context;
 import android.telephony.TelephonyManager;
 
 @SimpleObject
-@DesignerComponent(nonVisible = true, version = 1, description = "IMEITracker Component (by SPI-FM at UCA)", category = ComponentCategory.VEDILSLEARNINGANALYTICS, iconName = "images/arColorTracker.png")
+@DesignerComponent(nonVisible = true, version = 1, description = "DeviceInfo Component (by SPI-FM at UCA)", category = ComponentCategory.VEDILSLEARNINGANALYTICS, iconName = "images/arColorTracker.png")
 @UsesPermissions(permissionNames = "android.permission.READ_PHONE_STATE")
 public class DeviceInfo extends AndroidNonvisibleComponent implements Component {
 	
@@ -29,9 +30,8 @@ public class DeviceInfo extends AndroidNonvisibleComponent implements Component 
 	 * Specifies the IMEI code of the current device
 	 * 
 	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING,
-		      defaultValue = "")
-	@SimpleProperty
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR,
+			description = "Returns the value of IMEI code of the current device.", userVisible = true)
 	public String Imei() {
 		return this.imei;
 	}
