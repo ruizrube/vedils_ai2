@@ -16,6 +16,8 @@ package com.google.appinventor.components.runtime.ar4ai.vuforia;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -39,6 +41,8 @@ import com.qualcomm.vuforia.VIDEO_BACKGROUND_REFLECTION;
 import com.qualcomm.vuforia.Vec2F;
 import com.qualcomm.vuforia.Vuforia;
 import com.threed.jpct.Camera;
+import com.threed.jpct.CollisionEvent;
+import com.threed.jpct.CollisionListener;
 import com.threed.jpct.Config;
 import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.GLSLShader;
@@ -75,6 +79,9 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 	////////////////////////////
 
 	public ExtendedWorld eworld = null;
+	//public World world = null;
+	//private float [] modelViewMat;
+	//public Map<String, WorldInfo> world_info_list = new HashMap<String, WorldInfo>();
 
 	private static final String LOGTAG = "ar4ai-VuforiaARActivity";
 	public boolean mIsActive = false;
@@ -178,9 +185,8 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 					index += 0.016f * ticks;
 					if (index > 1)
 						index -= 1;
-					if (eworld.getWorld(vo.getId()) != null &&
-							eworld.getWorld(vo.getId()).getObjectByName(vo.getId()) != null) {
-						Object3D object = eworld.getWorld(vo.getId()).getObjectByName(vo.getId());
+					if (getWorldForVO(vo.getId()) != null) {
+						Object3D object = getWorldForVO(vo.getId()).getObjectByName(vo.getId());
 						Log.d(LOGTAG, "Sacado el objeto "+object.getName()+ " con index "+index);
 						object.animate(index, vo.getAnimationSecuence());
 					}
@@ -189,11 +195,19 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 		}
 	}
 	
+	private void checkCollision(Object3D myobject, SimpleVector direction, float value) {
+		int objectCollided = myobject.checkForCollision(direction, Math.abs(value));
+		if (objectCollided != Object3D.NO_OBJECT) {
+			this.mActivity.onCollision(myobject.getName(), getWorldForVO(myobject.getName()).getObject(objectCollided).getName());
+		}
+	}
+	
 	public void updateModelParameter(String uuid, String parameter, float value) {
 		Log.d(LOGTAG, "uuid recibida: "+uuid);
-		if (eworld != null) {
-			if (eworld.getWorld(uuid) != null) {
-				Object3D object = eworld.getWorld(uuid).getObjectByName(uuid);
+		if (getWorldForVO(uuid) != null) {
+			World world = getWorldForVO(uuid);
+			if (world.getObjectByName(uuid) != null) {
+				Object3D object = world.getObjectByName(uuid);
 				if (object != null) {
 					if (parameter.equals("PositionX")) {
 						SimpleVector origin = object.getOrigin();
@@ -216,12 +230,18 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 						object.rotateY((float) (value*Math.PI/180));
 					else if (parameter.equals("RotationZ"))
 						object.rotateZ((float) (value*Math.PI/180));
-					else if (parameter.equals("TranslationX"))
+					else if (parameter.equals("TranslationX")) {
+						checkCollision(object, new SimpleVector(value, 0, 0),value);
 						object.translate(value, 0, 0);
-					else if (parameter.equals("TranslationY"))
+					}
+					else if (parameter.equals("TranslationY")) {
+						checkCollision(object, new SimpleVector(0, value, 0),value);
 						object.translate(0, value, 0);
-					else if (parameter.equals("TranslationZ"))
+					}
+					else if (parameter.equals("TranslationZ")) {
+						checkCollision(object, new SimpleVector(0, 0, value),value);
 						object.translate(0, 0, value);
+					}
 					else if (parameter.equals("Scale"))
 						object.scale(value);
 				}
@@ -230,9 +250,17 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 	}
 
 	private void updateCameraWorld() {
-		for (VirtualObject vo : this.mActivity.arrayOfVirtualObjects) {
+		/*float [] m = this.vuforiaAppSession.getProjectionMatrix().getData();
+		int i=0;
+		for (float value : m) {
+			Log.i(LOGTAG, "Valor de m["+i+"]: "+value);
+			i++;
+		}*/
+		
+		
+		for (PhysicalObject po : this.mActivity.getArrayOfPhysicalObject()) {
 
-			WorldInfo world_info = this.eworld.getInfo(vo.getId());
+			WorldInfo world_info = eworld.getInfo(po.getId());
 
 			if (world_info != null && world_info.isVisible()) {
 
@@ -247,6 +275,12 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 				// --- INICIO - Cambio respecto a original
 				float[] m = m2.getDump();
 				final SimpleVector camUp;
+				
+				/*int i=0;
+				for (float value : m) {
+					Log.i(LOGTAG, "Matriz de "+ vo.getId()+"["+i+"]: "+value);
+					i++;
+				}*/
 
 				// Modificao por mi
 				if (mActivity.getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
@@ -259,21 +293,20 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 				final SimpleVector camPosition = new SimpleVector(m[12], m[13], m[14]);
 				// --- FIN - Cambio respecto a original
 
-				World world = this.eworld.getWorld(vo.getId());
+				World world = this.eworld.getWorld(po.getId());
 				if (world != null) {
 					Camera cam = world.getCamera();
 					cam.setOrientation(camDirection, camUp);
 					cam.setPosition(camPosition);
 					cam.setFOV(fov);
 					cam.setYFOV(fovy);
-	
+					
 					world.renderScene(mFrameBuffer);
 					world.draw(mFrameBuffer);
-					Log.d(LOGTAG, "------->¡HOLA2Renderizando el Mundo de " + vo.getId());
+	
+					Log.d(LOGTAG, "------->¡HOLA2Renderizando el Mundo de " + po.getId());
 				}
-				
 			}
-
 		}
 	}
 
@@ -328,11 +361,9 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 				Matrix44F modelVieMatrix = Tool.convertPose2GLMatrix(matrix34F);
 				Matrix44F inverseMV = SampleMath.Matrix44FInverse(modelVieMatrix);
 				Matrix44F invTranspMV = SampleMath.Matrix44FTranspose(inverseMV);
-				for (VirtualObject vo : po.getVirtualObject()) {
-					//Captura de nulo para evitar crash durante el refresco de la camara.
-					if (eworld.getInfo(vo.getId()) != null)
-						eworld.getInfo(vo.getId()).setMat(invTranspMV.getData());
-				}
+				//Captura de nulo para evitar crash durante el refresco de la camara.
+				if (eworld.getInfo(po.getId()) != null)
+					eworld.getInfo(po.getId()).setMat(invTranspMV.getData());
 			} else {
 				Log.d(LOGTAG, "No se encuentra el PO asociado al tracker");
 
@@ -355,6 +386,17 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 			return mContext.getAssets().open(path);
 		}
 	}
+	
+	private World getWorldForVO(String myVO) {
+		for (PhysicalObject po : this.mActivity.getArrayOfPhysicalObject()) {
+			for (VirtualObject vo : po.getVirtualObject()) {
+				if (myVO.equals(vo.getId())) {
+					return eworld.getWorld(po.getId());
+				}
+			}
+		}
+		return null;
+	}
 
 	public void createWorld() throws Exception {
 		Config.farPlane = 20000;
@@ -362,6 +404,13 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 		Config.glTrilinear = true;
 
 		eworld = new ExtendedWorld();
+		World world = null;
+		for (PhysicalObject po : this.mActivity.getArrayOfPhysicalObject()) {
+			world = new World();
+			world.setAmbientLight(100, 100, 100);
+			eworld.putWorld(po.getId(), world);
+			eworld.putInfo(po.getId(), new WorldInfo());
+		}
 
 		Log.d(LOGTAG, "Eliminando texturas previas");
 		TextureManager textureManager = TextureManager.getInstance();
@@ -375,9 +424,7 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 			Log.d(LOGTAG, "Cargando Modelos y Texturas");
 
 			Object3D myObject3D = null;
-			VirtualObject myVO;
-			for (int i = 0; i < this.mActivity.getArrayOfVirtualObjects().size(); i++) {
-				myVO = this.mActivity.getArrayOfVirtualObjects().get(i);
+			for (VirtualObject myVO : this.mActivity.getArrayOfVirtualObjects()) {
 
 				if (myVO.isEnabled()) {
 					if (myVO.getVisualAssetType() == VirtualObject.ASSET_TEXT) {
@@ -389,11 +436,10 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 					}
 
 					if (myObject3D != null) {
+						
+						world = getWorldForVO(myVO.getId());
 					
-						World w = new World();
-						w.getAmbientLight();
-						w.setAmbientLight(100, 100, 100);
-						sun = new Light(w);
+						sun = new Light(world);
 						sun.setIntensity(250, 250, 250);
 
 						SimpleVector sv = new SimpleVector();
@@ -403,12 +449,10 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 						//sv.x -= 500;
 						sun.setPosition(sv);
 
-						eworld.putWorld(myVO.getId(), w);
-						eworld.putInfo(myVO.getId(), new WorldInfo());
 						myObject3D.setLighting(Object3D.LIGHTING_ALL_ENABLED);
 						myObject3D.strip();
 						myObject3D.build();
-						w.addObject(myObject3D);
+						world.addObject(myObject3D);
 
 						SimpleVector elcentro = myObject3D.getCenter();
 						elcentro.scalarMul(-1);
@@ -419,6 +463,7 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 						myObject3D.setUserObject(myVO);
 						myObject3D.rotateY((float) (Math.PI));
 						myObject3D.rotateZ((float) (Math.PI));
+						myObject3D.setCollisionMode(Object3D.COLLISION_CHECK_SELF | Object3D.COLLISION_CHECK_OTHERS);
 						myObject3D.build();
 						Log.d(LOGTAG, "Centrando modelos");
 						
@@ -430,8 +475,8 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 						// compile object?
 
 						// Set position
-						myObject3D.translate(myVO.getPositionX(),
-						myVO.getPositionY(), myVO.getPositionZ());
+						myObject3D.setOrigin(new SimpleVector(myVO.getPositionX(),
+						myVO.getPositionY(), myVO.getPositionZ()));
 						// myObject3D.translate(0,0,0);
 						
 						Log.d(LOGTAG, "Posicionando modelos");
@@ -450,9 +495,7 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 						Log.d(LOGTAG, "Moviendo modelos");
 
 						// Ahora los añados a sus mundos
-
 						
-
 					}
 
 				}
@@ -651,10 +694,9 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 
 	private void moverMatrix(float movX, float movY) {
 
-		for (VirtualObject vo : this.mActivity.arrayOfVirtualObjects) {
-			World world = eworld.getWorld(vo.getId());
+		for (PhysicalObject po : this.mActivity.getArrayOfPhysicalObject()) {
 
-			WorldInfo world_info = eworld.getInfo(vo.getId());
+			WorldInfo world_info = eworld.getInfo(po.getId());
 
 			if (world_info != null && world_info.isVisible()) {
 
@@ -666,13 +708,17 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 				// Esto esta mal pero al menos para probar.
 				// Hay que hacerlo con todos los mundos pues nos sabemos
 				// a cual se está refiriendo
-
-				if (vo.getVisualAssetType() == VirtualObject.ASSET_3DMODEL) {
-					Log.d(LOGTAG, "TOCATA ROTACION  " + movX + " y " + movY);
-					Object3D objeto = world.getObjectByName(vo.getId());
-					objeto.rotateX(-movY/100);
-					objeto.rotateY(movX/100);
-					
+				
+				World world = eworld.getWorld(po.getId());
+				
+				for (VirtualObject vo : po.getVirtualObject()) {
+					if (vo.getVisualAssetType() == VirtualObject.ASSET_3DMODEL) {
+						Log.d(LOGTAG, "TOCATA ROTACION  " + movX + " y " + movY);
+						Object3D objeto = world.getObjectByName(vo.getId());
+						objeto.rotateX(-movY/100);
+						objeto.rotateY(movX/100);
+						
+					}
 				}
 			}
 		}

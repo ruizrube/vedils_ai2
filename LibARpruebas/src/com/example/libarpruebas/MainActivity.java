@@ -42,6 +42,7 @@ public class MainActivity extends Activity {
 		Log.v(TAG, "Antes de configurar variables ");
 		data = new Camera();
 		data.setTitle("HOLA!");
+		data.setScreenOrientation(-1);
 		data.setPathTargetDBDAT("UALGise.dat");
 		data.setPathTargetDBXML("UALGise.xml");
 		uivariables = new UIVariables();
@@ -95,7 +96,9 @@ public class MainActivity extends Activity {
 		mVirtualObject1.setOverlaid3DModel("7_Exercicio_5.obj");
 		mVirtualObject1.setMaterial("7_Exercicio_5.mtl");
 		mVirtualObject1.setRotationZ(270);
-		//mVirtualObject1.setColorTexture(Color.BLUE);
+		mVirtualObject1.setColorTexture(Color.BLUE);
+		//mVirtualObject1.setVisualAssetType(VirtualObject.ASSET_IMAGE);
+		//mVirtualObject1.setOverlaidImage("amyWinehouse.png");
 		
 		VirtualObject mVirtualObject3 = new VirtualObject(UUID.randomUUID().toString());
 		mVirtualObject3.setVisualAssetType(VirtualObject.ASSET_IMAGE);
@@ -110,8 +113,9 @@ public class MainActivity extends Activity {
 		VirtualObject mVirtualObject2 = new VirtualObject(UUID.randomUUID().toString());
 		mVirtualObject2.setVisualAssetType(VirtualObject.ASSET_3DMODEL);	
 		mVirtualObject2.setOverlaid3DModel("ogro.md2");
-		//mVirtualObject2.setColorTexture(Color.BLUE);
+		mVirtualObject2.setColorTexture(Color.BLUE);
 		mVirtualObject2.setAnimated(true);
+		mVirtualObject2.setAnimationSecuence(2);
 //		
 //		VirtualObject mVirtualObject1 = new VirtualObject(UUID.randomUUID().toString());
 //		mVirtualObject1.setVisualAssetType(VirtualObject.ASSET_3DMODEL);	
@@ -125,8 +129,8 @@ public class MainActivity extends Activity {
 	
 		
 		
-		//mVirtualObject1.setPhysicalObject(mPhysicalObject1);
-		//mVirtualObject3.setPhysicalObject(mPhysicalObject3);
+		mVirtualObject1.setPhysicalObject(mPhysicalObject3);
+		mVirtualObject3.setPhysicalObject(mPhysicalObject3);
 		mVirtualObject2.setPhysicalObject(mPhysicalObject1);
 		
 
