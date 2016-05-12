@@ -212,7 +212,7 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT, defaultValue = DEFAULT_POSITION + "")
 	@SimpleProperty(description = "Specifies the virtual object's position in the X axis.")
 	public void PositionX(float positionX) {
-		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("PositionX", positionX - data.getPositionX()));
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("PositionX", positionX));
 		this.data.setPositionX(positionX);
 	}
 
@@ -231,7 +231,7 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT, defaultValue = DEFAULT_POSITION + "")
 	@SimpleProperty(description = "Specifies the virtual object's position in the Y axis.")
 	public void PositionY(float positionY) {
-		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("PositionY", positionY - data.getPositionY()));
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("PositionY", positionY));
 		this.data.setPositionY(positionY);
 	}
 
@@ -250,7 +250,7 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT, defaultValue = DEFAULT_POSITION + "")
 	@SimpleProperty(description = "Specifies the virtual object's position in the Z axis.")
 	public void PositionZ(float positionZ) {
-		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("PositionZ", positionZ - data.getPositionZ()));
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(getIntent("PositionZ", positionZ));
 		this.data.setPositionZ(positionZ);
 	}
 

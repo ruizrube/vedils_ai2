@@ -195,18 +195,27 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 			if (eworld.getWorld(uuid) != null) {
 				Object3D object = eworld.getWorld(uuid).getObjectByName(uuid);
 				if (object != null) {
-					if (parameter.equals("PositionX"))
-						object.translate(value, 0, 0);
-					else if (parameter.equals("PositionY"))
-						object.translate(0, value, 0);
-					else if (parameter.equals("PositionZ"))
-						object.translate(0, 0, value);
+					if (parameter.equals("PositionX")) {
+						SimpleVector origin = object.getOrigin();
+						origin.x = value;
+						object.setOrigin(origin);
+					}
+					else if (parameter.equals("PositionY")) {
+						SimpleVector origin = object.getOrigin();
+						origin.y = value;
+						object.setOrigin(origin);
+					}
+					else if (parameter.equals("PositionZ")) {
+						SimpleVector origin = object.getOrigin();
+						origin.x = value;
+						object.setOrigin(origin);
+					}
 					else if (parameter.equals("RotationX"))
-						object.rotateX(value);
+						object.rotateX((float) (value*Math.PI/180));
 					else if (parameter.equals("RotationY"))
-						object.rotateY(value);
+						object.rotateY((float) (value*Math.PI/180));
 					else if (parameter.equals("RotationZ"))
-						object.rotateZ(value);
+						object.rotateZ((float) (value*Math.PI/180));
 					else if (parameter.equals("TranslationX"))
 						object.translate(value, 0, 0);
 					else if (parameter.equals("TranslationY"))
