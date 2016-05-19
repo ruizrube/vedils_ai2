@@ -5930,7 +5930,7 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String MarkerTrackerProperties();
 	
-	@DefaultMessage("*TextTrackerTracker")
+	@DefaultMessage("TextTracker")
 	@Description("")
 	String TextTrackerProperties();
 	
@@ -5975,39 +5975,39 @@ public interface OdeMessages extends Messages {
 	// AR Virtual Object //
 	///////////////////////
 	
-	@DefaultMessage("*PositionX")
+	@DefaultMessage("PositionX")
 	@Description("")
 	String PositionXProperties();
 	
-	@DefaultMessage("*PositionY")
+	@DefaultMessage("PositionY")
 	@Description("")
 	String PositionYProperties();
 	
-	@DefaultMessage("*PositionZ")
+	@DefaultMessage("PositionZ")
 	@Description("")
 	String PositionZProperties();
 	
-	@DefaultMessage("*RotationX")
+	@DefaultMessage("RotationX")
 	@Description("")
 	String RotationXProperties();
 	
-	@DefaultMessage("*RotationY")
+	@DefaultMessage("RotationY")
 	@Description("")
 	String RotationYProperties();
 	
-	@DefaultMessage("*RotationZ")
+	@DefaultMessage("RotationZ")
 	@Description("")
 	String RotationZProperties();
 	
-	@DefaultMessage("*TranslationX")
+	@DefaultMessage("TranslationX")
 	@Description("")
 	String TranslationXProperties();
 	
-	@DefaultMessage("*TranslationY")
+	@DefaultMessage("TranslationY")
 	@Description("")
 	String TranslationYProperties();
 	
-	@DefaultMessage("*TranslationZ")
+	@DefaultMessage("TranslationZ")
 	@Description("")
 	String TranslationZProperties();
 	
@@ -6039,7 +6039,7 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String OverlaidTextProperties();
 	
-	@DefaultMessage("*OverlaidImage")
+	@DefaultMessage("OverlaidImage")
 	@Description("")
 	String OverlaidImageProperties();
 	
@@ -6047,7 +6047,7 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String ColorTextureProperties();
 	
-	@DefaultMessage("*ImageTexture")
+	@DefaultMessage("ImageTexture")
 	@Description("")
 	String ImageTextureProperties();
 	
