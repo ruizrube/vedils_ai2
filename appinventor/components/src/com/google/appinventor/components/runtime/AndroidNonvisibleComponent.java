@@ -70,6 +70,5 @@ public abstract class AndroidNonvisibleComponent implements Component {
     
     public String getName() {
     	return this.name;
-    }    
-  
+    }
 }

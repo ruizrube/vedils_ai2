@@ -97,13 +97,14 @@ public class SpriteTest {
     public HandlesEventDispatching getDispatchDelegate() {
       throw new UnsupportedOperationException();
     }
-  
-    public void WidthPercent(int wPercent) {}
-  
-    public void HeightPercent(int hPercent) {}
-  
-  }
-  
+
+    public void WidthPercent(int wPercent) {
+    }
+
+    public void HeightPercent(int hPercent) {
+    }
+
+}
 
   private static final double DELTA = .0001;  // for floating-point comparisons
 

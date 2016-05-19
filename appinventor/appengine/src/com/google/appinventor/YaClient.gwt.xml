@@ -114,18 +114,19 @@
   <extend-property name="locale" values="en"/>
   
   
-  <!--  IRR
-   Simplified Chinese
-  <extend-property name="locale" values="zh_CN"/>
-   Traditional Chinese 
-  <extend-property name="locale" values="zh_TW"/>
-   Spanish from Spain
-  <extend-property name="locale" values="es_ES"/>
-   Italian
-  <extend-property name="locale" values="it_IT"/>
+  <!--  IRR   
   
-   -->
-   
+  <extend-property name="locale" values="zh_CN"/>
+  <extend-property name="locale" values="zh_TW"/>
+  <extend-property name="locale" values="es_ES"/>
+  <extend-property name="locale" values="fr_FR"/>
+  <extend-property name="locale" values="it_IT"/>
+  <extend-property name="locale" values="ru"/>
+  <extend-property name="locale" values="ko_KR"/>
+  <extend-property name="locale" values="sv"/>
+  <extend-property name="locale" values="pt_BR"/>
+  -->
+
   <set-property-fallback name="locale" value="en"/>
 
 </module>

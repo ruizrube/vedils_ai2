@@ -29,14 +29,14 @@ public final class MockImageSprite extends MockImageBase implements MockSprite {
   public MockImageSprite(SimpleEditor editor) {
     super(editor, TYPE, images.imageSprite());
   }
-  
+
   @Override
   protected void addWidthHeightProperties() {
-  // Percent based size will scale images strangely, so remove percent based sizes
-	  addProperty(PROPERTY_NAME_WIDTH, "" + LENGTH_PREFERRED, MESSAGES.widthPropertyCaption(),
-			  new YoungAndroidLengthPropertyEditor(false));
-	  addProperty(PROPERTY_NAME_HEIGHT, "" + LENGTH_PREFERRED, MESSAGES.heightPropertyCaption(),
-			  new YoungAndroidLengthPropertyEditor(false));
+    // Percent based size will scale images strangely, so remove percent based sizes
+    addProperty(PROPERTY_NAME_WIDTH, "" + LENGTH_PREFERRED, MESSAGES.widthPropertyCaption(),
+        new YoungAndroidLengthPropertyEditor(false));
+    addProperty(PROPERTY_NAME_HEIGHT, "" + LENGTH_PREFERRED, MESSAGES.heightPropertyCaption(),
+        new YoungAndroidLengthPropertyEditor(false));
   }
 
   // Support for Z layers

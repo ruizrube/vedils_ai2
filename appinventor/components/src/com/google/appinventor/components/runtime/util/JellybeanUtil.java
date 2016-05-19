@@ -22,5 +22,4 @@ public class JellybeanUtil {
   public static void getRealSize(Display display, Point outSize) {
     display.getRealSize(outSize);
   }
-
 }

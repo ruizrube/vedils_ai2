@@ -6,12 +6,6 @@
 
 package com.google.appinventor.client.editor.youngandroid.palette;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-
 import com.google.appinventor.client.ComponentsTranslation;
 import com.google.appinventor.client.TranslationDesignerPallete;
 import com.google.appinventor.client.editor.simple.SimpleComponentDatabase;
@@ -29,6 +23,7 @@ import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroid
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidColorChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCommunicationModeChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidComponentSelectorPropertyEditor;
+import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidDefaultURLPropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidFontTypefaceChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidHorizontalAlignmentChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidLegoNxtSensorPortChoicePropertyEditor;
@@ -50,9 +45,10 @@ import com.google.appinventor.client.widgets.properties.LanguageChoicePropertyEd
 import com.google.appinventor.client.widgets.properties.NonNegativeFloatPropertyEditor;
 import com.google.appinventor.client.widgets.properties.NonNegativeIntegerPropertyEditor;
 import com.google.appinventor.client.widgets.properties.PropertyEditor;
+import com.google.appinventor.client.widgets.properties.ScalingChoicePropertyEditor;
 import com.google.appinventor.client.widgets.properties.StringPropertyEditor;
-import com.google.appinventor.client.widgets.properties.TextAreaPropertyEditor;
 import com.google.appinventor.client.widgets.properties.TextPropertyEditor;
+import com.google.appinventor.client.widgets.properties.TextAreaPropertyEditor;
 import com.google.appinventor.common.version.AppInventorFeatures;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
@@ -61,6 +57,12 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.HashSet;
 
 /**
  * Panel showing Simple components which can be dropped onto the Young Android
@@ -93,6 +95,9 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
   
   private static final String[] IMAGE_FILETYPES = {"png", "jpg", "jpeg"};
 
+  private final Map<ComponentCategory, PaletteHelper> paletteHelpers;
+
+
   /**
    * Creates a new component palette panel.
    *
@@ -102,7 +107,9 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
     this.editor = editor;
 
     stackPalette = new StackPanel();
-
+    paletteHelpers = new HashMap<ComponentCategory, PaletteHelper>();
+    // If a category has a palette helper, add it to the paletteHelpers map here.
+    paletteHelpers.put(ComponentCategory.LEGOMINDSTORMS, new NxtPaletteHelper());
     categoryPanels = new HashMap<ComponentCategory, VerticalPanel>();
 
     for (ComponentCategory category : ComponentCategory.values()) {
@@ -124,7 +131,7 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
       return false;
     }
     if (category == ComponentCategory.INTERNAL &&
-      !AppInventorFeatures.showInternalComponentsCategory()) {
+        !AppInventorFeatures.showInternalComponentsCategory()) {
       return false;
     }
     return true;
@@ -221,7 +228,7 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
     } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TEXTALIGNMENT)) {
       return new YoungAndroidAlignmentChoicePropertyEditor();
     } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TEXTAREA)) {
-        return new TextAreaPropertyEditor();
+      return new TextAreaPropertyEditor();
     } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TOAST_LENGTH)) {
       return new YoungAndroidToastLengthChoicePropertyEditor();
     } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TYPEFACE)) {
@@ -268,6 +275,10 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
       return new YoungAndroidAssetSelectorPropertyEditor(editor, new String[]{"dat"});
     } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ASSET_DATABASE_XML)) {
       return new YoungAndroidAssetSelectorPropertyEditor(editor, new String[]{"xml"});
+    } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_SCALING)) {
+      return new ScalingChoicePropertyEditor();
+    } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_FIREBASE_URL)) {
+      return new YoungAndroidDefaultURLPropertyEditor("DEFAULT");
     } else {
       return new TextPropertyEditor();
     }
@@ -278,6 +289,11 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
    */
   private void addPaletteItem(SimplePaletteItem component, ComponentCategory category) {
     VerticalPanel panel = categoryPanels.get(category);
-    panel.add(component);
+    PaletteHelper paletteHelper = paletteHelpers.get(category);
+    if (paletteHelper != null) {
+      paletteHelper.addPaletteItem(panel, component);
+    } else {
+      panel.add(component);
+    }
   }
 }

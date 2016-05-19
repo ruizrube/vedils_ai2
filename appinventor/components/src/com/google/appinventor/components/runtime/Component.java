@@ -95,6 +95,12 @@ public interface Component {
   static final int LAYOUT_ORIENTATION_VERTICAL = ComponentConstants.LAYOUT_ORIENTATION_VERTICAL;
 
   /*
+   * Picture scaling constants.
+   */
+  static final int SCALING_SCALE_PROPORTIONALLY = 0;
+  static final int SCALING_SCALE_TO_FIT = 1;
+
+  /*
    * Typeface constants.
    */
   static final int TYPEFACE_DEFAULT = 0;
@@ -116,15 +122,18 @@ public interface Component {
    */
   static final int ONLY_WIFI = 0;
   static final int INDIFFERENT = 1;
-  
 
   /*
    * Length constants (for width and height).
    */
+
+  // Note: the values below are duplicated in MockVisibleComponent.java
+  // If you change them here, change them there!
+
   static final int LENGTH_PREFERRED = -1;
   static final int LENGTH_FILL_PARENT = -2;
   static final int LENGTH_UNKNOWN = -3;
-  //If the length is <= -1000 then add 1000 and change the sign to
+  // If the length is <= -1000 then add 1000 and change the sign to
   // get the length is percent of Screen1
   static final int LENGTH_PERCENT_TAG = -1000;
 

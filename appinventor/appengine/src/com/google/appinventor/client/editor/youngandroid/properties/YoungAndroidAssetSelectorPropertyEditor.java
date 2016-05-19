@@ -41,6 +41,7 @@ public final class YoungAndroidAssetSelectorPropertyEditor extends AdditionalCho
   private final ListWithNone choices;
 
   private final YoungAndroidAssetsFolder assetsFolder;
+
   //Lista de archivos que soporta el componente
   private final String[] fileTypes;
 
@@ -91,6 +92,7 @@ public final class YoungAndroidAssetSelectorPropertyEditor extends AdditionalCho
     if (assetsFolder != null) {
       for (ProjectNode node : assetsFolder.getChildren()) {
     	addChoiceToList(node);
+        //choices.addItem(node.getName());
       }
     }
 
@@ -196,6 +198,7 @@ public final class YoungAndroidAssetSelectorPropertyEditor extends AdditionalCho
       // to replace the asset.
       if (!choices.containsValue(assetName)) {
         addChoiceToList(node);
+        //choices.addItem(assetName);
       }
 
       // Check whether our asset was updated.

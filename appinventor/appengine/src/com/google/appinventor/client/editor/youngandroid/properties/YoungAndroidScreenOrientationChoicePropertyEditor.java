@@ -17,7 +17,8 @@ import com.google.appinventor.client.widgets.properties.ChoicePropertyEditor;
 public class YoungAndroidScreenOrientationChoicePropertyEditor extends ChoicePropertyEditor {
 
   // Screen orientation choices
-  private static final Choice[] triggerChoices = new Choice[] {
+  private static final Choice[] screenOrientationChoices = new Choice[] {
+    // To avoid confusion, we only show a subset of the available screen orientation values.
     new Choice(MESSAGES.unspecifiedScreenOrientation(), "unspecified"),
     new Choice(MESSAGES.portraitScreenOrientation(), "portrait"),
     new Choice(MESSAGES.landscapeScreenOrientation(), "landscape"),
@@ -26,6 +27,6 @@ public class YoungAndroidScreenOrientationChoicePropertyEditor extends ChoicePro
   };
 
   public YoungAndroidScreenOrientationChoicePropertyEditor() {
-    super(triggerChoices);
+    super(screenOrientationChoices);
   }
 }

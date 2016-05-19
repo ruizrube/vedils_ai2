@@ -12,6 +12,7 @@ import static com.google.appinventor.client.Ode.MESSAGES;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.google.appinventor.client.boxes.AdminUserListBox;
 import com.google.appinventor.client.boxes.AssetListBox;
 import com.google.appinventor.client.boxes.BlockSelectorBox;
 import com.google.appinventor.client.boxes.PrivateUserProfileTabPanel;
@@ -56,6 +57,8 @@ import com.google.appinventor.components.common.YaVersion;
 import com.google.appinventor.shared.rpc.GetMotdService;
 import com.google.appinventor.shared.rpc.GetMotdServiceAsync;
 import com.google.appinventor.shared.rpc.ServerLayout;
+import com.google.appinventor.shared.rpc.admin.AdminInfoService;
+import com.google.appinventor.shared.rpc.admin.AdminInfoServiceAsync;
 import com.google.appinventor.shared.rpc.help.HelpService;
 import com.google.appinventor.shared.rpc.help.HelpServiceAsync;
 import com.google.appinventor.shared.rpc.launch.LaunchService;
@@ -126,11 +129,6 @@ public class Ode implements EntryPoint {
   // I18n messages
   public static final OdeMessages MESSAGES = GWT.create(OdeMessages.class);
 
-  /**
-   * The base URL for App Inventor documentation.
-   */
-  public static final String APP_INVENTOR_DOCS_URL = "";
-
   // Global instance of the Ode object
   private static Ode instance;
 
@@ -142,6 +140,9 @@ public class Ode implements EntryPoint {
 
   // Command registry
   private static final CommandRegistry COMMANDS = new CommandRegistry();
+
+  // System config
+  private static Config config;
 
   // User settings
   private static UserSettings userSettings;
@@ -164,6 +165,11 @@ public class Ode implements EntryPoint {
 
   // Nonce Information
   private String nonce;
+
+  // Read Only Flag: If true, the UI will not permit operations which permit
+  // write requests
+
+  private boolean isReadOnly;
 
   private String sessionId = generateUuid(); // Create new session id
   private Random random = new Random(); // For generating random nonce
@@ -188,6 +194,7 @@ public class Ode implements EntryPoint {
   private static final int USERPROFILE = 4;
   private static final int PRIVATEUSERPROFILE = 5;
   private static final int MODERATIONPAGE = 6;
+  private static final int USERADMIN = 7;
   private static int currentView = DESIGNER;
 
   /*
@@ -211,6 +218,7 @@ public class Ode implements EntryPoint {
   private int debuggingTabIndex;
   private int galleryTabIndex;
   private int galleryAppTabIndex;
+  private int userAdminTabIndex;
   private int userProfileTabIndex;
   private int privateUserProfileIndex;
   private int moderationPageTabIndex;
@@ -221,6 +229,7 @@ public class Ode implements EntryPoint {
   private ProjectToolbar projectToolbar;
   private GalleryToolbar galleryListToolbar;
   private GalleryToolbar galleryPageToolbar;
+  private AdminUserListBox uaListBox;
   private DesignToolbar designToolbar;
   private TopToolbar topToolbar;
   // Popup that indicates that an asynchronous request is pending. It is visible
@@ -244,6 +253,8 @@ public class Ode implements EntryPoint {
 
   // Web service for get motd information
   private final GetMotdServiceAsync getMotdService = GWT.create(GetMotdService.class);
+
+  private final AdminInfoServiceAsync adminInfoService = GWT.create(AdminInfoService.class);
 
   private boolean windowClosing;
 
@@ -288,6 +299,15 @@ public class Ode implements EntryPoint {
   }
 
   /**
+   * Returns the system config.
+   *
+   * @return  system config
+   */
+  public static Config getSystemConfig() {
+    return config;
+  }
+
+  /**
    * Returns the user settings.
    *
    * @return  user settings
@@ -321,7 +341,7 @@ public class Ode implements EntryPoint {
         if(gallerySettings.galleryEnabled() == true){
           ProjectListBox.getProjectListBox().getProjectList().setPublishedHeaderVisible(true);
           projectToolbar.setPublishOrUpdateButtonVisible(true);
-          GalleryClient.getInstance().setSystemEnvironmet(settings.getEnvironment());
+          GalleryClient.getInstance().setSystemEnvironment(settings.getEnvironment());
           GalleryListBox.loadGalleryList();
           topPanel.showGalleryLink(true);
           if(user.isModerator()){
@@ -376,6 +396,20 @@ public class Ode implements EntryPoint {
     currentView = PROJECTS;
     getTopToolbar().updateFileMenuButtons(currentView);
     deckPanel.showWidget(projectsTabIndex);
+    // If we started a project, then the start button was disabled (to avoid
+    // a second press while the new project wizard was starting (aka we "debounce"
+    // the button). When the person switches to the projects list view again (here)
+    // we re-enable it.
+    projectToolbar.enableStartButton();
+  }
+
+  /**
+   * Switch to the User Admin Panel
+   */
+
+  public void switchToUserAdminPanel() {
+    currentView = USERADMIN;
+    deckPanel.showWidget(userAdminTabIndex);
   }
 
   /**
@@ -632,9 +666,12 @@ public class Ode implements EntryPoint {
 
       @Override
       public void onSuccess(Config result) {
+        config = result;
         user = result.getUser();
+        isReadOnly = user.isReadOnly();
+
         // If user hasn't accepted terms of service, ask them to.
-        if (!user.getUserTosAccepted()) {
+        if (!user.getUserTosAccepted() && !isReadOnly) {
           // We expect that the redirect to the TOS page should be handled
           // by the onFailure method below. The server should return a
           // "forbidden" error if the TOS wasn't accepted.
@@ -711,6 +748,14 @@ public class Ode implements EntryPoint {
               // forbidden => need tos accept
               Window.open("/" + ServerLayout.YA_TOS_FORM, "_self", null);
               return;
+            case Response.SC_PRECONDITION_FAILED:
+              String locale = Window.Location.getParameter("locale");
+              if (locale == null || locale.equals("")) {
+                Window.Location.replace("/login/");
+              } else {
+                Window.Location.replace("/login/?locale=" + locale);
+              }
+              return;           // likely not reached
           }
         }
         super.onFailure(caught);
@@ -888,6 +933,17 @@ public class Ode implements EntryPoint {
     aVertPanel.add(appPanel);
     galleryAppTabIndex = deckPanel.getWidgetCount();
     deckPanel.add(aVertPanel);
+
+    // User Admin Panel
+    VerticalPanel uaVertPanel = new VerticalPanel();
+    uaVertPanel.setWidth("100%");
+    uaVertPanel.setSpacing(0);
+    HorizontalPanel adminUserListPanel = new HorizontalPanel();
+    adminUserListPanel.setWidth("100%");
+    adminUserListPanel.add(AdminUserListBox.getAdminUserListBox());
+    uaVertPanel.add(adminUserListPanel);
+    userAdminTabIndex = deckPanel.getWidgetCount();
+    deckPanel.add(uaVertPanel);
 
     // KM: DEBUGGING BEGIN
     // User profile tab
@@ -1155,6 +1211,15 @@ public class Ode implements EntryPoint {
   }
 
   /**
+   * Get an instance of the Admin Info service
+   *
+   * @return admin info service instance
+   */
+  public AdminInfoServiceAsync getAdminInfoService() {
+    return adminInfoService;
+  }
+
+  /**
    * Get an instance of the help web service.
    *
    * @return help service instance
@@ -1311,7 +1376,7 @@ public class Ode implements EntryPoint {
    */
   public DialogBox createNoProjectsDialog(boolean showDialog) {
     // Create the UI elements of the DialogBox
-    final DialogBox dialogBox = new DialogBox(true);
+    final DialogBox dialogBox = new DialogBox(true, false); //DialogBox(autohide, modal)
     dialogBox.setStylePrimaryName("ode-DialogBox");
     dialogBox.setText(MESSAGES.createNoProjectsDialogText());
 
@@ -1468,6 +1533,10 @@ public class Ode implements EntryPoint {
    */
   private void showSurveySplash() {
     // Create the UI elements of the DialogBox
+    if (isReadOnly) {           // Bypass the survey if we are read-only
+      maybeShowSplash();
+      return;
+    }
     final DialogBox dialogBox = new DialogBox(false, true); // DialogBox(autohide, modal)
     dialogBox.setStylePrimaryName("ode-DialogBox");
     dialogBox.setText(MESSAGES.createWelcomeDialogText());
@@ -1528,7 +1597,7 @@ public class Ode implements EntryPoint {
   }
 
   private void maybeShowSplash() {
-    if (AppInventorFeatures.showSplashScreen()) {
+    if (AppInventorFeatures.showSplashScreen() && !isReadOnly) {
       createWelcomeDialog(false);
     } else {
       openProjectsTab();
@@ -1848,6 +1917,46 @@ public class Ode implements EntryPoint {
   }
 
   /**
+   * Display a generic warning dialog box.
+   * This method is public because it is intended to be used from other
+   * parts of the client GWT side system.
+   *
+   * Note: We expect our caller to internationalize the messages to be
+   * displayed.
+   *
+   * @param title The title for the dialog box
+   * @param message The message to display
+   * @param buttonString the name of the button, i.e., "OK"
+   */
+
+  public void warningDialog(String title, String messageString, String buttonString) {
+    // Create the UI elements of the DialogBox
+    final DialogBox dialogBox = new DialogBox(false, true); // DialogBox(autohide, modal)
+    dialogBox.setStylePrimaryName("ode-DialogBox");
+    dialogBox.setText(title);
+    dialogBox.setHeight("100px");
+    dialogBox.setWidth("400px");
+    dialogBox.setGlassEnabled(true);
+    dialogBox.setAnimationEnabled(true);
+    dialogBox.center();
+    VerticalPanel DialogBoxContents = new VerticalPanel();
+    HTML message = new HTML("<p>" + messageString + "</p>");
+    message.setStyleName("DialogBox-message");
+    FlowPanel holder = new FlowPanel();
+    Button okButton = new Button(buttonString);
+    okButton.addClickListener(new ClickListener() {
+        public void onClick(Widget sender) {
+          dialogBox.hide();
+        }
+      });
+    holder.add(okButton);
+    DialogBoxContents.add(message);
+    DialogBoxContents.add(holder);
+    dialogBox.setWidget(DialogBoxContents);
+    dialogBox.show();
+  }
+
+  /**
    * Is it OK to connect a device/emulator. Returns true if so false
    * otherwise.
    *
@@ -1913,6 +2022,16 @@ public class Ode implements EntryPoint {
     return nonce;
   }
 
+  public boolean isReadOnly() {
+    return isReadOnly;
+  }
+
+  // This is called from AdminUserList when we are switching users
+  // See the comment there...
+  public void setReadOnly() {
+    isReadOnly = true;
+  }
+
   // Code to lock out certain screen and project switching code
   // These are locked out while files are being saved
   // lockScreens(true) is called from EditorManager when it
@@ -1954,7 +2073,7 @@ public class Ode implements EntryPoint {
      });
   }-*/;
 
-  private static native void reloadWindow() /*-{
+  public static native void reloadWindow() /*-{
     top.location.reload();
   }-*/;
 

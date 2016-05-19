@@ -33,13 +33,18 @@ public class ProjectToolbar extends Toolbar {
   private static final String WIDGET_NAME_NEW = "New";
   private static final String WIDGET_NAME_DELETE = "Delete";
   private static final String WIDGET_NAME_PUBLISH_OR_UPDATE = "PublishOrUpdate";
+
+  private boolean isReadOnly;
+
   /**
    * Initializes and assembles all commands into buttons in the toolbar.
    */
   public ProjectToolbar() {
     super();
+    isReadOnly = Ode.getInstance().isReadOnly();
+
     addButton(new ToolbarItem(WIDGET_NAME_NEW, MESSAGES.newProjectMenuItem(),
-        new NewAction()));
+        new NewAction(this)));
 
     addButton(new ToolbarItem(WIDGET_NAME_DELETE, MESSAGES.deleteProjectButton(),
         new DeleteAction()));
@@ -54,12 +59,23 @@ public class ProjectToolbar extends Toolbar {
   }
 
   private static class NewAction implements Command {
+    ProjectToolbar parent;
+
+    public NewAction(ProjectToolbar parent) {
+      this.parent = parent;
+    }
+
     @Override
     public void execute() {
       if (Ode.getInstance().screensLocked()) {
         return;                 // Refuse to switch if locked (save file happening)
       }
-      new NewYoungAndroidProjectWizard().center();
+      // Disabled the Start New Project button. We do this because on slow machines people
+      // click it multiple times while the wizard (below) is starting. This then causes
+      // a second wizard to start and a very confused user experience.
+      // We will enable the button again when we re-visit the Project List page
+      parent.setButtonEnabled(WIDGET_NAME_NEW, false);
+      new NewYoungAndroidProjectWizard(parent).center();
       // The wizard will switch to the design view when the new
       // project is created.
     }
@@ -68,20 +84,25 @@ public class ProjectToolbar extends Toolbar {
   private static class DeleteAction implements Command {
     @Override
     public void execute() {
-      List<Project> selectedProjects =
-          ProjectListBox.getProjectListBox().getProjectList().getSelectedProjects();
-      if (selectedProjects.size() > 0) {
-        // Show one confirmation window for selected projects.
-        if (deleteConfirmation(selectedProjects)) {
-          for (Project project : selectedProjects) {
-            deleteProject(project);
+      Ode.getInstance().getEditorManager().saveDirtyEditors(new Command() {
+        @Override
+        public void execute() {
+          List<Project> selectedProjects =
+              ProjectListBox.getProjectListBox().getProjectList().getSelectedProjects();
+          if (selectedProjects.size() > 0) {
+            // Show one confirmation window for selected projects.
+            if (deleteConfirmation(selectedProjects)) {
+              for (Project project : selectedProjects) {
+                deleteProject(project);
+              }
+            }
+          } else {
+            // The user can select a project to resolve the
+            // error.
+            ErrorReporter.reportInfo(MESSAGES.noProjectSelectedForDelete());
           }
         }
-      } else {
-        // The user can select a project to resolve the
-        // error.
-        ErrorReporter.reportInfo(MESSAGES.noProjectSelectedForDelete());
-      }
+      });
     }
 
     private boolean deleteConfirmation(List<Project> projects) {
@@ -216,6 +237,17 @@ public class ProjectToolbar extends Toolbar {
     ProjectList projectList = ProjectListBox.getProjectListBox().getProjectList();
     int numProjects = projectList.getNumProjects();
     int numSelectedProjects = projectList.getNumSelectedProjects();
+    if (isReadOnly) {           // If we are read-only, we disable all buttons
+      setButtonText(WIDGET_NAME_PUBLISH_OR_UPDATE, MESSAGES.publishToGalleryButton());
+      setButtonEnabled(WIDGET_NAME_NEW, false);
+      setButtonEnabled(WIDGET_NAME_DELETE, false);
+      setButtonEnabled(WIDGET_NAME_PUBLISH_OR_UPDATE, false);
+      Ode.getInstance().getTopToolbar().fileDropDown.setItemEnabled(MESSAGES.exportProjectMenuItem(),
+        numSelectedProjects > 0);
+      Ode.getInstance().getTopToolbar().fileDropDown.setItemEnabled(MESSAGES.exportAllProjectsMenuItem(),
+        numSelectedProjects > 0);
+      return;
+    }
     setButtonEnabled(WIDGET_NAME_DELETE, numSelectedProjects > 0);
     setButtonEnabled(WIDGET_NAME_PUBLISH_OR_UPDATE, numSelectedProjects == 1);
     if(numSelectedProjects == 1 && ProjectListBox.getProjectListBox().getProjectList()
@@ -231,4 +263,15 @@ public class ProjectToolbar extends Toolbar {
     Ode.getInstance().getTopToolbar().fileDropDown.setItemEnabled(MESSAGES.exportAllProjectsMenuItem(),
         numSelectedProjects > 0);
   }
+
+  // If we started a project, then the start button was disabled (to avoid
+  // a second press while the new project wizard was starting (aka we "debounce"
+  // the button). When the person switches to the projects list view again (here)
+  // we re-enable it.
+  public void enableStartButton() {
+    if (!isReadOnly) {
+      setButtonEnabled(WIDGET_NAME_NEW, true);
+    }
+  }
+
 }

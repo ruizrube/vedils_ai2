@@ -23,17 +23,17 @@ public final class ViewUtil {
 
   private ViewUtil() {
   }
-  
+
   /**
-  * Calculate the device dependent pixels to render this view. The size in the designer is given
-  * in Density Independent Pixels, and we need to transform that to real pixels depending on the
-  * device running the app. The formula is simple: "pixel_size * density".
-  * @param view the view is needed to grab the Context object
-  * @param sizeInDP the size (in DP) specified in the designer
-  * @return size in Pixels for the particular device running the app.
-  */
+   * Calculate the device dependent pixels to render this view. The size in the designer is given
+   * in Density Independent Pixels, and we need to transform that to real pixels depending on the
+   * device running the app. The formula is simple: "pixel_size * density".
+   * @param view the view is needed to grab the Context object
+   * @param sizeInDP the size (in DP) specified in the designer
+   * @return size in Pixels for the particular device running the app.
+   */
   private static int calculatePixels(View view, int sizeInDP) {
-	  return (int) (view.getContext().getResources().getDisplayMetrics().density * sizeInDP);
+    return (int) (view.getContext().getResources().getDisplayMetrics().density * sizeInDP);
   }
 
   public static void setChildWidthForHorizontalLayout(View view, int width) {
@@ -102,6 +102,7 @@ public final class ViewUtil {
           linearLayoutParams.width = calculatePixels(view, width);
           break;
       }
+//      System.err.println("ViewUtil: setChildWidthForVerticalLayout: view = " + view + " width = " + width);
       view.requestLayout();
     } else {
       Log.e("ViewUtil", "The view does not have linear layout parameters");

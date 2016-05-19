@@ -43,7 +43,6 @@ public class StoredData {
 	  // IRR: Etiqueta para que no se produzca descarga del campo content en FieldData
 	}
 	
-	
   // The UserData class is an entity root, and the parent of UserFileData
   // and UserProjectData
   @Unindexed
@@ -53,12 +52,14 @@ public class StoredData {
     @Id public String id;
 
     @Indexed public String email;
+    @Indexed public String emaillower;
 
     // User settings
     public String settings;
 
     // Has user accepted terms of service?
     boolean tosAccepted;
+    boolean isAdmin;            // Internal flag for local login administrators
 
     @Indexed public Date visited; // Used to figure out if a user is active. Timestamp when settings are stored.
 
@@ -67,7 +68,7 @@ public class StoredData {
     public int emailFrequency;
     public int type;
     String sessionid;           // uuid of active session
-
+    String password;            // Hashed (PBKDF2 hashing) password
     // Path to template project passed as GET parameter
     String templatePath;
     boolean upgradedGCS;
@@ -145,7 +146,7 @@ public class StoredData {
 
     // File content, these are raw bytes. Note that Objectify automatically
     // converts byte[] to Blob.
-    @TAGExcluir byte[] content;
+    byte[] content;
 
     // File settings
     // TODO(user): is this ever used?
@@ -155,6 +156,7 @@ public class StoredData {
   // Project files
   // Note: FileData has to be Serializable so we can put it into
   //       memcache.
+  @Cached
   @Unindexed
   static final class FileData implements Serializable {
     // The role that file play: source code, build target or temporary file
@@ -177,7 +179,7 @@ public class StoredData {
     // converts byte[] to an App Engine Datastore Blob (which is not the same thing as a Blobstore
     // Blob).  Consequently, if isBlob is true, the content field should be ignored and the data
     // should be retrieved from Blobstore.
-    @TAGExcluir byte[] content;
+    byte[] content;
 
     // Is this file stored in Blobstore.  If it is, the blobstorePath will contain the path to use
     // to retrieve the data from Blobstore.
@@ -191,7 +193,7 @@ public class StoredData {
 
     // Is this file stored in the Google Cloud Store (GCS). If it is the gcsName will contain the
     // GCS file name (sans bucket).
-    boolean isGCS;
+    Boolean isGCS = false;
 
     // The GCS filename, sans bucket name
     String gcsName;
@@ -201,6 +203,10 @@ public class StoredData {
 
     // DateTime of last backup only used if GCS is enabled
     long lastBackup;
+
+    String userId;              // The userId which owns this file
+                                // if null or the empty string, we haven't initialized
+                                // it yet
   }
 
   // MOTD data.
@@ -284,4 +290,13 @@ public class StoredData {
     public int width;
   }
 
+  // Data Structure to keep track of url's emailed out for password
+  // setting and reseting. The Id (which is a UUID) is part of the URL
+  // that is mailed out.
+  @Unindexed
+  public static final class PWData {
+    @Id public String id;              // "Secret" URL part
+    @Indexed public Date timestamp; // So we know when to expire this objects
+    public String email;            // Email of account in question
+  }
 }

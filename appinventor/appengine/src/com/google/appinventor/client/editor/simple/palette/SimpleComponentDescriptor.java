@@ -6,8 +6,6 @@
 
 package com.google.appinventor.client.editor.simple.palette;
 
-import java.util.Map;
-
 import com.google.appinventor.client.Images;
 import com.google.appinventor.client.Ode;
 import com.google.appinventor.client.editor.simple.SimpleComponentDatabase;
@@ -20,30 +18,32 @@ import com.google.appinventor.client.editor.simple.components.MockComponent;
 import com.google.appinventor.client.editor.simple.components.MockContactPicker;
 import com.google.appinventor.client.editor.simple.components.MockDatePicker;
 import com.google.appinventor.client.editor.simple.components.MockEmailPicker;
+import com.google.appinventor.client.editor.simple.components.MockFirebaseDB;
 import com.google.appinventor.client.editor.simple.components.MockHorizontalArrangement;
 import com.google.appinventor.client.editor.simple.components.MockImage;
 import com.google.appinventor.client.editor.simple.components.MockImagePicker;
 import com.google.appinventor.client.editor.simple.components.MockImageSprite;
 import com.google.appinventor.client.editor.simple.components.MockLabel;
-import com.google.appinventor.client.editor.simple.components.MockListPicker;
 import com.google.appinventor.client.editor.simple.components.MockListView;
+import com.google.appinventor.client.editor.simple.components.MockListPicker;
+import com.google.appinventor.client.editor.simple.components.MockTimePicker;
 import com.google.appinventor.client.editor.simple.components.MockNonVisibleComponent;
 import com.google.appinventor.client.editor.simple.components.MockPasswordTextBox;
 import com.google.appinventor.client.editor.simple.components.MockPhoneNumberPicker;
 import com.google.appinventor.client.editor.simple.components.MockRadioButton;
 import com.google.appinventor.client.editor.simple.components.MockSlider;
-import com.google.appinventor.client.editor.simple.components.MockSpinner;
 import com.google.appinventor.client.editor.simple.components.MockTableArrangement;
 import com.google.appinventor.client.editor.simple.components.MockTextBox;
-import com.google.appinventor.client.editor.simple.components.MockTimePicker;
 import com.google.appinventor.client.editor.simple.components.MockVerticalArrangement;
 import com.google.appinventor.client.editor.simple.components.MockVideoPlayer;
 import com.google.appinventor.client.editor.simple.components.MockWebViewer;
+import com.google.appinventor.client.editor.simple.components.MockSpinner;
 import com.google.common.collect.Maps;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
+import java.util.Map;
 /**
  * Descriptor for components on the component palette panel.
  * This class is immutable.
@@ -87,6 +87,7 @@ public final class SimpleComponentDescriptor {
 
   private static void initBundledImages() {
     bundledImages.put("images/accelerometersensor.png", images.accelerometersensor());
+    bundledImages.put("images/gyroscopesensor.png", images.gyroscopesensor());
     bundledImages.put("images/nearfield.png", images.nearfield());
     bundledImages.put("images/activityStarter.png", images.activitystarter());
     bundledImages.put("images/barcodeScanner.png", images.barcodeScanner());
@@ -114,9 +115,11 @@ public final class SimpleComponentDescriptor {
     bundledImages.put("images/tinyDB.png", images.tinyDB());
     bundledImages.put("images/file.png", images.file());
     bundledImages.put("images/tinyWebDB.png", images.tinyWebDB());
+    bundledImages.put("images/firebaseDB.png", images.firebaseDB());
     bundledImages.put("images/twitter.png", images.twitterComponent());
     bundledImages.put("images/voting.png", images.voting());
     bundledImages.put("images/web.png", images.web());
+    bundledImages.put("images/mediastore.png", images.mediastore());
     bundledImages.put("images/sharing.png", images.sharingComponent());
     bundledImages.put("images/spinner.png", images.spinner());
     bundledImages.put("images/listView.png", images.listview());
@@ -134,7 +137,6 @@ public final class SimpleComponentDescriptor {
     bundledImages.put("images/arColorTracker.png", images.activityTracker());
     bundledImages.put("images/handGestureSensor.png", images.handGestureSensor());
     
-    //bundledImages.put("images/arColorTracker.png", images.notificableDummy());
     imagesInitialized = true;
   }
 
@@ -270,8 +272,13 @@ public final class SimpleComponentDescriptor {
    */
   public static MockComponent createMockComponent(String name, SimpleEditor editor) {
     if (COMPONENT_DATABASE.getNonVisible(name)) {
-      return new MockNonVisibleComponent(editor, name,
-          getImageFromPath(COMPONENT_DATABASE.getIconName(name)));
+      if(name.equals(MockFirebaseDB.TYPE)) {
+        return new MockFirebaseDB(editor, name,
+            getImageFromPath(COMPONENT_DATABASE.getIconName(name)));
+      } else {
+        return new MockNonVisibleComponent(editor, name,
+            getImageFromPath(COMPONENT_DATABASE.getIconName(name)));
+      }
     } else if (name.equals(MockButton.TYPE)) {
       return new MockButton(editor);
     } else if (name.equals(MockCanvas.TYPE)) {
@@ -321,7 +328,7 @@ public final class SimpleComponentDescriptor {
     } else if (name.equals(MockWebViewer.TYPE)) {
       return new MockWebViewer(editor);
     } else if (name.equals(MockSpinner.TYPE)) {
-      return new MockSpinner(editor);        
+      return new MockSpinner(editor);
     } else {
       // TODO(user): add 3rd party mock component proxy here
       throw new UnsupportedOperationException("unknown component: " + name);

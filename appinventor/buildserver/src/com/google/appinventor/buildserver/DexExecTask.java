@@ -192,10 +192,7 @@ public class DexExecTask  {
         commandLineList.add("-mx" + mx + "M");
         commandLineList.add("-jar");
         commandLineList.add(mExecutable);
-
         commandLineList.add("--dex");
-        //commandLineList.add("--multi-dex");
-        
         commandLineList.add("--positions=lines");
 
         if (mNoLocals) {
@@ -205,10 +202,8 @@ public class DexExecTask  {
         if (mVerbose) {
             commandLineList.add("--verbose");
         }
-
         //IRR
         commandLineList.add("--force-jumbo");
-        
         commandLineList.add("--output=" + output);
 
         for (File input : inputs) {

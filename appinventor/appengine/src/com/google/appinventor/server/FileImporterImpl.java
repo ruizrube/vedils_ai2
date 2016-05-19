@@ -102,7 +102,7 @@ public final class FileImporterImpl implements FileImporter {
             // so that it contains the correct entries for "main" and "name", which are dependent on
             // the projectName and qualifiedFormName.
             String content = YoungAndroidProjectService.getProjectPropertiesFileContents(
-            		projectName, qualifiedFormName, null, null, null, null, null, null);
+              projectName, qualifiedFormName, null, null, null, null, null, null);
             project.addTextFile(new TextFile(fileName, content));
             isProjectArchive = true;
 

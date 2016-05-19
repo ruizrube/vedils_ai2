@@ -105,7 +105,7 @@ select {
 
 .ode-Box-content {
   font-size: 13px;
-  background-color: #f7f9f2;
+  background-color: #FFFFFF;
   /* TODO(opensource): Delete the background-image line below once we're ready */
   background-image: url(images/watermark.png);
   color: #555;
@@ -117,7 +117,7 @@ select {
 }
 
 .ode-Box-header {
-  background: rgba(202, 0, 0, 0.3);
+  background: rgba(209, 0, 0, 0.8);
   height: 31px;
   border: 1px solid;
   border-color: #d2d2d2 #d2d2d2 #b0b2a7 #d2d2d2;
@@ -132,7 +132,7 @@ select {
 }
 
 .ode-Box-header-caption {
-  color: #555;
+  color: #FFF;
 }
 
 .ode-Box-header-caption-highlighted {
@@ -168,7 +168,7 @@ select {
  */
 
 .ode-Motd {
-  background-color: #f7f9f2;
+  background-color: #FFFFFF;
   font-size: small;
   color: #555;
 }
@@ -178,7 +178,7 @@ select {
  */
 .ode-ProjectGalleryLink {
   cursor: pointer;
-  color: #b3c833;
+  color: #D79191;
   text-align: center;
 }
 .ode-ProjectNameLabel {
@@ -220,7 +220,7 @@ select {
 }
 
 .ode-ProjectHeaderLabel {
-  color: #112abb;
+  color: #000000;
   font-size: 11px;
   cursor: pointer;
 }
@@ -239,12 +239,12 @@ select {
   margin-bottom: 4px;
   padding-right: 4px;
   padding-left: 4px;
-  background-color: #f2f2f2;
-  background-image: -moz-linear-gradient(top, #f2f2f2, #f3f3f3);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f2f2f2), to(#f3f3f3));
-  background-image: -webkit-linear-gradient(top, #f2f2f2, #f3f3f3);
-  background-image: -o-linear-gradient(top, #f2f2f2, #f3f3f3);
-  background-image: linear-gradient(to bottom, #f2f2f2, #f3f3f3);
+  background-color: #BCB7B7;
+  background-image: -moz-linear-gradient(top, #BCB7B7, #F1F4F9);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#BCB7B7), to(#F1F4F9));
+  background-image: -webkit-linear-gradient(top, #BCB7B7, #F1F4F9);
+  background-image: -o-linear-gradient(top, #BCB7B7, #F1F4F9);
+  background-image: linear-gradient(to bottom, #BCB7B7, #F1F4F9);
   background-repeat: repeat-x;
   border: 1px solid #d4d4d4;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff2f2f2', GradientType=0);
@@ -285,7 +285,7 @@ select {
 }
 
 .ode-TopPanelAccount a {
-  color: #669900;
+  color: #D79191;
 }
 
 .ode-TopPanelAccount .linkdivider {
@@ -440,7 +440,7 @@ select {
 .MsgMeta .ActionButton {
   display: inline;
   margin-right: 20px;
-  background: #b3c833;
+  background: #4EB8F2;
 }
 .MsgMeta .MsgSender {
   display: inline;
@@ -520,7 +520,7 @@ select {
 
 .ode-Icon-selected {
   padding: 0 2px 0 2px;
-  border: 2px solid #8fc202;
+  border: 2px solid #641818;
 }
 
 .gwt-TabBar {
@@ -539,13 +539,13 @@ select {
   font-size: 13px;
   text-align: center;
   background-color: #eef2e0;
-  border: 2px solid #d2e0a6;
+  border: 2px solid #D79191;
 }
 
 .gwt-TabBar .gwt-TabBarItem-selected {
   cursor: default;
-  background-color: #8fc202;
-  border: 2px solid #8fc202;
+  background-color: #641818;
+  border: 2px solid #641818;
 }
 
 .gwt-RadioButton {
@@ -576,7 +576,7 @@ select {
 }
 
 .gwt-Tree .gwt-TreeItem-selected span {
-  background-color: #d2e0a6;
+  background-color: #D79191;
 }
 
 /* Young Android Toolbar */
@@ -715,7 +715,7 @@ select {
 .gwt-StackPanelItem div {
   border-top: 1px solid #d2d2d2;
   border-bottom: 1px solid #d2d2d2;
-  background-color: #eef2e0;
+  background-color: #DCD8D8;
   font-size: 13px;
   cursor: pointer;
   height: 14px;
@@ -792,7 +792,7 @@ select {
 
 .ode-HeaderPanel {
   width: 100%;
-  border: 1px solid #D6E9F8;
+  border: 1px solid #074F75;
   background-color: white;
 }
 
@@ -803,7 +803,7 @@ select {
 }
 
 .ode-PropertiesPanel {
-  background-color: #f7f9f2;
+  background-color: #FFFFFF;
   padding-left: 9px;
   padding-right: 9px;
   padding-bottom: 9px;
@@ -815,7 +815,7 @@ select {
 }
 
 .ode-PropertiesComponentName {
-  background-color: #eef2e0;
+  background-color: #DCD8D8;
   color: #555;
   font-size: 13px;
   border-bottom: 1px solid #d2d2d2;
@@ -912,12 +912,12 @@ select.ode-PropertyEditor[disabled] {
 }
 
 .ode-SimpleMockForm {
-  background-color: #d2e0a6;
+  background-color: #D79191;
   border: 2px solid black;
 }
 
 .ode-SimpleMockForm-selected {
-  border: 2px solid #8fc202;
+  border: 2px solid #641818;
 }
 
 .ode-SimpleMockFormTitleBar {
@@ -940,7 +940,7 @@ select.ode-PropertyEditor[disabled] {
 }
 
 .ode-SimpleMockContainer-selected {
-  border: 2px solid #8fc202;
+  border: 2px solid #641818;
 }
 
 .ode-SimpleMockComponent {
@@ -954,7 +954,7 @@ select.ode-PropertyEditor[disabled] {
 }
 
 .ode-SimpleMockComponent-selected {
-  border: 2px solid #8fc202;
+  border: 2px solid #641818;
 }
 
 .ode-SimpleMockContainer-centerContents {
@@ -990,19 +990,25 @@ select.ode-PropertyEditor[disabled] {
   text-align: center;
 }
 
+.imageComponentCenterPanel img {
+  position: relative;
+  top: 50%;
+  transform: translate(0px, -50%);
+}
+
 /* Component Help */
 
 .ode-ComponentHelpPopup {
   background-color: white;
-  border-left: 4px solid #8fc202;
-  border-right: 4px solid #8fc202;
-  border-bottom: 4px solid #8fc202;
+  border-left: 4px solid #641818;
+  border-right: 4px solid #641818;
+  border-bottom: 4px solid #641818;
   width: 20%;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.065);
 }
 
 .ode-ComponentHelpPopup-TitleBar {
-  background-color: #8fc202;
+  background-color: #641818;
   color: white;
   font-weight: bold;
   font-size: 13px;
@@ -1021,7 +1027,12 @@ select.ode-PropertyEditor[disabled] {
 
 }
 .ode-ComponentHelpPopup-Link a {
-  color: #8fc202;
+  color: #641818;
+}
+
+.ode-ComponentHelpPopup > .popupContent > table {
+  width: 100%;
+  word-break: break-word;
 }
 
 .compiler-ErrorMarker {
@@ -1110,9 +1121,9 @@ select.ode-PropertyEditor[disabled] {
 
 .ode-DialogBox {
   background-color: white;
-  border-left: 4px solid #8fc202;
-  border-right: 4px solid #8fc202;
-  border-bottom: 4px solid #8fc202;
+  border-left: 4px solid #641818;
+  border-right: 4px solid #641818;
+  border-bottom: 4px solid #641818;
 }
 
 .ode-DialogBox .gwt-CheckBox {
@@ -1129,11 +1140,11 @@ select.ode-PropertyEditor[disabled] {
 }
 
 .ode-DialogBox .dialogTop {
-  background-color: #8fc202;
+  background-color: #641818;
 }
 
 .ode-DialogBox .Caption {
-  background-color: #8fc202;
+  background-color: #641818;
   color: white;
   font-weight: bold;
   font-size: 13px;
@@ -1176,7 +1187,7 @@ select.ode-PropertyEditor[disabled] {
 }
 
 .ode-Android-caption {
-  background-color: #8fc202;
+  background-color: #641818;
   color: white;
   font-size: medium;
 }
@@ -1203,7 +1214,7 @@ select.ode-PropertyEditor[disabled] {
   width: 100%;
 }
 .gwt-ProgressBar-shell .gwt-ProgressBar-bar {
-  background-color: #8fc202;
+  background-color: #641818;
 }
 .gwt-ProgressBar-shell .gwt-ProgressBar-text {
   position: absolute;
@@ -1457,7 +1468,7 @@ textarea::-webkit-input-placeholder {
 
 /* Gallery Toolbar*/
 .ya-GalleryToolbar {
-  background-color: #8fc202;
+  background-color: #641818;
   margin-bottom: 4px;
   clear: both;
 }
@@ -1665,7 +1676,7 @@ textarea::-webkit-input-placeholder {
   float: right;
 }
 .gallery-nav-return .gwt-Label {
-  color: #b3c833;
+  color: #D79191;
 }
 .gallery-nav-return:hover {
   cursor: pointer;
@@ -1923,7 +1934,7 @@ textarea::-webkit-input-placeholder {
   text-shadow: none;
   border-radius: 0;
   text-transform: uppercase;
-  background-color: #b3c833;
+  background-color: #D79191;
   background-position: 0 0;
   background-image: none;
   -webkit-box-shadow: none;
@@ -1973,12 +1984,12 @@ textarea::-webkit-input-placeholder {
   vertical-align:top;
 }
 .app-otherinfo-textlink {
-  color: #b3c833;
-  border-bottom: 1px dotted #b3c833;
+  color: #D79191;
+  border-bottom: 1px dotted #D79191;
   font-weight: 300; font-size: 14px;
 }
 .app-otherinfo-textlink:hover {
-  background-color: #b3c833;
+  background-color: #D79191;
   color: white;
   cursor: pointer;
 }
@@ -2027,18 +2038,18 @@ textarea::-webkit-input-placeholder {
   display: inline;
 }
 .gallery-app-details .app-username {
-  color: #b3c833;
-  border-bottom: 1px dotted #b3c833;
+  color: #D79191;
+  border-bottom: 1px dotted #D79191;
 }
 .gallery-app-details .app-username:hover {
-  background-color: #b3c833;
+  background-color: #D79191;
   color: white;
   cursor: pointer;
 }
 .gallery-app-details .app-attributor-username {
   margin-right: 5px;
-  color: #b3c833;
-  border-bottom: 1px dotted #b3c833;
+  color: #D79191;
+  border-bottom: 1px dotted #D79191;
   display: inline;
 }
 .gallery-app-details .app-attributor-label {
@@ -2093,7 +2104,7 @@ textarea::-webkit-input-placeholder {
 .gallery-app-details .app-tags {
   max-width: 100%;
   display: block;
-  margin: 10px 0 0; 
+  margin: 10px 0 0;
 }
 .gallery-app-details .app-tags .gwt-Label {
   display: inline-block;
@@ -2173,9 +2184,9 @@ textarea::-webkit-input-placeholder {
   display: block;
   width: 100%;
 }
-.gallery-page-single .gwt-TabBar .gwt-TabBarItem-selected,
+.gallery-page-single .gwt-TabBar .gwt-TabBarItem-D79191,
 .gallery-app-single .gwt-TabBar .gwt-TabBarItem-selected {
-  color: #b3c833;
+  color: #D79191;
   font-weight: 300;
 }
 .gallery-nav-return .gwt-Label,
@@ -2192,14 +2203,14 @@ textarea::-webkit-input-placeholder {
   font-size: 12px;
 }
 .primary-link-small {
-  color: #b3c833;
-  border-bottom: 1px dotted #b3c833;
+  color: #D79191;
+  border-bottom: 1px dotted #D79191;
   font-weight: 300; font-size: 11.5px; line-height: 1.75;
 }
 .primary-link,
 .moderator-link {
-  color: #b3c833;
-  border-bottom: 1px dotted #b3c833;
+  color: #D79191;
+  border-bottom: 1px dotted #D79191;
   font-weight: 300; font-size: 14px; line-height: 1.75;
 }
 .moderator-link {
@@ -2210,7 +2221,7 @@ textarea::-webkit-input-placeholder {
 .primary-link:hover,
 .primary-link-small:hover,
 .moderator-link:hover {
-  background-color: #b3c833;
+  background-color: #D79191;
   color: white;
   cursor: pointer;
   width: auto;
@@ -2255,7 +2266,7 @@ textarea::-webkit-input-placeholder {
 }
 .seemore-link {
   color: #333399;
-  border-bottom: 1px dotted #b3c833;
+  border-bottom: 1px dotted #D79191;
   font-weight: 300; font-size: 14px; line-height: 1.75;
   display:inline;
   margin-right:5px;
