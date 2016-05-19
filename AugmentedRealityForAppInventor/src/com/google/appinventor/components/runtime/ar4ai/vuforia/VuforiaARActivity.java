@@ -1,10 +1,12 @@
 package com.google.appinventor.components.runtime.ar4ai.vuforia;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import com.google.appinventor.components.runtime.ar4ai.ARActivity;
 import com.google.appinventor.components.runtime.ar4ai.PhysicalObject;
-import com.google.appinventor.components.runtime.ar4ai.VirtualObject;
 import com.google.appinventor.components.runtime.ar4ai.common.VuforiaApplicationControl;
 import com.google.appinventor.components.runtime.ar4ai.common.VuforiaApplicationException;
 import com.google.appinventor.components.runtime.ar4ai.common.VuforiaApplicationSession;
@@ -15,21 +17,26 @@ import com.qualcomm.vuforia.DataSet;
 import com.qualcomm.vuforia.Marker;
 import com.qualcomm.vuforia.MarkerTracker;
 import com.qualcomm.vuforia.ObjectTracker;
+import com.qualcomm.vuforia.RectangleInt;
 import com.qualcomm.vuforia.STORAGE_TYPE;
-import com.qualcomm.vuforia.State;
-import com.qualcomm.vuforia.Tool;
-import com.qualcomm.vuforia.Trackable;
 import com.qualcomm.vuforia.TrackableResult;
 import com.qualcomm.vuforia.Tracker;
 import com.qualcomm.vuforia.TrackerManager;
 import com.qualcomm.vuforia.Vec2F;
 import com.qualcomm.vuforia.Vuforia;
+import com.qualcomm.vuforia.Word;
+import com.qualcomm.vuforia.WordList;
+import com.qualcomm.vuforia.State;
+import com.qualcomm.vuforia.TextTracker;
+import com.qualcomm.vuforia.Tool;
+import com.qualcomm.vuforia.Trackable;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -58,6 +65,7 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 
 	private Marker[] markerDataSet;
 	private DataSet imageDataset;
+	private Map<String, PhysicalObject> textDataset = new HashMap<String, PhysicalObject>();
 
 	private List<TrackableResult> previouslyRecognizedTrackables = new ArrayList<TrackableResult>();
 	private List<TrackableResult> currentRecognizedTrackables = new ArrayList<TrackableResult>();
@@ -251,7 +259,7 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 			TrackableResult result = state.getTrackableResult(i);
 			Log.d(LOGTAG, "Reconocemos un trackable");
 
-			if (result.getTrackable() != null && result.getTrackable().getUserData() != null) {
+			if (result.getTrackable() != null /*&& result.getTrackable().getUserData() != null*/) {
 				currentRecognizedTrackables.add(result);
 			}
 		}
@@ -259,7 +267,13 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 		// Setting the disappeared trackables
 		for (TrackableResult trackableResult : previouslyRecognizedTrackables) {
 			if (contiene(currentRecognizedTrackables, trackableResult) == null) {
-				PhysicalObject po = (PhysicalObject) trackableResult.getTrackable().getUserData();
+				PhysicalObject po;
+				if (trackableResult.getTrackable().isOfType(Word.getClassType())) {
+					Word word = (Word) trackableResult.getTrackable();
+					po = textDataset.get(word.getStringU());
+				}
+				else
+					po = (PhysicalObject) trackableResult.getTrackable().getUserData();
 				po.setStatus(PhysicalObject.STATUS_DISAPPEARS);
 
 					// notificar que se ha borrado
@@ -289,7 +303,13 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 		// Setting the appeared trackables
 		for (TrackableResult trackableResult : currentRecognizedTrackables) {
 			if (contiene(previouslyRecognizedTrackables, trackableResult) == null) {
-				PhysicalObject po = (PhysicalObject) trackableResult.getTrackable().getUserData();
+				PhysicalObject po;
+				if (trackableResult.getTrackable().isOfType(Word.getClassType())) {
+					Word word = (Word) trackableResult.getTrackable();
+					po = textDataset.get(word.getStringU());
+				}
+				else
+					po = (PhysicalObject) trackableResult.getTrackable().getUserData();
 				po.setStatus(PhysicalObject.STATUS_APPEARS);
 				
 				
@@ -340,9 +360,15 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 		for (TrackableResult trackableResult : currentRecognizedTrackables) {
 			previousTrackable = contiene(previouslyRecognizedTrackables, trackableResult);
 			if (previousTrackable != null) {
+				PhysicalObject po;
 
 				// Recover the previous coordinates
-				PhysicalObject po = (PhysicalObject) previousTrackable.getTrackable().getUserData();
+				if (previousTrackable.getTrackable().isOfType(Word.getClassType())) {
+					Word word = (Word) previousTrackable.getTrackable();
+					po = textDataset.get(word.getStringU());
+				}
+				else
+					po = (PhysicalObject) previousTrackable.getTrackable().getUserData();
 				previousTrackableX = po.getX();
 				previousTrackableY = po.getY();
 				previousTrackableZ = po.getZ();
@@ -393,12 +419,23 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 	}
 
 	private TrackableResult contiene(List<TrackableResult> trackableResults, TrackableResult trackableResultToLocate) {
-		PhysicalObject poToLocate = (PhysicalObject) trackableResultToLocate.getTrackable().getUserData();
+		PhysicalObject poToLocate;
+		if (trackableResultToLocate.getTrackable().isOfType(Word.getClassType())) {
+			Word word = (Word) trackableResultToLocate.getTrackable();
+			poToLocate = textDataset.get(word.getStringU());
+		}
+		else
+			poToLocate = (PhysicalObject) trackableResultToLocate.getTrackable().getUserData();
 		PhysicalObject poAux;
 		TrackableResult result = null;
 
 		for (TrackableResult trackableResultAux : trackableResults) {
-			poAux = (PhysicalObject) trackableResultAux.getTrackable().getUserData();
+			if (trackableResultAux.getTrackable().isOfType(Word.getClassType())) {
+				Word word = (Word) trackableResultAux.getTrackable();
+				poAux = textDataset.get(word.getStringU());
+			}
+			else
+				poAux = (PhysicalObject) trackableResultAux.getTrackable().getUserData();
 
 			if (poAux!=null &&poAux.getId().equals(poToLocate.getId())) {
 				result = trackableResultAux;
@@ -433,9 +470,30 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 		} else {
 			Log.i(LOGTAG, "objectTracker successfully initialized");
 		}
+		
+		TextTracker textTracker = (TextTracker) trackerManager.initTracker(TextTracker.getClassType());
+		if (textTracker == null) {
+			Log.e(LOGTAG, "textTracker not initialized. Tracker already initialized or the camera is already started");
+			result = false;
+		} else {
+			Log.i(LOGTAG, "textTracker successfully initialized");
+		}
 
 		return result;
 
+	}
+	
+	public void calculateROI() {
+		TextTracker textTracker = (TextTracker) TrackerManager.getInstance().getTracker(TextTracker.getClassType());
+		RectangleInt detROI;
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			detROI = new RectangleInt(0, 0, vuforiaAppSession.mScreenWidth, vuforiaAppSession.mScreenHeight);
+			textTracker.setRegionOfInterest(detROI, detROI, TextTracker.UP_DIRECTION.REGIONOFINTEREST_UP_IS_0_HRS);
+		}
+		else {
+			detROI = new RectangleInt(0, 0, vuforiaAppSession.mScreenHeight, vuforiaAppSession.mScreenWidth);
+			textTracker.setRegionOfInterest(detROI, detROI, TextTracker.UP_DIRECTION.REGIONOFINTEREST_UP_IS_9_HRS);		
+		}
 	}
 
 	// To be called to load the trackers' data
@@ -450,6 +508,10 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 
 		ObjectTracker objectTracker = (ObjectTracker) tManager.getTracker(ObjectTracker.getClassType());
 		if (objectTracker == null)
+			return false;
+		
+		TextTracker textTracker = (TextTracker) tManager.getTracker(TextTracker.getClassType());
+		if (textTracker == null)
 			return false;
 
 		// Carga del dataset de imagenes
@@ -473,6 +535,14 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 			if (!objectTracker.activateDataSet(imageDataset))
 				return false;
 		}
+		
+		//Carga del diccionario para textTracker. Sin un diccionario cargado, el TextTracker
+		//no funciona.
+		WordList wordlist = textTracker.getWordList();
+		wordlist.loadWordList("Vuforia-English-word.vwl", STORAGE_TYPE.STORAGE_APPRESOURCE);
+		wordlist.setFilterMode(WordList.FILTER_MODE.FILTER_MODE_WHITE_LIST);
+		
+		calculateROI();
 
 		Marker markerAux;
 		PhysicalObject poAux;
@@ -518,8 +588,9 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 				} else if (poAux.getTrackerType() == PhysicalObject.TRACKER_IMAGE) {
 					// TODO
 				} else if (poAux.getTrackerType() == PhysicalObject.TRACKER_TEXT) {
-					// TODO
-
+					wordlist.addWordU(poAux.getTextTracker());
+					wordlist.addWordToFilterListU(poAux.getTextTracker());
+					textDataset.put(poAux.getTextTracker(), poAux);
 				}
 			}
 
@@ -539,14 +610,18 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 		TrackerManager tManager = TrackerManager.getInstance();
 		MarkerTracker markerTracker = (MarkerTracker) tManager.getTracker(MarkerTracker.getClassType());
 		if (markerTracker != null)
-			markerTracker.start();
+			result = markerTracker.start();
 
 		Vuforia.setHint (com.qualcomm.vuforia.HINT.HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, ARActivity.MAX_TRACKERS );
 		Vuforia.setHint (com.qualcomm.vuforia.HINT.HINT_MAX_SIMULTANEOUS_OBJECT_TARGETS, ARActivity.MAX_TRACKERS );
 
 		ObjectTracker objectTracker = (ObjectTracker) tManager.getTracker(ObjectTracker.getClassType());
 		if (objectTracker != null)
-			objectTracker.start();
+			result = objectTracker.start();
+		
+		TextTracker textTracker = (TextTracker) tManager.getTracker(TextTracker.getClassType());
+		if (textTracker != null)
+			result = textTracker.start();
 
 		return result;
 	};
@@ -564,6 +639,10 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 		ObjectTracker objectTracker = (ObjectTracker) tManager.getTracker(ObjectTracker.getClassType());
 		if (objectTracker != null)
 			objectTracker.stop();
+		
+		TextTracker textTracker = (TextTracker) tManager.getTracker(TextTracker.getClassType());
+		if (textTracker != null)
+			textTracker.stop();
 
 		return result;
 	};
@@ -597,6 +676,12 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 
 			imageDataset = null;
 		}
+		
+		TextTracker textTracker = (TextTracker) tManager.getTracker(TextTracker.getClassType());
+		if (textTracker == null)
+			result = false;
+		
+		textTracker.getWordList().unloadAllLists();
 
 		return result;
 
@@ -611,6 +696,8 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 		tManager.deinitTracker(MarkerTracker.getClassType());
 
 		tManager.deinitTracker(ObjectTracker.getClassType());
+		
+		tManager.deinitTracker(TextTracker.getClassType());
 
 		return result;
 	};
@@ -681,6 +768,10 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 
 	public void setmIsDroidDevice(boolean mIsDroidDevice) {
 		this.mIsDroidDevice = mIsDroidDevice;
+	}
+	
+	public PhysicalObject getPoforWord(String word) {
+		return textDataset.get(word);
 	}
 
 	//////////////////////

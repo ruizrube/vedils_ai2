@@ -26,7 +26,7 @@ public class ARTextTracker extends ARPhysicalObject {
 
 	public ARTextTracker(ComponentContainer container) {
 		super(container);
-		this.data.setTrackerType(PhysicalObject.TRACKER_IMAGE);
+		this.data.setTrackerType(PhysicalObject.TRACKER_TEXT);
 
 	}
 

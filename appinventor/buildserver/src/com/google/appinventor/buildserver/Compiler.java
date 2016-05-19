@@ -1243,6 +1243,11 @@ public final class Compiler {
     	  System.out.println("IRR copiando shaders:" + RUNTIME_FILES_DIR +ARSCENE_JPCT_SHADERS);
     	  Files.copy(new File(getResource(RUNTIME_FILES_DIR +ARSCENE_JPCT_SHADERS)), new File(project.getAssetsDirectory(), "jpct_shaders.zip"));
     	  System.out.println("IRR  shaders copiados");
+    	  if (componentTypes.contains("ARTextTracker")) {
+    		  System.out.println("IRR copiando diccionario para TextTracker:" + RUNTIME_FILES_DIR +"Vuforia-English-word.vwl");
+        	  Files.copy(new File(getResource(RUNTIME_FILES_DIR +"Vuforia-English-word.vwl")), new File(project.getAssetsDirectory(), "Vuforia-English-word.vwl"));
+        	  System.out.println("IRR  diccionario copiado");
+    	  }
     	  
     	}
 

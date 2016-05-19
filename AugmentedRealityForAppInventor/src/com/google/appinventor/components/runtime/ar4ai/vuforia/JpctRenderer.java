@@ -16,9 +16,6 @@ package com.google.appinventor.components.runtime.ar4ai.vuforia;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -40,9 +37,8 @@ import com.qualcomm.vuforia.TrackableResult;
 import com.qualcomm.vuforia.VIDEO_BACKGROUND_REFLECTION;
 import com.qualcomm.vuforia.Vec2F;
 import com.qualcomm.vuforia.Vuforia;
+import com.qualcomm.vuforia.Word;
 import com.threed.jpct.Camera;
-import com.threed.jpct.CollisionEvent;
-import com.threed.jpct.CollisionListener;
 import com.threed.jpct.Config;
 import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.GLSLShader;
@@ -150,6 +146,8 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 
 		// Call Vuforia function to handle render surface size changes:
 		vuforiaAppSession.onSurfaceChanged(width, height);
+		
+		mActivity.calculateROI();
 
 		updateRendering(width, height);
 	}
@@ -349,7 +347,13 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 
 			// Get the trackable:
 			TrackableResult trackableResult = state.getTrackableResult(tIdx);
-			PhysicalObject po = (PhysicalObject) trackableResult.getTrackable().getUserData();
+			PhysicalObject po;
+			if (trackableResult.getTrackable().isOfType(Word.getClassType())) {
+				Word word = (Word) trackableResult.getTrackable();
+				po = mActivity.getPoforWord(word.getStringU());
+			}
+			else
+				po = (PhysicalObject) trackableResult.getTrackable().getUserData();
 			if (po != null) {
 				Matrix34F matrix34F = trackableResult.getPose();
 				// Va mejor sin esto debido a que la luz está mejor. Además

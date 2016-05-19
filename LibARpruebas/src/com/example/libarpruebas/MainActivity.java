@@ -72,6 +72,10 @@ public class MainActivity extends Activity {
 		mPhysicalObject3.setTrackerType(PhysicalObject.TRACKER_MARKER);
 		mPhysicalObject3.setMarkerTracker(3);
 		
+		PhysicalObject mPhysicalObject2 = new PhysicalObject(UUID.randomUUID().toString());
+		mPhysicalObject2.setTrackerType(PhysicalObject.TRACKER_TEXT);
+		mPhysicalObject2.setTextTracker("Hola");
+		
 //		PhysicalObject mPhysicalObject1 = new PhysicalObject(UUID.randomUUID().toString());
 //		mPhysicalObject1.setTrackerType(PhysicalObject.TRACKER_TARGETDB);
 //		mPhysicalObject1.setTargetDBTracker("EX1_1");
@@ -129,7 +133,7 @@ public class MainActivity extends Activity {
 	
 		
 		
-		mVirtualObject1.setPhysicalObject(mPhysicalObject3);
+		mVirtualObject1.setPhysicalObject(mPhysicalObject2);
 		mVirtualObject3.setPhysicalObject(mPhysicalObject3);
 		mVirtualObject2.setPhysicalObject(mPhysicalObject1);
 		
@@ -139,6 +143,7 @@ public class MainActivity extends Activity {
 		arrayOfVirtualObjects.add(mVirtualObject2);
 		arrayOfPhysicalObject.add(mPhysicalObject1);
 		arrayOfPhysicalObject.add(mPhysicalObject3);
+		arrayOfPhysicalObject.add(mPhysicalObject2);
 
 		setContentView(R.layout.activity_main);
 
