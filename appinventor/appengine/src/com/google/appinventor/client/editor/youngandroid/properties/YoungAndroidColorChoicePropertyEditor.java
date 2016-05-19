@@ -18,19 +18,39 @@ public final class YoungAndroidColorChoicePropertyEditor extends ColorChoiceProp
   // Colors as defined by the Android runtime.  "Default" is treated specially.
   private static final Color[] YA_COLORS = {
     new Color(MESSAGES.noneColor(), Color.ALPHA_TRANSPARENT, "FFFFFF"),
-    new Color(MESSAGES.blackColor(), Color.ALPHA_OPAQUE, "000000"),
-    new Color(MESSAGES.blueColor(), Color.ALPHA_OPAQUE, "0000FF"),
-    new Color(MESSAGES.cyanColor(), Color.ALPHA_OPAQUE, "00FFFF"),
+    new Color(MESSAGES.whiteColor(), Color.ALPHA_OPAQUE, "FFFFFF"),
     new Color(MESSAGES.defaultColor(), Color.ALPHA_TRANSPARENT, "000000"),
+    new Color(MESSAGES.blackColor(), Color.ALPHA_OPAQUE, "000000"),
+    
+    //Gray
     new Color(MESSAGES.darkGrayColor(), Color.ALPHA_OPAQUE, "444444"),
     new Color(MESSAGES.grayColor(), Color.ALPHA_OPAQUE, "888888"),
-    new Color(MESSAGES.greenColor(), Color.ALPHA_OPAQUE, "00FF00"),
     new Color(MESSAGES.lightGrayColor(), Color.ALPHA_OPAQUE, "CCCCCC"),
-    new Color(MESSAGES.magentaColor(), Color.ALPHA_OPAQUE, "FF00FF"),
-    new Color(MESSAGES.orangeColor(), Color.ALPHA_OPAQUE, "FFC800"),
+    
+    //Green
+    new Color(MESSAGES.lightGreenColor(), Color.ALPHA_OPAQUE, "00FF00"),
+    new Color(MESSAGES.greenColor(), Color.ALPHA_OPAQUE, "2CD795"),
+    new Color(MESSAGES.darkGreenColor(), Color.ALPHA_OPAQUE, "0F774F"),
+    
+    //Blue
+    new Color(MESSAGES.lightBlueColor(), Color.ALPHA_OPAQUE, "63D7F7"),
+    new Color(MESSAGES.blueColor(), Color.ALPHA_OPAQUE, "0000FF"),
+    new Color(MESSAGES.darkBlueColor(), Color.ALPHA_OPAQUE, "0A277E"),
+    new Color(MESSAGES.cyanColor(), Color.ALPHA_OPAQUE, "00FFFF"),   
+    
+    //Pink
     new Color(MESSAGES.pinkColor(), Color.ALPHA_OPAQUE, "FFAFAF"),
+    new Color(MESSAGES.darkPinkColor(), Color.ALPHA_OPAQUE, "CB17A1"),
+    new Color(MESSAGES.magentaColor(), Color.ALPHA_OPAQUE, "FF00FF"),
+    new Color(MESSAGES.purpleColor(), Color.ALPHA_OPAQUE, "8E1BAB"),
+    
+    //Red
+    new Color(MESSAGES.lightRedColor(), Color.ALPHA_OPAQUE, "C24E5D"),
     new Color(MESSAGES.redColor(), Color.ALPHA_OPAQUE, "FF0000"),
-    new Color(MESSAGES.whiteColor(), Color.ALPHA_OPAQUE, "FFFFFF"),
+    new Color(MESSAGES.darkRedColor(), Color.ALPHA_OPAQUE, "6B1521"),
+
+    //Others
+    new Color(MESSAGES.orangeColor(), Color.ALPHA_OPAQUE, "FFC800"),
     new Color(MESSAGES.yellowColor(), Color.ALPHA_OPAQUE, "FFFF00")
   };
 
@@ -38,7 +58,7 @@ public final class YoungAndroidColorChoicePropertyEditor extends ColorChoiceProp
   public static final Color[] NXT_GENERATED_COLORS = {
     new Color(MESSAGES.noneColor(), Color.ALPHA_TRANSPARENT, "FFFFFF"),
     new Color(MESSAGES.redColor(), Color.ALPHA_OPAQUE, "FF0000"),
-    new Color(MESSAGES.greenColor(), Color.ALPHA_OPAQUE, "00FF00"),
+    new Color(MESSAGES.lightGreenColor(), Color.ALPHA_OPAQUE, "00FF00"),
     new Color(MESSAGES.blueColor(), Color.ALPHA_OPAQUE, "0000FF"),
   };
 

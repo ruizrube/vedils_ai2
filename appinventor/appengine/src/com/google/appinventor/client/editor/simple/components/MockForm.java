@@ -18,6 +18,7 @@ import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroid
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidVerticalAlignmentChoicePropertyEditor;
 import com.google.appinventor.client.output.OdeLog;
 import com.google.appinventor.client.properties.BadPropertyEditorException;
+import com.google.appinventor.client.widgets.properties.EditableProperties;
 import com.google.appinventor.shared.settings.SettingsConstants;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
@@ -34,10 +35,10 @@ import com.google.gwt.user.client.ui.TreeItem;
 
 /**
  * Mock Form component. This implementation provides two main preview sizes corresponding to
- * 'normal' and 'large' buckets (http://developer.android.com/guide/practices/screens_support.html).	
+ * 'normal' and 'large' buckets (http://developer.android.com/guide/practices/screens_support.html).
  * Normal size is a 1:1 with pixels on a device with dpi:160. We use that as the baseline for the
  * browser too. All UI elements should be scaled to DP for buckets other than 'normal'.
- **/
+ */
 public final class MockForm extends MockContainer {
 
   /*
@@ -45,8 +46,6 @@ public final class MockForm extends MockContainer {
    */
   private class TitleBar extends Composite {
     private static final int HEIGHT = 24;
-    
-
 
     // UI elements
     private Label title;
@@ -103,31 +102,32 @@ public final class MockForm extends MockContainer {
       setSize("100%", HEIGHT + "px");
     }
   }
-  
+
   /*
-  *
-  * Widget for a mock phone navigation bar; Shows at the bottom of the viewer
-  */
+   *
+   * Widget for a mock phone navigation bar; Shows at the bottom of the viewer
+   */
   private class NavigationBar extends Composite {
-	  private static final int HEIGHT = 35;
-	  // UI elements
-	  private DockPanel bar;
-	  private Image navigationBarImage;
-	  
-	  /*
-	   * Creates a new phone navigation bar; Shows at the bottom of the viewer.
-	   */
-	  
-	  NavigationBar() {
-		  navigationBarImage = new Image(images.navigationbar());
-		  bar = new DockPanel();
-		  bar.setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
-		  bar.add(navigationBarImage, DockPanel.CENTER);
-		  initWidget(bar);
-		  
-		  setStylePrimaryName("ode-SimpleMockFormPhoneBar"); //reuse the css for the phone
-		  setSize("100%", HEIGHT + "px");
-	  }
+    private static final int HEIGHT = 35;
+
+    // UI elements
+    private DockPanel bar;
+    private Image navigationBarImage;
+
+    /*
+     * Creates a new phone navigation bar; Shows at the bottom of the viewer.
+     */
+
+    NavigationBar() {
+      navigationBarImage = new Image(images.navigationbar());
+      bar = new DockPanel();
+      bar.setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
+      bar.add(navigationBarImage, DockPanel.CENTER);
+      initWidget(bar);
+
+      setStylePrimaryName("ode-SimpleMockFormPhoneBar"); //reuse the css for the phone
+      setSize("100%", HEIGHT + "px");
+    }
   }
 
   /**
@@ -143,22 +143,23 @@ public final class MockForm extends MockContainer {
   // http://developer.android.com/guide/practices/screens_support.html
   // The values for Phone and Tablet were decided by trial and error. The main reason is that in
   // the designer we use sizes of GWT widgets, and not the sizes of the actual Android widgets.
-  	private static final int PHONE_PORTRAIT_WIDTH = 320;
-  	private static final int PHONE_PORTRAIT_HEIGHT = 470 + 35; // Adds 35 for the navigation bar
-  	private static final int PHONE_LANDSCAPE_WIDTH = PHONE_PORTRAIT_HEIGHT;
-  	private static final int PHONE_LANDSCAPE_HEIGHT = PHONE_PORTRAIT_WIDTH;
 
-  	private static final int TABLET_PORTRAIT_WIDTH = 480;
-  	private static final int TABLET_PORTRAIT_HEIGHT = 640 + 35; // Adds 35 for the navigation bar
-  	private static final int TABLET_LANDSCAPE_WIDTH = TABLET_PORTRAIT_HEIGHT;
-  	private static final int TABLET_LANDSCAPE_HEIGHT = TABLET_PORTRAIT_WIDTH;
-  	
-  	// These are default values but they can be changed in the changePreviewSize method
-  	private int PORTRAIT_WIDTH = PHONE_PORTRAIT_WIDTH;
-  	private int PORTRAIT_HEIGHT = PHONE_PORTRAIT_HEIGHT;
-  	private int LANDSCAPE_WIDTH = PHONE_LANDSCAPE_WIDTH;
-  	private int LANDSCAPE_HEIGHT = PHONE_LANDSCAPE_HEIGHT;
-  	private boolean landscape = false;
+  private static final int PHONE_PORTRAIT_WIDTH = 320;
+  private static final int PHONE_PORTRAIT_HEIGHT = 470 + 35; // Adds 35 for the navigation bar
+  private static final int PHONE_LANDSCAPE_WIDTH = PHONE_PORTRAIT_HEIGHT;
+  private static final int PHONE_LANDSCAPE_HEIGHT = PHONE_PORTRAIT_WIDTH;
+
+  private static final int TABLET_PORTRAIT_WIDTH = 480;
+  private static final int TABLET_PORTRAIT_HEIGHT = 640 + 35; // Adds 35 for the navigation bar
+  private static final int TABLET_LANDSCAPE_WIDTH = TABLET_PORTRAIT_HEIGHT;
+  private static final int TABLET_LANDSCAPE_HEIGHT = TABLET_PORTRAIT_WIDTH;
+
+  // These are default values but they can be changed in the changePreviewSize method
+  private int PORTRAIT_WIDTH = PHONE_PORTRAIT_WIDTH;
+  private int PORTRAIT_HEIGHT = PHONE_PORTRAIT_HEIGHT;
+  private int LANDSCAPE_WIDTH = PHONE_LANDSCAPE_WIDTH;
+  private int LANDSCAPE_HEIGHT = PHONE_LANDSCAPE_HEIGHT;
+  private boolean landscape = false;
 
   // Property names
   private static final String PROPERTY_NAME_TITLE = "Title";
@@ -231,8 +232,7 @@ public final class MockForm extends MockContainer {
 
     initComponent(formWidget);
     
-    // Set up the initial state of the vertical alignment property editor and its
-    // dropdowns
+    // Set up the initial state of the vertical alignment property editor and its dropdowns
     try {
       myVAlignmentPropertyEditor = PropertiesUtil.getVAlignmentEditor(properties);
     } catch (BadPropertyEditorException e) {
@@ -244,47 +244,48 @@ public final class MockForm extends MockContainer {
     // Now that the default for Scrollable is false, we need to force setting the property when creating the MockForm
     setScrollableProperty(getPropertyValue(PROPERTY_NAME_SCROLLABLE));
   }
-  
+
   public void changePreviewSize(boolean isTablet) {
-	  if (isTablet) {
-		  PORTRAIT_WIDTH   = TABLET_PORTRAIT_WIDTH;
-		  PORTRAIT_HEIGHT  = TABLET_PORTRAIT_HEIGHT;
-		  LANDSCAPE_WIDTH  = TABLET_LANDSCAPE_WIDTH;
-		  LANDSCAPE_HEIGHT = TABLET_LANDSCAPE_HEIGHT;
-	  }
-	  else {
-		 PORTRAIT_WIDTH = PHONE_PORTRAIT_WIDTH;
-		 PORTRAIT_HEIGHT = PHONE_PORTRAIT_HEIGHT;
-		 LANDSCAPE_WIDTH = PHONE_LANDSCAPE_WIDTH;
-		 LANDSCAPE_HEIGHT = PHONE_LANDSCAPE_HEIGHT;
-	  }
-	  if (landscape)
-		  resizePanel(LANDSCAPE_WIDTH, LANDSCAPE_HEIGHT);
-	  else
-		  resizePanel(PORTRAIT_WIDTH, PORTRAIT_HEIGHT);
+    if (isTablet) {
+      PORTRAIT_WIDTH   = TABLET_PORTRAIT_WIDTH;
+      PORTRAIT_HEIGHT  = TABLET_PORTRAIT_HEIGHT;
+      LANDSCAPE_WIDTH  = TABLET_LANDSCAPE_WIDTH;
+      LANDSCAPE_HEIGHT = TABLET_LANDSCAPE_HEIGHT;
+    }
+    else {
+      PORTRAIT_WIDTH = PHONE_PORTRAIT_WIDTH;
+      PORTRAIT_HEIGHT = PHONE_PORTRAIT_HEIGHT;
+      LANDSCAPE_WIDTH = PHONE_LANDSCAPE_WIDTH;
+      LANDSCAPE_HEIGHT = PHONE_LANDSCAPE_HEIGHT;
+    }
+
+    if (landscape)
+      resizePanel(LANDSCAPE_WIDTH, LANDSCAPE_HEIGHT);
+    else
+      resizePanel(PORTRAIT_WIDTH, PORTRAIT_HEIGHT);
   }
 
   /*
    * Resizes the scrollPanel and formWidget based on the screen size.
    */
   private void resizePanel(int newWidth, int newHeight){
-	  screenWidth = newWidth;
-	  screenHeight = newHeight;
-	  usableScreenHeight = screenHeight - PhoneBar.HEIGHT - TitleBar.HEIGHT - NavigationBar.HEIGHT;
-	  
-	  
-	  rootPanel.setPixelSize(screenWidth, usableScreenHeight);
-	  scrollPanel.setPixelSize(screenWidth + getVerticalScrollbarWidth(), usableScreenHeight);
-	  formWidget.setPixelSize(screenWidth + getVerticalScrollbarWidth(), screenHeight);
-	  // Store properties
-	  changeProperty(PROPERTY_NAME_WIDTH, "" + screenWidth);
-	  boolean scrollable = Boolean.parseBoolean(getPropertyValue(PROPERTY_NAME_SCROLLABLE));
-	  if (!scrollable) {
-		  changeProperty(PROPERTY_NAME_HEIGHT, "" + usableScreenHeight);
-	  }
+    screenWidth = newWidth;
+    screenHeight = newHeight;
+    usableScreenHeight = screenHeight - PhoneBar.HEIGHT - TitleBar.HEIGHT - NavigationBar.HEIGHT;
+
+
+    rootPanel.setPixelSize(screenWidth, usableScreenHeight);
+    scrollPanel.setPixelSize(screenWidth + getVerticalScrollbarWidth(), usableScreenHeight);
+    formWidget.setPixelSize(screenWidth + getVerticalScrollbarWidth(), screenHeight);
+    // Store properties
+    changeProperty(PROPERTY_NAME_WIDTH, "" + screenWidth);
+    boolean scrollable = Boolean.parseBoolean(getPropertyValue(PROPERTY_NAME_SCROLLABLE));
+    if (!scrollable) {
+      changeProperty(PROPERTY_NAME_HEIGHT, "" + usableScreenHeight);
+    }
   }
 
-  /*
+   /*
    * Returns the width of a vertical scroll bar, calculating it if necessary.
    */
   private static int getVerticalScrollbarWidth() {
@@ -405,10 +406,10 @@ public final class MockForm extends MockContainer {
       // The VersionCode property actually applies to the application and is only visible on Screen1.
       return editor.isScreen1();
     }
-    
+
     if (propertyName.equals(PROPERTY_NAME_SIZING)) {
-    	// The Sizing property actually applies to the application and is only visible on Screen1.
-    	 return editor.isScreen1();
+      // The Sizing property actually applies to the application and is only visible on Screen1.
+      return editor.isScreen1();
     }
 
     if (propertyName.equals(PROPERTY_NAME_ANAME)) {
@@ -455,7 +456,6 @@ public final class MockForm extends MockContainer {
         screenHeight = PORTRAIT_HEIGHT;
         landscape = false;
       }
-      
       usableScreenHeight = screenHeight - PhoneBar.HEIGHT - TitleBar.HEIGHT - NavigationBar.HEIGHT;
       resizePanel(screenWidth, screenHeight);
 
@@ -507,16 +507,16 @@ public final class MockForm extends MockContainer {
           SettingsConstants.YOUNG_ANDROID_SETTINGS_VERSION_NAME, vname);
     }
   }
-  
-  private void setCompatibilityProperty(String compatibilityProperty) {
-	  // The Compatibility property actually applies to the application and is only visible on
-	  // Screen1. When we load a form that is not Screen1, this method will be called with the
-	  // default value for CompatibilityProperty (false). We need to ignore that.
-	  if (editor.isScreen1()) {
-		  editor.getProjectEditor().changeProjectSettingsProperty(
-				  SettingsConstants.PROJECT_YOUNG_ANDROID_SETTINGS,
-				  SettingsConstants.YOUNG_ANDROID_SETTINGS_COMPATIBILITY_MODE, compatibilityProperty);
-	  }
+
+  private void setSizingProperty(String sizingProperty) {
+    // The Compatibility property actually applies to the application and is only visible on
+    // Screen1. When we load a form that is not Screen1, this method will be called with the
+    // default value for CompatibilityProperty (false). We need to ignore that.
+    if (editor.isScreen1()) {
+      editor.getProjectEditor().changeProjectSettingsProperty(
+          SettingsConstants.PROJECT_YOUNG_ANDROID_SETTINGS,
+          SettingsConstants.YOUNG_ANDROID_SETTINGS_SIZING, sizingProperty);
+    }
   }
 
   private void setANameProperty(String aname) {
@@ -717,13 +717,13 @@ public final class MockForm extends MockContainer {
     } else if (propertyName.equals(PROPERTY_NAME_TITLE)) {
       titleBar.changeTitle(newValue);
     } else if (propertyName.equals(PROPERTY_NAME_SIZING)) {
-    	if (newValue.equals("Fixed")){ // Disable Tablet Preview
-    		editor.getVisibleComponentsPanel().enableTabletPreviewCheckBox(false);
-    	}
-    	else {
-    		editor.getVisibleComponentsPanel().enableTabletPreviewCheckBox(true);
-    	}
-    	setCompatibilityProperty(newValue);
+      if (newValue.equals("Fixed")){ // Disable Tablet Preview
+        editor.getVisibleComponentsPanel().enableTabletPreviewCheckBox(false);
+      }
+      else {
+        editor.getVisibleComponentsPanel().enableTabletPreviewCheckBox(true);
+      }
+      setSizingProperty(newValue);
     } else if (propertyName.equals(PROPERTY_NAME_ICON)) {
       setIconProperty(newValue);
     } else if (propertyName.equals(PROPERTY_NAME_VCODE)) {
@@ -736,8 +736,8 @@ public final class MockForm extends MockContainer {
       myLayout.setHAlignmentFlags(newValue);
       refreshForm();
     } else if (propertyName.equals(PROPERTY_NAME_VERTICAL_ALIGNMENT)) {
-    myLayout.setVAlignmentFlags(newValue);
-    refreshForm();
+      myLayout.setVAlignmentFlags(newValue);
+      refreshForm();
     }
   }
 
@@ -757,4 +757,21 @@ public final class MockForm extends MockContainer {
       myVAlignmentPropertyEditor.enable();
     }
   }
+
+  @Override
+  public EditableProperties getProperties() {
+    // Before we return the Properties object, we make sure that the
+    // Sizing property has the value from the project's properties
+    // this is because Sizing is per project, not per Screen(Form)
+    // We only have to do this on screens other then screen1 because
+    // screen1's value is definitive.
+    if(!editor.isScreen1()) {
+      properties.changePropertyValue(SettingsConstants.YOUNG_ANDROID_SETTINGS_SIZING,
+        editor.getProjectEditor().getProjectSettingsProperty(
+          SettingsConstants.PROJECT_YOUNG_ANDROID_SETTINGS,
+          SettingsConstants.YOUNG_ANDROID_SETTINGS_SIZING));
+    }
+    return properties;
+  }
+
 }

@@ -56,15 +56,13 @@ import java.util.Map;
     STORAGE("Storage"),
     CONNECTIVITY("Connectivity"),
     LEGOMINDSTORMS("LEGO\u00AE MINDSTORMS\u00AE"),
-    //EXPERIMENTAL("Experimental"),
+    EXPERIMENTAL("Experimental"),
     INTERNAL("For internal use only"),
     // UNINITIALIZED is used as a default value so Swing libraries can still compile
     UNINITIALIZED("Uninitialized"),
     VEDILSAUGMENTEDREALITY("VEDILS Augmented Reality"),
     VEDILSLEARNINGANALYTICS("VEDILS Learning Analytics"),
 	VEDILSGESTURECONTROL("VEDILS Gesture Control");
-		
-		    
 
 
     // Mapping of component categories to names consisting only of lower-case letters,
@@ -73,7 +71,7 @@ import java.util.Map;
     static {
       DOC_MAP.put("User Interface", "userinterface");
       DOC_MAP.put("Layout", "layout");
-      DOC_MAP.put("media", "media");
+      DOC_MAP.put("Media", "media");
       DOC_MAP.put("Drawing and Animation", "animation");
       DOC_MAP.put("Sensors", "sensors");
       DOC_MAP.put("Social", "social");
@@ -81,7 +79,8 @@ import java.util.Map;
       DOC_MAP.put("Connectivity", "connectivity");
       DOC_MAP.put("LEGO\u00AE MINDSTORMS\u00AE", "legomindstorms");
       DOC_MAP.put("VEDILS Augmented Reality", "vedilsaugmentedreality");
-      
+      DOC_MAP.put("VEDILS Learning Analytics", "vedilslearninganalytics");
+      DOC_MAP.put("VEDILS Gesture Control", "vedilsgesturecontrol");
       //DOC_MAP.put("Experimental", "experimental");
     }
 

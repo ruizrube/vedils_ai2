@@ -66,14 +66,16 @@ public final class Compiler {
  // IRR
  private static final String ARSCENE_JPCT_SHADERS ="jpct_shaders.zip";
 		 //"/Users/ivanruizrube/Documents/Proyectos/workspaceRA/appinventor/lib/ar4ai/jpct_shaders.zip";
- 
- 
+
   // TODO(sharon): temporary until we add support for new activities
   private static final String LIST_ACTIVITY_CLASS =
       "com.google.appinventor.components.runtime.ListPickerActivity";
 
   private static final String WEBVIEW_ACTIVITY_CLASS =
       "com.google.appinventor.components.runtime.WebViewActivity";
+
+  // Copied from SdkLevel.java (which isn't in our class path so we duplicate it here)
+  private static final String LEVEL_GINGERBREAD_MR1 = "10";
 
   public static final String RUNTIME_FILES_DIR = "/files/";
 
@@ -104,7 +106,6 @@ public final class Compiler {
   private static final String DEFAULT_VERSION_CODE = "1";
   private static final String DEFAULT_VERSION_NAME = "1.0";
   private static final String DEFAULT_APP_NAME = "";
-  
   private static final String DEFAULT_MIN_SDK = "4";
 
   private static final String COMPONENT_BUILD_INFO =
@@ -305,16 +306,14 @@ public final class Compiler {
     for (String componentType : componentTypes) {
       assetsNeeded.addAll(componentAssets.get(componentType));
     }
-   
-  	
     System.out.println("Component assets needed, n= " + assetsNeeded.size());
   }
 
 
   // This patches around a bug in AAPT (and other placed in Android)
   // where an ampersand in the name string breaks AAPT.
-  private String cleanName(String vname) {
-    return vname.replace("&", "and");
+  private String cleanName(String name) {
+    return name.replace("&", "and");
   }
 
   /*
@@ -364,13 +363,17 @@ public final class Compiler {
           out.write("  <uses-feature android:name=\"android.hardware.camera\" android:required=\"false\" />\n");
           out.write("  <uses-feature android:name=\"android.hardware.camera.autofocus\" android:required=\"false\" />\n");
           out.write("  <uses-feature android:name=\"android.hardware.wifi\" />\n"); // We actually require wifi
-          
-          
+      }
+
+      // Firebase requires at least API 10 (Gingerbread MR1)
+      if (componentTypes.contains("FirebaseDB") && !isForCompanion) {
+        minSDK = LEVEL_GINGERBREAD_MR1;
       }
 
       for (String permission : permissionsNeeded) {
         out.write("  <uses-permission android:name=\"" + permission + "\" />\n");
       }
+      
       // TODO(markf): Change the minSdkVersion below if we ever require an SDK beyond 1.5.
       // The market will use the following to filter apps shown to devices that don't support
       // the specified SDK version.  We might also want to allow users to specify minSdkVersion
@@ -393,6 +396,13 @@ public final class Compiler {
       // that before we can set the targetSdkVersion to 4 here.
       // out.write("  <uses-sdk android:targetSdkVersion=\"4\" />\n");
 
+      // The market will use the following to filter apps shown to devices that don't support
+      // the specified SDK version.  We right now support building for minSDK 4.
+      // We might also want to allow users to specify minSdk version or targetSDK version.
+      
+      //Comentado por version seleccionada para IRR (arriba)
+      //out.write("  <uses-sdk android:minSdkVersion=\"" + minSDK + "\" />\n");
+
       out.write("  <application ");
 
       // TODO(markf): The preparing to publish doc at
@@ -410,9 +420,16 @@ public final class Compiler {
       out.write("android:icon=\"@drawable/ya\" ");
       if (isForCompanion) {              // This is to hook into ACRA
         out.write("android:name=\"com.google.appinventor.components.runtime.ReplApplication\" ");
-      }	else {
+      } else {
         out.write("android:name=\"com.google.appinventor.components.runtime.multidex.MultiDexApplication\" ");
       }
+      
+      //Change the app theme
+      //Black:
+      out.write("android:theme=\"@android:style/Theme.Holo\"");
+      //White:
+      //out.write("android:theme=\"@android:style/Theme.Holo.Light\"");
+      
       out.write(">\n");
 
       for (Project.SourceDescriptor source : project.getSources()) {
@@ -438,10 +455,12 @@ public final class Compiler {
         } else if (isMain && isForCompanion) {
           out.write("android:launchMode=\"singleTop\" ");
         }
-
+        
         out.write("android:windowSoftInputMode=\"stateHidden\" ");
-        out.write("android:configChanges=\"orientation|keyboardHidden\">\n");
 
+        // The keyboard option prevents the app from stopping when a external (bluetooth)
+        // keyboard is attached.
+        out.write("android:configChanges=\"orientation|keyboardHidden|keyboard\">\n");
         out.write("      <intent-filter>\n");
         out.write("        <action android:name=\"android.intent.action.MAIN\" />\n");
         if (isMain) {
@@ -470,7 +489,6 @@ public final class Compiler {
             "android:screenOrientation=\"behind\">\n");
         out.write("    </activity>\n");
       }
-
       
       // IRR
       // Add VuforiaARActivity to the manifest only if a ARScene component is used in the app
@@ -480,9 +498,6 @@ public final class Compiler {
             "android:screenOrientation=\"behind\">\n");
         out.write("    </activity>\n");
       }
-      
-      
-      
       // Add WebViewActivity to the manifest only if a Twitter component is used in the app
       if (componentTypes.contains("Twitter")){
         out.write("    <activity android:name=\"" + WEBVIEW_ACTIVITY_CLASS + "\" " +
@@ -735,12 +750,12 @@ public final class Compiler {
   private boolean runApkBuilder(String apkAbsolutePath, String zipArchive, String dexedClassesDir) {
     try {
       ApkBuilder apkBuilder =
-    		  new ApkBuilder(apkAbsolutePath, zipArchive,
-    				  dexedClassesDir + File.separator + "classes.dex", null, System.out);
-    				  if (hasSecondDex) {
-    					  apkBuilder.addFile(new File(dexedClassesDir + File.separator + "classes2.dex"),
-    					  "classes2.dex");
-    				  }
+          new ApkBuilder(apkAbsolutePath, zipArchive,
+            dexedClassesDir + File.separator + "classes.dex", null, System.out);
+      if (hasSecondDex) {
+        apkBuilder.addFile(new File(dexedClassesDir + File.separator + "classes2.dex"),
+          "classes2.dex");
+      }
       apkBuilder.sealApk();
       return true;
     } catch (Exception e) {
@@ -847,6 +862,7 @@ public final class Compiler {
       int mx = childProcessRamMb - 200;
       Collections.addAll(kawaCommandArgs,
           System.getProperty("java.home") + "/bin/java",
+          "-Dfile.encoding=UTF-8",
           "-mx" + mx + "M",
           "-cp", classpath,
           "kawa.repl",
@@ -1030,7 +1046,7 @@ public final class Compiler {
   }
 
   private boolean runDx(File classesDir, String dexedClassesDir, boolean secondTry) {
-	List<File> libList = new ArrayList<File>();
+    List<File> libList = new ArrayList<File>();
     List<File> inputList = new ArrayList<File>();
     List<File> class2List = new ArrayList<File>();
     inputList.add(classesDir); //this is a directory, and won't be cached into the dex cache
@@ -1039,28 +1055,29 @@ public final class Compiler {
     inputList.add(new File(getResource(ACRA_RUNTIME)));
 
     for (String library : librariesNeeded) {
-    	libList.add(new File(getResource(RUNTIME_FILES_DIR + library)));
+      libList.add(new File(getResource(RUNTIME_FILES_DIR + library)));
     }
-    
+
     int offset = libList.size();
     // Note: The choice of 12 libraries is arbitrary. We note that things
     // worked to put all libraries into the first classes.dex file when we
     // had 16 libraries and broke at 17. So this is a conservative number
     // to try.
     if (!secondTry) {           // First time through, try base + 12 libraries
-    	if (offset > 12)
-    		offset = 12;
-    	} else {
-    		offset = 0;               // Add NO libraries the second time through!
-    	}
-    	for (int i = 0; i < offset; i++) {
-    		inputList.add(libList.get(i));
-    	}
-    	if (libList.size() - offset > 0) { // Any left over for classes2?
-    		for (int i = offset; i < libList.size(); i++) {
-    			class2List.add(libList.get(i));
-    		}
-    	}
+      if (offset > 12)
+        offset = 12;
+    } else {
+      offset = 0;               // Add NO libraries the second time through!
+    }
+    for (int i = 0; i < offset; i++) {
+      inputList.add(libList.get(i));
+    }
+
+    if (libList.size() - offset > 0) { // Any left over for classes2?
+      for (int i = offset; i < libList.size(); i++) {
+        class2List.add(libList.get(i));
+      }
+    }
 
     DexExecTask dexTask = new DexExecTask();
     dexTask.setExecutable(getResource(DX_JAR));
@@ -1081,29 +1098,29 @@ public final class Compiler {
       setProgress(50);
       dxSuccess = dexTask.execute(inputList);
       if (dxSuccess && (class2List.size() > 0)) {
-    	  setProgress(60);
-    	  dexTask.setOutput(dexedClassesDir + File.separator + "classes2.dex");
-    	  inputList = new ArrayList<File>();
-    	  dxSuccess = dexTask.execute(class2List);
-    	  setProgress(75);
-    	  hasSecondDex = true;
-    	  } else if (!dxSuccess) {
-    		  // If we get into this block of code, it means that the Dexer
-    		  // returned an error. It *might* be because of overflowing the
-    		  // the fixed table of methods, but we cannot know that for
-    		  // sure so we try Dexing again, but this time we put all
-    		  // support libraries into classes2.dex. If this second pass
-    		  // fails, we return the error to the user.
-    		  LOG.info("DX execution failed, trying with fewer libraries.");
-    		  	if (secondTry) {        // Already tried the more conservative approach!
-    		  		LOG.warning("YAIL compiler - DX execution failed (secondTry!).");
-    		  		err.println("YAIL compiler - DX execution failed.");
-    		  		userErrors.print(String.format(ERROR_IN_STAGE, "DX"));
-    		  		return false;
-    		  	} else {
-    		  		return runDx(classesDir, dexedClassesDir, true);
-    		}
-    	}
+        setProgress(60);
+        dexTask.setOutput(dexedClassesDir + File.separator + "classes2.dex");
+        inputList = new ArrayList<File>();
+        dxSuccess = dexTask.execute(class2List);
+        setProgress(75);
+        hasSecondDex = true;
+      } else if (!dxSuccess) {
+        // If we get into this block of code, it means that the Dexer
+        // returned an error. It *might* be because of overflowing the
+        // the fixed table of methods, but we cannot know that for
+        // sure so we try Dexing again, but this time we put all
+        // support libraries into classes2.dex. If this second pass
+        // fails, we return the error to the user.
+        LOG.info("DX execution failed, trying with fewer libraries.");
+        if (secondTry) {        // Already tried the more conservative approach!
+          LOG.warning("YAIL compiler - DX execution failed (secondTry!).");
+          err.println("YAIL compiler - DX execution failed.");
+          userErrors.print(String.format(ERROR_IN_STAGE, "DX"));
+          return false;
+        } else {
+          return runDx(classesDir, dexedClassesDir, true);
+        }
+      }
     }
     if (!dxSuccess) {
       LOG.warning("YAIL compiler - DX execution failed.");
@@ -1176,15 +1193,17 @@ public final class Compiler {
      * Here, non-default architectures (ARMv5TE is default) are identified with suffixes
      * before being placed in the appropriate directory with their suffix removed.
      */
-    
-  
-    
-    
-    try {
+//<<<<<<< HEAD (Lo dejo así para pruebas)
+    /*try {
     	  
       for (String library : nativeLibrariesNeeded) { 
     	  System.out.println("-------->"+library);
-         if(!library.trim().equals("")){
+         if(!library.trim().equals("")){*/
+//=======
+    try {
+      for (String library : nativeLibrariesNeeded) {
+    	  if(!library.trim().equals("")){
+//>>>>>>> upstream/master
         if (library.endsWith(ARMEABI_V7A_SUFFIX)) { // Remove suffix and copy.
           library = library.substring(0, library.length() - ARMEABI_V7A_SUFFIX.length());
           Files.copy(new File(getResource(RUNTIME_FILES_DIR + ARMEABI_V7A_DIRECTORY +
@@ -1192,8 +1211,11 @@ public final class Compiler {
         } else {
           Files.copy(new File(getResource(RUNTIME_FILES_DIR + ARMEABI_DIR_NAME +
               "/" + library)), new File(armeabiDir, library));
+//<<<<<<< HEAD
         }}else {
         	System.out.println("saltamos");
+//=======
+//>>>>>>> upstream/master
         }
       }
       return true;
@@ -1215,8 +1237,6 @@ public final class Compiler {
         Files.copy(new File(getResource(RUNTIME_FILES_DIR + filename)),
             new File(componentAssetDirectory, filename));
       }
-      
-      
       // IRR Si usamos la camara incorporamos tambien los shaders del JPCT
     	if (componentTypes.contains("ARCamera")){
     		    
@@ -1226,8 +1246,6 @@ public final class Compiler {
     	  
     	}
 
-      
-      
     } catch (IOException e) {
       e.printStackTrace();
       userErrors.print(String.format(ERROR_IN_STAGE, "Assets"));
@@ -1264,14 +1282,7 @@ public final class Compiler {
         file.setExecutable(true);
         file.deleteOnExit();
         file.getParentFile().mkdirs();
-        System.out.println("---------------------");
-         System.out.println(resourcePath);
-         System.out.println("---------------------");
-          
-         System.out.println(file.getAbsolutePath());
-         
-         System.out.println("---------------------");
-          Files.copy(Resources.newInputStreamSupplier(Compiler.class.getResource(resourcePath)),
+        Files.copy(Resources.newInputStreamSupplier(Compiler.class.getResource(resourcePath)),
             file);
         resources.put(resourcePath, file);
       }

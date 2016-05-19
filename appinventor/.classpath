@@ -9,7 +9,7 @@
 	<classpathentry kind="src" path="buildserver/tests"/>
 	<classpathentry kind="src" path="common/src"/>
 	<classpathentry kind="src" path="common/tests"/>
-	<classpathentry kind="src" path="components/src"/>
+	<classpathentry excluding="com/google/appinventor/components/runtime/NotifyAJ.aj" kind="src" path="components/src"/>
 	<classpathentry kind="src" path="components/tests"/>
 	<classpathentry kind="lib" path="buildserver/lib/activation-1.1.jar"/>
 	<classpathentry kind="lib" path="buildserver/lib/asm-3.1.jar"/>
@@ -186,8 +186,9 @@
 	<classpathentry kind="lib" path="lib/ar4ai/jpct_ae.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/AugmentedRealityForAppInventor"/>
 	<classpathentry kind="lib" path="/LearningAnalyticsForAppInventor/bin/learninganalyticsforappinventor.jar"/>
-	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/la4ai/la4ai.jar"/>
 	<classpathentry kind="lib" path="lib/la4ai/google_play_services/google-play-services.jar"/>
+	<classpathentry kind="lib" path="lib/firebase/firebase-client-android-2.5.0.jar"/>
+	<classpathentry kind="lib" path="lib/firebase/firebase-token-generator-2.0.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

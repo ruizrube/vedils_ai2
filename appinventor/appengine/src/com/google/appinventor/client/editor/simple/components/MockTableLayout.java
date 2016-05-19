@@ -10,7 +10,6 @@ import com.google.appinventor.client.output.OdeLog;
 
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
-
 import java.util.Arrays;
 import java.util.Map;
 
@@ -233,9 +232,9 @@ final class MockTableLayout extends MockLayout {
     // Figure out which child (if any) will be in each cell.
     // If multiple children claim to be in the same cell, only the last child in the children list
     // will be visible.
-	
-	MockForm form = container.getForm();
-	  
+
+    MockForm form = container.getForm();
+
     for (MockComponent child : tableLayoutInfo.visibleChildren) {
       Cell cell = getCellOfChild(child);
       if (cell.row >= nrows || cell.col >= ncols) {
@@ -275,38 +274,43 @@ final class MockTableLayout extends MockLayout {
           colEmpty[col] = false;
           rowEmpty[row] = false;
 
-       // or if our width is automatic or fill parent
+          // Use automatic width for children whose width is fill parent.
+          // or if our width is automatic or fill parent
+
           int childWidth = childLayoutInfo.width;
           if (childLayoutInfo.width == MockVisibleComponent.LENGTH_FILL_PARENT)
-        	  childWidth = childLayoutInfo.calculateAutomaticWidth();
+            childWidth = childLayoutInfo.calculateAutomaticWidth();
           else if (childLayoutInfo.width <= MockVisibleComponent.LENGTH_PERCENT_TAG) {
-        	  // If childWidth is a percent tag... do it
-        	  childWidth = (- (childWidth - MockVisibleComponent.LENGTH_PERCENT_TAG)) * form.screenWidth /100;
-        	  childLayoutInfo.width = childWidth; // Side effect it...
-        	  OdeLog.log("MockTableLayout: form.screenWidth = " + form.screenWidth + " childWidth = " + childWidth);
+            // If childWidth is a percent tag... do it
+            childWidth = (- (childWidth - MockVisibleComponent.LENGTH_PERCENT_TAG)) * form.screenWidth /100;
+            childLayoutInfo.width = childWidth; // Side effect it...
+            OdeLog.log("MockTableLayout: form.screenWidth = " + form.screenWidth + " childWidth = " + childWidth);
           }
-          
+
           // int childWidth = (childLayoutInfo.width == MockVisibleComponent.LENGTH_FILL_PARENT)
           //     ? childLayoutInfo.calculateAutomaticWidth()
           //     : childLayoutInfo.width;
+
           colWidths[col] = Math.max(colWidths[col], childWidth + BORDER_SIZE);
 
           // Ignore child's height if it is fill parent.
           if (childLayoutInfo.height != MockVisibleComponent.LENGTH_FILL_PARENT) {
-        	  int childHeight = childLayoutInfo.height;
-        	  if (childHeight <= MockVisibleComponent.LENGTH_PERCENT_TAG) {
-        		  childHeight = (- (childHeight - MockVisibleComponent.LENGTH_PERCENT_TAG) * form.usableScreenHeight) / 100;
-        		  childLayoutInfo.height = childHeight; // Side effect it...
-        		  rowAllFillParent[row] = false;
-        		  OdeLog.log("MockTableLayout: form.usableScreenHeight = " + form.usableScreenHeight + " childHeight = " + childHeight);
-        		  rowHeights[row] = Math.max(rowHeights[row], childHeight + BORDER_SIZE);
-        	  }
-        	  
-        	  if ((childHeight != MockVisibleComponent.LENGTH_FILL_PARENT)
-        			  && (childHeight > MockVisibleComponent.LENGTH_PERCENT_TAG)) {
-        		  rowAllFillParent[row] = false;
-        		  rowHeights[row] = Math.max(rowHeights[row], childHeight + BORDER_SIZE);
-        	  }
+
+            int childHeight = childLayoutInfo.height;
+            if (childHeight <= MockVisibleComponent.LENGTH_PERCENT_TAG) {
+              childHeight = (- (childHeight - MockVisibleComponent.LENGTH_PERCENT_TAG) * form.usableScreenHeight) / 100;
+              childLayoutInfo.height = childHeight; // Side effect it...
+              rowAllFillParent[row] = false;
+              OdeLog.log("MockTableLayout: form.usableScreenHeight = " + form.usableScreenHeight + " childHeight = " + childHeight);
+              rowHeights[row] = Math.max(rowHeights[row], childHeight + BORDER_SIZE);
+            }
+
+            if ((childHeight != MockVisibleComponent.LENGTH_FILL_PARENT)
+              && (childHeight > MockVisibleComponent.LENGTH_PERCENT_TAG)) {
+              rowAllFillParent[row] = false;
+              rowHeights[row] = Math.max(rowHeights[row], childHeight + BORDER_SIZE);
+            }
+
           }
         }
       }

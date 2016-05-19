@@ -215,7 +215,7 @@ public class AppInvHTTPD extends NanoHTTPD {
         PackageInfo pInfo = form.getPackageManager().getPackageInfo(packageName, 0);
         String installer;
         if (SdkLevel.getLevel() >= SdkLevel.LEVEL_ECLAIR) {
-          installer = EclairUtil.getInstallerPackageName("edu.mit.appinventor.vedilscompanion3", form);
+          installer = EclairUtil.getInstallerPackageName("edu.mit.appinventor.vedils", form);
         } else {
           installer = "Not Known";  // So we *will* auto-update old phones, no way to find out
                                     // from wence they came!
@@ -312,6 +312,10 @@ public class AppInvHTTPD extends NanoHTTPD {
       intent.setDataAndType(packageuri, "application/vnd.android.package-archive");
       form.startActivity(intent);
       res = new Response(HTTP_OK, MIME_PLAINTEXT, "OK");
+      res.addHeader("Access-Control-Allow-Origin", "*");
+      res.addHeader("Access-Control-Allow-Headers", "origin, content-type");
+      res.addHeader("Access-Control-Allow-Methods", "POST,OPTIONS,GET,HEAD,PUT");
+      res.addHeader("Allow", "POST,OPTIONS,GET,HEAD,PUT");
       return (res);
     }
 

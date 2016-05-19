@@ -11,6 +11,7 @@ package com.google.appinventor.shared.settings;
  *
  */
 public class SettingsConstants {
+
   private SettingsConstants() {
   }
 
@@ -46,6 +47,6 @@ public class SettingsConstants {
   public static final String YOUNG_ANDROID_SETTINGS_VERSION_CODE = "VersionCode";
   public static final String YOUNG_ANDROID_SETTINGS_VERSION_NAME = "VersionName";
   public static final String YOUNG_ANDROID_SETTINGS_USES_LOCATION = "UsesLocation";
-  public static final String YOUNG_ANDROID_SETTINGS_COMPATIBILITY_MODE = "CompatibilityMode";
+  public static final String YOUNG_ANDROID_SETTINGS_SIZING = "Sizing";
   public static final String YOUNG_ANDROID_SETTINGS_APP_NAME = "AppName";
 }

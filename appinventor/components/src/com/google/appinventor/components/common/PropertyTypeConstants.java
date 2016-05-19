@@ -254,5 +254,18 @@ public class PropertyTypeConstants {
   public static final String PROPERTY_TYPE_ASSET_DATABASE_DAT = "assetdbdat";
   
   public static final String PROPERTY_TYPE_ASSET_DATABASE_XML = "assetdbxml";
-  
+
+  /*
+   * FirebaseURL -- A type of String property that has a special default value
+   * selected via a checkbox.
+   */
+
+  public static final String PROPERTY_TYPE_FIREBASE_URL = "FirbaseURL";
+
+  /**
+   * Specifies how a picture is scaled when its dimensions are changed.
+   * Choices are 0 - Scale proportionally, 1 - Scale to fit
+   * See {@link com.google.appinventor.client.widgets.properties.ScalingChoicePropertyEditor}
+   */
+   public static final String PROPERTY_TYPE_SCALING = "scaling";
 }
