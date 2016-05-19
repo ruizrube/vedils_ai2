@@ -47,6 +47,17 @@ public class ARObjectTracker extends ARPhysicalObject {
 	public void ObjectTracker(String targetDB) {
 		this.data.setTargetDBTracker(targetDB);
 	}
+	
+	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
+	public boolean ExtendedTracking() {
+		return data.isExtendedTrackingEnabled();
+	}
+	
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN, defaultValue = 0.0f+"")
+	@SimpleProperty(description = "Keeps the object on screen for a while when the mark disappears")
+	public void ExtendedTracking(boolean enabled) {
+		data.setExtendedTracking(enabled);
+	}
 
 	
 

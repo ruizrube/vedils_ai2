@@ -204,17 +204,6 @@ public abstract class ARPhysicalObject extends AndroidNonvisibleComponent implem
 //		this.data.addVirtualObject(arVO.getData());
 //
 //	}
-	
-	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
-	public boolean ExtendedTracking() {
-		return data.isExtendedTrackingEnabled();
-	}
-	
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN, defaultValue = 0.0f+"")
-	@SimpleProperty(description = "Keeps the object on screen for a while when the mark disappears")
-	public void ExtendedTracking(boolean enabled) {
-		data.setExtendedTracking(enabled);
-	}
 
 	////////////
 	// EVENTS //

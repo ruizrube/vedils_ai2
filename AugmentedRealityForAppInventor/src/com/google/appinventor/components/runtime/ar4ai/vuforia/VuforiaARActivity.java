@@ -571,9 +571,6 @@ public class VuforiaARActivity extends ARActivity implements VuforiaApplicationC
 
 				} else if (poAux.getTrackerType() == PhysicalObject.TRACKER_MARKER) {
 					markerAux = markerTracker.createFrameMarker(poAux.getMarkerTracker(), poAux.getId(), new Vec2F(50, 50));
-					if (poAux.isExtendedTrackingEnabled()) { // isExtendedTrackingActive()
-						markerAux.startExtendedTracking();
-					}
 					markerAux.setUserData(poAux);
 
 					if (markerAux == null) {
