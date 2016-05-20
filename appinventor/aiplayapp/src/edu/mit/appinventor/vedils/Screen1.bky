@@ -9,7 +9,7 @@
         <field name="PROP">Text</field>
         <value name="VALUE">
           <block type="text" id="3">
-            <field name="TEXT">The version of App Inventor you are using is not compatible with this Companion app. </field>
+            <field name="TEXT">The version of VEDILS you are using is not compatible with this Companion app. </field>
           </block>
         </value>
       </block>
@@ -911,5 +911,5 @@
       </block>
     </value>
   </block>
-  <yacodeblocks ya-version="101" language-version="17"></yacodeblocks>
+  <yacodeblocks ya-version="150" language-version="17"></yacodeblocks>
 </xml>

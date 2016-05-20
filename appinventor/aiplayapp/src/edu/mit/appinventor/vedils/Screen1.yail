@@ -5,7 +5,7 @@ $Source $Yail
 (define-repl-form edu.mit.appinventor.vedils.Screen1 Screen1)
 (require <com.google.youngandroid.runtime>)
 
-(def (p$badversion )  (set-and-coerce-property! 'ErrorLabel 'Text "The version of App Inventor you are using is not compatible with this Companion app. " 'text))
+(def (p$badversion )  (set-and-coerce-property! 'ErrorLabel 'Text "The version of VEDILS you are using is not compatible with this Companion app. " 'text))
 (def (p$callrendezvous $code)  (set-and-coerce-property! 'Web1 'Url (call-yail-primitive string-append (*list-for-runtime* "http://" (get-var g$rendezvousServer) "/rendezvous/" ) '(text text text ) "join") 'text)(call-component-method 'Web1 'PostText (*list-for-runtime* (call-component-method 'Web1 'BuildRequestData (*list-for-runtime* (call-yail-primitive make-yail-list (*list-for-runtime* (call-yail-primitive make-yail-list (*list-for-runtime* "key" (lexical-value $code) ) '(any any ) "make a list") (call-yail-primitive make-yail-list (*list-for-runtime* "ipaddr" (call-component-method 'PhoneStatus1 'GetWifiIpAddress (*list-for-runtime*) '()) ) '(any any ) "make a list") (call-yail-primitive make-yail-list (*list-for-runtime* "port" "9987" ) '(any any ) "make a list") ) '(any any any ) "make a list")) '(list))) '(text)))
 (def (p$checkWiFi )  (if (call-yail-primitive yail-equal? (*list-for-runtime* 1 (call-yail-primitive string-starts-at (*list-for-runtime* (call-component-method 'PhoneStatus1 'GetWifiIpAddress (*list-for-runtime*) '()) "Error") '(text text) "starts at")) '(any any) "=") (begin   (call-component-method 'Notifier1 'ShowChooseDialog (*list-for-runtime* "Your Device does not appear to have a WiFi Connection"  "No WiFi"  "Continue without WiFi"  "Exit"  #f) '(text text text text boolean)))))
 (def (p$getRendezvousServer ) (call-component-method 'TinyDB1 'GetValue (*list-for-runtime* "rendezvousServer"  (get-var g$rendezvousServer)) '(text any)))
@@ -23,7 +23,7 @@ $Source $Yail
  (set-and-coerce-property! 'Screen1 'BackgroundImage "mooning.png" 'text)
  (set-and-coerce-property! 'Screen1 'Icon "AI2Companion-Icon.png" 'text)
  (set-and-coerce-property! 'Screen1 'Scrollable #t 'boolean)
- (set-and-coerce-property! 'Screen1 'Title "MIT App Inventor 2 Companion" 'text)
+ (set-and-coerce-property! 'Screen1 'Title "VEDILS Companion" 'text)
 )
 
 (define-event Screen1 Initialize()(set-this-form)
@@ -42,7 +42,7 @@ $Source $Yail
 ;;; settingsintro
 
 (add-component SettingsPanel Label settingsintro 
-(set-and-coerce-property! 'settingsintro 'Text "App Inventor Companion Settings" 'text)
+(set-and-coerce-property! 'settingsintro 'Text "VEDILS Companion Settings" 'text)
 
 )
 

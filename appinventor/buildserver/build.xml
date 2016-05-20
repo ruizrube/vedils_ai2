@@ -192,7 +192,7 @@
 		changed, or if any of the build server jars have changed. ===================================================================== -->
 	<target name="CheckPlayApp" depends="GenPlayAppSrcZip,BuildServer">
 		<uptodate property="PlayApp.uptodate"
-			targetfile="${public.build.dir}/MIT AI2 Companion.apk">
+			targetfile="${public.build.dir}/VEDILS Companion.apk">
 			<srcfiles file="${local.build.dir}/aiplayapp.zip" />
 			<srcfiles dir="${run.lib.dir}" includes="*.jar" />
 		</uptodate>
@@ -227,7 +227,7 @@
 			<arg line="uninstall edu.mit.appinventor.vedils" />
 		</exec>
 		<exec executable="adb" failonerror="true">
-			<arg line='install "${public.build.dir}/MIT AI2 Companion.apk"' />
+			<arg line='install "${public.build.dir}/VEDILS Companion.apk"' />
 		</exec>
 	</target>
 
