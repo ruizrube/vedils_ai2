@@ -581,4 +581,3 @@ Blockly.Backpack.prototype.getBackpack = function() {
 Blockly.Backpack.prototype.setBackpack = function(backpack) {
   window.parent.BlocklyPanel_setBackpack(backpack);
 }
-

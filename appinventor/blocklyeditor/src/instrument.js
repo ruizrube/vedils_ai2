@@ -18,7 +18,7 @@
 goog.provide('Blockly.Instrument');
 
 /** Is instrumentation turned on? */
-// Blockly.Instrument.isOn = true;
+//Blockly.Instrument.isOn = true;
 Blockly.Instrument.isOn = false; // [lyn, 04/08/14] Turn off for production
 
 /** Turn instrumentation on/off */
