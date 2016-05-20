@@ -642,5 +642,3 @@ Blockly.backpackFlyout.terminateDrag_ = function() {
   Blockly.backpackFlyout.startBlock_ = null;
   Blockly.backpackFlyout.startFlyout_ = null;
 };
-
-
