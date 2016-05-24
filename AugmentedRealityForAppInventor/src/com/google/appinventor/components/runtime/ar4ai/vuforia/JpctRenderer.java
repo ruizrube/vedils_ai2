@@ -429,8 +429,9 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 
 			Object3D myObject3D = null;
 			for (VirtualObject myVO : this.mActivity.getArrayOfVirtualObjects()) {
+				world = getWorldForVO(myVO.getId());
 
-				if (myVO.isEnabled()) {
+				if (myVO.isEnabled() && world != null) {
 					if (myVO.getVisualAssetType() == VirtualObject.ASSET_TEXT) {
 						myObject3D = createAssetText(myVO);
 					} else if (myVO.getVisualAssetType() == VirtualObject.ASSET_IMAGE) {
@@ -440,8 +441,6 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 					}
 
 					if (myObject3D != null) {
-						
-						world = getWorldForVO(myVO.getId());
 					
 						sun = new Light(world);
 						sun.setIntensity(250, 250, 250);
