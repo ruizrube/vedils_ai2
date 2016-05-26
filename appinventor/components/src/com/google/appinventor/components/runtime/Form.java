@@ -15,6 +15,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -1752,6 +1753,7 @@ public class Form extends Activity
     super.onCreateOptionsMenu(menu);
     // add the menu items
     // Comment out the next line if we don't want the exit button
+    setDeviceLanguage();
     addExitButtonToMenu(menu);
     addAboutInfoToMenu(menu);
     for (OnCreateOptionsMenuListener onCreateOptionsMenuListener : onCreateOptionsMenuListeners) {
@@ -1759,10 +1761,30 @@ public class Form extends Activity
     }
     return true;
   }
+  
+  private String stop_Application = "Stop this application";
+  private String stop_Application_Question = "Stop application?";
+  private String stop_Message = "Stop this application and exit? You'll need to relaunch the application to use it again.";
+  private String stop_Possitive_Button = "Stop and exit";
+  private String stop_Negative_Button = "Don't stop";
+  private String about_Application = "About this application";
+  private String about_Button = "Got it";
+  
+  private void setDeviceLanguage() {
+	  if(!Locale.getDefault().getLanguage().equals("en")) {
+		  stop_Application = "Salir de la aplicación";
+		  stop_Application_Question = "¿Salir de la aplicación?";
+		  stop_Message = "¿Desea salir de la aplicación? Deberá abrirla de nuevo para poder usarla.";
+		  stop_Possitive_Button = "Salir";
+		  stop_Negative_Button = "No salir";
+		  about_Application = "Acerca de la aplicación";
+		  about_Button = "Entendido";
+	  }
+  }
 
   public void addExitButtonToMenu(Menu menu) {
     MenuItem stopApplicationItem = menu.add(Menu.NONE, Menu.NONE, Menu.FIRST,
-    "Stop this application")
+    stop_Application)
     .setOnMenuItemClickListener(new OnMenuItemClickListener() {
       public boolean onMenuItemClick(MenuItem item) {
         showExitApplicationNotification();
@@ -1774,7 +1796,7 @@ public class Form extends Activity
 
   public void addAboutInfoToMenu(Menu menu) {
     MenuItem aboutAppItem = menu.add(Menu.NONE, Menu.NONE, 2,
-    "About this application")
+    about_Application)
     .setOnMenuItemClickListener(new OnMenuItemClickListener() {
       public boolean onMenuItemClick(MenuItem item) {
         showAboutApplicationNotification();
@@ -1795,11 +1817,10 @@ public class Form extends Activity
   }
 
   private void showExitApplicationNotification() {
-    String title = "Stop application?";
-    String message = "Stop this application and exit? You'll need to relaunch " +
-        "the application to use it again.";
-    String positiveButton = "Stop and exit";
-    String negativeButton = "Don't stop";
+    String title = stop_Application_Question;
+    String message = stop_Message;
+    String positiveButton = stop_Possitive_Button;
+    String negativeButton = stop_Negative_Button;
     // These runnables are passed to twoButtonAlert.  They perform the corresponding actions
     // when the button is pressed.   Here there's nothing to do for "don't stop" and cancel
     Runnable stopApplication = new Runnable() {public void run () {closeApplicationFromMenu();}};
@@ -1823,12 +1844,12 @@ public class Form extends Activity
   }
 
   private void showAboutApplicationNotification() {
-    String title = "About this app";
+    String title = about_Application;
     String MITtagline = "<p><small><em>Invented with VEDILS<br>vedils.uca.es</em></small></p>";
     // Users can hide the taglines by including an HTML open comment <!-- in the about screen message
     String message = aboutScreen + MITtagline + yandexTranslateTagline;
     message = message.replaceAll("\\n", "<br>"); // Allow for line breaks in the string.
-    String buttonText ="Got it";
+    String buttonText = about_Button;
     Notifier.oneButtonAlert(this, message, title, buttonText);
   }
 

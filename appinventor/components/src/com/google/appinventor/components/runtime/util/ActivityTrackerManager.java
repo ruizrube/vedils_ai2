@@ -54,8 +54,7 @@ public class ActivityTrackerManager {
 		String ip = ConnectionInfo.getCurrentIP(currentActivityTracker.getCommunicationMode(), this.componentContainer.$context());
 		String mac = ConnectionInfo.getMAC(componentContainer.$context());
 	    String appName = componentContainer.$context().getApplicationInfo().packageName;
-	    String screenName = componentContainer.$context().getTitle().toString();
-	    //componentContainer.$form().getLocalClassName() (Devuelve el ScreenX también)
+	    String screenName = componentContainer.$form().getLocalClassName(); 
 	    currentIP = ip;
 	    
 	    //Do the query
@@ -87,9 +86,8 @@ public class ActivityTrackerManager {
 		String ip = ConnectionInfo.getCurrentIP(currentActivityTracker.getCommunicationMode(), this.componentContainer.$context());
 		String mac = ConnectionInfo.getMAC(componentContainer.$context());
 	    String appName = componentContainer.$context().getApplicationInfo().packageName;
-	    String screenName = componentContainer.$context().getTitle().toString();
 	    String actionType = "SPECIFIC";
-	    //componentContainer.$form().getLocalClassName() (Devuelve el ScreenX también)
+	    String screenName = componentContainer.$form().getLocalClassName(); 
 	    currentIP = ip;
 	    
 	    //Do the query
