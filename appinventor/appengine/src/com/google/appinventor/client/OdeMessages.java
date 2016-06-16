@@ -6071,13 +6071,21 @@ public interface OdeMessages extends Messages {
 	// GoogleCloudMessaging
 	//
 	
-	@DefaultMessage("SenderId")
-	@Description("")
-	String SenderIdProperties();
-	
 	@DefaultMessage("Register")
 	@Description("")
 	String RegisterMethods();
+	
+	@DefaultMessage("UnRegister")
+	@Description("")
+	String UnRegisterMethods();
+	
+	@DefaultMessage("UnRegisterAll")
+	@Description("")
+	String UnRegisterAllMethods();
+	
+	@DefaultMessage("ShowNotificationBar")
+	@Description("")
+	String ShowNotificationBarMethods();
 	
 	//
 	// ThingSpeakLocationSensor
@@ -6099,9 +6107,17 @@ public interface OdeMessages extends Messages {
 	// DeviceInfo
 	//
 	
-	@DefaultMessage("Imei")
+	@DefaultMessage("IMEI")
 	@Description("")
-	String ImeiProperties();
+	String IMEIProperties();
+	
+	@DefaultMessage("MAC")
+	@Description("")
+	String MACProperties();
+	
+	@DefaultMessage("IP")
+	@Description("")
+	String IPProperties();
 	
 	//
 	// ActivityTracker
@@ -6115,9 +6131,9 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String TableIdProperties();
 	
-	@DefaultMessage("TableIdSetup")
+	@DefaultMessage("DisplayExampleTable")
 	@Description("")
-	String TableIdSetupProperties();
+	String DisplayExampleTableProperties();
 	
 	@DefaultMessage("SynchronizationMode")
 	@Description("")

@@ -47,7 +47,6 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	@SuppressWarnings("unused")
 	private final ComponentContainer componentContainer;
 	private String tableId;
-	private String tableIdSetup;
 	private int synchronizationMode;
 	private int batchTime;
 	private int communicationMode;
@@ -68,7 +67,6 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 		
 		//Define data for FusionTableControl connection.
 		tableId = "1xZCj24xYWpj6jHWN2IK2xiErYPY7XbeHAqXVR4Bw";
-		tableIdSetup = "1xZCj24xYWpj6jHWN2IK2xiErYPY7XbeHAqXVR4Bw";
 		
 		//Record current ActivityTracker
 		ActivityTrackerInstances.insertActivityTracker((Activity)componentContainer.$context(), this);
@@ -140,19 +138,12 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	}
 	
 	/**
-	 * Returns the id of the current Fusion Table.
+	 * Display the hyperlink to example FusionTable URL.
 	 * 
-	 * @return tableIdSetup
 	 */
-	/*@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_HYPERLINK)
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_HYPERLINK_ONLY_ACTIVITYTRACKER)
 	@SimpleProperty
-	public String TableIdSetup(String tableId) {
-		return tableIdSetup;
-	}
-	
-	public String getTableIdSetup() {
-		return tableIdSetup;
-	}*/
+	public void DisplayExampleTable(String exampleTableURL) {}
 	
 	
 	/**

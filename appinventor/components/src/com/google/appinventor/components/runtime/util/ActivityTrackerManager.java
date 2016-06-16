@@ -7,12 +7,11 @@ import java.util.List;
 import java.util.Timer;
 
 import com.google.appinventor.components.runtime.ActivityTracker;
-import com.google.appinventor.components.runtime.DeviceInfo;
 import com.google.appinventor.components.runtime.Clock;
 import com.google.appinventor.components.runtime.Component;
 import com.google.appinventor.components.runtime.ComponentContainer;
 import com.google.appinventor.components.runtime.la4ai.util.TinyDB;
-import com.google.appinventor.components.runtime.la4ai.util.ConnectionInfo;
+import com.google.appinventor.components.runtime.la4ai.util.DeviceInfoFunctions;
 import com.google.appinventor.components.runtime.la4ai.util.GPSTracker;
 
 public class ActivityTrackerManager {
@@ -36,7 +35,6 @@ public class ActivityTrackerManager {
 	private TimerSendData timerSendData;
 	private String currentIP;
 	private GPSTracker gpsTracker;
-	private DeviceInfo deviceInfo;
 	
 	
 	public ActivityTrackerManager(ActivityTracker currentActivityTracker, ComponentContainer componentContainer) {
@@ -46,13 +44,12 @@ public class ActivityTrackerManager {
 		this.tinyDB = new TinyDB(componentContainer.$context());
 		this.tagDB = 0;
 		this.timerSendData = new TimerSendData(this);
-		this.deviceInfo = new DeviceInfo(componentContainer);
 		gpsTracker = new GPSTracker(componentContainer.$context());
 	}
 	
 	public void prepareQueryAutomatic(String actionType, String actionId, String componentType, String componentId, String param1, String param2, String param3, String returnValue) {
-		String ip = ConnectionInfo.getCurrentIP(currentActivityTracker.getCommunicationMode(), this.componentContainer.$context());
-		String mac = ConnectionInfo.getMAC(componentContainer.$context());
+		String ip = DeviceInfoFunctions.getCurrentIP(currentActivityTracker.getCommunicationMode(), this.componentContainer.$context());
+		String mac = DeviceInfoFunctions.getMAC(componentContainer.$context());
 	    String appName = componentContainer.$context().getApplicationInfo().packageName;
 	    String screenName = componentContainer.$form().getLocalClassName(); 
 	    currentIP = ip;
@@ -61,7 +58,7 @@ public class ActivityTrackerManager {
 		values = "'" + currentActivityTracker.getUserTrackerId() + "','" + 
 		ip + "','" +
 	    mac + "','" +
-		deviceInfo.getImei() + "'," +
+	    DeviceInfoFunctions.getIMEI(componentContainer.$context()) + "'," +
 		gpsTracker.getLatitude() + "," +
 		gpsTracker.getLongitude() + ",'" +
 		Clock.FormatDate(Clock.Now(), "MM/dd/yyyy HH:mm:ss") + "','" +
@@ -83,8 +80,8 @@ public class ActivityTrackerManager {
 	
 	public void prepareQueryManual(String actionId, String param1, String param2, String param3) {
 		
-		String ip = ConnectionInfo.getCurrentIP(currentActivityTracker.getCommunicationMode(), this.componentContainer.$context());
-		String mac = ConnectionInfo.getMAC(componentContainer.$context());
+		String ip = DeviceInfoFunctions.getCurrentIP(currentActivityTracker.getCommunicationMode(), this.componentContainer.$context());
+		String mac = DeviceInfoFunctions.getMAC(componentContainer.$context());
 	    String appName = componentContainer.$context().getApplicationInfo().packageName;
 	    String actionType = "SPECIFIC";
 	    String screenName = componentContainer.$form().getLocalClassName(); 
@@ -94,7 +91,7 @@ public class ActivityTrackerManager {
 		values = "'" + currentActivityTracker.getUserTrackerId() + "','" + 
 		ip + "','" +
 	    mac + "','" +
-		deviceInfo.getImei() + "'," +
+	    DeviceInfoFunctions.getIMEI(componentContainer.$context()) + "'," +
 		gpsTracker.getLatitude() + "," +
 		gpsTracker.getLongitude() + ",'" +
 		Clock.FormatDate(Clock.Now(), "MM/dd/yyyy HH:mm:ss") + "','" +

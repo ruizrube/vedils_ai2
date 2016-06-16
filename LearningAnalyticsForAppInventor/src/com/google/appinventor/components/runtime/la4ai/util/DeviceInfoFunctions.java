@@ -7,10 +7,11 @@ import java.util.Enumeration;
 
 import android.content.Context;
 import android.net.wifi.WifiManager;
+import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
 import android.util.Log;
 
-public class ConnectionInfo {
+public class DeviceInfoFunctions {
 	
 	private static String TAG = "getMobileIP() method exception.";
 	
@@ -38,6 +39,16 @@ public class ConnectionInfo {
 	public static String getMAC(Context context) {
 		WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 		return wm.getConnectionInfo().getMacAddress();
+	}
+	
+	/**
+	 * 
+	 * @param context
+	 * @return the IMEI code of the use mobile phone.
+	 */
+	public static String getIMEI(Context context) {
+		TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+		return manager.getDeviceId();
 	}
 	
 	/**
@@ -73,4 +84,6 @@ public class ConnectionInfo {
 		WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 		return Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
 	}
+	
+	
 }

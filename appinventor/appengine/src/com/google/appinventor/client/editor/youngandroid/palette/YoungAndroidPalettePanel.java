@@ -235,8 +235,8 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
       return new YoungAndroidFontTypefaceChoicePropertyEditor();
     } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_CHECKABLETREE)) {
       return new YoungAndroidCheckableTreeSelector(editor, COMPONENT_DATABASE, componentType);
-    } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_HYPERLINK)) {
-        return new YoungAndroidAnchorProperty();
+    } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_HYPERLINK_ONLY_ACTIVITYTRACKER)) {
+        return new YoungAndroidAnchorProperty("https://www.google.com/fusiontables/data?docid=1cP2N54R5iO-dK8poW2RrN_ygX-P1rNmU0AjI1PEH");
     } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_SYNCHRONIZATIONMODE)) {
         return new YoungAndroidSynchronizationModeChoicePropertyEditor();
     } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_COMMUNICATIONMODE)) {

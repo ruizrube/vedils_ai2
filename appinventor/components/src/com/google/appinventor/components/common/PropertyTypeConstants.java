@@ -193,10 +193,10 @@ public class PropertyTypeConstants {
   //public static final String PROPERTY_COMPONENT_NAME = "componentName";
   
   /**
-   * Select current component name by {@link
-   * com.google.appinventor.client.editor.youngandroid.properties.YoungComponentNameSelector}
+   * Display a hyperlink with FusionTable example URL for ActivityTracker record by {@link
+   * com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidAnchorProperty}
    */
-  public static final String PROPERTY_TYPE_HYPERLINK = "hyperLink";
+  public static final String PROPERTY_TYPE_HYPERLINK_ONLY_ACTIVITYTRACKER = "hyperLink_only_activitytracker";
 
   /**
    * Choices of visibility for view components offered by {@link
