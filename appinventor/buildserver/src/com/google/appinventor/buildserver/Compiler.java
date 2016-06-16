@@ -498,6 +498,52 @@ public final class Compiler {
             "android:screenOrientation=\"behind\">\n");
         out.write("    </activity>\n");
       }
+      
+      //LA4AI
+      //Add permiss to get notifications.
+      if(componentTypes.contains("GoogleCloudMessaging")) {
+    	  
+    	  //PERMISSIONS
+    	  
+		  out.write("<permission android:name=\"com.google.appinventor.permission.C2D_MESSAGE\" android:protectionLevel=\"signature\" />\n");
+    	  out.write("<uses-permission android:name=\"com.google.appinventor.permission.C2D_MESSAGE\" />\n"); 
+    	  out.write("<permission android:name=\"" + packageName +".permission.C2D_MESSAGE\" android:protectionLevel=\"signature\" />\n");
+    	  out.write("<uses-permission android:name=\""+ packageName +".permission.C2D_MESSAGE\" />\n");
+    	  
+    	  //LISTENER
+    	  
+    	  out.write("<service \n");
+    	  out.write("android:name=\"com.google.appinventor.components.runtime.util.GoogleCloudMessagingTokenRefreshService\" \n");
+    	  out.write("android:exported=\"false\" > \n");
+    	  out.write("<intent-filter> \n");
+    	  out.write("<action android:name=\"com.google.android.gms.iid.InstanceID\" /> \n");
+    	  out.write("</intent-filter> \n");
+    	  out.write("</service> \n");
+    	  
+    	  out.write("<service \n");
+    	  out.write("android:name=\"com.google.appinventor.components.runtime.util.GoogleCloudMessagingListenerService\" \n");
+    	  //out.write("android:exported=\"false\" > \n");
+    	  out.write("android:enabled=\"true\" \n");
+    	  out.write("android:exported=\"true\" >\n ");
+    	  out.write("<intent-filter> \n");
+    	  out.write("<action android:name=\"com.google.android.c2dm.intent.RECEIVE\" /> \n");
+    	  out.write("</intent-filter> \n");
+    	  out.write("</service> \n");
+
+    	  //RECEIVER
+    	  
+    	  out.write("<receiver \n");
+    	  out.write("android:name=\"com.google.android.gms.gcm.GcmReceiver\" \n");
+    	  out.write("android:exported=\"true\" \n");
+    	  out.write("android:permission=\"com.google.android.c2dm.permission.SEND\" > \n");
+    	  out.write("<intent-filter> \n");
+    	  out.write("<action android:name=\"com.google.android.c2dm.intent.RECEIVE\" /> \n");
+    	  out.write("<category android:name=\"com.example.gcm\" /> \n");
+    	  out.write("</intent-filter> \n");
+    	  out.write("</receiver> \n");
+    	  
+      }
+      
       // Add WebViewActivity to the manifest only if a Twitter component is used in the app
       if (componentTypes.contains("Twitter")){
         out.write("    <activity android:name=\"" + WEBVIEW_ACTIVITY_CLASS + "\" " +
