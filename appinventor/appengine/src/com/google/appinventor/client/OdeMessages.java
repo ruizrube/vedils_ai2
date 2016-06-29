@@ -6087,6 +6087,14 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String ShowNotificationBarMethods();
 	
+	@DefaultMessage("SendDataList")
+	@Description("")
+	String SendDataListMethods();
+	
+	@DefaultMessage("DataListReceived")
+	@Description("")
+	String DataListReceivedEvents();
+	
 	//
 	// ThingSpeakLocationSensor
 	//

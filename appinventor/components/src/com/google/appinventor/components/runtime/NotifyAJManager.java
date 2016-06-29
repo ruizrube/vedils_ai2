@@ -10,6 +10,9 @@ import android.app.Activity;
 public class NotifyAJManager {
 	
 	private static boolean notificableMethod(String selectedActivities, String type, String method) {
+		System.out.println("Type operation: " +type + " - MirarEsto");
+		System.out.println("Method: "+method+ " - MirarEsto");
+		System.out.println("SelectedActivities: " + selectedActivities + " - MirarEsto");
 		if(type.equals("Get")) {
 			return selectedActivities.contains("Get - "+method);
 		} else if(type.equals("Set")) {
@@ -46,6 +49,8 @@ public class NotifyAJManager {
 			System.out.println("Other type - AspectJ.");
 		}
 		
+		System.out.println("Selected Activities for component: " + selectedActivities + " - ActivitiesToNotify.");
+		
 		if(returnValue instanceof String) {
 			returnValueString = (String) returnValue;
 		} else if(returnValue instanceof Boolean) {
@@ -68,6 +73,7 @@ public class NotifyAJManager {
 			//If the activity name is recorded in selectedActivities, then the activity is notify.
 			if(notificableMethod(selectedActivities, type, pointcut.getSignature().getName()) && ActivityTrackerInstances.getActivityTracker(currentActivity).getTrackingStatus()) {
 				//Send data to FusionTables in function of the number of arguments
+				System.out.println("Pass operation: " + selectedActivities + " - ActivitiesToNotify.");
 				switch(pointcut.getArgs().length) {
 					case 0: //0 arguments
 						ActivityTrackerInstances.getActivityTracker(currentActivity).getActivityTrackerManager().prepareQueryAutomatic(

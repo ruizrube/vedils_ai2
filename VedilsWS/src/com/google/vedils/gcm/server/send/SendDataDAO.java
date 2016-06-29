@@ -37,10 +37,10 @@ public class SendDataDAO extends ConnectionDAO {
 						Sender sender = new Sender(apiKey);
 						Message message = new Message.Builder()
 						    .addData("message", sendTextMessage.message)
+						    .addData("action", sendTextMessage.action)
 						    .build();
 						Result result = sender.send(message, clients.getString("token"), 2);
 						System.out.println("Result Code to send message GCM: " +result.getErrorCodeName());
-			       		return ESTABLISHED_CONNECTION;
 					} catch(IOException e) {
 						System.out.println("Any error when try send message");
 						e.printStackTrace();
@@ -60,5 +60,4 @@ public class SendDataDAO extends ConnectionDAO {
 			return NOT_ESTABLISHED_CONNECTION;
 		}
 	}
-
 }

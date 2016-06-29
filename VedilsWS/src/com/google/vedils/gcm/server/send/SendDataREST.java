@@ -31,8 +31,8 @@ public class SendDataREST {
 	@Path("sendTextMessage")
 	public String sendTextMessage(SendTextMessageBean sendTextMessage) {
 		System.out.println("The message is: " +sendTextMessage.message);
+		System.out.println("The action is: " +sendTextMessage.action);
 		SendDataDAO sendDataDAO = new SendDataDAO();
 		return sendDataDAO.sendTextMessage(sendTextMessage);
 	}
-
 }

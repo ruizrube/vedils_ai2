@@ -21,6 +21,7 @@ public abstract class ConnectionDAO {
 		String databaseURL = "jdbc:mysql://localhost:3306/VedilsGcmClients";
 		String user = "root";
 		String password = "root";
+		//String password = "g3st0r123";
 		
 		//Open the connection with the database.
 		

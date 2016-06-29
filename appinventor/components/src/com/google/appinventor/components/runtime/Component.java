@@ -20,6 +20,8 @@ public interface Component {
    * for this component.
    */
   public HandlesEventDispatching getDispatchDelegate();
+  
+  public static final long serialVersionUID = 1L;
 
   /*
    * Components asset directory.

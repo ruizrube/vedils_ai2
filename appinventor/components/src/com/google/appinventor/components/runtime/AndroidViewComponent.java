@@ -25,8 +25,8 @@ import android.view.View;
  */
 @SimpleObject
 public abstract class AndroidViewComponent extends VisibleComponent {
-
-  protected final ComponentContainer container;
+  
+  protected transient final ComponentContainer container;
 
   private int percentWidthHolder = LENGTH_UNKNOWN;
   private int percentHeightHolder = LENGTH_UNKNOWN;

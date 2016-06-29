@@ -1,4 +1,5 @@
 package com.google.appinventor.components.runtime;
+import java.util.List;
 
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.SimpleEvent;
@@ -20,7 +21,8 @@ import android.support.v4.app.NotificationCompat;
 
 @UsesLibraries(libraries = "google-play-services.jar," +
 		"android-support-v4.jar," +
-		"la4ai.jar")
+		"la4ai.jar," +
+		"gson-2.1.jar")
 @SimpleObject
 @DesignerComponent(nonVisible= true, version = 1, description = "Google Cloud Messaging Component (by SPI-FM at UCA)", category = ComponentCategory.VEDILSLEARNINGANALYTICS, iconName = "images/arColorTracker.png")
 @UsesPermissions(permissionNames = 
@@ -35,7 +37,7 @@ import android.support.v4.app.NotificationCompat;
 "com.miappgcm.appfactory.permission.C2D_MESSAGE")
 public class GoogleCloudMessaging extends AndroidNonvisibleComponent implements Component {
 	
-	private GoogleCloudMessagingConnectionServer connectionServer;
+	private static GoogleCloudMessagingConnectionServer connectionServer;
 	private static Component component;
 	private static Activity activity;
 	
@@ -44,6 +46,7 @@ public class GoogleCloudMessaging extends AndroidNonvisibleComponent implements 
 		connectionServer = new GoogleCloudMessagingConnectionServer(componentContainer.$context());
 		GoogleCloudMessaging.component = (GoogleCloudMessaging) this;
 		activity = componentContainer.$context();
+				//new GsonBuilder().setExclusionStrategies(/*new MyExclusionStrategy(String.class)*/).serializeNulls().create();
 	}
 	
 	
@@ -52,17 +55,25 @@ public class GoogleCloudMessaging extends AndroidNonvisibleComponent implements 
 	 * @param message
 	 */
 	@SimpleFunction(description="Function to send a text message to all devices registered in the same app.")
-	public void SendMessage(String message) {
-		this.connectionServer.sendMessage(message);
+	public void SendMessage(String message, String action) {
+		connectionServer.sendMessage(message, action);
 	}
 	
+	/**
+	 * Function to send a list of objects as a message to all devices with the same app.
+	 * @param objects
+	 */
+	@SimpleFunction(description="Function to send a list of object as a message to all devices registered in the same app.")
+	public void SendDataList(List<Object> objects) {
+		connectionServer.sendObjectsMessage(objects);
+	}
 	
 	/**
 	 * Function to get the registration token.
 	 */
 	@SimpleFunction(description="Function to get the registration token.")
 	public void Register() {
-		this.connectionServer.register();
+		connectionServer.register();
 	}
 	
 	/**
@@ -70,7 +81,7 @@ public class GoogleCloudMessaging extends AndroidNonvisibleComponent implements 
 	 */
 	@SimpleFunction(description="Function to delete this client of server.")
 	public void UnRegister() {
-		this.connectionServer.unRegister();
+		connectionServer.unRegister();
 	}
 	
 	/**
@@ -78,15 +89,26 @@ public class GoogleCloudMessaging extends AndroidNonvisibleComponent implements 
 	 */
 	@SimpleFunction(description="Function to delete all clients of server.")
 	public void UnRegisterAll() {
-		this.connectionServer.unRegisterAll();
+		connectionServer.unRegisterAll();
 	}
 	
-	public static void handledReceivedMessage(final String message) {
+	public static void handledReceivedMessage(final String message, final String action) {
 		//Dispatch the event
 		activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-            	MessageReceived(message);
+            	MessageReceived(message, action);
+            }
+        });
+	}
+	
+	
+	public static void handledDataListReceived(final List<Object> objects) {
+		//Dispatch the event
+		activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+            	DataListReceived(objects);
             }
         });
 	}
@@ -95,12 +117,20 @@ public class GoogleCloudMessaging extends AndroidNonvisibleComponent implements 
 	 * Indicates that a message has been received.
 	 */
 	 @SimpleEvent(description = "A message has been received.")
-	 public static void MessageReceived(String message) { 
-	    EventDispatcher.dispatchEvent(component, "MessageReceived", message);
+	 public static void MessageReceived(String message, String action) { 
+	    EventDispatcher.dispatchEvent(component, "MessageReceived", message, action);
+	 }
+	 
+	 /**
+	 * Indicates that a message has been received.
+	 */
+	 @SimpleEvent(description = "A message with a object has been received.")
+	 public static void DataListReceived(List<Object> objects) {
+	    EventDispatcher.dispatchEvent(component, "DataListReceived", objects);
 	 }
 	 
 	 @SimpleFunction(description="Function to show message in notification bar.")
-	 public void ShowNotificationBar(String message) {
+	 public void ShowNotificationBar(String message, String title) {
 		 String classname = activity.getPackageName() + ".Screen1";
 	        Intent intent = null;
 			try {
@@ -116,9 +146,9 @@ public class GoogleCloudMessaging extends AndroidNonvisibleComponent implements 
 	        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 	        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(activity)
 	        		.setSmallIcon(activity.getApplicationInfo().icon)
-	                .setContentTitle(activity.getApplicationInfo().packageName + " Notification.")
+	                .setContentTitle(title)
 	                .setContentText(message)
-	                .setAutoCancel(true)
+	                .setAutoCancel(false)
 	                .setSound(defaultSoundUri)
 	                .setContentIntent(pendingIntent);
 
@@ -127,4 +157,23 @@ public class GoogleCloudMessaging extends AndroidNonvisibleComponent implements 
 
 	        notificationManager.notify(1, notificationBuilder.build());
 	 }
+	 
+	 /*public class MyExclusionStrategy implements ExclusionStrategy {
+			private final Class<?> typeToSkip;
+
+			public MyExclusionStrategy(Class<?> typeToSkip) {
+				this.typeToSkip = typeToSkip;
+			}
+
+			public boolean shouldSkipClass(Class<?> clazz) {
+				return false;
+			}
+
+			public boolean shouldSkipField(FieldAttributes f) {
+				return (!f.getDeclaredType().toString().equals("int") && 
+						!f.getDeclaredType().toString().equals("double") && 
+						!f.getDeclaredType().toString().equals("boolean") && 
+						!f.getDeclaredType().toString().contains("String"));
+			}
+	}*/
 }

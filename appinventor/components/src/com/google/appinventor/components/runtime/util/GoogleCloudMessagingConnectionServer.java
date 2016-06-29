@@ -2,7 +2,10 @@ package com.google.appinventor.components.runtime.util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -12,9 +15,13 @@ import org.json.JSONObject;
 
 import com.google.android.gms.iid.InstanceID;
 import com.google.appinventor.components.runtime.la4ai.util.DeviceInfoFunctions;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import gnu.math.IntNum;
 
 public class GoogleCloudMessagingConnectionServer {
 	
@@ -25,11 +32,17 @@ public class GoogleCloudMessagingConnectionServer {
 	private boolean registered;
 	private String IMEI;
 	
+	//SERVER:
+	private static final String URL_SERVER_INSERT = "http://vedils.uca.es:8080/VedilsWS/GcmServer/registrationClient/insertRegistrationClient"; 
+	private static final String URL_SERVER_SEND_MESSAGE = "http://vedils.uca.es:8080/VedilsWS/GcmServer/sendData/sendTextMessage";
+	private static final String URL_SERVER_DELETE = "http://vedils.uca.es:8080/VedilsWS/GcmServer/registrationClient/deleteRegistrationClient";
+	private static final String URL_SERVER_DELETE_ALL = "http://vedils.uca.es:8080/VedilsWS/GcmServer/registrationClient/deleteAllRegistrationClients";
+	
 	//Casa:
-	private static final String URL_SERVER_INSERT = "http://192.168.1.9:8080/VedilsWS/GcmServer/registrationClient/insertRegistrationClient"; 
-	private static final String URL_SERVER_SEND_MESSAGE = "http://192.168.1.9:8080/VedilsWS/GcmServer/sendData/sendTextMessage";
-	private static final String URL_SERVER_DELETE = "http://192.168.1.9:8080/VedilsWS/GcmServer/registrationClient/deleteRegistrationClient";
-	private static final String URL_SERVER_DELETE_ALL = "http://192.168.1.9:8080/VedilsWS/GcmServer/registrationClient/deleteAllRegistrationClients";
+	//private static final String URL_SERVER_INSERT = "http://192.168.1.4:8080/VedilsWS/GcmServer/registrationClient/insertRegistrationClient"; 
+	//private static final String URL_SERVER_SEND_MESSAGE = "http://192.168.1.4:8080/VedilsWS/GcmServer/sendData/sendTextMessage";
+	//private static final String URL_SERVER_DELETE = "http://192.168.1.4:8080/VedilsWS/GcmServer/registrationClient/deleteRegistrationClient";
+	//private static final String URL_SERVER_DELETE_ALL = "http://192.168.1.4:8080/VedilsWS/GcmServer/registrationClient/deleteAllRegistrationClients";
 	
 	//UCA
 	//private static final String URL_SERVER_INSERT = "http://10.182.111.83:8080/VedilsWS/GcmServer/registrationClient/insertRegistrationClient"; 
@@ -145,9 +158,99 @@ public class GoogleCloudMessagingConnectionServer {
 		}
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void sendObjectsMessage(final List<Object> objects) {
+		new AsyncTask() {
+			@Override
+			protected Object doInBackground(Object... arg0) {
+				try {
+					
+					System.out.println("Prepare message - GCMTest");
+					
+					System.out.println("JSONObject creado - GCMTest");
+					
+					//Gson gson = new Gson();
+					//String objectString = gson.toJson(object);
+					
+					//ByteArrayOutputStream bo = new ByteArrayOutputStream();
+				    //ObjectOutputStream so = new ObjectOutputStream(bo);
+				    //so.writeObject(object);
+				    //so.flush();
+				    //so.close();
+				    //so.flush();
+				    //byte objectBytes[] = bo.toByteArray();
+				    //String objectString = bo.toString();
+					
+					ArrayList<Object> listObjects = new ArrayList<Object>(objects);
+					listObjects = removeTypesNoAccepted(listObjects);
+					listObjects = castNumbersToString(listObjects);
+					
+					Type listType = new TypeToken<ArrayList<Object>>(){}.getType();
+					Gson gson = new GsonBuilder()./*registerTypeAdapter(listType, ListObjectsSerializer.class).*/create();
+					
+					String objectsJson = gson.toJson(listObjects, listType);
+					System.out.println("Object String Send to Server = " + objectsJson + " - GCMTest ");
+				    
+				    //String objectString = DatatypeConverter.printBase64Binary(bo.toByteArray());
+					
+					JSONObject information = new JSONObject();
+					
+					information.put("message", objectsJson);
+					information.put("action", "ObjectListGCM");
+					information.put("imei", IMEI);
+					information.put("appname", APP_NAME);
+					
+					System.out.println("JSONObject creado - GCMTest");
+					
+					String request = establishCommunicationWithServer(information, URL_SERVER_SEND_MESSAGE);
+				  	 
+				  	if(!request.equals("ESTABLISHED_CONNECTION")) {
+				  		throw new Exception("Error while intent to send message: " + request + " - GCMTest");
+				  	}
+				  	
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					System.out.println("Some error - GCMTest" + e.getMessage());
+					e.printStackTrace();
+				}
+				return null;
+			}
+			
+			@Override
+			protected void onPostExecute(Object result) {}
+		}.execute();
+	}
+	
+	private ArrayList<Object> castNumbersToString(ArrayList<Object> listObjects) {
+		ArrayList<Object> listObjectsAux = new ArrayList<Object>();
+		
+		for(Object object: listObjects) {
+			if(object instanceof IntNum) {
+				IntNum number = (IntNum) object;
+				String numberString = String.valueOf(number.ival);
+				listObjectsAux.add(numberString);
+			} else {
+				listObjectsAux.add(object);
+			}
+		}
+		
+		return listObjectsAux;
+	}
+	
+	private ArrayList<Object> removeTypesNoAccepted(ArrayList<Object> listObjects) {
+		ArrayList<Object> listObjectsAux = new ArrayList<Object>();
+		
+		for(Object object: listObjects) {
+			if(object instanceof Number || object instanceof String || object instanceof Boolean) {
+				listObjectsAux.add(object);
+			}
+		}
+		
+		return listObjectsAux;
+	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void sendMessage(final String message) {
+	public void sendMessage(final String message, final String action) {
 		new AsyncTask() {
 			@Override
 			protected Object doInBackground(Object... arg0) {
@@ -160,6 +263,7 @@ public class GoogleCloudMessagingConnectionServer {
 					JSONObject information = new JSONObject();
 					
 					information.put("message", message);
+					information.put("action", action);
 					information.put("imei", IMEI);
 					information.put("appname", APP_NAME);
 					
@@ -274,6 +378,36 @@ public class GoogleCloudMessagingConnectionServer {
 		}
 	}
 	
-	
+	/*class ListObjectsSerializer implements JsonSerializer<ArrayList<Object>> {
+
+		@Override
+		public JsonElement serialize(ArrayList<Object> objects, Type type, JsonSerializationContext context) {
+			
+			JsonArray jsonArray = new JsonArray();
+			
+			for(Object object: objects) {
+				if(object instanceof String) {
+					String value = (String) object;
+					JsonObject jsonObject = new JsonObject();
+					jsonObject.addProperty("object", value + ":type:" + "String");
+					jsonArray.add(jsonObject);
+				} else if(object instanceof Number) {
+					Integer value = (Integer) object;
+					JsonObject jsonObject = new JsonObject();
+					jsonObject.addProperty("object", value + ":type:" + "Number");
+					jsonArray.add(jsonObject);
+				} else if(object instanceof Boolean) {
+					Boolean value = (Boolean) object;
+					JsonObject jsonObject = new JsonObject();
+					jsonObject.addProperty("object", value + ":type:" + "Boolean");
+					jsonArray.add(jsonObject);
+				} else {
+					//Skip types
+					System.out.println("Skipping type..");
+				}
+			}
+			return jsonArray;
+		}
+	 }*/
 	
 }

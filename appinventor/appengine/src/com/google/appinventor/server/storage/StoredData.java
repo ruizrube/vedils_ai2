@@ -146,7 +146,7 @@ public class StoredData {
 
     // File content, these are raw bytes. Note that Objectify automatically
     // converts byte[] to Blob.
-    byte[] content;
+    @TAGExcluir byte[] content;
 
     // File settings
     // TODO(user): is this ever used?
@@ -179,7 +179,7 @@ public class StoredData {
     // converts byte[] to an App Engine Datastore Blob (which is not the same thing as a Blobstore
     // Blob).  Consequently, if isBlob is true, the content field should be ignored and the data
     // should be retrieved from Blobstore.
-    byte[] content;
+    @TAGExcluir byte[] content;
 
     // Is this file stored in Blobstore.  If it is, the blobstorePath will contain the path to use
     // to retrieve the data from Blobstore.

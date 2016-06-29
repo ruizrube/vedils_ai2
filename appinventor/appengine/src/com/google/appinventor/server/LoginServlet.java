@@ -64,8 +64,8 @@ public class LoginServlet extends HttpServlet {
   private static final Logger LOG = Logger.getLogger(LoginServlet.class.getName());
   private static final Flag<String> mailServer = Flag.createFlag("localauth.mailserver", "");
   private static final Flag<String> password = Flag.createFlag("localauth.mailserver.password", "");
-  private static final Flag<Boolean> useGoogle = Flag.createFlag("auth.usegoogle", true);
-  private static final Flag<Boolean> useLocal = Flag.createFlag("auth.uselocal", false);
+  private static final Flag<Boolean> useGoogle = Flag.createFlag("auth.usegoogle", false);
+  private static final Flag<Boolean> useLocal = Flag.createFlag("auth.uselocal", true);
   private static final UserService userService = UserServiceFactory.getUserService();
 
   public void init(ServletConfig config) throws ServletException {
@@ -111,6 +111,7 @@ public class LoginServlet extends HttpServlet {
         req.getSession().setAttribute("isadmin", true);          // Tell the session we are admin
       }
       resp.sendRedirect("/");
+      return;
     } else {
       if (useLocal.get() == false) {
         if (useGoogle.get() == false) {

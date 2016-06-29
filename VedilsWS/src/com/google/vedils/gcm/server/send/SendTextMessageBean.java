@@ -9,6 +9,9 @@ public class SendTextMessageBean {
 	@JsonProperty("message")
 	protected String message;
 	
+	@JsonProperty("action")
+	protected String action;
+	
 	@JsonProperty("imei")
 	protected String imei;
 	
