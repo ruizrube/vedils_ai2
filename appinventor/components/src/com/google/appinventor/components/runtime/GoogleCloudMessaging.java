@@ -24,7 +24,7 @@ import android.support.v4.app.NotificationCompat;
 		"la4ai.jar," +
 		"gson-2.1.jar")
 @SimpleObject
-@DesignerComponent(nonVisible= true, version = 1, description = "Google Cloud Messaging Component (by SPI-FM at UCA)", category = ComponentCategory.VEDILSLEARNINGANALYTICS, iconName = "images/arColorTracker.png")
+@DesignerComponent(nonVisible= true, version = 1, description = "Google Cloud Messaging Component (by SPI-FM at UCA)", category = ComponentCategory.VEDILSGOOGLECLOUDMESSAGING, iconName = "images/gcm_icon.png")
 @UsesPermissions(permissionNames = 
 "com.google.android.c2dm.permission.RECEIVE," +
 "android.permission.INTERNET," +

@@ -136,6 +136,7 @@ public final class SimpleComponentDescriptor {
     bundledImages.put("images/arTextAsset.png", images.arTextAsset());
     bundledImages.put("images/arColorTracker.png", images.activityTracker());
     bundledImages.put("images/handGestureSensor.png", images.handGestureSensor());
+    bundledImages.put("images/gcm_icon.png", images.googleCloudMessaging());
     
     imagesInitialized = true;
   }

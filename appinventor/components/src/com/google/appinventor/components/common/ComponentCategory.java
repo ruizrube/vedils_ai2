@@ -62,7 +62,8 @@ import java.util.Map;
     UNINITIALIZED("Uninitialized"),
     VEDILSAUGMENTEDREALITY("VEDILS Augmented Reality"),
     VEDILSLEARNINGANALYTICS("VEDILS Learning Analytics"),
-	VEDILSGESTURECONTROL("VEDILS Gesture Control");
+	VEDILSGESTURECONTROL("VEDILS Gesture Control"),
+	VEDILSGOOGLECLOUDMESSAGING("VEDILS Communication");
 
 
     // Mapping of component categories to names consisting only of lower-case letters,
@@ -81,6 +82,7 @@ import java.util.Map;
       DOC_MAP.put("VEDILS Augmented Reality", "vedilsaugmentedreality");
       DOC_MAP.put("VEDILS Learning Analytics", "vedilslearninganalytics");
       DOC_MAP.put("VEDILS Gesture Control", "vedilsgesturecontrol");
+      DOC_MAP.put("VEDILS Communication", "vedilscommunication");
       //DOC_MAP.put("Experimental", "experimental");
     }
 

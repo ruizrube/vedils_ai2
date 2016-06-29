@@ -83,6 +83,10 @@ public interface Images extends Resources {
 	 */
 	@Source("com/google/appinventor/images/arColorTracker.png")
 	ImageResource activityTracker();
+	
+	
+	@Source("com/google/appinventor/images/gcm_icon.png")
+	ImageResource googleCloudMessaging();
 
 	/**
 	 * Designer palette item: ActivityTracker component
