@@ -81,15 +81,23 @@ public interface Images extends Resources {
 	/**
 	 * Designer palette item: ActivityTracker component
 	 */
-	@Source("com/google/appinventor/images/arColorTracker.png")
+	@Source("com/google/appinventor/images/activityTracker_icon.png")
 	ImageResource activityTracker();
 	
-	
+	/**
+	 * Designer palette item: GoogleCloudMessaging component
+	 */
 	@Source("com/google/appinventor/images/gcm_icon.png")
 	ImageResource googleCloudMessaging();
+	
+	/**
+	 * Designer palette item: DeviceInfo component
+	 */
+	@Source("com/google/appinventor/images/device_info_icon.png")
+	ImageResource deviceInfo();
 
 	/**
-	 * Designer palette item: ActivityTracker component
+	 * Designer palette item: HandGestureSensor component
 	 */
 	@Source("com/google/appinventor/images/handGestureSensor.png")
 	ImageResource handGestureSensor();

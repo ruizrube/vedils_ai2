@@ -8,6 +8,7 @@ import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.UsesLibraries;
 import com.google.appinventor.components.annotations.UsesPermissions;
 import com.google.appinventor.components.common.ComponentCategory;
+import com.google.appinventor.components.common.YaVersion;
 import com.google.appinventor.components.runtime.util.GoogleCloudMessagingConnectionServer;
 
 import android.app.Activity;
@@ -19,12 +20,21 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
+/**
+ * Google Cloud Messaging Component
+ * @author SPI-FM at UCA
+ *
+ */
 @UsesLibraries(libraries = "google-play-services.jar," +
 		"android-support-v4.jar," +
 		"la4ai.jar," +
 		"gson-2.1.jar")
 @SimpleObject
-@DesignerComponent(nonVisible= true, version = 1, description = "Google Cloud Messaging Component (by SPI-FM at UCA)", category = ComponentCategory.VEDILSGOOGLECLOUDMESSAGING, iconName = "images/gcm_icon.png")
+@DesignerComponent(version = YaVersion.GOOGLECLOUDMESSAGING_COMPONENT_VERSION, 
+description = "A component to send messages between all devices that are using the same application. " +
+		"First, we need to call the <code>Register</code> function to subscribe in the server. " +
+		"Then we can call the <code>sendMessage</code> and <code>send DataList</code> functions to send a text message or a data list.", 
+category = ComponentCategory.VEDILSGOOGLECLOUDMESSAGING, iconName = "images/gcm_icon.png", nonVisible = true)
 @UsesPermissions(permissionNames = 
 "com.google.android.c2dm.permission.RECEIVE," +
 "android.permission.INTERNET," +

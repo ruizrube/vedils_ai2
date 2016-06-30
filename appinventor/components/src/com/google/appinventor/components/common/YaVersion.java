@@ -991,6 +991,18 @@ public class YaVersion {
   public static final int PROXIMITYSENSOR_COMPONENT_VERSION = 1;
 
   // Rendezvous Server Location
+  
+  //GoogleCloudMessaging
+  
+  public static final int GOOGLECLOUDMESSAGING_COMPONENT_VERSION = 1;
+  
+  //ActivityTracker
+  
+  public static final int ACTIVITYTRACKER_COMPONENT_VERSION = 1;
+  
+  //DeviceInfo
+  
+  public static final int DEVICEINFO_COMPONENT_VERSION = 1;
 
   public static final String RENDEZVOUS_SERVER = "rendezvous.appinventor.mit.edu";
 

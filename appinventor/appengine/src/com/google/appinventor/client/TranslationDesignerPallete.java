@@ -314,6 +314,12 @@ public class TranslationDesignerPallete {
       value = MESSAGES.YandexTranslateHelpStringComponentPallette();
     } else if (key.equals("FirebaseDB-helpString")) {
       value = MESSAGES.FirebaseDBHelpStringComponentPallette();
+    } else if (key.equals("GoogleCloudMessaging-helpString")) {
+      value = MESSAGES.GoogleCloudMessagingHelpStringComponentPallette();
+    } else if (key.equals("ActivityTracker-helpString")) {
+      value = MESSAGES.ActivityTrackerHelpStringComponentPallette();
+    } else if (key.equals("DeviceInfo-helpString")) {
+      value = MESSAGES.DeviceInfoHelpStringComponentPallette();
     }
     return value;
   }

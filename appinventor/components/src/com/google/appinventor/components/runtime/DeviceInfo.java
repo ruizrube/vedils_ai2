@@ -7,12 +7,20 @@ import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.annotations.UsesLibraries;
 import com.google.appinventor.components.annotations.UsesPermissions;
 import com.google.appinventor.components.common.ComponentCategory;
+import com.google.appinventor.components.common.YaVersion;
 import com.google.appinventor.components.runtime.la4ai.util.DeviceInfoFunctions;
 
 import android.content.Context;
 
+/**
+ * DeviceInfo Component
+ * @author SPI-FM at UCA
+ *
+ */
 @SimpleObject
-@DesignerComponent(nonVisible = true, version = 1, description = "DeviceInfo Component (by SPI-FM at UCA)", category = ComponentCategory.VEDILSLEARNINGANALYTICS, iconName = "images/arColorTracker.png")
+@DesignerComponent(version = YaVersion.DEVICEINFO_COMPONENT_VERSION, 
+description = "A component to obtain information of the used device. The information provided is the <code>IMEI</code>, <code>MAC</code>, and <code>IP</code>.", 
+category = ComponentCategory.VEDILSLEARNINGANALYTICS, iconName = "images/device_info_icon.png", nonVisible = true)
 @UsesPermissions(permissionNames = "android.permission.READ_PHONE_STATE,"
 	+ "android.permission.INTERNET," 
 	+ "android.permission.ACCESS_NETWORK_STATE")

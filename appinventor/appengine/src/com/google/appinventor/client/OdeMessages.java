@@ -6071,6 +6071,12 @@ public interface OdeMessages extends Messages {
 	// GoogleCloudMessaging
 	//
 	
+	@DefaultMessage("A component to send messages between all devices that are using the same application. " +
+			"First, we need to call the <code>Register</code> function to subscribe in the server. " +
+			"Then we can call the <code>sendMessage</code> and <code>sendDataList</code> functions to send a text message or a data list.")
+	@Description("")
+	String GoogleCloudMessagingHelpStringComponentPallette();
+	
 	@DefaultMessage("Register")
 	@Description("")
 	String RegisterMethods();
@@ -6115,6 +6121,10 @@ public interface OdeMessages extends Messages {
 	// DeviceInfo
 	//
 	
+	@DefaultMessage("A component to obtain information of the used device. The information provided is the <code>IMEI</code>, <code>MAC</code>, and <code>IP</code>.")
+	@Description("")
+	String DeviceInfoHelpStringComponentPallette();
+	
 	@DefaultMessage("IMEI")
 	@Description("")
 	String IMEIProperties();
@@ -6130,6 +6140,12 @@ public interface OdeMessages extends Messages {
 	//
 	// ActivityTracker
 	//
+	
+	@DefaultMessage("A component for logging activity in an application. " +
+			"Actions to register can be <b>specific</b> or <b>automatic</b> type. " +
+			"Finally, sending data can be performed in real time, user demand or in batches.")
+	@Description("")
+	String ActivityTrackerHelpStringComponentPallette();
 	
 	@DefaultMessage("UserTrackerId")
 	@Description("")

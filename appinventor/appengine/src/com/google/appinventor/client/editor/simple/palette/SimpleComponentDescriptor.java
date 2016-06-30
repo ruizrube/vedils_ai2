@@ -134,9 +134,10 @@ public final class SimpleComponentDescriptor {
     bundledImages.put("images/ar3DModelAsset.png", images.ar3DModelAsset());
     bundledImages.put("images/arImageAsset.png", images.arImageAsset());
     bundledImages.put("images/arTextAsset.png", images.arTextAsset());
-    bundledImages.put("images/arColorTracker.png", images.activityTracker());
+    bundledImages.put("images/activityTracker_icon.png", images.activityTracker());
     bundledImages.put("images/handGestureSensor.png", images.handGestureSensor());
     bundledImages.put("images/gcm_icon.png", images.googleCloudMessaging());
+    bundledImages.put("images/device_info_icon.png", images.deviceInfo());
     
     imagesInitialized = true;
   }

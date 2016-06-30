@@ -11,12 +11,18 @@ import com.google.appinventor.components.annotations.UsesLibraries;
 import com.google.appinventor.components.annotations.UsesPermissions;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
+import com.google.appinventor.components.common.YaVersion;
 import com.google.appinventor.components.runtime.util.ActivityTrackerInstances;
 import com.google.appinventor.components.runtime.util.ActivityTrackerManager;
 //import java.util.List;
 //import java.util.ArrayList;
 import android.app.Activity;
 
+/**
+ * ActivityTracker Component
+ * @author SPI-FM at UCA
+ *
+ */
 @UsesAssets(fileNames = "ruizrube-cd84632c4ea8.p12, ruizrube-4718dd8c5168.json")
 @UsesLibraries(libraries =
 "fusiontables.jar," +
@@ -30,7 +36,11 @@ import android.app.Activity;
 "gson-2.1.jar," +
 "la4ai.jar")
 @SimpleObject
-@DesignerComponent(nonVisible= true, version = 1, description = "ActivityTracker Component (by SPI-FM at UCA)", category = ComponentCategory.VEDILSLEARNINGANALYTICS, iconName = "images/arColorTracker.png")
+@DesignerComponent(version = YaVersion.ACTIVITYTRACKER_COMPONENT_VERSION, 
+description = "A component for logging activity in an application. " +
+		"Actions to register can be <b>specific</b> or <b>automatic</b> type. " +
+		"Finally, sending data can be performed in real time, user demand or in batches.", 
+category = ComponentCategory.VEDILSLEARNINGANALYTICS, iconName = "images/activityTracker_icon.png", nonVisible= true)
 @UsesPermissions(permissionNames = 
 "android.permission.INTERNET, " +
 "android.permission.ACCESS_NETWORK_STATE," +
