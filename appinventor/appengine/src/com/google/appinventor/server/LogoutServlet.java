@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class LogoutServlet extends OdeServlet {
 
-  private static final Flag<Boolean> useGoogle = Flag.createFlag("auth.usegoogle", false);
+  private static final Flag<Boolean> useGoogle = Flag.createFlag("auth.usegoogle", true);
 
   @Override
   public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
