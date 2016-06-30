@@ -63,7 +63,7 @@ import java.util.Map;
     VEDILSAUGMENTEDREALITY("VEDILS Augmented Reality"),
     VEDILSLEARNINGANALYTICS("VEDILS Learning Analytics"),
 	VEDILSGESTURECONTROL("VEDILS Gesture Control"),
-	VEDILSGOOGLECLOUDMESSAGING("VEDILS Communication");
+	VEDILSCOMMUNICATION("VEDILS Communication");
 
 
     // Mapping of component categories to names consisting only of lower-case letters,

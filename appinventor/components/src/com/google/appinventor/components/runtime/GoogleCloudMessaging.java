@@ -34,7 +34,7 @@ import android.support.v4.app.NotificationCompat;
 description = "A component to send messages between all devices that are using the same application. " +
 		"First, we need to call the <code>Register</code> function to subscribe in the server. " +
 		"Then we can call the <code>sendMessage</code> and <code>send DataList</code> functions to send a text message or a data list.", 
-category = ComponentCategory.VEDILSGOOGLECLOUDMESSAGING, iconName = "images/gcm_icon.png", nonVisible = true)
+category = ComponentCategory.VEDILSCOMMUNICATION, iconName = "images/gcm_icon.png", nonVisible = true)
 @UsesPermissions(permissionNames = 
 "com.google.android.c2dm.permission.RECEIVE," +
 "android.permission.INTERNET," +

@@ -147,7 +147,7 @@ public class DocumentationGenerator extends ComponentProcessor {
     	ComponentCategory.VEDILSAUGMENTEDREALITY,
     	ComponentCategory.VEDILSGESTURECONTROL,
     	ComponentCategory.VEDILSLEARNINGANALYTICS,
-    	ComponentCategory.VEDILSGOOGLECLOUDMESSAGING
+    	ComponentCategory.VEDILSCOMMUNICATION
       }
     };
 

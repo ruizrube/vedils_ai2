@@ -320,6 +320,8 @@ public class TranslationDesignerPallete {
       value = MESSAGES.ActivityTrackerHelpStringComponentPallette();
     } else if (key.equals("DeviceInfo-helpString")) {
       value = MESSAGES.DeviceInfoHelpStringComponentPallette();
+    } else if (key.equals("ThingSpeakLocationSensor-helpString")) {
+      value = MESSAGES.ThingSpeakHelpStringComponentPallette();
     }
     return value;
   }

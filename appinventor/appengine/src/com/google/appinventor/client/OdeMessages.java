@@ -6105,6 +6105,11 @@ public interface OdeMessages extends Messages {
 	// ThingSpeakLocationSensor
 	//
 	
+	@DefaultMessage("A component to use the mobile device as a location sensor and send the data to a <b>ThingSpeak</b> channel. " +
+			"The data sent will be the current <code>latitude</code> and <code>longitude</code> of the device.")
+	@Description("")
+	String ThingSpeakHelpStringComponentPallette();
+	
 	@DefaultMessage("ApiKey")
 	@Description("")
 	String ChannelApiKeyProperties();

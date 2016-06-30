@@ -1003,6 +1003,10 @@ public class YaVersion {
   //DeviceInfo
   
   public static final int DEVICEINFO_COMPONENT_VERSION = 1;
+  
+  //ThingSpeakLocationSensor
+  
+  public static final int THINGSPEAKLOCATIONSENSOR_COMPONENT_VERSION = 1;
 
   public static final String RENDEZVOUS_SERVER = "rendezvous.appinventor.mit.edu";
 

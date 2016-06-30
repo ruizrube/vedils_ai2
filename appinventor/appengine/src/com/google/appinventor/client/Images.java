@@ -91,6 +91,12 @@ public interface Images extends Resources {
 	ImageResource googleCloudMessaging();
 	
 	/**
+	 * Designer palette item: ThingSpeakLocationSensor component
+	 */
+	@Source("com/google/appinventor/images/ThingSpeak_icon.png")
+	ImageResource thingSpeakLocationSensor();
+	
+	/**
 	 * Designer palette item: DeviceInfo component
 	 */
 	@Source("com/google/appinventor/images/device_info_icon.png")

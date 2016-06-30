@@ -8,9 +8,11 @@ import com.google.appinventor.components.annotations.PropertyCategory;
 import com.google.appinventor.components.annotations.SimpleFunction;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
+import com.google.appinventor.components.annotations.UsesLibraries;
 import com.google.appinventor.components.annotations.UsesPermissions;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
+import com.google.appinventor.components.common.YaVersion;
 import com.google.appinventor.components.runtime.util.TimerThingSpeakData;
 import com.google.appinventor.components.runtime.la4ai.util.GPSTracker;
 import java.net.URL;
@@ -20,8 +22,17 @@ import java.io.BufferedReader;
 import java.lang.StringBuilder;
 import java.io.InputStreamReader;
 
+/**
+ * ThingSpeakLocationSensor Component
+ * @author SPI-FM at UCA
+ *
+ */
 @SimpleObject
-//@DesignerComponent(nonVisible = true, version = 1, description = "ThingSpeakLocationSensor Component (by SPI-FM at UCA)", category = ComponentCategory.VEDILSLEARNINGANALYTICS, iconName = "images/arColorTracker.png")
+@DesignerComponent(version = YaVersion.THINGSPEAKLOCATIONSENSOR_COMPONENT_VERSION, 
+description = "A component to use the mobile device as a location sensor and send the data to a <b>ThingSpeak</b> channel. " +
+"The data sent will be the current <code>latitude</code> and <code>longitude</code> of the device.", 
+category = ComponentCategory.VEDILSCOMMUNICATION, iconName = "images/ThingSpeak_icon.png", nonVisible = true)
+@UsesLibraries(libraries = "la4ai.jar")
 @UsesPermissions(permissionNames = 
 "android.permission.INTERNET, " +
 "android.permission.ACCESS_NETWORK_STATE," +
