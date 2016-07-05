@@ -41,26 +41,26 @@ public class RegistrationClientREST {
 	 * REST operation to unregister client on GCM Server (Delete in MysqlDB)
 	 * URL: http://localhost:8080/VedilsWS/GcmServer/registrationClient/deleteRegistrationClient
 	 */
-	@DELETE
-	@Consumes(MediaType.TEXT_PLAIN_VALUE)
+	@POST
+	@Consumes("application/json")
 	@Produces(MediaType.TEXT_PLAIN_VALUE)
 	@Path("deleteRegistrationClient")
-	public String deleteRegistrationClient(String imei) {
+	public String deleteRegistrationClient(RegistrationClientBean registrationClient) {
 		RegistrationClientDAO registrationClientDAO = new RegistrationClientDAO();
-		return registrationClientDAO.deleteRegistrationClient(imei);
+		return registrationClientDAO.deleteRegistrationClient(registrationClient.imei);
 	}
 	
 	/*
 	 * REST operation to unregister all clients (same application) on GCM Server (Delete in MysqlDB)
 	 * URL: http://localhost:8080/VedilsWS/GcmServer/registrationClient/deleteAllRegistrationClients
 	 */
-	@DELETE
-	@Consumes(MediaType.TEXT_PLAIN_VALUE)
+	@POST
+	@Consumes("application/json")
 	@Produces(MediaType.TEXT_PLAIN_VALUE)
 	@Path("deleteAllRegistrationClients")
-	public String deleteAllRegistrationClients(String appName) {
+	public String deleteAllRegistrationClients(RegistrationClientBean registrationClient) {
 		RegistrationClientDAO registrationClientDAO = new RegistrationClientDAO();
-		return registrationClientDAO.deleteAllRegistrationClients(appName);
+		return registrationClientDAO.deleteAllRegistrationClients(registrationClient.appname);
 	}
 	
 }

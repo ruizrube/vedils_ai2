@@ -29,20 +29,19 @@ public class GoogleCloudMessagingConnectionServer {
 	private String token;
 	private Context context;
 	private String APP_NAME;
-	private boolean registered;
 	private String IMEI;
 	
 	//SERVER:
-	private static final String URL_SERVER_INSERT = "http://vedils.uca.es:8080/VedilsWS/GcmServer/registrationClient/insertRegistrationClient"; 
-	private static final String URL_SERVER_SEND_MESSAGE = "http://vedils.uca.es:8080/VedilsWS/GcmServer/sendData/sendTextMessage";
-	private static final String URL_SERVER_DELETE = "http://vedils.uca.es:8080/VedilsWS/GcmServer/registrationClient/deleteRegistrationClient";
-	private static final String URL_SERVER_DELETE_ALL = "http://vedils.uca.es:8080/VedilsWS/GcmServer/registrationClient/deleteAllRegistrationClients";
+	//private static final String URL_SERVER_INSERT = "http://vedils.uca.es:8080/VedilsWS/GcmServer/registrationClient/insertRegistrationClient"; 
+	//private static final String URL_SERVER_SEND_MESSAGE = "http://vedils.uca.es:8080/VedilsWS/GcmServer/sendData/sendTextMessage";
+	//private static final String URL_SERVER_DELETE = "http://vedils.uca.es:8080/VedilsWS/GcmServer/registrationClient/deleteRegistrationClient";
+	//private static final String URL_SERVER_DELETE_ALL = "http://vedils.uca.es:8080/VedilsWS/GcmServer/registrationClient/deleteAllRegistrationClients";
 	
 	//Casa:
-	//private static final String URL_SERVER_INSERT = "http://192.168.1.4:8080/VedilsWS/GcmServer/registrationClient/insertRegistrationClient"; 
-	//private static final String URL_SERVER_SEND_MESSAGE = "http://192.168.1.4:8080/VedilsWS/GcmServer/sendData/sendTextMessage";
-	//private static final String URL_SERVER_DELETE = "http://192.168.1.4:8080/VedilsWS/GcmServer/registrationClient/deleteRegistrationClient";
-	//private static final String URL_SERVER_DELETE_ALL = "http://192.168.1.4:8080/VedilsWS/GcmServer/registrationClient/deleteAllRegistrationClients";
+	private static final String URL_SERVER_INSERT = "http://192.168.1.3:8080/VedilsWS/GcmServer/registrationClient/insertRegistrationClient"; 
+	private static final String URL_SERVER_SEND_MESSAGE = "http://192.168.1.3:8080/VedilsWS/GcmServer/sendData/sendTextMessage";
+	private static final String URL_SERVER_DELETE = "http://192.168.1.3:8080/VedilsWS/GcmServer/registrationClient/deleteRegistrationClient";
+	private static final String URL_SERVER_DELETE_ALL = "http://192.168.1.3:8080/VedilsWS/GcmServer/registrationClient/deleteAllRegistrationClients";
 	
 	//UCA
 	//private static final String URL_SERVER_INSERT = "http://10.182.111.83:8080/VedilsWS/GcmServer/registrationClient/insertRegistrationClient"; 
@@ -53,7 +52,6 @@ public class GoogleCloudMessagingConnectionServer {
 	public GoogleCloudMessagingConnectionServer(Context context) {
 		this.context = context;
 		APP_NAME = context.getApplicationInfo().packageName;
-		registered = false;
 		//Get the IMEI code of the device to get the registration token.
 		IMEI = DeviceInfoFunctions.getIMEI(this.context);
 	}
@@ -61,101 +59,111 @@ public class GoogleCloudMessagingConnectionServer {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void register() {
 		//All GCM Components (in the same application) will be registered on the server with the same token.
-		if(!registered) {
-			new AsyncTask() {
-				@Override
-				protected Object doInBackground(Object... arg0) {
-					InstanceID instanceID = InstanceID.getInstance(context);
-					System.out.println("Sender ID = "+ SENDER_ID + " - GCMTest");
-					try {
-				        token = instanceID.getToken(SENDER_ID,
-				        		com.google.android.gms.gcm.GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
-				        
-				        System.out.println("Register Token = " + token + " - GCMTest");
-				        System.out.println("Imei = " + IMEI + " - GCMTest");
-						JSONObject information = new JSONObject();
-						
-						information.put("imei", IMEI);
-						information.put("token", token);
-						information.put("appname", APP_NAME);
-						
-						System.out.println("JSONObject creado - GCMTest");
-						
-						String request = establishCommunicationWithServer(information, URL_SERVER_INSERT);
-						  	 
-					  	if(!request.equals("ESTABLISHED_CONNECTION")) {
-					  		throw new Exception("Error while intent to register client on server: " + request + " - GCMTest");
-					  	}
-						
-					  	registered = true;
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						System.out.println("Some error - GCMTest" + e.getMessage());
-						e.printStackTrace();
-					}
-					return null;
+		new AsyncTask() {
+			@Override
+			protected Object doInBackground(Object... arg0) {
+				InstanceID instanceID = InstanceID.getInstance(context);
+				System.out.println("Sender ID = "+ SENDER_ID + " - GCMTest");
+				try {
+			        token = instanceID.getToken(SENDER_ID,
+			        		com.google.android.gms.gcm.GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+			        
+			        System.out.println("Register Token = " + token + " - GCMTest");
+			        System.out.println("Imei = " + IMEI + " - GCMTest");
+					JSONObject information = new JSONObject();
+					
+					information.put("imei", IMEI);
+					information.put("token", token);
+					information.put("appname", APP_NAME);
+					
+					System.out.println("JSONObject creado - GCMTest");
+					
+					String request = establishCommunicationWithServer(information, URL_SERVER_INSERT);
+					  	 
+				  	if(!request.equals("ESTABLISHED_CONNECTION")) {
+				  		throw new Exception("Error while intent to register client on server: " + request + " - GCMTest");
+				  	}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					System.out.println("Some error - GCMTest" + e.getMessage());
+					e.printStackTrace();
 				}
-				
-				@Override
-				protected void onPostExecute(Object result) {}
-			}.execute();
-		}
+				return null;
+			}
+			
+			@Override
+			protected void onPostExecute(Object result) {}
+		}.execute();
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void unRegister() {
-		if(registered) {
-			new AsyncTask() {
-				@Override
-				protected Object doInBackground(Object... arg0) {
-					try {
-						String request = establishCommunicationWithServer(URL_SERVER_DELETE);
-						  	 
-					  	if(!request.equals("ESTABLISHED_CONNECTION")) {
-					  		throw new Exception("Error while intent to register client on server: " + request + " - GCMTest");
-					  	}
-						
-					  	registered = true;
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						System.out.println("Some error - GCMTest" + e.getMessage());
-						e.printStackTrace();
-					}
-					return null;
+		new AsyncTask() {
+			@Override
+			protected Object doInBackground(Object... arg0) {
+				try {
+					
+					System.out.println("Register Token = " + token + " - GCMTest");
+			        System.out.println("Imei = " + IMEI + " - GCMTest");
+					JSONObject information = new JSONObject();
+					
+					information.put("imei", IMEI);
+					information.put("token", token);
+					information.put("appname", APP_NAME);
+					
+					System.out.println("JSONObject creado - GCMTest");
+					
+					String request = establishCommunicationWithServer(information, URL_SERVER_DELETE);
+					  	 
+				  	if(!request.equals("ESTABLISHED_CONNECTION")) {
+				  		throw new Exception("Error while intent to unregister client on server: " + request + " - GCMTest");
+				  	}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					System.out.println("Some error - GCMTest" + e.getMessage());
+					e.printStackTrace();
 				}
-				
-				@Override
-				protected void onPostExecute(Object result) {}
-			}.execute();
-		}
+				return null;
+			}
+			
+			@Override
+			protected void onPostExecute(Object result) {}
+		}.execute();
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void unRegisterAll() {
-		if(registered) {
-			new AsyncTask() {
-				@Override
-				protected Object doInBackground(Object... arg0) {
-					try {
-						String request = establishCommunicationWithServer(URL_SERVER_DELETE_ALL);
-						  	 
-					  	if(!request.equals("ESTABLISHED_CONNECTION")) {
-					  		throw new Exception("Error while intent to register client on server: " + request + " - GCMTest");
-					  	}
-						
-					  	registered = true;
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						System.out.println("Some error - GCMTest" + e.getMessage());
-						e.printStackTrace();
-					}
-					return null;
+		new AsyncTask() {
+			@Override
+			protected Object doInBackground(Object... arg0) {
+				try {
+					
+					System.out.println("Register Token = " + token + " - GCMTest");
+			        System.out.println("Imei = " + IMEI + " - GCMTest");
+					JSONObject information = new JSONObject();
+					
+					information.put("imei", IMEI);
+					information.put("token", token);
+					information.put("appname", APP_NAME);
+					
+					System.out.println("JSONObject creado - GCMTest");
+					
+					String request = establishCommunicationWithServer(information, URL_SERVER_DELETE_ALL);
+					  	 
+				  	if(!request.equals("ESTABLISHED_CONNECTION")) {
+				  		throw new Exception("Error while intent to unregister all clients on server: " + request + " - GCMTest");
+				  	}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					System.out.println("Some error - GCMTest" + e.getMessage());
+					e.printStackTrace();
 				}
-				
-				@Override
-				protected void onPostExecute(Object result) {}
-			}.execute();
-		}
+				return null;
+			}
+			
+			@Override
+			protected void onPostExecute(Object result) {}
+		}.execute();
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -169,18 +177,6 @@ public class GoogleCloudMessagingConnectionServer {
 					
 					System.out.println("JSONObject creado - GCMTest");
 					
-					//Gson gson = new Gson();
-					//String objectString = gson.toJson(object);
-					
-					//ByteArrayOutputStream bo = new ByteArrayOutputStream();
-				    //ObjectOutputStream so = new ObjectOutputStream(bo);
-				    //so.writeObject(object);
-				    //so.flush();
-				    //so.close();
-				    //so.flush();
-				    //byte objectBytes[] = bo.toByteArray();
-				    //String objectString = bo.toString();
-					
 					ArrayList<Object> listObjects = new ArrayList<Object>(objects);
 					listObjects = removeTypesNoAccepted(listObjects);
 					listObjects = castNumbersToString(listObjects);
@@ -190,8 +186,6 @@ public class GoogleCloudMessagingConnectionServer {
 					
 					String objectsJson = gson.toJson(listObjects, listType);
 					System.out.println("Object String Send to Server = " + objectsJson + " - GCMTest ");
-				    
-				    //String objectString = DatatypeConverter.printBase64Binary(bo.toByteArray());
 					
 					JSONObject information = new JSONObject();
 					
@@ -288,51 +282,6 @@ public class GoogleCloudMessagingConnectionServer {
 		}.execute();
 	}
 	
-	private String establishCommunicationWithServer(String URL) {
-		try {
-			DefaultHttpClient httpClient = new DefaultHttpClient();
-			HttpPost postRequest = new HttpPost(
-				URL);
-		
-			StringEntity input = new StringEntity(this.IMEI);
-			input.setContentType("text/plain");
-			postRequest.setEntity(input);
-		
-			HttpResponse response = httpClient.execute(postRequest);
-			  	 
-			System.out.println("Conexión abierta - GCMTest");
-			
-			System.out.println("Reponse code " + response.getStatusLine().getStatusCode() +"  - GCMTest");
-			
-			String respuesta = "";
-			
-			if (response.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK) {
-				
-				System.out.println("OS close - GCMTest");
-				
-		        StringBuilder sb = new StringBuilder();
-		
-		        BufferedReader br = new BufferedReader(
-		                        new InputStreamReader((response.getEntity().getContent())));
-		        String line = "";
-		        while ((line = br.readLine()) != null) {
-		            sb.append(line);
-		        }
-		        br.close();
-		        respuesta = sb.toString();
-		        System.out.println("Output WS:" + sb.toString() + " - GCMTest");
-			}
-			
-			return respuesta;
-	
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			System.out.println("Some error - GCMTest" + e.getMessage());
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
 	private String establishCommunicationWithServer(JSONObject information, String URL) {
 		try {
 			DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -345,7 +294,7 @@ public class GoogleCloudMessagingConnectionServer {
 		
 			HttpResponse response = httpClient.execute(postRequest);
 			  	 
-			System.out.println("Conexión abierta - GCMTest");
+			System.out.println("Open connection - GCMTest");
 			
 			System.out.println("Reponse code " + response.getStatusLine().getStatusCode() +"  - GCMTest");
 			

@@ -56,7 +56,6 @@ public class GoogleCloudMessaging extends AndroidNonvisibleComponent implements 
 		connectionServer = new GoogleCloudMessagingConnectionServer(componentContainer.$context());
 		GoogleCloudMessaging.component = (GoogleCloudMessaging) this;
 		activity = componentContainer.$context();
-				//new GsonBuilder().setExclusionStrategies(/*new MyExclusionStrategy(String.class)*/).serializeNulls().create();
 	}
 	
 	
