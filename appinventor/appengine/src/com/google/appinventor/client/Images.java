@@ -49,12 +49,6 @@ public interface Images extends Resources {
 	ImageResource arImageTracker();
 
 	/**
-	 * Designer palette item: arColorTracker component
-	 */
-	@Source("com/google/appinventor/images/arColorTracker.png")
-	ImageResource arColorTracker();
-
-	/**
 	 * Designer palette item: ar3DModelAsset component
 	 */
 	@Source("com/google/appinventor/images/ar3DModelAsset.png")
@@ -71,12 +65,6 @@ public interface Images extends Resources {
 	 */
 	@Source("com/google/appinventor/images/arTextAsset.png")
 	ImageResource arTextAsset();
-	
-	/**
-	 * Designer palette item: NotificableDummy component
-	 */
-	@Source("com/google/appinventor/images/arColorTracker.png")
-	ImageResource notificableDummy();
 	
 	/**
 	 * Designer palette item: ActivityTracker component

@@ -130,7 +130,6 @@ public final class SimpleComponentDescriptor {
     bundledImages.put("images/arObjectTracker.png", images.arObjectTracker());
     bundledImages.put("images/arTextTracker.png", images.arTextTracker());
     bundledImages.put("images/arImageTracker.png", images.arImageTracker());
-    bundledImages.put("images/arColorTracker.png", images.arColorTracker());
     bundledImages.put("images/ar3DModelAsset.png", images.ar3DModelAsset());
     bundledImages.put("images/arImageAsset.png", images.arImageAsset());
     bundledImages.put("images/arTextAsset.png", images.arTextAsset());
