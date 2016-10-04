@@ -1000,6 +1000,21 @@ public class YaVersion {
   
   public static final int ACTIVITYTRACKER_COMPONENT_VERSION = 1;
   
+ //ActivityTracker
+  
+  public static final int ACTIVITYSIMPLEPROCESSOR_COMPONENT_VERSION = 2;
+ 
+//ActivityTracker
+  
+  public static final int ACTIVITYAGGREGATIONPROCESSOR_COMPONENT_VERSION = 2;
+ 
+  
+  //ActivityTracker
+  
+  public static final int DATATABLE_COMPONENT_VERSION = 1;
+
+  public static final int CHART_COMPONENT_VERSION = 1;
+ 
   //DeviceInfo
   
   public static final int DEVICEINFO_COMPONENT_VERSION = 1;

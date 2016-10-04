@@ -12,6238 +12,6376 @@ import com.google.gwt.i18n.client.Messages;
  * I18n strings for {@link Ode}.
  *
  */
-//<<<<<<< HEAD
+// <<<<<<< HEAD
 // @LocalizableResource.Generate(format =
 // "com.google.gwt.i18n.rebind.format.PropertiesFormat")
 // @LocalizableResource.DefaultLocale("en")
 
 public interface OdeMessages extends Messages {
 	// Used in multiple files
+
+	// Used in
+	//Chart and DataTable
+	@DefaultMessage("ChartType")
+	@Description("")
+	String ChartTypeProperties();
+	
+	@DefaultMessage("*CategoryAxisTitle")
+	@Description("")
+	String CategoryAxisTitleProperties();
+
+	@DefaultMessage("*ValueAxisTitle")
+	@Description("")
+	String ValueAxisTitleProperties();
+	
+	@DefaultMessage("*IndexForCategoryAxis")
+	@Description("")
+	String IndexForCategoryAxisProperties();
+
+	@DefaultMessage("*IndexForValueAxis")
+	@Description("")
+	String IndexForValueAxisProperties();
+
+	@DefaultMessage("*Data")
+	@Description("")
+	String DataProperties();
+
+	// Used in
+	// editor/youngandroid/properties/YoungAndroidChartTypeChoicePropertyEditor.java
+	@DefaultMessage("Bar")
+	@Description("Text for chart type 'bar'")
+	String barChart();
+
+	@DefaultMessage("Line")
+	@Description("Text for chart type 'line'")
+	String lineChart();
+
+	//@DefaultMessage("Pie")
+	//@Description("Text for chart type 'pie'")
+	//String pieChart();
+
+	// Used in
+	// editor/youngandroid/properties/YoungAndroidColumntToAggregateChoicePropertyEditor.java
+	@DefaultMessage("UserID")
+	@Description("Text for column 'user ID'")
+	String userIDColumn();
+
+	@DefaultMessage("UserIP")
+	@Description("Text for column 'user IP'")
+	String userIPColumn();
+
+	@DefaultMessage("UserIMEI")
+	@Description("Text for column 'user IMEI'")
+	String userIMEIColumn();
+
+	@DefaultMessage("AppID")
+	@Description("Text for column 'App ID'")
+	String appIPColumn();
+
+	@DefaultMessage("ScreenID")
+	@Description("Text for column 'Screen ID'")
+	String screenIDColumn();
+
+	@DefaultMessage("ComponentID")
+	@Description("Text for column 'Component ID'")
+	String componentIDColumn();
+
+	@DefaultMessage("ComponentType")
+	@Description("Text for column 'Component Type'")
+	String componentTypeColumn();
+
+	@DefaultMessage("ActionID")
+	@Description("Text for column 'Action ID'")
+	String actionIDColumn();
+
+	@DefaultMessage("ActionType")
+	@Description("Text for column 'Action  Type'")
+	String actionTypeColumn();
+
+	
+	// Used in ActivityProcessor
+	
+	@DefaultMessage("FilterByUserId")
+	@Description("")
+	String FilterByUserIdProperties();
+
+	@DefaultMessage("FilterByIP")
+	@Description("")
+	String FilterByIPProperties();
+
+	@DefaultMessage("FilterByMAC")
+	@Description("")
+	String FilterByMACProperties();
+
+	@DefaultMessage("FilterByIMEI")
+	@Description("")
+	String FilterByIMEIProperties();
+
+	@DefaultMessage("FilterByAppId")
+	@Description("")
+	String FilterByAppIdProperties();
+
+	@DefaultMessage("FilterByScreenId")
+	@Description("")
+	String FilterByScreenIdProperties();
+
+	@DefaultMessage("FilterByComponentType")
+	@Description("")
+	String FilterByComponentTypeProperties();
+
+	@DefaultMessage("FilterByComponentId")
+	@Description("")
+	String FilterByComponentIdProperties();
+
+	@DefaultMessage("FilterByActionType")
+	@Description("")
+	String FilterByActionTypeProperties();
+
+	@DefaultMessage("FilterByActionId")
+	@Description("")
+	String FilterByActionIdProperties();
+
+	@DefaultMessage("AdditionalFilter")
+	@Description("")
+	String AdditionalFilterProperties();
+
+	@DefaultMessage("*DataReceived")
+	@Description("")
+	String DataReceivedEvents();
+
+
+	// Used in ActivityAggregatedProcessor
+	
+	@DefaultMessage("GroupBy")
+	@Description("")
+	String GroupByProperties();
+	
+	@DefaultMessage("MetricsToRetrieve")
+	@Description("")
+	String MetricsToRetrieveProperties();
+
+
+	// Used in ActivitySimpleProcessor
+	
+	@DefaultMessage("*DistinctResults")
+	@Description("")
+	String DistinctResultsProperties();
+
+	@DefaultMessage("FieldsToRetrieve")
+	@Description("")
+	String FieldsToRetrieveProperties();
+
+	
 	
 	// Used in
 	// editor/youngandroid/properties/YoungAndroidSynchronizationModeChoicePropertyEditor.java
 	@DefaultMessage("realtime")
 	@Description("Text for synchronization mode 'realtime '")
 	String realtimeSynchronizationMode();
-	
+
 	@DefaultMessage("batch")
 	@Description("Text for synchronization mode 'batch '")
 	String batchSynchronizationMode();
-	
+
 	@DefaultMessage("on demand")
 	@Description("Text for synchronization mode 'on demand '")
 	String onDemandSynchronizationMode();
-	
+
 	// Used in
 	// editor/youngandroid/properties/YoungAndroidCommunicationModeChoicePropertyEditor.java
 	@DefaultMessage("only wifi")
 	@Description("Text for synchronization mode 'Only wifi '")
 	String onlywifiCommunicationMode();
-		
+
 	@DefaultMessage("indifferent")
 	@Description("Text for synchronization mode 'indifferent '")
 	String indifferentCommunicationMode();
 
-  @DefaultMessage("Default")
-  @Description("Text for property editors")
-  String defaultText();
-
-  @DefaultMessage("Cancel")
-  @Description("Text on \"Cancel\" button.")
-  String cancelButton();
-
-  @DefaultMessage("OK")
-  @Description("Text on \"OK\" button.")
-  String okButton();
-
-  @DefaultMessage("Dismiss")
-  @Description("Text on \"Dismiss\" button.")
-  String dismissButton();
-
-  @DefaultMessage("Old name:")
-  @Description("Label next to the old name in a rename dialog")
-  String oldNameLabel();
-
-  @DefaultMessage("New name:")
-  @Description("Label next to the new name in a rename dialog")
-  String newNameLabel();
-
-  @DefaultMessage("None")
-  @Description("Caption for None entry")
-  String noneCaption();
-
-  @DefaultMessage("Delete")
-  @Description("Text on \"Delete\" button")
-  String deleteButton();
-
-  @DefaultMessage("Delete Project")
-  @Description("Text on \"Delete Project\" button")
-  String deleteProjectButton();
-
-  @DefaultMessage("Publish to Gallery")
-  @Description("Text on \"Publish to Gallery\" button")
-  String publishToGalleryButton();
-
-  @DefaultMessage("Update Gallery App")
-  @Description("Text on \"Update Gallery App\" button")
-  String updateGalleryAppButton();
-
-  @DefaultMessage("Show Warnings")
-  @Description("Text on Toggle Warning Button")
-  String showWarnings();
-
-  @DefaultMessage("Hide Warnings")
-  @Description("Text on Toggle Warning Button")
-  String hideWarnings();
-
-  @DefaultMessage("Upload File ...")
-  @Description("Text on \"Add...\" button")
-  String addButton();
-
-  @DefaultMessage("Name")
-  @Description("Header for name column of project table")
-  String projectNameHeader();
-
-  @DefaultMessage("Date Created")
-  @Description("Header for date created column of project table.")
-  String projectDateCreatedHeader();
-
-  @DefaultMessage("Date Modified")
-  @Description("Header for date modified column of project table.")
-  String projectDateModifiedHeader();
-
-  @DefaultMessage("Published")
-  @Description("Header for published column of project table.")
-  String projectPublishedHeader();
-
-  @DefaultMessage("Save")
-  @Description("Label of the button for save")
-  String saveButton();
-
-  @DefaultMessage("Save As")
-  @Description("Label of the button for save as")
-  String saveAsButton();
-
-  @DefaultMessage("Checkpoint ...")
-  @Description("Label of the button for checkpoint")
-  String checkpointButton();
-
-  @DefaultMessage("Add Screen ...")
-  @Description("Label of the button for adding a new screen")
-  String addFormButton();
-
-  @DefaultMessage("Remove Screen")
-  @Description("Label of the button for removing a screen")
-  String removeFormButton();
-
-  @DefaultMessage("Connect")
-  @Description("Label of the button for selecting phone connection")
-  String connectButton();
-
-  @DefaultMessage("Deleting this screen will completely remove the screen from your project. " +
-      "All components and blocks associated with this screen will be deleted.\n" +
-      "There is no undo.\nAre you sure you want to delete {0}?")
-  @Description("Confirmation query for removing a screen")
-  String reallyDeleteForm(String formName);
-
-  @DefaultMessage("Open the Blocks Editor")
-  @Description("Label of the button for opening the blocks editor")
-  String openBlocksEditorButton();
-
-  @DefaultMessage("Screens ...")
-  @Description("Label of the button for switching screens")
-  String screensButton();
-
-  @DefaultMessage("Blocks")
-  @Description("Label of the button for switching to the blocks editor")
-  String switchToBlocksEditorButton();
-
-  @DefaultMessage("Designer")
-  @Description("Label of the button for switching to the form editor")
-  String switchToFormEditorButton();
-
-  @DefaultMessage("Packaging ...")
-  @Description("Label of the button leading to build related cascade items, when building")
-  String isBuildingButton();
-
-  @DefaultMessage("Opening the Blocks Editor... (click to cancel)")
-  @Description("Label of the button for canceling the blocks editor launch")
-  String cancelBlocksEditorButton();
-
-  @DefaultMessage("Blocks Editor is open")
-  @Description("Label of the button for opening the blocks editor when the it is already open")
-  String blocksEditorIsOpenButton();
-
-  // Switch Language Buttons (Internationalization)
-  @DefaultMessage("Language")
-  @Description("Label of the button for switching language")
-  String switchLanguageButton();
-
-  // Not used anymore it is now dynamically created and translated at compile time depending on what
-  //languages are translated and available.
-
-//  @DefaultMessage("English")
-//  @Description("Label of the button for switching language to English")
-//  String switchLanguageEnglishButton();
-//
-//  @DefaultMessage("Chinese CN")
-//  @Description("Label of the button for switching language to Chinese CN")
-//  String switchLanguageChineseCNButton();
-//
-//  @DefaultMessage("German")
-//  @Description("Label of the button for switching language to German")
-//  String switchLanguageGermanButton();
-//
-//  @DefaultMessage("Vietnamese")
-//  @Description("Label of the button for switching language to Vietnamese")
-//  String switchLanguageVietnameseButton();
-
-  //Used in ModerationPage.java
-  @DefaultMessage("...")
-  @Description("Label of ... ")
-  String moderationDotDotDot();
-
-  @DefaultMessage("Report")
-  @Description("Label of the report text field on moderation page")
-  String moderationReportTextHeader();
-
-  @DefaultMessage("App")
-  @Description("Label of the app field on moderation page")
-  String moderationAppHeader();
-
-  @DefaultMessage("Reported On")
-  @Description("Label of the created date of report field on moderation page")
-  String moderationReportDateCreatedHeader();
-
-  @DefaultMessage("App Author")
-  @Description("Label of the app author field on moderation page")
-  String moderationAppAuthorHeader();
-
-  @DefaultMessage("Reporter")
-  @Description("Label of the reporter field on moderation page")
-  String moderationReporterHeader();
-
-  // Used in ReportList.java
-  @DefaultMessage("Inappropriate App Content: Remove")
-  @Description("Label of the Inappropriate App Content Remove on reportlist")
-  String inappropriateAppContentRemoveTitle();
-
-  @DefaultMessage("Inappropriate App Content")
-  @Description("Label of the Inappropriate App Content on reportlist")
-  String inappropriateAppContentTitle();
-
-  @DefaultMessage("Inappropriate User Profile Content")
-  @Description("Label of the Inappropriate User Profile Content on reportlist")
-  String inappropriateUserProfileContentTitle();
-
-  @DefaultMessage("Choose Template")
-  @Description("Label of the Choose Template Label on reportlist")
-  String labelChooseTemplate();
-
-  @DefaultMessage("Sent From: ")
-  @Description("Label of the Sent From on reportlist")
-  String emailSentFrom();
-
-  @DefaultMessage("Sent To: ")
-  @Description("Label of the Sent To on reportlist")
-  String emailSentTo();
-
-  @DefaultMessage("Send Email")
-  @Description("Label of the Send Email of reportlist")
-  String buttonSendEmail();
-
-  @DefaultMessage("Deactivate App")
-  @Description("Label of the Deactivate App on reportlist")
-  String labelDeactivateApp();
-
-  @DefaultMessage("Reactivate App")
-  @Description("Label of the Reactivate App on reportlist")
-  String labelReactivateApp();
-
-  @DefaultMessage("Deactivate App & Send Email")
-  @Description("Label of the Deactivate App & Send Email on reportlist")
-  String labelDeactivateAppAndSendEmail();
-
-  @DefaultMessage("Mark As Resolved")
-  @Description("Label of the Mark As Resolved of reportlist")
-  String labelmarkAsResolved();
-
-  @DefaultMessage("Mark As Unresolved")
-  @Description("Label of the Mark As Unresolved of reportlist")
-  String labelmarkAsUnresolved();
-
-  @DefaultMessage("Previous Actions")
-  @Description("Label of the See All Actions of reportlist")
-  String labelSeeAllActions();
-
-  @DefaultMessage("Previous Actions on Report")
-  @Description("Title of the Previous Actions Popup of reportlist")
-  String titleSeeAllActionsPopup();
-
-  @DefaultMessage("More Reports")
-  @Description("text for more reports")
-  String galleryMoreReports();
-
-  @DefaultMessage("X")
-  @Description("Symbol X")
-  String symbolX();
-
-  @DefaultMessage("Cancel")
-  @Description("Label of the Cancel Action on reportlist")
-  String labelCancel();
-
-  @DefaultMessage("Confirm")
-  @Description("Label of the Confirm Action on reportlist")
-  String labelConfirm();
-
-  @DefaultMessage("Your app \"{0}\" has been removed from the gallery due to inappropriate content. "
-          + "Please review the guidelines at ..."
-          + "If you feel this action has been taken in error, or you would like to discuss the issue, "
-          + "please use the App Inventor forum at: \n")
-  @Description("Label of the Text of Template 1 of reportlist")
-  String inappropriateAppContentRemoveEmail(String title);
-
-  @DefaultMessage("Your app \"{0}\" has inappropriate content. "
-          + "Please review the guidelines at ..."
-          + "and modify your app accordingly. ")
-  @Description("Label of the Text of Template 2 of reportlist")
-  String inappropriateAppContentEmail(String title);
-
-  @DefaultMessage("Your profile contains inappropriate content. Please modify your profile.\n")
-  @Description("Label of the Text of Template 3 of reportlist")
-  String inappropriateUserProfileContentEmail();
-
-  @DefaultMessage("see more ...")
-  @Description("Label of the Text of seeing more of reportlist")
-  String seeMoreLink();
-
-  @DefaultMessage("hide")
-  @Description("Label of the Text of hiding of reportlist")
-  String hideLink();
-
-  @DefaultMessage("sends an email: ")
-  @Description("Label of the Text of sending an email of reportlist")
-  String moderationActionSendAnEmail();
-
-  @DefaultMessage("deativates this app with email: ")
-  @Description("Label of the Text of deativating this app with email of reportlist")
-  String moderationActionDeactivateThisAppWithEmail();
-
-  @DefaultMessage("reactivates this app")
-  @Description("Label of the Text of reactivating this app of reportlist")
-  String moderationActionReactivateThisApp();
-
-  @DefaultMessage("marks this report as resolved")
-  @Description("Label of the Text of marking this report as resolved of reportlist")
-  String moderationActionMarkThisReportAsResolved();
-
-  @DefaultMessage("marks this report as unresolved")
-  @Description("Label of the Text of marking this report as unresolved of reportlist")
-  String moderationActionMarkThisReportAsUnresolved();
-
-  @DefaultMessage("Show resolved reports")
-  @Description("Label of the Text of showing resolved reports of reportlist")
-  String moderationShowResolvedReports();
-
-  @DefaultMessage("An Email from App Inventor Gallery")
-  @Description("Title of the email when moderator sends out an email")
-  String moderationSendEmailTitle();
-
-  @DefaultMessage("App Inventor Gallery: App Activated")
-  @Description("Title of the email when app was activated")
-  String moderationAppReactivatedTitle();
-
-  @DefaultMessage("Your app \"{0}\" has been reactivated.")
-  @Description("Body of the email when app was activated")
-  String moderationAppReactivateBody(String title);
-
-  @DefaultMessage("App Inventor Gallery: App Deactivated")
-  @Description("Title of the email when app was deactivated")
-  String moderationAppDeactivatedTitle();
-
-  @DefaultMessage("Fail to send out the email, please try again later")
-  @Description("error message when fail to send to user from moderator")
-  String moderationErrorFailToSendEmail();
-
-
-  // Used in MotdFetcher.java
-
-  @DefaultMessage("Failed to contact server to get the MOTD.")
-  @Description("Message displayed when cannot get a MOTD from the server.")
-  String getMotdFailed();
-
-  // Used in Ode.java
-
-  // TODO(user): Replace with commented version once we're ready
-  @DefaultMessage("VEDILS")
-  @Description("Title for App Inventor")
-  String titleYoungAndroid();
-
-  @DefaultMessage("An internal error has occurred. Report a bug?")
-  @Description("Confirmation for reporting a bug after an internal error")
-  String internalErrorReportBug();
-
-  @DefaultMessage("An internal error has occurred.")
-  @Description("Alert after an internal error")
-  String internalError();
-
-  @DefaultMessage("An internal error has occurred. Go look in the Debugging view.")
-  @Description("Alert after an internal error")
-  String internalErrorSeeDebuggingView();
-
-  @DefaultMessage("An internal error has occurred. Click \"ok\" for more information.")
-  @Description("Confirm alert after an internal error")
-  String internalErrorClickOkDebuggingView();
-
-  @DefaultMessage("The server is temporarily unavailable. Please try again later!")
-  @Description("Error message if the server becomes completely unavailable.")
-  String serverUnavailable();
-
-  @DefaultMessage("No Project Chosen")
-  @Description("Title for Error Dialog when connection is attempted without a project.")
-  String noprojectDialogTitle();
-
-  @DefaultMessage("You must first create or select a project before connecting!")
-  @Description("Error message for connection attempt without a project selected.")
-  String noprojectDuringConnect();
-
-  @DefaultMessage("There is no Gallery App with the given id.")
-  @Description("Error message if the gallery id does not exist")
-  String galleryIdNotExist();
-
-  // Used in RpcStatusPopup.java
-
-  @DefaultMessage("Loading ...")
-  @Description("Message that is shown to indicate that a loading RPC is going on")
-  String defaultRpcMessage();
-
-  @DefaultMessage("Saving ...")
-  @Description("Message that is shown to indicate that a saving RPC is going on")
-  String savingRpcMessage();
-
-  @DefaultMessage("Copying ...")
-  @Description("Message that is shown to indicate that a copying RPC is going on")
-  String copyingRpcMessage();
-
-  @DefaultMessage("Deleting ...")
-  @Description("Message that is shown to indicate that a deleting RPC is going on")
-  String deletingRpcMessage();
-
-  @DefaultMessage("Packaging ...")
-  @Description("Message shown during a building RPC (for Young Android, called 'packaging')")
-  String packagingRpcMessage();
-
-  @DefaultMessage("Downloading to phone ...")
-  @Description("Message shown while downloading application to the phone (during compilation)")
-  String downloadingRpcMessage();
-
-  // Used in StatusPanel.java
-
-  @DefaultMessage("Built: {0}  Version: {1}")
-  @Description("Label showing the ant build date and the git version")
-  String gitBuildId(String date, String version);
-
-  @DefaultMessage("Privacy")
-  @Description("Label of the link for Privacy")
-  String privacyLink();
-
-  @DefaultMessage("Terms")
-  @Description("Label of the link for Terms")
-  String termsLink();
-
-  @DefaultMessage("Privacy Policy and Terms of Use")
-  @Description("Label of the link for Privacy and Terms of Use")
-  String privacyTermsLink();
-
-  // Used in TopPanel.java
-
-  //Project
-  @DefaultMessage("Projects")
-  @Description("Name of Projects tab")
-  String projectsTabName();
-
-  @DefaultMessage("My projects")
-  @Description("Name of My projects menuitem")
-  String projectMenuItem();
-
-  @DefaultMessage("Start new project")
-  @Description("Label of the menu item for creating a new project")
-  String newProjectMenuItem();
-
-  @DefaultMessage("Import project (.aia) from my computer ...")
-  @Description("Name of Import Project menuitem")
-  String importProjectMenuItem();
-
-  @DefaultMessage("Delete project")
-  @Description("Name of Delete project menuitem")
-  String deleteProjectMenuItem();
-
-  @DefaultMessage("Save project")
-  @Description("Name of Save menuitem")
-  String saveMenuItem();
-
-  @DefaultMessage("Save project as ...")
-  @Description("Name of Save as ... menuitem")
-  String saveAsMenuItem();
-
-  @DefaultMessage("Checkpoint")
-  @Description("Name of Checkpoint menuitem")
-  String checkpointMenuItem();
-
-  @DefaultMessage("Import project (.aia) from a repository ...")
-  @Description("Name of Import Template menuitem")
-  String importTemplateButton();
-
-  @DefaultMessage("Export selected project (.aia) to my computer")
-  @Description("Name of Export Project menuitem")
-  String exportProjectMenuItem();
-
-  @DefaultMessage("Export all projects")
-  @Description("Name of Export all Project menuitem")
-  String exportAllProjectsMenuItem();
-
-  @DefaultMessage("Export keystore")
-  @Description("Label of the button for export keystore")
-  String downloadKeystoreMenuItem();
-
-  @DefaultMessage("Import keystore")
-  @Description("Label of the button for import keystore")
-  String uploadKeystoreMenuItem();
-
-  @DefaultMessage("Delete keystore")
-  @Description("Label of the button for delete keystore")
-  String deleteKeystoreMenuItem();
-
-  //Connect
-  @DefaultMessage("Connect")
-  @Description("Label of the button leading to Connect related cascade items")
-  String connectTabName();
-
-  @DefaultMessage("AI Companion")
-  @Description("Message providing details about starting the wireless connection.")
-  String AICompanionMenuItem();
-
-  @DefaultMessage("Emulator")
-  @Description("Message providing details about starting the emulator connection.")
-  String emulatorMenuItem();
-
-  @DefaultMessage("Report an Issue")
-  @Description("Link for Report an Issue form")
-  String feedbackLink();
-
-  @DefaultMessage("Gallery")
-  @Description("Name of Gallery tab")
-  String tabNameGallery();
-
-  @DefaultMessage("Moderation")
-  @Description("Name of moderation tab")
-  String tabNameModeration();
-
-  @DefaultMessage("Profile")
-  @Description("Label of the link for private user profile")
-  String privateProfileLink();
-
-  @DefaultMessage("My Projects")
-  @Description("Name of My Projects tab")
-  String tabNameProjects();
-
-  @DefaultMessage("USB")
-  @Description("Message providing details about starting a USB connection.")
-  String usbMenuItem();
-
-  @DefaultMessage("Reset Connection")
-  @Description("Reset all connections.")
-  String resetConnectionsMenuItem();
-
-  @DefaultMessage("Hard Reset")
-  @Description("Hard Reset the Emulator.")
-  String hardResetConnectionsMenuItem();
-
-  //Build
-  @DefaultMessage("Build")
-  @Description("Label of the button leading to build related cascade items")
-  String buildTabName();
-
-  @DefaultMessage("App ( provide QR code for .apk )")
-  @Description("Label of item for building a project and show barcode")
-  String showBarcodeMenuItem();
-
-  @DefaultMessage("App ( save .apk to my computer )")
-  @Description("Label of item for building a project and downloading")
-  String downloadToComputerMenuItem();
-
-  @DefaultMessage("Generate YAIL")
-  @Description("Label of the cascade item for generating YAIL for a project")
-  String generateYailMenuItem();
-
-  //Help
-  @DefaultMessage("Help")
-  @Description("Label for the Help menu")
-  String helpTabName();
-
-  @DefaultMessage("About")
-  @Description("Label of the link for About")
-  String aboutMenuItem();
-
-  @DefaultMessage("Companion Information")
-  @Description("Information about the Companion")
-  String companionInformation();
-
-  @DefaultMessage("Update the Companion")
-  @Description("Menu item to update the Companion to the latest version")
-  String companionUpdate();
-
-  @DefaultMessage("You must have a project open to update the Companion")
-  @Description("")
-  String companionUpdateMustHaveProject();
-
-  @DefaultMessage("Show Splash Screen")
-  @Description("Redisplay the Splash Screen")
-  String showSplashMenuItem();
-
-  @DefaultMessage("Library")
-  @Description("Name of Library link")
-  String libraryMenuItem();
-
-  @DefaultMessage("Get Started")
-  @Description("Name of Getting Started link")
-  String getStartedMenuItem();
+	@DefaultMessage("Default")
+	@Description("Text for property editors")
+	String defaultText();
+
+	@DefaultMessage("Cancel")
+	@Description("Text on \"Cancel\" button.")
+	String cancelButton();
+
+	@DefaultMessage("OK")
+	@Description("Text on \"OK\" button.")
+	String okButton();
+
+	@DefaultMessage("Dismiss")
+	@Description("Text on \"Dismiss\" button.")
+	String dismissButton();
+
+	@DefaultMessage("Old name:")
+	@Description("Label next to the old name in a rename dialog")
+	String oldNameLabel();
+
+	@DefaultMessage("New name:")
+	@Description("Label next to the new name in a rename dialog")
+	String newNameLabel();
+
+	@DefaultMessage("None")
+	@Description("Caption for None entry")
+	String noneCaption();
+
+	@DefaultMessage("Delete")
+	@Description("Text on \"Delete\" button")
+	String deleteButton();
+
+	@DefaultMessage("Delete Project")
+	@Description("Text on \"Delete Project\" button")
+	String deleteProjectButton();
+
+	@DefaultMessage("Publish to Gallery")
+	@Description("Text on \"Publish to Gallery\" button")
+	String publishToGalleryButton();
+
+	@DefaultMessage("Update Gallery App")
+	@Description("Text on \"Update Gallery App\" button")
+	String updateGalleryAppButton();
+
+	@DefaultMessage("Show Warnings")
+	@Description("Text on Toggle Warning Button")
+	String showWarnings();
+
+	@DefaultMessage("Hide Warnings")
+	@Description("Text on Toggle Warning Button")
+	String hideWarnings();
+
+	@DefaultMessage("Upload File ...")
+	@Description("Text on \"Add...\" button")
+	String addButton();
+
+	@DefaultMessage("Name")
+	@Description("Header for name column of project table")
+	String projectNameHeader();
+
+	@DefaultMessage("Date Created")
+	@Description("Header for date created column of project table.")
+	String projectDateCreatedHeader();
+
+	@DefaultMessage("Date Modified")
+	@Description("Header for date modified column of project table.")
+	String projectDateModifiedHeader();
+
+	@DefaultMessage("Published")
+	@Description("Header for published column of project table.")
+	String projectPublishedHeader();
+
+	@DefaultMessage("Save")
+	@Description("Label of the button for save")
+	String saveButton();
+
+	@DefaultMessage("Save As")
+	@Description("Label of the button for save as")
+	String saveAsButton();
+
+	@DefaultMessage("Checkpoint ...")
+	@Description("Label of the button for checkpoint")
+	String checkpointButton();
+
+	@DefaultMessage("Add Screen ...")
+	@Description("Label of the button for adding a new screen")
+	String addFormButton();
+
+	@DefaultMessage("Remove Screen")
+	@Description("Label of the button for removing a screen")
+	String removeFormButton();
+
+	@DefaultMessage("Connect")
+	@Description("Label of the button for selecting phone connection")
+	String connectButton();
+
+	@DefaultMessage("Deleting this screen will completely remove the screen from your project. "
+			+ "All components and blocks associated with this screen will be deleted.\n"
+			+ "There is no undo.\nAre you sure you want to delete {0}?")
+	@Description("Confirmation query for removing a screen")
+	String reallyDeleteForm(String formName);
+
+	@DefaultMessage("Open the Blocks Editor")
+	@Description("Label of the button for opening the blocks editor")
+	String openBlocksEditorButton();
+
+	@DefaultMessage("Screens ...")
+	@Description("Label of the button for switching screens")
+	String screensButton();
+
+	@DefaultMessage("Blocks")
+	@Description("Label of the button for switching to the blocks editor")
+	String switchToBlocksEditorButton();
+
+	@DefaultMessage("Designer")
+	@Description("Label of the button for switching to the form editor")
+	String switchToFormEditorButton();
+
+	@DefaultMessage("Packaging ...")
+	@Description("Label of the button leading to build related cascade items, when building")
+	String isBuildingButton();
+
+	@DefaultMessage("Opening the Blocks Editor... (click to cancel)")
+	@Description("Label of the button for canceling the blocks editor launch")
+	String cancelBlocksEditorButton();
+
+	@DefaultMessage("Blocks Editor is open")
+	@Description("Label of the button for opening the blocks editor when the it is already open")
+	String blocksEditorIsOpenButton();
+
+	// Switch Language Buttons (Internationalization)
+	@DefaultMessage("Language")
+	@Description("Label of the button for switching language")
+	String switchLanguageButton();
+
+	// Not used anymore it is now dynamically created and translated at compile
+	// time depending on what
+	// languages are translated and available.
+
+	// @DefaultMessage("English")
+	// @Description("Label of the button for switching language to English")
+	// String switchLanguageEnglishButton();
+	//
+	// @DefaultMessage("Chinese CN")
+	// @Description("Label of the button for switching language to Chinese CN")
+	// String switchLanguageChineseCNButton();
+	//
+	// @DefaultMessage("German")
+	// @Description("Label of the button for switching language to German")
+	// String switchLanguageGermanButton();
+	//
+	// @DefaultMessage("Vietnamese")
+	// @Description("Label of the button for switching language to Vietnamese")
+	// String switchLanguageVietnameseButton();
+
+	// Used in ModerationPage.java
+	@DefaultMessage("...")
+	@Description("Label of ... ")
+	String moderationDotDotDot();
+
+	@DefaultMessage("Report")
+	@Description("Label of the report text field on moderation page")
+	String moderationReportTextHeader();
+
+	@DefaultMessage("App")
+	@Description("Label of the app field on moderation page")
+	String moderationAppHeader();
+
+	@DefaultMessage("Reported On")
+	@Description("Label of the created date of report field on moderation page")
+	String moderationReportDateCreatedHeader();
+
+	@DefaultMessage("App Author")
+	@Description("Label of the app author field on moderation page")
+	String moderationAppAuthorHeader();
+
+	@DefaultMessage("Reporter")
+	@Description("Label of the reporter field on moderation page")
+	String moderationReporterHeader();
+
+	// Used in ReportList.java
+	@DefaultMessage("Inappropriate App Content: Remove")
+	@Description("Label of the Inappropriate App Content Remove on reportlist")
+	String inappropriateAppContentRemoveTitle();
+
+	@DefaultMessage("Inappropriate App Content")
+	@Description("Label of the Inappropriate App Content on reportlist")
+	String inappropriateAppContentTitle();
+
+	@DefaultMessage("Inappropriate User Profile Content")
+	@Description("Label of the Inappropriate User Profile Content on reportlist")
+	String inappropriateUserProfileContentTitle();
+
+	@DefaultMessage("Choose Template")
+	@Description("Label of the Choose Template Label on reportlist")
+	String labelChooseTemplate();
+
+	@DefaultMessage("Sent From: ")
+	@Description("Label of the Sent From on reportlist")
+	String emailSentFrom();
+
+	@DefaultMessage("Sent To: ")
+	@Description("Label of the Sent To on reportlist")
+	String emailSentTo();
+
+	@DefaultMessage("Send Email")
+	@Description("Label of the Send Email of reportlist")
+	String buttonSendEmail();
+
+	@DefaultMessage("Deactivate App")
+	@Description("Label of the Deactivate App on reportlist")
+	String labelDeactivateApp();
+
+	@DefaultMessage("Reactivate App")
+	@Description("Label of the Reactivate App on reportlist")
+	String labelReactivateApp();
+
+	@DefaultMessage("Deactivate App & Send Email")
+	@Description("Label of the Deactivate App & Send Email on reportlist")
+	String labelDeactivateAppAndSendEmail();
+
+	@DefaultMessage("Mark As Resolved")
+	@Description("Label of the Mark As Resolved of reportlist")
+	String labelmarkAsResolved();
+
+	@DefaultMessage("Mark As Unresolved")
+	@Description("Label of the Mark As Unresolved of reportlist")
+	String labelmarkAsUnresolved();
+
+	@DefaultMessage("Previous Actions")
+	@Description("Label of the See All Actions of reportlist")
+	String labelSeeAllActions();
+
+	@DefaultMessage("Previous Actions on Report")
+	@Description("Title of the Previous Actions Popup of reportlist")
+	String titleSeeAllActionsPopup();
+
+	@DefaultMessage("More Reports")
+	@Description("text for more reports")
+	String galleryMoreReports();
+
+	@DefaultMessage("X")
+	@Description("Symbol X")
+	String symbolX();
+
+	@DefaultMessage("Cancel")
+	@Description("Label of the Cancel Action on reportlist")
+	String labelCancel();
+
+	@DefaultMessage("Confirm")
+	@Description("Label of the Confirm Action on reportlist")
+	String labelConfirm();
+
+	@DefaultMessage("Your app \"{0}\" has been removed from the gallery due to inappropriate content. "
+			+ "Please review the guidelines at ..."
+			+ "If you feel this action has been taken in error, or you would like to discuss the issue, "
+			+ "please use the App Inventor forum at: \n")
+	@Description("Label of the Text of Template 1 of reportlist")
+	String inappropriateAppContentRemoveEmail(String title);
+
+	@DefaultMessage("Your app \"{0}\" has inappropriate content. " + "Please review the guidelines at ..."
+			+ "and modify your app accordingly. ")
+	@Description("Label of the Text of Template 2 of reportlist")
+	String inappropriateAppContentEmail(String title);
+
+	@DefaultMessage("Your profile contains inappropriate content. Please modify your profile.\n")
+	@Description("Label of the Text of Template 3 of reportlist")
+	String inappropriateUserProfileContentEmail();
+
+	@DefaultMessage("see more ...")
+	@Description("Label of the Text of seeing more of reportlist")
+	String seeMoreLink();
+
+	@DefaultMessage("hide")
+	@Description("Label of the Text of hiding of reportlist")
+	String hideLink();
+
+	@DefaultMessage("sends an email: ")
+	@Description("Label of the Text of sending an email of reportlist")
+	String moderationActionSendAnEmail();
+
+	@DefaultMessage("deativates this app with email: ")
+	@Description("Label of the Text of deativating this app with email of reportlist")
+	String moderationActionDeactivateThisAppWithEmail();
+
+	@DefaultMessage("reactivates this app")
+	@Description("Label of the Text of reactivating this app of reportlist")
+	String moderationActionReactivateThisApp();
+
+	@DefaultMessage("marks this report as resolved")
+	@Description("Label of the Text of marking this report as resolved of reportlist")
+	String moderationActionMarkThisReportAsResolved();
+
+	@DefaultMessage("marks this report as unresolved")
+	@Description("Label of the Text of marking this report as unresolved of reportlist")
+	String moderationActionMarkThisReportAsUnresolved();
+
+	@DefaultMessage("Show resolved reports")
+	@Description("Label of the Text of showing resolved reports of reportlist")
+	String moderationShowResolvedReports();
+
+	@DefaultMessage("An Email from App Inventor Gallery")
+	@Description("Title of the email when moderator sends out an email")
+	String moderationSendEmailTitle();
+
+	@DefaultMessage("App Inventor Gallery: App Activated")
+	@Description("Title of the email when app was activated")
+	String moderationAppReactivatedTitle();
+
+	@DefaultMessage("Your app \"{0}\" has been reactivated.")
+	@Description("Body of the email when app was activated")
+	String moderationAppReactivateBody(String title);
+
+	@DefaultMessage("App Inventor Gallery: App Deactivated")
+	@Description("Title of the email when app was deactivated")
+	String moderationAppDeactivatedTitle();
+
+	@DefaultMessage("Fail to send out the email, please try again later")
+	@Description("error message when fail to send to user from moderator")
+	String moderationErrorFailToSendEmail();
+
+	// Used in MotdFetcher.java
+
+	@DefaultMessage("Failed to contact server to get the MOTD.")
+	@Description("Message displayed when cannot get a MOTD from the server.")
+	String getMotdFailed();
+
+	// Used in Ode.java
+
+	// TODO(user): Replace with commented version once we're ready
+	@DefaultMessage("VEDILS")
+	@Description("Title for App Inventor")
+	String titleYoungAndroid();
+
+	@DefaultMessage("An internal error has occurred. Report a bug?")
+	@Description("Confirmation for reporting a bug after an internal error")
+	String internalErrorReportBug();
+
+	@DefaultMessage("An internal error has occurred.")
+	@Description("Alert after an internal error")
+	String internalError();
+
+	@DefaultMessage("An internal error has occurred. Go look in the Debugging view.")
+	@Description("Alert after an internal error")
+	String internalErrorSeeDebuggingView();
+
+	@DefaultMessage("An internal error has occurred. Click \"ok\" for more information.")
+	@Description("Confirm alert after an internal error")
+	String internalErrorClickOkDebuggingView();
+
+	@DefaultMessage("The server is temporarily unavailable. Please try again later!")
+	@Description("Error message if the server becomes completely unavailable.")
+	String serverUnavailable();
+
+	@DefaultMessage("No Project Chosen")
+	@Description("Title for Error Dialog when connection is attempted without a project.")
+	String noprojectDialogTitle();
+
+	@DefaultMessage("You must first create or select a project before connecting!")
+	@Description("Error message for connection attempt without a project selected.")
+	String noprojectDuringConnect();
+
+	@DefaultMessage("There is no Gallery App with the given id.")
+	@Description("Error message if the gallery id does not exist")
+	String galleryIdNotExist();
+
+	// Used in RpcStatusPopup.java
+
+	@DefaultMessage("Loading ...")
+	@Description("Message that is shown to indicate that a loading RPC is going on")
+	String defaultRpcMessage();
+
+	@DefaultMessage("Saving ...")
+	@Description("Message that is shown to indicate that a saving RPC is going on")
+	String savingRpcMessage();
+
+	@DefaultMessage("Copying ...")
+	@Description("Message that is shown to indicate that a copying RPC is going on")
+	String copyingRpcMessage();
+
+	@DefaultMessage("Deleting ...")
+	@Description("Message that is shown to indicate that a deleting RPC is going on")
+	String deletingRpcMessage();
+
+	@DefaultMessage("Packaging ...")
+	@Description("Message shown during a building RPC (for Young Android, called 'packaging')")
+	String packagingRpcMessage();
+
+	@DefaultMessage("Downloading to phone ...")
+	@Description("Message shown while downloading application to the phone (during compilation)")
+	String downloadingRpcMessage();
+
+	// Used in StatusPanel.java
+
+	@DefaultMessage("Built: {0}  Version: {1}")
+	@Description("Label showing the ant build date and the git version")
+	String gitBuildId(String date, String version);
+
+	@DefaultMessage("Privacy")
+	@Description("Label of the link for Privacy")
+	String privacyLink();
+
+	@DefaultMessage("Terms")
+	@Description("Label of the link for Terms")
+	String termsLink();
+
+	@DefaultMessage("Privacy Policy and Terms of Use")
+	@Description("Label of the link for Privacy and Terms of Use")
+	String privacyTermsLink();
+
+	// Used in TopPanel.java
+
+	// Project
+	@DefaultMessage("Projects")
+	@Description("Name of Projects tab")
+	String projectsTabName();
+
+	@DefaultMessage("My projects")
+	@Description("Name of My projects menuitem")
+	String projectMenuItem();
+
+	@DefaultMessage("Start new project")
+	@Description("Label of the menu item for creating a new project")
+	String newProjectMenuItem();
+
+	@DefaultMessage("Import project (.aia) from my computer ...")
+	@Description("Name of Import Project menuitem")
+	String importProjectMenuItem();
+
+	@DefaultMessage("Delete project")
+	@Description("Name of Delete project menuitem")
+	String deleteProjectMenuItem();
+
+	@DefaultMessage("Save project")
+	@Description("Name of Save menuitem")
+	String saveMenuItem();
+
+	@DefaultMessage("Save project as ...")
+	@Description("Name of Save as ... menuitem")
+	String saveAsMenuItem();
+
+	@DefaultMessage("Checkpoint")
+	@Description("Name of Checkpoint menuitem")
+	String checkpointMenuItem();
+
+	@DefaultMessage("Import project (.aia) from a repository ...")
+	@Description("Name of Import Template menuitem")
+	String importTemplateButton();
+
+	@DefaultMessage("Export selected project (.aia) to my computer")
+	@Description("Name of Export Project menuitem")
+	String exportProjectMenuItem();
+
+	@DefaultMessage("Export all projects")
+	@Description("Name of Export all Project menuitem")
+	String exportAllProjectsMenuItem();
+
+	@DefaultMessage("Export keystore")
+	@Description("Label of the button for export keystore")
+	String downloadKeystoreMenuItem();
+
+	@DefaultMessage("Import keystore")
+	@Description("Label of the button for import keystore")
+	String uploadKeystoreMenuItem();
+
+	@DefaultMessage("Delete keystore")
+	@Description("Label of the button for delete keystore")
+	String deleteKeystoreMenuItem();
+
+	// Connect
+	@DefaultMessage("Connect")
+	@Description("Label of the button leading to Connect related cascade items")
+	String connectTabName();
+
+	@DefaultMessage("AI Companion")
+	@Description("Message providing details about starting the wireless connection.")
+	String AICompanionMenuItem();
+
+	@DefaultMessage("Emulator")
+	@Description("Message providing details about starting the emulator connection.")
+	String emulatorMenuItem();
+
+	@DefaultMessage("Report an Issue")
+	@Description("Link for Report an Issue form")
+	String feedbackLink();
+
+	@DefaultMessage("Gallery")
+	@Description("Name of Gallery tab")
+	String tabNameGallery();
+
+	@DefaultMessage("Moderation")
+	@Description("Name of moderation tab")
+	String tabNameModeration();
+
+	@DefaultMessage("Profile")
+	@Description("Label of the link for private user profile")
+	String privateProfileLink();
+
+	@DefaultMessage("My Projects")
+	@Description("Name of My Projects tab")
+	String tabNameProjects();
+
+	@DefaultMessage("USB")
+	@Description("Message providing details about starting a USB connection.")
+	String usbMenuItem();
+
+	@DefaultMessage("Reset Connection")
+	@Description("Reset all connections.")
+	String resetConnectionsMenuItem();
+
+	@DefaultMessage("Hard Reset")
+	@Description("Hard Reset the Emulator.")
+	String hardResetConnectionsMenuItem();
+
+	// Build
+	@DefaultMessage("Build")
+	@Description("Label of the button leading to build related cascade items")
+	String buildTabName();
+
+	@DefaultMessage("App ( provide QR code for .apk )")
+	@Description("Label of item for building a project and show barcode")
+	String showBarcodeMenuItem();
+
+	@DefaultMessage("App ( save .apk to my computer )")
+	@Description("Label of item for building a project and downloading")
+	String downloadToComputerMenuItem();
+
+	@DefaultMessage("Generate YAIL")
+	@Description("Label of the cascade item for generating YAIL for a project")
+	String generateYailMenuItem();
+
+	// Help
+	@DefaultMessage("Help")
+	@Description("Label for the Help menu")
+	String helpTabName();
+
+	@DefaultMessage("About")
+	@Description("Label of the link for About")
+	String aboutMenuItem();
+
+	@DefaultMessage("Companion Information")
+	@Description("Information about the Companion")
+	String companionInformation();
+
+	@DefaultMessage("Update the Companion")
+	@Description("Menu item to update the Companion to the latest version")
+	String companionUpdate();
+
+	@DefaultMessage("You must have a project open to update the Companion")
+	@Description("")
+	String companionUpdateMustHaveProject();
+
+	@DefaultMessage("Show Splash Screen")
+	@Description("Redisplay the Splash Screen")
+	String showSplashMenuItem();
+
+	@DefaultMessage("Library")
+	@Description("Name of Library link")
+	String libraryMenuItem();
+
+	@DefaultMessage("Get Started")
+	@Description("Name of Getting Started link")
+	String getStartedMenuItem();
+
+	@DefaultMessage("Tutorials")
+	@Description("Name of Tutorials link")
+	String tutorialsMenuItem();
+
+	@DefaultMessage("Troubleshooting")
+	@Description("Name of Troubleshooting link")
+	String troubleshootingMenuItem();
+
+	@DefaultMessage("Forums")
+	@Description("Name of Forums link")
+	String forumsMenuItem();
 
-  @DefaultMessage("Tutorials")
-  @Description("Name of Tutorials link")
-  String tutorialsMenuItem();
+	@DefaultMessage("Report an Issue")
+	@Description("Link for Report an Issue form")
+	String feedbackMenuItem();
 
-  @DefaultMessage("Troubleshooting")
-  @Description("Name of Troubleshooting link")
-  String troubleshootingMenuItem();
+	// Admin
+	@DefaultMessage("Admin")
+	@Description("Label of the button leading to admin functionality")
+	String adminTabName();
 
-  @DefaultMessage("Forums")
-  @Description("Name of Forums link")
-  String forumsMenuItem();
+	@DefaultMessage("Download User Source")
+	@Description("Label of the button for admins to download a user's project source")
+	String downloadUserSourceMenuItem();
 
-  @DefaultMessage("Report an Issue")
-  @Description("Link for Report an Issue form")
-  String feedbackMenuItem();
+	@DefaultMessage("Switch To Debug Panel")
+	@Description("Label of the button for admins to switch to the debug panel without an explicit error")
+	String switchToDebugMenuItem();
 
-  //Admin
-  @DefaultMessage("Admin")
-  @Description("Label of the button leading to admin functionality")
-  String adminTabName();
+	// Tabs
+	@DefaultMessage("My Projects")
+	@Description("Name of My Projects tab")
+	String myProjectsTabName();
 
-  @DefaultMessage("Download User Source")
-  @Description("Label of the button for admins to download a user's project source")
-  String downloadUserSourceMenuItem();
+	@DefaultMessage("Guide")
+	@Description("Name of Guide link")
+	String guideTabName();
 
-  @DefaultMessage("Switch To Debug Panel")
-  @Description("Label of the button for admins to switch to the debug panel without an explicit error")
-  String switchToDebugMenuItem();
+	@DefaultMessage("Report an Issue")
+	@Description("Link for Report an Issue form")
+	String feedbackTabName();
 
-  //Tabs
-  @DefaultMessage("My Projects")
-  @Description("Name of My Projects tab")
-  String myProjectsTabName();
+	@DefaultMessage("Gallery")
+	@Description("Link for Gallery")
+	String galleryTabName();
 
-  @DefaultMessage("Guide")
-  @Description("Name of Guide link")
-  String guideTabName();
+	// User email dropdown
+	@DefaultMessage("Sign out")
+	@Description("Label of the link for signing out")
+	String signOutLink();
 
-  @DefaultMessage("Report an Issue")
-  @Description("Link for Report an Issue form")
-  String feedbackTabName();
+	//
 
-  @DefaultMessage("Gallery")
-  @Description("Link for Gallery")
-  String galleryTabName();
+	@DefaultMessage("Design")
+	@Description("Name of Design tab")
+	String tabNameDesign();
 
-  //User email dropdown
-  @DefaultMessage("Sign out")
-  @Description("Label of the link for signing out")
-  String signOutLink();
+	@DefaultMessage("(Debugging)")
+	@Description("Name of Debugging tab")
+	String tabNameDebugging();
 
-  //
+	@DefaultMessage("Please choose a project to open or create a new project.")
+	@Description("Message shown when there is no current file editor to switch to")
+	String chooseProject();
 
-  @DefaultMessage("Design")
-  @Description("Name of Design tab")
-  String tabNameDesign();
+	@DefaultMessage("Emails")
+	@Description("Title for user's email inbox")
+	String emailInboxTitle();
 
-  @DefaultMessage("(Debugging)")
-  @Description("Name of Debugging tab")
-  String tabNameDebugging();
+	@DefaultMessage("Send an Email")
+	@Description("Title for moderator send email dialog")
+	String emailSendTitle();
 
-  @DefaultMessage("Please choose a project to open or create a new project.")
-  @Description("Message shown when there is no current file editor to switch to")
-  String chooseProject();
+	// Used in boxes/AssetListBox.java
 
-  @DefaultMessage("Emails")
-  @Description("Title for user's email inbox")
-  String emailInboxTitle();
+	@DefaultMessage("Media")
+	@Description("Caption for asset list box.")
+	String assetListBoxCaption();
 
-  @DefaultMessage("Send an Email")
-  @Description("Title for moderator send email dialog")
-  String emailSendTitle();
+	// Used in boxes/MessagesOutputBox.java
 
-  // Used in boxes/AssetListBox.java
+	@DefaultMessage("Messages")
+	@Description("Caption for message output box.")
+	String messagesOutputBoxCaption();
 
-  @DefaultMessage("Media")
-  @Description("Caption for asset list box.")
-  String assetListBoxCaption();
+	// Used in boxes/MotdBox.java
 
-  // Used in boxes/MessagesOutputBox.java
+	@DefaultMessage("Welcome to VEDILS!")
+	@Description("Initial caption for MOTD box.")
+	String motdBoxCaption();
 
-  @DefaultMessage("Messages")
-  @Description("Caption for message output box.")
-  String messagesOutputBoxCaption();
+	// Used in boxes/OdeLogBox.java
 
-  // Used in boxes/MotdBox.java
+	@DefaultMessage("Developer Messages")
+	@Description("Caption for ODE log box.")
+	String odeLogBoxCaption();
 
-  @DefaultMessage("Welcome to VEDILS!")
-  @Description("Initial caption for MOTD box.")
-  String motdBoxCaption();
+	// Used in boxes/PaletteBox.java
 
-  // Used in boxes/OdeLogBox.java
+	@DefaultMessage("Palette")
+	@Description("Caption for palette box.")
+	String paletteBoxCaption();
 
-  @DefaultMessage("Developer Messages")
-  @Description("Caption for ODE log box.")
-  String odeLogBoxCaption();
+	// Used in boxes/ProjectListBox.java
 
-  // Used in boxes/PaletteBox.java
+	@DefaultMessage("My Projects")
+	@Description("Caption for project list box.")
+	String projectListBoxCaption();
 
-  @DefaultMessage("Palette")
-  @Description("Caption for palette box.")
-  String paletteBoxCaption();
+	// Used in boxes/ProjectListBox.java
 
-  // Used in boxes/ProjectListBox.java
+	@DefaultMessage("My Studios")
+	@Description("Caption for studio list box.")
+	String studioListBoxCaption();
 
-  @DefaultMessage("My Projects")
-  @Description("Caption for project list box.")
-  String projectListBoxCaption();
+	// Used in boxes/ProjectListBox.java
 
-  // Used in boxes/ProjectListBox.java
+	@DefaultMessage("My Profile")
+	@Description("Caption for profile page box.")
+	String profilePageBoxCaption();
 
-  @DefaultMessage("My Studios")
-  @Description("Caption for studio list box.")
-  String studioListBoxCaption();
+	// Used in boxes/ModerationPageBox.java
 
-  // Used in boxes/ProjectListBox.java
+	@DefaultMessage("Reports")
+	@Description("Caption for moderation page box.")
+	String moderationPageBoxCaption();
 
-  @DefaultMessage("My Profile")
-  @Description("Caption for profile page box.")
-  String profilePageBoxCaption();
+	// Used in boxes/GalleryListBox.java
 
-  // Used in boxes/ModerationPageBox.java
+	@DefaultMessage("Gallery")
+	@Description("Caption for gallery list box.")
+	String galleryListBoxCaption();
 
-  @DefaultMessage("Reports")
-  @Description("Caption for moderation page box.")
-  String moderationPageBoxCaption();
+	// Used in boxes/GalleryAppBox.java
 
-  // Used in boxes/GalleryListBox.java
+	@DefaultMessage("Gallery App")
+	@Description("Caption for gallery app box.")
+	String galleryAppBoxCaption();
 
-  @DefaultMessage("Gallery")
-  @Description("Caption for gallery list box.")
-  String galleryListBoxCaption();
+	// Used in boxes/UserProfileBox.java
 
-  // Used in boxes/GalleryAppBox.java
+	@DefaultMessage("User Profile")
+	@Description("Caption for user profile box.")
+	String userProfileBoxCaption();
 
-  @DefaultMessage("Gallery App")
-  @Description("Caption for gallery app box.")
-  String galleryAppBoxCaption();
+	// Used in boxes/PropertiesBox.java
 
-  // Used in boxes/UserProfileBox.java
+	@DefaultMessage("Properties")
+	@Description("Caption for properties box.")
+	String propertiesBoxCaption();
 
-  @DefaultMessage("User Profile")
-  @Description("Caption for user profile box.")
-  String userProfileBoxCaption();
+	// Used in boxes/SourceStructureBox.java
 
-  // Used in boxes/PropertiesBox.java
+	@DefaultMessage("Components")
+	@Description("Caption for source structure box.")
+	String sourceStructureBoxCaption();
 
-  @DefaultMessage("Properties")
-  @Description("Caption for properties box.")
-  String propertiesBoxCaption();
+	// Used in boxes/BlockSelectorBox.java
 
-  // Used in boxes/SourceStructureBox.java
+	@DefaultMessage("Blocks")
+	@Description("Caption for block selector box.")
+	String blockSelectorBoxCaption();
 
-  @DefaultMessage("Components")
-  @Description("Caption for source structure box.")
-  String sourceStructureBoxCaption();
+	@DefaultMessage("Built-in")
+	@Description("Label on built-in-blocks branch of block selector tree")
+	String builtinBlocksLabel();
 
-  // Used in boxes/BlockSelectorBox.java
+	@DefaultMessage("Control")
+	@Description("Label on built-in-Control-blocks branch of block selector tree")
+	String builtinControlLabel();
 
-  @DefaultMessage("Blocks")
-  @Description("Caption for block selector box.")
-  String blockSelectorBoxCaption();
+	@DefaultMessage("Logic")
+	@Description("Label on built-in-Logic-blocks branch of block selector tree")
+	String builtinLogicLabel();
 
-  @DefaultMessage("Built-in")
-  @Description("Label on built-in-blocks branch of block selector tree")
-  String builtinBlocksLabel();
+	@DefaultMessage("Text")
+	@Description("Label on built-in-Text-blocks branch of block selector tree")
+	String builtinTextLabel();
 
-  @DefaultMessage("Control")
-  @Description("Label on built-in-Control-blocks branch of block selector tree")
-  String builtinControlLabel();
+	@DefaultMessage("Lists")
+	@Description("Label on built-in-Lists-blocks branch of block selector tree")
+	String builtinListsLabel();
 
-  @DefaultMessage("Logic")
-  @Description("Label on built-in-Logic-blocks branch of block selector tree")
-  String builtinLogicLabel();
+	@DefaultMessage("Colors")
+	@Description("Label on built-in-Colors-blocks branch of block selector tree")
+	String builtinColorsLabel();
 
-  @DefaultMessage("Text")
-  @Description("Label on built-in-Text-blocks branch of block selector tree")
-  String builtinTextLabel();
+	@DefaultMessage("Variables")
+	@Description("Label on built-in-Variables-blocks branch of block selector tree")
+	String builtinVariablesLabel();
 
-  @DefaultMessage("Lists")
-  @Description("Label on built-in-Lists-blocks branch of block selector tree")
-  String builtinListsLabel();
+	@DefaultMessage("Procedures")
+	@Description("Label on built-in-Procedures-blocks branch of block selector tree")
+	String builtinProceduresLabel();
 
-  @DefaultMessage("Colors")
-  @Description("Label on built-in-Colors-blocks branch of block selector tree")
-  String builtinColorsLabel();
+	@DefaultMessage("Any component")
+	@Description("Label on any-component branch of block selector tree")
+	String anyComponentLabel();
 
-  @DefaultMessage("Variables")
-  @Description("Label on built-in-Variables-blocks branch of block selector tree")
-  String builtinVariablesLabel();
+	@DefaultMessage("Any ")
+	@Description("None")
+	String textAnyComponentLabel();
 
-  @DefaultMessage("Procedures")
-  @Description("Label on built-in-Procedures-blocks branch of block selector tree")
-  String builtinProceduresLabel();
+	// Used in boxes/ViewerBox.java
 
-  @DefaultMessage("Any component")
-  @Description("Label on any-component branch of block selector tree")
-  String anyComponentLabel();
+	@DefaultMessage("Viewer")
+	@Description("Caption for a viewer box.")
+	String viewerBoxCaption();
 
-  @DefaultMessage("Any ")
-  @Description("None")
-  String textAnyComponentLabel();
+	// Used in SaveAllEditorsCommand.java
 
-  // Used in boxes/ViewerBox.java
+	@DefaultMessage("Saved project at {0}")
+	@Description("Message reported when project was saved successfully.")
+	String savedProject(String saveTime);
 
-  @DefaultMessage("Viewer")
-  @Description("Caption for a viewer box.")
-  String viewerBoxCaption();
+	// Used in editor/EditorManager.java
 
-  // Used in SaveAllEditorsCommand.java
+	@DefaultMessage("Server error: could not save one or more files. Please try again later!")
+	@Description("Error message reported when one or more file couldn't be saved to the server.")
+	String saveErrorMultipleFiles();
 
-  @DefaultMessage("Saved project at {0}")
-  @Description("Message reported when project was saved successfully.")
-  String savedProject(String saveTime);
+	@DefaultMessage("Error generating Yail for screen {0}: {1}. Please fix and try packaging again.")
+	@Description("Error message reported when yail generation fails for a screen")
+	String yailGenerationError(String formName, String description);
 
-  // Used in editor/EditorManager.java
+	// Used in editor/simple/SimpleNonVisibleComponentsPanel.java
 
-  @DefaultMessage("Server error: could not save one or more files. Please try again later!")
-  @Description("Error message reported when one or more file couldn't be saved to the server.")
-  String saveErrorMultipleFiles();
+	@DefaultMessage("Non-visible components")
+	@Description("Header for the non-visible components in the designer.")
+	String nonVisibleComponentsHeader();
 
-  @DefaultMessage("Error generating Yail for screen {0}: {1}. Please fix and try packaging again.")
-  @Description("Error message reported when yail generation fails for a screen")
-  String yailGenerationError(String formName, String description);
+	// Used in editor/simple/SimpleVisibleComponentsPanel.java
 
-  // Used in editor/simple/SimpleNonVisibleComponentsPanel.java
+	@DefaultMessage("Display hidden components in Viewer")
+	@Description("Checkbox controlling whether to display invisible components in the designer.")
+	String showHiddenComponentsCheckbox();
 
-  @DefaultMessage("Non-visible components")
-  @Description("Header for the non-visible components in the designer.")
-  String nonVisibleComponentsHeader();
+	@DefaultMessage("Check to see Preview on Tablet size.")
+	@Description("Checkbox (check) controlling whether to display a preview on Tablet size.")
+	String previewTabletSize();
 
-  // Used in editor/simple/SimpleVisibleComponentsPanel.java
+	@DefaultMessage("Un-check to see Preview on Phone size.")
+	@Description("Checkbox (un-check) controlling whether to display a preview on Phone size.")
+	String previewPhoneSize();
 
-  @DefaultMessage("Display hidden components in Viewer")
-  @Description("Checkbox controlling whether to display invisible components in the designer.")
-  String showHiddenComponentsCheckbox();
+	// Used in editor/simple/components/MockComponent.java
 
-  @DefaultMessage("Check to see Preview on Tablet size.")
-  @Description("Checkbox (check) controlling whether to display a preview on Tablet size.")
-  String previewTabletSize();
+	@DefaultMessage("Rename Component")
+	@Description("Title for the rename component dialog")
+	String renameTitle();
 
-  @DefaultMessage("Un-check to see Preview on Phone size.")
-  @Description("Checkbox (un-check) controlling whether to display a preview on Phone size.")
-  String previewPhoneSize();
+	@DefaultMessage("Component names can contain only letters, numbers, and underscores and "
+			+ "must start with a letter")
+	@Description("Error message when component name contains non-alphanumeric characters besides _ "
+			+ "or does not start with a letter")
+	String malformedComponentNameError();
 
-  // Used in editor/simple/components/MockComponent.java
+	@DefaultMessage("Duplicate component name!")
+	@Description("Error shown when a new component name would be the same as an existing one")
+	String duplicateComponentNameError();
 
-  @DefaultMessage("Rename Component")
-  @Description("Title for the rename component dialog")
-  String renameTitle();
+	@DefaultMessage("Component instance names cannot be the same as a component type")
+	@Description("Error shown when a new component name would be the same as a component type name")
+	String sameAsComponentTypeNameError();
 
-  @DefaultMessage("Component names can contain only letters, numbers, and underscores and " +
-      "must start with a letter")
-  @Description("Error message when component name contains non-alphanumeric characters besides _ " +
-      "or does not start with a letter")
-  String malformedComponentNameError();
+	@DefaultMessage("Component name cannot be any of the following: CsvUtil, Double, Float, "
+			+ "Integer, JavaCollection, JavaIterator, KawaEnvironment, Long, Short, SimpleForm, String, "
+			+ "Pattern, YailList, YailNumberToString, YailRuntimeError")
+	@Description("Error shown when a new component name is a variable name already used in the" + "Yail code")
+	String badComponentNameError();
 
-  @DefaultMessage("Duplicate component name!")
-  @Description("Error shown when a new component name would be the same as an existing one")
-  String duplicateComponentNameError();
+	@DefaultMessage("Deleting this component will delete all blocks associated with it in the "
+			+ "Blocks Editor. Are you sure you want to delete?")
+	@Description("Confirmation query for removing a component")
+	String reallyDeleteComponent();
 
-  @DefaultMessage("Component instance names cannot be the same as a component type")
-  @Description("Error shown when a new component name would be the same as a component type name")
-  String sameAsComponentTypeNameError();
+	// Used in editor/simple/components/MockButtonBase.java, MockCheckBox.java,
+	// MockLabel.java, and
+	// MockRadioButton.java
 
-  @DefaultMessage("Component name cannot be any of the following: CsvUtil, Double, Float, " +
-      "Integer, JavaCollection, JavaIterator, KawaEnvironment, Long, Short, SimpleForm, String, " +
-      "Pattern, YailList, YailNumberToString, YailRuntimeError")
-  @Description("Error shown when a new component name is a variable name already used in the" +
-      "Yail code")
-  String badComponentNameError();
+	@DefaultMessage("Text for {0}")
+	@Description("Default value for Text property")
+	String textPropertyValue(String componentName);
 
-  @DefaultMessage("Deleting this component will delete all blocks associated with it in the " +
-      "Blocks Editor. Are you sure you want to delete?")
-  @Description("Confirmation query for removing a component")
-  String reallyDeleteComponent();
+	// Used in editor/simple/components/MockButtonBase.java,
+	// MockHVLayoutBase.java
+	@DefaultMessage("System error: Bad value - {0} - for Horizontal Alignment.")
+	@Description("Default message for bad value for Horizontal Alignment")
+	String badValueForHorizontalAlignment(String componentName);
 
-  // Used in editor/simple/components/MockButtonBase.java, MockCheckBox.java, MockLabel.java, and
-  // MockRadioButton.java
+	@DefaultMessage("System error: Bad value - {0} - for Vertical Alignment.")
+	@Description("Default message for bad value for Vartical Alignment")
+	String badValueForVerticalAlignment(String componentName);
 
-  @DefaultMessage("Text for {0}")
-  @Description("Default value for Text property")
-  String textPropertyValue(String componentName);
+	// Used in editor/simple/components/MockVisibleComponent.java
 
-  // Used in editor/simple/components/MockButtonBase.java, MockHVLayoutBase.java
-  @DefaultMessage("System error: Bad value - {0} - for Horizontal Alignment.")
-  @Description("Default message for bad value for Horizontal Alignment")
-  String badValueForHorizontalAlignment(String componentName);
+	@DefaultMessage("Width")
+	@Description("Caption for the width property")
+	String widthPropertyCaption();
 
-  @DefaultMessage("System error: Bad value - {0} - for Vertical Alignment.")
-  @Description("Default message for bad value for Vartical Alignment")
-  String badValueForVerticalAlignment(String componentName);
+	@DefaultMessage("Height")
+	@Description("Caption for the height property")
+	String heightPropertyCaption();
 
-  // Used in editor/simple/components/MockVisibleComponent.java
+	// Used in editor/simple/components/MockTextBoxBase.java
 
-  @DefaultMessage("Width")
-  @Description("Caption for the width property")
-  String widthPropertyCaption();
+	@DefaultMessage("Hint for {0}")
+	@Description("Default value for Hint property")
+	String hintPropertyValue(String componentName);
 
-  @DefaultMessage("Height")
-  @Description("Caption for the height property")
-  String heightPropertyCaption();
+	// Used in editor/simple/palette/ComponentHelpWidget.java
 
-  // Used in editor/simple/components/MockTextBoxBase.java
+	@DefaultMessage("More information")
+	@Description("Label of the link to a component's reference docs")
+	String moreInformation();
 
-  @DefaultMessage("Hint for {0}")
-  @Description("Default value for Hint property")
-  String hintPropertyValue(String componentName);
+	// Used in editor/youngandroid/YaFormEditor.java and YaBlocksEditor.java
 
-  // Used in editor/simple/palette/ComponentHelpWidget.java
+	@DefaultMessage("Server error: could not load file. Please try again later!")
+	@Description("Error message reported when a source file couldn't be loaded from the server.")
+	String loadError();
 
-  @DefaultMessage("More information")
-  @Description("Label of the link to a component's reference docs")
-  String moreInformation();
+	@DefaultMessage("Server error: could not save file. Please try again later!")
+	@Description("Error message reported when a source file couldn't be saved to the server.")
+	String saveError();
 
-  // Used in editor/youngandroid/YaFormEditor.java and YaBlocksEditor.java
+	@DefaultMessage("{0} blocks")
+	@Description("Tab name for blocks editor")
+	String blocksEditorTabName(String formName);
 
-  @DefaultMessage("Server error: could not load file. Please try again later!")
-  @Description("Error message reported when a source file couldn't be loaded from the server.")
-  String loadError();
+	// Used in editor/youngandroid/BlocklyPanel.java
 
-  @DefaultMessage("Server error: could not save file. Please try again later!")
-  @Description("Error message reported when a source file couldn't be saved to the server.")
-  String saveError();
+	@DefaultMessage("The blocks area did not load properly. Changes to the blocks for screen {0} will not be saved.")
+	@Description("Message indicating that blocks changes were not saved")
+	String blocksNotSaved(String formName);
 
-  @DefaultMessage("{0} blocks")
-  @Description("Tab name for blocks editor")
-  String blocksEditorTabName(String formName);
+	@DefaultMessage("The blocks for screen {0} did not load properly. "
+			+ "You will not be able to edit using the blocks editor until the problem is corrected.")
+	@Description("Message when blocks fail to load properly")
+	String blocksLoadFailure(String formName);
 
-  // Used in editor/youngandroid/BlocklyPanel.java
+	// Used in
+	// editor/youngandroid/properties/YoungAndroidAccelerometerSensitivityChoicePropertyEditor.java
 
-  @DefaultMessage("The blocks area did not load properly. Changes to the blocks for screen {0} will not be saved.")
-  @Description("Message indicating that blocks changes were not saved")
-  String blocksNotSaved(String formName);
+	@DefaultMessage("weak")
+	@Description("Text for accelerometer sensitivity choice 'weak'")
+	String weakAccelerometerSensitivity();
 
-  @DefaultMessage("The blocks for screen {0} did not load properly. "
-      + "You will not be able to edit using the blocks editor until the problem is corrected.")
-  @Description("Message when blocks fail to load properly")
-  String blocksLoadFailure(String formName);
+	@DefaultMessage("moderate")
+	@Description("Text for accelerometer sensitivity choice 'moderate'")
+	String moderateAccelerometerSensitivity();
 
-  //Used in editor/youngandroid/properties/YoungAndroidAccelerometerSensitivityChoicePropertyEditor.java
+	@DefaultMessage("strong")
+	@Description("Text for accelerometer sensitivity choice 'strong'")
+	String strongAccelerometerSensitivity();
 
-  @DefaultMessage("weak")
-  @Description("Text for accelerometer sensitivity choice 'weak'")
-  String weakAccelerometerSensitivity();
+	// Used in
+	// editor/youngandroid/properties/YoungAndroidSizingChoicePropertyEditor.java
 
-  @DefaultMessage("moderate")
-  @Description("Text for accelerometer sensitivity choice 'moderate'")
-  String moderateAccelerometerSensitivity();
+	@DefaultMessage("Fixed")
+	@Description("Text for Sizing choice 'fixed' -- scale to fit device screen")
+	String fixedSizing();
 
-  @DefaultMessage("strong")
-  @Description("Text for accelerometer sensitivity choice 'strong'")
-  String strongAccelerometerSensitivity();
+	@DefaultMessage("Responsive")
+	@Description("Text for Sizing choice 'responsive' -- size based on device type")
+	String responsiveSizing();
 
-  // Used in editor/youngandroid/properties/YoungAndroidSizingChoicePropertyEditor.java
+	// Used in
+	// editor/youngandroid/properties/YoungAndroidAlignmentChoicePropertyEditor.java
 
-  @DefaultMessage("Fixed")
-  @Description("Text for Sizing choice 'fixed' -- scale to fit device screen")
-  String fixedSizing();
+	@DefaultMessage("left")
+	@Description("Text for text alignment choice 'left'")
+	String leftTextAlignment();
 
-  @DefaultMessage("Responsive")
-  @Description("Text for Sizing choice 'responsive' -- size based on device type")
-  String responsiveSizing();
+	@DefaultMessage("center")
+	@Description("Text for text alignment choice 'center'")
+	String centerTextAlignment();
 
-  // Used in editor/youngandroid/properties/YoungAndroidAlignmentChoicePropertyEditor.java
+	@DefaultMessage("right")
+	@Description("Text for text alignment choice 'right'")
+	String rightTextAlignment();
 
-  @DefaultMessage("left")
-  @Description("Text for text alignment choice 'left'")
-  String leftTextAlignment();
+	// Used in
+	// editor/youngandroid/properties/YoungAndroidHorizontalAlignmentChoicePropertyEditor.java
 
-  @DefaultMessage("center")
-  @Description("Text for text alignment choice 'center'")
-  String centerTextAlignment();
+	@DefaultMessage("Left")
+	@Description("Text for horizontal alignment choice 'Left")
+	String horizontalAlignmentChoiceLeft();
 
-  @DefaultMessage("right")
-  @Description("Text for text alignment choice 'right'")
-  String rightTextAlignment();
+	@DefaultMessage("Right")
+	@Description("Text for horizontal alignemt choice 'Right'")
+	String horizontalAlignmentChoiceRight();
 
-  // Used in
-  // editor/youngandroid/properties/YoungAndroidHorizontalAlignmentChoicePropertyEditor.java
+	@DefaultMessage("Center")
+	@Description("Text for horizontal alignment choice 'Center'")
+	String horizontalAlignmentChoiceCenter();
 
-  @DefaultMessage("Left")
-  @Description("Text for horizontal alignment choice 'Left")
-  String horizontalAlignmentChoiceLeft();
+	// Used in
+	// editor/youngandroid/properties/YoungAndroidVerticalAlignmentChoicePropertyEditor.java
 
-  @DefaultMessage("Right")
-  @Description("Text for horizontal alignemt choice 'Right'")
-  String horizontalAlignmentChoiceRight();
+	@DefaultMessage("Top")
+	@Description("Text for vertical alignment choice 'Top'")
+	String verticalAlignmentChoiceTop();
 
-  @DefaultMessage("Center")
-  @Description("Text for horizontal alignment choice 'Center'")
-  String horizontalAlignmentChoiceCenter();
+	@DefaultMessage("Center")
+	@Description("Text for vertical alignment choice 'Center'")
+	String verticalAlignmentChoiceCenter();
 
-  // Used in
-  // editor/youngandroid/properties/YoungAndroidVerticalAlignmentChoicePropertyEditor.java
+	@DefaultMessage("Bottom")
+	@Description("Text for vertical alignment choice 'Bottom'")
+	String verticalAlignmentChoiceBottom();
 
-  @DefaultMessage("Top")
-  @Description("Text for vertical alignment choice 'Top'")
-  String verticalAlignmentChoiceTop();
+	// Used in
+	// editor/youngandroid/properties/YoungAndroidButtonShapeChoicePropertyEditor.java
 
-  @DefaultMessage("Center")
-  @Description("Text for vertical alignment choice 'Center'")
-  String verticalAlignmentChoiceCenter();
+	@DefaultMessage("default")
+	@Description("Text for button shape choice 'default'")
+	String defaultButtonShape();
 
-  @DefaultMessage("Bottom")
-  @Description("Text for vertical alignment choice 'Bottom'")
-  String verticalAlignmentChoiceBottom();
+	@DefaultMessage("rounded")
+	@Description("Text for button shape choice 'rounded'")
+	String roundedButtonShape();
 
-  // Used in editor/youngandroid/properties/YoungAndroidButtonShapeChoicePropertyEditor.java
+	@DefaultMessage("rectangular")
+	@Description("Text for button shape choice 'rectangular'")
+	String rectButtonShape();
 
-  @DefaultMessage("default")
-  @Description("Text for button shape choice 'default'")
-  String defaultButtonShape();
+	@DefaultMessage("oval")
+	@Description("Text for button shape choice 'oval'")
+	String ovalButtonShape();
 
-  @DefaultMessage("rounded")
-  @Description("Text for button shape choice 'rounded'")
-  String roundedButtonShape();
+	// Used in
+	// editor/youngandroid/properties/YoungAndroidAssetSelectorPropertyEditor.java
 
-  @DefaultMessage("rectangular")
-  @Description("Text for button shape choice 'rectangular'")
-  String rectButtonShape();
+	@DefaultMessage("You must select an asset!")
+	@Description("Message displayed when OK button is clicked when there is no asset selected.")
+	String noAssetSelected();
 
-  @DefaultMessage("oval")
-  @Description("Text for button shape choice 'oval'")
-  String ovalButtonShape();
+	// Used in
+	// editor/youngandroid/properties/YoungAndroidComponentSelectorPropertyEditor.java
 
-  // Used in editor/youngandroid/properties/YoungAndroidAssetSelectorPropertyEditor.java
+	@DefaultMessage("You must select a component!")
+	@Description("Message displayed when OK button is clicked when there is no component selected.")
+	String noComponentSelected();
 
-  @DefaultMessage("You must select an asset!")
-  @Description("Message displayed when OK button is clicked when there is no asset selected.")
-  String noAssetSelected();
+	// Used in
+	// editor/youngandroid/properties/YoungAndroidColorChoicePropertyEditor.java
 
-  // Used in editor/youngandroid/properties/YoungAndroidComponentSelectorPropertyEditor.java
+	@DefaultMessage("None")
+	@Description("Text for color choice 'None'")
+	String noneColor();
 
-  @DefaultMessage("You must select a component!")
-  @Description("Message displayed when OK button is clicked when there is no component selected.")
-  String noComponentSelected();
+	@DefaultMessage("Black")
+	@Description("Text for color choice 'Black'")
+	String blackColor();
 
-  // Used in editor/youngandroid/properties/YoungAndroidColorChoicePropertyEditor.java
+	@DefaultMessage("Blue")
+	@Description("Text for color choice 'Blue'")
+	String blueColor();
 
-  @DefaultMessage("None")
-  @Description("Text for color choice 'None'")
-  String noneColor();
+	@DefaultMessage("Light Blue")
+	@Description("Text for color choice 'Light Blue'")
+	String lightBlueColor();
 
-  @DefaultMessage("Black")
-  @Description("Text for color choice 'Black'")
-  String blackColor();
+	@DefaultMessage("Dark Blue")
+	@Description("Text for color choice 'Dark Blue'")
+	String darkBlueColor();
 
-  @DefaultMessage("Blue")
-  @Description("Text for color choice 'Blue'")
-  String blueColor();
-  
-  @DefaultMessage("Light Blue")
-  @Description("Text for color choice 'Light Blue'")
-  String lightBlueColor();
-  
-  @DefaultMessage("Dark Blue")
-  @Description("Text for color choice 'Dark Blue'")
-  String darkBlueColor();
-  
-  @DefaultMessage("Purple")
-  @Description("Text for color choice 'Purple'")
-  String purpleColor();
+	@DefaultMessage("Purple")
+	@Description("Text for color choice 'Purple'")
+	String purpleColor();
 
-  @DefaultMessage("Cyan")
-  @Description("Text for color choice 'Cyan'")
-  String cyanColor();
-  
-  @DefaultMessage("Light Red")
-  @Description("Text for color choice 'Light Red'")
-  String lightRedColor();
-  
-  @DefaultMessage("Dark Red")
-  @Description("Text for color choice 'Dark Red'")
-  String darkRedColor();
-  
-  @DefaultMessage("Dark Pink")
-  @Description("Text for color choice 'Dark Pink'")
-  String darkPinkColor();
+	@DefaultMessage("Cyan")
+	@Description("Text for color choice 'Cyan'")
+	String cyanColor();
 
-  @DefaultMessage("Default")
-  @Description("Text for color choice 'Default'")
-  String defaultColor();
+	@DefaultMessage("Light Red")
+	@Description("Text for color choice 'Light Red'")
+	String lightRedColor();
 
-  @DefaultMessage("Dark Gray")
-  @Description("Text for color choice 'Dark Gray'")
-  String darkGrayColor();
+	@DefaultMessage("Dark Red")
+	@Description("Text for color choice 'Dark Red'")
+	String darkRedColor();
 
-  @DefaultMessage("Gray")
-  @Description("Text for color choice 'Gray'")
-  String grayColor();
+	@DefaultMessage("Dark Pink")
+	@Description("Text for color choice 'Dark Pink'")
+	String darkPinkColor();
 
-  @DefaultMessage("Light Green")
-  @Description("Text for color choice 'Light Green'")
-  String lightGreenColor();
-  
-  @DefaultMessage("Green")
-  @Description("Text for color choice 'Green'")
-  String greenColor();
-  
-  @DefaultMessage("Dark Green")
-  @Description("Text for color choice 'Dark Green'")
-  String darkGreenColor();
+	@DefaultMessage("Default")
+	@Description("Text for color choice 'Default'")
+	String defaultColor();
 
-  @DefaultMessage("Light Gray")
-  @Description("Text for color choice 'Light Gray'")
-  String lightGrayColor();
+	@DefaultMessage("Dark Gray")
+	@Description("Text for color choice 'Dark Gray'")
+	String darkGrayColor();
 
-  @DefaultMessage("Magenta")
-  @Description("Text for color choice 'Magenta'")
-  String magentaColor();
+	@DefaultMessage("Gray")
+	@Description("Text for color choice 'Gray'")
+	String grayColor();
 
-  @DefaultMessage("Orange")
-  @Description("Text for color choice 'Orange'")
-  String orangeColor();
+	@DefaultMessage("Light Green")
+	@Description("Text for color choice 'Light Green'")
+	String lightGreenColor();
 
-  @DefaultMessage("Pink")
-  @Description("Text for color choice 'Pink'")
-  String pinkColor();
+	@DefaultMessage("Green")
+	@Description("Text for color choice 'Green'")
+	String greenColor();
 
-  @DefaultMessage("Red")
-  @Description("Text for color choice 'Red'")
-  String redColor();
+	@DefaultMessage("Dark Green")
+	@Description("Text for color choice 'Dark Green'")
+	String darkGreenColor();
 
-  @DefaultMessage("White")
-  @Description("Text for color choice 'White'")
-  String whiteColor();
+	@DefaultMessage("Light Gray")
+	@Description("Text for color choice 'Light Gray'")
+	String lightGrayColor();
 
-  @DefaultMessage("Yellow")
-  @Description("Text for color choice 'Yellow'")
-  String yellowColor();
+	@DefaultMessage("Magenta")
+	@Description("Text for color choice 'Magenta'")
+	String magentaColor();
 
-  // Used in editor/youngandroid/properties/YoungAndroidFontTypefaceChoicePropertyEditor.java
+	@DefaultMessage("Orange")
+	@Description("Text for color choice 'Orange'")
+	String orangeColor();
 
-  @DefaultMessage("default")
-  @Description("Text for font typeface choice 'default '")
-  String defaultFontTypeface();
+	@DefaultMessage("Pink")
+	@Description("Text for color choice 'Pink'")
+	String pinkColor();
 
-  @DefaultMessage("sans serif")
-  @Description("Text for font typeface choice 'sans serif '")
-  String sansSerifFontTypeface();
+	@DefaultMessage("Red")
+	@Description("Text for color choice 'Red'")
+	String redColor();
 
-  @DefaultMessage("serif")
-  @Description("Text for font typeface choice 'serif '")
-  String serifFontTypeface();
+	@DefaultMessage("White")
+	@Description("Text for color choice 'White'")
+	String whiteColor();
 
-  @DefaultMessage("monospace")
-  @Description("Text for font typeface choice 'monospace '")
-  String monospaceFontTypeface();
+	@DefaultMessage("Yellow")
+	@Description("Text for color choice 'Yellow'")
+	String yellowColor();
 
-  // Used in editor/youngandroid/properties/YoungAndroidLengthPropertyEditor.java
+	// Used in
+	// editor/youngandroid/properties/YoungAndroidFontTypefaceChoicePropertyEditor.java
 
-  @DefaultMessage("Automatic")
-  @Description("Caption and summary for Automatic choice")
-  String automaticCaption();
+	@DefaultMessage("default")
+	@Description("Text for font typeface choice 'default '")
+	String defaultFontTypeface();
 
-  @DefaultMessage("Fill parent")
-  @Description("Caption and summary for Fill Parent choice")
-  String fillParentCaption();
+	@DefaultMessage("sans serif")
+	@Description("Text for font typeface choice 'sans serif '")
+	String sansSerifFontTypeface();
 
-  @DefaultMessage("percent")
-  @Description("Caption for percent label")
-  String percentCaption();
+	@DefaultMessage("serif")
+	@Description("Text for font typeface choice 'serif '")
+	String serifFontTypeface();
 
-  @DefaultMessage("pixels")
-  @Description("Caption for pixels label")
-  String pixelsCaption();
+	@DefaultMessage("monospace")
+	@Description("Text for font typeface choice 'monospace '")
+	String monospaceFontTypeface();
 
-  @DefaultMessage("{0} pixels")
-  @Description("Summary for custom length in pixels")
-  String pixelsSummary(String pixels);
+	// Used in
+	// editor/youngandroid/properties/YoungAndroidLengthPropertyEditor.java
 
-  @DefaultMessage("{0} percent")
-  @Description("Summary for length in percent")
-  String percentSummary(String percent);
+	@DefaultMessage("Automatic")
+	@Description("Caption and summary for Automatic choice")
+	String automaticCaption();
 
-  @DefaultMessage("The value must be an integer greater than or equal to 0")
-  @Description("Error shown after validation of custom length field failed.")
-  String nonnumericInputError();
+	@DefaultMessage("Fill parent")
+	@Description("Caption and summary for Fill Parent choice")
+	String fillParentCaption();
 
-  @DefaultMessage("Percentage input values should be between 1 and 100")
-  @Description("Error shown after validation of percentage input fields.")
-  String nonvalidPercentValue();
+	@DefaultMessage("percent")
+	@Description("Caption for percent label")
+	String percentCaption();
 
-  // Used in editor/youngandroid/properties/YoungAndroidScreenAnimationChoicePropertyEditor.java
+	@DefaultMessage("pixels")
+	@Description("Caption for pixels label")
+	String pixelsCaption();
 
-  @DefaultMessage("Default")
-  @Description("Text for screen animation choice 'Default '")
-  String defaultScreenAnimation();
+	@DefaultMessage("{0} pixels")
+	@Description("Summary for custom length in pixels")
+	String pixelsSummary(String pixels);
 
-  @DefaultMessage("Fade")
-  @Description("Text for screen animation choice 'Fade '")
-  String fadeScreenAnimation();
+	@DefaultMessage("{0} percent")
+	@Description("Summary for length in percent")
+	String percentSummary(String percent);
 
-  @DefaultMessage("Zoom")
-  @Description("Text for screen animation choice 'Zoom '")
-  String zoomScreenAnimation();
+	@DefaultMessage("The value must be an integer greater than or equal to 0")
+	@Description("Error shown after validation of custom length field failed.")
+	String nonnumericInputError();
 
-  @DefaultMessage("SlideHorizontal")
-  @Description("Text for screen animation choice 'SlideHorizontal '")
-  String slideHorizontalScreenAnimation();
+	@DefaultMessage("Percentage input values should be between 1 and 100")
+	@Description("Error shown after validation of percentage input fields.")
+	String nonvalidPercentValue();
 
-  @DefaultMessage("SlideVertical")
-  @Description("Text for screen animation choice 'SlideVertical '")
-  String slideVerticalScreenAnimation();
+	// Used in
+	// editor/youngandroid/properties/YoungAndroidScreenAnimationChoicePropertyEditor.java
 
-  @DefaultMessage("None")
-  @Description("Text for screen animation choice 'None '")
-  String noneScreenAnimation();
+	@DefaultMessage("Default")
+	@Description("Text for screen animation choice 'Default '")
+	String defaultScreenAnimation();
 
-  // Used in editor/youngandroid/properties/YoungAndroidScreenOrientationChoicePropertyEditor.java
+	@DefaultMessage("Fade")
+	@Description("Text for screen animation choice 'Fade '")
+	String fadeScreenAnimation();
 
-  @DefaultMessage("Unspecified")
-  @Description("Text for screen orientation choice 'Unspecified '")
-  String unspecifiedScreenOrientation();
+	@DefaultMessage("Zoom")
+	@Description("Text for screen animation choice 'Zoom '")
+	String zoomScreenAnimation();
 
-  @DefaultMessage("Portrait")
-  @Description("Text for screen orientation choice 'Portrait '")
-  String portraitScreenOrientation();
+	@DefaultMessage("SlideHorizontal")
+	@Description("Text for screen animation choice 'SlideHorizontal '")
+	String slideHorizontalScreenAnimation();
 
-  @DefaultMessage("Landscape")
-  @Description("Text for screen orientation choice 'Landscape '")
-  String landscapeScreenOrientation();
+	@DefaultMessage("SlideVertical")
+	@Description("Text for screen animation choice 'SlideVertical '")
+	String slideVerticalScreenAnimation();
 
-  @DefaultMessage("Sensor")
-  @Description("Text for screen orientation choice 'Sensor '")
-  String sensorScreenOrientation();
+	@DefaultMessage("None")
+	@Description("Text for screen animation choice 'None '")
+	String noneScreenAnimation();
 
-  @DefaultMessage("User")
-  @Description("Text for screen orientation choice 'User '")
-  String userScreenOrientation();
+	// Used in
+	// editor/youngandroid/properties/YoungAndroidScreenOrientationChoicePropertyEditor.java
 
-  // Used in editor/youngandroid/properties/YoungAndroidToastLengthChoicePropertyEditor.java
+	@DefaultMessage("Unspecified")
+	@Description("Text for screen orientation choice 'Unspecified '")
+	String unspecifiedScreenOrientation();
 
-  @DefaultMessage("Short")
-  @Description("Show toast for a Toast_Short of time")
-  String shortToastLength();
+	@DefaultMessage("Portrait")
+	@Description("Text for screen orientation choice 'Portrait '")
+	String portraitScreenOrientation();
 
-  @DefaultMessage("Long")
-  @Description("Show toast for a Toast_Long of time")
-  String longToastLength();
+	@DefaultMessage("Landscape")
+	@Description("Text for screen orientation choice 'Landscape '")
+	String landscapeScreenOrientation();
 
-  // Used in explorer/SourceStructureExplorer.java
+	@DefaultMessage("Sensor")
+	@Description("Text for screen orientation choice 'Sensor '")
+	String sensorScreenOrientation();
 
-  @DefaultMessage("Rename")
-  @Description("Label of the button for rename")
-  String renameButton();
+	@DefaultMessage("User")
+	@Description("Text for screen orientation choice 'User '")
+	String userScreenOrientation();
 
-  // Used in explorer/commands/AddFormCommand.java
+	// Used in
+	// editor/youngandroid/properties/YoungAndroidToastLengthChoicePropertyEditor.java
 
-  @DefaultMessage("Add")
-  @Description("Text on 'Add' button to continue with screen creation.")
-  String addScreenButton();
+	@DefaultMessage("Short")
+	@Description("Show toast for a Toast_Short of time")
+	String shortToastLength();
 
-  @DefaultMessage("Do Not Add")
-  @Description("Text on 'Dont Add' button to dismiss screen creation.")
-  String cancelScreenButton();
+	@DefaultMessage("Long")
+	@Description("Show toast for a Toast_Long of time")
+	String longToastLength();
 
-  @DefaultMessage("New Screen")
-  @Description("Title of new Screen dialog.")
-  String newFormTitle();
+	// Used in explorer/SourceStructureExplorer.java
 
-  @DefaultMessage("Screen name:")
-  @Description("Label in front of name in new screen dialog.")
-  String formNameLabel();
+	@DefaultMessage("Rename")
+	@Description("Label of the button for rename")
+	String renameButton();
 
-  @DefaultMessage("WARNING: The number of screens in this app might exceed the limits of App Inventor. " +
-                  "Click <a target=\"_blank\" href=\"/reference/other/manyscreens.html\">here</a> for advice about " +
-                  "creating apps with many screens. " +
-                  "<p>Do you really want to add another screen?</p>")
-  @Description("Label to indicate the application has too many screens.")
-  String formCountErrorLabel();
+	// Used in explorer/commands/AddFormCommand.java
 
-  @DefaultMessage("Screen names can contain only letters, numbers, and underscores and must " +
-      "start with a letter")
-  @Description("Error message when form name contains non-alphanumeric characters besides _")
-  String malformedFormNameError();
+	@DefaultMessage("Add")
+	@Description("Text on 'Add' button to continue with screen creation.")
+	String addScreenButton();
 
-  @DefaultMessage("Duplicate Screen name!")
-  @Description("Error shown when a new form name would be the same as an existing one")
-  String duplicateFormNameError();
+	@DefaultMessage("Do Not Add")
+	@Description("Text on 'Dont Add' button to dismiss screen creation.")
+	String cancelScreenButton();
 
-  @DefaultMessage("Server error: could not add form. Please try again later!")
-  @Description("Error message reported when adding a form failed on the server.")
-  String addFormError();
+	@DefaultMessage("New Screen")
+	@Description("Title of new Screen dialog.")
+	String newFormTitle();
 
-  // Used in explorer/commands/BuildCommand.java, and
-  // explorer/commands/WaitForBuildResultCommand.java
+	@DefaultMessage("Screen name:")
+	@Description("Label in front of name in new screen dialog.")
+	String formNameLabel();
 
-  @DefaultMessage("Build of {0} requested at {1}.")
-  @Description("Message shown in the build output panel when a build is requested.")
-  String buildRequestedMessage(String projectName, String time);
+	@DefaultMessage("WARNING: The number of screens in this app might exceed the limits of App Inventor. "
+			+ "Click <a target=\"_blank\" href=\"/reference/other/manyscreens.html\">here</a> for advice about "
+			+ "creating apps with many screens. " + "<p>Do you really want to add another screen?</p>")
+	@Description("Label to indicate the application has too many screens.")
+	String formCountErrorLabel();
 
-  @DefaultMessage("Server error: could not build target. Please try again later!")
-  @Description("Error message reported when building a target failed on the server because of a " +
-      "network error.")
-  String buildError();
+	@DefaultMessage("Screen names can contain only letters, numbers, and underscores and must " + "start with a letter")
+	@Description("Error message when form name contains non-alphanumeric characters besides _")
+	String malformedFormNameError();
 
-  @DefaultMessage("Build failed!")
-  @Description("Error message reported when a build failed due to an error in the build pipeline.")
-  String buildFailedError();
+	@DefaultMessage("Duplicate Screen name!")
+	@Description("Error shown when a new form name would be the same as an existing one")
+	String duplicateFormNameError();
 
-  @DefaultMessage("The build server is currently busy. Please try again in a few minutes.")
-  @Description("Error message reported when the build server is temporarily too busy to accept " +
-      "a build request.")
-  String buildServerBusyError();
+	@DefaultMessage("Server error: could not add form. Please try again later!")
+	@Description("Error message reported when adding a form failed on the server.")
+	String addFormError();
 
-  @DefaultMessage("The build server is not compatible with this version of App Inventor.")
-  @Description("Error message reported when the build server is running a different version of " +
-      "the App Inventor code.")
-  String buildServerDifferentVersion();
+	// Used in explorer/commands/BuildCommand.java, and
+	// explorer/commands/WaitForBuildResultCommand.java
 
-  @DefaultMessage("Unable to generate code for {0}.")
-  @Description("Message displayed when an error occurs while generating YAIL for a form.")
-  String errorGeneratingYail(String formName);
+	@DefaultMessage("Build of {0} requested at {1}.")
+	@Description("Message shown in the build output panel when a build is requested.")
+	String buildRequestedMessage(String projectName, String time);
 
-  // Used in explorer/commands/CommandRegistory.java
+	@DefaultMessage("Server error: could not build target. Please try again later!")
+	@Description("Error message reported when building a target failed on the server because of a " + "network error.")
+	String buildError();
 
-  @DefaultMessage("Delete...")
-  @Description("Label for the context menu command that deletes a file")
-  String deleteFileCommand();
+	@DefaultMessage("Build failed!")
+	@Description("Error message reported when a build failed due to an error in the build pipeline.")
+	String buildFailedError();
 
-  @DefaultMessage("Download to my computer")
-  @Description("Label for the context menu command that downloads a file")
-  String downloadFileCommand();
+	@DefaultMessage("The build server is currently busy. Please try again in a few minutes.")
+	@Description("Error message reported when the build server is temporarily too busy to accept " + "a build request.")
+	String buildServerBusyError();
 
-  // Used in explorer/commands/CopyYoungAndroidProjectCommand.java
+	@DefaultMessage("The build server is not compatible with this version of App Inventor.")
+	@Description("Error message reported when the build server is running a different version of "
+			+ "the App Inventor code.")
+	String buildServerDifferentVersion();
 
-  @DefaultMessage("Checkpoint - {0}")
-  @Description("Title of checkpoint dialog.")
-  String checkpointTitle(String projectName);
+	@DefaultMessage("Unable to generate code for {0}.")
+	@Description("Message displayed when an error occurs while generating YAIL for a form.")
+	String errorGeneratingYail(String formName);
 
-  @DefaultMessage("Save As - {0}")
-  @Description("Title of save as dialog.")
-  String saveAsTitle(String projectName);
+	// Used in explorer/commands/CommandRegistory.java
 
-  @DefaultMessage("{0}_checkpoint{1}")
-  @Description("Default project name in checkoint dialog")
-  String defaultCheckpointProjectName(String projectName, String suffix);
+	@DefaultMessage("Delete...")
+	@Description("Label for the context menu command that deletes a file")
+	String deleteFileCommand();
 
-  @DefaultMessage("Previous checkpoints:")
-  @Description("Label for previous checkpoints table in checkpoint dialog.")
-  String previousCheckpointsLabel();
+	@DefaultMessage("Download to my computer")
+	@Description("Label for the context menu command that downloads a file")
+	String downloadFileCommand();
 
-  @DefaultMessage("{0}_copy")
-  @Description("Defaulf project name in save as dialog")
-  String defaultSaveAsProjectName(String projectName);
+	// Used in explorer/commands/CopyYoungAndroidProjectCommand.java
 
-  @DefaultMessage("Checkpoint name:")
-  @Description("Label in front of new name in checkpoint dialog.")
-  String checkpointNameLabel();
+	@DefaultMessage("Checkpoint - {0}")
+	@Description("Title of checkpoint dialog.")
+	String checkpointTitle(String projectName);
 
-  @DefaultMessage("Server error: could not copy project. Please try again later!")
-  @Description("Error message reported when copying a project failed on the server.")
-  String copyProjectError();
+	@DefaultMessage("Save As - {0}")
+	@Description("Title of save as dialog.")
+	String saveAsTitle(String projectName);
 
-  // Used in explorer/commands/DeleteFileCommand.java
+	@DefaultMessage("{0}_checkpoint{1}")
+	@Description("Default project name in checkoint dialog")
+	String defaultCheckpointProjectName(String projectName, String suffix);
 
-  @DefaultMessage("Do you really want to delete this file?  It will be removed from " +
-      "the App Inventor server.  Also, parts of your application may still refer to the deleted " +
-      "file, and you will need to change these.")
-  @Description("Confirmation message that will be shown before deleting a file")
-  String reallyDeleteFile();
+	@DefaultMessage("Previous checkpoints:")
+	@Description("Label for previous checkpoints table in checkpoint dialog.")
+	String previousCheckpointsLabel();
 
-  @DefaultMessage("Server error: could not delete the file. Please try again later!")
-  @Description("Error message reported when deleting a file failed on the server.")
-  String deleteFileError();
+	@DefaultMessage("{0}_copy")
+	@Description("Defaulf project name in save as dialog")
+	String defaultSaveAsProjectName(String projectName);
 
-  // Used in explorer/commands/EnsurePhoneConnectedCommand.java
+	@DefaultMessage("Checkpoint name:")
+	@Description("Label in front of new name in checkpoint dialog.")
+	String checkpointNameLabel();
 
-  @DefaultMessage("The phone is not connected.")
-  @Description("Error message displayed when the user wants to download a project to the phone, " +
-      "but the phone is not connected.")
-  String phoneNotConnected();
+	@DefaultMessage("Server error: could not copy project. Please try again later!")
+	@Description("Error message reported when copying a project failed on the server.")
+	String copyProjectError();
 
-  // Used in explorer/commands/ShowBarcodeCommand.java
+	// Used in explorer/commands/DeleteFileCommand.java
 
-  @DefaultMessage("Barcode link for {0}")
-  @Description("Title of barcode dialog.")
-  String barcodeTitle(String projectName);
+	@DefaultMessage("Do you really want to delete this file?  It will be removed from "
+			+ "the App Inventor server.  Also, parts of your application may still refer to the deleted "
+			+ "file, and you will need to change these.")
+	@Description("Confirmation message that will be shown before deleting a file")
+	String reallyDeleteFile();
 
-  @DefaultMessage("Note: this barcode is only valid for 2 hours. See {0} the FAQ {1} for info " +
-      "on how to share your app with others.")
-  @Description("Warning in barcode dialog.")
-  String barcodeWarning(String aTagStart, String aTagEnd);
+	@DefaultMessage("Server error: could not delete the file. Please try again later!")
+	@Description("Error message reported when deleting a file failed on the server.")
+	String deleteFileError();
 
-  // Used in explorer/project/Project.java
+	// Used in explorer/commands/EnsurePhoneConnectedCommand.java
 
-  @DefaultMessage("Server error: could not load project. Please try again later!")
-  @Description("Error message reported when a project could not be loaded from the server.")
-  String projectLoadError();
+	@DefaultMessage("The phone is not connected.")
+	@Description("Error message displayed when the user wants to download a project to the phone, "
+			+ "but the phone is not connected.")
+	String phoneNotConnected();
 
-  // Used in explorer/project/ProjectManager.java
+	// Used in explorer/commands/ShowBarcodeCommand.java
 
-  @DefaultMessage("Server error: could not retrieve project information. Please try again later!")
-  @Description("Error message reported when information about projects could not be retrieved " +
-      "from the server.")
-  String projectInformationRetrievalError();
+	@DefaultMessage("Barcode link for {0}")
+	@Description("Title of barcode dialog.")
+	String barcodeTitle(String projectName);
 
-  // Used in explorer/youngandroid/Toolbar.java
+	@DefaultMessage("Note: this barcode is only valid for 2 hours. See {0} the FAQ {1} for info "
+			+ "on how to share your app with others.")
+	@Description("Warning in barcode dialog.")
+	String barcodeWarning(String aTagStart, String aTagEnd);
 
-  @DefaultMessage("It may take a little while for your projects to be downloaded. " +
-      "Please be patient...")
-  @Description("Warning that downloading projects will take a while")
-  String downloadAllAlert();
+	// Used in explorer/project/Project.java
 
-  @DefaultMessage("More Actions")
-  @Description("Label of the button leading to more cascade items")
-  String moreActionsButton();
+	@DefaultMessage("Server error: could not load project. Please try again later!")
+	@Description("Error message reported when a project could not be loaded from the server.")
+	String projectLoadError();
 
-  @DefaultMessage("Download User Source")
-  @Description("Title of the dialog box for downloading a user's project source")
-  String downloadUserSourceDialogTitle();
+	// Used in explorer/project/ProjectManager.java
 
-  @DefaultMessage("User id or email (case-sensitive):")
-  @Description("Label for the user id input text box")
-  String userIdLabel();
+	@DefaultMessage("Server error: could not retrieve project information. Please try again later!")
+	@Description("Error message reported when information about projects could not be retrieved " + "from the server.")
+	String projectInformationRetrievalError();
 
-  @DefaultMessage("Project id or name:")
-  @Description("Label for the project id input text box")
-  String projectIdLabel();
+	// Used in explorer/youngandroid/Toolbar.java
 
-  @DefaultMessage("Please specify both a user email address or id and a project name or id " +
-      "for the project to be downloaded. Ids are numeric and may come from the system " +
-      "logs or from browsing the Datastore. If you use an email address, it must match " +
-      "exactly the stored email address in the Datastore. Similarly, project names must " +
-      "match exactly. Both are case sensitive.")
-  @Description("Error message reported when user id or project id is missing")
-  String invalidUserIdOrProjectIdError();
+	@DefaultMessage("It may take a little while for your projects to be downloaded. " + "Please be patient...")
+	@Description("Warning that downloading projects will take a while")
+	String downloadAllAlert();
 
-  @DefaultMessage("Please select a project to delete")
-  @Description("Error message displayed when no project is selected")
-  String noProjectSelectedForDelete();
+	@DefaultMessage("More Actions")
+	@Description("Label of the button leading to more cascade items")
+	String moreActionsButton();
 
-  @DefaultMessage("Are you really sure you want to delete this project: {0}")
-  @Description("Confirmation message for selecting a single project and clicking delete")
-  String confirmDeleteSingleProject(String projectName);
+	@DefaultMessage("Download User Source")
+	@Description("Title of the dialog box for downloading a user's project source")
+	String downloadUserSourceDialogTitle();
 
-  @DefaultMessage("Are you really sure you want to delete this project: {0}?"+
-      " Note that the published copy of this project will be removed from the gallery as well.")
-  @Description("Confirmation message for selecting a single project and clicking delete when gallery is on")
-  String confirmDeleteSinglePublishedProject(String projectName);
+	@DefaultMessage("User id or email (case-sensitive):")
+	@Description("Label for the user id input text box")
+	String userIdLabel();
 
-  @DefaultMessage("Are you really sure you want to delete these projects: {0}?")
-  @Description("Confirmation message for selecting multiple projects and clicking delete")
-  String confirmDeleteManyProjects(String projectNames);
+	@DefaultMessage("Project id or name:")
+	@Description("Label for the project id input text box")
+	String projectIdLabel();
 
-  @DefaultMessage("Are you really sure you want to delete these projects: {0}?"+
-      " Note that if any of the projects have been published, the published version in"+
-      " the gallery will be removed as well.")
-  @Description("Confirmation message for selecting multiple projects and clicking delete when gallery is on")
-  String confirmDeleteManyProjectsWithGalleryOn(String projectNames);
+	@DefaultMessage("Please specify both a user email address or id and a project name or id "
+			+ "for the project to be downloaded. Ids are numeric and may come from the system "
+			+ "logs or from browsing the Datastore. If you use an email address, it must match "
+			+ "exactly the stored email address in the Datastore. Similarly, project names must "
+			+ "match exactly. Both are case sensitive.")
+	@Description("Error message reported when user id or project id is missing")
+	String invalidUserIdOrProjectIdError();
 
-  @DefaultMessage("Server error: could not delete project. Please try again later!")
-  @Description("Error message reported when deleting a project failed on the server.")
-  String deleteProjectError();
+	@DefaultMessage("Please select a project to delete")
+	@Description("Error message displayed when no project is selected")
+	String noProjectSelectedForDelete();
 
-  @DefaultMessage("One project must be selected.")
-  @Description("Error message displayed when no or many projects are selected")
-  String wrongNumberProjectsSelected();
+	@DefaultMessage("Are you really sure you want to delete this project: {0}")
+	@Description("Confirmation message for selecting a single project and clicking delete")
+	String confirmDeleteSingleProject(String projectName);
 
-  @DefaultMessage("Please select only one project to publish or update")
-  @Description("Error message displayed when zero or more than one projects are selected")
-  String wrongNumberProjectSelectedForPublishOrUpdate();
+	@DefaultMessage("Are you really sure you want to delete this project: {0}?"
+			+ " Note that the published copy of this project will be removed from the gallery as well.")
+	@Description("Confirmation message for selecting a single project and clicking delete when gallery is on")
+	String confirmDeleteSinglePublishedProject(String projectName);
 
-  @DefaultMessage("Server error: could not download your keystore file.")
-  @Description("Error message displayed when a server error occurs during download keystore")
-  String downloadKeystoreError();
+	@DefaultMessage("Are you really sure you want to delete these projects: {0}?")
+	@Description("Confirmation message for selecting multiple projects and clicking delete")
+	String confirmDeleteManyProjects(String projectNames);
 
-  @DefaultMessage("There is no keystore file to download.")
-  @Description("Error message displayed when no keystore file exists")
-  String noKeystoreToDownload();
+	@DefaultMessage("Are you really sure you want to delete these projects: {0}?"
+			+ " Note that if any of the projects have been published, the published version in"
+			+ " the gallery will be removed as well.")
+	@Description("Confirmation message for selecting multiple projects and clicking delete when gallery is on")
+	String confirmDeleteManyProjectsWithGalleryOn(String projectNames);
 
-  @DefaultMessage("Server error: could not upload your keystore file.")
-  @Description("Error message displayed when a server error occurs during upload keystore")
-  String uploadKeystoreError();
+	@DefaultMessage("Server error: could not delete project. Please try again later!")
+	@Description("Error message reported when deleting a project failed on the server.")
+	String deleteProjectError();
 
-  @DefaultMessage("Do you want to overwrite your keystore file?\n\n" +
-      "If you agree, your old keystore file will be completely removed from the App Inventor " +
-      "server.\n\n" +
-      "If you have published applications to the Google Play Store using the keystore you are " +
-      "about to overwrite, you will lose the ability to update your applications.\n\n" +
-      "Any projects that you package in the future will be signed using your new keystore file. " +
-      "Changing the keystore affects the ability to reinstall previously installed apps. If you " +
-      "are not sure that you want to do this, please read the documentation about keystores by " +
-      "clicking above on \"Help\", then \"Troubleshooting\", and then \"Keystores and Signing " +
-      "of Applications\"\n\n" +
-      "There is no undo for overwriting your keystore file.")
-  @Description("Confirmation message shown when keystore is about to be overwritten.")
-  String confirmOverwriteKeystore();
+	@DefaultMessage("One project must be selected.")
+	@Description("Error message displayed when no or many projects are selected")
+	String wrongNumberProjectsSelected();
 
-  @DefaultMessage("Server error: could not delete your keystore file.")
-  @Description("Error message reported when a server error occurs during delete keystore")
-  String deleteKeystoreError();
+	@DefaultMessage("Please select only one project to publish or update")
+	@Description("Error message displayed when zero or more than one projects are selected")
+	String wrongNumberProjectSelectedForPublishOrUpdate();
 
-  @DefaultMessage("Do you really want to delete your keystore file?\n\n" +
-      "If you agree, your old keystore file will be completely removed from the App Inventor " +
-      "server. A new, but different, keystore file will be created automatically the next time " +
-      "you package a project for the phone.\n\n" +
-      "If you have published applications to the Google Play Store using the keystore you are " +
-      "about to delete, you will lose the ability to update your applications.\n\n" +
-      "Any projects that you package in the future will be signed using your new keystore file. " +
-      "Changing the keystore affects the ability to reinstall previously installed apps. If you " +
-      "are not sure that you want to do this, please read the documentation about keystores by " +
-      "clicking above on \"Help\", then \"Troubleshooting\", and then \"Keystores and Signing " +
-      "of Applications\"\n\n" +
-      "There is no undo for deleting your keystore file.")
-  @Description("Confirmation message for delete keystore")
-  String confirmDeleteKeystore();
+	@DefaultMessage("Server error: could not download your keystore file.")
+	@Description("Error message displayed when a server error occurs during download keystore")
+	String downloadKeystoreError();
 
-  // Used in output/OdeLog.java
+	@DefaultMessage("There is no keystore file to download.")
+	@Description("Error message displayed when no keystore file exists")
+	String noKeystoreToDownload();
 
-  @DefaultMessage("Clear")
-  @Description("Text on 'Clear' button")
-  String clearButton();
+	@DefaultMessage("Server error: could not upload your keystore file.")
+	@Description("Error message displayed when a server error occurs during upload keystore")
+	String uploadKeystoreError();
 
-  // Used in settings/CommonSettings.java, settings/project/ProjectSettings.java, and
-  // settings/user/UserSettings.java
+	@DefaultMessage("Do you want to overwrite your keystore file?\n\n"
+			+ "If you agree, your old keystore file will be completely removed from the App Inventor " + "server.\n\n"
+			+ "If you have published applications to the Google Play Store using the keystore you are "
+			+ "about to overwrite, you will lose the ability to update your applications.\n\n"
+			+ "Any projects that you package in the future will be signed using your new keystore file. "
+			+ "Changing the keystore affects the ability to reinstall previously installed apps. If you "
+			+ "are not sure that you want to do this, please read the documentation about keystores by "
+			+ "clicking above on \"Help\", then \"Troubleshooting\", and then \"Keystores and Signing "
+			+ "of Applications\"\n\n" + "There is no undo for overwriting your keystore file.")
+	@Description("Confirmation message shown when keystore is about to be overwritten.")
+	String confirmOverwriteKeystore();
 
-  @DefaultMessage("Server error: could not load settings. Please try again later!")
-  @Description("Error message reported when the settings couldn't be loaded from the server.")
-  String settingsLoadError();
+	@DefaultMessage("Server error: could not delete your keystore file.")
+	@Description("Error message reported when a server error occurs during delete keystore")
+	String deleteKeystoreError();
 
-  @DefaultMessage("Server error: could not save settings. Please try again later!")
-  @Description("Error message reported when the settings couldn't be saved to the server.")
-  String settingsSaveError();
+	@DefaultMessage("Do you really want to delete your keystore file?\n\n"
+			+ "If you agree, your old keystore file will be completely removed from the App Inventor "
+			+ "server. A new, but different, keystore file will be created automatically the next time "
+			+ "you package a project for the phone.\n\n"
+			+ "If you have published applications to the Google Play Store using the keystore you are "
+			+ "about to delete, you will lose the ability to update your applications.\n\n"
+			+ "Any projects that you package in the future will be signed using your new keystore file. "
+			+ "Changing the keystore affects the ability to reinstall previously installed apps. If you "
+			+ "are not sure that you want to do this, please read the documentation about keystores by "
+			+ "clicking above on \"Help\", then \"Troubleshooting\", and then \"Keystores and Signing "
+			+ "of Applications\"\n\n" + "There is no undo for deleting your keystore file.")
+	@Description("Confirmation message for delete keystore")
+	String confirmDeleteKeystore();
 
-  // Used in widgets/boxes/Box.java
+	// Used in output/OdeLog.java
 
-  @DefaultMessage("Done")
-  @Description("Caption for button to finish the box resizing dialog.")
-  String done();
+	@DefaultMessage("Clear")
+	@Description("Text on 'Clear' button")
+	String clearButton();
 
-  @DefaultMessage("Close")
-  @Description("Tool tip text for header icon for closing/removing a minimized box.")
-  String hdrClose();
+	// Used in settings/CommonSettings.java,
+	// settings/project/ProjectSettings.java, and
+	// settings/user/UserSettings.java
 
-  @DefaultMessage("Shrink")
-  @Description("Tool tip text for header icon for minimizing the box.")
-  String hdrMinimize();
+	@DefaultMessage("Server error: could not load settings. Please try again later!")
+	@Description("Error message reported when the settings couldn't be loaded from the server.")
+	String settingsLoadError();
 
-  @DefaultMessage("Settings")
-  @Description("Tool tip text for header icon for context menu of box.")
-  String hdrSettings();
+	@DefaultMessage("Server error: could not save settings. Please try again later!")
+	@Description("Error message reported when the settings couldn't be saved to the server.")
+	String settingsSaveError();
 
-  @DefaultMessage("Shrink")
-  @Description("Caption for context menu item for minimizing the box.")
-  String cmMinimize();
+	// Used in widgets/boxes/Box.java
 
-  @DefaultMessage("Expand")
-  @Description("Caption for context menu item for restoring a minimized box.")
-  String cmRestore();
+	@DefaultMessage("Done")
+	@Description("Caption for button to finish the box resizing dialog.")
+	String done();
 
-  @DefaultMessage("Resize...")
-  @Description("Caption for context menu item for resizing the box.")
-  String cmResize();
+	@DefaultMessage("Close")
+	@Description("Tool tip text for header icon for closing/removing a minimized box.")
+	String hdrClose();
 
-  @DefaultMessage("Expand")
-  @Description("Tool tip text for header icon for restoring a minimized box.")
-  String hdrRestore();
+	@DefaultMessage("Shrink")
+	@Description("Tool tip text for header icon for minimizing the box.")
+	String hdrMinimize();
 
-  // Used in widgets/properties/FloatPropertyEditor.java
+	@DefaultMessage("Settings")
+	@Description("Tool tip text for header icon for context menu of box.")
+	String hdrSettings();
 
-  @DefaultMessage("{0} is not a legal number")
-  @Description("Error shown after validation of float failed.")
-  String notAFloat(String nonNumericText);
+	@DefaultMessage("Shrink")
+	@Description("Caption for context menu item for minimizing the box.")
+	String cmMinimize();
 
-  // Used in widgets/properties/IntegerPropertyEditor.java
+	@DefaultMessage("Expand")
+	@Description("Caption for context menu item for restoring a minimized box.")
+	String cmRestore();
 
-  @DefaultMessage("{0} is not a legal integer")
-  @Description("Error shown after validation of integer failed.")
-  String notAnInteger(String nonNumericText);
+	@DefaultMessage("Resize...")
+	@Description("Caption for context menu item for resizing the box.")
+	String cmResize();
 
-  // Used in widgets/properties/TextPropertyEditor.java
+	@DefaultMessage("Expand")
+	@Description("Tool tip text for header icon for restoring a minimized box.")
+	String hdrRestore();
 
-  @DefaultMessage("Malformed input!")
-  @Description("Error shown after validation of input text failed.")
-  String malformedInputError();
+	// Used in widgets/properties/FloatPropertyEditor.java
 
-  // Used in wizards/FileUploadWizard.java
+	@DefaultMessage("{0} is not a legal number")
+	@Description("Error shown after validation of float failed.")
+	String notAFloat(String nonNumericText);
 
-  @DefaultMessage("Upload File ...")
-  @Description("Caption for file upload wizard.")
-  String fileUploadWizardCaption();
+	// Used in widgets/properties/IntegerPropertyEditor.java
 
-  @DefaultMessage("Error: Malformed Filename")
-  @Description("Error message when file name contains characters that would require URL encoding.")
-  String malformedFilenameTitle();
+	@DefaultMessage("{0} is not a legal integer")
+	@Description("Error shown after validation of integer failed.")
+	String notAnInteger(String nonNumericText);
 
-  @DefaultMessage("File names can contain only unaccented letters, numbers, and the characters " +
-      "\"-\", \"_\", \".\", \"!\", \"~\", \"*\", \"(\", and \")\"")
-  @Description("Error message when file name contains characters that would require URL encoding.")
-  String malformedFilename();
+	// Used in widgets/properties/TextPropertyEditor.java
 
-  @DefaultMessage("Error: Bad Filename Size")
-  @Description("Error message when filenames are 0 or 101+ characters long")
-  String filenameBadSizeTitle();
+	@DefaultMessage("Malformed input!")
+	@Description("Error shown after validation of input text failed.")
+	String malformedInputError();
 
-  @DefaultMessage("File names must be between 1 and 100 characters.")
-  @Description("Error message when filenames are 0 or 101+ characters long")
-  String filenameBadSize();
+	// Used in wizards/FileUploadWizard.java
 
-  @DefaultMessage("Uploading {0} to the App Inventor server")
-  @Description("Message displayed when an asset is uploaded.")
-  String fileUploadingMessage(String filename);
+	@DefaultMessage("Upload File ...")
+	@Description("Caption for file upload wizard.")
+	String fileUploadWizardCaption();
 
-  @DefaultMessage("Server error: could not upload file. Please try again later!")
-  @Description("Error message reported when a file couldn't be uploaded to the server.")
-  String fileUploadError();
+	@DefaultMessage("Error: Malformed Filename")
+	@Description("Error message when file name contains characters that would require URL encoding.")
+	String malformedFilenameTitle();
 
-  @DefaultMessage("Error: could not upload file because it is too large")
-  @Description("Error message reported when a file couldn't be uploaded because of its size.")
-  String fileTooLargeError();
+	@DefaultMessage("File names can contain only unaccented letters, numbers, and the characters "
+			+ "\"-\", \"_\", \".\", \"!\", \"~\", \"*\", \"(\", and \")\"")
+	@Description("Error message when file name contains characters that would require URL encoding.")
+	String malformedFilename();
 
-  @DefaultMessage("Error: No File Selected")
-  @Description("Error message reported when a file was not selected.")
-  String noFileSelectedTitle();
+	@DefaultMessage("Error: Bad Filename Size")
+	@Description("Error message when filenames are 0 or 101+ characters long")
+	String filenameBadSizeTitle();
 
-  @DefaultMessage("Please select a file to upload.")
-  @Description("Error message reported when a file was not selected.")
-  String noFileSelected();
+	@DefaultMessage("File names must be between 1 and 100 characters.")
+	@Description("Error message when filenames are 0 or 101+ characters long")
+	String filenameBadSize();
 
-  @DefaultMessage("Error: Cannot upload .aia file as media asset")
-  @Description("Error message when user tries to upload aia file as media asset")
-  String aiaMediaAssetTitle();
+	@DefaultMessage("Uploading {0} to the App Inventor server")
+	@Description("Message displayed when an asset is uploaded.")
+	String fileUploadingMessage(String filename);
 
-  @DefaultMessage("To use this file, click Projects > Import project (.aia) from" +
-    " my computer ...")
-  @Description("Error message when user tries to upload aia file as media asset")
-  String aiaMediaAsset();
+	@DefaultMessage("Server error: could not upload file. Please try again later!")
+	@Description("Error message reported when a file couldn't be uploaded to the server.")
+	String fileUploadError();
 
-  @DefaultMessage("http://appinventor.mit.edu/explore/ai2/share.html")
-  @Description("URL for more info on using aia files properly")
-  String aiaMediaAssetHelp();
+	@DefaultMessage("Error: could not upload file because it is too large")
+	@Description("Error message reported when a file couldn't be uploaded because of its size.")
+	String fileTooLargeError();
 
-  @DefaultMessage("Request to save {1}" +
-      "\n\nA file named {0} already exists in this project." +
-      "\nDo you want to remove that old file?" +
-      "\nThis will also remove any other files whose " +
-      "names conflict with {1}.")
-  @Description("Confirmation message shown when conflicting files are about to be deleted.")
-  String confirmOverwrite(String newFile, String existingFile);
+	@DefaultMessage("Error: No File Selected")
+	@Description("Error message reported when a file was not selected.")
+	String noFileSelectedTitle();
 
-  // Used in wizards/KeystoreUploadWizard.java
+	@DefaultMessage("Please select a file to upload.")
+	@Description("Error message reported when a file was not selected.")
+	String noFileSelected();
 
-  @DefaultMessage("Upload Keystore...")
-  @Description("Caption for keystore upload wizard.")
-  String keystoreUploadWizardCaption();
+	@DefaultMessage("Error: Cannot upload .aia file as media asset")
+	@Description("Error message when user tries to upload aia file as media asset")
+	String aiaMediaAssetTitle();
 
-  @DefaultMessage("Server error: could not upload keystore. Please try again later!")
-  @Description("Error message reported when the keystore couldn't be uploaded to the server.")
-  String keystoreUploadError();
+	@DefaultMessage("To use this file, click Projects > Import project (.aia) from" + " my computer ...")
+	@Description("Error message when user tries to upload aia file as media asset")
+	String aiaMediaAsset();
 
-  @DefaultMessage("The selected file is not a keystore!")
-  @Description("Error message reported when the file selected for upload is not a keystore.")
-  String notKeystoreError();
+	@DefaultMessage("http://appinventor.mit.edu/explore/ai2/share.html")
+	@Description("URL for more info on using aia files properly")
+	String aiaMediaAssetHelp();
 
-  // Used in wizards/NewProjectWizard.java
+	@DefaultMessage("Request to save {1}" + "\n\nA file named {0} already exists in this project."
+			+ "\nDo you want to remove that old file?" + "\nThis will also remove any other files whose "
+			+ "names conflict with {1}.")
+	@Description("Confirmation message shown when conflicting files are about to be deleted.")
+	String confirmOverwrite(String newFile, String existingFile);
 
-  @DefaultMessage("Server error: could not create project. Please try again later!")
-  @Description("Error message reported when the project couldn't be created on the server.")
-  String createProjectError();
+	// Used in wizards/KeystoreUploadWizard.java
 
-  // Used in wizards/TemplateUploadWizard.java
+	@DefaultMessage("Upload Keystore...")
+	@Description("Caption for keystore upload wizard.")
+	String keystoreUploadWizardCaption();
 
-  @DefaultMessage("Create a Project from a Template")
-  @Description("Caption for template upload wizard.")
-  String templateUploadWizardCaption();
+	@DefaultMessage("Server error: could not upload keystore. Please try again later!")
+	@Description("Error message reported when the keystore couldn't be uploaded to the server.")
+	String keystoreUploadError();
 
-  @DefaultMessage("Add a New Template Library Url")
-  @Description("Caption for template dialog menu item.")
-  String templateUploadNewUrlCaption();
+	@DefaultMessage("The selected file is not a keystore!")
+	@Description("Error message reported when the file selected for upload is not a keystore.")
+	String notKeystoreError();
 
-  @DefaultMessage("Input a Url...")
-  @Description("Caption for input template url wizard.")
-  String inputNewUrlCaption();
+	// Used in wizards/NewProjectWizard.java
 
-  @DefaultMessage("Templates Url: ")
-  @Description("Label for template url wizard.")
-  String newUrlLabel();
-  // Used in wizards/ProjectUploadWizard.java
+	@DefaultMessage("Server error: could not create project. Please try again later!")
+	@Description("Error message reported when the project couldn't be created on the server.")
+	String createProjectError();
 
-  @DefaultMessage("Import Project...")
-  @Description("Caption for project upload wizard.")
-  String projectUploadWizardCaption();
+	// Used in wizards/TemplateUploadWizard.java
 
-  // Used in GalleryToolBar.java
-  @DefaultMessage("Search")
-  @Description("Text for gallery search button")
-  String gallerySearch();
+	@DefaultMessage("Create a Project from a Template")
+	@Description("Caption for template upload wizard.")
+	String templateUploadWizardCaption();
 
-  // Used in GalleryPage.java
-  @DefaultMessage("")
-  @Description("Text for gallery Empty Text")
-  String galleryEmptyText();
+	@DefaultMessage("Add a New Template Library Url")
+	@Description("Caption for template dialog menu item.")
+	String templateUploadNewUrlCaption();
 
-  @DefaultMessage("Feature")
-  @Description("Text for gallery Feature Text")
-  String galleryFeaturedText();
+	@DefaultMessage("Input a Url...")
+	@Description("Caption for input template url wizard.")
+	String inputNewUrlCaption();
 
-  @DefaultMessage("Unfeature")
-  @Description("Text for gallery Unfeature Text")
-  String galleryUnfeaturedText();
+	@DefaultMessage("Templates Url: ")
+	@Description("Label for template url wizard.")
+	String newUrlLabel();
+	// Used in wizards/ProjectUploadWizard.java
 
-  @DefaultMessage("Tutorial")
-  @Description("Text for gallery Tutorial  Text")
-  String galleryTutorialText();
+	@DefaultMessage("Import Project...")
+	@Description("Caption for project upload wizard.")
+	String projectUploadWizardCaption();
 
-  @DefaultMessage("Untutorial")
-  @Description("Text for gallery Untutorial Text")
-  String galleryUntutorialText();
+	// Used in GalleryToolBar.java
+	@DefaultMessage("Search")
+	@Description("Text for gallery search button")
+	String gallerySearch();
 
-  @DefaultMessage(" ")
-  @Description("Text for gallery Single Space Text")
-  String gallerySingleSpaceText();
+	// Used in GalleryPage.java
+	@DefaultMessage("")
+	@Description("Text for gallery Empty Text")
+	String galleryEmptyText();
 
-  @DefaultMessage("By Author")
-  @Description("Text for gallery By Author Text")
-  String galleryByAuthorText();
+	@DefaultMessage("Feature")
+	@Description("Text for gallery Feature Text")
+	String galleryFeaturedText();
 
-  @DefaultMessage("Open the App")
-  @Description("Text for gallery page open the app button")
-  String galleryOpenText();
+	@DefaultMessage("Unfeature")
+	@Description("Text for gallery Unfeature Text")
+	String galleryUnfeaturedText();
 
-  @DefaultMessage("Publish")
-  @Description("Text for gallery page publish button")
-  String galleryPublishText();
+	@DefaultMessage("Tutorial")
+	@Description("Text for gallery Tutorial  Text")
+	String galleryTutorialText();
 
-  @DefaultMessage("Update")
-  @Description("Text for gallery page update button")
-  String galleryUpdateText();
+	@DefaultMessage("Untutorial")
+	@Description("Text for gallery Untutorial Text")
+	String galleryUntutorialText();
 
-  @DefaultMessage("Remove")
-  @Description("Text for gallery page remove button")
-  String galleryRemoveText();
+	@DefaultMessage(" ")
+	@Description("Text for gallery Single Space Text")
+	String gallerySingleSpaceText();
 
-  @DefaultMessage("Are you really sure you want to remove this app from gallery?")
-  @Description("Text for remove confirm alert")
-  String galleryRemoveConfirmText();
+	@DefaultMessage("By Author")
+	@Description("Text for gallery By Author Text")
+	String galleryByAuthorText();
 
-  @DefaultMessage("Edit")
-  @Description("Text for gallery page edit button")
-  String galleryEditText();
+	@DefaultMessage("Open the App")
+	@Description("Text for gallery page open the app button")
+	String galleryOpenText();
 
-  @DefaultMessage("Cancel")
-  @Description("Text for gallery page cancel button")
-  String galleryCancelText();
+	@DefaultMessage("Publish")
+	@Description("Text for gallery page publish button")
+	String galleryPublishText();
 
-  @DefaultMessage("Please submit a screenshot or some other representative image before publishing your app")
-  @Description("Error messgage for when submitting galleryapp")
-  String galleryNoScreenShotMessage();
+	@DefaultMessage("Update")
+	@Description("Text for gallery page update button")
+	String galleryUpdateText();
 
-  @DefaultMessage("please provide a longer description before publishing your app")
-  @Description("Error messgage for when submitting galleryapp")
-  String galleryNotEnoughDescriptionMessage();
+	@DefaultMessage("Remove")
+	@Description("Text for gallery page remove button")
+	String galleryRemoveText();
 
-  @DefaultMessage("By ")
-  @Description("Text for gallery app developer prefix text label")
-  String galleryByDeveloperPrefixedText();
+	@DefaultMessage("Are you really sure you want to remove this app from gallery?")
+	@Description("Text for remove confirm alert")
+	String galleryRemoveConfirmText();
 
-  @DefaultMessage("Created Date: ")
-  @Description("Text for gallery page created date label")
-  String galleryCreatedDateLabel();
+	@DefaultMessage("Edit")
+	@Description("Text for gallery page edit button")
+	String galleryEditText();
 
-  @DefaultMessage("Changed Date: ")
-  @Description("Text for gallery page changed date label")
-  String galleryChangedDateLabel();
+	@DefaultMessage("Cancel")
+	@Description("Text for gallery page cancel button")
+	String galleryCancelText();
 
-  @DefaultMessage("Tutorial / Video: ")
-  @Description("Text for gallery page more info link label")
-  String galleryMoreInfoLabel();
+	@DefaultMessage("Please submit a screenshot or some other representative image before publishing your app")
+	@Description("Error messgage for when submitting galleryapp")
+	String galleryNoScreenShotMessage();
 
-  @DefaultMessage("Credits: ")
-  @Description("Text for gallery page credit label")
-  String galleryCreditLabel();
+	@DefaultMessage("please provide a longer description before publishing your app")
+	@Description("Error messgage for when submitting galleryapp")
+	String galleryNotEnoughDescriptionMessage();
 
-  @DefaultMessage("If this app has a tutorial or video, please enter the URL here.")
-  @Description("Text for gallery page more info link hint")
-  String galleryMoreInfoHint();
+	@DefaultMessage("By ")
+	@Description("Text for gallery app developer prefix text label")
+	String galleryByDeveloperPrefixedText();
 
-  @DefaultMessage("By submitting an app in the gallery, you are publishing " +
-    "it under a <a href=\"https://creativecommons.org/licenses/by/4.0/\" " +
-    "target=\"_blank\">Creative Commons Attribution License</a>, and " +
-    "affirming that you have the authority to do so.")
-  @Description("Reference to the Creative Commons License")
-  String galleryCcLicenseRef();
+	@DefaultMessage("Created Date: ")
+	@Description("Text for gallery page created date label")
+	String galleryCreatedDateLabel();
 
-  @DefaultMessage("Are you remixing code from other apps? Credit them here.")
-  @Description("Text for gallery page credit hint")
-  String galleryCreditHint();
+	@DefaultMessage("Changed Date: ")
+	@Description("Text for gallery page changed date label")
+	String galleryChangedDateLabel();
 
-  @DefaultMessage("Please write the description of the app here.")
-  @Description("Text for gallery page description hint")
-  String galleryDescriptionHint();
+	@DefaultMessage("Tutorial / Video: ")
+	@Description("Text for gallery page more info link label")
+	String galleryMoreInfoLabel();
 
-  @DefaultMessage("Opening ...")
-  @Description("Text for gallery page opening feedback")
-  String galleryAppOpening();
+	@DefaultMessage("Credits: ")
+	@Description("Text for gallery page credit label")
+	String galleryCreditLabel();
 
-  @DefaultMessage("Publishing ...")
-  @Description("Text for gallery page publishing feedback.")
-  String galleryAppPublishing();
+	@DefaultMessage("If this app has a tutorial or video, please enter the URL here.")
+	@Description("Text for gallery page more info link hint")
+	String galleryMoreInfoHint();
 
-  @DefaultMessage("Updating ...")
-  @Description("Text for gallery page updating feedback")
-  String galleryAppUpdating();
+	@DefaultMessage("By submitting an app in the gallery, you are publishing "
+			+ "it under a <a href=\"https://creativecommons.org/licenses/by/4.0/\" "
+			+ "target=\"_blank\">Creative Commons Attribution License</a>, and "
+			+ "affirming that you have the authority to do so.")
+	@Description("Reference to the Creative Commons License")
+	String galleryCcLicenseRef();
 
-  @DefaultMessage("Removing ...")
-  @Description("Text for gallery page removing feedback")
-  String galleryAppRemoving();
+	@DefaultMessage("Are you remixing code from other apps? Credit them here.")
+	@Description("Text for gallery page credit hint")
+	String galleryCreditHint();
 
-  @DefaultMessage("Like")
-  @Description("Text for gallery page like button (not liked yet).")
-  String galleryAppsLike();
+	@DefaultMessage("Please write the description of the app here.")
+	@Description("Text for gallery page description hint")
+	String galleryDescriptionHint();
 
-  @DefaultMessage("Unlike")
-  @Description("Text for gallery page like button (already liked).")
-  String galleryAppsAlreadyLike();
+	@DefaultMessage("Opening ...")
+	@Description("Text for gallery page opening feedback")
+	String galleryAppOpening();
 
-  @DefaultMessage("Apps developed by")
-  @Description("Title for the gallery page sidebar that shows list of apps of a specific author.")
-  String galleryAppsByAuthorSidebar();
+	@DefaultMessage("Publishing ...")
+	@Description("Text for gallery page publishing feedback.")
+	String galleryAppPublishing();
 
-  @DefaultMessage("Created on ")
-  @Description("Text prefix for the gallery app shared / created date.")
-  String galleryAppCreatedPrefix();
+	@DefaultMessage("Updating ...")
+	@Description("Text for gallery page updating feedback")
+	String galleryAppUpdating();
 
-  @DefaultMessage("Changed on ")
-  @Description("Text prefix for the gallery app last changed date.")
-  String galleryAppChangedPrefix();
+	@DefaultMessage("Removing ...")
+	@Description("Text for gallery page removing feedback")
+	String galleryAppRemoving();
 
-  @DefaultMessage("Remixed from: ")
-  @Description("Text prefix for the gallery app remixed from label.")
-  String galleryRemixedFrom();
+	@DefaultMessage("Like")
+	@Description("Text for gallery page like button (not liked yet).")
+	String galleryAppsLike();
 
-  @DefaultMessage("Click to view the remixes of this app!")
-  @Description("Text for the gallery app remix children list.")
-  String galleryRemixChildren();
+	@DefaultMessage("Unlike")
+	@Description("Text for gallery page like button (already liked).")
+	String galleryAppsAlreadyLike();
 
-  @DefaultMessage("Remixes of ")
-  @Description("Title prefix for the gallery page sidebar that shows list of remixed apps.")
-  String galleryAppsRemixesSidebar();
+	@DefaultMessage("Apps developed by")
+	@Description("Title for the gallery page sidebar that shows list of apps of a specific author.")
+	String galleryAppsByAuthorSidebar();
 
-  @DefaultMessage("Please explain why you feel this app is disrespectful or inappropriate, or otherwise breaks the <a href=\"http://google.com\">App Inventor Gallery Community Guidelines.</a> " +
-      "")
-  @Description("Prompt for the gallery app report section.")
-  String galleryReportPrompt();
+	@DefaultMessage("Created on ")
+	@Description("Text prefix for the gallery app shared / created date.")
+	String galleryAppCreatedPrefix();
 
-  @DefaultMessage("Copy and share link: ")
-  @Description("Prompt for the gallery app share section.")
-  String gallerySharePrompt();
+	@DefaultMessage("Changed on ")
+	@Description("Text prefix for the gallery app last changed date.")
+	String galleryAppChangedPrefix();
 
-  @DefaultMessage("Copy")
-  @Description("Button for copying share link to clipboard")
-  String galleryCopyButton();
+	@DefaultMessage("Remixed from: ")
+	@Description("Text prefix for the gallery app remixed from label.")
+	String galleryRemixedFrom();
 
-  @DefaultMessage("/?galleryId=")
-  @Description("redirect action of galleryId")
-  String galleryGalleryIdAction();
+	@DefaultMessage("Click to view the remixes of this app!")
+	@Description("Text for the gallery app remix children list.")
+	String galleryRemixChildren();
 
-  @DefaultMessage("\n\nVisit your app: {0}/?galleryId={1}")
-  @Description("gallery app link label")
-  String galleryVisitGalleryAppLinkLabel(String host, long galleryId);
+	@DefaultMessage("Remixes of ")
+	@Description("Title prefix for the gallery page sidebar that shows list of remixed apps.")
+	String galleryAppsRemixesSidebar();
 
-  @DefaultMessage("Submit report")
-  @Description("Text for the gallery app report button.")
-  String galleryReportButton();
+	@DefaultMessage("Please explain why you feel this app is disrespectful or inappropriate, or otherwise breaks the <a href=\"http://google.com\">App Inventor Gallery Community Guidelines.</a> "
+			+ "")
+	@Description("Prompt for the gallery app report section.")
+	String galleryReportPrompt();
 
-  @DefaultMessage("You reported this app. An administrator will process your report shortly.")
-  @Description("Prompt for the gallery app report section when user just submitted the report.")
-  String galleryReportCompletionPrompt();
+	@DefaultMessage("Copy and share link: ")
+	@Description("Prompt for the gallery app share section.")
+	String gallerySharePrompt();
 
-  @DefaultMessage("You already reported this app. An administrator will process your report shortly.")
-  @Description("Prompt for the gallery app report section if user has already reported.")
-  String galleryAlreadyReportedPrompt();
+	@DefaultMessage("Copy")
+	@Description("Button for copying share link to clipboard")
+	String galleryCopyButton();
 
-  @DefaultMessage("Server error: could not retrieve comments")
-  @Description("Error message reported when can't get gallery app comments on server.")
-  String galleryCommentError();
+	@DefaultMessage("/?galleryId=")
+	@Description("redirect action of galleryId")
+	String galleryGalleryIdAction();
 
-  @DefaultMessage("Server error: could not retrieve num of like")
-  @Description("Error message reported when can't get gallery app like on server.")
-  String galleryAppLikeError();
+	@DefaultMessage("\n\nVisit your app: {0}/?galleryId={1}")
+	@Description("gallery app link label")
+	String galleryVisitGalleryAppLinkLabel(String host, long galleryId);
 
-  @DefaultMessage("Server error: could not retrieve developer gallery apps from gallery")
-  @Description("Error message reported when can't get developer gallery apps on server.")
-  String galleryDeveloperAppError();
+	@DefaultMessage("Submit report")
+	@Description("Text for the gallery app report button.")
+	String galleryReportButton();
 
-  @DefaultMessage("Server error: could not retrieve featured apps from gallery")
-  @Description("Error message reported when can't get featured on server.")
-  String galleryFeaturedAppError();
+	@DefaultMessage("You reported this app. An administrator will process your report shortly.")
+	@Description("Prompt for the gallery app report section when user just submitted the report.")
+	String galleryReportCompletionPrompt();
 
-  @DefaultMessage("Server error: could not retrieve tutorial apps from gallery")
-  @Description("Error message reported when can't get tutorial on server.")
-  String galleryTutorialAppError();
+	@DefaultMessage("You already reported this app. An administrator will process your report shortly.")
+	@Description("Prompt for the gallery app report section if user has already reported.")
+	String galleryAlreadyReportedPrompt();
 
-  @DefaultMessage("Server error: could not complete a search of gallery")
-  @Description("Error message reported when can't search on server.")
-  String gallerySearchError();
+	@DefaultMessage("Server error: could not retrieve comments")
+	@Description("Error message reported when can't get gallery app comments on server.")
+	String galleryCommentError();
 
-  @DefaultMessage("Server error: could not get recent apps from gallery")
-  @Description("Error message reported when can't get recent apps server.")
-  String galleryRecentAppsError();
+	@DefaultMessage("Server error: could not retrieve num of like")
+	@Description("Error message reported when can't get gallery app like on server.")
+	String galleryAppLikeError();
 
-  @DefaultMessage("Server error: could not get most downloaded apps from gallery")
-  @Description("Error message reported when can't get most downloaded apps server.")
-  String galleryDownloadedAppsError();
+	@DefaultMessage("Server error: could not retrieve developer gallery apps from gallery")
+	@Description("Error message reported when can't get developer gallery apps on server.")
+	String galleryDeveloperAppError();
 
-  @DefaultMessage("Server error: could not get most liked apps from gallery")
-  @Description("Error message reported when can't get most liked apps server.")
-  String galleryLikedAppsError();
+	@DefaultMessage("Server error: could not retrieve featured apps from gallery")
+	@Description("Error message reported when can't get featured on server.")
+	String galleryFeaturedAppError();
 
-  @DefaultMessage("Server error: gallery deletion error")
-  @Description("Error message reported when the gallery delete breaks")
-  String galleryDeleteError();
+	@DefaultMessage("Server error: could not retrieve tutorial apps from gallery")
+	@Description("Error message reported when can't get tutorial on server.")
+	String galleryTutorialAppError();
 
-  @DefaultMessage("Server error: gallery error when setting project gallery id")
-  @Description("Error message reported when the gallery trying to set project gallery id")
-  String gallerySetProjectIdError();
+	@DefaultMessage("Server error: could not complete a search of gallery")
+	@Description("Error message reported when can't search on server.")
+	String gallerySearchError();
 
-  @DefaultMessage("Server error: could not upload project. Please try again later!")
-  @Description("Error message reported when a project couldn't be uploaded to the server.")
-  String projectUploadError();
+	@DefaultMessage("Server error: could not get recent apps from gallery")
+	@Description("Error message reported when can't get recent apps server.")
+	String galleryRecentAppsError();
 
-  @DefaultMessage("The selected project is not a project source file!\n" +
-      "Project source files are aia files.")
-  @Description("Error message reported when the file selected for upload is not a project archive.")
-  String notProjectArchiveError();
+	@DefaultMessage("Server error: could not get most downloaded apps from gallery")
+	@Description("Error message reported when can't get most downloaded apps server.")
+	String galleryDownloadedAppsError();
 
-  // Used in RemixedYoungAndroidProjectWizard.java
-  @DefaultMessage("Loading App ...")
-  @Description("loading indicator when opening the app")
-  String loadingAppIndicatorText();
+	@DefaultMessage("Server error: could not get most liked apps from gallery")
+	@Description("Error message reported when can't get most liked apps server.")
+	String galleryLikedAppsError();
 
-  // Used in ProfilePage.java
-  @DefaultMessage("Edit Profile")
-  @Description("Edit Profile Button, only seen by profile owner")
-  String buttonEditProfile();
+	@DefaultMessage("Server error: gallery deletion error")
+	@Description("Error message reported when the gallery delete breaks")
+	String galleryDeleteError();
 
-  @DefaultMessage("Update Profile")
-  @Description("Update Profile Button, only seen by profile owner")
-  String buttonUpdateProfile();
+	@DefaultMessage("Server error: gallery error when setting project gallery id")
+	@Description("Error message reported when the gallery trying to set project gallery id")
+	String gallerySetProjectIdError();
 
-  @DefaultMessage("Edit your profile")
-  @Description("label of editing your profile")
-  String labelEditYourProfile();
+	@DefaultMessage("Server error: could not upload project. Please try again later!")
+	@Description("Error message reported when a project couldn't be uploaded to the server.")
+	String projectUploadError();
 
-  @DefaultMessage("Your display name")
-  @Description("label of your display name")
-  String labelYourDisplayName();
+	@DefaultMessage("The selected project is not a project source file!\n" + "Project source files are aia files.")
+	@Description("Error message reported when the file selected for upload is not a project archive.")
+	String notProjectArchiveError();
 
-  @DefaultMessage("More info link")
-  @Description("label of more info link")
-  String labelMoreInfoLink();
+	// Used in RemixedYoungAndroidProjectWizard.java
+	@DefaultMessage("Loading App ...")
+	@Description("loading indicator when opening the app")
+	String loadingAppIndicatorText();
 
-  @DefaultMessage("App Inventor will send you a notification "
-      + "when the apps you have posted are liked or downloaded. "
-      + "Below, you can enable/disable this feature and you can "
-      + "specify how often you want to be notified")
-  @Description("label of email description")
-  String labelEmailDescription();
+	// Used in ProfilePage.java
+	@DefaultMessage("Edit Profile")
+	@Description("Edit Profile Button, only seen by profile owner")
+	String buttonEditProfile();
 
-  @DefaultMessage("Get email for every ")
-  @Description("label of email frequency prefix")
-  String labelEmailFrequencyPrefix();
+	@DefaultMessage("Update Profile")
+	@Description("Update Profile Button, only seen by profile owner")
+	String buttonUpdateProfile();
 
-  @DefaultMessage(" new Likes + Downloads")
-  @Description("label of email frequency suffix")
-  String labelEmailFrequencySuffix();
+	@DefaultMessage("Edit your profile")
+	@Description("label of editing your profile")
+	String labelEditYourProfile();
 
-  @DefaultMessage("Invalid Email Frequency: Must be an numeric and greater than 0")
-  @Description("error message of wrong email frequency")
-  String errorEmailFrequency();
+	@DefaultMessage("Your display name")
+	@Description("label of your display name")
+	String labelYourDisplayName();
 
-  // Used in GalleryList.java
-  @DefaultMessage("Search for Apps")
-  @Description("Search for Apps Text")
-  String gallerySearchForAppsButton();
+	@DefaultMessage("More info link")
+	@Description("label of more info link")
+	String labelMoreInfoLink();
 
-  @DefaultMessage("More Apps")
-  @Description("More Apps Text")
-  String galleryMoreApps();
+	@DefaultMessage("App Inventor will send you a notification "
+			+ "when the apps you have posted are liked or downloaded. "
+			+ "Below, you can enable/disable this feature and you can " + "specify how often you want to be notified")
+	@Description("label of email description")
+	String labelEmailDescription();
 
-  @DefaultMessage("search for \"")
-  @Description("Search Results Prefix")
-  String gallerySearchResultsPrefix();
+	@DefaultMessage("Get email for every ")
+	@Description("label of email frequency prefix")
+	String labelEmailFrequencyPrefix();
 
-  @DefaultMessage("\" returned ")
-  @Description("Search Results Infix")
-  String gallerySearchResultsInfix();
+	@DefaultMessage(" new Likes + Downloads")
+	@Description("label of email frequency suffix")
+	String labelEmailFrequencySuffix();
 
-  @DefaultMessage(" results")
-  @Description("Search Results Suffix")
-  String gallerySearchResultsSuffix();
+	@DefaultMessage("Invalid Email Frequency: Must be an numeric and greater than 0")
+	@Description("error message of wrong email frequency")
+	String errorEmailFrequency();
 
-  @DefaultMessage("Server error: gallery cannot be accessed")
-  @Description("Error message reported when the gallery cannot be accessed.")
-  String galleryError();
+	// Used in GalleryList.java
+	@DefaultMessage("Search for Apps")
+	@Description("Search for Apps Text")
+	String gallerySearchForAppsButton();
 
-  @DefaultMessage("No Results Found")
-  @Description("Label feedback for no results found after searching.")
-  String noResultsFound();
+	@DefaultMessage("More Apps")
+	@Description("More Apps Text")
+	String galleryMoreApps();
 
-  // Used in GalleryClient.java
+	@DefaultMessage("search for \"")
+	@Description("Search Results Prefix")
+	String gallerySearchResultsPrefix();
 
-  @DefaultMessage("Server error: gallery settings could not be accessed")
-  @Description("Error message reported when unable to extract gallery settings from xml.")
-  String gallerySettingsError();
+	@DefaultMessage("\" returned ")
+	@Description("Search Results Infix")
+	String gallerySearchResultsInfix();
 
-  // Used in wizards/Wizard.java
+	@DefaultMessage(" results")
+	@Description("Search Results Suffix")
+	String gallerySearchResultsSuffix();
 
-  @DefaultMessage("Back")
-  @Description("Text on 'Back' button to go back to the previous page of the wizard.")
-  String backButton();
+	@DefaultMessage("Server error: gallery cannot be accessed")
+	@Description("Error message reported when the gallery cannot be accessed.")
+	String galleryError();
 
-  @DefaultMessage("Next")
-  @Description("Text on 'Next' button to proceed to the next page of the wizard.")
-  String nextButton();
+	@DefaultMessage("No Results Found")
+	@Description("Label feedback for no results found after searching.")
+	String noResultsFound();
 
-  // Used in wizards/youngandroid/NewYoungAndroidProjectWizard.java
+	// Used in GalleryClient.java
 
-  @DefaultMessage("Create new App Inventor project")
-  @Description("Caption for the wizard to create a new Young Android project")
-  String newYoungAndroidProjectWizardCaption();
+	@DefaultMessage("Server error: gallery settings could not be accessed")
+	@Description("Error message reported when unable to extract gallery settings from xml.")
+	String gallerySettingsError();
 
-  // Used in wizards/youngandroid/RemixedYoungAndroidProjectWizard.java
+	// Used in wizards/Wizard.java
 
-  @DefaultMessage("Name this App Inventor project")
-  @Description("Caption for the wizard to name the opening Young Android project")
-  String remixedYoungAndroidProjectWizardCaption();
+	@DefaultMessage("Back")
+	@Description("Text on 'Back' button to go back to the previous page of the wizard.")
+	String backButton();
 
-  @DefaultMessage("Project name:")
-  @Description("Label for the project name input text box")
-  String projectNameLabel();
+	@DefaultMessage("Next")
+	@Description("Text on 'Next' button to proceed to the next page of the wizard.")
+	String nextButton();
 
-  // Used in youngandroid/TextValidators.java
+	// Used in wizards/youngandroid/NewYoungAndroidProjectWizard.java
 
-  @DefaultMessage("Project names must start with a letter and can contain only letters, " +
-      "numbers, and underscores")
-  @Description("Error message when project name does not start with a letter or contains a " +
-      "character that is not a letter, number, or underscore.")
-  String malformedProjectNameError();
+	@DefaultMessage("Create new App Inventor project")
+	@Description("Caption for the wizard to create a new Young Android project")
+	String newYoungAndroidProjectWizardCaption();
 
-  @DefaultMessage("{0} already exists. You cannot create another project with the same name.")
-  @Description("Error shown when a new project name would be the same as an existing one")
-  String duplicateProjectNameError(String projectName);
+	// Used in wizards/youngandroid/RemixedYoungAndroidProjectWizard.java
 
-  @DefaultMessage("Project names cannot contain spaces")
-  @Description("Error shown when user types space into project name.")
-  String whitespaceProjectNameError();
+	@DefaultMessage("Name this App Inventor project")
+	@Description("Caption for the wizard to name the opening Young Android project")
+	String remixedYoungAndroidProjectWizardCaption();
 
-  @DefaultMessage("Project names must begin with a letter")
-  @Description("Error shown when user does not type letter as first character in project name.")
-  String firstCharProjectNameError();
+	@DefaultMessage("Project name:")
+	@Description("Label for the project name input text box")
+	String projectNameLabel();
 
-  @DefaultMessage("Invalid character. Project names can only contain letters, numbers, and underscores")
-  @Description("Error shown when user types invalid character into project name.")
-  String invalidCharProjectNameError();
+	// Used in youngandroid/TextValidators.java
 
-  // Used in youngandroid/YoungAndroidFormUpgrader.java
+	@DefaultMessage("Project names must start with a letter and can contain only letters, "
+			+ "numbers, and underscores")
+	@Description("Error message when project name does not start with a letter or contains a "
+			+ "character that is not a letter, number, or underscore.")
+	String malformedProjectNameError();
 
-  @DefaultMessage("This project was created with an older version of the App Inventor " +
-      "system and was upgraded.\n{0}")
-  @Description("Alert message displayed when a project is upgraded")
-  String projectWasUpgraded(String details);
+	@DefaultMessage("{0} already exists. You cannot create another project with the same name.")
+	@Description("Error shown when a new project name would be the same as an existing one")
+	String duplicateProjectNameError(String projectName);
 
-  @DefaultMessage("A problem occurred while loading this project. {0}")
-  @Description("Alert message displayed when upgrade fails")
-  String unexpectedProblem(String details);
+	@DefaultMessage("Project names cannot contain spaces")
+	@Description("Error shown when user types space into project name.")
+	String whitespaceProjectNameError();
 
-  @DefaultMessage("This project was saved with a newer version of the App Inventor system. We " +
-      "will attempt to load the project, but there may be compatibility issues.")
-  @Description("Alert message displayed when project is newer than system")
-  String newerVersionProject();
+	@DefaultMessage("Project names must begin with a letter")
+	@Description("Error shown when user does not type letter as first character in project name.")
+	String firstCharProjectNameError();
 
-  @DefaultMessage("This project was saved with an early pre-release version of the App Inventor " +
-      "system. We will attempt to load the project, but there may be compatibility issues.")
-  @Description("Alert message displayed when upgrading a project without version numbers")
-  String veryOldProject();
+	@DefaultMessage("Invalid character. Project names can only contain letters, numbers, and underscores")
+	@Description("Error shown when user types invalid character into project name.")
+	String invalidCharProjectNameError();
 
-  @DefaultMessage("The Logger component named {0} was changed to a Notifier component.\n")
-  @Description("Message providing details about a project upgrade involving a Logger component")
-  String upgradeDetailLoggerReplacedWithNotifier(String name);
+	// Used in youngandroid/YoungAndroidFormUpgrader.java
 
-  @DefaultMessage("Unable to load project with {0} version {1} (maximum known version is {2}).")
-  @Description("Exception message used when a project contains a newer version component than " +
-      "the version known by the system")
-  String newerVersionComponentException(String componentType, int srcCompVersion,
-      int sysCompVersion);
+	@DefaultMessage("This project was created with an older version of the App Inventor "
+			+ "system and was upgraded.\n{0}")
+	@Description("Alert message displayed when a project is upgraded")
+	String projectWasUpgraded(String details);
 
-  @DefaultMessage("No upgrade strategy exists for {0} from version {1} to {2}.")
-  @Description("Exception message used when a component was not upgraded")
-  String noUpgradeStrategyException(String componentType, int srcCompVersion, int sysCompVersion);
+	@DefaultMessage("A problem occurred while loading this project. {0}")
+	@Description("Alert message displayed when upgrade fails")
+	String unexpectedProblem(String details);
 
-  // Used in client/editor/simple/components/MockHVarrangement.java
+	@DefaultMessage("This project was saved with a newer version of the App Inventor system. We "
+			+ "will attempt to load the project, but there may be compatibility issues.")
+	@Description("Alert message displayed when project is newer than system")
+	String newerVersionProject();
 
-  @DefaultMessage("System error: bad alignment property editor for horizontal or vertical arrangement.")
-  @Description("System error message for a bad alignment property editor")
-  String badAlignmentPropertyEditorForArrangement();
+	@DefaultMessage("This project was saved with an early pre-release version of the App Inventor "
+			+ "system. We will attempt to load the project, but there may be compatibility issues.")
+	@Description("Alert message displayed when upgrading a project without version numbers")
+	String veryOldProject();
 
-  // Used in
-  // editor/youngandroid/properties/YoungAndroidTextReceivingPropertyEditor.java
+	@DefaultMessage("The Logger component named {0} was changed to a Notifier component.\n")
+	@Description("Message providing details about a project upgrade involving a Logger component")
+	String upgradeDetailLoggerReplacedWithNotifier(String name);
 
-  @DefaultMessage("Off")
-  @Description("Text Messages are not received at any time.")
-  String textReceivingChoiceOff();
+	@DefaultMessage("Unable to load project with {0} version {1} (maximum known version is {2}).")
+	@Description("Exception message used when a project contains a newer version component than "
+			+ "the version known by the system")
+	String newerVersionComponentException(String componentType, int srcCompVersion, int sysCompVersion);
 
-  @DefaultMessage("Foreground")
-  @Description("Text Messages are received only when the App is in the foreground.")
-  String textReceivingChoiceForeground();
+	@DefaultMessage("No upgrade strategy exists for {0} from version {1} to {2}.")
+	@Description("Exception message used when a component was not upgraded")
+	String noUpgradeStrategyException(String componentType, int srcCompVersion, int sysCompVersion);
 
-  @DefaultMessage("Always")
-  @Description("Text messages are always received, and a notification is shown if the App is in the background.")
-  String textReceivingChoiceAlways();
+	// Used in client/editor/simple/components/MockHVarrangement.java
 
+	@DefaultMessage("System error: bad alignment property editor for horizontal or vertical arrangement.")
+	@Description("System error message for a bad alignment property editor")
+	String badAlignmentPropertyEditorForArrangement();
 
-  // This error message is displayed as HTML
-  @DefaultMessage("App Inventor is unable to compile this project.  " +
-      "<br /> The compiler error output was <br /> {0}.")
-  @Description("Compilation error, with error message.")
-  String unableToCompile(String errorMesssage);
+	// Used in
+	// editor/youngandroid/properties/YoungAndroidTextReceivingPropertyEditor.java
 
-  // This error message is displayed as HTML
+	@DefaultMessage("Off")
+	@Description("Text Messages are not received at any time.")
+	String textReceivingChoiceOff();
 
-  @DefaultMessage("User Interface")
-  @Description("")
-  String UIComponentPallette();
+	@DefaultMessage("Foreground")
+	@Description("Text Messages are received only when the App is in the foreground.")
+	String textReceivingChoiceForeground();
 
-  @DefaultMessage("Layout")
-  @Description("")
-  String layoutComponentPallette();
+	@DefaultMessage("Always")
+	@Description("Text messages are always received, and a notification is shown if the App is in the background.")
+	String textReceivingChoiceAlways();
 
-  @DefaultMessage("Media")
-  @Description("")
-  String mediaComponentPallette();
+	// This error message is displayed as HTML
+	@DefaultMessage("App Inventor is unable to compile this project.  "
+			+ "<br /> The compiler error output was <br /> {0}.")
+	@Description("Compilation error, with error message.")
+	String unableToCompile(String errorMesssage);
 
-  @DefaultMessage("Drawing and Animation")
-  @Description("")
-  String drawanimationComponentPallette();
+	// This error message is displayed as HTML
 
-  @DefaultMessage("Sensors")
-  @Description("")
-  String sensorsComponentPallette();
+	@DefaultMessage("User Interface")
+	@Description("")
+	String UIComponentPallette();
 
-  @DefaultMessage("Social")
-  @Description("")
-  String socialComponentPallette();
+	@DefaultMessage("Layout")
+	@Description("")
+	String layoutComponentPallette();
 
-  @DefaultMessage("Storage")
-  @Description("")
-  String storageComponentPallette();
+	@DefaultMessage("Media")
+	@Description("")
+	String mediaComponentPallette();
 
-  @DefaultMessage("Form")
-  @Description("")
-  String FormComponentPallette();
+	@DefaultMessage("Drawing and Animation")
+	@Description("")
+	String drawanimationComponentPallette();
 
-  @DefaultMessage("Math")
-  @Description("Label on built-in-Math-blocks branch of block selector tree")
-  String builtinMathLabel();
+	@DefaultMessage("Sensors")
+	@Description("")
+	String sensorsComponentPallette();
 
-  @DefaultMessage("Connectivity")
-  @Description("")
-  String connectivityComponentPallette();
+	@DefaultMessage("Social")
+	@Description("")
+	String socialComponentPallette();
 
-  @DefaultMessage("LEGO\u00AE MINDSTORMS\u00AE")
-  @Description("")
-  String legoComponentPallette();
+	@DefaultMessage("Storage")
+	@Description("")
+	String storageComponentPallette();
 
-  @DefaultMessage("Experimental")
-  @Description("")
-  String experimentalComponentPallette();
+	@DefaultMessage("Form")
+	@Description("")
+	String FormComponentPallette();
 
-  @DefaultMessage("For internal use only")
-  @Description("")
-  String internalUseComponentPallette();
+	@DefaultMessage("Math")
+	@Description("Label on built-in-Math-blocks branch of block selector tree")
+	String builtinMathLabel();
 
-  @DefaultMessage("Uninitialized")
-  @Description("")
-  String uninitializedComponentPallette();
+	@DefaultMessage("Connectivity")
+	@Description("")
+	String connectivityComponentPallette();
 
-  // UI Pallette
-  @DefaultMessage("Button")
-  @Description("")
-  String buttonComponentPallette();
+	@DefaultMessage("LEGO\u00AE MINDSTORMS\u00AE")
+	@Description("")
+	String legoComponentPallette();
 
-  @DefaultMessage("Canvas")
-  @Description("")
-  String canvasComponentPallette();
+	@DefaultMessage("Experimental")
+	@Description("")
+	String experimentalComponentPallette();
 
-  @DefaultMessage("CheckBox")
-  @Description("")
-  String checkBoxComponentPallette();
+	@DefaultMessage("For internal use only")
+	@Description("")
+	String internalUseComponentPallette();
 
-  @DefaultMessage("Clock")
-  @Description("")
-  String clockComponentPallette();
+	@DefaultMessage("Uninitialized")
+	@Description("")
+	String uninitializedComponentPallette();
 
-  @DefaultMessage("DatePicker")
-  @Description("")
-  String datePickerComponentPallette();
+	// UI Pallette
+	@DefaultMessage("Button")
+	@Description("")
+	String buttonComponentPallette();
 
-  @DefaultMessage("Image")
-  @Description("")
-  String imageComponentPallette();
+	@DefaultMessage("Canvas")
+	@Description("")
+	String canvasComponentPallette();
 
-  @DefaultMessage("Label")
-  @Description("")
-  String labelComponentPallette();
+	@DefaultMessage("CheckBox")
+	@Description("")
+	String checkBoxComponentPallette();
 
-  @DefaultMessage("ListPicker")
-  @Description("")
-  String listPickerComponentPallette();
+	@DefaultMessage("Clock")
+	@Description("")
+	String clockComponentPallette();
 
-  @DefaultMessage("ListView")
-  @Description("")
-  String listViewComponentPallette();
+	@DefaultMessage("DatePicker")
+	@Description("")
+	String datePickerComponentPallette();
 
-  @DefaultMessage("PasswordTextBox")
-  @Description("")
-  String passwordTextBoxComponentPallette();
+	@DefaultMessage("Image")
+	@Description("")
+	String imageComponentPallette();
 
-  @DefaultMessage("Slider")
-  @Description("")
-  String sliderComponentPallette();
+	@DefaultMessage("Label")
+	@Description("")
+	String labelComponentPallette();
 
-  @DefaultMessage("Spinner")
-  @Description("")
-  String spinnerComponentPallette();
+	@DefaultMessage("ListPicker")
+	@Description("")
+	String listPickerComponentPallette();
 
-  @DefaultMessage("TextBox")
-  @Description("")
-  String textBoxComponentPallette();
+	@DefaultMessage("ListView")
+	@Description("")
+	String listViewComponentPallette();
 
-  @DefaultMessage("TimePicker")
-  @Description("")
-  String timePickerComponentPallette();
+	@DefaultMessage("PasswordTextBox")
+	@Description("")
+	String passwordTextBoxComponentPallette();
 
-  @DefaultMessage("TinyDB")
-  @Description("")
-  String tinyDBComponentPallette();
+	@DefaultMessage("Slider")
+	@Description("")
+	String sliderComponentPallette();
 
-  // Media Pallette
-  @DefaultMessage("Camcorder")
-  @Description("")
-  String camcorderComponentPallette();
+	@DefaultMessage("Spinner")
+	@Description("")
+	String spinnerComponentPallette();
 
-  @DefaultMessage("Camera")
-  @Description("")
-  String cameraComponentPallette();
+	@DefaultMessage("TextBox")
+	@Description("")
+	String textBoxComponentPallette();
 
-  @DefaultMessage("ImagePicker")
-  @Description("")
-  String imagePickerComponentPallette();
+	@DefaultMessage("TimePicker")
+	@Description("")
+	String timePickerComponentPallette();
 
-  @DefaultMessage("Player")
-  @Description("")
-  String playerComponentPallette();
+	@DefaultMessage("TinyDB")
+	@Description("")
+	String tinyDBComponentPallette();
 
-  @DefaultMessage("Sound")
-  @Description("")
-  String soundComponentPallette();
+	// Media Pallette
+	@DefaultMessage("Camcorder")
+	@Description("")
+	String camcorderComponentPallette();
 
-  @DefaultMessage("VideoPlayer")
-  @Description("")
-  String videoPlayerComponentPallette();
+	@DefaultMessage("Camera")
+	@Description("")
+	String cameraComponentPallette();
 
-  @DefaultMessage("YandexTranslate")
-  @Description("")
-  String yandexTranslateComponentPallette();
+	@DefaultMessage("ImagePicker")
+	@Description("")
+	String imagePickerComponentPallette();
 
-  // Animation
-  @DefaultMessage("Ball")
-  @Description("")
-  String ballComponentPallette();
+	@DefaultMessage("Player")
+	@Description("")
+	String playerComponentPallette();
 
-  @DefaultMessage("ImageSprite")
-  @Description("")
-  String imageSpriteComponentPallette();
+	@DefaultMessage("Sound")
+	@Description("")
+	String soundComponentPallette();
 
-  // Social
-  @DefaultMessage("ContactPicker")
-  @Description("")
-  String contactPickerComponentPallette();
+	@DefaultMessage("VideoPlayer")
+	@Description("")
+	String videoPlayerComponentPallette();
 
-  @DefaultMessage("EmailPicker")
-  @Description("")
-  String emailPickerComponentPallette();
+	@DefaultMessage("YandexTranslate")
+	@Description("")
+	String yandexTranslateComponentPallette();
 
-  @DefaultMessage("PhoneCall")
-  @Description("")
-  String phoneCallComponentPallette();
+	// Animation
+	@DefaultMessage("Ball")
+	@Description("")
+	String ballComponentPallette();
 
-  @DefaultMessage("PhoneNumberPicker")
-  @Description("")
-  String phoneNumberPickerComponentPallette();
+	@DefaultMessage("ImageSprite")
+	@Description("")
+	String imageSpriteComponentPallette();
 
-  @DefaultMessage("Sharing")
-  @Description("")
-  String sharingComponentPallette();
+	// Social
+	@DefaultMessage("ContactPicker")
+	@Description("")
+	String contactPickerComponentPallette();
 
-  @DefaultMessage("Texting")
-  @Description("")
-  String textingComponentPallette();
+	@DefaultMessage("EmailPicker")
+	@Description("")
+	String emailPickerComponentPallette();
 
-  @DefaultMessage("Twitter")
-  @Description("")
-  String twitterComponentPallette();
+	@DefaultMessage("PhoneCall")
+	@Description("")
+	String phoneCallComponentPallette();
 
-  // Sensor
-  @DefaultMessage("AccelerometerSensor")
-  @Description("")
-  String accelerometerSensorComponentPallette();
+	@DefaultMessage("PhoneNumberPicker")
+	@Description("")
+	String phoneNumberPickerComponentPallette();
 
-  @DefaultMessage("BarcodeScanner")
-  @Description("")
-  String barcodeScannerComponentPallette();
+	@DefaultMessage("Sharing")
+	@Description("")
+	String sharingComponentPallette();
 
-  @DefaultMessage("GyroscopeSensor")
-  @Description("")
-  String gyroscopeSensorComponentPallette();
+	@DefaultMessage("Texting")
+	@Description("")
+	String textingComponentPallette();
 
-  @DefaultMessage("LocationSensor")
-  @Description("")
-  String locationSensorComponentPallette();
+	@DefaultMessage("Twitter")
+	@Description("")
+	String twitterComponentPallette();
 
-  @DefaultMessage("NearField")
-  @Description("")
-  String nearFieldComponentPallette();
+	// Sensor
+	@DefaultMessage("AccelerometerSensor")
+	@Description("")
+	String accelerometerSensorComponentPallette();
 
-  @DefaultMessage("OrientationSensor")
-  @Description("")
-  String orientationSensorComponentPallette();
+	@DefaultMessage("BarcodeScanner")
+	@Description("")
+	String barcodeScannerComponentPallette();
 
-  // Screen Arrangement
-  @DefaultMessage("HorizontalArrangement")
-  @Description("")
-  String horizontalArrangementComponentPallette();
+	@DefaultMessage("GyroscopeSensor")
+	@Description("")
+	String gyroscopeSensorComponentPallette();
 
-  @DefaultMessage("TableArrangement")
-  @Description("")
-  String tableArrangementComponentPallette();
+	@DefaultMessage("LocationSensor")
+	@Description("")
+	String locationSensorComponentPallette();
 
-  @DefaultMessage("VerticalArrangement")
-  @Description("")
-  String verticalArrangementComponentPallette();
+	@DefaultMessage("NearField")
+	@Description("")
+	String nearFieldComponentPallette();
 
-  // Lego Mindstorms
-  @DefaultMessage("NxtColorSensor")
-  @Description("")
-  String nxtColorSensorComponentPallette();
+	@DefaultMessage("OrientationSensor")
+	@Description("")
+	String orientationSensorComponentPallette();
 
-  @DefaultMessage("NxtDirectCommands")
-  @Description("")
-  String nxtDirectCommandsComponentPallette();
+	// Screen Arrangement
+	@DefaultMessage("HorizontalArrangement")
+	@Description("")
+	String horizontalArrangementComponentPallette();
 
-  @DefaultMessage("NxtDrive")
-  @Description("")
-  String nxtDriveComponentPallette();
+	@DefaultMessage("TableArrangement")
+	@Description("")
+	String tableArrangementComponentPallette();
 
-  @DefaultMessage("NxtLightSensor")
-  @Description("")
-  String nxtLightSensorComponentPallette();
+	@DefaultMessage("VerticalArrangement")
+	@Description("")
+	String verticalArrangementComponentPallette();
 
-  @DefaultMessage("NxtSoundSensor")
-  @Description("")
-  String nxtSoundSensorComponentPallette();
+	// Lego Mindstorms
+	@DefaultMessage("NxtColorSensor")
+	@Description("")
+	String nxtColorSensorComponentPallette();
 
-  @DefaultMessage("NxtTouchSensor")
-  @Description("")
-  String nxtTouchSensorComponentPallette();
+	@DefaultMessage("NxtDirectCommands")
+	@Description("")
+	String nxtDirectCommandsComponentPallette();
 
-  @DefaultMessage("NxtUltrasonicSensor")
-  @Description("")
-  String nxtUltrasonicSensorComponentPallette();
+	@DefaultMessage("NxtDrive")
+	@Description("")
+	String nxtDriveComponentPallette();
 
-  // Storage
-  @DefaultMessage("ActivityStarter")
-  @Description("")
-  String activityStarterComponentPallette();
+	@DefaultMessage("NxtLightSensor")
+	@Description("")
+	String nxtLightSensorComponentPallette();
 
-  @DefaultMessage("BluetoothClient")
-  @Description("")
-  String bluetoothClientComponentPallette();
+	@DefaultMessage("NxtSoundSensor")
+	@Description("")
+	String nxtSoundSensorComponentPallette();
 
-  @DefaultMessage("BluetoothServer")
-  @Description("")
-  String bluetoothServerComponentPallette();
+	@DefaultMessage("NxtTouchSensor")
+	@Description("")
+	String nxtTouchSensorComponentPallette();
 
-  @DefaultMessage("Notifier")
-  @Description("")
-  String notifierComponentPallette();
+	@DefaultMessage("NxtUltrasonicSensor")
+	@Description("")
+	String nxtUltrasonicSensorComponentPallette();
 
-  @DefaultMessage("SpeechRecognizer")
-  @Description("")
-  String speechRecognizerComponentPallette();
+	// Storage
+	@DefaultMessage("ActivityStarter")
+	@Description("")
+	String activityStarterComponentPallette();
 
-  @DefaultMessage("TextToSpeech")
-  @Description("")
-  String textToSpeechComponentPallette();
+	@DefaultMessage("BluetoothClient")
+	@Description("")
+	String bluetoothClientComponentPallette();
 
-  @DefaultMessage("TinyWebDB")
-  @Description("")
-  String tinyWebDBComponentPallette();
+	@DefaultMessage("BluetoothServer")
+	@Description("")
+	String bluetoothServerComponentPallette();
 
-  @DefaultMessage("Web")
-  @Description("")
-  String webComponentPallette();
+	@DefaultMessage("Notifier")
+	@Description("")
+	String notifierComponentPallette();
 
-  // Connectivity
-  @DefaultMessage("File")
-  @Description("")
-  String fileComponentPallette();
+	@DefaultMessage("SpeechRecognizer")
+	@Description("")
+	String speechRecognizerComponentPallette();
 
-  @DefaultMessage("FusiontablesControl")
-  @Description("")
-  String fusiontablesControlComponentPallette();
+	@DefaultMessage("TextToSpeech")
+	@Description("")
+	String textToSpeechComponentPallette();
 
-  @DefaultMessage("GameClient")
-  @Description("")
-  String gameClientComponentPallette();
+	@DefaultMessage("TinyWebDB")
+	@Description("")
+	String tinyWebDBComponentPallette();
 
-  @DefaultMessage("SoundRecorder")
-  @Description("")
-  String soundRecorderComponentPallette();
+	@DefaultMessage("Web")
+	@Description("")
+	String webComponentPallette();
 
-  @DefaultMessage("Voting")
-  @Description("")
-  String votingComponentPallette();
+	// Connectivity
+	@DefaultMessage("File")
+	@Description("")
+	String fileComponentPallette();
 
-  @DefaultMessage("WebViewer")
-  @Description("")
-  String webViewerComponentPallette();
+	@DefaultMessage("FusiontablesControl")
+	@Description("")
+	String fusiontablesControlComponentPallette();
 
-  // Component Properties
-  @DefaultMessage("AboutScreen")
-  @Description("")
-  String AboutScreenProperties();
+	@DefaultMessage("GameClient")
+	@Description("")
+	String gameClientComponentPallette();
 
-  @DefaultMessage("ShowStatusBar")
-  @Description("")
-  String ShowStatusBarProperties();
+	@DefaultMessage("SoundRecorder")
+	@Description("")
+	String soundRecorderComponentPallette();
 
-  @DefaultMessage("TitleVisible")
-  @Description("")
-  String TitleVisibleProperties();
+	@DefaultMessage("Voting")
+	@Description("")
+	String votingComponentPallette();
 
-  @DefaultMessage("AboveRangeEventEnabled")
-  @Description("")
-  String AboveRangeEventEnabledProperties();
+	@DefaultMessage("WebViewer")
+	@Description("")
+	String webViewerComponentPallette();
 
-  @DefaultMessage("Action")
-  @Description("")
-  String ActionProperties();
+	// Component Properties
+	@DefaultMessage("AboutScreen")
+	@Description("")
+	String AboutScreenProperties();
 
-  @DefaultMessage("ActivityClass")
-  @Description("")
-  String ActivityClassProperties();
+	@DefaultMessage("ShowStatusBar")
+	@Description("")
+	String ShowStatusBarProperties();
 
-  @DefaultMessage("ActivityPackage")
-  @Description("")
-  String ActivityPackageProperties();
+	@DefaultMessage("TitleVisible")
+	@Description("")
+	String TitleVisibleProperties();
 
-  @DefaultMessage("AlignHorizontal")
-  @Description("")
-  String AlignHorizontalProperties();
+	@DefaultMessage("AboveRangeEventEnabled")
+	@Description("")
+	String AboveRangeEventEnabledProperties();
 
-  @DefaultMessage("AlignVertical")
-  @Description("")
-  String AlignVerticalProperties();
+	@DefaultMessage("Action")
+	@Description("")
+	String ActionProperties();
 
-  @DefaultMessage("AllowCookies")
-  @Description("")
-  String AllowCookiesProperties();
+	@DefaultMessage("ActivityClass")
+	@Description("")
+	String ActivityClassProperties();
 
-  @DefaultMessage("ApiKey")
-  @Description("")
-  String ApiKeyProperties();
+	@DefaultMessage("ActivityPackage")
+	@Description("")
+	String ActivityPackageProperties();
 
-  @DefaultMessage("AppName")
-  @Description("")
-  String AppNameProperties();
+	@DefaultMessage("AlignHorizontal")
+	@Description("")
+	String AlignHorizontalProperties();
 
-  @DefaultMessage("AvailableCountries")
-  @Description("")
-  String AvailableCountriesProperties();
+	@DefaultMessage("AlignVertical")
+	@Description("")
+	String AlignVerticalProperties();
 
-  @DefaultMessage("AvailableLanguages")
-  @Description("")
-  String AvailableLanguagesProperties();
+	@DefaultMessage("AllowCookies")
+	@Description("")
+	String AllowCookiesProperties();
 
-  @DefaultMessage("BackgroundColor")
-  @Description("")
-  String BackgroundColorProperties();
+	@DefaultMessage("ApiKey")
+	@Description("")
+	String ApiKeyProperties();
 
-  @DefaultMessage("BackgroundImage")
-  @Description("")
-  String BackgroundImageProperties();
+	@DefaultMessage("AppName")
+	@Description("")
+	String AppNameProperties();
 
-  @DefaultMessage("BelowRangeEventEnabled")
-  @Description("")
-  String BelowRangeEventEnabledProperties();
+	@DefaultMessage("AvailableCountries")
+	@Description("")
+	String AvailableCountriesProperties();
 
-  @DefaultMessage("BluetoothClient")
-  @Description("")
-  String BluetoothClientProperties();
+	@DefaultMessage("AvailableLanguages")
+	@Description("")
+	String AvailableLanguagesProperties();
 
-  @DefaultMessage("BottomOfRange")
-  @Description("")
-  String BottomOfRangeProperties();
+	@DefaultMessage("BackgroundColor")
+	@Description("")
+	String BackgroundColorProperties();
 
-  @DefaultMessage("CalibrateStrideLength")
-  @Description("")
-  String CalibrateStrideLengthProperties();
+	@DefaultMessage("BackgroundImage")
+	@Description("")
+	String BackgroundImageProperties();
 
-  @DefaultMessage("CharacterEncoding")
-  @Description("")
-  String CharacterEncodingProperties();
+	@DefaultMessage("BelowRangeEventEnabled")
+	@Description("")
+	String BelowRangeEventEnabledProperties();
 
-  @DefaultMessage("Checked")
-  @Description("")
-  String CheckedProperties();
+	@DefaultMessage("BluetoothClient")
+	@Description("")
+	String BluetoothClientProperties();
 
-  @DefaultMessage("CloseScreenAnimation")
-  @Description("")
-  String CloseScreenAnimationProperties();
+	@DefaultMessage("BottomOfRange")
+	@Description("")
+	String BottomOfRangeProperties();
 
-  @DefaultMessage("ColorChangedEventEnabled")
-  @Description("")
-  String ColorChangedEventEnabledProperties();
+	@DefaultMessage("CalibrateStrideLength")
+	@Description("")
+	String CalibrateStrideLengthProperties();
 
-  @DefaultMessage("Columns")
-  @Description("")
-  String ColumnsProperties();
+	@DefaultMessage("CharacterEncoding")
+	@Description("")
+	String CharacterEncodingProperties();
 
-  @DefaultMessage("ConsumerKey")
-  @Description("")
-  String ConsumerKeyProperties();
+	@DefaultMessage("Checked")
+	@Description("")
+	String CheckedProperties();
 
-  @DefaultMessage("ConsumerSecret")
-  @Description("")
-  String ConsumerSecretProperties();
+	@DefaultMessage("CloseScreenAnimation")
+	@Description("")
+	String CloseScreenAnimationProperties();
 
-  @DefaultMessage("Country")
-  @Description("")
-  String CountryProperties();
+	@DefaultMessage("ColorChangedEventEnabled")
+	@Description("")
+	String ColorChangedEventEnabledProperties();
 
-  @DefaultMessage("DataType")
-  @Description("")
-  String DataTypeProperties();
+	@DefaultMessage("Columns")
+	@Description("")
+	String ColumnsProperties();
 
-  @DefaultMessage("DataUri")
-  @Description("")
-  String DataUriProperties();
+	@DefaultMessage("ConsumerKey")
+	@Description("")
+	String ConsumerKeyProperties();
 
-  @DefaultMessage("DelimiterByte")
-  @Description("")
-  String DelimiterByteProperties();
+	@DefaultMessage("ConsumerSecret")
+	@Description("")
+	String ConsumerSecretProperties();
 
-  @DefaultMessage("DetectColor")
-  @Description("")
-  String DetectColorProperties();
+	@DefaultMessage("Country")
+	@Description("")
+	String CountryProperties();
 
-  @DefaultMessage("DistanceInterval")
-  @Description("")
-  String DistanceIntervalProperties();
+	@DefaultMessage("DataType")
+	@Description("")
+	String DataTypeProperties();
 
-  @DefaultMessage("DriveMotors")
-  @Description("")
-  String DriveMotorsProperties();
+	@DefaultMessage("DataUri")
+	@Description("")
+	String DataUriProperties();
 
-  @DefaultMessage("Enabled")
-  @Description("")
-  String EnabledProperties();
+	@DefaultMessage("DelimiterByte")
+	@Description("")
+	String DelimiterByteProperties();
 
-  @DefaultMessage("ExtraKey")
-  @Description("")
-  String ExtraKeyProperties();
+	@DefaultMessage("DetectColor")
+	@Description("")
+	String DetectColorProperties();
 
-  @DefaultMessage("ExtraValue")
-  @Description("")
-  String ExtraValueProperties();
+	@DefaultMessage("DistanceInterval")
+	@Description("")
+	String DistanceIntervalProperties();
 
-  @DefaultMessage("Extras")
-  @Description("")
-  String ExtrasProperties();
+	@DefaultMessage("DriveMotors")
+	@Description("")
+	String DriveMotorsProperties();
 
-  @DefaultMessage("FollowLinks")
-  @Description("")
-  String FollowLinksProperties();
+	@DefaultMessage("Enabled")
+	@Description("")
+	String EnabledProperties();
 
-  @DefaultMessage("FontBold")
-  @Description("")
-  String FontBoldProperties();
+	@DefaultMessage("ExtraKey")
+	@Description("")
+	String ExtraKeyProperties();
 
-  @DefaultMessage("FontItalic")
-  @Description("")
-  String FontItalicProperties();
+	@DefaultMessage("ExtraValue")
+	@Description("")
+	String ExtraValueProperties();
 
-  @DefaultMessage("FontSize")
-  @Description("")
-  String FontSizeProperties();
+	@DefaultMessage("Extras")
+	@Description("")
+	String ExtrasProperties();
 
-  @DefaultMessage("FontTypeface")
-  @Description("")
-  String FontTypefaceProperties();
+	@DefaultMessage("FollowLinks")
+	@Description("")
+	String FollowLinksProperties();
 
-  @DefaultMessage("GameId")
-  @Description("")
-  String GameIdProperties();
+	@DefaultMessage("FontBold")
+	@Description("")
+	String FontBoldProperties();
 
-  @DefaultMessage("GenerateColor")
-  @Description("")
-  String GenerateColorProperties();
+	@DefaultMessage("FontItalic")
+	@Description("")
+	String FontItalicProperties();
 
-  @DefaultMessage("GenerateLight")
-  @Description("")
-  String GenerateLightProperties();
+	@DefaultMessage("FontSize")
+	@Description("")
+	String FontSizeProperties();
 
-  @DefaultMessage("GoogleVoiceEnabled")
-  @Description("")
-  String GoogleVoiceEnabledProperties();
+	@DefaultMessage("FontTypeface")
+	@Description("")
+	String FontTypefaceProperties();
 
-  @DefaultMessage("HasMargins")
-  @Description("")
-  String HasMarginsProperties();
+	@DefaultMessage("GameId")
+	@Description("")
+	String GameIdProperties();
 
-  @DefaultMessage("Heading")
-  @Description("")
-  String HeadingProperties();
+	@DefaultMessage("GenerateColor")
+	@Description("")
+	String GenerateColorProperties();
 
-  @DefaultMessage("HighByteFirst")
-  @Description("")
-  String HighByteFirstProperties();
+	@DefaultMessage("GenerateLight")
+	@Description("")
+	String GenerateLightProperties();
 
-  @DefaultMessage("Hint")
-  @Description("")
-  String HintProperties();
+	@DefaultMessage("GoogleVoiceEnabled")
+	@Description("")
+	String GoogleVoiceEnabledProperties();
 
-  @DefaultMessage("HomeUrl")
-  @Description("")
-  String HomeUrlProperties();
+	@DefaultMessage("HasMargins")
+	@Description("")
+	String HasMarginsProperties();
 
-  @DefaultMessage("Icon")
-  @Description("")
-  String IconProperties();
+	@DefaultMessage("Heading")
+	@Description("")
+	String HeadingProperties();
 
-  @DefaultMessage("Instant")
-  @Description("")
-  String InstantProperties();
+	@DefaultMessage("HighByteFirst")
+	@Description("")
+	String HighByteFirstProperties();
 
-  @DefaultMessage("IgnoreSslErrors")
-  @Description("")
-  String IgnoreSslErrorsProperties();
+	@DefaultMessage("Hint")
+	@Description("")
+	String HintProperties();
 
-  @DefaultMessage("Image")
-  @Description("")
-  String ImageProperties();
+	@DefaultMessage("HomeUrl")
+	@Description("")
+	String HomeUrlProperties();
 
-  @DefaultMessage("Interval")
-  @Description("")
-  String IntervalProperties();
+	@DefaultMessage("Icon")
+	@Description("")
+	String IconProperties();
 
-  @DefaultMessage("IsLooping")
-  @Description("")
-  String IsLoopingProperties();
+	@DefaultMessage("Instant")
+	@Description("")
+	String InstantProperties();
 
-  @DefaultMessage("KeyFile")
-  @Description("")
-  String KeyFileProperties();
+	@DefaultMessage("IgnoreSslErrors")
+	@Description("")
+	String IgnoreSslErrorsProperties();
 
-  @DefaultMessage("Language")
-  @Description("")
-  String LanguageProperties();
+	@DefaultMessage("Image")
+	@Description("")
+	String ImageProperties();
 
-  @DefaultMessage("LineWidth")
-  @Description("")
-  String LineWidthProperties();
+	@DefaultMessage("Interval")
+	@Description("")
+	String IntervalProperties();
 
-  @DefaultMessage("Message")
-  @Description("")
-  String MessageProperties();
+	@DefaultMessage("IsLooping")
+	@Description("")
+	String IsLoopingProperties();
 
-  @DefaultMessage("MinimumInterval (ms)")
-  @Description("")
-  String MinimumIntervalProperties();
+	@DefaultMessage("KeyFile")
+	@Description("")
+	String KeyFileProperties();
 
-  @DefaultMessage("MultiLine")
-  @Description("")
-  String MultiLineProperties();
+	@DefaultMessage("Language")
+	@Description("")
+	String LanguageProperties();
 
-  @DefaultMessage("NumbersOnly")
-  @Description("")
-  String NumbersOnlyProperties();
+	@DefaultMessage("LineWidth")
+	@Description("")
+	String LineWidthProperties();
 
-  @DefaultMessage("OpenScreenAnimation")
-  @Description("")
-  String OpenScreenAnimationProperties();
+	@DefaultMessage("Message")
+	@Description("")
+	String MessageProperties();
 
-  @DefaultMessage("PaintColor")
-  @Description("")
-  String PaintColorProperties();
+	@DefaultMessage("MinimumInterval (ms)")
+	@Description("")
+	String MinimumIntervalProperties();
 
-  @DefaultMessage("PhoneNumber")
-  @Description("")
-  String PhoneNumberProperties();
+	@DefaultMessage("MultiLine")
+	@Description("")
+	String MultiLineProperties();
 
-  @DefaultMessage("PhoneNumberList")
-  @Description("")
-  String PhoneNumberListProperties();
+	@DefaultMessage("NumbersOnly")
+	@Description("")
+	String NumbersOnlyProperties();
 
-  @DefaultMessage("Picture")
-  @Description("")
-  String PictureProperties();
+	@DefaultMessage("OpenScreenAnimation")
+	@Description("")
+	String OpenScreenAnimationProperties();
 
-  @DefaultMessage("PressedEventEnabled")
-  @Description("")
-  String PressedEventEnabledProperties();
+	@DefaultMessage("PaintColor")
+	@Description("")
+	String PaintColorProperties();
 
-  @DefaultMessage("PromptforPermission")
-  @Description("")
-  String PromptforPermissionProperties();
+	@DefaultMessage("PhoneNumber")
+	@Description("")
+	String PhoneNumberProperties();
 
-  @DefaultMessage("Query")
-  @Description("")
-  String QueryProperties();
+	@DefaultMessage("PhoneNumberList")
+	@Description("")
+	String PhoneNumberListProperties();
 
-  @DefaultMessage("Radius")
-  @Description("")
-  String RadiusProperties();
+	@DefaultMessage("Picture")
+	@Description("")
+	String PictureProperties();
 
-  @DefaultMessage("ReadMode")
-  @Description("")
-  String ReadModeProperties();
+	@DefaultMessage("PressedEventEnabled")
+	@Description("")
+	String PressedEventEnabledProperties();
 
-  @DefaultMessage("ReceivingEnabled")
-  @Description("")
-  String ReceivingEnabledProperties();
+	@DefaultMessage("PromptforPermission")
+	@Description("")
+	String PromptforPermissionProperties();
 
-  @DefaultMessage("ReleasedEventEnabled")
-  @Description("")
-  String ReleasedEventEnabledProperties();
+	@DefaultMessage("Query")
+	@Description("")
+	String QueryProperties();
 
-  @DefaultMessage("ResponseFileName")
-  @Description("")
-  String ResponseFileNameProperties();
+	@DefaultMessage("Radius")
+	@Description("")
+	String RadiusProperties();
 
-  @DefaultMessage("ResultName")
-  @Description("")
-  String ResultNameProperties();
+	@DefaultMessage("ReadMode")
+	@Description("")
+	String ReadModeProperties();
 
-  @DefaultMessage("Rows")
-  @Description("")
-  String RowsProperties();
+	@DefaultMessage("ReceivingEnabled")
+	@Description("")
+	String ReceivingEnabledProperties();
 
-  @DefaultMessage("SavedRecording")
-  @Description("")
-  String SavedRecordingProperties();
+	@DefaultMessage("ReleasedEventEnabled")
+	@Description("")
+	String ReleasedEventEnabledProperties();
 
-  @DefaultMessage("SaveResponse")
-  @Description("")
-  String SaveResponseProperties();
+	@DefaultMessage("ResponseFileName")
+	@Description("")
+	String ResponseFileNameProperties();
 
-  @DefaultMessage("ScalePictureToFit")
-  @Description("")
-  String ScalePictureToFitProperties();
+	@DefaultMessage("ResultName")
+	@Description("")
+	String ResultNameProperties();
 
-  @DefaultMessage("SensorPort")
-  @Description("")
-  String SensorPortProperties();
+	@DefaultMessage("Rows")
+	@Description("")
+	String RowsProperties();
 
-  @DefaultMessage("ScreenOrientation")
-  @Description("")
-  String ScreenOrientationProperties();
+	@DefaultMessage("SavedRecording")
+	@Description("")
+	String SavedRecordingProperties();
 
-  @DefaultMessage("Secure")
-  @Description("")
-  String SecureProperties();
+	@DefaultMessage("SaveResponse")
+	@Description("")
+	String SaveResponseProperties();
 
-  @DefaultMessage("ServiceAccountEmail")
-  @Description("")
-  String ServiceAccountEmailProperties();
+	@DefaultMessage("ScalePictureToFit")
+	@Description("")
+	String ScalePictureToFitProperties();
 
-  @DefaultMessage("ServiceURL")
-  @Description("")
-  String ServiceURLProperties();
+	@DefaultMessage("SensorPort")
+	@Description("")
+	String SensorPortProperties();
 
-  @DefaultMessage("FirebaseURL")
-  @Description("")
-  String FirebaseURLProperties();
+	@DefaultMessage("ScreenOrientation")
+	@Description("")
+	String ScreenOrientationProperties();
 
-  @DefaultMessage("ProjectBucket")
-  @Description("")
-  String ProjectBucketProperties();
+	@DefaultMessage("Secure")
+	@Description("")
+	String SecureProperties();
 
-  @DefaultMessage("DeveloperBucket")
-  @Description("")
-  String DeveloperBucketProperties();
+	@DefaultMessage("ServiceAccountEmail")
+	@Description("")
+	String ServiceAccountEmailProperties();
 
-  @DefaultMessage("FirebaseToken")
-  @Description("")
-  String FirebaseTokenProperties();
+	@DefaultMessage("ServiceURL")
+	@Description("")
+	String ServiceURLProperties();
 
-  @DefaultMessage("PrivateUserStorage")
-  @Description("")
-  String PrivateUserStorageProperties();
+	@DefaultMessage("FirebaseURL")
+	@Description("")
+	String FirebaseURLProperties();
 
-  @DefaultMessage("Scrollable")
-  @Description("")
-  String ScrollableProperties();
+	@DefaultMessage("ProjectBucket")
+	@Description("")
+	String ProjectBucketProperties();
 
-  @DefaultMessage("Shape")
-  @Description("")
-  String ShapeProperties();
+	@DefaultMessage("DeveloperBucket")
+	@Description("")
+	String DeveloperBucketProperties();
 
-  @DefaultMessage("ShowFeedback")
-  @Description("")
-  String ShowFeedbackProperties();
+	@DefaultMessage("FirebaseToken")
+	@Description("")
+	String FirebaseTokenProperties();
 
-  @DefaultMessage("show tables")
-  @Description("")
-  String ShowTablesProperties();
+	@DefaultMessage("PrivateUserStorage")
+	@Description("")
+	String PrivateUserStorageProperties();
 
-  @DefaultMessage("Source")
-  @Description("")
-  String SourceProperties();
+	@DefaultMessage("Scrollable")
+	@Description("")
+	String ScrollableProperties();
 
-  @DefaultMessage("Speed")
-  @Description("")
-  String SpeedProperties();
+	@DefaultMessage("Shape")
+	@Description("")
+	String ShapeProperties();
 
-  @DefaultMessage("StopBeforeDisconnect")
-  @Description("")
-  String StopBeforeDisconnectProperties();
+	@DefaultMessage("ShowFeedback")
+	@Description("")
+	String ShowFeedbackProperties();
 
-  @DefaultMessage("StopDetectionTimeout")
-  @Description("")
-  String StopDetectionTimeoutProperties();
+	@DefaultMessage("show tables")
+	@Description("")
+	String ShowTablesProperties();
 
-  @DefaultMessage("StrideLength")
-  @Description("")
-  String StrideLengthProperties();
+	@DefaultMessage("Source")
+	@Description("")
+	String SourceProperties();
 
-  @DefaultMessage("Text")
-  @Description("")
-  String TextProperties();
+	@DefaultMessage("Speed")
+	@Description("")
+	String SpeedProperties();
 
-  @DefaultMessage("TextAlignment")
-  @Description("")
-  String TextAlignmentProperties();
+	@DefaultMessage("StopBeforeDisconnect")
+	@Description("")
+	String StopBeforeDisconnectProperties();
 
-  @DefaultMessage("TextColor")
-  @Description("")
-  String TextColorProperties();
+	@DefaultMessage("StopDetectionTimeout")
+	@Description("")
+	String StopDetectionTimeoutProperties();
 
-  @DefaultMessage("TimerAlwaysFires")
-  @Description("")
-  String TimerAlwaysFiresProperties();
+	@DefaultMessage("StrideLength")
+	@Description("")
+	String StrideLengthProperties();
 
-  @DefaultMessage("TimerEnabled")
-  @Description("")
-  String TimerEnabledProperties();
+	@DefaultMessage("Text")
+	@Description("")
+	String TextProperties();
 
-  @DefaultMessage("TimerInterval")
-  @Description("")
-  String TimerIntervalProperties();
+	@DefaultMessage("TextAlignment")
+	@Description("")
+	String TextAlignmentProperties();
 
-  @DefaultMessage("Title")
-  @Description("")
-  String TitleProperties();
+	@DefaultMessage("TextColor")
+	@Description("")
+	String TextColorProperties();
 
-  @DefaultMessage("TopOfRange")
-  @Description("")
-  String TopOfRangeProperties();
+	@DefaultMessage("TimerAlwaysFires")
+	@Description("")
+	String TimerAlwaysFiresProperties();
 
-  @DefaultMessage("Url")
-  @Description("")
-  String UrlProperties();
+	@DefaultMessage("TimerEnabled")
+	@Description("")
+	String TimerEnabledProperties();
 
-  @DefaultMessage("UseFront")
-  @Description("")
-  String UseFrontProperties();
+	@DefaultMessage("TimerInterval")
+	@Description("")
+	String TimerIntervalProperties();
 
-  @DefaultMessage("UseGPS")
-  @Description("")
-  String UseGPSProperties();
+	@DefaultMessage("Title")
+	@Description("")
+	String TitleProperties();
 
-  @DefaultMessage("UseServiceAuthentication")
-  @Description("")
-  String UseServiceAuthenticationProperties();
+	@DefaultMessage("TopOfRange")
+	@Description("")
+	String TopOfRangeProperties();
 
-  @DefaultMessage("UsesLocationVisible")
-  @Description("")
-  String UsesLocationVisibleProperties();
+	@DefaultMessage("Url")
+	@Description("")
+	String UrlProperties();
 
-  @DefaultMessage("VersionCode")
-  @Description("")
-  String VersionCodeProperties();
+	@DefaultMessage("UseFront")
+	@Description("")
+	String UseFrontProperties();
 
-  @DefaultMessage("VersionName")
-  @Description("")
-  String VersionNameProperties();
+	@DefaultMessage("UseGPS")
+	@Description("")
+	String UseGPSProperties();
 
-  @DefaultMessage("Sizing")
-  @Description("")
-  String SizingProperties();
+	@DefaultMessage("UseServiceAuthentication")
+	@Description("")
+	String UseServiceAuthenticationProperties();
 
-  @DefaultMessage("Visible")
-  @Description("")
-  String VisibleProperties();
+	@DefaultMessage("UsesLocationVisible")
+	@Description("")
+	String UsesLocationVisibleProperties();
 
-  @DefaultMessage("Volume")
-  @Description("")
-  String VolumeProperties();
+	@DefaultMessage("VersionCode")
+	@Description("")
+	String VersionCodeProperties();
 
-  @DefaultMessage("WheelDiameter")
-  @Description("")
-  String WheelDiameterProperties();
+	@DefaultMessage("VersionName")
+	@Description("")
+	String VersionNameProperties();
 
-  @DefaultMessage("WithinRangeEventEnabled")
-  @Description("")
-  String WithinRangeEventEnabledProperties();
+	@DefaultMessage("Sizing")
+	@Description("")
+	String SizingProperties();
 
-  @DefaultMessage("X")
-  @Description("")
-  String XProperties();
+	@DefaultMessage("Visible")
+	@Description("")
+	String VisibleProperties();
 
-  @DefaultMessage("Y")
-  @Description("")
-  String YProperties();
+	@DefaultMessage("Volume")
+	@Description("")
+	String VolumeProperties();
 
-  @DefaultMessage("Z")
-  @Description("")
-  String ZProperties();
+	@DefaultMessage("WheelDiameter")
+	@Description("")
+	String WheelDiameterProperties();
 
-  @DefaultMessage("showing")
-  @Description("")
-  String VisibilityShowingProperties();
+	@DefaultMessage("WithinRangeEventEnabled")
+	@Description("")
+	String WithinRangeEventEnabledProperties();
 
-  @DefaultMessage("hidden")
-  @Description("")
-  String VisibilityHiddenProperties();
+	@DefaultMessage("X")
+	@Description("")
+	String XProperties();
 
-  @DefaultMessage("ElementsFromString")
-  @Description("")
-  String ElementsFromStringProperties();
+	@DefaultMessage("Y")
+	@Description("")
+	String YProperties();
 
-  @DefaultMessage("Rotates")
-  @Description("")
-  String RotatesProperties();
+	@DefaultMessage("Z")
+	@Description("")
+	String ZProperties();
 
-  @DefaultMessage("RotationAngle")
-  @Description("")
-  String RotationAngleProperties();
+	@DefaultMessage("showing")
+	@Description("")
+	String VisibilityShowingProperties();
 
-  @DefaultMessage("Selection")
-  @Description("")
-  String SelectionProperties();
+	@DefaultMessage("hidden")
+	@Description("")
+	String VisibilityHiddenProperties();
 
-  @DefaultMessage("TimeInterval")
-  @Description("")
-  String TimeIntervalProperties();
+	@DefaultMessage("ElementsFromString")
+	@Description("")
+	String ElementsFromStringProperties();
 
-  @DefaultMessage("UsesLocation")
-  @Description("")
-  String UsesLocationProperties();
+	@DefaultMessage("Rotates")
+	@Description("")
+	String RotatesProperties();
 
-  @DefaultMessage("ShowFilterBar")
-  @Description("")
-  String ShowFilterBarProperties();
+	@DefaultMessage("RotationAngle")
+	@Description("")
+	String RotationAngleProperties();
 
-  @DefaultMessage("TextSize")
-  @Description("")
-  String TextSizeProperties();
+	@DefaultMessage("Selection")
+	@Description("")
+	String SelectionProperties();
 
-  @DefaultMessage("NotifierLength")
-  @Description("")
-  String NotifierLengthProperties();
+	@DefaultMessage("TimeInterval")
+	@Description("")
+	String TimeIntervalProperties();
 
-  @DefaultMessage("Loop")
-  @Description("")
-  String LoopProperties();
+	@DefaultMessage("UsesLocation")
+	@Description("")
+	String UsesLocationProperties();
 
-  @DefaultMessage("Pitch")
-  @Description("")
-  String PitchProperties();
+	@DefaultMessage("ShowFilterBar")
+	@Description("")
+	String ShowFilterBarProperties();
 
-  @DefaultMessage("SpeechRate")
-  @Description("")
-  String SpeechRateProperties();
+	@DefaultMessage("TextSize")
+	@Description("")
+	String TextSizeProperties();
 
-  @DefaultMessage("Sensitivity")
-  @Description("")
-  String SensitivityProperties();
+	@DefaultMessage("NotifierLength")
+	@Description("")
+	String NotifierLengthProperties();
 
-  @DefaultMessage("TwitPic_API_Key")
-  @Description("")
-  String TwitPic_API_KeyProperties();
+	@DefaultMessage("Loop")
+	@Description("")
+	String LoopProperties();
 
-  @DefaultMessage("Prompt")
-  @Description("")
-  String PromptProperties();
+	@DefaultMessage("Pitch")
+	@Description("")
+	String PitchProperties();
 
-  @DefaultMessage("ColorLeft")
-  @Description("")
-  String ColorLeftProperties();
+	@DefaultMessage("SpeechRate")
+	@Description("")
+	String SpeechRateProperties();
 
-  @DefaultMessage("ColorRight")
-  @Description("")
-  String ColorRightProperties();
+	@DefaultMessage("Sensitivity")
+	@Description("")
+	String SensitivityProperties();
 
-  @DefaultMessage("MaxValue")
-  @Description("")
-  String MaxValueProperties();
+	@DefaultMessage("TwitPic_API_Key")
+	@Description("")
+	String TwitPic_API_KeyProperties();
 
-  @DefaultMessage("MinValue")
-  @Description("")
-  String MinValueProperties();
+	@DefaultMessage("Prompt")
+	@Description("")
+	String PromptProperties();
 
-  @DefaultMessage("ThumbPosition")
-  @Description("")
-  String ThumbPositionProperties();
+	@DefaultMessage("ColorLeft")
+	@Description("")
+	String ColorLeftProperties();
 
-  @DefaultMessage("ThumbEnabled")
-  @Description("")
-  String ThumbEnabled();
+	@DefaultMessage("ColorRight")
+	@Description("")
+	String ColorRightProperties();
 
-  @DefaultMessage("Day")
-  @Description("")
-  String DayProperties();
+	@DefaultMessage("MaxValue")
+	@Description("")
+	String MaxValueProperties();
 
-  @DefaultMessage("Month")
-  @Description("")
-  String MonthProperties();
+	@DefaultMessage("MinValue")
+	@Description("")
+	String MinValueProperties();
 
-  @DefaultMessage("MonthInText")
-  @Description("")
-  String MonthInTextProperties();
+	@DefaultMessage("ThumbPosition")
+	@Description("")
+	String ThumbPositionProperties();
 
-  @DefaultMessage("Year")
-  @Description("")
-  String YearProperties();
+	@DefaultMessage("ThumbEnabled")
+	@Description("")
+	String ThumbEnabled();
 
-  @DefaultMessage("LastMessage")
-  @Description("")
-  String LastMessageProperties();
+	@DefaultMessage("Day")
+	@Description("")
+	String DayProperties();
 
-  @DefaultMessage("TextToWrite")
-  @Description("")
-  String TextToWriteProperties();
+	@DefaultMessage("Month")
+	@Description("")
+	String MonthProperties();
 
-  @DefaultMessage("WriteType")
-  @Description("")
-  String WriteTypeProperties();
+	@DefaultMessage("MonthInText")
+	@Description("")
+	String MonthInTextProperties();
 
-  @DefaultMessage("ElapsedTime")
-  @Description("")
-  String ElapsedTimeProperties();
+	@DefaultMessage("Year")
+	@Description("")
+	String YearProperties();
 
-  @DefaultMessage("Moving")
-  @Description("")
-  String MovingProperties();
+	@DefaultMessage("LastMessage")
+	@Description("")
+	String LastMessageProperties();
 
-  @DefaultMessage("Hour")
-  @Description("")
-  String HourProperties();
+	@DefaultMessage("TextToWrite")
+	@Description("")
+	String TextToWriteProperties();
 
-  @DefaultMessage("Minute")
-  @Description("")
-  String MinuteProperties();
+	@DefaultMessage("WriteType")
+	@Description("")
+	String WriteTypeProperties();
 
-  @DefaultMessage("Distance")
-  @Description("")
-  String DistanceProperties();
+	@DefaultMessage("ElapsedTime")
+	@Description("")
+	String ElapsedTimeProperties();
 
-  @DefaultMessage("DirectMessages")
-  @Description("")
-  String DirectMessagesProperties();
+	@DefaultMessage("Moving")
+	@Description("")
+	String MovingProperties();
 
-  @DefaultMessage("ContactName")
-  @Description("")
-  String ContactNameProperties();
+	@DefaultMessage("Hour")
+	@Description("")
+	String HourProperties();
 
-  @DefaultMessage("CurrentAddress")
-  @Description("")
-  String CurrentAddressProperties();
+	@DefaultMessage("Minute")
+	@Description("")
+	String MinuteProperties();
 
-  @DefaultMessage("CurrentPageTitle")
-  @Description("")
-  String CurrentPageTitleProperties();
+	@DefaultMessage("Distance")
+	@Description("")
+	String DistanceProperties();
 
-  @DefaultMessage("CurrentUrl")
-  @Description("")
-  String CurrentUrlProperties();
+	@DefaultMessage("DirectMessages")
+	@Description("")
+	String DirectMessagesProperties();
 
-  @DefaultMessage("Accuracy")
-  @Description("")
-  String AccuracyProperties();
+	@DefaultMessage("ContactName")
+	@Description("")
+	String ContactNameProperties();
 
-  @DefaultMessage("AddressesAndNames")
-  @Description("")
-  String AddressesAndNamesProperties();
+	@DefaultMessage("CurrentAddress")
+	@Description("")
+	String CurrentAddressProperties();
 
-  @DefaultMessage("Altitude")
-  @Description("")
-  String AltitudeProperties();
+	@DefaultMessage("CurrentPageTitle")
+	@Description("")
+	String CurrentPageTitleProperties();
 
-  @DefaultMessage("Angle")
-  @Description("")
-  String AngleProperties();
+	@DefaultMessage("CurrentUrl")
+	@Description("")
+	String CurrentUrlProperties();
 
-  @DefaultMessage("Animation")
-  @Description("")
-  String AnimationProperties();
+	@DefaultMessage("Accuracy")
+	@Description("")
+	String AccuracyProperties();
 
-  @DefaultMessage("Available")
-  @Description("")
-  String AvailableProperties();
+	@DefaultMessage("AddressesAndNames")
+	@Description("")
+	String AddressesAndNamesProperties();
 
-  @DefaultMessage("AvailableProviders")
-  @Description("")
-  String AvailableProvidersProperties();
+	@DefaultMessage("Altitude")
+	@Description("")
+	String AltitudeProperties();
 
-  @DefaultMessage("Azimuth")
-  @Description("")
-  String AzimuthProperties();
+	@DefaultMessage("Angle")
+	@Description("")
+	String AngleProperties();
 
-  @DefaultMessage("BallotOptions")
-  @Description("")
-  String BallotOptionsProperties();
+	@DefaultMessage("Animation")
+	@Description("")
+	String AnimationProperties();
 
-  @DefaultMessage("BallotQuestion")
-  @Description("")
-  String BallotQuestionProperties();
+	@DefaultMessage("Available")
+	@Description("")
+	String AvailableProperties();
 
-  @DefaultMessage("ContactUri")
-  @Description("")
-  String ContactUriProperties();
+	@DefaultMessage("AvailableProviders")
+	@Description("")
+	String AvailableProvidersProperties();
 
-  @DefaultMessage("EmailAddress")
-  @Description("")
-  String EmailAddressProperties();
+	@DefaultMessage("Azimuth")
+	@Description("")
+	String AzimuthProperties();
 
-  @DefaultMessage("EmailAddressList")
-  @Description("")
-  String EmailAddressListProperties();
+	@DefaultMessage("BallotOptions")
+	@Description("")
+	String BallotOptionsProperties();
 
-  @DefaultMessage("Elements")
-  @Description("")
-  String ElementsProperties();
+	@DefaultMessage("BallotQuestion")
+	@Description("")
+	String BallotQuestionProperties();
 
-  @DefaultMessage("Followers")
-  @Description("")
-  String FollowersProperties();
+	@DefaultMessage("ContactUri")
+	@Description("")
+	String ContactUriProperties();
 
-  @DefaultMessage("FriendTimeline")
-  @Description("")
-  String FriendTimelineProperties();
+	@DefaultMessage("EmailAddress")
+	@Description("")
+	String EmailAddressProperties();
 
-  @DefaultMessage("FullScreen")
-  @Description("")
-  String FullScreenProperties();
+	@DefaultMessage("EmailAddressList")
+	@Description("")
+	String EmailAddressListProperties();
 
-  @DefaultMessage("HasAccuracy")
-  @Description("")
-  String HasAccuracyProperties();
+	@DefaultMessage("Elements")
+	@Description("")
+	String ElementsProperties();
 
-  @DefaultMessage("HasAltitude")
-  @Description("")
-  String HasAltitudeProperties();
+	@DefaultMessage("Followers")
+	@Description("")
+	String FollowersProperties();
 
-  @DefaultMessage("HasLongitudeLatitude")
-  @Description("")
-  String HasLongitudeLatitudeProperties();
+	@DefaultMessage("FriendTimeline")
+	@Description("")
+	String FriendTimelineProperties();
 
-  @DefaultMessage("Height")
-  @Description("")
-  String HeightProperties();
+	@DefaultMessage("FullScreen")
+	@Description("")
+	String FullScreenProperties();
 
-  @DefaultMessage("HeightPercent")
-  @Description("")
-  String HeightPercentProperties();
+	@DefaultMessage("HasAccuracy")
+	@Description("")
+	String HasAccuracyProperties();
 
-  @DefaultMessage("InstanceId")
-  @Description("")
-  String InstanceIdProperties();
+	@DefaultMessage("HasAltitude")
+	@Description("")
+	String HasAltitudeProperties();
 
-  @DefaultMessage("InvitedInstances")
-  @Description("")
-  String InvitedInstancesProperties();
+	@DefaultMessage("HasLongitudeLatitude")
+	@Description("")
+	String HasLongitudeLatitudeProperties();
 
-  @DefaultMessage("IsAccepting")
-  @Description("")
-  String IsAcceptingProperties();
+	@DefaultMessage("Height")
+	@Description("")
+	String HeightProperties();
 
-  @DefaultMessage("IsConnected")
-  @Description("")
-  String IsConnectedProperties();
+	@DefaultMessage("HeightPercent")
+	@Description("")
+	String HeightPercentProperties();
 
-  @DefaultMessage("IsPlaying")
-  @Description("")
-  String IsPlayingProperties();
+	@DefaultMessage("InstanceId")
+	@Description("")
+	String InstanceIdProperties();
 
-  @DefaultMessage("JoinedInstances")
-  @Description("")
-  String JoinedInstancesProperties();
+	@DefaultMessage("InvitedInstances")
+	@Description("")
+	String InvitedInstancesProperties();
 
-  @DefaultMessage("Latitude")
-  @Description("")
-  String LatitudeProperties();
+	@DefaultMessage("IsAccepting")
+	@Description("")
+	String IsAcceptingProperties();
 
-  @DefaultMessage("Leader")
-  @Description("")
-  String LeaderProperties();
+	@DefaultMessage("IsConnected")
+	@Description("")
+	String IsConnectedProperties();
 
-  @DefaultMessage("Longitude")
-  @Description("")
-  String LongitudeProperties();
+	@DefaultMessage("IsPlaying")
+	@Description("")
+	String IsPlayingProperties();
 
-  @DefaultMessage("Magnitude")
-  @Description("")
-  String MagnitudeProperties();
+	@DefaultMessage("JoinedInstances")
+	@Description("")
+	String JoinedInstancesProperties();
 
-  @DefaultMessage("Mentions")
-  @Description("")
-  String MentionsProperties();
+	@DefaultMessage("Latitude")
+	@Description("")
+	String LatitudeProperties();
 
-  @DefaultMessage("ProviderLocked")
-  @Description("")
-  String ProviderLockedProperties();
+	@DefaultMessage("Leader")
+	@Description("")
+	String LeaderProperties();
 
-  @DefaultMessage("ProviderName")
-  @Description("")
-  String ProviderNameProperties();
+	@DefaultMessage("Longitude")
+	@Description("")
+	String LongitudeProperties();
 
-  @DefaultMessage("PublicInstances")
-  @Description("")
-  String PublicInstancesProperties();
+	@DefaultMessage("Magnitude")
+	@Description("")
+	String MagnitudeProperties();
 
-  @DefaultMessage("PlayOnlyInForeground")
-  @Description("")
-  String PlayOnlyInForegroundProperties();
+	@DefaultMessage("Mentions")
+	@Description("")
+	String MentionsProperties();
 
-  @DefaultMessage("Players")
-  @Description("")
-  String PlayersProperties();
+	@DefaultMessage("ProviderLocked")
+	@Description("")
+	String ProviderLockedProperties();
 
-  @DefaultMessage("RequestHeaders")
-  @Description("")
-  String RequestHeadersProperties();
+	@DefaultMessage("ProviderName")
+	@Description("")
+	String ProviderNameProperties();
 
-  @DefaultMessage("Result")
-  @Description("")
-  String ResultProperties();
+	@DefaultMessage("PublicInstances")
+	@Description("")
+	String PublicInstancesProperties();
 
-  @DefaultMessage("UseExternalScanner")
-  @Description("")
-  String UseExternalScannerProperties();
+	@DefaultMessage("PlayOnlyInForeground")
+	@Description("")
+	String PlayOnlyInForegroundProperties();
 
-  @DefaultMessage("ResultType")
-  @Description("")
-  String ResultTypeProperties();
+	@DefaultMessage("Players")
+	@Description("")
+	String PlayersProperties();
 
-  @DefaultMessage("ResultUri")
-  @Description("")
-  String ResultUriProperties();
+	@DefaultMessage("RequestHeaders")
+	@Description("")
+	String RequestHeadersProperties();
 
-  @DefaultMessage("Roll")
-  @Description("")
-  String RollProperties();
+	@DefaultMessage("Result")
+	@Description("")
+	String ResultProperties();
 
-  @DefaultMessage("Scaling")
-  @Description("A property for scaling images")
-  String ScalingProperties();
+	@DefaultMessage("UseExternalScanner")
+	@Description("")
+	String UseExternalScannerProperties();
 
-  @DefaultMessage("SearchResults")
-  @Description("")
-  String SearchResultsProperties();
+	@DefaultMessage("ResultType")
+	@Description("")
+	String ResultTypeProperties();
 
-  @DefaultMessage("ServiceUrl")
-  @Description("")
-  String ServiceUrlProperties();
+	@DefaultMessage("ResultUri")
+	@Description("")
+	String ResultUriProperties();
 
-  @DefaultMessage("SelectionIndex")
-  @Description("")
-  String SelectionIndexProperties();
+	@DefaultMessage("Roll")
+	@Description("")
+	String RollProperties();
 
-  @DefaultMessage("uri")
-  @Description("")
-  String uriParams();
+	@DefaultMessage("Scaling")
+	@Description("A property for scaling images")
+	String ScalingProperties();
 
-  @DefaultMessage("UserChoice")
-  @Description("")
-  String UserChoiceProperties();
+	@DefaultMessage("SearchResults")
+	@Description("")
+	String SearchResultsProperties();
 
-  @DefaultMessage("UserEmailAddress")
-  @Description("")
-  String UserEmailAddressProperties();
+	@DefaultMessage("ServiceUrl")
+	@Description("")
+	String ServiceUrlProperties();
 
-  @DefaultMessage("UserId")
-  @Description("")
-  String UserIdProperties();
+	@DefaultMessage("SelectionIndex")
+	@Description("")
+	String SelectionIndexProperties();
 
-  @DefaultMessage("Username")
-  @Description("")
-  String UsernameProperties();
+	@DefaultMessage("uri")
+	@Description("")
+	String uriParams();
 
-  @DefaultMessage("XAccel")
-  @Description("")
-  String XAccelProperties();
+	@DefaultMessage("UserChoice")
+	@Description("")
+	String UserChoiceProperties();
 
-  @DefaultMessage("XAngularVelocity")
-  @Description("")
-  String XAngularVelocityProperties();
+	@DefaultMessage("UserEmailAddress")
+	@Description("")
+	String UserEmailAddressProperties();
 
-  @DefaultMessage("YAccel")
-  @Description("")
-  String YAccelProperties();
+	@DefaultMessage("UserId")
+	@Description("")
+	String UserIdProperties();
 
-  @DefaultMessage("YAngularVelocity")
-  @Description("")
-  String YAngularVelocityProperties();
+	@DefaultMessage("Username")
+	@Description("")
+	String UsernameProperties();
 
-  @DefaultMessage("ZAccel")
-  @Description("")
-  String ZAccelProperties();
+	@DefaultMessage("XAccel")
+	@Description("")
+	String XAccelProperties();
 
-  @DefaultMessage("ZAngularVelocity")
-  @Description("")
-  String ZAngularVelocityProperties();
+	@DefaultMessage("XAngularVelocity")
+	@Description("")
+	String XAngularVelocityProperties();
 
-  @DefaultMessage("Width")
-  @Description("")
-  String WidthProperties();
+	@DefaultMessage("YAccel")
+	@Description("")
+	String YAccelProperties();
 
-  @DefaultMessage("WidthPercent")
-  @Description("")
-  String WidthPercentProperties();
+	@DefaultMessage("YAngularVelocity")
+	@Description("")
+	String YAngularVelocityProperties();
 
-  @DefaultMessage("WebViewString")
-  @Description("")
-  String WebViewStringProperties();
+	@DefaultMessage("ZAccel")
+	@Description("")
+	String ZAccelProperties();
 
-  //Params
-  @DefaultMessage("xAccel")
-  @Description("")
-  String xAccelParams();
+	@DefaultMessage("ZAngularVelocity")
+	@Description("")
+	String ZAngularVelocityProperties();
 
-  @DefaultMessage("yAccel")
-  @Description("")
-  String yAccelParams();
+	@DefaultMessage("Width")
+	@Description("")
+	String WidthProperties();
 
-  @DefaultMessage("zAccel")
-  @Description("")
-  String zAccelParams();
+	@DefaultMessage("WidthPercent")
+	@Description("")
+	String WidthPercentProperties();
 
-  @DefaultMessage("result")
-  @Description("")
-  String resultParams();
+	@DefaultMessage("WebViewString")
+	@Description("")
+	String WebViewStringProperties();
 
-  @DefaultMessage("other")
-  @Description("")
-  String otherParams();
+	// Params
+	@DefaultMessage("xAccel")
+	@Description("")
+	String xAccelParams();
 
-  @DefaultMessage("component")
-  @Description("")
-  String componentParams();
+	@DefaultMessage("yAccel")
+	@Description("")
+	String yAccelParams();
 
-  @DefaultMessage("startX")
-  @Description("")
-  String startXParams();
+	@DefaultMessage("zAccel")
+	@Description("")
+	String zAccelParams();
 
-  @DefaultMessage("startY")
-  @Description("")
-  String startYParams();
+	@DefaultMessage("result")
+	@Description("")
+	String resultParams();
 
-  @DefaultMessage("prevX")
-  @Description("")
-  String prevXParams();
+	@DefaultMessage("other")
+	@Description("")
+	String otherParams();
 
-  @DefaultMessage("prevY")
-  @Description("")
-  String prevYParams();
+	@DefaultMessage("component")
+	@Description("")
+	String componentParams();
 
-  @DefaultMessage("currentX")
-  @Description("")
-  String currentXParams();
+	@DefaultMessage("startX")
+	@Description("")
+	String startXParams();
 
-  @DefaultMessage("currentY")
-  @Description("")
-  String currentYParams();
+	@DefaultMessage("startY")
+	@Description("")
+	String startYParams();
 
-  @DefaultMessage("edge")
-  @Description("")
-  String edgeParams();
+	@DefaultMessage("prevX")
+	@Description("")
+	String prevXParams();
 
-  @DefaultMessage("speed")
-  @Description("")
-  String speedParams();
+	@DefaultMessage("prevY")
+	@Description("")
+	String prevYParams();
 
-  @DefaultMessage("heading")
-  @Description("")
-  String headingParams();
+	@DefaultMessage("currentX")
+	@Description("")
+	String currentXParams();
 
-  @DefaultMessage("xvel")
-  @Description("")
-  String xvelParams();
+	@DefaultMessage("currentY")
+	@Description("")
+	String currentYParams();
 
-  @DefaultMessage("yvel")
-  @Description("")
-  String yvelParams();
+	@DefaultMessage("edge")
+	@Description("")
+	String edgeParams();
 
-  @DefaultMessage("target")
-  @Description("")
-  String targetParams();
+	@DefaultMessage("speed")
+	@Description("")
+	String speedParams();
 
-  @DefaultMessage("address")
-  @Description("")
-  String addressParams();
+	@DefaultMessage("heading")
+	@Description("")
+	String headingParams();
 
-  @DefaultMessage("uuid")
-  @Description("")
-  String uuidParams();
+	@DefaultMessage("xvel")
+	@Description("")
+	String xvelParams();
 
-  @DefaultMessage("numberOfBytes")
-  @Description("")
-  String numberOfBytesParams();
+	@DefaultMessage("yvel")
+	@Description("")
+	String yvelParams();
 
-  @DefaultMessage("number")
-  @Description("")
-  String numberParams();
+	@DefaultMessage("target")
+	@Description("")
+	String targetParams();
 
-  @DefaultMessage("list")
-  @Description("")
-  String listParams();
+	@DefaultMessage("address")
+	@Description("")
+	String addressParams();
 
-  @DefaultMessage("text")
-  @Description("")
-  String textParams();
+	@DefaultMessage("uuid")
+	@Description("")
+	String uuidParams();
 
-  @DefaultMessage("clip")
-  @Description("")
-  String clipParams();
+	@DefaultMessage("numberOfBytes")
+	@Description("")
+	String numberOfBytesParams();
 
-  @DefaultMessage("image")
-  @Description("")
-  String imageParams();
+	@DefaultMessage("number")
+	@Description("")
+	String numberParams();
 
-  @DefaultMessage("draggedSprite")
-  @Description("")
-  String draggedSpriteParams();
+	@DefaultMessage("list")
+	@Description("")
+	String listParams();
 
-  @DefaultMessage("draggedAnySprite")
-  @Description("")
-  String draggedAnySpriteParams();
+	@DefaultMessage("text")
+	@Description("")
+	String textParams();
 
-  @DefaultMessage("flungSprite")
-  @Description("")
-  String flungSpriteParams();
+	@DefaultMessage("clip")
+	@Description("")
+	String clipParams();
 
-  @DefaultMessage("touchedSprite")
-  @Description("")
-  String touchedSpriteParams();
+	@DefaultMessage("image")
+	@Description("")
+	String imageParams();
 
-  @DefaultMessage("touchedAnySprite")
-  @Description("")
-  String touchedAnySpriteParams();
+	@DefaultMessage("draggedSprite")
+	@Description("")
+	String draggedSpriteParams();
 
-  @DefaultMessage("x")
-  @Description("")
-  String xParams();
+	@DefaultMessage("draggedAnySprite")
+	@Description("")
+	String draggedAnySpriteParams();
 
-  @DefaultMessage("y")
-  @Description("")
-  String yParams();
+	@DefaultMessage("flungSprite")
+	@Description("")
+	String flungSpriteParams();
 
-  @DefaultMessage("centerX")
-  @Description("")
-  String centerXParams();
+	@DefaultMessage("touchedSprite")
+	@Description("")
+	String touchedSpriteParams();
 
-  @DefaultMessage("centerY")
-  @Description("")
-  String centerYParams();
+	@DefaultMessage("touchedAnySprite")
+	@Description("")
+	String touchedAnySpriteParams();
 
-  @DefaultMessage("r")
-  @Description("")
-  String rParams();
+	@DefaultMessage("x")
+	@Description("")
+	String xParams();
 
-  @DefaultMessage("radius")
-  @Description("")
-  String radiusParams();
+	@DefaultMessage("y")
+	@Description("")
+	String yParams();
 
-  @DefaultMessage("x1")
-  @Description("")
-  String x1Params();
+	@DefaultMessage("centerX")
+	@Description("")
+	String centerXParams();
 
-  @DefaultMessage("x2")
-  @Description("")
-  String x2Params();
+	@DefaultMessage("centerY")
+	@Description("")
+	String centerYParams();
 
-  @DefaultMessage("y1")
-  @Description("")
-  String y1Params();
+	@DefaultMessage("r")
+	@Description("")
+	String rParams();
 
-  @DefaultMessage("y2")
-  @Description("")
-  String y2Params();
+	@DefaultMessage("radius")
+	@Description("")
+	String radiusParams();
 
-  @DefaultMessage("angle")
-  @Description("")
-  String angleParams();
+	@DefaultMessage("x1")
+	@Description("")
+	String x1Params();
 
-  @DefaultMessage("fileName")
-  @Description("")
-  String fileNameParams();
+	@DefaultMessage("x2")
+	@Description("")
+	String x2Params();
 
-  @DefaultMessage("color")
-  @Description("")
-  String colorParams();
+	@DefaultMessage("y1")
+	@Description("")
+	String y1Params();
 
-  @DefaultMessage("instant")
-  @Description("")
-  String instantParams();
+	@DefaultMessage("y2")
+	@Description("")
+	String y2Params();
 
-  @DefaultMessage("days")
-  @Description("")
-  String daysParams();
+	@DefaultMessage("angle")
+	@Description("")
+	String angleParams();
 
-  @DefaultMessage("hours")
-  @Description("")
-  String hoursParams();
+	@DefaultMessage("fileName")
+	@Description("")
+	String fileNameParams();
 
-  @DefaultMessage("minutes")
-  @Description("")
-  String minutesParams();
+	@DefaultMessage("color")
+	@Description("")
+	String colorParams();
 
-  @DefaultMessage("months")
-  @Description("")
-  String monthsParams();
+	@DefaultMessage("instant")
+	@Description("")
+	String instantParams();
 
-  @DefaultMessage("seconds")
-  @Description("")
-  String secondsParams();
+	@DefaultMessage("days")
+	@Description("")
+	String daysParams();
 
-  @DefaultMessage("weeks")
-  @Description("")
-  String weeksParams();
+	@DefaultMessage("hours")
+	@Description("")
+	String hoursParams();
 
-  @DefaultMessage("quantity")
-  @Description("")
-  String quantityParams();
+	@DefaultMessage("minutes")
+	@Description("")
+	String minutesParams();
 
-  @DefaultMessage("duration")
-  @Description("")
-  String durationParams();
+	@DefaultMessage("months")
+	@Description("")
+	String monthsParams();
 
-  @DefaultMessage("years")
-  @Description("")
-  String yearsParams();
+	@DefaultMessage("seconds")
+	@Description("")
+	String secondsParams();
 
-  @DefaultMessage("InstantInTime")
-  @Description("")
-  String InstantInTimeParams();
+	@DefaultMessage("weeks")
+	@Description("")
+	String weeksParams();
 
-  @DefaultMessage("from")
-  @Description("")
-  String fromParams();
+	@DefaultMessage("quantity")
+	@Description("")
+	String quantityParams();
 
-  @DefaultMessage("millis")
-  @Description("")
-  String millisParams();
+	@DefaultMessage("duration")
+	@Description("")
+	String durationParams();
 
-  @DefaultMessage("functionName")
-  @Description("")
-  String functionNameParams();
+	@DefaultMessage("years")
+	@Description("")
+	String yearsParams();
 
-  @DefaultMessage("errorNumber")
-  @Description("")
-  String errorNumberParams();
+	@DefaultMessage("InstantInTime")
+	@Description("")
+	String InstantInTimeParams();
 
-  @DefaultMessage("message")
-  @Description("")
-  String messageParams();
+	@DefaultMessage("from")
+	@Description("")
+	String fromParams();
 
-  @DefaultMessage("otherScreenName")
-  @Description("")
-  String otherScreenNameParams();
+	@DefaultMessage("millis")
+	@Description("")
+	String millisParams();
 
-  @DefaultMessage("animType")
-  @Description("")
-  String animTypeParams();
+	@DefaultMessage("functionName")
+	@Description("")
+	String functionNameParams();
 
-  @DefaultMessage("sender")
-  @Description("")
-  String senderParams();
+	@DefaultMessage("errorNumber")
+	@Description("")
+	String errorNumberParams();
 
-  @DefaultMessage("contents")
-  @Description("")
-  String contentsParams();
+	@DefaultMessage("message")
+	@Description("")
+	String messageParams();
 
-  @DefaultMessage("instanceId")
-  @Description("")
-  String instanceIdParams();
+	@DefaultMessage("otherScreenName")
+	@Description("")
+	String otherScreenNameParams();
 
-  @DefaultMessage("playerId")
-  @Description("")
-  String playerIdParams();
+	@DefaultMessage("animType")
+	@Description("")
+	String animTypeParams();
 
-  @DefaultMessage("command")
-  @Description("")
-  String commandParams();
+	@DefaultMessage("sender")
+	@Description("")
+	String senderParams();
 
-  @DefaultMessage("arguments")
-  @Description("")
-  String argumentsParams();
+	@DefaultMessage("contents")
+	@Description("")
+	String contentsParams();
 
-  @DefaultMessage("response")
-  @Description("")
-  String responseParams();
+	@DefaultMessage("instanceId")
+	@Description("")
+	String instanceIdParams();
 
-  @DefaultMessage("emailAddress")
-  @Description("")
-  String emailAddressParams();
+	@DefaultMessage("playerId")
+	@Description("")
+	String playerIdParams();
 
-  @DefaultMessage("type")
-  @Description("")
-  String typeParams();
+	@DefaultMessage("command")
+	@Description("")
+	String commandParams();
 
-  @DefaultMessage("count")
-  @Description("")
-  String countParams();
+	@DefaultMessage("arguments")
+	@Description("")
+	String argumentsParams();
 
-  @DefaultMessage("makePublic")
-  @Description("")
-  String makePublicParams();
+	@DefaultMessage("response")
+	@Description("")
+	String responseParams();
 
-  @DefaultMessage("recipients")
-  @Description("")
-  String recipientsParams();
+	@DefaultMessage("emailAddress")
+	@Description("")
+	String emailAddressParams();
 
-  @DefaultMessage("playerEmail")
-  @Description("")
-  String playerEmailParams();
+	@DefaultMessage("type")
+	@Description("")
+	String typeParams();
 
-  @DefaultMessage("latitude")
-  @Description("")
-  String latitudeParams();
+	@DefaultMessage("count")
+	@Description("")
+	String countParams();
 
-  @DefaultMessage("longitude")
-  @Description("")
-  String longitudeParams();
+	@DefaultMessage("makePublic")
+	@Description("")
+	String makePublicParams();
 
-  @DefaultMessage("altitude")
-  @Description("")
-  String altitudeParams();
+	@DefaultMessage("recipients")
+	@Description("")
+	String recipientsParams();
 
-  @DefaultMessage("provider")
-  @Description("")
-  String providerParams();
+	@DefaultMessage("playerEmail")
+	@Description("")
+	String playerEmailParams();
 
-  @DefaultMessage("status")
-  @Description("")
-  String statusParams();
+	@DefaultMessage("latitude")
+	@Description("")
+	String latitudeParams();
 
-  @DefaultMessage("locationName")
-  @Description("")
-  String locationNameParams();
+	@DefaultMessage("longitude")
+	@Description("")
+	String longitudeParams();
 
-  @DefaultMessage("choice")
-  @Description("")
-  String choiceParams();
+	@DefaultMessage("altitude")
+	@Description("")
+	String altitudeParams();
 
-  @DefaultMessage("notice")
-  @Description("")
-  String noticeParams();
+	@DefaultMessage("provider")
+	@Description("")
+	String providerParams();
 
-  @DefaultMessage("title")
-  @Description("")
-  String titleParams();
+	@DefaultMessage("status")
+	@Description("")
+	String statusParams();
 
-  @DefaultMessage("buttonText")
-  @Description("")
-  String buttonTextParams();
+	@DefaultMessage("locationName")
+	@Description("")
+	String locationNameParams();
 
-  @DefaultMessage("cancelable")
-  @Description("")
-  String cancelableParams();
+	@DefaultMessage("choice")
+	@Description("")
+	String choiceParams();
 
-  @DefaultMessage("button1Text")
-  @Description("")
-  String button1TextParams();
+	@DefaultMessage("notice")
+	@Description("")
+	String noticeParams();
 
-  @DefaultMessage("button2Text")
-  @Description("")
-  String button2TextParams();
+	@DefaultMessage("title")
+	@Description("")
+	String titleParams();
 
-  @DefaultMessage("source")
-  @Description("")
-  String sourceParams();
+	@DefaultMessage("buttonText")
+	@Description("")
+	String buttonTextParams();
 
-  @DefaultMessage("destination")
-  @Description("")
-  String destinationParams();
+	@DefaultMessage("cancelable")
+	@Description("")
+	String cancelableParams();
 
-  @DefaultMessage("sensorPortLetter")
-  @Description("")
-  String sensorPortLetterParams();
+	@DefaultMessage("button1Text")
+	@Description("")
+	String button1TextParams();
 
-  @DefaultMessage("rxDataLength")
-  @Description("")
-  String rxDataLengthParams();
+	@DefaultMessage("button2Text")
+	@Description("")
+	String button2TextParams();
 
-  @DefaultMessage("wildcard")
-  @Description("")
-  String wildcardParams();
+	@DefaultMessage("source")
+	@Description("")
+	String sourceParams();
 
-  @DefaultMessage("motorPortLetter")
-  @Description("")
-  String motorPortLetterParams();
+	@DefaultMessage("destination")
+	@Description("")
+	String destinationParams();
 
-  @DefaultMessage("mailbox")
-  @Description("")
-  String mailboxParams();
+	@DefaultMessage("sensorPortLetter")
+	@Description("")
+	String sensorPortLetterParams();
 
-  @DefaultMessage("durationMs")
-  @Description("")
-  String durationMsParams();
+	@DefaultMessage("rxDataLength")
+	@Description("")
+	String rxDataLengthParams();
 
-  @DefaultMessage("relative")
-  @Description("")
-  String relativeParams();
+	@DefaultMessage("wildcard")
+	@Description("")
+	String wildcardParams();
 
-  @DefaultMessage("sensorType")
-  @Description("")
-  String sensorTypeParams();
+	@DefaultMessage("motorPortLetter")
+	@Description("")
+	String motorPortLetterParams();
 
-  @DefaultMessage("sensorMode")
-  @Description("")
-  String sensorModeParams();
+	@DefaultMessage("mailbox")
+	@Description("")
+	String mailboxParams();
 
-  @DefaultMessage("power")
-  @Description("")
-  String powerParams();
+	@DefaultMessage("durationMs")
+	@Description("")
+	String durationMsParams();
 
-  @DefaultMessage("mode")
-  @Description("")
-  String modeParams();
+	@DefaultMessage("relative")
+	@Description("")
+	String relativeParams();
 
-  @DefaultMessage("regulationMode")
-  @Description("")
-  String regulationModeParams();
+	@DefaultMessage("sensorType")
+	@Description("")
+	String sensorTypeParams();
 
-  @DefaultMessage("turnRatio")
-  @Description("")
-  String turnRatioParams();
+	@DefaultMessage("sensorMode")
+	@Description("")
+	String sensorModeParams();
 
-  @DefaultMessage("runState")
-  @Description("")
-  String runStateParams();
+	@DefaultMessage("power")
+	@Description("")
+	String powerParams();
 
-  @DefaultMessage("tachoLimit")
-  @Description("")
-  String tachoLimitParams();
+	@DefaultMessage("mode")
+	@Description("")
+	String modeParams();
 
-  @DefaultMessage("programName")
-  @Description("")
-  String programNameParams();
+	@DefaultMessage("regulationMode")
+	@Description("")
+	String regulationModeParams();
 
-  @DefaultMessage("distance")
-  @Description("")
-  String distanceParams();
+	@DefaultMessage("turnRatio")
+	@Description("")
+	String turnRatioParams();
 
-  @DefaultMessage("azimuth")
-  @Description("")
-  String azimuthParams();
+	@DefaultMessage("runState")
+	@Description("")
+	String runStateParams();
 
-  @DefaultMessage("pitch")
-  @Description("")
-  String pitchParams();
+	@DefaultMessage("tachoLimit")
+	@Description("")
+	String tachoLimitParams();
 
-  @DefaultMessage("roll")
-  @Description("")
-  String rollParams();
+	@DefaultMessage("programName")
+	@Description("")
+	String programNameParams();
 
-  @DefaultMessage("simpleSteps")
-  @Description("")
-  String simpleStepsParams();
+	@DefaultMessage("distance")
+	@Description("")
+	String distanceParams();
 
-  @DefaultMessage("walkSteps")
-  @Description("")
-  String walkStepsParams();
+	@DefaultMessage("azimuth")
+	@Description("")
+	String azimuthParams();
 
-  @DefaultMessage("seed")
-  @Description("")
-  String seedParams();
+	@DefaultMessage("pitch")
+	@Description("")
+	String pitchParams();
 
-  @DefaultMessage("millisecs")
-  @Description("")
-  String millisecsParams();
+	@DefaultMessage("roll")
+	@Description("")
+	String rollParams();
 
-  @DefaultMessage("sound")
-  @Description("")
-  String soundParams();
+	@DefaultMessage("simpleSteps")
+	@Description("")
+	String simpleStepsParams();
 
-  @DefaultMessage("messageText")
-  @Description("")
-  String messageTextParams();
+	@DefaultMessage("walkSteps")
+	@Description("")
+	String walkStepsParams();
 
-  @DefaultMessage("tag")
-  @Description("")
-  String tagParams();
+	@DefaultMessage("seed")
+	@Description("")
+	String seedParams();
 
-  @DefaultMessage("valueToStore")
-  @Description("")
-  String valueToStoreParams();
+	@DefaultMessage("millisecs")
+	@Description("")
+	String millisecsParams();
 
-  @DefaultMessage("tagFromWebDB")
-  @Description("")
-  String tagFromWebDBParams();
+	@DefaultMessage("sound")
+	@Description("")
+	String soundParams();
 
-  @DefaultMessage("valueFromWebDB")
-  @Description("")
-  String valueFromWebDBParams();
+	@DefaultMessage("messageText")
+	@Description("")
+	String messageTextParams();
 
-  @DefaultMessage("followers2")
-  @Description("")
-  String followers2Params();
+	@DefaultMessage("tag")
+	@Description("")
+	String tagParams();
 
-  @DefaultMessage("timeline")
-  @Description("")
-  String timelineParams();
+	@DefaultMessage("valueToStore")
+	@Description("")
+	String valueToStoreParams();
 
-  @DefaultMessage("mentions")
-  @Description("")
-  String mentionsParams();
+	@DefaultMessage("tagFromWebDB")
+	@Description("")
+	String tagFromWebDBParams();
 
-  @DefaultMessage("searchResults")
-  @Description("")
-  String searchResultsParams();
+	@DefaultMessage("valueFromWebDB")
+	@Description("")
+	String valueFromWebDBParams();
 
-  @DefaultMessage("user")
-  @Description("")
-  String userParams();
+	@DefaultMessage("followers2")
+	@Description("")
+	String followers2Params();
 
-  @DefaultMessage("url")
-  @Description("")
-  String urlParams();
+	@DefaultMessage("timeline")
+	@Description("")
+	String timelineParams();
 
-  @DefaultMessage("responseCode")
-  @Description("")
-  String responseCodeParams();
+	@DefaultMessage("mentions")
+	@Description("")
+	String mentionsParams();
 
-  @DefaultMessage("responseType")
-  @Description("")
-  String responseTypeParams();
+	@DefaultMessage("searchResults")
+	@Description("")
+	String searchResultsParams();
 
-  @DefaultMessage("responseContent")
-  @Description("")
-  String responseContentParams();
+	@DefaultMessage("user")
+	@Description("")
+	String userParams();
 
-  @DefaultMessage("htmlText")
-  @Description("")
-  String htmlTextParams();
+	@DefaultMessage("url")
+	@Description("")
+	String urlParams();
 
-  @DefaultMessage("jsonText")
-  @Description("")
-  String jsonTextParams();
+	@DefaultMessage("responseCode")
+	@Description("")
+	String responseCodeParams();
 
-  @DefaultMessage("path")
-  @Description("")
-  String pathParams();
+	@DefaultMessage("responseType")
+	@Description("")
+	String responseTypeParams();
 
-  @DefaultMessage("encoding")
-  @Description("")
-  String encodingParams();
+	@DefaultMessage("responseContent")
+	@Description("")
+	String responseContentParams();
 
-  @DefaultMessage("name")
-  @Description("")
-  String nameParams();
+	@DefaultMessage("htmlText")
+	@Description("")
+	String htmlTextParams();
 
-  @DefaultMessage("serviceName")
-  @Description("")
-  String serviceNameParams();
+	@DefaultMessage("jsonText")
+	@Description("")
+	String jsonTextParams();
 
-  @DefaultMessage("milliseconds")
-  @Description("")
-  String millisecondsParams();
+	@DefaultMessage("path")
+	@Description("")
+	String pathParams();
 
-  @DefaultMessage("messages")
-  @Description("")
-  String messagesParams();
+	@DefaultMessage("encoding")
+	@Description("")
+	String encodingParams();
 
-  @DefaultMessage("start")
-  @Description("")
-  String startParams();
+	@DefaultMessage("name")
+	@Description("")
+	String nameParams();
 
-  @DefaultMessage("end")
-  @Description("")
-  String endParams();
+	@DefaultMessage("serviceName")
+	@Description("")
+	String serviceNameParams();
 
-  @DefaultMessage("frequencyHz")
-  @Description("")
-  String frequencyHzParams();
+	@DefaultMessage("milliseconds")
+	@Description("")
+	String millisecondsParams();
 
-  @DefaultMessage("secure")
-  @Description("")
-  String secureParams();
+	@DefaultMessage("messages")
+	@Description("")
+	String messagesParams();
 
-  @DefaultMessage("file")
-  @Description("")
-  String fileParams();
+	@DefaultMessage("start")
+	@Description("")
+	String startParams();
 
-  @DefaultMessage("thumbPosition")
-  @Description("")
-  String thumbPositionParams();
+	@DefaultMessage("end")
+	@Description("")
+	String endParams();
 
-  @DefaultMessage("selection")
-  @Description("")
-  String selectionParams();
+	@DefaultMessage("frequencyHz")
+	@Description("")
+	String frequencyHzParams();
 
-  @DefaultMessage("valueIfTagNotThere")
-  @Description("")
-  String valueIfTagNotThereParams();
+	@DefaultMessage("secure")
+	@Description("")
+	String secureParams();
 
-  @DefaultMessage("query")
-  @Description("")
-  String queryParams();
+	@DefaultMessage("file")
+	@Description("")
+	String fileParams();
 
-  @DefaultMessage("ImagePath")
-  @Description("")
-  String ImagePathParams();
+	@DefaultMessage("thumbPosition")
+	@Description("")
+	String thumbPositionParams();
 
-  @DefaultMessage("ms")
-  @Description("")
-  String msParams();
+	@DefaultMessage("selection")
+	@Description("")
+	String selectionParams();
 
-  @DefaultMessage("translation")
-  @Description("")
-  String translationParams();
+	@DefaultMessage("valueIfTagNotThere")
+	@Description("")
+	String valueIfTagNotThereParams();
 
-  @DefaultMessage("languageToTranslateTo")
-  @Description("")
-  String languageToTranslateToParams();
+	@DefaultMessage("query")
+	@Description("")
+	String queryParams();
 
-  @DefaultMessage("textToTranslate")
-  @Description("")
-  String textToTranslateParams();
+	@DefaultMessage("ImagePath")
+	@Description("")
+	String ImagePathParams();
 
-  @DefaultMessage("xAngularVelocity")
-  @Description("")
-  String xAngularVelocityParams();
+	@DefaultMessage("ms")
+	@Description("")
+	String msParams();
 
-  @DefaultMessage("yAngularVelocity")
-  @Description("")
-  String yAngularVelocityParams();
+	@DefaultMessage("translation")
+	@Description("")
+	String translationParams();
 
-  @DefaultMessage("zAngularVelocity")
-  @Description("")
-  String zAngularVelocityParams();
+	@DefaultMessage("languageToTranslateTo")
+	@Description("")
+	String languageToTranslateToParams();
 
-  @DefaultMessage("timestamp")
-  @Description("")
-  String timestampParams();
+	@DefaultMessage("textToTranslate")
+	@Description("")
+	String textToTranslateParams();
 
-  //Events
-  @DefaultMessage("AccelerationChanged")
-  @Description("")
-  String AccelerationChangedEvents();
+	@DefaultMessage("xAngularVelocity")
+	@Description("")
+	String xAngularVelocityParams();
 
-  @DefaultMessage("ActivityCanceled")
-  @Description("")
-  String ActivityCanceledEvents();
+	@DefaultMessage("yAngularVelocity")
+	@Description("")
+	String yAngularVelocityParams();
 
-  @DefaultMessage("AfterActivity")
-  @Description("")
-  String AfterActivityEvents();
+	@DefaultMessage("zAngularVelocity")
+	@Description("")
+	String zAngularVelocityParams();
 
-  @DefaultMessage("CollidedWith")
-  @Description("")
-  String CollidedWithEvents();
+	@DefaultMessage("timestamp")
+	@Description("")
+	String timestampParams();
 
-  @DefaultMessage("Dragged")
-  @Description("")
-  String DraggedEvents();
+	// Events
+	@DefaultMessage("AccelerationChanged")
+	@Description("")
+	String AccelerationChangedEvents();
 
-  @DefaultMessage("EdgeReached")
-  @Description("")
-  String EdgeReachedEvents();
+	@DefaultMessage("ActivityCanceled")
+	@Description("")
+	String ActivityCanceledEvents();
 
-  @DefaultMessage("Flung")
-  @Description("")
-  String FlungEvents();
+	@DefaultMessage("AfterActivity")
+	@Description("")
+	String AfterActivityEvents();
 
-  @DefaultMessage("NoLongerCollidingWith")
-  @Description("")
-  String NoLongerCollidingWithEvents();
+	@DefaultMessage("CollidedWith")
+	@Description("")
+	String CollidedWithEvents();
 
-  @DefaultMessage("TouchDown")
-  @Description("")
-  String TouchDownEvents();
+	@DefaultMessage("Dragged")
+	@Description("")
+	String DraggedEvents();
 
-  @DefaultMessage("TouchUp")
-  @Description("")
-  String TouchUpEvents();
+	@DefaultMessage("EdgeReached")
+	@Description("")
+	String EdgeReachedEvents();
 
-  @DefaultMessage("Touched")
-  @Description("")
-  String TouchedEvents();
+	@DefaultMessage("Flung")
+	@Description("")
+	String FlungEvents();
 
-  @DefaultMessage("AfterScan")
-  @Description("")
-  String AfterScanEvents();
+	@DefaultMessage("NoLongerCollidingWith")
+	@Description("")
+	String NoLongerCollidingWithEvents();
 
-  @DefaultMessage("ConnectionAccepted")
-  @Description("")
-  String ConnectionAcceptedEvents();
+	@DefaultMessage("TouchDown")
+	@Description("")
+	String TouchDownEvents();
 
-  @DefaultMessage("Click")
-  @Description("")
-  String ClickEvents();
+	@DefaultMessage("TouchUp")
+	@Description("")
+	String TouchUpEvents();
 
-  @DefaultMessage("GotFocus")
-  @Description("")
-  String GotFocusEvents();
+	@DefaultMessage("Touched")
+	@Description("")
+	String TouchedEvents();
 
-  @DefaultMessage("LongClick")
-  @Description("")
-  String LongClickEvents();
+	@DefaultMessage("AfterScan")
+	@Description("")
+	String AfterScanEvents();
 
-  @DefaultMessage("RequestFocus")
-  @Description("")
-  String RequestFocusMethods();
+	@DefaultMessage("ConnectionAccepted")
+	@Description("")
+	String ConnectionAcceptedEvents();
 
-  @DefaultMessage("LostFocus")
-  @Description("")
-  String LostFocusEvents();
+	@DefaultMessage("Click")
+	@Description("")
+	String ClickEvents();
 
-  @DefaultMessage("ViewContact")
-  @Description("")
-  String ViewContactMethods();
+	@DefaultMessage("GotFocus")
+	@Description("")
+	String GotFocusEvents();
 
-  @DefaultMessage("AfterRecording")
-  @Description("")
-  String AfterRecordingEvents();
+	@DefaultMessage("LongClick")
+	@Description("")
+	String LongClickEvents();
 
-  @DefaultMessage("AfterPicture")
-  @Description("")
-  String AfterPictureEvents();
+	@DefaultMessage("RequestFocus")
+	@Description("")
+	String RequestFocusMethods();
 
-  @DefaultMessage("Changed")
-  @Description("")
-  String ChangedEvents();
+	@DefaultMessage("LostFocus")
+	@Description("")
+	String LostFocusEvents();
 
-  @DefaultMessage("Timer")
-  @Description("")
-  String TimerEvents();
+	@DefaultMessage("ViewContact")
+	@Description("")
+	String ViewContactMethods();
 
-  @DefaultMessage("AfterPicking")
-  @Description("")
-  String AfterPickingEvents();
+	@DefaultMessage("AfterRecording")
+	@Description("")
+	String AfterRecordingEvents();
 
-  @DefaultMessage("BeforePicking")
-  @Description("")
-  String BeforePickingEvents();
+	@DefaultMessage("AfterPicture")
+	@Description("")
+	String AfterPictureEvents();
 
-  @DefaultMessage("BackPressed")
-  @Description("")
-  String BackPressedEvents();
+	@DefaultMessage("Changed")
+	@Description("")
+	String ChangedEvents();
 
-  @DefaultMessage("ErrorOccurred")
-  @Description("")
-  String ErrorOccurredEvents();
+	@DefaultMessage("Timer")
+	@Description("")
+	String TimerEvents();
 
-  @DefaultMessage("Initialize")
-  @Description("")
-  String InitializeEvents();
+	@DefaultMessage("AfterPicking")
+	@Description("")
+	String AfterPickingEvents();
 
-  @DefaultMessage("OtherScreenClosed")
-  @Description("")
-  String OtherScreenClosedEvents();
+	@DefaultMessage("BeforePicking")
+	@Description("")
+	String BeforePickingEvents();
 
-  @DefaultMessage("ScreenOrientationChanged")
-  @Description("")
-  String ScreenOrientationChangedEvents();
+	@DefaultMessage("BackPressed")
+	@Description("")
+	String BackPressedEvents();
 
-  @DefaultMessage("GotResult")
-  @Description("")
-  String GotResultEvents();
+	@DefaultMessage("ErrorOccurred")
+	@Description("")
+	String ErrorOccurredEvents();
 
-  @DefaultMessage("FunctionCompleted")
-  @Description("")
-  String FunctionCompletedEvents();
+	@DefaultMessage("Initialize")
+	@Description("")
+	String InitializeEvents();
 
-  @DefaultMessage("GotMessage")
-  @Description("")
-  String GotMessageEvents();
+	@DefaultMessage("OtherScreenClosed")
+	@Description("")
+	String OtherScreenClosedEvents();
 
-  @DefaultMessage("Info")
-  @Description("")
-  String InfoEvents();
+	@DefaultMessage("ScreenOrientationChanged")
+	@Description("")
+	String ScreenOrientationChangedEvents();
 
-  @DefaultMessage("InstanceIdChanged")
-  @Description("")
-  String InstanceIdChangedEvents();
+	@DefaultMessage("GotResult")
+	@Description("")
+	String GotResultEvents();
 
-  @DefaultMessage("Invited")
-  @Description("")
-  String InvitedEvents();
+	@DefaultMessage("FunctionCompleted")
+	@Description("")
+	String FunctionCompletedEvents();
 
-  @DefaultMessage("NewInstanceMade")
-  @Description("")
-  String NewInstanceMadeEvents();
+	@DefaultMessage("GotMessage")
+	@Description("")
+	String GotMessageEvents();
 
-  @DefaultMessage("NewLeader")
-  @Description("")
-  String NewLeaderEvents();
+	@DefaultMessage("Info")
+	@Description("")
+	String InfoEvents();
 
-  @DefaultMessage("PlayerJoined")
-  @Description("")
-  String PlayerJoinedEvents();
+	@DefaultMessage("InstanceIdChanged")
+	@Description("")
+	String InstanceIdChangedEvents();
 
-  @DefaultMessage("PlayerLeft")
-  @Description("")
-  String PlayerLeftEvents();
+	@DefaultMessage("Invited")
+	@Description("")
+	String InvitedEvents();
 
-  @DefaultMessage("ServerCommandFailure")
-  @Description("")
-  String ServerCommandFailureEvents();
+	@DefaultMessage("NewInstanceMade")
+	@Description("")
+	String NewInstanceMadeEvents();
 
-  @DefaultMessage("ServerCommandSuccess")
-  @Description("")
-  String ServerCommandSuccessEvents();
+	@DefaultMessage("NewLeader")
+	@Description("")
+	String NewLeaderEvents();
 
-  @DefaultMessage("UserEmailAddressSet")
-  @Description("")
-  String UserEmailAddressSetEvents();
+	@DefaultMessage("PlayerJoined")
+	@Description("")
+	String PlayerJoinedEvents();
 
-  @DefaultMessage("WebServiceError")
-  @Description("")
-  String WebServiceErrorEvents();
+	@DefaultMessage("PlayerLeft")
+	@Description("")
+	String PlayerLeftEvents();
 
-  @DefaultMessage("FirebaseError")
-  @Description("")
-  String FirebaseErrorEvents();
+	@DefaultMessage("ServerCommandFailure")
+	@Description("")
+	String ServerCommandFailureEvents();
 
-  @DefaultMessage("LocationChanged")
-  @Description("")
-  String LocationChangedEvents();
+	@DefaultMessage("ServerCommandSuccess")
+	@Description("")
+	String ServerCommandSuccessEvents();
 
-  @DefaultMessage("StatusChanged")
-  @Description("")
-  String StatusChangedEvents();
+	@DefaultMessage("UserEmailAddressSet")
+	@Description("")
+	String UserEmailAddressSetEvents();
 
-  @DefaultMessage("AfterChoosing")
-  @Description("")
-  String AfterChoosingEvents();
+	@DefaultMessage("WebServiceError")
+	@Description("")
+	String WebServiceErrorEvents();
 
-  @DefaultMessage("AfterTextInput")
-  @Description("")
-  String AfterTextInputEvents();
+	@DefaultMessage("FirebaseError")
+	@Description("")
+	String FirebaseErrorEvents();
 
-  @DefaultMessage("AboveRange")
-  @Description("")
-  String AboveRangeEvents();
+	@DefaultMessage("LocationChanged")
+	@Description("")
+	String LocationChangedEvents();
 
-  @DefaultMessage("BelowRange")
-  @Description("")
-  String BelowRangeEvents();
+	@DefaultMessage("StatusChanged")
+	@Description("")
+	String StatusChangedEvents();
 
-  @DefaultMessage("ColorChanged")
-  @Description("")
-  String ColorChangedEvents();
+	@DefaultMessage("AfterChoosing")
+	@Description("")
+	String AfterChoosingEvents();
 
-  @DefaultMessage("WithinRange")
-  @Description("")
-  String WithinRangeEvents();
+	@DefaultMessage("AfterTextInput")
+	@Description("")
+	String AfterTextInputEvents();
 
-  @DefaultMessage("Pressed")
-  @Description("")
-  String PressedEvents();
+	@DefaultMessage("AboveRange")
+	@Description("")
+	String AboveRangeEvents();
 
-  @DefaultMessage("Released")
-  @Description("")
-  String ReleasedEvents();
+	@DefaultMessage("BelowRange")
+	@Description("")
+	String BelowRangeEvents();
 
-  @DefaultMessage("OrientationChanged")
-  @Description("")
-  String OrientationChangedEvents();
+	@DefaultMessage("ColorChanged")
+	@Description("")
+	String ColorChangedEvents();
 
-  @DefaultMessage("CalibrationFailed")
-  @Description("")
-  String CalibrationFailedEvents();
+	@DefaultMessage("WithinRange")
+	@Description("")
+	String WithinRangeEvents();
 
-  @DefaultMessage("GPSAvailable")
-  @Description("")
-  String GPSAvailableEvents();
+	@DefaultMessage("Pressed")
+	@Description("")
+	String PressedEvents();
 
-  @DefaultMessage("GPSLost")
-  @Description("")
-  String GPSLostEvents();
+	@DefaultMessage("Released")
+	@Description("")
+	String ReleasedEvents();
 
-  @DefaultMessage("SimpleStep")
-  @Description("")
-  String SimpleStepEvents();
+	@DefaultMessage("OrientationChanged")
+	@Description("")
+	String OrientationChangedEvents();
 
-  @DefaultMessage("StartedMoving")
-  @Description("")
-  String StartedMovingEvents();
+	@DefaultMessage("CalibrationFailed")
+	@Description("")
+	String CalibrationFailedEvents();
 
-  @DefaultMessage("StoppedMoving")
-  @Description("")
-  String StoppedMovingEvents();
+	@DefaultMessage("GPSAvailable")
+	@Description("")
+	String GPSAvailableEvents();
 
-  @DefaultMessage("WalkStep")
-  @Description("")
-  String WalkStepEvents();
+	@DefaultMessage("GPSLost")
+	@Description("")
+	String GPSLostEvents();
 
-  @DefaultMessage("Completed")
-  @Description("")
-  String CompletedEvents();
+	@DefaultMessage("SimpleStep")
+	@Description("")
+	String SimpleStepEvents();
 
-  @DefaultMessage("AfterSoundRecorded")
-  @Description("")
-  String AfterSoundRecordedEvents();
+	@DefaultMessage("StartedMoving")
+	@Description("")
+	String StartedMovingEvents();
 
-  @DefaultMessage("StartedRecording")
-  @Description("")
-  String StartedRecordingEvents();
+	@DefaultMessage("StoppedMoving")
+	@Description("")
+	String StoppedMovingEvents();
 
-  @DefaultMessage("StoppedRecording")
-  @Description("")
-  String StoppedRecordingEvents();
+	@DefaultMessage("WalkStep")
+	@Description("")
+	String WalkStepEvents();
 
-  @DefaultMessage("AfterGettingText")
-  @Description("")
-  String AfterGettingTextEvents();
+	@DefaultMessage("Completed")
+	@Description("")
+	String CompletedEvents();
 
-  @DefaultMessage("BeforeGettingText")
-  @Description("")
-  String BeforeGettingTextEvents();
+	@DefaultMessage("AfterSoundRecorded")
+	@Description("")
+	String AfterSoundRecordedEvents();
 
-  @DefaultMessage("AfterSpeaking")
-  @Description("")
-  String AfterSpeakingEvents();
+	@DefaultMessage("StartedRecording")
+	@Description("")
+	String StartedRecordingEvents();
 
-  @DefaultMessage("BeforeSpeaking")
-  @Description("")
-  String BeforeSpeakingEvents();
+	@DefaultMessage("StoppedRecording")
+	@Description("")
+	String StoppedRecordingEvents();
 
-  @DefaultMessage("MessageReceived")
-  @Description("")
-  String MessageReceivedEvents();
+	@DefaultMessage("AfterGettingText")
+	@Description("")
+	String AfterGettingTextEvents();
 
-  @DefaultMessage("SendMessage")
-  @Description("")
-  String SendMessageEvents();
+	@DefaultMessage("BeforeGettingText")
+	@Description("")
+	String BeforeGettingTextEvents();
 
-  @DefaultMessage("GotValue")
-  @Description("")
-  String GotValueEvents();
+	@DefaultMessage("AfterSpeaking")
+	@Description("")
+	String AfterSpeakingEvents();
 
-  @DefaultMessage("ValueStored")
-  @Description("")
-  String ValueStoredEvents();
+	@DefaultMessage("BeforeSpeaking")
+	@Description("")
+	String BeforeSpeakingEvents();
 
-  @DefaultMessage("DataChanged")
-  @Description("")
-  String DataChangedEvents();
+	@DefaultMessage("MessageReceived")
+	@Description("")
+	String MessageReceivedEvents();
 
-  @DefaultMessage("DirectMessagesReceived")
-  @Description("")
-  String DirectMessagesReceivedEvents();
+	@DefaultMessage("SendMessage")
+	@Description("")
+	String SendMessageEvents();
 
-  @DefaultMessage("FollowersReceived")
-  @Description("")
-  String FollowersReceivedEvents();
+	@DefaultMessage("GotValue")
+	@Description("")
+	String GotValueEvents();
 
-  @DefaultMessage("FriendTimelineReceived")
-  @Description("")
-  String FriendTimelineReceivedEvents();
+	@DefaultMessage("ValueStored")
+	@Description("")
+	String ValueStoredEvents();
 
-  @DefaultMessage("IsAuthorized")
-  @Description("")
-  String IsAuthorizedEvents();
+	@DefaultMessage("DataChanged")
+	@Description("")
+	String DataChangedEvents();
 
-  @DefaultMessage("MentionsReceived")
-  @Description("")
-  String MentionsReceivedEvents();
+	@DefaultMessage("DirectMessagesReceived")
+	@Description("")
+	String DirectMessagesReceivedEvents();
 
-  @DefaultMessage("SearchSuccessful")
-  @Description("")
-  String SearchSuccessfulEvents();
+	@DefaultMessage("FollowersReceived")
+	@Description("")
+	String FollowersReceivedEvents();
 
-  @DefaultMessage("GotBallot")
-  @Description("")
-  String GotBallotEvents();
+	@DefaultMessage("FriendTimelineReceived")
+	@Description("")
+	String FriendTimelineReceivedEvents();
 
-  @DefaultMessage("GotBallotConfirmation")
-  @Description("")
-  String GotBallotConfirmationEvents();
+	@DefaultMessage("IsAuthorized")
+	@Description("")
+	String IsAuthorizedEvents();
 
-  @DefaultMessage("NoOpenPoll")
-  @Description("")
-  String NoOpenPollEvents();
+	@DefaultMessage("MentionsReceived")
+	@Description("")
+	String MentionsReceivedEvents();
 
-  @DefaultMessage("GotFile")
-  @Description("")
-  String GotFileEvents();
+	@DefaultMessage("SearchSuccessful")
+	@Description("")
+	String SearchSuccessfulEvents();
 
-  @DefaultMessage("GotText")
-  @Description("")
-  String GotTextEvents();
+	@DefaultMessage("GotBallot")
+	@Description("")
+	String GotBallotEvents();
 
-  @DefaultMessage("AfterFileSaved")
-  @Description("")
-  String AfterFileSavedEvents();
+	@DefaultMessage("GotBallotConfirmation")
+	@Description("")
+	String GotBallotConfirmationEvents();
 
-  @DefaultMessage("AfterDateSet")
-  @Description("")
-  String AfterDateSetEvents();
+	@DefaultMessage("NoOpenPoll")
+	@Description("")
+	String NoOpenPollEvents();
 
-  @DefaultMessage("TagRead")
-  @Description("")
-  String TagReadEvents();
+	@DefaultMessage("GotFile")
+	@Description("")
+	String GotFileEvents();
 
-  @DefaultMessage("TagWritten")
-  @Description("")
-  String TagWrittenEvents();
+	@DefaultMessage("GotText")
+	@Description("")
+	String GotTextEvents();
 
-  @DefaultMessage("PositionChanged")
-  @Description("")
-  String PositionChangedEvents();
+	@DefaultMessage("AfterFileSaved")
+	@Description("")
+	String AfterFileSavedEvents();
 
-  @DefaultMessage("AfterSelecting")
-  @Description("")
-  String AfterSelectingEvents();
+	@DefaultMessage("AfterDateSet")
+	@Description("")
+	String AfterDateSetEvents();
 
-  @DefaultMessage("AfterTimeSet")
-  @Description("")
-  String AfterTimeSetEvents();
+	@DefaultMessage("TagRead")
+	@Description("")
+	String TagReadEvents();
 
-  @DefaultMessage("GotTranslation")
-  @Description("")
-  String GotTranslationEvents();
+	@DefaultMessage("TagWritten")
+	@Description("")
+	String TagWrittenEvents();
 
-  @DefaultMessage("Shaking")
-  @Description("")
-  String ShakingEvents();
+	@DefaultMessage("PositionChanged")
+	@Description("")
+	String PositionChangedEvents();
 
-  @DefaultMessage("GyroscopeChanged")
-  @Description("")
-  String GyroscopeChangedEvents();
+	@DefaultMessage("AfterSelecting")
+	@Description("")
+	String AfterSelectingEvents();
 
-  //Methods
-  @DefaultMessage("ResolveActivity")
-  @Description("")
-  String ResolveActivityMethods();
+	@DefaultMessage("AfterTimeSet")
+	@Description("")
+	String AfterTimeSetEvents();
 
-  @DefaultMessage("StartActivity")
-  @Description("")
-  String StartActivityMethods();
+	@DefaultMessage("GotTranslation")
+	@Description("")
+	String GotTranslationEvents();
 
-  @DefaultMessage("Connect")
-  @Description("")
-  String ConnectMethods();
+	@DefaultMessage("Shaking")
+	@Description("")
+	String ShakingEvents();
 
-  @DefaultMessage("ConnectWithUUID")
-  @Description("")
-  String ConnectWithUUIDMethods();
+	@DefaultMessage("GyroscopeChanged")
+	@Description("")
+	String GyroscopeChangedEvents();
 
-  @DefaultMessage("Disconnect")
-  @Description("")
-  String DisconnectMethods();
+	// Methods
+	@DefaultMessage("ResolveActivity")
+	@Description("")
+	String ResolveActivityMethods();
 
-  @DefaultMessage("IsDevicePaired")
-  @Description("")
-  String IsDevicePairedMethods();
+	@DefaultMessage("StartActivity")
+	@Description("")
+	String StartActivityMethods();
 
-  @DefaultMessage("ReceiveSigned1ByteNumber")
-  @Description("")
-  String ReceiveSigned1ByteNumberMethods();
+	@DefaultMessage("Connect")
+	@Description("")
+	String ConnectMethods();
 
-  @DefaultMessage("ReceiveSigned2ByteNumber")
-  @Description("")
-  String ReceiveSigned2ByteNumberMethods();
+	@DefaultMessage("ConnectWithUUID")
+	@Description("")
+	String ConnectWithUUIDMethods();
 
-  @DefaultMessage("ReceiveSigned4ByteNumber")
-  @Description("")
-  String ReceiveSigned4ByteNumberMethods();
+	@DefaultMessage("Disconnect")
+	@Description("")
+	String DisconnectMethods();
 
-  @DefaultMessage("ReceiveSignedBytes")
-  @Description("")
-  String ReceiveSignedBytesMethods();
+	@DefaultMessage("IsDevicePaired")
+	@Description("")
+	String IsDevicePairedMethods();
 
-  @DefaultMessage("ReceiveText")
-  @Description("")
-  String ReceiveTextMethods();
+	@DefaultMessage("ReceiveSigned1ByteNumber")
+	@Description("")
+	String ReceiveSigned1ByteNumberMethods();
 
-  @DefaultMessage("ReceiveUnsigned1ByteNumber")
-  @Description("")
-  String ReceiveUnsigned1ByteNumberMethods();
+	@DefaultMessage("ReceiveSigned2ByteNumber")
+	@Description("")
+	String ReceiveSigned2ByteNumberMethods();
 
-  @DefaultMessage("ReceiveUnsigned2ByteNumber")
-  @Description("")
-  String ReceiveUnsigned2ByteNumberMethods();
+	@DefaultMessage("ReceiveSigned4ByteNumber")
+	@Description("")
+	String ReceiveSigned4ByteNumberMethods();
 
-  @DefaultMessage("ReceiveUnsigned4ByteNumber")
-  @Description("")
-  String ReceiveUnsigned4ByteNumberMethods();
+	@DefaultMessage("ReceiveSignedBytes")
+	@Description("")
+	String ReceiveSignedBytesMethods();
 
-  @DefaultMessage("ReceiveUnsignedBytes")
-  @Description("")
-  String ReceiveUnsignedBytesMethods();
+	@DefaultMessage("ReceiveText")
+	@Description("")
+	String ReceiveTextMethods();
 
-  @DefaultMessage("Send1ByteNumber")
-  @Description("")
-  String Send1ByteNumberMethods();
+	@DefaultMessage("ReceiveUnsigned1ByteNumber")
+	@Description("")
+	String ReceiveUnsigned1ByteNumberMethods();
 
-  @DefaultMessage("Send2ByteNumber")
-  @Description("")
-  String Send2ByteNumberMethods();
+	@DefaultMessage("ReceiveUnsigned2ByteNumber")
+	@Description("")
+	String ReceiveUnsigned2ByteNumberMethods();
 
-  @DefaultMessage("Send4ByteNumber")
-  @Description("")
-  String Send4ByteNumberMethods();
+	@DefaultMessage("ReceiveUnsigned4ByteNumber")
+	@Description("")
+	String ReceiveUnsigned4ByteNumberMethods();
 
-  @DefaultMessage("SendBytes")
-  @Description("")
-  String SendBytesMethods();
+	@DefaultMessage("ReceiveUnsignedBytes")
+	@Description("")
+	String ReceiveUnsignedBytesMethods();
 
-  @DefaultMessage("SendText")
-  @Description("")
-  String SendTextMethods();
+	@DefaultMessage("Send1ByteNumber")
+	@Description("")
+	String Send1ByteNumberMethods();
 
-  @DefaultMessage("AcceptConnection")
-  @Description("")
-  String AcceptConnectionMethods();
+	@DefaultMessage("Send2ByteNumber")
+	@Description("")
+	String Send2ByteNumberMethods();
 
-  @DefaultMessage("AcceptConnectionWithUUID")
-  @Description("")
-  String AcceptConnectionWithUUIDMethods();
+	@DefaultMessage("Send4ByteNumber")
+	@Description("")
+	String Send4ByteNumberMethods();
 
-  @DefaultMessage("BytesAvailableToReceive")
-  @Description("")
-  String BytesAvailableToReceiveMethods();
+	@DefaultMessage("SendBytes")
+	@Description("")
+	String SendBytesMethods();
 
-  @DefaultMessage("StopAccepting")
-  @Description("")
-  String StopAcceptingMethods();
+	@DefaultMessage("SendText")
+	@Description("")
+	String SendTextMethods();
 
-  @DefaultMessage("RecordVideo")
-  @Description("")
-  String RecordVideoMethods();
+	@DefaultMessage("AcceptConnection")
+	@Description("")
+	String AcceptConnectionMethods();
 
-  @DefaultMessage("TakePicture")
-  @Description("")
-  String TakePictureMethods();
+	@DefaultMessage("AcceptConnectionWithUUID")
+	@Description("")
+	String AcceptConnectionWithUUIDMethods();
 
-  @DefaultMessage("Clear")
-  @Description("")
-  String ClearMethods();
+	@DefaultMessage("BytesAvailableToReceive")
+	@Description("")
+	String BytesAvailableToReceiveMethods();
 
-  @DefaultMessage("DrawCircle")
-  @Description("")
-  String DrawCircleMethods();
+	@DefaultMessage("StopAccepting")
+	@Description("")
+	String StopAcceptingMethods();
 
-  @DefaultMessage("DrawLine")
-  @Description("")
-  String DrawLineMethods();
+	@DefaultMessage("RecordVideo")
+	@Description("")
+	String RecordVideoMethods();
 
-  @DefaultMessage("DrawPoint")
-  @Description("")
-  String DrawPointMethods();
+	@DefaultMessage("TakePicture")
+	@Description("")
+	String TakePictureMethods();
 
-  @DefaultMessage("DrawText")
-  @Description("")
-  String DrawTextMethods();
+	@DefaultMessage("Clear")
+	@Description("")
+	String ClearMethods();
 
-  @DefaultMessage("DrawTextAtAngle")
-  @Description("")
-  String DrawTextAtAngleMethods();
+	@DefaultMessage("DrawCircle")
+	@Description("")
+	String DrawCircleMethods();
 
-  @DefaultMessage("GetBackgroundPixelColor")
-  @Description("")
-  String GetBackgroundPixelColorMethods();
+	@DefaultMessage("DrawLine")
+	@Description("")
+	String DrawLineMethods();
 
-  @DefaultMessage("GetPixelColor")
-  @Description("")
-  String GetPixelColorMethods();
+	@DefaultMessage("DrawPoint")
+	@Description("")
+	String DrawPointMethods();
 
-  @DefaultMessage("Save")
-  @Description("")
-  String SaveMethods();
+	@DefaultMessage("DrawText")
+	@Description("")
+	String DrawTextMethods();
 
-  @DefaultMessage("SaveAs")
-  @Description("")
-  String SaveAsMethods();
+	@DefaultMessage("DrawTextAtAngle")
+	@Description("")
+	String DrawTextAtAngleMethods();
 
-  @DefaultMessage("SetBackgroundPixelColor")
-  @Description("")
-  String SetBackgroundPixelColorMethods();
+	@DefaultMessage("GetBackgroundPixelColor")
+	@Description("")
+	String GetBackgroundPixelColorMethods();
 
-  @DefaultMessage("AddDuration")
-  @Description("")
-  String AddDurationMethods();
+	@DefaultMessage("GetPixelColor")
+	@Description("")
+	String GetPixelColorMethods();
 
-  @DefaultMessage("AddDays")
-  @Description("")
-  String AddDaysMethods();
+	@DefaultMessage("Save")
+	@Description("")
+	String SaveMethods();
 
-  @DefaultMessage("AddHours")
-  @Description("")
-  String AddHoursMethods();
+	@DefaultMessage("SaveAs")
+	@Description("")
+	String SaveAsMethods();
 
-  @DefaultMessage("AddMinutes")
-  @Description("")
-  String AddMinutesMethods();
+	@DefaultMessage("SetBackgroundPixelColor")
+	@Description("")
+	String SetBackgroundPixelColorMethods();
 
-  @DefaultMessage("AddMonths")
-  @Description("")
-  String AddMonthsMethods();
+	@DefaultMessage("AddDuration")
+	@Description("")
+	String AddDurationMethods();
 
-  @DefaultMessage("AddSeconds")
-  @Description("")
-  String AddSecondsMethods();
+	@DefaultMessage("AddDays")
+	@Description("")
+	String AddDaysMethods();
 
-  @DefaultMessage("AddWeeks")
-  @Description("")
-  String AddWeeksMethods();
+	@DefaultMessage("AddHours")
+	@Description("")
+	String AddHoursMethods();
 
-  @DefaultMessage("AddYears")
-  @Description("")
-  String AddYearsMethods();
+	@DefaultMessage("AddMinutes")
+	@Description("")
+	String AddMinutesMethods();
 
-  @DefaultMessage("DayOfMonth")
-  @Description("")
-  String DayOfMonthMethods();
+	@DefaultMessage("AddMonths")
+	@Description("")
+	String AddMonthsMethods();
 
-  @DefaultMessage("Duration")
-  @Description("")
-  String DurationMethods();
+	@DefaultMessage("AddSeconds")
+	@Description("")
+	String AddSecondsMethods();
 
-  @DefaultMessage("DurationToSeconds")
-  @Description("")
-  String DurationToSecondsMethods();
+	@DefaultMessage("AddWeeks")
+	@Description("")
+	String AddWeeksMethods();
 
-  @DefaultMessage("DurationToMinutes")
-  @Description("")
-  String DurationToMinutesMethods();
+	@DefaultMessage("AddYears")
+	@Description("")
+	String AddYearsMethods();
 
-  @DefaultMessage("DurationToHours")
-  @Description("")
-  String DurationToHoursMethods();
+	@DefaultMessage("DayOfMonth")
+	@Description("")
+	String DayOfMonthMethods();
 
-  @DefaultMessage("DurationToDays")
-  @Description("")
-  String DurationToDaysMethods();
+	@DefaultMessage("Duration")
+	@Description("")
+	String DurationMethods();
 
-  @DefaultMessage("DurationToWeeks")
-  @Description("")
-  String DurationToWeeksMethods();
+	@DefaultMessage("DurationToSeconds")
+	@Description("")
+	String DurationToSecondsMethods();
 
-  @DefaultMessage("FormatDate")
-  @Description("")
-  String FormatDateMethods();
+	@DefaultMessage("DurationToMinutes")
+	@Description("")
+	String DurationToMinutesMethods();
 
-  @DefaultMessage("FormatDateTime")
-  @Description("")
-  String FormatDateTimeMethods();
+	@DefaultMessage("DurationToHours")
+	@Description("")
+	String DurationToHoursMethods();
 
-  @DefaultMessage("FormatTime")
-  @Description("")
-  String FormatTimeMethods();
+	@DefaultMessage("DurationToDays")
+	@Description("")
+	String DurationToDaysMethods();
 
-  @DefaultMessage("GetMillis")
-  @Description("")
-  String GetMillisMethods();
+	@DefaultMessage("DurationToWeeks")
+	@Description("")
+	String DurationToWeeksMethods();
 
-  @DefaultMessage("Hour")
-  @Description("")
-  String HourMethods();
+	@DefaultMessage("FormatDate")
+	@Description("")
+	String FormatDateMethods();
 
-  @DefaultMessage("Instant")
-  @Description("")
-  String InstantMethods();
+	@DefaultMessage("FormatDateTime")
+	@Description("")
+	String FormatDateTimeMethods();
 
-  @DefaultMessage("MakeInstant")
-  @Description("")
-  String MakeInstantMethods();
+	@DefaultMessage("FormatTime")
+	@Description("")
+	String FormatTimeMethods();
 
-  @DefaultMessage("MakeInstantFromMillis")
-  @Description("")
-  String MakeInstantFromMillisMethods();
+	@DefaultMessage("GetMillis")
+	@Description("")
+	String GetMillisMethods();
 
-  @DefaultMessage("Minute")
-  @Description("")
-  String MinuteMethods();
+	@DefaultMessage("Hour")
+	@Description("")
+	String HourMethods();
 
-  @DefaultMessage("Month")
-  @Description("")
-  String MonthMethods();
+	@DefaultMessage("Instant")
+	@Description("")
+	String InstantMethods();
 
-  @DefaultMessage("MonthName")
-  @Description("")
-  String MonthNameMethods();
+	@DefaultMessage("MakeInstant")
+	@Description("")
+	String MakeInstantMethods();
 
-  @DefaultMessage("Now")
-  @Description("")
-  String NowMethods();
+	@DefaultMessage("MakeInstantFromMillis")
+	@Description("")
+	String MakeInstantFromMillisMethods();
 
-  @DefaultMessage("Second")
-  @Description("")
-  String SecondMethods();
+	@DefaultMessage("Minute")
+	@Description("")
+	String MinuteMethods();
 
-  @DefaultMessage("SystemTime")
-  @Description("")
-  String SystemTimeMethods();
+	@DefaultMessage("Month")
+	@Description("")
+	String MonthMethods();
 
-  @DefaultMessage("Weekday")
-  @Description("")
-  String WeekdayMethods();
+	@DefaultMessage("MonthName")
+	@Description("")
+	String MonthNameMethods();
 
-  @DefaultMessage("WeekdayName")
-  @Description("")
-  String WeekdayNameMethods();
+	@DefaultMessage("Now")
+	@Description("")
+	String NowMethods();
 
-  @DefaultMessage("Year")
-  @Description("")
-  String YearMethods();
+	@DefaultMessage("Second")
+	@Description("")
+	String SecondMethods();
 
-  @DefaultMessage("Open")
-  @Description("")
-  String OpenMethods();
+	@DefaultMessage("SystemTime")
+	@Description("")
+	String SystemTimeMethods();
 
-  @DefaultMessage("CloseScreenAnimation")
-  @Description("")
-  String CloseScreenAnimationMethods();
+	@DefaultMessage("Weekday")
+	@Description("")
+	String WeekdayMethods();
 
-  @DefaultMessage("OpenScreenAnimation")
-  @Description("")
-  String OpenScreenAnimationMethods();
+	@DefaultMessage("WeekdayName")
+	@Description("")
+	String WeekdayNameMethods();
 
-  @DefaultMessage("DoQuery")
-  @Description("")
-  String DoQueryMethods();
+	@DefaultMessage("Year")
+	@Description("")
+	String YearMethods();
 
-  @DefaultMessage("ForgetLogin")
-  @Description("")
-  String ForgetLoginMethods();
+	@DefaultMessage("Open")
+	@Description("")
+	String OpenMethods();
 
-  @DefaultMessage("SendQuery")
-  @Description("")
-  String SendQueryMethods();
+	@DefaultMessage("CloseScreenAnimation")
+	@Description("")
+	String CloseScreenAnimationMethods();
 
-  @DefaultMessage("GetInstanceLists")
-  @Description("")
-  String GetInstanceListsMethods();
+	@DefaultMessage("OpenScreenAnimation")
+	@Description("")
+	String OpenScreenAnimationMethods();
 
-  @DefaultMessage("GetMessages")
-  @Description("")
-  String GetMessagesMethods();
+	@DefaultMessage("DoQuery")
+	@Description("")
+	String DoQueryMethods();
 
-  @DefaultMessage("Invite")
-  @Description("")
-  String InviteMethods();
+	@DefaultMessage("ForgetLogin")
+	@Description("")
+	String ForgetLoginMethods();
 
-  @DefaultMessage("LeaveInstance")
-  @Description("")
-  String LeaveInstanceMethods();
+	@DefaultMessage("SendQuery")
+	@Description("")
+	String SendQueryMethods();
 
-  @DefaultMessage("MakeNewInstance")
-  @Description("")
-  String MakeNewInstanceMethods();
+	@DefaultMessage("GetInstanceLists")
+	@Description("")
+	String GetInstanceListsMethods();
 
-  @DefaultMessage("ServerCommand")
-  @Description("")
-  String ServerCommandMethods();
+	@DefaultMessage("GetMessages")
+	@Description("")
+	String GetMessagesMethods();
 
-  @DefaultMessage("SetInstance")
-  @Description("")
-  String SetInstanceMethods();
+	@DefaultMessage("Invite")
+	@Description("")
+	String InviteMethods();
 
-  @DefaultMessage("SetLeader")
-  @Description("")
-  String SetLeaderMethods();
+	@DefaultMessage("LeaveInstance")
+	@Description("")
+	String LeaveInstanceMethods();
 
-  @DefaultMessage("Bounce")
-  @Description("")
-  String BounceMethods();
+	@DefaultMessage("MakeNewInstance")
+	@Description("")
+	String MakeNewInstanceMethods();
 
-  @DefaultMessage("CollidingWith")
-  @Description("")
-  String CollidingWithMethods();
+	@DefaultMessage("ServerCommand")
+	@Description("")
+	String ServerCommandMethods();
 
-  @DefaultMessage("MoveIntoBounds")
-  @Description("")
-  String MoveIntoBoundsMethods();
+	@DefaultMessage("SetInstance")
+	@Description("")
+	String SetInstanceMethods();
 
-  @DefaultMessage("MoveTo")
-  @Description("")
-  String MoveToMethods();
+	@DefaultMessage("SetLeader")
+	@Description("")
+	String SetLeaderMethods();
 
-  @DefaultMessage("PointInDirection")
-  @Description("")
-  String PointInDirectionMethods();
+	@DefaultMessage("Bounce")
+	@Description("")
+	String BounceMethods();
 
-  @DefaultMessage("PointTowards")
-  @Description("")
-  String PointTowardsMethods();
+	@DefaultMessage("CollidingWith")
+	@Description("")
+	String CollidingWithMethods();
 
-  @DefaultMessage("LatitudeFromAddress")
-  @Description("")
-  String LatitudeFromAddressMethods();
+	@DefaultMessage("MoveIntoBounds")
+	@Description("")
+	String MoveIntoBoundsMethods();
 
-  @DefaultMessage("LongitudeFromAddress")
-  @Description("")
-  String LongitudeFromAddressMethods();
+	@DefaultMessage("MoveTo")
+	@Description("")
+	String MoveToMethods();
 
-  @DefaultMessage("LogError")
-  @Description("")
-  String LogErrorMethods();
+	@DefaultMessage("PointInDirection")
+	@Description("")
+	String PointInDirectionMethods();
 
-  @DefaultMessage("LogInfo")
-  @Description("")
-  String LogInfoMethods();
+	@DefaultMessage("PointTowards")
+	@Description("")
+	String PointTowardsMethods();
 
-  @DefaultMessage("LogWarning")
-  @Description("")
-  String LogWarningMethods();
+	@DefaultMessage("LatitudeFromAddress")
+	@Description("")
+	String LatitudeFromAddressMethods();
 
-  @DefaultMessage("ShowAlert")
-  @Description("")
-  String ShowAlertMethods();
+	@DefaultMessage("LongitudeFromAddress")
+	@Description("")
+	String LongitudeFromAddressMethods();
 
-  @DefaultMessage("ShowChooseDialog")
-  @Description("")
-  String ShowChooseDialogMethods();
+	@DefaultMessage("LogError")
+	@Description("")
+	String LogErrorMethods();
 
-  @DefaultMessage("ShowMessageDialog")
-  @Description("")
-  String ShowMessageDialogMethods();
+	@DefaultMessage("LogInfo")
+	@Description("")
+	String LogInfoMethods();
 
-  @DefaultMessage("ShowTextDialog")
-  @Description("")
-  String ShowTextDialogMethods();
+	@DefaultMessage("LogWarning")
+	@Description("")
+	String LogWarningMethods();
 
-  @DefaultMessage("ShowProgressDialog")
-  @Description("")
-  String ShowProgressDialogMethods();
+	@DefaultMessage("ShowAlert")
+	@Description("")
+	String ShowAlertMethods();
 
-  @DefaultMessage("DismissProgressDialog")
-  @Description("")
-  String DismissProgressDialogMethods();
+	@DefaultMessage("ShowChooseDialog")
+	@Description("")
+	String ShowChooseDialogMethods();
 
-  @DefaultMessage("GetColor")
-  @Description("")
-  String GetColorMethods();
+	@DefaultMessage("ShowMessageDialog")
+	@Description("")
+	String ShowMessageDialogMethods();
 
-  @DefaultMessage("GetLightLevel")
-  @Description("")
-  String GetLightLevelMethods();
+	@DefaultMessage("ShowTextDialog")
+	@Description("")
+	String ShowTextDialogMethods();
 
-  @DefaultMessage("DeleteFile")
-  @Description("")
-  String DeleteFileMethods();
+	@DefaultMessage("ShowProgressDialog")
+	@Description("")
+	String ShowProgressDialogMethods();
 
-  @DefaultMessage("DownloadFile")
-  @Description("")
-  String DownloadFileMethods();
+	@DefaultMessage("DismissProgressDialog")
+	@Description("")
+	String DismissProgressDialogMethods();
 
-  @DefaultMessage("GetBatteryLevel")
-  @Description("")
-  String GetBatteryLevelMethods();
+	@DefaultMessage("GetColor")
+	@Description("")
+	String GetColorMethods();
 
-  @DefaultMessage("GetBrickName")
-  @Description("")
-  String GetBrickNameMethods();
+	@DefaultMessage("GetLightLevel")
+	@Description("")
+	String GetLightLevelMethods();
 
-  @DefaultMessage("GetCurrentProgramName")
-  @Description("")
-  String GetCurrentProgramNameMethods();
+	@DefaultMessage("DeleteFile")
+	@Description("")
+	String DeleteFileMethods();
 
-  @DefaultMessage("GetFirmwareVersion")
-  @Description("")
-  String GetFirmwareVersionMethods();
+	@DefaultMessage("DownloadFile")
+	@Description("")
+	String DownloadFileMethods();
 
-  @DefaultMessage("GetInputValues")
-  @Description("")
-  String GetInputValuesMethods();
+	@DefaultMessage("GetBatteryLevel")
+	@Description("")
+	String GetBatteryLevelMethods();
 
-  @DefaultMessage("GetOutputState")
-  @Description("")
-  String GetOutputStateMethods();
+	@DefaultMessage("GetBrickName")
+	@Description("")
+	String GetBrickNameMethods();
 
-  @DefaultMessage("KeepAlive")
-  @Description("")
-  String KeepAliveMethods();
+	@DefaultMessage("GetCurrentProgramName")
+	@Description("")
+	String GetCurrentProgramNameMethods();
 
-  @DefaultMessage("ListFiles")
-  @Description("")
-  String ListFilesMethods();
+	@DefaultMessage("GetFirmwareVersion")
+	@Description("")
+	String GetFirmwareVersionMethods();
 
-  @DefaultMessage("LsGetStatus")
-  @Description("")
-  String LsGetStatusMethods();
+	@DefaultMessage("GetInputValues")
+	@Description("")
+	String GetInputValuesMethods();
 
-  @DefaultMessage("LsRead")
-  @Description("")
-  String LsReadMethods();
+	@DefaultMessage("GetOutputState")
+	@Description("")
+	String GetOutputStateMethods();
 
-  @DefaultMessage("MessageRead")
-  @Description("")
-  String MessageReadMethods();
+	@DefaultMessage("KeepAlive")
+	@Description("")
+	String KeepAliveMethods();
 
-  @DefaultMessage("MessageWrite")
-  @Description("")
-  String MessageWriteMethods();
+	@DefaultMessage("ListFiles")
+	@Description("")
+	String ListFilesMethods();
 
-  @DefaultMessage("PlaySoundFile")
-  @Description("")
-  String PlaySoundFileMethods();
+	@DefaultMessage("LsGetStatus")
+	@Description("")
+	String LsGetStatusMethods();
 
-  @DefaultMessage("PlayTone")
-  @Description("")
-  String PlayToneMethods();
+	@DefaultMessage("LsRead")
+	@Description("")
+	String LsReadMethods();
 
-  @DefaultMessage("ResetInputScaledValue")
-  @Description("")
-  String ResetInputScaledValueMethods();
+	@DefaultMessage("MessageRead")
+	@Description("")
+	String MessageReadMethods();
 
-  @DefaultMessage("ResetMotorPosition")
-  @Description("")
-  String ResetMotorPositionMethods();
+	@DefaultMessage("MessageWrite")
+	@Description("")
+	String MessageWriteMethods();
 
-  @DefaultMessage("SetBrickName")
-  @Description("")
-  String SetBrickNameMethods();
+	@DefaultMessage("PlaySoundFile")
+	@Description("")
+	String PlaySoundFileMethods();
 
-  @DefaultMessage("SetInputMode")
-  @Description("")
-  String SetInputModeMethods();
+	@DefaultMessage("PlayTone")
+	@Description("")
+	String PlayToneMethods();
 
-  @DefaultMessage("SetOutputState")
-  @Description("")
-  String SetOutputStateMethods();
+	@DefaultMessage("ResetInputScaledValue")
+	@Description("")
+	String ResetInputScaledValueMethods();
 
-  @DefaultMessage("StartProgram")
-  @Description("")
-  String StartProgramMethods();
+	@DefaultMessage("ResetMotorPosition")
+	@Description("")
+	String ResetMotorPositionMethods();
 
-  @DefaultMessage("StopProgram")
-  @Description("")
-  String StopProgramMethods();
+	@DefaultMessage("SetBrickName")
+	@Description("")
+	String SetBrickNameMethods();
 
-  @DefaultMessage("StopSoundPlayback")
-  @Description("")
-  String StopSoundPlaybackMethods();
+	@DefaultMessage("SetInputMode")
+	@Description("")
+	String SetInputModeMethods();
 
-  @DefaultMessage("LsWrite")
-  @Description("")
-  String LsWriteMethods();
+	@DefaultMessage("SetOutputState")
+	@Description("")
+	String SetOutputStateMethods();
 
-  @DefaultMessage("MoveBackward")
-  @Description("")
-  String MoveBackwardMethods();
+	@DefaultMessage("StartProgram")
+	@Description("")
+	String StartProgramMethods();
 
-  @DefaultMessage("MoveBackwardIndefinitely")
-  @Description("")
-  String MoveBackwardIndefinitelyMethods();
+	@DefaultMessage("StopProgram")
+	@Description("")
+	String StopProgramMethods();
 
-  @DefaultMessage("MoveForward")
-  @Description("")
-  String MoveForwardMethods();
+	@DefaultMessage("StopSoundPlayback")
+	@Description("")
+	String StopSoundPlaybackMethods();
 
-  @DefaultMessage("MoveForwardIndefinitely")
-  @Description("")
-  String MoveForwardIndefinitelyMethods();
+	@DefaultMessage("LsWrite")
+	@Description("")
+	String LsWriteMethods();
 
-  @DefaultMessage("Stop")
-  @Description("")
-  String StopMethods();
+	@DefaultMessage("MoveBackward")
+	@Description("")
+	String MoveBackwardMethods();
 
-  @DefaultMessage("TurnClockwiseIndefinitely")
-  @Description("")
-  String TurnClockwiseIndefinitelyMethods();
+	@DefaultMessage("MoveBackwardIndefinitely")
+	@Description("")
+	String MoveBackwardIndefinitelyMethods();
 
-  @DefaultMessage("TurnCounterClockwiseIndefinitely")
-  @Description("")
-  String TurnCounterClockwiseIndefinitelyMethods();
+	@DefaultMessage("MoveForward")
+	@Description("")
+	String MoveForwardMethods();
 
-  @DefaultMessage("GetSoundLevel")
-  @Description("")
-  String GetSoundLevelMethods();
+	@DefaultMessage("MoveForwardIndefinitely")
+	@Description("")
+	String MoveForwardIndefinitelyMethods();
 
-  @DefaultMessage("IsPressed")
-  @Description("")
-  String IsPressedMethods();
+	@DefaultMessage("Stop")
+	@Description("")
+	String StopMethods();
 
-  @DefaultMessage("GetDistance")
-  @Description("")
-  String GetDistanceMethods();
+	@DefaultMessage("TurnClockwiseIndefinitely")
+	@Description("")
+	String TurnClockwiseIndefinitelyMethods();
 
-  @DefaultMessage("Pause")
-  @Description("")
-  String PauseMethods();
+	@DefaultMessage("TurnCounterClockwiseIndefinitely")
+	@Description("")
+	String TurnCounterClockwiseIndefinitelyMethods();
 
-  @DefaultMessage("Reset")
-  @Description("")
-  String ResetMethods();
+	@DefaultMessage("GetSoundLevel")
+	@Description("")
+	String GetSoundLevelMethods();
 
-  @DefaultMessage("Resume")
-  @Description("")
-  String ResumeMethods();
+	@DefaultMessage("IsPressed")
+	@Description("")
+	String IsPressedMethods();
 
-  @DefaultMessage("Start")
-  @Description("")
-  String StartMethods();
+	@DefaultMessage("GetDistance")
+	@Description("")
+	String GetDistanceMethods();
 
-  @DefaultMessage("MakePhoneCall")
-  @Description("")
-  String MakePhoneCallMethods();
+	@DefaultMessage("Pause")
+	@Description("")
+	String PauseMethods();
 
-  @DefaultMessage("GetWifiIpAddress")
-  @Description("")
-  String GetWifiIpAddressMethods();
+	@DefaultMessage("Reset")
+	@Description("")
+	String ResetMethods();
 
-  @DefaultMessage("isConnected")
-  @Description("")
-  String isConnectedMethods();
+	@DefaultMessage("Resume")
+	@Description("")
+	String ResumeMethods();
 
-  @DefaultMessage("setHmacSeedReturnCode")
-  @Description("")
-  String setHmacSeedReturnCodeMethods();
+	@DefaultMessage("Start")
+	@Description("")
+	String StartMethods();
 
-  @DefaultMessage("startHTTPD")
-  @Description("")
-  String startHTTPDMethods();
+	@DefaultMessage("MakePhoneCall")
+	@Description("")
+	String MakePhoneCallMethods();
 
-  @DefaultMessage("Vibrate")
-  @Description("")
-  String VibrateMethods();
+	@DefaultMessage("GetWifiIpAddress")
+	@Description("")
+	String GetWifiIpAddressMethods();
 
-  @DefaultMessage("GetText")
-  @Description("")
-  String GetTextMethods();
+	@DefaultMessage("isConnected")
+	@Description("")
+	String isConnectedMethods();
 
-  @DefaultMessage("HideKeyboard")
-  @Description("")
-  String HideKeyboardMethods();
+	@DefaultMessage("setHmacSeedReturnCode")
+	@Description("")
+	String setHmacSeedReturnCodeMethods();
 
-  @DefaultMessage("Speak")
-  @Description("")
-  String SpeakMethods();
+	@DefaultMessage("startHTTPD")
+	@Description("")
+	String startHTTPDMethods();
 
-  @DefaultMessage("SendMessage")
-  @Description("")
-  String SendMessageMethods();
+	@DefaultMessage("Vibrate")
+	@Description("")
+	String VibrateMethods();
 
-  @DefaultMessage("GetValue")
-  @Description("")
-  String GetValueMethods();
+	@DefaultMessage("GetText")
+	@Description("")
+	String GetTextMethods();
 
-  @DefaultMessage("StoreValue")
-  @Description("")
-  String StoreValueMethods();
+	@DefaultMessage("HideKeyboard")
+	@Description("")
+	String HideKeyboardMethods();
 
-  @DefaultMessage("InitializeValue")
-  @Description("")
-  String InitializeValueMethods();
+	@DefaultMessage("Speak")
+	@Description("")
+	String SpeakMethods();
 
-  @DefaultMessage("Authorize")
-  @Description("")
-  String AuthorizeMethods();
+	@DefaultMessage("SendMessage")
+	@Description("")
+	String SendMessageMethods();
 
-  @DefaultMessage("CheckAuthorized")
-  @Description("")
-  String CheckAuthorizedMethods();
+	@DefaultMessage("GetValue")
+	@Description("")
+	String GetValueMethods();
 
-  @DefaultMessage("DeAuthorize")
-  @Description("")
-  String DeAuthorizeMethods();
+	@DefaultMessage("StoreValue")
+	@Description("")
+	String StoreValueMethods();
 
-  @DefaultMessage("DirectMessage")
-  @Description("")
-  String DirectMessageMethods();
+	@DefaultMessage("InitializeValue")
+	@Description("")
+	String InitializeValueMethods();
 
-  @DefaultMessage("Follow")
-  @Description("")
-  String FollowMethods();
+	@DefaultMessage("Authorize")
+	@Description("")
+	String AuthorizeMethods();
 
-  @DefaultMessage("RequestDirectMessages")
-  @Description("")
-  String RequestDirectMessagesMethods();
+	@DefaultMessage("CheckAuthorized")
+	@Description("")
+	String CheckAuthorizedMethods();
 
-  @DefaultMessage("RequestFollowers")
-  @Description("")
-  String RequestFollowersMethods();
+	@DefaultMessage("DeAuthorize")
+	@Description("")
+	String DeAuthorizeMethods();
 
-  @DefaultMessage("RequestFriendTimeline")
-  @Description("")
-  String RequestFriendTimelineMethods();
+	@DefaultMessage("DirectMessage")
+	@Description("")
+	String DirectMessageMethods();
 
-  @DefaultMessage("RequestMentions")
-  @Description("")
-  String RequestMentionsMethods();
+	@DefaultMessage("Follow")
+	@Description("")
+	String FollowMethods();
 
-  @DefaultMessage("SearchTwitter")
-  @Description("")
-  String SearchTwitterMethods();
+	@DefaultMessage("RequestDirectMessages")
+	@Description("")
+	String RequestDirectMessagesMethods();
 
-  @DefaultMessage("SetStatus")
-  @Description("")
-  String SetStatusMethods();
+	@DefaultMessage("RequestFollowers")
+	@Description("")
+	String RequestFollowersMethods();
 
-  @DefaultMessage("StopFollowing")
-  @Description("")
-  String StopFollowingMethods();
+	@DefaultMessage("RequestFriendTimeline")
+	@Description("")
+	String RequestFriendTimelineMethods();
 
-  @DefaultMessage("GetDuration")
-  @Description("")
-  String GetDurationMethods();
+	@DefaultMessage("RequestMentions")
+	@Description("")
+	String RequestMentionsMethods();
 
-  @DefaultMessage("SeekTo")
-  @Description("")
-  String SeekToMethods();
+	@DefaultMessage("SearchTwitter")
+	@Description("")
+	String SearchTwitterMethods();
 
-  @DefaultMessage("DoScan")
-  @Description("")
-  String DoScanMethods();
+	@DefaultMessage("SetStatus")
+	@Description("")
+	String SetStatusMethods();
 
-  @DefaultMessage("RequestBallot")
-  @Description("")
-  String RequestBallotMethods();
+	@DefaultMessage("StopFollowing")
+	@Description("")
+	String StopFollowingMethods();
 
-  @DefaultMessage("SendBallot")
-  @Description("")
-  String SendBallotMethods();
+	@DefaultMessage("GetDuration")
+	@Description("")
+	String GetDurationMethods();
 
-  @DefaultMessage("BuildPostData")
-  @Description("")
-  String BuildPostDataMethods();
+	@DefaultMessage("SeekTo")
+	@Description("")
+	String SeekToMethods();
 
-  @DefaultMessage("ClearCookies")
-  @Description("")
-  String ClearCookiesMethods();
+	@DefaultMessage("DoScan")
+	@Description("")
+	String DoScanMethods();
 
-  @DefaultMessage("Get")
-  @Description("")
-  String GetMethods();
+	@DefaultMessage("RequestBallot")
+	@Description("")
+	String RequestBallotMethods();
 
-  @DefaultMessage("HtmlTextDecode")
-  @Description("")
-  String HtmlTextDecodeMethods();
+	@DefaultMessage("SendBallot")
+	@Description("")
+	String SendBallotMethods();
 
-  @DefaultMessage("JsonTextDecode")
-  @Description("")
-  String JsonTextDecodeMethods();
+	@DefaultMessage("BuildPostData")
+	@Description("")
+	String BuildPostDataMethods();
 
-  @DefaultMessage("XmlTextDecode")
-  @Description("")
-  String XmlTextDecodeMethods();
+	@DefaultMessage("ClearCookies")
+	@Description("")
+	String ClearCookiesMethods();
 
-  @DefaultMessage("PostFile")
-  @Description("")
-  String PostFileMethods();
+	@DefaultMessage("Get")
+	@Description("")
+	String GetMethods();
 
-  @DefaultMessage("PostText")
-  @Description("")
-  String PostTextMethods();
+	@DefaultMessage("HtmlTextDecode")
+	@Description("")
+	String HtmlTextDecodeMethods();
 
-  @DefaultMessage("PostTextWithEncoding")
-  @Description("")
-  String PostTextWithEncodingMethods();
+	@DefaultMessage("JsonTextDecode")
+	@Description("")
+	String JsonTextDecodeMethods();
 
-  @DefaultMessage("UriEncode")
-  @Description("")
-  String UriEncodeMethods();
+	@DefaultMessage("XmlTextDecode")
+	@Description("")
+	String XmlTextDecodeMethods();
 
-  @DefaultMessage("CanGoBack")
-  @Description("")
-  String CanGoBackMethods();
+	@DefaultMessage("PostFile")
+	@Description("")
+	String PostFileMethods();
 
-  @DefaultMessage("CanGoForward")
-  @Description("")
-  String CanGoForwardMethods();
+	@DefaultMessage("PostText")
+	@Description("")
+	String PostTextMethods();
 
-  @DefaultMessage("ClearLocations")
-  @Description("")
-  String ClearLocationsMethods();
+	@DefaultMessage("PostTextWithEncoding")
+	@Description("")
+	String PostTextWithEncodingMethods();
 
-  @DefaultMessage("ClearCaches")
-  @Description("")
-  String ClearCachesMethods();
+	@DefaultMessage("UriEncode")
+	@Description("")
+	String UriEncodeMethods();
 
-  @DefaultMessage("GoBack")
-  @Description("")
-  String GoBackMethods();
+	@DefaultMessage("CanGoBack")
+	@Description("")
+	String CanGoBackMethods();
 
-  @DefaultMessage("GoForward")
-  @Description("")
-  String GoForwardMethods();
+	@DefaultMessage("CanGoForward")
+	@Description("")
+	String CanGoForwardMethods();
 
-  @DefaultMessage("GoHome")
-  @Description("")
-  String GoHomeMethods();
+	@DefaultMessage("ClearLocations")
+	@Description("")
+	String ClearLocationsMethods();
 
-  @DefaultMessage("GoToUrl")
-  @Description("")
-  String GoToUrlMethods();
+	@DefaultMessage("ClearCaches")
+	@Description("")
+	String ClearCachesMethods();
 
-  @DefaultMessage("AppendToFile")
-  @Description("")
-  String AppendToFileMethods();
+	@DefaultMessage("GoBack")
+	@Description("")
+	String GoBackMethods();
 
-  @DefaultMessage("Delete")
-  @Description("")
-  String DeleteMethods();
+	@DefaultMessage("GoForward")
+	@Description("")
+	String GoForwardMethods();
 
-  @DefaultMessage("ReadFrom")
-  @Description("")
-  String ReadFromMethods();
+	@DefaultMessage("GoHome")
+	@Description("")
+	String GoHomeMethods();
 
-  @DefaultMessage("SaveFile")
-  @Description("")
-  String SaveFileMethods();
+	@DefaultMessage("GoToUrl")
+	@Description("")
+	String GoToUrlMethods();
 
-  @DefaultMessage("doFault")
-  @Description("")
-  String doFaultMethods();
+	@DefaultMessage("AppendToFile")
+	@Description("")
+	String AppendToFileMethods();
 
-  @DefaultMessage("getVersionName")
-  @Description("")
-  String getVersionNameMethods();
+	@DefaultMessage("Delete")
+	@Description("")
+	String DeleteMethods();
 
-  @DefaultMessage("installURL")
-  @Description("")
-  String installURLMethods();
+	@DefaultMessage("ReadFrom")
+	@Description("")
+	String ReadFromMethods();
 
-  @DefaultMessage("isDirect")
-  @Description("")
-  String isDirectMethods();
+	@DefaultMessage("SaveFile")
+	@Description("")
+	String SaveFileMethods();
 
-  @DefaultMessage("setAssetsLoaded")
-  @Description("")
-  String setAssetsLoadedMethods();
+	@DefaultMessage("doFault")
+	@Description("")
+	String doFaultMethods();
 
-  @DefaultMessage("shutdown")
-  @Description("")
-  String shutdownMethods();
+	@DefaultMessage("getVersionName")
+	@Description("")
+	String getVersionNameMethods();
 
-  @DefaultMessage("ShareFile")
-  @Description("")
-  String ShareFileMethods();
+	@DefaultMessage("installURL")
+	@Description("")
+	String installURLMethods();
 
-  @DefaultMessage("ShareFileWithMessage")
-  @Description("")
-  String ShareFileWithMessageMethods();
+	@DefaultMessage("isDirect")
+	@Description("")
+	String isDirectMethods();
 
-  @DefaultMessage("ShareMessage")
-  @Description("")
-  String ShareMessageMethods();
+	@DefaultMessage("setAssetsLoaded")
+	@Description("")
+	String setAssetsLoadedMethods();
 
-  @DefaultMessage("Play")
-  @Description("")
-  String PlayMethods();
+	@DefaultMessage("shutdown")
+	@Description("")
+	String shutdownMethods();
 
-  @DefaultMessage("DisplayDropdown")
-  @Description("")
-  String DisplayDropdownMethods();
-
-  @DefaultMessage("ClearAll")
-  @Description("")
-  String ClearAllMethods();
-
-  @DefaultMessage("ClearTag")
-  @Description("")
-  String ClearTagMethods();
-
-  @DefaultMessage("GetTags")
-  @Description("")
-  String GetTagsMethods();
-
-  @DefaultMessage("Tweet")
-  @Description("")
-  String TweetMethods();
-
-  @DefaultMessage("TweetWithImage")
-  @Description("")
-  String TweetWithImageMethods();
-
-  @DefaultMessage("BuildRequestData")
-  @Description("")
-  String BuildRequestDataMethods();
-
-  @DefaultMessage("PutFile")
-  @Description("")
-  String PutFileMethods();
-
-  @DefaultMessage("PutText")
-  @Description("")
-  String PutTextMethods();
-
-  @DefaultMessage("PutTextWithEncoding")
-  @Description("")
-  String PutTextWithEncodingMethods();
-
-  @DefaultMessage("RequestTranslation")
-  @Description("")
-  String RequestTranslationMethods();
-
-
-  //Mock Components
-  @DefaultMessage("add items...")
-  @Description("")
-  String MockSpinnerAddItems();
-
-  //help strings
-  @DefaultMessage("Non-visible component that can detect shaking and measure acceleration approximately in three dimensions using SI units (m/s<sup>2</sup>).  The components are: <ul>\n<li> <strong>xAccel</strong>: 0 when the phone is at rest on a flat      surface, positive when the phone is tilted to the right (i.e.,      its left side is raised), and negative when the phone is tilted      to the left (i.e., its right size is raised).</li>\n <li> <strong>yAccel</strong>: 0 when the phone is at rest on a flat      surface, positive when its bottom is raised, and negative when      its top is raised. </li>\n <li> <strong>zAccel</strong>: Equal to -9.8 (earth\"s gravity in meters per      second per second when the device is at rest parallel to the ground      with the display facing up,      0 when perpindicular to the ground, and +9.8 when facing down.       The value can also be affected by accelerating it with or against      gravity. </li></ul>")
-  @Description("")
-  String AccelerometerSensorHelpStringComponentPallette();
-
-  @DefaultMessage("A component that can launch an activity using the <code>StartActivity</code> method.<p>Activities that can be launched include: <ul> \n<li> starting other App Inventor for Android apps </li> \n<li> starting the camera application </li> \n<li> performing web search </li> \n<li> opening a browser to a specified web page</li> \n<li> opening the map application to a specified location</li></ul> \nYou can also launch activities that return text data.  See the documentation on using the Activity Starter for examples.</p>")
-  @Description("")
-  String ActivityStarterHelpStringComponentPallette();
-
-  @DefaultMessage("<p>A round \"sprite\" that can be placed on a <code>Canvas</code>, where it can react to touches and drags, interact with other sprites (<code>ImageSprite</code>s and other <code>Ball</code>s) and the edge of the Canvas, and move according to its property values.</p><p>For example, to have a <code>Ball</code> move 4 pixels toward the top of a <code>Canvas</code> every 500 milliseconds (half second), you would set the <code>Speed</code> property to 4 [pixels], the <code>Interval</code> property to 500 [milliseconds], the <code>Heading</code> property to 90 [degrees], and the <code>Enabled</code> property to <code>True</code>.  These and its other properties can be changed at any time.</p><p>The difference between a Ball and an <code>ImageSprite</code> is that the latter can get its appearance from an image file, while a Ball\"s appearance can only be changed by varying its <code>PaintColor</code> and <code>Radius</code> properties.</p>")
-  @Description("")
-  String BallHelpStringComponentPallette();
-
-  @DefaultMessage("Component for using the Barcode Scanner to read a barcode")
-  @Description("")
-  String BarcodeScannerHelpStringComponentPallette();
-
-  @DefaultMessage("Bluetooth client component")
-  @Description("")
-  String BluetoothClientHelpStringComponentPallette();
-
-  @DefaultMessage("Bluetooth server component")
-  @Description("")
-  String BluetoothServerHelpStringComponentPallette();
-
-  @DefaultMessage("Button with the ability to detect clicks.  Many aspects of its appearance can be changed, as well as whether it is clickable (<code>Enabled</code>), can be changed in the Designer or in the Blocks Editor.")
-  @Description("")
-  String ButtonHelpStringComponentPallette();
-
-  @DefaultMessage("A component to record a video using the device\"s camcorder.After the video is recorded, the name of the file on the phone containing the clip is available as an argument to the AfterRecording event. The file name can be used, for example, to set the source property of a VideoPlayer component.")
-  @Description("")
-  String CamcorderHelpStringComponentPallette();
-
-  @DefaultMessage("A component to take a picture using the device\"s camera. After the picture is taken, the name of the file on the phone containing the picture is available as an argument to the AfterPicture event. The file name can be used, for example, to set the Picture property of an Image component.")
-  @Description("")
-  String CameraHelpStringComponentPallette();
-
-  @DefaultMessage("<p>A two-dimensional touch-sensitive rectangular panel on which drawing can be done and sprites can be moved.</p> <p>The <code>BackgroundColor</code>, <code>PaintColor</code>, <code>BackgroundImage</code>, <code>Width</code>, and <code>Height</code> of the Canvas can be set in either the Designer or in the Blocks Editor.  The <code>Width</code> and <code>Height</code> are measured in pixels and must be positive.</p><p>Any location on the Canvas can be specified as a pair of (X, Y) values, where <ul> <li>X is the number of pixels away from the left edge of the Canvas</li><li>Y is the number of pixels away from the top edge of the Canvas</li></ul>.</p> <p>There are events to tell when and where a Canvas has been touched or a <code>Sprite</code> (<code>ImageSprite</code> or <code>Ball</code>) has been dragged.  There are also methods for drawing points, lines, and circles.</p>")
-  @Description("")
-  String CanvasHelpStringComponentPallette();
-
-  @DefaultMessage("Checkbox that raises an event when the user clicks on it. There are many properties affecting its appearance that can be set in the Designer or Blocks Editor.")
-  @Description("")
-  String CheckBoxHelpStringComponentPallette();
-
-  @DefaultMessage("Non-visible component that provides the instant in time "
-    + "using the internal clock on the phone. It can fire a timer at "
-    + "regularly set intervals and perform time calculations, "
-    + "manipulations, and conversions.</p> <p>Methods to convert an "
-    + "instant to text are also available. Acceptable patterns are "
-    + "empty string, MM/DD/YYYY HH:mm:ss a, or MMM d, yyyy "
-    + "HH:mm. The empty string will provide the default format, "
-    + "which is \"MMM d, yyyy HH:mm:ss a\" for FormatDateTime \"MMM "
-    + "d, yyyy\" for FormatDate.  To see all possible format, "
-    + "please see <a "
-    + "href=\"https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html\" "
-    + "target=\"_blank\"> here</a>.")
-  @Description("")
-  String ClockHelpStringComponentPallette();
-
-  @DefaultMessage("A button that, when clicked on, displays a list of the contacts to choose among. After the user has made a selection, the following properties will be set to information about the chosen contact: <ul>\n<li> <code>ContactName</code>: the contact's name </li>\n <li> <code>EmailAddress</code>: the contact's primary email address </li>\n <li> <code>ContactUri</code>: the contact's URI on the device </li>\n <li> <code>Picture</code>: the name of the file containing the contact's image, which can be used as a <code>Picture</code> property value for the <code>Image</code> or <code>ImageSprite</code> component.</li></ul>\n</p><p>Other properties affect the appearance of the button (<code>TextAlignment</code>, <code>BackgroundColor</code>, etc.) and whether it can be clicked on (<code>Enabled</code>).\n</p><p>Picking is not supported on all phones.  If it fails, this component will show a notification.  The error behavior can be overridden with the Screen.ErrorOccurred event handler.")
-  @Description("")
-  String ContactPickerHelpStringComponentPallette();
-
-  @DefaultMessage("<p>A button that, when clicked on, launches a popup dialog to allow the user to select a date.</p>")
-  @Description("")
-  String DatePickerHelpStringComponentPallette();
-
-  @DefaultMessage("An EmailPicker is a kind of text box.  If the user begins entering the name or email address of a contact, the phone will show a dropdown menu of choices that complete the entry.  If there are many contacts, the dropdown can take several seconds to appear, and can show intermediate results while the matches are being computed. <p>The initial contents of the text box and the contents< after user entry is in the <code>Text</code> property.  If the <code>Text</code> property is initially empty, the contents of the <code>Hint</code> property will be faintly shown in the text box as a hint to the user.</p>\n <p>Other properties affect the appearance of the text box (<code>TextAlignment</code>, <code>BackgroundColor</code>, etc.) and whether it can be used (<code>Enabled</code>).</p>\n<p>Text boxes like this are usually used with <code>Button</code> components, with the user clicking on the button when text entry is complete.")
-  @Description("")
-  String EmailPickerHelpStringComponentPallette();
-
-  @DefaultMessage("Non-visible component for storing and retrieving files. Use this component to write or read files on your device. The default behaviour is to write files to the private data directory associated with your App. The Companion is special cased to write files to /sdcard/AppInventor/data to facilitate debugging. If the file path starts with a slash (/), then the file is created relative to /sdcard. For example writing a file to /myFile.txt will write the file in /sdcard/myFile.txt.")
-  @Description("")
-  String FileHelpStringComponentPallette();
-
-  @DefaultMessage("Top-level component containing all other components in the program")
-  @Description("")
-  String FormHelpStringComponentPallette();
-
-  @DefaultMessage("<p>A non-visible component that communicates with Google Fusion Tables.  Fusion Tables let you store, share, query and visualize data tables; this component lets you query, create, and modify these tables.</p> <p>This component uses the <a href=\"https://developers.google.com/fusiontables/docs/v1/getting_started\" target=\"_blank\">Fusion Tables API V1.0</a>.  <p>Applications using Fusion Tables must authentication to Google\"s servers. There are two ways this can be done. The first way uses an API Key which you the developer obtain (see below). With this approach end-users must also login to access a Fusion Table.  The second approach is to use a Service Account. With this approach you create credentials and a special \"Service Account Email Address\" which you obtain from the <a href=\"https://code.google.com/apis/console/\" target=\"_blank\">Google APIs Console</a>.  You then tell the Fusion Table Control the name of the Service Account Email address and upload the secret key as an asset to your application and set the KeyFile property to point at this file. Finally you check the \"UseServiceAuthentication\" checkbox in the designer.  When using a Service Account, end-users do not need to login to use Fusion Tables, your service account authenticates all access.</p> <p>To get an API key, follow these instructions.</p> <ol> <li>Go to your <a href=\"https://code.google.com/apis/console/\" target=\"_blank\">Google APIs Console</a> and login if necessary.</li> <li>Select the <i>Services</i> item from the menu on the left.</li> <li>Choose the <i>Fusiontables</i> service from the list provided and turn it on.</li> <li>Go back to the main menu and select the <i>API Access</i> item. </li> </ol> <p>Your API Key will be near the bottom of that pane in the section called \"Simple API Access\".  You will have to provide that key as the value for the <i>ApiKey</i> property in your Fusiontables app.</p> <p>Once you have an API key, set the value of the <i>Query</i> property to a valid Fusiontables SQL query and call <i>SendQuery</i> to execute the query.  App Inventor will send the query to the Fusion Tables server and the <i>GotResult</i> block will fire when a result is returned from the server.  Query results will be returned in CSV format, and can be converted to list format using the \"list from csv table\" or \"list from csv row\" blocks.</p> <p>Note that you do not need to worry about UTF-encoding the query.  But you do need to make sure the query follows the syntax described in <a href=\"https://developers.google.com/fusiontables/docs/v1/getting_started\" target=\"_blank\">the reference manual</a>, which means that things like capitalization for names of columns matters, and that single quotes must be used around column names if there are spaces in them.</p>")
-  @Description("")
-  String FusiontablesControlHelpStringComponentPallette();
-
-  @DefaultMessage("Provides a way for applications to communicate with online game servers")
-  @Description("")
-  String GameClientHelpStringComponentPallette();
-
-  @DefaultMessage("<p>Non-visible component that can measure angular velocity in three dimensions in units of degrees per second.</p><p>In order to function, the component must have its <code>Enabled</code> property set to True, and the device must have a gyroscope sensor.</p>")
-  @Description("")
-  String GyroscopeSensorHelpStringComponentPallette();
-
-  @DefaultMessage("<p>A formatting element in which to place components that should be displayed from left to right.  If you wish to have components displayed one over another, use <code>VerticalArrangement</code> instead.</p>")
-  @Description("")
-  String HorizontalArrangementHelpStringComponentPallette();
-
-  @DefaultMessage("Component for displaying images.  The picture to display, and other aspects of the Image\"s appearance, can be specified in the Designer or in the Blocks Editor.")
-  @Description("")
-  String ImageHelpStringComponentPallette();
-
-  @DefaultMessage("A special-purpose button. When the user taps an image picker, the device\"s image gallery appears, and the user can choose an image. After an image is picked, it is saved, and the <code>Selected</code> property will be the name of the file where the image is stored. In order to not fill up storage, a maximum of 10 images will be stored.  Picking more images will delete previous images, in order from oldest to newest.")
-  @Description("")
-  String ImagePickerHelpStringComponentPallette();
-
-  @DefaultMessage("<p>A \"sprite\" that can be placed on a <code>Canvas</code>, where it can react to touches and drags, interact with other sprites (<code>Ball</code>s and other <code>ImageSprite</code>s) and the edge of the Canvas, and move according to its property values.  Its appearance is that of the image specified in its <code>Picture</code> property (unless its <code>Visible</code> property is <code>False</code>.</p> <p>To have an <code>ImageSprite</code> move 10 pixels to the left every 1000 milliseconds (one second), for example, you would set the <code>Speed</code> property to 10 [pixels], the <code>Interval</code> property to 1000 [milliseconds], the <code>Heading</code> property to 180 [degrees], and the <code>Enabled</code> property to <code>True</code>.  A sprite whose <code>Rotates</code> property is <code>True</code> will rotate its image as the sprite\"s <code>Heading</code> changes.  Checking for collisions with a rotated sprite currently checks the sprite\"s unrotated position so that collision checking will be inaccurate for tall narrow or short wide sprites that are rotated.  Any of the sprite properties can be changed at any time under program control.</p> ")
-  @Description("")
-  String ImageSpriteHelpStringComponentPallette();
-
-  @DefaultMessage("A Label displays a piece of text, which is specified through the <code>Text</code> property.  Other properties, all of which can be set in the Designer or Blocks Editor, control the appearance and placement of the text.")
-  @Description("")
-  String LabelHelpStringComponentPallette();
-
-  @DefaultMessage("<p>A button that, when clicked on, displays a list of texts for the user to choose among. The texts can be specified through the Designer or Blocks Editor by setting the <code>ElementsFromString</code> property to their string-separated concatenation (for example, <em>choice 1, choice 2, choice 3</em>) or by setting the <code>Elements</code> property to a List in the Blocks editor.</p><p>Setting property ShowFilterBar to true, will make the list searchable.  Other properties affect the appearance of the button (<code>TextAlignment</code>, <code>BackgroundColor</code>, etc.) and whether it can be clicked on (<code>Enabled</code>).</p>")
-  @Description("")
-  String ListPickerHelpStringComponentPallette();
-
-  @DefaultMessage("<p>This is a visible component that allows to place a list of text elements in your Screen to display. <br> The list can be set using the ElementsFromString property or using the Elements block in the blocks editor.</p>")
-  @Description("")
-  String ListViewHelpStringComponentPallette();
-
-  @DefaultMessage("Non-visible component providing location information, including longitude, latitude, altitude (if supported by the device), and address.  This can also perform \"geocoding\", converting a given address (not necessarily the current one) to a latitude (with the <code>LatitudeFromAddress</code> method) and a longitude (with the <code>LongitudeFromAddress</code> method).</p>\n<p>In order to function, the component must have its <code>Enabled</code> property set to True, and the device must have location sensing enabled through wireless networks or GPS satellites (if outdoors).</p>\nLocation information might not be immediately available when an app starts.  You\"ll have to wait a short time for a location provider to be found and used, or wait for the OnLocationChanged event")
-  @Description("")
-  String LocationSensorHelpStringComponentPallette();
-
-  @DefaultMessage("<p>Non-visible component to provide NFC capabilities.  For now this component supports the reading and writing of text tags only (if supported by the device)</p><p>In order to read and write text tags, the component must have its <code>ReadMode</code> property set to True or False respectively.</p><p><strong>Note:</strong> This component will only work on Screen1 of any App Inventor app.</p>")
-  @Description("")
-  String NearFieldHelpStringComponentPallette();
-
-  @DefaultMessage("The Notifier component displays alert dialogs, messages, and temporary alerts, and creates Android log entries through the following methods: <ul><li> ShowMessageDialog: displays a message which the user must dismiss by pressing a button.</li><li> ShowChooseDialog: displays a message two buttons to let the user choose one of two responses, for example, yes or no, after which the AfterChoosing event is raised.</li><li> ShowTextDialog: lets the user enter text in response to the message, after which the AfterTextInput event is raised. <li> ShowAlert: displays a temporary  alert that goes away by itself after a short time.</li><li> ShowProgressDialog: displays an alert with a loading spinner that cannot be dismissed by the user. It can only be dismissed by using the DismissProgressDialog block.</li><li> DismissProgressDialog: Dismisses the progress dialog displayed by ShowProgressDialog.</li><li> LogError: logs an error message to the Android log. </li><li> LogInfo: logs an info message to the Android log.</li><li> LogWarning: logs a warning message to the Android log.</li><li>The messages in the dialogs (but not the alert) can be formatted using the following HTML tags:&lt;b&gt;, &lt;big&gt;, &lt;blockquote&gt;, &lt;br&gt;, &lt;cite&gt;, &lt;dfn&gt;, &lt;div&gt;, &lt;em&gt;, &lt;small&gt;, &lt;strong&gt;, &lt;sub&gt;, &lt;sup&gt;, &lt;tt&gt;. &lt;u&gt;</li><li>You can also use the font tag to specify color, for example, &lt;font color=\"blue\"&gt;.  Some of the available color names are aqua, black, blue, fuchsia, green, grey, lime, maroon, navy, olive, purple, red, silver, teal, white, and yellow</li></ul>")
-  @Description("")
-  String NotifierHelpStringComponentPallette();
-
-  @DefaultMessage("A component that provides a high-level interface to a color sensor on a LEGO MINDSTORMS NXT robot.")
-  @Description("")
-  String NxtColorSensorHelpStringComponentPallette();
-
-  @DefaultMessage("A component that provides a low-level interface to a LEGO MINDSTORMS NXT robot, with functions to send NXT Direct Commands.")
-  @Description("")
-  String NxtDirectCommandsHelpStringComponentPallette();
-
-  @DefaultMessage("A component that provides a high-level interface to a LEGO MINDSTORMS NXT robot, with functions that can move and turn the robot.")
-  @Description("")
-  String NxtDriveHelpStringComponentPallette();
-
-  @DefaultMessage("A component that provides a high-level interface to a light sensor on a LEGO MINDSTORMS NXT robot.")
-  @Description("")
-  String NxtLightSensorHelpStringComponentPallette();
-
-  @DefaultMessage("A component that provides a high-level interface to a sound sensor on a LEGO MINDSTORMS NXT robot.")
-  @Description("")
-  String NxtSoundSensorHelpStringComponentPallette();
-
-  @DefaultMessage("A component that provides a high-level interface to a touch sensor on a LEGO MINDSTORMS NXT robot.")
-  @Description("")
-  String NxtTouchSensorHelpStringComponentPallette();
-
-  @DefaultMessage("A component that provides a high-level interface to an ultrasonic sensor on a LEGO MINDSTORMS NXT robot.")
-  @Description("")
-  String NxtUltrasonicSensorHelpStringComponentPallette();
-
-  @DefaultMessage("<p>Non-visible component providing information about the device\"s physical orientation in three dimensions: <ul> <li> <strong>Roll</strong>: 0 degrees when the device is level, increases to      90 degrees as the device is tilted up on its left side, and      decreases to -90 degrees when the device is tilted up on its right side.      </li> <li> <strong>Pitch</strong>: 0 degrees when the device is level, up to      90 degrees as the device is tilted so its top is pointing down,      up to 180 degrees as it gets turned over.  Similarly, as the device      is tilted so its bottom points down, pitch decreases to -90      degrees, then further decreases to -180 degrees as it gets turned all the way      over.</li> <li> <strong>Azimuth</strong>: 0 degrees when the top of the device is      pointing north, 90 degrees when it is pointing east, 180 degrees      when it is pointing south, 270 degrees when it is pointing west,      etc.</li></ul>     These measurements assume that the device itself is not moving.</p>")
-  @Description("")
-  String OrientationSensorHelpStringComponentPallette();
-
-  @DefaultMessage("<p>A box for entering passwords.  This is the same as the ordinary <code>TextBox</code> component except this does not display the characters typed by the user.</p><p>The value of the text in the box can be found or set through the <code>Text</code> property. If blank, the <code>Hint</code> property, which appears as faint text in the box, can provide the user with guidance as to what to type.</p> <p>Text boxes are usually used with the <code>Button</code> component, with the user clicking on the button when text entry is complete.</p>")
-  @Description("")
-  String PasswordTextBoxHelpStringComponentPallette();
-
-  @DefaultMessage("Component that can count steps.")
-  @Description("")
-  String PedometerHelpStringComponentPallette();
-
-  @DefaultMessage("<p>A non-visible component that makes a phone call to the number specified in the <code>PhoneNumber</code> property, which can be set either in the Designer or Blocks Editor. The component has a <code>MakePhoneCall</code> method, enabling the program to launch a phone call.</p><p>Often, this component is used with the <code>ContactPicker</code> component, which lets the user select a contact from the ones stored on the phone and sets the <code>PhoneNumber</code> property to the contact\"s phone number.</p><p>To directly specify the phone number (e.g., 650-555-1212), set the <code>PhoneNumber</code> property to a Text with the specified digits (e.g., \"6505551212\").  Dashes, dots, and parentheses may be included (e.g., \"(650)-555-1212\") but will be ignored; spaces may not be included.</p>")
-  @Description("")
-  String PhoneCallHelpStringComponentPallette();
-
-  @DefaultMessage("A button that, when clicked on, displays a list of the contacts\" phone numbers to choose among. After the user has made a selection, the following properties will be set to information about the chosen contact: <ul>\n<li> <code>ContactName</code>: the contact\"s name </li>\n <li> <code>PhoneNumber</code>: the contact\"s phone number </li>\n <li> <code>EmailAddress</code>: the contact\"s email address </li> <li> <code>Picture</code>: the name of the file containing the contact\"s image, which can be used as a <code>Picture</code> property value for the <code>Image</code> or <code>ImageSprite</code> component.</li></ul>\n</p><p>Other properties affect the appearance of the button (<code>TextAlignment</code>, <code>BackgroundColor</code>, etc.) and whether it can be clicked on (<code>Enabled</code>).</p>\n<p>Picking is not supported on all phones.  If it fails, this component will show a notification.  This default error behavior can be overridden with the Screen.ErrorOccurred event handler.")
-  @Description("")
-  String PhoneNumberPickerHelpStringComponentPallette();
-
-  @DefaultMessage("Component that returns information about the phone.")
-  @Description("")
-  String PhoneStatusHelpStringComponentPallette();
-
-  @DefaultMessage("Multimedia component that plays audio and controls phone vibration.  The name of a multimedia field is specified in the <code>Source</code> property, which can be set in the Designer or in the Blocks Editor.  The length of time for a vibration is specified in the Blocks Editor in milliseconds (thousandths of a second).\n<p>For supported audio formats, see <a href=\"http://developer.android.com/guide/appendix/media-formats.html\" target=\"_blank\">Android Supported Media Formats</a>.</p>\n<p>This component is best for long sound files, such as songs, while the <code>Sound</code> component is more efficient for short files, such as sound effects.</p>")
-  @Description("")
-  String PlayerHelpStringComponentPallette();
-
-  @DefaultMessage("Sharing is a non-visible component that enables sharing files and/or messages between your app and other apps installed on a device. The component will display a list of the installed apps that can handle the information provided, and will allow the user to choose one to share the content with, for instance a mail app, a social network app, a texting app, and so on.<br>The file path can be taken directly from other components such as the Camera or the ImagePicker, but can also be specified directly to read from storage. Be aware that different devices treat storage differently, so a few things to try if, for instance, you have a file called arrow.gif in the folder <code>Appinventor/assets</code>, would be: <ul><li><code>\"file:///sdcard/Appinventor/assets/arrow.gif\"</code></li> or <li><code>\"/storage/Appinventor/assets/arrow.gif\"</code></li></ul>")
-  @Description("")
-  String SharingHelpStringComponentPallette();
-
-  @DefaultMessage("A Slider is a progress bar that adds a draggable thumb. You can touch " +
-        "the thumb and drag left or right to set the slider thumb position. " +
-        "As the Slider thumb is dragged, it will trigger the PositionChanged event, " +
-        "reporting the position of the Slider thumb. The reported position of the " +
-        "Slider thumb can be used to dynamically update another component " +
-        "attribute, such as the font size of a TextBox or the radius of a Ball.")
-  @Description("")
-  String SliderHelpStringComponentPallette();
-
-  @DefaultMessage("<p>A multimedia component that plays sound files and optionally vibrates for the number of milliseconds (thousandths of a second) specified in the Blocks Editor.  The name of the sound file to play can be specified either in the Designer or in the Blocks Editor.</p> <p>For supported sound file formats, see <a href=\"http://developer.android.com/guide/appendix/media-formats.html\" target=\"_blank\">Android Supported Media Formats</a>.</p><p>This <code>Sound</code> component is best for short sound files, such as sound effects, while the <code>Player</code> component is more efficient for longer sounds, such as songs.</p>")
-  @Description("")
-  String SoundHelpStringComponentPallette();
-
-  @DefaultMessage("<p>Multimedia component that records audio.</p>")
-  @Description("")
-  String SoundRecorderHelpStringComponentPallette();
-
-  @DefaultMessage("Component for using Voice Recognition to convert from speech to text")
-  @Description("")
-  String SpeechRecognizerHelpStringComponentPallette();
-
-  @DefaultMessage("<p>A spinner component that displays a pop-up with a list of elements. These elements can be set in the Designer or Blocks Editor by setting the<code>ElementsFromString</code> property to a string-separated concatenation (for example, <em>choice 1, choice 2, choice 3</em>) or by setting the <code>Elements</code> property to a List in the Blocks editor.</p>")
-  @Description("")
-  String SpinnerHelpStringComponentPallette();
-
-  @DefaultMessage("<p>A formatting element in which to place components that should be displayed in tabular form.</p>")
-  @Description("")
-  String TableArrangementHelpStringComponentPallette();
-
-  @DefaultMessage("<p>A box for the user to enter text.  The initial or user-entered text value is in the <code>Text</code> property.  If blank, the <code>Hint</code> property, which appears as faint text in the box, can provide the user with guidance as to what to type.</p><p>The <code>MultiLine</code> property determines if the text can havemore than one line.  For a single line text box, the keyboard will closeautomatically when the user presses the Done key.  To close the keyboard for multiline text boxes, the app should use  the HideKeyboard method or  rely on the user to press the Back key.</p><p>The <code> NumbersOnly</code> property restricts the keyboard to acceptnumeric input only.</p><p>Other properties affect the appearance of the text box (<code>TextAlignment</code>, <code>BackgroundColor</code>, etc.) and whether it can be used (<code>Enabled</code>).</p><p>Text boxes are usually used with the <code>Button</code> component, with the user clicking on the button when text entry is complete.</p><p>If the text entered by the user should not be displayed, use <code>PasswordTextBox</code> instead.</p>")
-  @Description("")
-  String TextBoxHelpStringComponentPallette();
-
-  @DefaultMessage("Component for using TextToSpeech to speak a message")
-  @Description("")
-  String TextToSpeechHelpStringComponentPallette();
-
-  @DefaultMessage("<p>A component that will, when the <code>SendMessage</code> method is called, send the text message specified in the <code>Message</code> property to the phone number specified in the <code>PhoneNumber</code> property.</p> <p>If the <code>ReceivingEnabled</code> property is set to 1 messages will <b>not</b> be received. If <code>ReceivingEnabled</code> is set to 2 messages will be received only when the application is running. Finally if <code>ReceivingEnabled</code> is set to 3, messages will be received when the application is running <b>and</b> when the application is not running they will be queued and a notification displayed to the user.</p> <p>When a message arrives, the <code>MessageReceived</code> event is raised and provides the sending number and message.</p> <p> An app that includes this component will receive messages even when it is in the background (i.e. when it is not visible on the screen) and, moreso, even if the app is not running, so long as it is installed on the phone. If the phone receives a text message when the app is not in the foreground, the phone will show a notification in the notification bar.  Selecting the notification will bring up the app.  As an app developer, you will probably want to give your users the ability to control ReceivingEnabled so that they can make the phone ignore text messages.</p> <p>If the GoogleVoiceEnabled property is true, messages can be sent over Wifi using Google Voice. This option requires that the user have a Google Voice account and that the mobile Voice app is installed on the phone. The Google Voice option works only on phones that support Android 2.0 (Eclair) or higher.</p> <p>To specify the phone number (e.g., 650-555-1212), set the <code>PhoneNumber</code> property to a Text string with the specified digits (e.g., 6505551212).  Dashes, dots, and parentheses may be included (e.g., (650)-555-1212) but will be ignored; spaces may not be included.</p> <p>Another way for an app to specify a phone number would be to include a <code>PhoneNumberPicker</code> component, which lets the users select a phone numbers from the ones stored in the the phone contacts.</p>")
-  @Description("")
-  String TextingHelpStringComponentPallette();
-
-  @DefaultMessage("<p>A button that, when clicked on, launches  a popup dialog to allow the user to select a time.</p>")
-  @Description("")
-  String TimePickerHelpStringComponentPallette();
-
-  @DefaultMessage("TinyDB is a non-visible component that stores data for an app. <p> Apps created with App Inventor are initialized each time they run: If an app sets the value of a variable and the user then quits the app, the value of that variable will not be remembered the next time the app is run. In contrast, TinyDB is a <em> persistent </em> data store for the app, that is, the data stored there will be available each time the app is run. An example might be a game that saves the high score and retrieves it each time the game is played. </<p> <p> Data items are strings stored under <em>tags</em> . To store a data item, you specify the tag it should be stored under.  Subsequently, you can retrieve the data that was stored under a given tag. </p><p> There is only one data store per app. Even if you have multiple TinyDB components, they will use the same data store. To get the effect of separate stores, use different keys. Also each app has its own data store. You cannot use TinyDB to pass data between two different apps on the phone, although you <em>can</em> use TinyDb to shares data between the different screens of a multi-screen app. </p> <p>When you are developing apps using the AI Companion, all the apps using that companion will share the same TinyDb.  That sharing will disappear once the apps are packaged.  But, during development, you should be careful to clear the TinyDb each time you start working on a new app.</p>")
-  @Description("")
-  String TinyDBHelpStringComponentPallette();
-
-  @DefaultMessage("Non-visible component that communicates with a Web service to store and retrieve information.")
-  @Description("")
-  String TinyWebDBHelpStringComponentPallette();
-
-  @DefaultMessage("A non-visible component that enables communication with <a href=\"http://www.twitter.com\" target=\"_blank\">Twitter</a>. Once a user has logged into their Twitter account (and the authorization has been confirmed successful by the <code>IsAuthorized</code> event), many more operations are available:<ul><li> Searching Twitter for tweets or labels (<code>SearchTwitter</code>)</li>\n<li> Sending a Tweet (<code>Tweet</code>)     </li>\n<li> Sending a Tweet with an Image (<code>TweetWithImage</code>)     </li>\n<li> Directing a message to a specific user      (<code>DirectMessage</code>)</li>\n <li> Receiving the most recent messages directed to the logged-in user      (<code>RequestDirectMessages</code>)</li>\n <li> Following a specific user (<code>Follow</code>)</li>\n<li> Ceasing to follow a specific user (<code>StopFollowing</code>)</li>\n<li> Getting a list of users following the logged-in user      (<code>RequestFollowers</code>)</li>\n <li> Getting the most recent messages of users followed by the      logged-in user (<code>RequestFriendTimeline</code>)</li>\n <li> Getting the most recent mentions of the logged-in user      (<code>RequestMentions</code>)</li></ul></p>\n <p>You must obtain a Comsumer Key and Consumer Secret for Twitter authorization  specific to your app from http://twitter.com/oauth_clients/new")
-  @Description("")
-  String TwitterHelpStringComponentPallette();
-
-  @DefaultMessage("<p>A formatting element in which to place components that should be displayed one below another.  (The first child component is stored on top, the second beneath it, etc.)  If you wish to have components displayed next to one another, use <code>HorizontalArrangement</code> instead.</p>")
-  @Description("")
-  String VerticalArrangementHelpStringComponentPallette();
-
-  @DefaultMessage("A multimedia component capable of playing videos. When the application is run, the VideoPlayer will be displayed as a rectangle on-screen.  If the user touches the rectangle, controls will appear to play/pause, skip ahead, and skip backward within the video.  The application can also control behavior by calling the <code>Start</code>, <code>Pause</code>, and <code>SeekTo</code> methods.  <p>Video files should be in Windows Media Video (.wmv) format, 3GPP (.3gp), or MPEG-4 (.mp4).  For more details about legal formats, see <a href=\"http://developer.android.com/guide/appendix/media-formats.html\" target=\"_blank\">Android Supported Media Formats</a>.</p><p>App Inventor for Android only permits video files under 1 MB and limits the total size of an application to 5 MB, not all of which is available for media (video, audio, and sound) files.  If your media files are too large, you may get errors when packaging or installing your application, in which case you should reduce the number of media files or their sizes.  Most video editing software, such as Windows Movie Maker and Apple iMovie, can help you decrease the size of videos by shortening them or re-encoding the video into a more compact format.</p><p>You can also set the media source to a URL that points to a streaming video, but the URL must point to the video file itself, not to a program that plays the video.")
-  @Description("")
-  String VideoPlayerHelpStringComponentPallette();
-
-  @DefaultMessage("<p>The Voting component enables users to vote on a question by communicating with a Web service to retrieve a ballot and later sending back users\" votes.</p>")
-  @Description("")
-  String VotingHelpStringComponentPallette();
-
-  @DefaultMessage("Non-visible component that provides functions for HTTP GET, POST, PUT, and DELETE requests.")
-  @Description("")
-  String WebHelpStringComponentPallette();
-
-  @DefaultMessage("Component for viewing Web pages.  The Home URL can be specified in the Designer or in the Blocks Editor.  The view can be set to follow links when they are tapped, and users can fill in Web forms. Warning: This is not a full browser.  For example, pressing the phone\"s hardware Back key will exit the app, rather than move back in the browser history.<p />You can use the WebViewer.WebViewString property to communicate between your app and Javascript code running in the Webviewer page. In the app, you get and set WebViewString.  In the WebViewer, you include Javascript that references the window.AppInventor object, using the methoods </em getWebViewString()</em> and <em>setWebViewString(text)</em>.  <p />For example, if the WebViewer opens to a page that contains the Javascript command <br /> <em>document.write(\"The answer is\" + window.AppInventor.getWebViewString());</em> <br />and if you set WebView.WebVewString to \"hello\", then the web page will show </br ><em>The answer is hello</em>.  <br />And if the Web page contains Javascript that executes the command <br /><em>window.AppInventor.setWebViewString(\"hello from Javascript\")</em>, <br />then the value of the WebViewString property will be <br /><em>hello from Javascript</em>. ")
-  @Description("")
-  String WebViewerHelpStringComponentPallette();
-
-  @DefaultMessage("Use this component to translate words and sentences between different languages. This component needs Internet access, as it will request translations to the Yandex.Translate service. Specify the source and target language in the form source-target using two letter language codes. So\"en-es\" will translate from English to Spanish while \"es-ru\" will translate from Spanish to Russian. If you leave out the source language, the service will attempt to detect the source language. So providing just \"es\" will attempt to detect the source language and translate it to Spanish.<p /> This component is powered by the Yandex translation service.  See http://api.yandex.com/translate/ for more information, including the list of available languages and the meanings of the language codes and status codes. <p />Note: Translation happens asynchronously in the background. When the translation is complete, the \"GotTranslation\" event is triggered.")
-  @Description("")
-  String YandexTranslateHelpStringComponentPallette();
-
-  @DefaultMessage("A non-visible component allowing you to store data on a Web database powered by Firebase. " +
-      "This allows the users of your app to share data with each other. " +
-      "By default, data will be stored in App Inventor''s shared Firebase database. " +
-      "Otherwise, you can specify the URL for your own Firebase in the \"FirebaseURL\" property. " +
-      "Learn more at <a target=\"_blank\" href=\"http://www.firebase.com\">Firebase.com</a>.")
-  @Description("")
-  String FirebaseDBHelpStringComponentPallette();
-
-
-  //Ode.java messages
-  @DefaultMessage("Welcome to VEDILS!")
-  @Description("")
-  String createNoProjectsDialogText();
-
-  @DefaultMessage("You do not have any projects in App Inventor 2. " +
-      "To learn how to use App Inventor, click the \"Guide\" " +
-      "link at the top of the window; or to start your first project, " +
-      "click the \"Start New Project\" button at the upper left of the window.")
-  @Description("")
-  String createNoProjectsDialogMessage1();
-
-  @DefaultMessage("Happy Inventing!")
-  @Description("")
-  String createNoprojectsDialogMessage2();
-
-  @DefaultMessage("Welcome to VEDILS!")
-  @Description("")
-  String createWelcomeDialogText();
-
-  @DefaultMessage("<h2>This is the Splash Screen. Make this an iframe to your splash screen.</h2>")
-  @Description("")
-  String createWelcomeDialogMessage();
-
-  @DefaultMessage("Continue")
-  @Description("")
-  String createWelcomeDialogButton();
-
-  @DefaultMessage("Do Not Show Again")
-  @Description("")
-  String doNotShow();
-
-  @DefaultMessage("<h2>Please fill out a short voluntary survey so that we can learn more about our users and improve MIT App Inventor.</h2>")
-  @Description("")
-  String showSurveySplashMessage();
-
-  @DefaultMessage("Take Survey Now")
-  @Description("")
-  String showSurveySplashButtonNow();
-
-  @DefaultMessage("Take Survey Later")
-  @Description("")
-  String showSurveySplashButtonLater();
-
-  @DefaultMessage("Never Take Survey")
-  @Description("")
-  String showSurveySplashButtonNever();
-
-  @DefaultMessage("This Session Is Out of Date")
-  @Description("")
-  String invalidSessionDialogText();
-
-  @DefaultMessage("<p><font color=red>Warning:</font> This session is out of date.</p>" +
-                "<p>This App Inventor account has been opened from another location. " +
-                "Using a single account from more than one location at the same time " +
-                "can damage your projects.</p>" +
-                "<p>Choose one of the buttons below to:" +
-                "<ul>" +
-                "<li>End this session here.</li>" +
-                "<li>Make this the current session and make the other sessions out of date.</li>" +
-                "<li>Continue with both sessions.</li>" +
-                "</ul>" +
-                "</p>")
-  @Description("")
-  String invalidSessionDialogMessage();
-
-  @DefaultMessage("End This Session")
-  @Description("")
-  String invalidSessionDialogButtonEnd();
-
-  @DefaultMessage("Make this the current session")
-  @Description("")
-  String invalidSessionDialogButtonCurrent();
-
-  @DefaultMessage("Continue with Both Sessions")
-  @Description("")
-  String invalidSessionDialogButtonContinue();
-
-  @DefaultMessage("Do you want to continue with multiple sessions?")
-  @Description("")
-  String bashWarningDialogText();
-
-  @DefaultMessage("<p><font color=red>WARNING:</font> A second App " +
-                "Inventor session has been opened for this account. You may choose to " +
-                "continue with both sessions, but working with App Inventor from more " +
-                "than one session simultaneously can cause blocks to be lost in ways " +
-                "that cannot be recovered from the App Inventor server.</p><p>" +
-                "We recommend that people not open multiple sessions on the same " +
-                "account. But if you do need to work in this way, then you should " +
-                "regularly export your project to your local computer, so you will " +
-                "have a backup copy independent of the App Inventor server. Use " +
-                "\"Export\" from the Projects menu to export the project.</p>")
-  @Description("")
-  String bashWarningDialogMessage();
-
-  @DefaultMessage("Continue with Multiple Sessions")
-  @Description("")
-  String bashWarningDialogButtonContinue();
-
-  @DefaultMessage("Do not use multiple Sessions")
-  @Description("")
-  String bashWarningDialogButtonNo();
-
-  @DefaultMessage("Your Session is Finished")
-  @Description("")
-  String finalDialogText();
-
-  @DefaultMessage("Your Account is Disabled")
-  @Description("")
-  String accountDisabledMessage();
-
-  @DefaultMessage("<p><b>Your Session is now ended, you may close this window</b></p>")
-  @Description("")
-  String finalDialogMessage();
-
-  @DefaultMessage("Project Read Error")
-  @Description("")
-  String corruptionDialogText();
-
-  @DefaultMessage("<p><b>We detected errors while reading in your project</b></p>" +
-                "<p>To protect your project from damage, we have ended this session. You may close this " +
-                "window.</p>")
-  @Description("")
-  String corruptionDialogMessage();
-
-  @DefaultMessage("Blocks Workspace is Empty")
-  @Description("")
-  String blocksTruncatedDialogText();
-
-  @DefaultMessage("<p>It appears that <b>" + "%1" +
-      "</b> has had all blocks removed.</p><p>" +
-      "<ul><li>You can save the enpty screen, and then all those blocks will be " +
-      "permanently gone from the project.</li>" +
-      "<li>Alternatively, you can restore the previously saved version " +
-      "of the project.</li></ul></p>")
-  @Description("")
-  String blocksTruncatedDialogMessage();
-
-  @DefaultMessage("Save the empty screen now.")
-  @Description("")
-  String blocksTruncatedDialogButtonSave();
-
-  @DefaultMessage("Restore the previous version.")
-  @Description("")
-  String blocksTruncatedDialogButtonNoSave();
-
-  @DefaultMessage("Please wait " + "%1" + " seconds...")
-  @Description("")
-  String blocksTruncatedDialogButtonHTML();
-
-  @DefaultMessage("InsertRow")
-  @Description("")
-  String InsertRowMethods();
-
-  @DefaultMessage("GetRows")
-  @Description("")
-  String GetRowsMethods();
-
-  @DefaultMessage("GetRowsWithConditions")
-  @Description("")
-  String GetRowsWithConditionsMethods();
-
-  @DefaultMessage("简体中文")
-  @Description("")
-  String SwitchToSimplifiedChinese();
-
-  @DefaultMessage("繁体中文")
-  @Description("")
-  String SwitchToTraditionalChinese();
-
-  @DefaultMessage("Español")
-  @Description("")
-  String SwitchToSpanish();
-
-  @DefaultMessage("Français")
-  @Description("")
-  String SwitchToFrench();
-
-  @DefaultMessage("Italiano")
-  @Description("")
-  String SwitchToItalian();
-
-  @DefaultMessage("Pусский")
-  @Description("")
-  String SwitchToRussian();
-
-  @DefaultMessage("한국어")
-  @Description("")
-  String SwitchToKorean();
-
-  @DefaultMessage("Svenska")
-  @Description("")
-  String SwitchToSwedish();
-
-  @DefaultMessage("Português do Brasil")
-  @Description("")
-  String switchToPortugueseBR();
-
-  @DefaultMessage("Progress Bar")
-  @Description("")
-  String ProgressBarFor();
-
-  // =========== ProximitySensor
-  @DefaultMessage("ProximitySensor")
-  @Description("")
-  String proximitySensorComponentPallette();
-
-  @DefaultMessage("Non-visible component that can measures the proximity of an object in cm relative to the view screen of a device. This sensor is typically used to determine whether a handset is being held up to a persons ear; i.e. lets you determine how far away an object is from a device. Many devices return the absolute distance, in cm, but some return only near and far values. In this case, the sensor usually reports its maximum range value in the far state and a lesser value in the near state.")
-  @Description("")
-  String ProximitySensorHelpStringComponentPallette();
-
-  @DefaultMessage("MaximumRange")
-  @Description("")
-  String MaximumRangeProperties();
-
-  @DefaultMessage("KeepRunningWhenOnPause")
-  @Description("")
-  String KeepRunningWhenOnPauseProperties();
-
-  @DefaultMessage("ProximityChangedProperties")
-  @Description("")
-  String ProximityChangedPropertiesProperties();
-
-  @DefaultMessage("ProximityChanged")
-  @Description("")
-  String ProximityChangedMethods();
-
-  @DefaultMessage("MaximumRangeMethods")
-  @Description("")
-  String MaximumRangeMethods();
-
-  // =========== ListPicker
-  @DefaultMessage("ItemTextColor")
-  @Description("")
-  String ItemTextColorProperties();
-
-  @DefaultMessage("ItemBackgroundColor")
-  @Description("")
-  String ItemBackgroundColorProperties();
-
-  @DefaultMessage("Error on Fusion Tables query")
-  @Description("")
-  String FusionTablesStandardErrorMessage();
-
-  @DefaultMessage("SelectionColor")
-  @Description("")
-  String SelectionColorProperties();
-
-  // Missing translations from 4/8/2015 -- Should sort into appropriate place
-
-  @DefaultMessage("LaunchPicker")
-  @Description("")
-  String LaunchPickerMethods();
-
-  @DefaultMessage("SetDateToDisplay")
-  @Description("")
-  String SetDateToDisplayMethods();
-
-  @DefaultMessage("SetDateToDisplayFromInstant")
-  @Description("")
-  String SetDateToDisplayFromInstantMethods();
-
-  @DefaultMessage("IncomingCallAnswered")
-  @Description("")
-  String IncomingCallAnsweredEvents();
-
-  @DefaultMessage("PhoneCallEnded")
-  @Description("")
-  String PhoneCallEndedEvents();
-
-  @DefaultMessage("PhoneCallStarted")
-  @Description("")
-  String PhoneCallStartedEvents();
-
-  @DefaultMessage("OnSettings")
-  @Description("")
-  String OnSettingsEvents();
-
-  @DefaultMessage("OtherPlayerStarted")
-  @Description("")
-  String OtherPlayerStartedEvents();
-
-  @DefaultMessage("ProximityChanged")
-  @Description("")
-  String ProximityChangedEvents();
-
-  @DefaultMessage("ThumbEnabled")
-  @Description("")
-  String ThumbEnabledProperties();
-
-  @DefaultMessage("SetTimeToDisplay")
-  @Description("")
-  String SetTimeToDisplayMethods();
-
-  @DefaultMessage("SetTimeToDisplayFromInstant")
-  @Description("")
-  String SetTimeToDisplayFromInstantMethods();
-
-  @DefaultMessage("XMLTextDecode")
-  @Description("")
-  String XMLTextDecodeMethods();
-
-  @DefaultMessage("ExtraKey and ExtraValue are deprecated and will not be supported. " +
-      "Please use the new Extras property in Blocks.\n")
-  @Description("")
-  String extraKeyValueWarning();
-
-  @DefaultMessage("MediaStored")
-  @Description("")
-  String MediaStoredEvents();
-
-  @DefaultMessage("PostMedia")
-  @Description("")
-  String PostMediaMethods();
-
-  @DefaultMessage("Scale proportionally")
-  @Description("A choice in ScalingChoicePropertyEditor")
-  String scaleProportionally();
-
-  @DefaultMessage("Scale to fit")
-  @Description("A choice in ScalingChoicePropertyEditor")
-  String scaleToFit();
-
-  @DefaultMessage("Unauthenticate")
-  @Description("")
-  String UnauthenticateMethods();
-
-  @DefaultMessage("Use Default")
-  @Description("Used by the MockFirebaseDB to display default checkbox")
-  String useDefault();
-
-  @DefaultMessage("DefaultURL")
-  @Description("")
-  String DefaultURLProperties();
-
-  @DefaultMessage("Warning!")
-  @Description("")
-  String warningDialogTitle();
-
-  @DefaultMessage("The useFront property has been removed from your Camera Component")
-  @Description("")
-  String useFrontDeprecated();
-
-  @DefaultMessage("FirebaseDB is an experimental feature " +
-    "which may change in the future or break. Packaged Apps built with this component may not " +
-    "function into the indefinite future.")
-  @Description("")
-  String firebaseExperimentalWarning();
-
-  @DefaultMessage("You are in Read Only Mode")
-  @Description("")
-  String readOnlyMode();
-  
+	@DefaultMessage("ShareFile")
+	@Description("")
+	String ShareFileMethods();
+
+	@DefaultMessage("ShareFileWithMessage")
+	@Description("")
+	String ShareFileWithMessageMethods();
+
+	@DefaultMessage("ShareMessage")
+	@Description("")
+	String ShareMessageMethods();
+
+	@DefaultMessage("Play")
+	@Description("")
+	String PlayMethods();
+
+	@DefaultMessage("DisplayDropdown")
+	@Description("")
+	String DisplayDropdownMethods();
+
+	@DefaultMessage("ClearAll")
+	@Description("")
+	String ClearAllMethods();
+
+	@DefaultMessage("ClearTag")
+	@Description("")
+	String ClearTagMethods();
+
+	@DefaultMessage("GetTags")
+	@Description("")
+	String GetTagsMethods();
+
+	@DefaultMessage("Tweet")
+	@Description("")
+	String TweetMethods();
+
+	@DefaultMessage("TweetWithImage")
+	@Description("")
+	String TweetWithImageMethods();
+
+	@DefaultMessage("BuildRequestData")
+	@Description("")
+	String BuildRequestDataMethods();
+
+	@DefaultMessage("PutFile")
+	@Description("")
+	String PutFileMethods();
+
+	@DefaultMessage("PutText")
+	@Description("")
+	String PutTextMethods();
+
+	@DefaultMessage("PutTextWithEncoding")
+	@Description("")
+	String PutTextWithEncodingMethods();
+
+	@DefaultMessage("RequestTranslation")
+	@Description("")
+	String RequestTranslationMethods();
+
+	// Mock Components
+	@DefaultMessage("add items...")
+	@Description("")
+	String MockSpinnerAddItems();
+
+	// help strings
+	@DefaultMessage("Non-visible component that can detect shaking and measure acceleration approximately in three dimensions using SI units (m/s<sup>2</sup>).  The components are: <ul>\n<li> <strong>xAccel</strong>: 0 when the phone is at rest on a flat      surface, positive when the phone is tilted to the right (i.e.,      its left side is raised), and negative when the phone is tilted      to the left (i.e., its right size is raised).</li>\n <li> <strong>yAccel</strong>: 0 when the phone is at rest on a flat      surface, positive when its bottom is raised, and negative when      its top is raised. </li>\n <li> <strong>zAccel</strong>: Equal to -9.8 (earth\"s gravity in meters per      second per second when the device is at rest parallel to the ground      with the display facing up,      0 when perpindicular to the ground, and +9.8 when facing down.       The value can also be affected by accelerating it with or against      gravity. </li></ul>")
+	@Description("")
+	String AccelerometerSensorHelpStringComponentPallette();
+
+	@DefaultMessage("A component that can launch an activity using the <code>StartActivity</code> method.<p>Activities that can be launched include: <ul> \n<li> starting other App Inventor for Android apps </li> \n<li> starting the camera application </li> \n<li> performing web search </li> \n<li> opening a browser to a specified web page</li> \n<li> opening the map application to a specified location</li></ul> \nYou can also launch activities that return text data.  See the documentation on using the Activity Starter for examples.</p>")
+	@Description("")
+	String ActivityStarterHelpStringComponentPallette();
+
+	@DefaultMessage("<p>A round \"sprite\" that can be placed on a <code>Canvas</code>, where it can react to touches and drags, interact with other sprites (<code>ImageSprite</code>s and other <code>Ball</code>s) and the edge of the Canvas, and move according to its property values.</p><p>For example, to have a <code>Ball</code> move 4 pixels toward the top of a <code>Canvas</code> every 500 milliseconds (half second), you would set the <code>Speed</code> property to 4 [pixels], the <code>Interval</code> property to 500 [milliseconds], the <code>Heading</code> property to 90 [degrees], and the <code>Enabled</code> property to <code>True</code>.  These and its other properties can be changed at any time.</p><p>The difference between a Ball and an <code>ImageSprite</code> is that the latter can get its appearance from an image file, while a Ball\"s appearance can only be changed by varying its <code>PaintColor</code> and <code>Radius</code> properties.</p>")
+	@Description("")
+	String BallHelpStringComponentPallette();
+
+	@DefaultMessage("Component for using the Barcode Scanner to read a barcode")
+	@Description("")
+	String BarcodeScannerHelpStringComponentPallette();
+
+	@DefaultMessage("Bluetooth client component")
+	@Description("")
+	String BluetoothClientHelpStringComponentPallette();
+
+	@DefaultMessage("Bluetooth server component")
+	@Description("")
+	String BluetoothServerHelpStringComponentPallette();
+
+	@DefaultMessage("Button with the ability to detect clicks.  Many aspects of its appearance can be changed, as well as whether it is clickable (<code>Enabled</code>), can be changed in the Designer or in the Blocks Editor.")
+	@Description("")
+	String ButtonHelpStringComponentPallette();
+
+	@DefaultMessage("A component to record a video using the device\"s camcorder.After the video is recorded, the name of the file on the phone containing the clip is available as an argument to the AfterRecording event. The file name can be used, for example, to set the source property of a VideoPlayer component.")
+	@Description("")
+	String CamcorderHelpStringComponentPallette();
+
+	@DefaultMessage("A component to take a picture using the device\"s camera. After the picture is taken, the name of the file on the phone containing the picture is available as an argument to the AfterPicture event. The file name can be used, for example, to set the Picture property of an Image component.")
+	@Description("")
+	String CameraHelpStringComponentPallette();
+
+	@DefaultMessage("<p>A two-dimensional touch-sensitive rectangular panel on which drawing can be done and sprites can be moved.</p> <p>The <code>BackgroundColor</code>, <code>PaintColor</code>, <code>BackgroundImage</code>, <code>Width</code>, and <code>Height</code> of the Canvas can be set in either the Designer or in the Blocks Editor.  The <code>Width</code> and <code>Height</code> are measured in pixels and must be positive.</p><p>Any location on the Canvas can be specified as a pair of (X, Y) values, where <ul> <li>X is the number of pixels away from the left edge of the Canvas</li><li>Y is the number of pixels away from the top edge of the Canvas</li></ul>.</p> <p>There are events to tell when and where a Canvas has been touched or a <code>Sprite</code> (<code>ImageSprite</code> or <code>Ball</code>) has been dragged.  There are also methods for drawing points, lines, and circles.</p>")
+	@Description("")
+	String CanvasHelpStringComponentPallette();
+
+	@DefaultMessage("Checkbox that raises an event when the user clicks on it. There are many properties affecting its appearance that can be set in the Designer or Blocks Editor.")
+	@Description("")
+	String CheckBoxHelpStringComponentPallette();
+
+	@DefaultMessage("Non-visible component that provides the instant in time "
+			+ "using the internal clock on the phone. It can fire a timer at "
+			+ "regularly set intervals and perform time calculations, "
+			+ "manipulations, and conversions.</p> <p>Methods to convert an "
+			+ "instant to text are also available. Acceptable patterns are "
+			+ "empty string, MM/DD/YYYY HH:mm:ss a, or MMM d, yyyy "
+			+ "HH:mm. The empty string will provide the default format, "
+			+ "which is \"MMM d, yyyy HH:mm:ss a\" for FormatDateTime \"MMM "
+			+ "d, yyyy\" for FormatDate.  To see all possible format, " + "please see <a "
+			+ "href=\"https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html\" "
+			+ "target=\"_blank\"> here</a>.")
+	@Description("")
+	String ClockHelpStringComponentPallette();
+
+	@DefaultMessage("A button that, when clicked on, displays a list of the contacts to choose among. After the user has made a selection, the following properties will be set to information about the chosen contact: <ul>\n<li> <code>ContactName</code>: the contact's name </li>\n <li> <code>EmailAddress</code>: the contact's primary email address </li>\n <li> <code>ContactUri</code>: the contact's URI on the device </li>\n <li> <code>Picture</code>: the name of the file containing the contact's image, which can be used as a <code>Picture</code> property value for the <code>Image</code> or <code>ImageSprite</code> component.</li></ul>\n</p><p>Other properties affect the appearance of the button (<code>TextAlignment</code>, <code>BackgroundColor</code>, etc.) and whether it can be clicked on (<code>Enabled</code>).\n</p><p>Picking is not supported on all phones.  If it fails, this component will show a notification.  The error behavior can be overridden with the Screen.ErrorOccurred event handler.")
+	@Description("")
+	String ContactPickerHelpStringComponentPallette();
+
+	@DefaultMessage("<p>A button that, when clicked on, launches a popup dialog to allow the user to select a date.</p>")
+	@Description("")
+	String DatePickerHelpStringComponentPallette();
+
+	@DefaultMessage("An EmailPicker is a kind of text box.  If the user begins entering the name or email address of a contact, the phone will show a dropdown menu of choices that complete the entry.  If there are many contacts, the dropdown can take several seconds to appear, and can show intermediate results while the matches are being computed. <p>The initial contents of the text box and the contents< after user entry is in the <code>Text</code> property.  If the <code>Text</code> property is initially empty, the contents of the <code>Hint</code> property will be faintly shown in the text box as a hint to the user.</p>\n <p>Other properties affect the appearance of the text box (<code>TextAlignment</code>, <code>BackgroundColor</code>, etc.) and whether it can be used (<code>Enabled</code>).</p>\n<p>Text boxes like this are usually used with <code>Button</code> components, with the user clicking on the button when text entry is complete.")
+	@Description("")
+	String EmailPickerHelpStringComponentPallette();
+
+	@DefaultMessage("Non-visible component for storing and retrieving files. Use this component to write or read files on your device. The default behaviour is to write files to the private data directory associated with your App. The Companion is special cased to write files to /sdcard/AppInventor/data to facilitate debugging. If the file path starts with a slash (/), then the file is created relative to /sdcard. For example writing a file to /myFile.txt will write the file in /sdcard/myFile.txt.")
+	@Description("")
+	String FileHelpStringComponentPallette();
+
+	@DefaultMessage("Top-level component containing all other components in the program")
+	@Description("")
+	String FormHelpStringComponentPallette();
+
+	@DefaultMessage("<p>A non-visible component that communicates with Google Fusion Tables.  Fusion Tables let you store, share, query and visualize data tables; this component lets you query, create, and modify these tables.</p> <p>This component uses the <a href=\"https://developers.google.com/fusiontables/docs/v1/getting_started\" target=\"_blank\">Fusion Tables API V1.0</a>.  <p>Applications using Fusion Tables must authentication to Google\"s servers. There are two ways this can be done. The first way uses an API Key which you the developer obtain (see below). With this approach end-users must also login to access a Fusion Table.  The second approach is to use a Service Account. With this approach you create credentials and a special \"Service Account Email Address\" which you obtain from the <a href=\"https://code.google.com/apis/console/\" target=\"_blank\">Google APIs Console</a>.  You then tell the Fusion Table Control the name of the Service Account Email address and upload the secret key as an asset to your application and set the KeyFile property to point at this file. Finally you check the \"UseServiceAuthentication\" checkbox in the designer.  When using a Service Account, end-users do not need to login to use Fusion Tables, your service account authenticates all access.</p> <p>To get an API key, follow these instructions.</p> <ol> <li>Go to your <a href=\"https://code.google.com/apis/console/\" target=\"_blank\">Google APIs Console</a> and login if necessary.</li> <li>Select the <i>Services</i> item from the menu on the left.</li> <li>Choose the <i>Fusiontables</i> service from the list provided and turn it on.</li> <li>Go back to the main menu and select the <i>API Access</i> item. </li> </ol> <p>Your API Key will be near the bottom of that pane in the section called \"Simple API Access\".  You will have to provide that key as the value for the <i>ApiKey</i> property in your Fusiontables app.</p> <p>Once you have an API key, set the value of the <i>Query</i> property to a valid Fusiontables SQL query and call <i>SendQuery</i> to execute the query.  App Inventor will send the query to the Fusion Tables server and the <i>GotResult</i> block will fire when a result is returned from the server.  Query results will be returned in CSV format, and can be converted to list format using the \"list from csv table\" or \"list from csv row\" blocks.</p> <p>Note that you do not need to worry about UTF-encoding the query.  But you do need to make sure the query follows the syntax described in <a href=\"https://developers.google.com/fusiontables/docs/v1/getting_started\" target=\"_blank\">the reference manual</a>, which means that things like capitalization for names of columns matters, and that single quotes must be used around column names if there are spaces in them.</p>")
+	@Description("")
+	String FusiontablesControlHelpStringComponentPallette();
+
+	@DefaultMessage("Provides a way for applications to communicate with online game servers")
+	@Description("")
+	String GameClientHelpStringComponentPallette();
+
+	@DefaultMessage("<p>Non-visible component that can measure angular velocity in three dimensions in units of degrees per second.</p><p>In order to function, the component must have its <code>Enabled</code> property set to True, and the device must have a gyroscope sensor.</p>")
+	@Description("")
+	String GyroscopeSensorHelpStringComponentPallette();
+
+	@DefaultMessage("<p>A formatting element in which to place components that should be displayed from left to right.  If you wish to have components displayed one over another, use <code>VerticalArrangement</code> instead.</p>")
+	@Description("")
+	String HorizontalArrangementHelpStringComponentPallette();
+
+	@DefaultMessage("Component for displaying images.  The picture to display, and other aspects of the Image\"s appearance, can be specified in the Designer or in the Blocks Editor.")
+	@Description("")
+	String ImageHelpStringComponentPallette();
+
+	@DefaultMessage("A special-purpose button. When the user taps an image picker, the device\"s image gallery appears, and the user can choose an image. After an image is picked, it is saved, and the <code>Selected</code> property will be the name of the file where the image is stored. In order to not fill up storage, a maximum of 10 images will be stored.  Picking more images will delete previous images, in order from oldest to newest.")
+	@Description("")
+	String ImagePickerHelpStringComponentPallette();
+
+	@DefaultMessage("<p>A \"sprite\" that can be placed on a <code>Canvas</code>, where it can react to touches and drags, interact with other sprites (<code>Ball</code>s and other <code>ImageSprite</code>s) and the edge of the Canvas, and move according to its property values.  Its appearance is that of the image specified in its <code>Picture</code> property (unless its <code>Visible</code> property is <code>False</code>.</p> <p>To have an <code>ImageSprite</code> move 10 pixels to the left every 1000 milliseconds (one second), for example, you would set the <code>Speed</code> property to 10 [pixels], the <code>Interval</code> property to 1000 [milliseconds], the <code>Heading</code> property to 180 [degrees], and the <code>Enabled</code> property to <code>True</code>.  A sprite whose <code>Rotates</code> property is <code>True</code> will rotate its image as the sprite\"s <code>Heading</code> changes.  Checking for collisions with a rotated sprite currently checks the sprite\"s unrotated position so that collision checking will be inaccurate for tall narrow or short wide sprites that are rotated.  Any of the sprite properties can be changed at any time under program control.</p> ")
+	@Description("")
+	String ImageSpriteHelpStringComponentPallette();
+
+	@DefaultMessage("A Label displays a piece of text, which is specified through the <code>Text</code> property.  Other properties, all of which can be set in the Designer or Blocks Editor, control the appearance and placement of the text.")
+	@Description("")
+	String LabelHelpStringComponentPallette();
+
+	@DefaultMessage("<p>A button that, when clicked on, displays a list of texts for the user to choose among. The texts can be specified through the Designer or Blocks Editor by setting the <code>ElementsFromString</code> property to their string-separated concatenation (for example, <em>choice 1, choice 2, choice 3</em>) or by setting the <code>Elements</code> property to a List in the Blocks editor.</p><p>Setting property ShowFilterBar to true, will make the list searchable.  Other properties affect the appearance of the button (<code>TextAlignment</code>, <code>BackgroundColor</code>, etc.) and whether it can be clicked on (<code>Enabled</code>).</p>")
+	@Description("")
+	String ListPickerHelpStringComponentPallette();
+
+	@DefaultMessage("<p>This is a visible component that allows to place a list of text elements in your Screen to display. <br> The list can be set using the ElementsFromString property or using the Elements block in the blocks editor.</p>")
+	@Description("")
+	String ListViewHelpStringComponentPallette();
+
+	@DefaultMessage("Non-visible component providing location information, including longitude, latitude, altitude (if supported by the device), and address.  This can also perform \"geocoding\", converting a given address (not necessarily the current one) to a latitude (with the <code>LatitudeFromAddress</code> method) and a longitude (with the <code>LongitudeFromAddress</code> method).</p>\n<p>In order to function, the component must have its <code>Enabled</code> property set to True, and the device must have location sensing enabled through wireless networks or GPS satellites (if outdoors).</p>\nLocation information might not be immediately available when an app starts.  You\"ll have to wait a short time for a location provider to be found and used, or wait for the OnLocationChanged event")
+	@Description("")
+	String LocationSensorHelpStringComponentPallette();
+
+	@DefaultMessage("<p>Non-visible component to provide NFC capabilities.  For now this component supports the reading and writing of text tags only (if supported by the device)</p><p>In order to read and write text tags, the component must have its <code>ReadMode</code> property set to True or False respectively.</p><p><strong>Note:</strong> This component will only work on Screen1 of any App Inventor app.</p>")
+	@Description("")
+	String NearFieldHelpStringComponentPallette();
+
+	@DefaultMessage("The Notifier component displays alert dialogs, messages, and temporary alerts, and creates Android log entries through the following methods: <ul><li> ShowMessageDialog: displays a message which the user must dismiss by pressing a button.</li><li> ShowChooseDialog: displays a message two buttons to let the user choose one of two responses, for example, yes or no, after which the AfterChoosing event is raised.</li><li> ShowTextDialog: lets the user enter text in response to the message, after which the AfterTextInput event is raised. <li> ShowAlert: displays a temporary  alert that goes away by itself after a short time.</li><li> ShowProgressDialog: displays an alert with a loading spinner that cannot be dismissed by the user. It can only be dismissed by using the DismissProgressDialog block.</li><li> DismissProgressDialog: Dismisses the progress dialog displayed by ShowProgressDialog.</li><li> LogError: logs an error message to the Android log. </li><li> LogInfo: logs an info message to the Android log.</li><li> LogWarning: logs a warning message to the Android log.</li><li>The messages in the dialogs (but not the alert) can be formatted using the following HTML tags:&lt;b&gt;, &lt;big&gt;, &lt;blockquote&gt;, &lt;br&gt;, &lt;cite&gt;, &lt;dfn&gt;, &lt;div&gt;, &lt;em&gt;, &lt;small&gt;, &lt;strong&gt;, &lt;sub&gt;, &lt;sup&gt;, &lt;tt&gt;. &lt;u&gt;</li><li>You can also use the font tag to specify color, for example, &lt;font color=\"blue\"&gt;.  Some of the available color names are aqua, black, blue, fuchsia, green, grey, lime, maroon, navy, olive, purple, red, silver, teal, white, and yellow</li></ul>")
+	@Description("")
+	String NotifierHelpStringComponentPallette();
+
+	@DefaultMessage("A component that provides a high-level interface to a color sensor on a LEGO MINDSTORMS NXT robot.")
+	@Description("")
+	String NxtColorSensorHelpStringComponentPallette();
+
+	@DefaultMessage("A component that provides a low-level interface to a LEGO MINDSTORMS NXT robot, with functions to send NXT Direct Commands.")
+	@Description("")
+	String NxtDirectCommandsHelpStringComponentPallette();
+
+	@DefaultMessage("A component that provides a high-level interface to a LEGO MINDSTORMS NXT robot, with functions that can move and turn the robot.")
+	@Description("")
+	String NxtDriveHelpStringComponentPallette();
+
+	@DefaultMessage("A component that provides a high-level interface to a light sensor on a LEGO MINDSTORMS NXT robot.")
+	@Description("")
+	String NxtLightSensorHelpStringComponentPallette();
+
+	@DefaultMessage("A component that provides a high-level interface to a sound sensor on a LEGO MINDSTORMS NXT robot.")
+	@Description("")
+	String NxtSoundSensorHelpStringComponentPallette();
+
+	@DefaultMessage("A component that provides a high-level interface to a touch sensor on a LEGO MINDSTORMS NXT robot.")
+	@Description("")
+	String NxtTouchSensorHelpStringComponentPallette();
+
+	@DefaultMessage("A component that provides a high-level interface to an ultrasonic sensor on a LEGO MINDSTORMS NXT robot.")
+	@Description("")
+	String NxtUltrasonicSensorHelpStringComponentPallette();
+
+	@DefaultMessage("<p>Non-visible component providing information about the device\"s physical orientation in three dimensions: <ul> <li> <strong>Roll</strong>: 0 degrees when the device is level, increases to      90 degrees as the device is tilted up on its left side, and      decreases to -90 degrees when the device is tilted up on its right side.      </li> <li> <strong>Pitch</strong>: 0 degrees when the device is level, up to      90 degrees as the device is tilted so its top is pointing down,      up to 180 degrees as it gets turned over.  Similarly, as the device      is tilted so its bottom points down, pitch decreases to -90      degrees, then further decreases to -180 degrees as it gets turned all the way      over.</li> <li> <strong>Azimuth</strong>: 0 degrees when the top of the device is      pointing north, 90 degrees when it is pointing east, 180 degrees      when it is pointing south, 270 degrees when it is pointing west,      etc.</li></ul>     These measurements assume that the device itself is not moving.</p>")
+	@Description("")
+	String OrientationSensorHelpStringComponentPallette();
+
+	@DefaultMessage("<p>A box for entering passwords.  This is the same as the ordinary <code>TextBox</code> component except this does not display the characters typed by the user.</p><p>The value of the text in the box can be found or set through the <code>Text</code> property. If blank, the <code>Hint</code> property, which appears as faint text in the box, can provide the user with guidance as to what to type.</p> <p>Text boxes are usually used with the <code>Button</code> component, with the user clicking on the button when text entry is complete.</p>")
+	@Description("")
+	String PasswordTextBoxHelpStringComponentPallette();
+
+	@DefaultMessage("Component that can count steps.")
+	@Description("")
+	String PedometerHelpStringComponentPallette();
+
+	@DefaultMessage("<p>A non-visible component that makes a phone call to the number specified in the <code>PhoneNumber</code> property, which can be set either in the Designer or Blocks Editor. The component has a <code>MakePhoneCall</code> method, enabling the program to launch a phone call.</p><p>Often, this component is used with the <code>ContactPicker</code> component, which lets the user select a contact from the ones stored on the phone and sets the <code>PhoneNumber</code> property to the contact\"s phone number.</p><p>To directly specify the phone number (e.g., 650-555-1212), set the <code>PhoneNumber</code> property to a Text with the specified digits (e.g., \"6505551212\").  Dashes, dots, and parentheses may be included (e.g., \"(650)-555-1212\") but will be ignored; spaces may not be included.</p>")
+	@Description("")
+	String PhoneCallHelpStringComponentPallette();
+
+	@DefaultMessage("A button that, when clicked on, displays a list of the contacts\" phone numbers to choose among. After the user has made a selection, the following properties will be set to information about the chosen contact: <ul>\n<li> <code>ContactName</code>: the contact\"s name </li>\n <li> <code>PhoneNumber</code>: the contact\"s phone number </li>\n <li> <code>EmailAddress</code>: the contact\"s email address </li> <li> <code>Picture</code>: the name of the file containing the contact\"s image, which can be used as a <code>Picture</code> property value for the <code>Image</code> or <code>ImageSprite</code> component.</li></ul>\n</p><p>Other properties affect the appearance of the button (<code>TextAlignment</code>, <code>BackgroundColor</code>, etc.) and whether it can be clicked on (<code>Enabled</code>).</p>\n<p>Picking is not supported on all phones.  If it fails, this component will show a notification.  This default error behavior can be overridden with the Screen.ErrorOccurred event handler.")
+	@Description("")
+	String PhoneNumberPickerHelpStringComponentPallette();
+
+	@DefaultMessage("Component that returns information about the phone.")
+	@Description("")
+	String PhoneStatusHelpStringComponentPallette();
+
+	@DefaultMessage("Multimedia component that plays audio and controls phone vibration.  The name of a multimedia field is specified in the <code>Source</code> property, which can be set in the Designer or in the Blocks Editor.  The length of time for a vibration is specified in the Blocks Editor in milliseconds (thousandths of a second).\n<p>For supported audio formats, see <a href=\"http://developer.android.com/guide/appendix/media-formats.html\" target=\"_blank\">Android Supported Media Formats</a>.</p>\n<p>This component is best for long sound files, such as songs, while the <code>Sound</code> component is more efficient for short files, such as sound effects.</p>")
+	@Description("")
+	String PlayerHelpStringComponentPallette();
+
+	@DefaultMessage("Sharing is a non-visible component that enables sharing files and/or messages between your app and other apps installed on a device. The component will display a list of the installed apps that can handle the information provided, and will allow the user to choose one to share the content with, for instance a mail app, a social network app, a texting app, and so on.<br>The file path can be taken directly from other components such as the Camera or the ImagePicker, but can also be specified directly to read from storage. Be aware that different devices treat storage differently, so a few things to try if, for instance, you have a file called arrow.gif in the folder <code>Appinventor/assets</code>, would be: <ul><li><code>\"file:///sdcard/Appinventor/assets/arrow.gif\"</code></li> or <li><code>\"/storage/Appinventor/assets/arrow.gif\"</code></li></ul>")
+	@Description("")
+	String SharingHelpStringComponentPallette();
+
+	@DefaultMessage("A Slider is a progress bar that adds a draggable thumb. You can touch "
+			+ "the thumb and drag left or right to set the slider thumb position. "
+			+ "As the Slider thumb is dragged, it will trigger the PositionChanged event, "
+			+ "reporting the position of the Slider thumb. The reported position of the "
+			+ "Slider thumb can be used to dynamically update another component "
+			+ "attribute, such as the font size of a TextBox or the radius of a Ball.")
+	@Description("")
+	String SliderHelpStringComponentPallette();
+
+	@DefaultMessage("<p>A multimedia component that plays sound files and optionally vibrates for the number of milliseconds (thousandths of a second) specified in the Blocks Editor.  The name of the sound file to play can be specified either in the Designer or in the Blocks Editor.</p> <p>For supported sound file formats, see <a href=\"http://developer.android.com/guide/appendix/media-formats.html\" target=\"_blank\">Android Supported Media Formats</a>.</p><p>This <code>Sound</code> component is best for short sound files, such as sound effects, while the <code>Player</code> component is more efficient for longer sounds, such as songs.</p>")
+	@Description("")
+	String SoundHelpStringComponentPallette();
+
+	@DefaultMessage("<p>Multimedia component that records audio.</p>")
+	@Description("")
+	String SoundRecorderHelpStringComponentPallette();
+
+	@DefaultMessage("Component for using Voice Recognition to convert from speech to text")
+	@Description("")
+	String SpeechRecognizerHelpStringComponentPallette();
+
+	@DefaultMessage("<p>A spinner component that displays a pop-up with a list of elements. These elements can be set in the Designer or Blocks Editor by setting the<code>ElementsFromString</code> property to a string-separated concatenation (for example, <em>choice 1, choice 2, choice 3</em>) or by setting the <code>Elements</code> property to a List in the Blocks editor.</p>")
+	@Description("")
+	String SpinnerHelpStringComponentPallette();
+
+	@DefaultMessage("<p>A formatting element in which to place components that should be displayed in tabular form.</p>")
+	@Description("")
+	String TableArrangementHelpStringComponentPallette();
+
+	@DefaultMessage("<p>A box for the user to enter text.  The initial or user-entered text value is in the <code>Text</code> property.  If blank, the <code>Hint</code> property, which appears as faint text in the box, can provide the user with guidance as to what to type.</p><p>The <code>MultiLine</code> property determines if the text can havemore than one line.  For a single line text box, the keyboard will closeautomatically when the user presses the Done key.  To close the keyboard for multiline text boxes, the app should use  the HideKeyboard method or  rely on the user to press the Back key.</p><p>The <code> NumbersOnly</code> property restricts the keyboard to acceptnumeric input only.</p><p>Other properties affect the appearance of the text box (<code>TextAlignment</code>, <code>BackgroundColor</code>, etc.) and whether it can be used (<code>Enabled</code>).</p><p>Text boxes are usually used with the <code>Button</code> component, with the user clicking on the button when text entry is complete.</p><p>If the text entered by the user should not be displayed, use <code>PasswordTextBox</code> instead.</p>")
+	@Description("")
+	String TextBoxHelpStringComponentPallette();
+
+	@DefaultMessage("Component for using TextToSpeech to speak a message")
+	@Description("")
+	String TextToSpeechHelpStringComponentPallette();
+
+	@DefaultMessage("<p>A component that will, when the <code>SendMessage</code> method is called, send the text message specified in the <code>Message</code> property to the phone number specified in the <code>PhoneNumber</code> property.</p> <p>If the <code>ReceivingEnabled</code> property is set to 1 messages will <b>not</b> be received. If <code>ReceivingEnabled</code> is set to 2 messages will be received only when the application is running. Finally if <code>ReceivingEnabled</code> is set to 3, messages will be received when the application is running <b>and</b> when the application is not running they will be queued and a notification displayed to the user.</p> <p>When a message arrives, the <code>MessageReceived</code> event is raised and provides the sending number and message.</p> <p> An app that includes this component will receive messages even when it is in the background (i.e. when it is not visible on the screen) and, moreso, even if the app is not running, so long as it is installed on the phone. If the phone receives a text message when the app is not in the foreground, the phone will show a notification in the notification bar.  Selecting the notification will bring up the app.  As an app developer, you will probably want to give your users the ability to control ReceivingEnabled so that they can make the phone ignore text messages.</p> <p>If the GoogleVoiceEnabled property is true, messages can be sent over Wifi using Google Voice. This option requires that the user have a Google Voice account and that the mobile Voice app is installed on the phone. The Google Voice option works only on phones that support Android 2.0 (Eclair) or higher.</p> <p>To specify the phone number (e.g., 650-555-1212), set the <code>PhoneNumber</code> property to a Text string with the specified digits (e.g., 6505551212).  Dashes, dots, and parentheses may be included (e.g., (650)-555-1212) but will be ignored; spaces may not be included.</p> <p>Another way for an app to specify a phone number would be to include a <code>PhoneNumberPicker</code> component, which lets the users select a phone numbers from the ones stored in the the phone contacts.</p>")
+	@Description("")
+	String TextingHelpStringComponentPallette();
+
+	@DefaultMessage("<p>A button that, when clicked on, launches  a popup dialog to allow the user to select a time.</p>")
+	@Description("")
+	String TimePickerHelpStringComponentPallette();
+
+	@DefaultMessage("TinyDB is a non-visible component that stores data for an app. <p> Apps created with App Inventor are initialized each time they run: If an app sets the value of a variable and the user then quits the app, the value of that variable will not be remembered the next time the app is run. In contrast, TinyDB is a <em> persistent </em> data store for the app, that is, the data stored there will be available each time the app is run. An example might be a game that saves the high score and retrieves it each time the game is played. </<p> <p> Data items are strings stored under <em>tags</em> . To store a data item, you specify the tag it should be stored under.  Subsequently, you can retrieve the data that was stored under a given tag. </p><p> There is only one data store per app. Even if you have multiple TinyDB components, they will use the same data store. To get the effect of separate stores, use different keys. Also each app has its own data store. You cannot use TinyDB to pass data between two different apps on the phone, although you <em>can</em> use TinyDb to shares data between the different screens of a multi-screen app. </p> <p>When you are developing apps using the AI Companion, all the apps using that companion will share the same TinyDb.  That sharing will disappear once the apps are packaged.  But, during development, you should be careful to clear the TinyDb each time you start working on a new app.</p>")
+	@Description("")
+	String TinyDBHelpStringComponentPallette();
+
+	@DefaultMessage("Non-visible component that communicates with a Web service to store and retrieve information.")
+	@Description("")
+	String TinyWebDBHelpStringComponentPallette();
+
+	@DefaultMessage("A non-visible component that enables communication with <a href=\"http://www.twitter.com\" target=\"_blank\">Twitter</a>. Once a user has logged into their Twitter account (and the authorization has been confirmed successful by the <code>IsAuthorized</code> event), many more operations are available:<ul><li> Searching Twitter for tweets or labels (<code>SearchTwitter</code>)</li>\n<li> Sending a Tweet (<code>Tweet</code>)     </li>\n<li> Sending a Tweet with an Image (<code>TweetWithImage</code>)     </li>\n<li> Directing a message to a specific user      (<code>DirectMessage</code>)</li>\n <li> Receiving the most recent messages directed to the logged-in user      (<code>RequestDirectMessages</code>)</li>\n <li> Following a specific user (<code>Follow</code>)</li>\n<li> Ceasing to follow a specific user (<code>StopFollowing</code>)</li>\n<li> Getting a list of users following the logged-in user      (<code>RequestFollowers</code>)</li>\n <li> Getting the most recent messages of users followed by the      logged-in user (<code>RequestFriendTimeline</code>)</li>\n <li> Getting the most recent mentions of the logged-in user      (<code>RequestMentions</code>)</li></ul></p>\n <p>You must obtain a Comsumer Key and Consumer Secret for Twitter authorization  specific to your app from http://twitter.com/oauth_clients/new")
+	@Description("")
+	String TwitterHelpStringComponentPallette();
+
+	@DefaultMessage("<p>A formatting element in which to place components that should be displayed one below another.  (The first child component is stored on top, the second beneath it, etc.)  If you wish to have components displayed next to one another, use <code>HorizontalArrangement</code> instead.</p>")
+	@Description("")
+	String VerticalArrangementHelpStringComponentPallette();
+
+	@DefaultMessage("A multimedia component capable of playing videos. When the application is run, the VideoPlayer will be displayed as a rectangle on-screen.  If the user touches the rectangle, controls will appear to play/pause, skip ahead, and skip backward within the video.  The application can also control behavior by calling the <code>Start</code>, <code>Pause</code>, and <code>SeekTo</code> methods.  <p>Video files should be in Windows Media Video (.wmv) format, 3GPP (.3gp), or MPEG-4 (.mp4).  For more details about legal formats, see <a href=\"http://developer.android.com/guide/appendix/media-formats.html\" target=\"_blank\">Android Supported Media Formats</a>.</p><p>App Inventor for Android only permits video files under 1 MB and limits the total size of an application to 5 MB, not all of which is available for media (video, audio, and sound) files.  If your media files are too large, you may get errors when packaging or installing your application, in which case you should reduce the number of media files or their sizes.  Most video editing software, such as Windows Movie Maker and Apple iMovie, can help you decrease the size of videos by shortening them or re-encoding the video into a more compact format.</p><p>You can also set the media source to a URL that points to a streaming video, but the URL must point to the video file itself, not to a program that plays the video.")
+	@Description("")
+	String VideoPlayerHelpStringComponentPallette();
+
+	@DefaultMessage("<p>The Voting component enables users to vote on a question by communicating with a Web service to retrieve a ballot and later sending back users\" votes.</p>")
+	@Description("")
+	String VotingHelpStringComponentPallette();
+
+	@DefaultMessage("Non-visible component that provides functions for HTTP GET, POST, PUT, and DELETE requests.")
+	@Description("")
+	String WebHelpStringComponentPallette();
+
+	@DefaultMessage("Component for viewing Web pages.  The Home URL can be specified in the Designer or in the Blocks Editor.  The view can be set to follow links when they are tapped, and users can fill in Web forms. Warning: This is not a full browser.  For example, pressing the phone\"s hardware Back key will exit the app, rather than move back in the browser history.<p />You can use the WebViewer.WebViewString property to communicate between your app and Javascript code running in the Webviewer page. In the app, you get and set WebViewString.  In the WebViewer, you include Javascript that references the window.AppInventor object, using the methoods </em getWebViewString()</em> and <em>setWebViewString(text)</em>.  <p />For example, if the WebViewer opens to a page that contains the Javascript command <br /> <em>document.write(\"The answer is\" + window.AppInventor.getWebViewString());</em> <br />and if you set WebView.WebVewString to \"hello\", then the web page will show </br ><em>The answer is hello</em>.  <br />And if the Web page contains Javascript that executes the command <br /><em>window.AppInventor.setWebViewString(\"hello from Javascript\")</em>, <br />then the value of the WebViewString property will be <br /><em>hello from Javascript</em>. ")
+	@Description("")
+	String WebViewerHelpStringComponentPallette();
+
+	@DefaultMessage("Use this component to translate words and sentences between different languages. This component needs Internet access, as it will request translations to the Yandex.Translate service. Specify the source and target language in the form source-target using two letter language codes. So\"en-es\" will translate from English to Spanish while \"es-ru\" will translate from Spanish to Russian. If you leave out the source language, the service will attempt to detect the source language. So providing just \"es\" will attempt to detect the source language and translate it to Spanish.<p /> This component is powered by the Yandex translation service.  See http://api.yandex.com/translate/ for more information, including the list of available languages and the meanings of the language codes and status codes. <p />Note: Translation happens asynchronously in the background. When the translation is complete, the \"GotTranslation\" event is triggered.")
+	@Description("")
+	String YandexTranslateHelpStringComponentPallette();
+
+	@DefaultMessage("A non-visible component allowing you to store data on a Web database powered by Firebase. "
+			+ "This allows the users of your app to share data with each other. "
+			+ "By default, data will be stored in App Inventor''s shared Firebase database. "
+			+ "Otherwise, you can specify the URL for your own Firebase in the \"FirebaseURL\" property. "
+			+ "Learn more at <a target=\"_blank\" href=\"http://www.firebase.com\">Firebase.com</a>.")
+	@Description("")
+	String FirebaseDBHelpStringComponentPallette();
+
+	// Ode.java messages
+	@DefaultMessage("Welcome to VEDILS!")
+	@Description("")
+	String createNoProjectsDialogText();
+
+	@DefaultMessage("You do not have any projects in App Inventor 2. "
+			+ "To learn how to use App Inventor, click the \"Guide\" "
+			+ "link at the top of the window; or to start your first project, "
+			+ "click the \"Start New Project\" button at the upper left of the window.")
+	@Description("")
+	String createNoProjectsDialogMessage1();
+
+	@DefaultMessage("Happy Inventing!")
+	@Description("")
+	String createNoprojectsDialogMessage2();
+
+	@DefaultMessage("Welcome to VEDILS!")
+	@Description("")
+	String createWelcomeDialogText();
+
+	@DefaultMessage("<h2>This is the Splash Screen. Make this an iframe to your splash screen.</h2>")
+	@Description("")
+	String createWelcomeDialogMessage();
+
+	@DefaultMessage("Continue")
+	@Description("")
+	String createWelcomeDialogButton();
+
+	@DefaultMessage("Do Not Show Again")
+	@Description("")
+	String doNotShow();
+
+	@DefaultMessage("<h2>Please fill out a short voluntary survey so that we can learn more about our users and improve MIT App Inventor.</h2>")
+	@Description("")
+	String showSurveySplashMessage();
+
+	@DefaultMessage("Take Survey Now")
+	@Description("")
+	String showSurveySplashButtonNow();
+
+	@DefaultMessage("Take Survey Later")
+	@Description("")
+	String showSurveySplashButtonLater();
+
+	@DefaultMessage("Never Take Survey")
+	@Description("")
+	String showSurveySplashButtonNever();
+
+	@DefaultMessage("This Session Is Out of Date")
+	@Description("")
+	String invalidSessionDialogText();
+
+	@DefaultMessage("<p><font color=red>Warning:</font> This session is out of date.</p>"
+			+ "<p>This App Inventor account has been opened from another location. "
+			+ "Using a single account from more than one location at the same time " + "can damage your projects.</p>"
+			+ "<p>Choose one of the buttons below to:" + "<ul>" + "<li>End this session here.</li>"
+			+ "<li>Make this the current session and make the other sessions out of date.</li>"
+			+ "<li>Continue with both sessions.</li>" + "</ul>" + "</p>")
+	@Description("")
+	String invalidSessionDialogMessage();
+
+	@DefaultMessage("End This Session")
+	@Description("")
+	String invalidSessionDialogButtonEnd();
+
+	@DefaultMessage("Make this the current session")
+	@Description("")
+	String invalidSessionDialogButtonCurrent();
+
+	@DefaultMessage("Continue with Both Sessions")
+	@Description("")
+	String invalidSessionDialogButtonContinue();
+
+	@DefaultMessage("Do you want to continue with multiple sessions?")
+	@Description("")
+	String bashWarningDialogText();
+
+	@DefaultMessage("<p><font color=red>WARNING:</font> A second App "
+			+ "Inventor session has been opened for this account. You may choose to "
+			+ "continue with both sessions, but working with App Inventor from more "
+			+ "than one session simultaneously can cause blocks to be lost in ways "
+			+ "that cannot be recovered from the App Inventor server.</p><p>"
+			+ "We recommend that people not open multiple sessions on the same "
+			+ "account. But if you do need to work in this way, then you should "
+			+ "regularly export your project to your local computer, so you will "
+			+ "have a backup copy independent of the App Inventor server. Use "
+			+ "\"Export\" from the Projects menu to export the project.</p>")
+	@Description("")
+	String bashWarningDialogMessage();
+
+	@DefaultMessage("Continue with Multiple Sessions")
+	@Description("")
+	String bashWarningDialogButtonContinue();
+
+	@DefaultMessage("Do not use multiple Sessions")
+	@Description("")
+	String bashWarningDialogButtonNo();
+
+	@DefaultMessage("Your Session is Finished")
+	@Description("")
+	String finalDialogText();
+
+	@DefaultMessage("Your Account is Disabled")
+	@Description("")
+	String accountDisabledMessage();
+
+	@DefaultMessage("<p><b>Your Session is now ended, you may close this window</b></p>")
+	@Description("")
+	String finalDialogMessage();
+
+	@DefaultMessage("Project Read Error")
+	@Description("")
+	String corruptionDialogText();
+
+	@DefaultMessage("<p><b>We detected errors while reading in your project</b></p>"
+			+ "<p>To protect your project from damage, we have ended this session. You may close this " + "window.</p>")
+	@Description("")
+	String corruptionDialogMessage();
+
+	@DefaultMessage("Blocks Workspace is Empty")
+	@Description("")
+	String blocksTruncatedDialogText();
+
+	@DefaultMessage("<p>It appears that <b>" + "%1" + "</b> has had all blocks removed.</p><p>"
+			+ "<ul><li>You can save the enpty screen, and then all those blocks will be "
+			+ "permanently gone from the project.</li>"
+			+ "<li>Alternatively, you can restore the previously saved version " + "of the project.</li></ul></p>")
+	@Description("")
+	String blocksTruncatedDialogMessage();
+
+	@DefaultMessage("Save the empty screen now.")
+	@Description("")
+	String blocksTruncatedDialogButtonSave();
+
+	@DefaultMessage("Restore the previous version.")
+	@Description("")
+	String blocksTruncatedDialogButtonNoSave();
+
+	@DefaultMessage("Please wait " + "%1" + " seconds...")
+	@Description("")
+	String blocksTruncatedDialogButtonHTML();
+
+	@DefaultMessage("InsertRow")
+	@Description("")
+	String InsertRowMethods();
+
+	@DefaultMessage("GetRows")
+	@Description("")
+	String GetRowsMethods();
+
+	@DefaultMessage("GetRowsWithConditions")
+	@Description("")
+	String GetRowsWithConditionsMethods();
+
+	@DefaultMessage("简体中文")
+	@Description("")
+	String SwitchToSimplifiedChinese();
+
+	@DefaultMessage("繁体中文")
+	@Description("")
+	String SwitchToTraditionalChinese();
+
+	@DefaultMessage("Español")
+	@Description("")
+	String SwitchToSpanish();
+
+	@DefaultMessage("Français")
+	@Description("")
+	String SwitchToFrench();
+
+	@DefaultMessage("Italiano")
+	@Description("")
+	String SwitchToItalian();
+
+	@DefaultMessage("Pусский")
+	@Description("")
+	String SwitchToRussian();
+
+	@DefaultMessage("한국어")
+	@Description("")
+	String SwitchToKorean();
+
+	@DefaultMessage("Svenska")
+	@Description("")
+	String SwitchToSwedish();
+
+	@DefaultMessage("Português do Brasil")
+	@Description("")
+	String switchToPortugueseBR();
+
+	@DefaultMessage("Progress Bar")
+	@Description("")
+	String ProgressBarFor();
+
+	// =========== ProximitySensor
+	@DefaultMessage("ProximitySensor")
+	@Description("")
+	String proximitySensorComponentPallette();
+
+	@DefaultMessage("Non-visible component that can measures the proximity of an object in cm relative to the view screen of a device. This sensor is typically used to determine whether a handset is being held up to a persons ear; i.e. lets you determine how far away an object is from a device. Many devices return the absolute distance, in cm, but some return only near and far values. In this case, the sensor usually reports its maximum range value in the far state and a lesser value in the near state.")
+	@Description("")
+	String ProximitySensorHelpStringComponentPallette();
+
+	@DefaultMessage("MaximumRange")
+	@Description("")
+	String MaximumRangeProperties();
+
+	@DefaultMessage("KeepRunningWhenOnPause")
+	@Description("")
+	String KeepRunningWhenOnPauseProperties();
+
+	@DefaultMessage("ProximityChangedProperties")
+	@Description("")
+	String ProximityChangedPropertiesProperties();
+
+	@DefaultMessage("ProximityChanged")
+	@Description("")
+	String ProximityChangedMethods();
+
+	@DefaultMessage("MaximumRangeMethods")
+	@Description("")
+	String MaximumRangeMethods();
+
+	// =========== ListPicker
+	@DefaultMessage("ItemTextColor")
+	@Description("")
+	String ItemTextColorProperties();
+
+	@DefaultMessage("ItemBackgroundColor")
+	@Description("")
+	String ItemBackgroundColorProperties();
+
+	@DefaultMessage("Error on Fusion Tables query")
+	@Description("")
+	String FusionTablesStandardErrorMessage();
+
+	@DefaultMessage("SelectionColor")
+	@Description("")
+	String SelectionColorProperties();
+
+	// Missing translations from 4/8/2015 -- Should sort into appropriate place
+
+	@DefaultMessage("LaunchPicker")
+	@Description("")
+	String LaunchPickerMethods();
+
+	@DefaultMessage("SetDateToDisplay")
+	@Description("")
+	String SetDateToDisplayMethods();
+
+	@DefaultMessage("SetDateToDisplayFromInstant")
+	@Description("")
+	String SetDateToDisplayFromInstantMethods();
+
+	@DefaultMessage("IncomingCallAnswered")
+	@Description("")
+	String IncomingCallAnsweredEvents();
+
+	@DefaultMessage("PhoneCallEnded")
+	@Description("")
+	String PhoneCallEndedEvents();
+
+	@DefaultMessage("PhoneCallStarted")
+	@Description("")
+	String PhoneCallStartedEvents();
+
+	@DefaultMessage("OnSettings")
+	@Description("")
+	String OnSettingsEvents();
+
+	@DefaultMessage("OtherPlayerStarted")
+	@Description("")
+	String OtherPlayerStartedEvents();
+
+	@DefaultMessage("ProximityChanged")
+	@Description("")
+	String ProximityChangedEvents();
+
+	@DefaultMessage("ThumbEnabled")
+	@Description("")
+	String ThumbEnabledProperties();
+
+	@DefaultMessage("SetTimeToDisplay")
+	@Description("")
+	String SetTimeToDisplayMethods();
+
+	@DefaultMessage("SetTimeToDisplayFromInstant")
+	@Description("")
+	String SetTimeToDisplayFromInstantMethods();
+
+	@DefaultMessage("XMLTextDecode")
+	@Description("")
+	String XMLTextDecodeMethods();
+
+	@DefaultMessage("ExtraKey and ExtraValue are deprecated and will not be supported. "
+			+ "Please use the new Extras property in Blocks.\n")
+	@Description("")
+	String extraKeyValueWarning();
+
+	@DefaultMessage("MediaStored")
+	@Description("")
+	String MediaStoredEvents();
+
+	@DefaultMessage("PostMedia")
+	@Description("")
+	String PostMediaMethods();
+
+	@DefaultMessage("Scale proportionally")
+	@Description("A choice in ScalingChoicePropertyEditor")
+	String scaleProportionally();
+
+	@DefaultMessage("Scale to fit")
+	@Description("A choice in ScalingChoicePropertyEditor")
+	String scaleToFit();
+
+	@DefaultMessage("Unauthenticate")
+	@Description("")
+	String UnauthenticateMethods();
+
+	@DefaultMessage("Use Default")
+	@Description("Used by the MockFirebaseDB to display default checkbox")
+	String useDefault();
+
+	@DefaultMessage("DefaultURL")
+	@Description("")
+	String DefaultURLProperties();
+
+	@DefaultMessage("Warning!")
+	@Description("")
+	String warningDialogTitle();
+
+	@DefaultMessage("The useFront property has been removed from your Camera Component")
+	@Description("")
+	String useFrontDeprecated();
+
+	@DefaultMessage("FirebaseDB is an experimental feature "
+			+ "which may change in the future or break. Packaged Apps built with this component may not "
+			+ "function into the indefinite future.")
+	@Description("")
+	String firebaseExperimentalWarning();
+
+	@DefaultMessage("You are in Read Only Mode")
+	@Description("")
+	String readOnlyMode();
+
 	///////////////
 	// AR Camera //
 	///////////////
-	
+
 	@DefaultMessage("*Stereo")
 	@Description("")
 	String StereoProperties();
-	
+
 	@DefaultMessage("ObjectDatabaseDAT")
 	@Description("")
 	String ObjectDatabaseDATProperties();
-	
+
 	@DefaultMessage("ObjectDatabaseXML")
 	@Description("")
 	String ObjectDatabaseXMLProperties();
-	
+
 	@DefaultMessage("AfterARCameraClosed")
 	@Description("")
 	String AfterARCameraClosedEvents();
-	
+
 	@DefaultMessage("Subtitle")
 	@Description("")
 	String SubtitleProperties();
-	
+
 	@DefaultMessage("UpdateHeader")
 	@Description("")
 	String UpdateHeaderMethods();
-	
+
 	@DefaultMessage("OverLayer")
 	@Description("")
 	String OverLayerProperties();
-	
+
 	@DefaultMessage("LeftButtonEnabled")
 	@Description("")
 	String LeftButtonEnabledProperties();
-	
+
 	@DefaultMessage("RightButtonEnabled")
 	@Description("")
 	String RightButtonEnabledProperties();
-	
+
 	@DefaultMessage("LeftButtonText")
 	@Description("")
 	String LeftButtonTextProperties();
-	
+
 	@DefaultMessage("RightButtonText")
 	@Description("")
 	String RightButtonTextProperties();
-	
+
 	@DefaultMessage("FloatingText")
 	@Description("")
 	String FloatingTextProperties();
-	
+
 	@DefaultMessage("LeftButtonClick")
 	@Description("")
 	String LeftButtonClickEvents();
-	
+
 	@DefaultMessage("RightButtonClick")
 	@Description("")
 	String RightButtonClickEvents();
 	////////////////////////
 	// AR Physical Object //
 	////////////////////////
-	
+
 	@DefaultMessage("*ColorTracker")
 	@Description("")
 	String ColorTrackerProperties();
-	
+
 	@DefaultMessage("MarkerTracker")
 	@Description("")
 	String MarkerTrackerProperties();
-	
+
 	@DefaultMessage("TextTracker")
 	@Description("")
 	String TextTrackerProperties();
-	
+
 	@DefaultMessage("*ImageTracker")
 	@Description("")
 	String ImageTrackerProperties();
-	
+
 	@DefaultMessage("ObjectTracker")
 	@Description("")
 	String ObjectTrackerProperties();
-	
-	
+
 	@DefaultMessage("ExtendedTracking")
 	@Description("")
 	String ExtendedTrackingProperties();
-	
+
 	@DefaultMessage("SensitivityThresholdX")
 	@Description("")
 	String SensitivityThresholdXProperties();
-	
+
 	@DefaultMessage("SensitivityThresholdY")
 	@Description("")
 	String SensitivityThresholdYProperties();
-	
+
 	@DefaultMessage("SensitivityThresholdZ")
 	@Description("")
 	String SensitivityThresholdZProperties();
-	
+
 	@DefaultMessage("Appears")
 	@Description("")
 	String AppearsEvents();
-	
+
 	@DefaultMessage("Disappears")
 	@Description("")
 	String DisappearsEvents();
-	
+
 	@DefaultMessage("ChangedPosition")
 	@Description("")
 	String ChangedPositionEvents();
-	
+
 	///////////////////////
 	// AR Virtual Object //
 	///////////////////////
-	
+
 	@DefaultMessage("PositionX")
 	@Description("")
 	String PositionXProperties();
-	
+
 	@DefaultMessage("PositionY")
 	@Description("")
 	String PositionYProperties();
-	
+
 	@DefaultMessage("PositionZ")
 	@Description("")
 	String PositionZProperties();
-	
+
 	@DefaultMessage("RotationX")
 	@Description("")
 	String RotationXProperties();
-	
+
 	@DefaultMessage("RotationY")
 	@Description("")
 	String RotationYProperties();
-	
+
 	@DefaultMessage("RotationZ")
 	@Description("")
 	String RotationZProperties();
-	
+
 	@DefaultMessage("TranslationX")
 	@Description("")
 	String TranslationXProperties();
-	
+
 	@DefaultMessage("TranslationY")
 	@Description("")
 	String TranslationYProperties();
-	
+
 	@DefaultMessage("TranslationZ")
 	@Description("")
 	String TranslationZProperties();
-	
+
 	@DefaultMessage("Scale")
 	@Description("")
 	String ScaleProperties();
-	
+
 	@DefaultMessage("*Transparency")
 	@Description("")
 	String TransparencyProperties();
-	
+
 	@DefaultMessage("StickTo")
 	@Description("")
 	String StickToProperties();
-	
+
 	@DefaultMessage("Camera")
 	@Description("")
 	String ARCameraProperties();
-	
+
 	@DefaultMessage("*Mass")
 	@Description("")
 	String MassProperties();
-	
+
 	@DefaultMessage("OverlaidModel3D")
 	@Description("")
 	String OverlaidModel3DProperties();
-	
+
 	@DefaultMessage("*OverlaidText")
 	@Description("")
 	String OverlaidTextProperties();
-	
+
 	@DefaultMessage("OverlaidImage")
 	@Description("")
 	String OverlaidImageProperties();
-	
+
 	@DefaultMessage("ColorTexture")
 	@Description("")
 	String ColorTextureProperties();
-	
+
 	@DefaultMessage("ImageTexture")
 	@Description("")
 	String ImageTextureProperties();
-	
+
 	@DefaultMessage("Material")
 	@Description("")
 	String MaterialProperties();
-	
+
 	@DefaultMessage("AnimationSecuence")
 	@Description("")
 	String AnimationSecuenceProperties();
-	
+
 	@DefaultMessage("AssetType")
 	@Description("")
-	String AssetTypeProperties();	
-	
+	String AssetTypeProperties();
+
 	@DefaultMessage("Refresh")
 	@Description("")
 	String RefreshMethods();
-	
+
 	//
 	// GoogleCloudMessaging
 	//
-	
-	@DefaultMessage("A component to send messages between all devices that are using the same application. " +
-			"First, we need to call the <code>Register</code> function to subscribe in the server. " +
-			"Then we can call the <code>sendMessage</code> and <code>sendDataList</code> functions to send a text message or a data list.")
+
+	@DefaultMessage("A component to send messages between all devices that are using the same application. "
+			+ "First, we need to call the <code>Register</code> function to subscribe in the server. "
+			+ "Then we can call the <code>sendMessage</code> and <code>sendDataList</code> functions to send a text message or a data list.")
 	@Description("")
 	String GoogleCloudMessagingHelpStringComponentPallette();
-	
+
 	@DefaultMessage("Register")
 	@Description("")
 	String RegisterMethods();
-	
+
 	@DefaultMessage("UnRegister")
 	@Description("")
 	String UnRegisterMethods();
-	
+
 	@DefaultMessage("UnRegisterAll")
 	@Description("")
 	String UnRegisterAllMethods();
-	
+
 	@DefaultMessage("ShowNotificationBar")
 	@Description("")
 	String ShowNotificationBarMethods();
-	
+
 	@DefaultMessage("SendDataList")
 	@Description("")
 	String SendDataListMethods();
-	
+
 	@DefaultMessage("DataListReceived")
 	@Description("")
 	String DataListReceivedEvents();
-	
+
 	//
 	// ThingSpeakLocationSensor
 	//
-	
-	@DefaultMessage("A component to use the mobile device as a location sensor and send the data to a <b>ThingSpeak</b> channel. " +
-			"The data sent will be the current <code>latitude</code> and <code>longitude</code> of the device.")
+
+	@DefaultMessage("A component to use the mobile device as a location sensor and send the data to a <b>ThingSpeak</b> channel. "
+			+ "The data sent will be the current <code>latitude</code> and <code>longitude</code> of the device.")
 	@Description("")
 	String ThingSpeakHelpStringComponentPallette();
-	
+
 	@DefaultMessage("ApiKey")
 	@Description("")
 	String ChannelApiKeyProperties();
-	
+
 	@DefaultMessage("ChannelId")
 	@Description("")
 	String ChannelIdProperties();
-	
+
 	@DefaultMessage("SendLocationDataToThingSpeak")
 	@Description("")
 	String SendLocationDataToThingSpeakMethods();
-	
+
 	//
 	// DeviceInfo
 	//
-	
+
 	@DefaultMessage("A component to obtain information of the used device. The information provided is the <code>IMEI</code>, <code>MAC</code>, and <code>IP</code>.")
 	@Description("")
 	String DeviceInfoHelpStringComponentPallette();
-	
+
 	@DefaultMessage("IMEI")
 	@Description("")
 	String IMEIProperties();
-	
+
 	@DefaultMessage("MAC")
 	@Description("")
 	String MACProperties();
-	
+
 	@DefaultMessage("IP")
 	@Description("")
 	String IPProperties();
-	
+
 	//
 	// ActivityTracker
 	//
-	
-	@DefaultMessage("A component for logging activity in an application. " +
-			"Actions to register can be <b>specific</b> or <b>automatic</b> type. " +
-			"Finally, sending data can be performed in real time, user demand or in batches.")
+
+	@DefaultMessage("A component for logging activity in an application. "
+			+ "Actions to register can be <b>specific</b> or <b>automatic</b> type. "
+			+ "Finally, sending data can be performed in real time, user demand or in batches.")
 	@Description("")
 	String ActivityTrackerHelpStringComponentPallette();
-	
+
 	@DefaultMessage("UserTrackerId")
 	@Description("")
 	String UserTrackerIdProperties();
-	
+
 	@DefaultMessage("TableId")
 	@Description("")
 	String TableIdProperties();
-	
+
 	@DefaultMessage("DisplayExampleTable")
 	@Description("")
 	String DisplayExampleTableProperties();
-	
+
 	@DefaultMessage("SynchronizationMode")
 	@Description("")
 	String SynchronizationModeProperties();
-	
+
 	@DefaultMessage("CommunicationMode")
 	@Description("")
 	String CommunicationModeProperties();
-	
+
 	@DefaultMessage("NotifyWithoutArguments")
 	@Description("")
 	String NotifyWithoutArgumentsMethods();
-	
+
 	@DefaultMessage("NotifyWithOneArgument")
 	@Description("")
 	String NotifyWithOneArgumentMethods();
-	
+
 	@DefaultMessage("NotifyWithTwoArguments")
 	@Description("")
 	String NotifyWithTwoArgumentsMethods();
-	
+
 	@DefaultMessage("NotifyWithThreeArguments")
 	@Description("")
 	String NotifyWithThreeArgumentsMethods();
-	
+
 	@DefaultMessage("BatchTime")
 	@Description("")
 	String BatchTimeProperties();
-	
+
 	@DefaultMessage("PublishActivities")
 	@Description("")
 	String PublishActivitiesMethods();
-	
+
 	@DefaultMessage("StartTracking")
 	@Description("")
 	String StartTrackingMethods();
-	
+
 	@DefaultMessage("StopTracking")
 	@Description("")
 	String StopTrackingMethods();
-	
+
 	@DefaultMessage("ActivitiesToTrack")
 	@Description("")
 	String ActivitiesToTrackProperties();
-	
+
 	@DefaultMessage("ComponentName")
 	@Description("")
 	String ComponentNameProperties();
-	
+
 	@DefaultMessage("CircleGesture")
 	@Description("")
 	String CircleGestureEvents();
-	
+
 	@DefaultMessage("SwipeGesture")
 	@Description("")
 	String SwipeGestureEvents();
-	
+
 	@DefaultMessage("KeyTapGesture")
 	@Description("")
 	String KeyTapGestureEvents();
-	
+
 	@DefaultMessage("ScreenTapGesture")
 	@Description("")
 	String ScreenTapGestureEvents();
-	
-	@DefaultMessage("RotateHand")
+
+	@DefaultMessage("*RotateHand")
 	@Description("")
 	String RotateHandEvents();
-	
-	@DefaultMessage("TranslateHand")
+
+	@DefaultMessage("*TranslateHand")
 	@Description("")
 	String TranslateHandEvents();
-	
-	@DefaultMessage("ScaleHand")
+
+	@DefaultMessage("*ScaleHand")
 	@Description("")
 	String ScaleHandEvents();
-	
+
 	@DefaultMessage("HandAppears")
 	@Description("")
 	String HandAppearsEvents();
-	
+
 	@DefaultMessage("HandDisappears")
 	@Description("")
 	String HandDisappearsEvents();

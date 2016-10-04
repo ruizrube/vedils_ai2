@@ -76,7 +76,7 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 		this.startTracking = false;
 		
 		//Define data for FusionTableControl connection.
-		tableId = "1xZCj24xYWpj6jHWN2IK2xiErYPY7XbeHAqXVR4Bw";
+		//tableId = "1xZCj24xYWpj6jHWN2IK2xiErYPY7XbeHAqXVR4Bw";
 		
 		//Record current ActivityTracker
 		ActivityTrackerInstances.insertActivityTracker((Activity)componentContainer.$context(), this);
@@ -127,7 +127,7 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	 * @param tableId
 	 */
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING,
-		      defaultValue = "1xZCj24xYWpj6jHWN2IK2xiErYPY7XbeHAqXVR4Bw")
+		      defaultValue = "")
 	@SimpleProperty
 	public void TableId(String newtableId) {
 		tableId = newtableId;

@@ -125,6 +125,38 @@ public interface Component {
   static final int ONLY_WIFI = 0;
   static final int INDIFFERENT = 1;
 
+  
+ 
+  
+  /*
+   * Chart types.
+   */
+  
+  static final int BAR = 0;
+  static final int LINE = 1;
+  //static final int PIE = 2;
+   
+
+  /*
+   * DATA ITEMS.
+   */
+  
+  static final int USER_ID = 0;
+  static final int USER_IP = 1;
+  static final int USER_IMEI = 2;
+  static final int APP_ID = 3;
+  static final int SCREEN_ID = 4;
+  static final int COMPONENT_ID = 5;
+  static final int COMPONENT_TYPE = 6;
+  static final int ACTION_ID = 7;
+  static final int ACTION_TYPE = 8;
+  
+
+  
+  
+  
+  
+  
   /*
    * Length constants (for width and height).
    */

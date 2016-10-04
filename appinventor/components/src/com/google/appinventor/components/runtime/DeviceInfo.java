@@ -20,7 +20,7 @@ import android.content.Context;
 @SimpleObject
 @DesignerComponent(version = YaVersion.DEVICEINFO_COMPONENT_VERSION, 
 description = "A component to obtain information of the used device. The information provided is the <code>IMEI</code>, <code>MAC</code>, and <code>IP</code>.", 
-category = ComponentCategory.VEDILSLEARNINGANALYTICS, iconName = "images/device_info_icon.png", nonVisible = true)
+category = ComponentCategory.VEDILSCOMMUNICATION, iconName = "images/device_info_icon.png", nonVisible = true)
 @UsesPermissions(permissionNames = "android.permission.READ_PHONE_STATE,"
 	+ "android.permission.INTERNET," 
 	+ "android.permission.ACCESS_NETWORK_STATE")

@@ -68,9 +68,9 @@ import android.webkit.WebViewClient;
 
 @SimpleObject
 @UsesPermissions(permissionNames = "android.permission.INTERNET")
-public final class WebViewer extends AndroidViewComponent {
+public  class WebViewer extends AndroidViewComponent {
 
-  private final WebView webview;
+  public final WebView webview;
 
   // URL for the WebViewer to load initially
   private String homeUrl;

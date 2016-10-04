@@ -6,6 +6,8 @@
 
 package com.google.appinventor.client.editor.simple.palette;
 
+import java.util.Map;
+
 import com.google.appinventor.client.Images;
 import com.google.appinventor.client.Ode;
 import com.google.appinventor.client.editor.simple.SimpleComponentDatabase;
@@ -13,9 +15,11 @@ import com.google.appinventor.client.editor.simple.SimpleEditor;
 import com.google.appinventor.client.editor.simple.components.MockBall;
 import com.google.appinventor.client.editor.simple.components.MockButton;
 import com.google.appinventor.client.editor.simple.components.MockCanvas;
+import com.google.appinventor.client.editor.simple.components.MockChart;
 import com.google.appinventor.client.editor.simple.components.MockCheckBox;
 import com.google.appinventor.client.editor.simple.components.MockComponent;
 import com.google.appinventor.client.editor.simple.components.MockContactPicker;
+import com.google.appinventor.client.editor.simple.components.MockDataTable;
 import com.google.appinventor.client.editor.simple.components.MockDatePicker;
 import com.google.appinventor.client.editor.simple.components.MockEmailPicker;
 import com.google.appinventor.client.editor.simple.components.MockFirebaseDB;
@@ -24,26 +28,24 @@ import com.google.appinventor.client.editor.simple.components.MockImage;
 import com.google.appinventor.client.editor.simple.components.MockImagePicker;
 import com.google.appinventor.client.editor.simple.components.MockImageSprite;
 import com.google.appinventor.client.editor.simple.components.MockLabel;
-import com.google.appinventor.client.editor.simple.components.MockListView;
 import com.google.appinventor.client.editor.simple.components.MockListPicker;
-import com.google.appinventor.client.editor.simple.components.MockTimePicker;
+import com.google.appinventor.client.editor.simple.components.MockListView;
 import com.google.appinventor.client.editor.simple.components.MockNonVisibleComponent;
 import com.google.appinventor.client.editor.simple.components.MockPasswordTextBox;
 import com.google.appinventor.client.editor.simple.components.MockPhoneNumberPicker;
 import com.google.appinventor.client.editor.simple.components.MockRadioButton;
 import com.google.appinventor.client.editor.simple.components.MockSlider;
+import com.google.appinventor.client.editor.simple.components.MockSpinner;
 import com.google.appinventor.client.editor.simple.components.MockTableArrangement;
 import com.google.appinventor.client.editor.simple.components.MockTextBox;
+import com.google.appinventor.client.editor.simple.components.MockTimePicker;
 import com.google.appinventor.client.editor.simple.components.MockVerticalArrangement;
 import com.google.appinventor.client.editor.simple.components.MockVideoPlayer;
 import com.google.appinventor.client.editor.simple.components.MockWebViewer;
-import com.google.appinventor.client.editor.simple.components.MockSpinner;
 import com.google.common.collect.Maps;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
-
-import java.util.Map;
 /**
  * Descriptor for components on the component palette panel.
  * This class is immutable.
@@ -138,8 +140,12 @@ public final class SimpleComponentDescriptor {
     bundledImages.put("images/gcm_icon.png", images.googleCloudMessaging());
     bundledImages.put("images/device_info_icon.png", images.deviceInfo());
     bundledImages.put("images/ThingSpeak_icon.png", images.thingSpeakLocationSensor());
-    
-    imagesInitialized = true;
+    bundledImages.put("images/arCamera.png", images.arCamera());
+    bundledImages.put("images/datatable_icon.png", images.datatable());
+    bundledImages.put("images/chart_icon.png", images.chart());
+    bundledImages.put("images/activitySimpleProcessor_icon.png", images.activitysimpleprocessor());
+    bundledImages.put("images/activityAggregationProcessor_icon.png", images.activityaggregationprocessor());
+        imagesInitialized = true;
   }
 
   /**
@@ -329,6 +335,10 @@ public final class SimpleComponentDescriptor {
       return new MockVideoPlayer(editor);
     } else if (name.equals(MockWebViewer.TYPE)) {
       return new MockWebViewer(editor);
+    } else if (name.equals(MockChart.TYPE)) {
+        return new MockChart(editor);
+    } else if (name.equals(MockDataTable.TYPE)) {
+        return new MockDataTable(editor);     
     } else if (name.equals(MockSpinner.TYPE)) {
       return new MockSpinner(editor);
     } else {

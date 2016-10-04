@@ -22,123 +22,85 @@ import com.google.appinventor.client.editor.simple.SimpleComponentDatabase;
  */
 public final class YoungAndroidCheckableTreeSelector extends AdditionalChoicePropertyEditor {
 
-  private String activitiesToNotify;
-  private CheckableTree tree;
-  
-  public YoungAndroidCheckableTreeSelector(final YaFormEditor editor, final SimpleComponentDatabase COMPONENT_DATABASE, final String componentType) {
-    ScrollPanel selectorPanel = new ScrollPanel();
-    selectorPanel.setSize("190px", "290px");
-    
-    tree = new CheckableTree();
-    tree.setWidth("60px");
-    TreeItem all = new CheckableTreeItem("all");
-    all.setHTML("<b> all </b>");
-    
-    //Getters and Setters
-    TreeItem set = new CheckableTreeItem("Setters");
-    set.setHTML("<b> Setters </b>");
-    TreeItem get = new CheckableTreeItem("Getters"); 
-    get.setHTML("<b> Getters </b>");
-    
-	for(PropertyDefinition property: COMPONENT_DATABASE.getPropertyDefinitions(componentType)) {
-		if(!property.getName().equals("ComponentName") && !property.getName().equals("ActivitiesToTrack")) {
-			TreeItem itemPropertyget = new CheckableTreeItem("Get - "+property.getName());
-			itemPropertyget.setHTML(property.getName());
-			itemPropertyget.setTitle("Get - "+property.getName());
-			get.addItem(itemPropertyget);
-			TreeItem itemPropertyset = new CheckableTreeItem("Set - "+property.getName());
-			itemPropertyset.setHTML(property.getName());
-			set.addItem(itemPropertyset);
-			itemPropertyset.setTitle("Set - "+property.getName());
+	private String activitiesToNotify;
+	private CheckableTree tree;
+
+	public YoungAndroidCheckableTreeSelector(final YaFormEditor editor,
+			final SimpleComponentDatabase COMPONENT_DATABASE, final String componentType) {
+		ScrollPanel selectorPanel = new ScrollPanel();
+		selectorPanel.setSize("190px", "290px");
+
+		tree = new CheckableTree();
+		tree.setWidth("60px");
+		TreeItem all = new CheckableTreeItem("all");
+		all.setHTML("<b> all </b>");
+
+		makeTreeForComponentType(COMPONENT_DATABASE, componentType,all);
+
+		tree.addItem(all);
+		selectorPanel.add(tree);
+
+		this.activitiesToNotify = "";
+		initAdditionalChoicePanel(selectorPanel);
+	}
+
+	
+	
+	
+
+	@Override
+	protected void openAdditionalChoiceDialog() {
+		property.setValue("Nothing");
+		super.openAdditionalChoiceDialog();
+		tree.setFocus(true);
+	}
+
+	@Override
+	protected String getPropertyValueSummary() {
+		return property.getValue();
+	}
+
+	private void recordSelectedItems() {
+		if (!this.activitiesToNotify.equals("")) {
+			this.activitiesToNotify = "";
+		}
+
+		for (int i = 0; i < tree.getItem(0).getChildCount(); i++) // Child nodes
+																	// of "All".
+		{
+			CheckableTreeItem item = (CheckableTreeItem) tree.getItem(0).getChild(i);
+
+			if (item.getStatus() == CheckableTreeItem.SELECTION_ALL
+					|| item.getStatus() == CheckableTreeItem.SELECTION_SOME) {
+
+				// Search the child nodes
+				for (int j = 0; j < item.getChildCount(); j++) {
+
+					CheckableTreeItem itemLeaf = (CheckableTreeItem) item.getChild(j);
+
+					if (itemLeaf.getStatus() == CheckableTreeItem.SELECTION_ALL) { // Are
+																					// leaf
+						this.activitiesToNotify = this.activitiesToNotify + itemLeaf.getTitle() + " - ";
+					}
+
+				}
+
+			}
 		}
 	}
-	
-    all.addItem(set);
-    all.addItem(get);
-	
-	//Functions	
-	TreeItem functions = new CheckableTreeItem("Functions");
-	functions.setHTML("<b> Functions </b>");
-	functions.setState(true, false);
-	
-	for(MethodDefinition function: COMPONENT_DATABASE.getMethodDefinitions(componentType)) {
-		TreeItem itemFunction = new CheckableTreeItem(function.getName());
-		itemFunction.setHTML(function.getName());
-		itemFunction.setTitle(function.getName());
-		functions.addItem(itemFunction);
+
+	@Override
+	protected boolean okAction() {
+		// When option "OK" is clicked the elements of tree are recorded.
+		recordSelectedItems();
+		if (this.activitiesToNotify.equals("")) {
+			property.setValue("Nothing");
+			Window.alert("Nothing selected.");
+			return true;
+		}
+		property.setValue("Record elements: " + this.activitiesToNotify);
+		// Window.alert("Component name: " +componentName + " Options selected:
+		// "+this.methodsSelectedNames);
+		return true;
 	}
-	
-	all.addItem(functions);
-	
-	//Events
-	TreeItem events = new CheckableTreeItem("Events");
-	events.setHTML("<b> Events </b>");
-	
-	for(EventDefinition event: COMPONENT_DATABASE.getEventDefinitions(componentType)) {
-		TreeItem itemEvent = new CheckableTreeItem(event.getName());
-		itemEvent.setHTML(event.getName());
-		itemEvent.setTitle(event.getName());
-		events.addItem(itemEvent);
-	}
-	
-	all.addItem(events);
-
-	tree.addItem(all);
-	selectorPanel.add(tree);
-	
-	this.activitiesToNotify = "";
-    initAdditionalChoicePanel(selectorPanel);
-  }
-  
-  @Override
-  protected void openAdditionalChoiceDialog() {
-	property.setValue("Nothing");
-    super.openAdditionalChoiceDialog();
-    tree.setFocus(true);
-  }
-
-  @Override
-  protected String getPropertyValueSummary() {
-	  return property.getValue();
-  }
-  
-  private void recordSelectedItems() {
-	  if(!this.activitiesToNotify.equals("")) {
-		  this.activitiesToNotify = "";
-	  }
-	  
-	  for(int i = 0; i < tree.getItem(0).getChildCount(); i++) //Child nodes of "All".
-	  {
-		  CheckableTreeItem item = (CheckableTreeItem) tree.getItem(0).getChild(i); 
-
-	      if(item.getStatus() == CheckableTreeItem.SELECTION_ALL || item.getStatus() == CheckableTreeItem.SELECTION_SOME) {
-	    	  
-	    	  //Search the child nodes
-	    	  for(int j = 0; j < item.getChildCount(); j++) {
-	    		  
-	    		  CheckableTreeItem itemLeaf = (CheckableTreeItem) item.getChild(j);
-	    		  
-	    		  if(itemLeaf.getStatus() == CheckableTreeItem.SELECTION_ALL) { //Are leaf
-	    			  this.activitiesToNotify = this.activitiesToNotify + itemLeaf.getTitle() + " - ";
-	    		  }
-	    		  
-	    	  }
-	    	  
-	      }
-	  }
-  }
-
-  @Override
-  protected boolean okAction() {
-	 //When option "OK" is clicked the elements of tree are recorded.
-	recordSelectedItems();
-    if (this.activitiesToNotify.equals("")) {
-      property.setValue("Nothing");
-      Window.alert("Nothing selected.");
-      return true;
-    } 
-    property.setValue("Record elements: "+this.activitiesToNotify);
-    //Window.alert("Component name: " +componentName + " Options selected: "+this.methodsSelectedNames);
-    return true;
-  }
 }

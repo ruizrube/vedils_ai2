@@ -21,7 +21,7 @@ public class ActivityTrackerManager {
 	private ComponentContainer componentContainer;
 	
 	//FusionTablesConnection data
-	private String columns = "UserID, IP, MAC, IMEI, Latitude, Longitude, Date, AppID, ScreenID, ComponentID, ComponentType, ActionID, ActionType, InputParam1, InputParam2, InputParam3, OutputParam";
+	private String columns = "UserID, IP, MAC, IMEI, Latitude, Longitude, Date, AppID, ScreenID, ComponentID, ComponentType, ActionID, ActionType, NumberInputParam1, NumberInputParam2, NumberInputParam3, NumberOutputParam, TextInputParam1, TextInputParam2, TextInputParam3, TextOutputParam";
 	private String values;
 	private String email = "1075849932338-n26pqlvqfea3dspaebf52vnacch77nhf@developer.gserviceaccount.com";
 	private String apiKey = "AIzaSyDL9s7r6ZIr9DN47_kNIIzRcm2JhWxy7ZU";
@@ -48,6 +48,36 @@ public class ActivityTrackerManager {
 	}
 	
 	public void prepareQueryAutomatic(String actionType, String actionId, String componentType, String componentId, String param1, String param2, String param3, String returnValue) {
+		int valorParam1=-1;
+		int valorParam2=-1;
+		int valorParam3=-1;
+		int valorOutputParam=-1;
+		
+		try {
+			valorParam1=Integer.valueOf(param1);
+		} catch (NumberFormatException e) {
+			;
+		}
+	
+		try {
+			valorParam2=Integer.valueOf(param2);
+		} catch (NumberFormatException e) {
+			;
+		}
+		try {
+			valorParam3=Integer.valueOf(param3);
+		} catch (NumberFormatException e) {
+			;
+		}
+		
+		try {
+			valorOutputParam=Integer.valueOf(returnValue);
+		} catch (NumberFormatException e) {
+			;
+		}
+		
+		
+	
 		String ip = DeviceInfoFunctions.getCurrentIP(currentActivityTracker.getCommunicationMode(), this.componentContainer.$context());
 		String mac = DeviceInfoFunctions.getMAC(componentContainer.$context());
 	    String appName = componentContainer.$context().getApplicationInfo().packageName;
@@ -67,7 +97,11 @@ public class ActivityTrackerManager {
 		componentId + "','" +
 		componentType + "','" +
 		actionId + "','" +
-		actionType + "','" +
+		actionType + "'," +
+		valorParam1 + "," +
+		valorParam2 + "," +
+		valorParam3 + "," +
+		valorOutputParam + ",'" +
 		param1 + "','" +
 		param2 + "','" +
 		param3 + "','" +
@@ -79,6 +113,28 @@ public class ActivityTrackerManager {
 	
 	
 	public void prepareQueryManual(String actionId, String param1, String param2, String param3) {
+		
+		int valorParam1=-1;
+		int valorParam2=-1;
+		int valorParam3=-1;
+		
+		try {
+			valorParam1=Integer.valueOf(param1);
+		} catch (NumberFormatException e) {
+			;
+		}
+	
+		try {
+			valorParam2=Integer.valueOf(param2);
+		} catch (NumberFormatException e) {
+			;
+		}
+		try {
+			valorParam3=Integer.valueOf(param3);
+		} catch (NumberFormatException e) {
+			;
+		}
+	
 		
 		String ip = DeviceInfoFunctions.getCurrentIP(currentActivityTracker.getCommunicationMode(), this.componentContainer.$context());
 		String mac = DeviceInfoFunctions.getMAC(componentContainer.$context());
@@ -100,7 +156,11 @@ public class ActivityTrackerManager {
 		"" + "','" +
 		"" + "','" +
 		actionId + "','" +
-		actionType + "','" +
+		actionType + "'," +
+		valorParam1 + "," +
+		valorParam2 + "," +
+		valorParam3 + "," +
+		"-1" + ",'"  +
 		param1 + "','" +
 		param2 + "','" +
 		param3 + "','" +

@@ -58,6 +58,8 @@ public class FusionTablesConnection {
    public static final String FUSIONTABLES_POST = "https://www.googleapis.com/fusiontables/v1/tables";
    private static final String DEFAULT_QUERY = "show tables";
    public static final String AUTHORIZATION_HEADER_PREFIX = "Bearer ";
+
+private static final int MAX_STATEMENTS = 10;
    private String scope = "https://www.googleapis.com/auth/fusiontables";
 	
    private String query;
@@ -85,20 +87,21 @@ public class FusionTablesConnection {
    
    public void insertRow(String values, String tableId) {
 	   query = "INSERT INTO " + tableId + " (" + columns + ")" + " VALUES " + "(" + values + ")";
+	   System.out.println("------> Lanzamos query: " + query);
 	   new QueryProcessorV1().execute(query);
    }
    
    public void insertRows(List<String> values, String tableId) {
 	   query = "";
 	   //Append the rest.
-	   if(values.size() < 500) { //Limit of 500 statements in one request.
+	   if(values.size() < MAX_STATEMENTS) { //Limit of 10 statements in one request.
 		   for(String valuesAux : values) {
 			   query = query + "INSERT INTO " + tableId + " (" + columns + ")" + " VALUES " + "(" + valuesAux + ");";
 		   }
 		   new QueryProcessorV1().execute(query);
 	   } else {
-		   List<String> valuesInit = values.subList(0, 450);
-		   List<String> valuesEnd = values.subList(451, values.size());
+		   List<String> valuesInit = values.subList(0, MAX_STATEMENTS);
+		   List<String> valuesEnd = values.subList(MAX_STATEMENTS, values.size());
 		   
 		   for(String valuesAux : valuesInit) {
 			   query = query + "INSERT INTO " + tableId + " (" + columns + ")" + " VALUES " + "(" + valuesAux + ");";
@@ -109,6 +112,8 @@ public class FusionTablesConnection {
 		   
 	   }
    }
+   
+   
    
    /*
     * Check the internet access to send data or save
@@ -179,7 +184,7 @@ public class FusionTablesConnection {
        String jsonContent = query.trim().substring("create table".length());
        Log.i(LOG_TAG, "Http Post content = " + jsonContent);
 
-       // Set up the POST request
+	   // Set up the POST request
 
        StringEntity entity = null;
        HttpPost request = new HttpPost(FUSIONTABLES_POST + "?key=" + apiKey); // Fusiontables Uri

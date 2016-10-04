@@ -504,6 +504,63 @@ public interface Images extends Resources {
   ImageResource webviewerbig();
 
   /**
+   * Designer palette item: Chart component
+   */
+  @Source("com/google/appinventor/images/chart_icon.png")
+  ImageResource chart();
+
+  /**
+   * Designer item: Chart component in designer
+   */
+  @Source("com/google/appinventor/images/bar_chart_iconbig.png")
+  ImageResource barChartbig();
+
+  /**
+   * Designer item: Chart component in designer
+   */
+  @Source("com/google/appinventor/images/line_chart_iconbig.png")
+  ImageResource lineChartbig();
+
+  /**
+   * Designer item: Chart component in designer
+   */
+  @Source("com/google/appinventor/images/pie_chart_iconbig.png")
+  ImageResource pieChartbig();
+
+  
+  /**
+   * Designer palette item: DataTable component
+   */
+  @Source("com/google/appinventor/images/datatable_icon.png")
+  ImageResource datatable();
+
+  /**
+   * Designer item: DataTable component in designer
+   */
+  // The image here is public domain and comes from
+  // www.pdclipart.org/displayimage.php/?pid=1047
+  @Source("com/google/appinventor/images/datatable_iconbig.png")
+  ImageResource datatablebig();
+
+
+  /**
+   * Designer item: activitySimpleProcessor component in designer
+   */
+  // The image here is public domain and comes from
+  // www.pdclipart.org/displayimage.php/?pid=1047
+  @Source("com/google/appinventor/images/activitySimpleProcessor_icon.png")
+  ImageResource activitysimpleprocessor();
+  
+  /**
+   * Designer item: activitySimpleProcessor component in designer
+   */
+  // The image here is public domain and comes from
+  // www.pdclipart.org/displayimage.php/?pid=1047
+  @Source("com/google/appinventor/images/activityAggregationProcessor_icon.png")
+  ImageResource activityaggregationprocessor();
+ 	
+  
+  /**
    * Designer palette item: Web component
    */
   @Source("com/google/appinventor/images/web.png")
