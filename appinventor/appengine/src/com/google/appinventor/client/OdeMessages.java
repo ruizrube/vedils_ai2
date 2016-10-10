@@ -18,14 +18,110 @@ import com.google.gwt.i18n.client.Messages;
 // @LocalizableResource.DefaultLocale("en")
 
 public interface OdeMessages extends Messages {
-	// Used in multiple files
+	// Used in Sphero
+	@DefaultMessage("DefaultColor")
+	@Description("")
+	String DefaultColorProperties();
+	
+	@DefaultMessage("AccelerometerX")
+	@Description("")
+	String AccelerometerXProperties();
 
+	@DefaultMessage("AccelerometerY")
+	@Description("")
+	String AccelerometerYProperties();
+
+	@DefaultMessage("AccelerometerZ")
+	@Description("")
+	String AccelerometerZProperties();
+
+	@DefaultMessage("GyroX")
+	@Description("")
+	String GyroXProperties();
+
+	@DefaultMessage("GyroY")
+	@Description("")
+	String GyroYProperties();
+
+	@DefaultMessage("GyroZ")
+	@Description("")
+	String GyroZProperties();
+
+	@DefaultMessage("VelocityX")
+	@Description("")
+	String VelocityXProperties();
+
+	@DefaultMessage("VelocityY")
+	@Description("")
+	String VelocityYProperties();
+
+	
+	
+	@DefaultMessage("RunColorMacro")
+	@Description("")
+	String RunColorMacroMethods();
+
+	@DefaultMessage("RunFigureEightMacro")
+	@Description("")
+	String RunFigureEightMacroMethods();
+
+	@DefaultMessage("RunSpinMacro")
+	@Description("")
+	String RunSpinMacroMethods();
+
+	@DefaultMessage("RunShapeMacro")
+	@Description("")
+	String RunShapeMacroMethods();
+
+	
+	@DefaultMessage("RunSquareMacro")
+	@Description("")
+	String RunSquareMacroMethods();
+
+	@DefaultMessage("RunVibrateMacro")
+	@Description("")
+	String RunVibrateMacroMethods();	
+
+	
+	@DefaultMessage("Rotate")
+	@Description("")
+	String RotateMethods();
+
+	@DefaultMessage("Color")
+	@Description("")
+	String ColorProperties();
+
+	@DefaultMessage("DeviceDisconnected")
+	@Description("")
+	String DeviceDisconnectedEvents();
+
+	@DefaultMessage("DeviceConnected")
+	@Description("")
+	String DeviceConnectedEvents();
+
+	@DefaultMessage("Collision")
+	@Description("")
+	String CollisionEvents();
+
+	@DefaultMessage("RotateBaseAngle")
+	@Description("")
+	String RotateBaseAngleMethods();
+
+	@DefaultMessage("Drive")
+	@Description("")
+	String DriveMethods();
+
+	@DefaultMessage("DriveAndRotate")
+	@Description("")
+	String DriveAndRotateMethods();
+
+	
 	// Used in
-	//Chart and DataTable
+	// Chart and DataTable
 	@DefaultMessage("ChartType")
 	@Description("")
 	String ChartTypeProperties();
-	
+
 	@DefaultMessage("*CategoryAxisTitle")
 	@Description("")
 	String CategoryAxisTitleProperties();
@@ -33,7 +129,7 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("*ValueAxisTitle")
 	@Description("")
 	String ValueAxisTitleProperties();
-	
+
 	@DefaultMessage("*IndexForCategoryAxis")
 	@Description("")
 	String IndexForCategoryAxisProperties();
@@ -56,9 +152,9 @@ public interface OdeMessages extends Messages {
 	@Description("Text for chart type 'line'")
 	String lineChart();
 
-	//@DefaultMessage("Pie")
-	//@Description("Text for chart type 'pie'")
-	//String pieChart();
+	// @DefaultMessage("Pie")
+	// @Description("Text for chart type 'pie'")
+	// String pieChart();
 
 	// Used in
 	// editor/youngandroid/properties/YoungAndroidColumntToAggregateChoicePropertyEditor.java
@@ -98,9 +194,8 @@ public interface OdeMessages extends Messages {
 	@Description("Text for column 'Action  Type'")
 	String actionTypeColumn();
 
-	
 	// Used in ActivityProcessor
-	
+
 	@DefaultMessage("FilterByUserId")
 	@Description("")
 	String FilterByUserIdProperties();
@@ -149,20 +244,18 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String DataReceivedEvents();
 
-
 	// Used in ActivityAggregatedProcessor
-	
+
 	@DefaultMessage("GroupBy")
 	@Description("")
 	String GroupByProperties();
-	
+
 	@DefaultMessage("MetricsToRetrieve")
 	@Description("")
 	String MetricsToRetrieveProperties();
 
-
 	// Used in ActivitySimpleProcessor
-	
+
 	@DefaultMessage("*DistinctResults")
 	@Description("")
 	String DistinctResultsProperties();
@@ -171,8 +264,6 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String FieldsToRetrieveProperties();
 
-	
-	
 	// Used in
 	// editor/youngandroid/properties/YoungAndroidSynchronizationModeChoicePropertyEditor.java
 	@DefaultMessage("realtime")

@@ -21,6 +21,13 @@ public interface Images extends Resources {
 	/**
 	 * Designer palette item: arCamera component
 	 */
+	@Source("com/google/appinventor/images/sphero_icon.png")
+	ImageResource sphero();
+
+	
+	/**
+	 * Designer palette item: arCamera component
+	 */
 	@Source("com/google/appinventor/images/arCamera.png")
 	ImageResource arCamera();
 

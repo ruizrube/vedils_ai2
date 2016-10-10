@@ -11,6 +11,7 @@ import com.leapmotion.leap.Controller;
 import com.leapmotion.leap.Finger;
 import com.leapmotion.leap.Frame;
 import com.leapmotion.leap.Gesture;
+import com.leapmotion.leap.Gesture.State;
 import com.leapmotion.leap.GestureList;
 import com.leapmotion.leap.Hand;
 import com.leapmotion.leap.KeyTapGesture;
@@ -20,7 +21,6 @@ import com.leapmotion.leap.ScreenTapGesture;
 import com.leapmotion.leap.SwipeGesture;
 import com.leapmotion.leap.Tool;
 import com.leapmotion.leap.Vector;
-import com.leapmotion.leap.Gesture.State;
 
 /**
  * @author ivanruizrube
@@ -53,6 +53,14 @@ public class LeapMotionSensor extends Listener {
 		controller.enableGesture(Gesture.Type.TYPE_CIRCLE);
 		controller.enableGesture(Gesture.Type.TYPE_SCREEN_TAP);
 		controller.enableGesture(Gesture.Type.TYPE_KEY_TAP);
+		controller.config().setFloat("Gesture.Swipe.MinLength", 100.0f);
+		controller.config().setFloat("Gesture.Swipe.MinVelocity", 750f);
+		controller.config().setFloat("Gesture.KeyTap.MinDownVelocity", 40.0f);
+		controller.config().setFloat("Gesture.KeyTap.HistorySeconds", .2f);
+		controller.config().setFloat("Gesture.KeyTap.MinDistance", 1.0f);
+		controller.config().save();
+		
+		
 	}
 
 	public void onDisconnect(Controller controller) {
@@ -79,8 +87,7 @@ public class LeapMotionSensor extends Listener {
 		manageTools(frame);
 
 		manageGestures(controller);
-	
-		
+
 	}
 
 	private void manageGestures(Controller controller) {
@@ -99,7 +106,7 @@ public class LeapMotionSensor extends Listener {
 					// Clockwise if angle is less than 90 degrees
 					clockwiseness = 0; // "clockwise";
 				} else {
-					clockwiseness = 1; //"counterclockwise";
+					clockwiseness = 1; // "counterclockwise";
 				}
 
 				// Calculate angle swept since last frame
@@ -109,109 +116,109 @@ public class LeapMotionSensor extends Listener {
 					sweptAngle = (circle.progress() - previousUpdate.progress()) * 2 * Math.PI;
 				}
 
-//				System.out.println("  Circle id: " + circle.id() + ", " + circle.state() + ", progress: "
-//						+ circle.progress() + ", radius: " + circle.radius() + ", angle: " + Math.toDegrees(sweptAngle)
-//						+ ", " + clockwiseness);
-				
-				
+				// System.out.println(" Circle id: " + circle.id() + ", " +
+				// circle.state() + ", progress: "
+				// + circle.progress() + ", radius: " + circle.radius() + ",
+				// angle: " + Math.toDegrees(sweptAngle)
+				// + ", " + clockwiseness);
+
 				for (Hand hand : gesture.hands()) {
 					for (Pointable pointable : gesture.pointables()) {
 						if (pointable.isFinger()) {
 							Finger finger = new Finger(pointable);
-							int idFinger=finger.id()%10+1;
-							this.getComponent().CircleGesture((hand.isLeft() ? 0 : 1), idFinger,clockwiseness,circle.progress());
+							int idFinger = finger.id() % 10 + 1;
+							this.getComponent().CircleGesture((hand.isLeft() ? 0 : 1), idFinger, clockwiseness,
+									circle.progress());
 						}
 					}
-					
+
 				}
-			
-				
-				
+
 				break;
 			case TYPE_SWIPE:
 				SwipeGesture swipe = new SwipeGesture(gesture);
-//				System.out.println("  Swipe id: " + swipe.id() + ", " + swipe.state() + ", position: "
-//						+ swipe.position() + ", direction: " + swipe.direction() + ", speed: " + swipe.speed());
+				System.out.println("  Swipe id: " + swipe.id() + ", " + swipe.state() + ", position: "
+						+ swipe.position() + ", direction: " + swipe.direction() + ", speed: " + swipe.speed());
 
 				boolean isHorizontal = Math.abs(swipe.direction().getX()) > Math.abs(swipe.direction().getY());
 				int swipeDirection;
-				//Classify as right-left or up-down
-		          if(isHorizontal){
-		              if(swipe.direction().getX() > 0){
-		                  swipeDirection = 1; // "right";
-		              } else {
-		                  swipeDirection = 0; // "left";
-		              }
-		          } else { //vertical
-		              if(swipe.direction().getY() > 0){
-		                  swipeDirection = 2; // "up";
-		              } else {
-		                  swipeDirection = 3; // "down";
-		              }   
-		          }
-		    
-				
-		      	for (Hand hand : gesture.hands()) {
+				// Classify as right-left or up-down
+				if (isHorizontal) {
+					if (swipe.direction().getX() > 0) {
+						swipeDirection = 1; // "right";
+					} else {
+						swipeDirection = 0; // "left";
+					}
+				} else { // vertical
+					if (swipe.direction().getY() > 0) {
+						swipeDirection = 2; // "up";
+					} else {
+						swipeDirection = 3; // "down";
+					}
+				}
+
+				for (Hand hand : gesture.hands()) {
 					for (Pointable pointable : gesture.pointables()) {
 						if (pointable.isFinger()) {
 							Finger finger = new Finger(pointable);
-							int idFinger=finger.id()%10+1;
-							this.getComponent().SwipeGesture((hand.isLeft() ? 0 : 1), idFinger,swipeDirection);
+							int idFinger = finger.id() % 10 + 1;
+							this.getComponent().SwipeGesture((hand.isLeft() ? 0 : 1), idFinger, swipeDirection);
 						}
 					}
-					
+
 				}
-			
-				
-							break;
+
+				break;
 			case TYPE_SCREEN_TAP:
 				ScreenTapGesture screenTap = new ScreenTapGesture(gesture);
-//				System.out.println("  Screen Tap id: " + screenTap.id() + ", " + screenTap.state() + ", position: "
-//						+ screenTap.position() + ", direction: " + screenTap.direction());
-				
+				// System.out.println(" Screen Tap id: " + screenTap.id() + ", "
+				// + screenTap.state() + ", position: "
+				// + screenTap.position() + ", direction: " +
+				// screenTap.direction());
+
 				for (Hand hand : screenTap.hands()) {
 					for (Pointable pointable : screenTap.pointables()) {
 						if (pointable.isFinger()) {
 							Finger finger = new Finger(pointable);
-							int idFinger=finger.id()%10+1;
-							this.getComponent().ScreenTapGesture((hand.isLeft() ? 0 : 1),idFinger);
+							int idFinger = finger.id() % 10 + 1;
+							this.getComponent().ScreenTapGesture((hand.isLeft() ? 0 : 1), idFinger);
 						}
-					}	
+					}
 				}
-				
-				
+
 				break;
 			case TYPE_KEY_TAP:
 				KeyTapGesture keyTap = new KeyTapGesture(gesture);
-//				System.out.println("  Key Tap id: " + keyTap.id() + ", " + keyTap.state() + ", position: "
-//						+ keyTap.position() + ", direction: " + keyTap.direction());
-				
+				// System.out.println(" Key Tap id: " + keyTap.id() + ", " +
+				// keyTap.state() + ", position: "
+				// + keyTap.position() + ", direction: " + keyTap.direction());
+
 				for (Hand hand : gesture.hands()) {
 					for (Pointable pointable : gesture.pointables()) {
 						if (pointable.isFinger()) {
 							Finger finger = new Finger(pointable);
-							int idFinger=finger.id()%10+1;
+							int idFinger = finger.id() % 10 + 1;
 							this.getComponent().KeyTapGesture((hand.isLeft() ? 0 : 1), idFinger);
 						}
 					}
-					
+
 				}
-			
+
 				break;
 			default:
 				System.out.println("Unknown gesture type.");
 				break;
 			}
 		}
-	
+
 	}
 
 	private void manageTools(Frame frame) {
 		// Get tools
-				for (Tool tool : frame.tools()) {
-					System.out.println("  Tool id: " + tool.id() + ", position: " + tool.tipPosition() + ", direction: "
-							+ tool.direction());
-				}
+		for (Tool tool : frame.tools()) {
+			System.out.println("  Tool id: " + tool.id() + ", position: " + tool.tipPosition() + ", direction: "
+					+ tool.direction());
+		}
 
 	}
 

@@ -40,17 +40,22 @@ out.println("<center><font color=red><b>" + error + "</b></font></center><br/>")
 <center><input type=Submit value="${login}" style="font-size: 300%;"></center>
 </form>
 <p></p>
-<center><p><a href="/login/sendlink"  style="text-decoration:none;">${passwordclickhereLabel}</a></p></center>
+<!--<center><p><a href="/login/sendlink"  style="text-decoration:none;">${passwordclickhereLabel}</a></p></center>-->
+<center><p>
+If you have experienced problems to access, please contact with us at vedils at uca.es
+<br/>
+Si tiene problemas para acceder, póngase en contacto con nosotros en el correo vedils(arroba)uca.es
+</p></center>
 <%    if (useGoogleLabel != null && useGoogleLabel.equals("true")) { %>
 <center><p><a href="/login/google" style="text-decoration:none;">Click Here to use your Google Account to login</a></p></center>
 <%    } %>
 <footer>
 <center>
 <%    if (locale != null && locale.equals("zh_CN")) { %>
-<a href="http://www.weibo.com/mitappinventor" target="_blank"><img class="img-scale"
+<a href="http://vedils.uca.es/web" target="_blank"><img class="img-scale"
                   src="/images/mzl.png" width="30" height="30" title="Sina WeiBo"></a>&nbsp;
 <%    } %>
-<a href="http://www.appinventor.mit.edu" target="_blank"><img class="img-scale"
+<a href="http://vedils.uca.es/web" target="_blank"><img class="img-scale"
                 src="/images/logo.png" width="50" height="50" title="VEDILS"></a></center>
 <p></p>
 </footer>

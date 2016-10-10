@@ -112,8 +112,8 @@
         <pathelement location="lib/QRGenerator/javase.jar" />
         
         <!-- IRR -->
+        <pathelement location="lib/sphero/RobotLibrary.jar" />
         <pathelement location="lib/ar4ai/ar4ai.jar" />
-        
         <pathelement location="lib/ar4ai/Vuforia.jar" />
         <pathelement location="lib/ar4ai/jpct_ae.jar" />
         <pathelement location="lib/ar4ai/jpct_shaders.zip" />

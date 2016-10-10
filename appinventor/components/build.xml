@@ -158,6 +158,7 @@
 	        <pathelement location="${lib.dir}/gson/gson-2.1.jar" />
 	        <pathelement location="${lib.dir}/json/json.jar" />
 	        
+	        <pathelement location="${lib.dir}/sphero/RobotLibrary.jar" />
 	        <pathelement location="${lib.dir}/ar4ai/ar4ai.jar" />
 	        <pathelement location="${lib.dir}/ar4ai/Vuforia.jar" />
 	        <pathelement location="${lib.dir}/ar4ai/jpct_ae.jar" />
@@ -208,7 +209,8 @@
         <pathelement location="${lib.dir}/gson/gson-2.1.jar" />
         <pathelement location="${lib.dir}/json/json.jar" />
         
-         <pathelement location="${lib.dir}/ar4ai/ar4ai.jar" />
+         <pathelement location="${lib.dir}/sphero/RobotLibrary.jar" />
+	     <pathelement location="${lib.dir}/ar4ai/ar4ai.jar" />
          <pathelement location="${lib.dir}/ar4ai/Vuforia.jar" />
          <pathelement location="${lib.dir}/ar4ai/jpct_ae.jar" />
          <pathelement location="${lib.dir}/ar4ai/jpct_shaders.zip" />
@@ -331,7 +333,8 @@
          <pathelement location="${lib.dir}/ar4ai/Vuforia.jar" />
          <pathelement location="${lib.dir}/ar4ai/jpct_ae.jar" />
          <pathelement location="${lib.dir}/ar4ai/ar4ai.jar" />
-        
+         <pathelement location="${lib.dir}/sphero/RobotLibrary.jar" />
+	        
               
          <pathelement location="${lib.dir}/ar4ai/android-support-v4.jar" />
      

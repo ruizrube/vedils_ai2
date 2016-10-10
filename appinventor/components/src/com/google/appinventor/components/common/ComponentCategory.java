@@ -62,8 +62,10 @@ import java.util.Map;
     UNINITIALIZED("Uninitialized"),
     VEDILSAUGMENTEDREALITY("VEDILS Augmented Reality"),
     VEDILSLEARNINGANALYTICS("VEDILS Learning Analytics"),
-	VEDILSGESTURECONTROL("VEDILS Gesture Control"),
-	VEDILSCOMMUNICATION("VEDILS Communication");
+	VEDILSINTERACTIONS("VEDILS Interactions"),
+	VEDILSCOMMUNICATION("VEDILS Communications"),
+	VEDILSROBOTICS("VEDILS Robotics")
+	;
 
 
     // Mapping of component categories to names consisting only of lower-case letters,

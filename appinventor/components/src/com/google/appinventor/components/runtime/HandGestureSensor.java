@@ -19,7 +19,7 @@ import com.google.appinventor.components.runtime.util.LeapMotionSensor;
 @UsesLibraries(libraries = "LeapJava.jar")
 @UsesNativeLibraries(v7aLibraries = "libLeapJava.so")
 @SimpleObject
-@DesignerComponent(nonVisible = true, version = 1, description = "HandGestureSensor Component (by SPI-FM at UCA)", category = ComponentCategory.VEDILSGESTURECONTROL, iconName = "images/handGestureSensor.png")
+@DesignerComponent(nonVisible = true, version = 1, description = "HandGestureSensor Component (by SPI-FM at UCA)", category = ComponentCategory.VEDILSINTERACTIONS, iconName = "images/handGestureSensor.png")
 @UsesPermissions(permissionNames = "android.permission.INTERNET, " + "android.permission.ACCESS_NETWORK_STATE,"
 		+ "android.permission.WRITE_EXTERNAL_STORAGE, " + "android.permission.READ_EXTERNAL_STORAGE,"
 		+ "android.permission.ACCESS_FINE_LOCATION," + "android.permission.ACCESS_COARSE_LOCATION,"

@@ -91,6 +91,7 @@
 		<!-- IRR -->
 
 		<copy toFile="${classes.files.dir}/ar4ai.jar" file="${lib.dir}/ar4ai/ar4ai.jar" />
+		<copy toFile="${classes.files.dir}/RobotLibrary.jar" file="${lib.dir}/sphero/RobotLibrary.jar" />
 		<copy toFile="${classes.files.dir}/Vuforia.jar" file="${lib.dir}/ar4ai/Vuforia.jar" />
 		<copy toFile="${classes.files.dir}/jpct_ae.jar" file="${lib.dir}/ar4ai/jpct_ae.jar" />
 		<copy toFile="${classes.files.dir}/jpct_shaders.zip" file="${lib.dir}/ar4ai/jpct_shaders.zip" />

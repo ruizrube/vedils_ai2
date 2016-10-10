@@ -60,318 +60,341 @@ import com.google.appinventor.server.util.PasswordHash;
 @SuppressWarnings("unchecked")
 public class LoginServlet extends HttpServlet {
 
-  private final StorageIo storageIo = StorageIoInstanceHolder.INSTANCE;
-  private static final Logger LOG = Logger.getLogger(LoginServlet.class.getName());
-  private static final Flag<String> mailServer = Flag.createFlag("localauth.mailserver", "");
-  private static final Flag<String> password = Flag.createFlag("localauth.mailserver.password", "");
-  private static final Flag<Boolean> useGoogle = Flag.createFlag("auth.usegoogle", true);
-  private static final Flag<Boolean> useLocal = Flag.createFlag("auth.uselocal", true);
-  private static final UserService userService = UserServiceFactory.getUserService();
+	private final StorageIo storageIo = StorageIoInstanceHolder.INSTANCE;
+	private static final Logger LOG = Logger.getLogger(LoginServlet.class.getName());
+	private static final Flag<String> mailServer = Flag.createFlag("localauth.mailserver", "");
+	private static final Flag<String> password = Flag.createFlag("localauth.mailserver.password", "");
+	private static final Flag<Boolean> useGoogle = Flag.createFlag("auth.usegoogle", false);
+	private static final Flag<Boolean> useLocal = Flag.createFlag("auth.uselocal", true);
+	private static final UserService userService = UserServiceFactory.getUserService();
 
-  public void init(ServletConfig config) throws ServletException {
-    super.init(config);
-  }
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+	}
 
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    resp.setContentType("text/html; charset=utf-8");
-    PrintWriter out = resp.getWriter();
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		resp.setContentType("text/html; charset=utf-8");
+		PrintWriter out = resp.getWriter();
 
-    String [] components = req.getRequestURI().split("/");
-    LOG.info("requestURI = " + req.getRequestURI());
-    String page = getPage(req);
-    String locale = (String) req.getSession().getAttribute("locale");
-    if (locale == null) {       // Default to English
-      locale = "en";
-    }
-    String queryString = req.getQueryString();
-    HashMap<String, String> params = getQueryMap(queryString);
-    String pLocale = params.get("locale");
-    if (pLocale != null) {
-      if (!pLocale.equals(locale)) { // Hmmm, changed the locale did we...
-        locale = pLocale;
-        req.getSession().setAttribute("locale", locale);
-      }
-    }
-    LOG.info("locale = " + locale + " bundle: " + new Locale(locale));
-    ResourceBundle bundle = ResourceBundle.getBundle("com/google/appinventor/server/loginmessages", new Locale(locale));
+		String[] components = req.getRequestURI().split("/");
+		LOG.info("requestURI = " + req.getRequestURI());
+		String page = getPage(req);
+		String locale = (String) req.getSession().getAttribute("locale");
+		if (locale == null) { // Default to English
+			locale = "en";
+		}
+		String queryString = req.getQueryString();
+		HashMap<String, String> params = getQueryMap(queryString);
+		String pLocale = params.get("locale");
+		if (pLocale != null) {
+			if (!pLocale.equals(locale)) { // Hmmm, changed the locale did we...
+				locale = pLocale;
+				req.getSession().setAttribute("locale", locale);
+			}
+		}
+		LOG.info("locale = " + locale + " bundle: " + new Locale(locale));
+		ResourceBundle bundle = ResourceBundle.getBundle("com/google/appinventor/server/loginmessages",
+				new Locale(locale));
 
-    if (page.equals("google")) {
-      // We get here after we have gone through the Google Login page
-      // This is arranged via a security-constraint setup in web.xml
-      com.google.appengine.api.users.User apiUser = userService.getCurrentUser();
-      if (apiUser == null) {  // Hmmm. I don't think this should happen
-        fail(req, resp, "Google Authentication Failed"); // Not sure what else to do
-        return;
-      }
-      String email = apiUser.getEmail();
-      String userId = apiUser.getUserId();
-      User user = storageIo.getUser(userId, email);
-      req.getSession().setAttribute("userid", user.getUserId()); // This effectively logs us in!
-      if (userService.isUserAdmin()) {                           // If Google says you are an admin
-        req.getSession().setAttribute("isadmin", true);          // Tell the session we are admin
-      }
-      resp.sendRedirect("/");
-      return;
-    } else {
-      if (useLocal.get() == false) {
-        if (useGoogle.get() == false) {
-          out.println("<html><head><title>Error</title></head>\n");
-          out.println("<body><h1>App Inventor is Mis-Configured</h1>\n");
-          out.println("<p>This instance of App Inventor has no authentication mechanism configured.</p>\n");
-          out.println("</body>\n");
-          out.println("</html>\n");
-          return;
-        }
-        resp.sendRedirect("/login/google");
-        return;
-      }
-    }
+		if (page.equals("google")) {
+/*
+			// We get here after we have gone through the Google Login page
+			// This is arranged via a security-constraint setup in web.xml
+			com.google.appengine.api.users.User apiUser = userService.getCurrentUser();
+			if (apiUser == null) { // Hmmm. I don't think this should happen
+				fail(req, resp, "Google Authentication Failed"); // Not sure
+																	// what else
+																	// to do
+				return;
+			}
+			String email = apiUser.getEmail();
+			String userId = apiUser.getUserId();
+			User user = storageIo.getUser(userId, email);
+			req.getSession().setAttribute("userid", user.getUserId()); // This
+																		// effectively
+																		// logs
+																		// us
+																		// in!
+			if (userService.isUserAdmin()) { // If Google says you are an admin
+				req.getSession().setAttribute("isadmin", true); // Tell the
+																// session we
+																// are admin
+			}
+			resp.sendRedirect("/");
+			return;
+		} else {
+			if (useLocal.get() == false) {
+				if (useGoogle.get() == false) {
+					out.println("<html><head><title>Error</title></head>\n");
+					out.println("<body><h1>App Inventor is Mis-Configured</h1>\n");
+					out.println("<p>This instance of App Inventor has no authentication mechanism configured.</p>\n");
+					out.println("</body>\n");
+					out.println("</html>\n");
+					return;
+				}
+				resp.sendRedirect("/login/google");
+				return;
+			}
+			
+			*/
+			return;
+		}
 
-    // If we get here, local accounts are supported
+		// If we get here, local accounts are supported
 
-    if (page.equals("setpw")) {
-      String uid = getParam(req);
-      if (uid == null) {
-        fail(req, resp, "Invalid Set Password Link");
-        return;
-      }
-      PWData data = storageIo.findPWData(uid);
-      if (data == null) {
-        fail(req, resp, "Invalid Set Password Link");
-        return;
-      }
-      LOG.info("setpw email = " + data.email);
-      User user = storageIo.getUserFromEmail(data.email);
-      req.getSession().setAttribute("userid", user.getUserId()); // This effectively logs us in!
-      out.println("<html><head><title>Set Your Password</title>\n");
-      out.println("</head>\n<body>\n");
-      out.println("<h1>" + bundle.getString("setyourpassword") + "</h1>\n");
-      out.println("<form method=POST action=\"" + req.getRequestURI() + "\">");
-      out.println("<input type=password name=password value=\"\" size=\"35\"><br />\n");
-      out.println("<p></p>");
-      out.println("<input type=Submit value=\"" + bundle.getString("setpassword") + "\" style=\"font-size: 300%;\">\n");
-      out.println("</form>\n");
-      storageIo.cleanuppwdata();
-      return;
-    } else if (page.equals("linksent")) {
-      out.println("<html><head><title>" + bundle.getString("linksent") + "</title></head>\n");
-      out.println("<body>\n");
-      out.println("<h1>" + bundle.getString("linksent") + "</h1>\n");
-      out.println("<p>" + bundle.getString("checkemail") + "</p>\n");
-      return;
-    } else if (page.equals("sendlink")) {
-      out.println("<head><title>" + bundle.getString("requestreset") + "</title></head>\n");
-      out.println("<body>\n");
-      out.println("<h1>" + bundle.getString("requestlink") + "</h1>\n");
-      out.println("<p>" + bundle.getString("requestinstructions") + "</p>\n");
-      out.println("<form method=POST action=\"" + req.getRequestURI() + "\">\n");
-      out.println(bundle.getString("enteremailaddress") + ":&nbsp;<input type=text name=email value=\"\" size=\"35\"><br />\n");
-      out.println("<p></p>");
-      out.println("<input type=submit value=\"" + bundle.getString("sendlink") + "\" style=\"font-size: 300%;\">\n");
-      out.println("</form>\n");
-      return;
-    }
+		if (page.equals("setpw")) {
+			String uid = getParam(req);
+			if (uid == null) {
+				fail(req, resp, "Invalid Set Password Link");
+				return;
+			}
+			PWData data = storageIo.findPWData(uid);
+			if (data == null) {
+				fail(req, resp, "Invalid Set Password Link");
+				return;
+			}
+			LOG.info("setpw email = " + data.email);
+			User user = storageIo.getUserFromEmail(data.email);
+			req.getSession().setAttribute("userid", user.getUserId()); // This
+																		// effectively
+																		// logs
+																		// us
+																		// in!
+			out.println("<html><head><title>Set Your Password</title>\n");
+			out.println("</head>\n<body>\n");
+			out.println("<h1>" + bundle.getString("setyourpassword") + "</h1>\n");
+			out.println("<form method=POST action=\"" + req.getRequestURI() + "\">");
+			out.println("<input type=password name=password value=\"\" size=\"35\"><br />\n");
+			out.println("<p></p>");
+			out.println("<input type=Submit value=\"" + bundle.getString("setpassword")
+					+ "\" style=\"font-size: 300%;\">\n");
+			out.println("</form>\n");
+			storageIo.cleanuppwdata();
+			return;
+		} else if (page.equals("linksent")) {
+			out.println("<html><head><title>" + bundle.getString("linksent") + "</title></head>\n");
+			out.println("<body>\n");
+			out.println("<h1>" + bundle.getString("linksent") + "</h1>\n");
+			out.println("<p>" + bundle.getString("checkemail") + "</p>\n");
+			return;
+		} else if (page.equals("sendlink")) {
+			out.println("<head><title>" + bundle.getString("requestreset") + "</title></head>\n");
+			out.println("<body>\n");
+			out.println("<h1>" + bundle.getString("requestlink") + "</h1>\n");
+			out.println("<p>" + bundle.getString("requestinstructions") + "</p>\n");
+			out.println("<form method=POST action=\"" + req.getRequestURI() + "\">\n");
+			out.println(bundle.getString("enteremailaddress")
+					+ ":&nbsp;<input type=text name=email value=\"\" size=\"35\"><br />\n");
+			out.println("<p></p>");
+			out.println(
+					"<input type=submit value=\"" + bundle.getString("sendlink") + "\" style=\"font-size: 300%;\">\n");
+			out.println("</form>\n");
+			return;
+		}
 
-    String emailAddress = bundle.getString("emailaddress");
-    String password = bundle.getString("password");
-    String login = bundle.getString("login");
-    String passwordclickhere = bundle.getString("passwordclickhere");
+		String emailAddress = bundle.getString("emailaddress");
+		String password = bundle.getString("password");
+		String login = bundle.getString("login");
+		String passwordclickhere = bundle.getString("passwordclickhere");
 
-    req.setCharacterEncoding("UTF-8");
-    if (useGoogle.get()) {
-      req.setAttribute("useGoogleLabel", "true");
-    } else {
-      req.setAttribute("useGoogleLabel", "false");
-    }
-    req.setAttribute("emailAddressLabel", emailAddress);
-    req.setAttribute("passwordLabel", password);
-    req.setAttribute("loginLabel", login);
-    req.setAttribute("passwordclickhereLabel", passwordclickhere);
-    req.setAttribute("localeLabel", locale);
-    req.setAttribute("pleaselogin", bundle.getString("pleaselogin"));
-    req.setAttribute("login", bundle.getString("login"));
-    try {
-      req.getRequestDispatcher("/login.jsp").forward(req, resp);
-    } catch (ServletException e) {
-      throw new IOException(e);
-    }
-  }
+		req.setCharacterEncoding("UTF-8");
+		if (useGoogle.get()) {
+			req.setAttribute("useGoogleLabel", "true");
+		} else {
+			req.setAttribute("useGoogleLabel", "false");
+		}
+		req.setAttribute("emailAddressLabel", emailAddress);
+		req.setAttribute("passwordLabel", password);
+		req.setAttribute("loginLabel", login);
+		req.setAttribute("passwordclickhereLabel", passwordclickhere);
+		req.setAttribute("localeLabel", locale);
+		req.setAttribute("pleaselogin", bundle.getString("pleaselogin"));
+		req.setAttribute("login", bundle.getString("login"));
+		try {
+			req.getRequestDispatcher("/login.jsp").forward(req, resp);
+		} catch (ServletException e) {
+			throw new IOException(e);
+		}
+	}
 
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    BufferedReader input = new BufferedReader(new InputStreamReader(req.getInputStream()));
-    String queryString = input.readLine();
-    PrintWriter out = resp.getWriter();
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		BufferedReader input = new BufferedReader(new InputStreamReader(req.getInputStream()));
+		String queryString = input.readLine();
+		PrintWriter out = resp.getWriter();
 
-    String locale = (String) req.getSession().getAttribute("locale");
-    if (locale == null) {
-      locale = "en";
-    }
+		String locale = (String) req.getSession().getAttribute("locale");
+		if (locale == null) {
+			locale = "en";
+		}
 
-    LOG.info("locale = " + locale + " bundle: " + new Locale(locale));
-    ResourceBundle bundle = ResourceBundle.getBundle("com/google/appinventor/server/loginmessages", new Locale(locale));
+		LOG.info("locale = " + locale + " bundle: " + new Locale(locale));
+		ResourceBundle bundle = ResourceBundle.getBundle("com/google/appinventor/server/loginmessages",
+				new Locale(locale));
 
-    if (queryString == null) {
-      out.println("queryString is null");
-      return;
-    }
+		if (queryString == null) {
+			out.println("queryString is null");
+			return;
+		}
 
-    HashMap<String, String> params = getQueryMap(queryString);
-    String page = getPage(req);
-    if (page.equals("sendlink")) {
-      String email = params.get("email");
-      if (email == null) {
-        fail(req, resp, "No Email Address Provided");
-        return;
-      }
-      // Send email here, for now we put it in the error string and redirect
-      PWData pwData = storageIo.createPWData(email);
-      if (pwData == null) {
-        fail(req, resp, "Internal Error");
-        return;
-      }
-      String link = trimPage(req) + pwData.id + "/setpw";
-      sendmail(email, link, locale);
-      resp.sendRedirect("/login/linksent/");
-//      req.getSession().setAttribute("error", link);
-//      resp.sendRedirect("/");
-      storageIo.cleanuppwdata();
-      return;
-    } else if (page.equals("setpw")) {
-      String userid = (String) req.getSession().getAttribute("userid");
-      if (userid == null) {
-        fail(req, resp, "Session Timed Out");
-        return;
-      }
-      User user = storageIo.getUser(userid);
-      String password = params.get("password");
-      if (password == null || password.equals("")) {
-        fail(req, resp, bundle.getString("nopassword"));
-        return;
-      }
-      String hashedPassword;
-      try {
-        hashedPassword = PasswordHash.createHash(password);
-      } catch (NoSuchAlgorithmException e) {
-        fail(req, resp, "System Error hashing password");
-        return;
-      } catch (InvalidKeySpecException e) {
-        fail(req, resp, "System Error hashing password");
-        return;
-      }
+		HashMap<String, String> params = getQueryMap(queryString);
+		String page = getPage(req);
+		if (page.equals("sendlink")) {
+			String email = params.get("email");
+			if (email == null) {
+				fail(req, resp, "No Email Address Provided");
+				return;
+			}
+			// Send email here, for now we put it in the error string and
+			// redirect
+			PWData pwData = storageIo.createPWData(email);
+			if (pwData == null) {
+				fail(req, resp, "Internal Error");
+				return;
+			}
+			String link = trimPage(req) + pwData.id + "/setpw";
+			sendmail(email, link, locale);
+			resp.sendRedirect("/login/linksent/");
+			// req.getSession().setAttribute("error", link);
+			// resp.sendRedirect("/");
+			storageIo.cleanuppwdata();
+			return;
+		} else if (page.equals("setpw")) {
+			String userid = (String) req.getSession().getAttribute("userid");
+			if (userid == null) {
+				fail(req, resp, "Session Timed Out");
+				return;
+			}
+			User user = storageIo.getUser(userid);
+			String password = params.get("password");
+			if (password == null || password.equals("")) {
+				fail(req, resp, bundle.getString("nopassword"));
+				return;
+			}
+			String hashedPassword;
+			try {
+				hashedPassword = PasswordHash.createHash(password);
+			} catch (NoSuchAlgorithmException e) {
+				fail(req, resp, "System Error hashing password");
+				return;
+			} catch (InvalidKeySpecException e) {
+				fail(req, resp, "System Error hashing password");
+				return;
+			}
 
-      storageIo.setUserPassword(user.getUserId(),  hashedPassword);
-      String uri = "/";
-      if (!locale.equals("en")) {
-        uri += "?locale=" + locale;
-      }
-      resp.sendRedirect(uri);   // Logged in, go to service
-      return;
-    }
+			storageIo.setUserPassword(user.getUserId(), hashedPassword);
+			String uri = "/";
+			if (!locale.equals("en")) {
+				uri += "?locale=" + locale;
+			}
+			resp.sendRedirect(uri); // Logged in, go to service
+			return;
+		}
 
-    String email = params.get("email");
-    String password = params.get("password"); // We don't check it now
-    User user = storageIo.getUserFromEmail(email);
-    boolean validLogin = false;
+		String email = params.get("email");
+		String password = params.get("password"); // We don't check it now
+		User user = storageIo.getUserFromEmail(email);
+		boolean validLogin = false;
 
-    String hash = user.getPassword();
-    if ((hash == null) || hash.equals("")) {
-      fail(req, resp, "No Password Set for User");
-      return;
-    }
+		String hash = user.getPassword();
+		if ((hash == null) || hash.equals("")) {
+			fail(req, resp, "No Password Set for User");
+			return;
+		}
 
-    try {
-      validLogin = PasswordHash.validatePassword(password, hash);
-    } catch (NoSuchAlgorithmException e) {
-    } catch (InvalidKeySpecException e) {
-    }
+		try {
+			validLogin = PasswordHash.validatePassword(password, hash);
+		} catch (NoSuchAlgorithmException e) {
+		} catch (InvalidKeySpecException e) {
+		}
 
-    if (!validLogin) {
-      fail(req, resp, bundle.getString("invalidpassword"));
-      return;
-    }
+		if (!validLogin) {
+			fail(req, resp, bundle.getString("invalidpassword"));
+			return;
+		}
 
-    req.getSession().setAttribute("userid", user.getUserId());
+		req.getSession().setAttribute("userid", user.getUserId());
 
-    String uri = "/";
-    if (!locale.equals("en")) {
-      uri += "?locale=" + locale;
-    }
-    resp.sendRedirect(uri);
-  }
+		String uri = "/";
+		if (!locale.equals("en")) {
+			uri += "?locale=" + locale;
+		}
+		resp.sendRedirect(uri);
+	}
 
-  public void destroy() {
-    super.destroy();
-  }
+	public void destroy() {
+		super.destroy();
+	}
 
-  private static HashMap<String, String> getQueryMap(String query)  {
-    HashMap<String, String> map = new HashMap<String, String>();
-    if (query == null || query.equals("")) {
-      return map;               // Empty map
-    }
-    String[] params = query.split("&");
-    for (String param : params)  {
-      String [] nvpair = param.split("=");
-      if (nvpair.length <= 1) {
-        map.put(nvpair[0], "");
-      } else
-        map.put(nvpair[0], URLDecoder.decode(nvpair[1]));
-    }
-    return map;
-  }
+	private static HashMap<String, String> getQueryMap(String query) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		if (query == null || query.equals("")) {
+			return map; // Empty map
+		}
+		String[] params = query.split("&");
+		for (String param : params) {
+			String[] nvpair = param.split("=");
+			if (nvpair.length <= 1) {
+				map.put(nvpair[0], "");
+			} else
+				map.put(nvpair[0], URLDecoder.decode(nvpair[1]));
+		}
+		return map;
+	}
 
-  // Note: Urls in this servlet are of the form /login/<param>/<page>
-  // The page identifier is *after* the parameter, if there is one.
+	// Note: Urls in this servlet are of the form /login/<param>/<page>
+	// The page identifier is *after* the parameter, if there is one.
 
-  private String getPage(HttpServletRequest req) {
-    String [] components = req.getRequestURI().split("/");
-    return components[components.length-1];
-  }
+	private String getPage(HttpServletRequest req) {
+		String[] components = req.getRequestURI().split("/");
+		return components[components.length - 1];
+	}
 
-  private String getParam(HttpServletRequest req) {
-    String [] components = req.getRequestURI().split("/");
-    if (components.length < 2)
-      return null;
-    return components[components.length-2];
-  }
+	private String getParam(HttpServletRequest req) {
+		String[] components = req.getRequestURI().split("/");
+		if (components.length < 2)
+			return null;
+		return components[components.length - 2];
+	}
 
-  private String trimPage(HttpServletRequest req) {
-    String [] components = req.getRequestURL().toString().split("/");
-    StringBuffer sb = new StringBuffer();
-    for (int i = 0; i < components.length-1; i++)
-      sb.append(components[i] + "/");
-    return sb.toString();
-  }
+	private String trimPage(HttpServletRequest req) {
+		String[] components = req.getRequestURL().toString().split("/");
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < components.length - 1; i++)
+			sb.append(components[i] + "/");
+		return sb.toString();
+	}
 
-  private void fail(HttpServletRequest req, HttpServletResponse resp, String error) throws IOException {
-    req.getSession().setAttribute("error", error);
-    req.getSession().removeAttribute("email"); // Make sure we are not logged in
-    resp.sendRedirect("/login/");
-    return;
-  }
+	private void fail(HttpServletRequest req, HttpServletResponse resp, String error) throws IOException {
+		req.getSession().setAttribute("error", error);
+		req.getSession().removeAttribute("email"); // Make sure we are not
+													// logged in
+		resp.sendRedirect("/login/");
+		return;
+	}
 
-  private void sendmail(String email, String url, String locale) {
-    try {
-      String tmailServer = mailServer.get();
-      if (tmailServer.equals("")) { // No mailserver = no mail!
-        return;
-      }
-      URL mailServerUrl = new URL(tmailServer);
-      HttpURLConnection connection = (HttpURLConnection) mailServerUrl.openConnection();
-      connection.setDoOutput(true);
-      connection.setRequestMethod("POST");
-      PrintWriter stream = new PrintWriter(connection.getOutputStream());
-      stream.write("email=" + URLEncoder.encode(email) + "&url=" + URLEncoder.encode(url) +
-          "&pass=" + password.get() + "&locale=" + locale);
-      stream.flush();
-      stream.close();
-      int responseCode = 0;
-      responseCode = connection.getResponseCode();
-      if (responseCode != HttpURLConnection.HTTP_OK) {
-        LOG.warning("mailserver responded with code = " + responseCode);
-        // Nothing else we can do here...
-      }
-    } catch (MalformedURLException e) {
-    } catch (IOException e) {
-    }
-  }
+	private void sendmail(String email, String url, String locale) {
+		try {
+			String tmailServer = mailServer.get();
+			if (tmailServer.equals("")) { // No mailserver = no mail!
+				return;
+			}
+			URL mailServerUrl = new URL(tmailServer);
+			HttpURLConnection connection = (HttpURLConnection) mailServerUrl.openConnection();
+			connection.setDoOutput(true);
+			connection.setRequestMethod("POST");
+			PrintWriter stream = new PrintWriter(connection.getOutputStream());
+			stream.write("email=" + URLEncoder.encode(email) + "&url=" + URLEncoder.encode(url) + "&pass="
+					+ password.get() + "&locale=" + locale);
+			stream.flush();
+			stream.close();
+			int responseCode = 0;
+			responseCode = connection.getResponseCode();
+			if (responseCode != HttpURLConnection.HTTP_OK) {
+				LOG.warning("mailserver responded with code = " + responseCode);
+				// Nothing else we can do here...
+			}
+		} catch (MalformedURLException e) {
+		} catch (IOException e) {
+		}
+	}
 }

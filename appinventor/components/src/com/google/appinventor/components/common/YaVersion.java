@@ -1008,6 +1008,8 @@ public class YaVersion {
   
   public static final int ACTIVITYAGGREGATIONPROCESSOR_COMPONENT_VERSION = 2;
  
+  public static final int SPHEROCONTROLLER_COMPONENT_VERSION = 1;
+  
   
   //ActivityTracker
   
