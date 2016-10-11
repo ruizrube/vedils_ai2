@@ -314,7 +314,7 @@ public class LoginServlet extends HttpServlet {
 
 		req.getSession().setAttribute("userid", user.getUserId());
 
-		String uri = "/";
+		String uri = "/vedils.html";
 		if (!locale.equals("en")) {
 			uri += "?locale=" + locale;
 		}
