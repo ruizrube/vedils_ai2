@@ -34,216 +34,227 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  *
  */
 public final class YoungAndroidAssetSelectorPropertyEditor extends AdditionalChoicePropertyEditor
-    implements ProjectChangeListener {
-  // UI elements
-  private final ListBox assetsList;
+		implements ProjectChangeListener {
+	// UI elements
+	private final ListBox assetsList;
 
-  private final ListWithNone choices;
+	private final ListWithNone choices;
 
-  private final YoungAndroidAssetsFolder assetsFolder;
+	private final YoungAndroidAssetsFolder assetsFolder;
 
-  //Lista de archivos que soporta el componente
-  private final String[] fileTypes;
+	// Lista de archivos que soporta el componente
+	private final String[] fileTypes;
 
-  /**
-   * Creates a new property editor for selecting a Young Android asset.
-   *
-   * @param editor the editor that this property editor belongs to
-   */
-  public YoungAndroidAssetSelectorPropertyEditor(final YaFormEditor editor) {
-	  this(editor, null);
-  }
-  
-  public YoungAndroidAssetSelectorPropertyEditor(final YaFormEditor editor, final String [] fileTypes) {
-	this.fileTypes = fileTypes;
-    Project project = Ode.getInstance().getProjectManager().getProject(editor.getProjectId());
-    assetsFolder = ((YoungAndroidProjectNode) project.getRootNode()).getAssetsFolder();
-    project.addProjectChangeListener(this);
+	/**
+	 * Creates a new property editor for selecting a Young Android asset.
+	 *
+	 * @param editor
+	 *            the editor that this property editor belongs to
+	 */
+	public YoungAndroidAssetSelectorPropertyEditor(final YaFormEditor editor) {
+		this(editor, null);
+	}
 
-    VerticalPanel selectorPanel = new VerticalPanel();
-    assetsList = new ListBox();
-    assetsList.setVisibleItemCount(10);
-    assetsList.setWidth("100%");
-    selectorPanel.add(assetsList);
+	public YoungAndroidAssetSelectorPropertyEditor(final YaFormEditor editor, final String[] fileTypes) {
+		this.fileTypes = fileTypes;
+		Project project = Ode.getInstance().getProjectManager().getProject(editor.getProjectId());
+		assetsFolder = ((YoungAndroidProjectNode) project.getRootNode()).getAssetsFolder();
+		project.addProjectChangeListener(this);
 
-    choices = new ListWithNone(MESSAGES.noneCaption(), new ListWithNone.ListBoxWrapper() {
-      @Override
-      public void addItem(String item) {
-        assetsList.addItem(item);
-      }
+		VerticalPanel selectorPanel = new VerticalPanel();
+		assetsList = new ListBox();
+		assetsList.setVisibleItemCount(10);
+		assetsList.setWidth("100%");
+		selectorPanel.add(assetsList);
 
-      @Override
-      public String getItem(int index) {
-        return assetsList.getItemText(index);
-      }
+		choices = new ListWithNone(MESSAGES.noneCaption(), new ListWithNone.ListBoxWrapper() {
+			@Override
+			public void addItem(String item) {
+				assetsList.addItem(item);
+			}
 
-      @Override
-      public void removeItem(int index) {
-        assetsList.removeItem(index);
-      }
+			@Override
+			public String getItem(int index) {
+				return assetsList.getItemText(index);
+			}
 
-      @Override
-      public void setSelectedIndex(int index) {
-        assetsList.setSelectedIndex(index);
-      }
-    });
+			@Override
+			public void removeItem(int index) {
+				assetsList.removeItem(index);
+			}
 
-    // Fill choices with the assets.
-    if (assetsFolder != null) {
-      for (ProjectNode node : assetsFolder.getChildren()) {
-    	addChoiceToList(node);
-        //choices.addItem(node.getName());
-      }
-    }
+			@Override
+			public void setSelectedIndex(int index) {
+				assetsList.setSelectedIndex(index);
+			}
+		});
 
-    Button addButton = new Button(MESSAGES.addButton());
-    addButton.setWidth("100%");
-    addButton.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        FileUploadedCallback callback = new FileUploadedCallback() {
-          @Override
-          public void onFileUploaded(FolderNode folderNode, FileNode fileNode) {
-            // At this point, the asset has been uploaded to the server, and
-            // has even been added to the assetsFolder. We are all set!
-        	for (String fileType : fileTypes) {
-        		if (fileNode.getName().toLowerCase().endsWith(fileType))
-        			 choices.selectValue(fileNode.getName());
-        	}
-            closeAdditionalChoiceDialog(true);
-          }
-        };
-        FileUploadWizard uploader = new FileUploadWizard(assetsFolder, callback);
-        uploader.show();
-      }
-    });
-    selectorPanel.add(addButton);
-    selectorPanel.setWidth("100%");
+		// Fill choices with the assets.
+		if (assetsFolder != null) {
+			for (ProjectNode node : assetsFolder.getChildren()) {
+				addChoiceToList(node);
+				// choices.addItem(node.getName());
+			}
+		}
 
-    // At this point, the editor hasn't finished loading.
-    // Use a DeferredCommand to finish the initialization after the editor has finished loading.
-    DeferredCommand.addCommand(new Command() {
-      @Override
-      public void execute() {
-        if (editor.isLoadComplete()) {
-          finishInitialization();
-        } else {
-          // Editor still hasn't finished loading.
-          DeferredCommand.addCommand(this);
-        }
-      }
-    });
+		Button addButton = new Button(MESSAGES.addButton());
+		addButton.setWidth("100%");
+		addButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				FileUploadedCallback callback = new FileUploadedCallback() {
+					@Override
+					public void onFileUploaded(FolderNode folderNode, FileNode fileNode) {
+						// At this point, the asset has been uploaded to the
+						// server, and
+						// has even been added to the assetsFolder. We are all
+						// set!
+						if (fileTypes != null) {
+							for (String fileType : fileTypes) {
+								if (fileNode.getName().toLowerCase().endsWith(fileType))
+									choices.selectValue(fileNode.getName());
+							}
+						} else {
+							choices.selectValue(fileNode.getName());
+						}
+						closeAdditionalChoiceDialog(true);
+					}
+				};
+				FileUploadWizard uploader = new FileUploadWizard(assetsFolder, callback);
+				uploader.show();
+			}
+		});
+		selectorPanel.add(addButton);
+		selectorPanel.setWidth("100%");
 
-    initAdditionalChoicePanel(selectorPanel);
-  }
+		// At this point, the editor hasn't finished loading.
+		// Use a DeferredCommand to finish the initialization after the editor
+		// has finished loading.
+		DeferredCommand.addCommand(new Command() {
+			@Override
+			public void execute() {
+				if (editor.isLoadComplete()) {
+					finishInitialization();
+				} else {
+					// Editor still hasn't finished loading.
+					DeferredCommand.addCommand(this);
+				}
+			}
+		});
 
-  private void finishInitialization() {
-    // Previous version had a bug where the value could be accidentally saved as "None".
-    // If the property value is "None" and choices doesn't contain the value "None", set the
-    // property value to "".
-    String value = property.getValue();
-    if (value.equals("None") && !choices.containsValue(value)) {
-      property.setValue("");
-    }
-  }
+		initAdditionalChoicePanel(selectorPanel);
+	}
 
-  @Override
-  public void orphan() {
-    Project project = Ode.getInstance().getProjectManager().getProject(assetsFolder.getProjectId());
-    project.removeProjectChangeListener(this);
-    super.orphan();
-  }
+	private void finishInitialization() {
+		// Previous version had a bug where the value could be accidentally
+		// saved as "None".
+		// If the property value is "None" and choices doesn't contain the value
+		// "None", set the
+		// property value to "".
+		String value = property.getValue();
+		if (value.equals("None") && !choices.containsValue(value)) {
+			property.setValue("");
+		}
+	}
 
-  @Override
-  protected void openAdditionalChoiceDialog() {
-    choices.selectValue(property.getValue());
-    super.openAdditionalChoiceDialog();
-    assetsList.setFocus(true);
-  }
+	@Override
+	public void orphan() {
+		Project project = Ode.getInstance().getProjectManager().getProject(assetsFolder.getProjectId());
+		project.removeProjectChangeListener(this);
+		super.orphan();
+	}
 
-  @Override
-  protected String getPropertyValueSummary() {
-    String value = property.getValue();
-    if (choices.containsValue(value)) {
-      return choices.getDisplayItemForValue(value);
-    }
-    return value;
-  }
+	@Override
+	protected void openAdditionalChoiceDialog() {
+		choices.selectValue(property.getValue());
+		super.openAdditionalChoiceDialog();
+		assetsList.setFocus(true);
+	}
 
-  @Override
-  protected boolean okAction() {
-    int selected = assetsList.getSelectedIndex();
-    if (selected == -1) {
-      Window.alert(MESSAGES.noAssetSelected());
-      return false;
-    }
-    property.setValue(choices.getValueAtIndex(selected));
-    return true;
-  }
+	@Override
+	protected String getPropertyValueSummary() {
+		String value = property.getValue();
+		if (choices.containsValue(value)) {
+			return choices.getDisplayItemForValue(value);
+		}
+		return value;
+	}
 
-  // ProjectChangeListener implementation
+	@Override
+	protected boolean okAction() {
+		int selected = assetsList.getSelectedIndex();
+		if (selected == -1) {
+			Window.alert(MESSAGES.noAssetSelected());
+			return false;
+		}
+		property.setValue(choices.getValueAtIndex(selected));
+		return true;
+	}
 
-  @Override
-  public void onProjectLoaded(Project project) {
-  }
+	// ProjectChangeListener implementation
 
-  @Override
-  public void onProjectNodeAdded(Project project, ProjectNode node) {
-    // Check whether our asset was updated.
-    if (node instanceof YoungAndroidAssetNode) {
-      String assetName = node.getName();
+	@Override
+	public void onProjectLoaded(Project project) {
+	}
 
-      // Add it to the list if it isn't already there.
-      // It could already be there if the user adds an asset that's already there, which is the way
-      // to replace the asset.
-      if (!choices.containsValue(assetName)) {
-        addChoiceToList(node);
-        //choices.addItem(assetName);
-      }
+	@Override
+	public void onProjectNodeAdded(Project project, ProjectNode node) {
+		// Check whether our asset was updated.
+		if (node instanceof YoungAndroidAssetNode) {
+			String assetName = node.getName();
 
-      // Check whether our asset was updated.
-      String currentValue = property.getValue();
-      if (assetName.equals(currentValue)) {
-        // Our asset was updated.
-        // Set the property value to blank and then back to the current value.
-        // This will force the component to update itself (for example, it will refresh its image).
-        property.setValue("");
-        property.setValue(currentValue);
-      }
-    }
-  }
+			// Add it to the list if it isn't already there.
+			// It could already be there if the user adds an asset that's
+			// already there, which is the way
+			// to replace the asset.
+			if (!choices.containsValue(assetName)) {
+				addChoiceToList(node);
+				// choices.addItem(assetName);
+			}
 
-  @Override
-  public void onProjectNodeRemoved(Project project, ProjectNode node) {
-    if (node instanceof YoungAndroidAssetNode) {
-      String assetName = node.getName();
+			// Check whether our asset was updated.
+			String currentValue = property.getValue();
+			if (assetName.equals(currentValue)) {
+				// Our asset was updated.
+				// Set the property value to blank and then back to the current
+				// value.
+				// This will force the component to update itself (for example,
+				// it will refresh its image).
+				property.setValue("");
+				property.setValue(currentValue);
+			}
+		}
+	}
 
-      // Check whether our asset was removed.
-      String currentValue = property.getValue();
-      if (node.getName().equals(currentValue)) {
-        // Our asset was removed.
-        property.setValue("");
-      }
+	@Override
+	public void onProjectNodeRemoved(Project project, ProjectNode node) {
+		if (node instanceof YoungAndroidAssetNode) {
+			String assetName = node.getName();
 
-      // Remove the asset from the list.
-      choices.removeValue(assetName);
-    }
-  }
-  
-  private void addChoiceToList(ProjectNode node) {
-	  if (fileTypes != null) {
-  		boolean found = false;
-  		int i=0;
-  		while (!found && i<fileTypes.length) {
-  			if (node.getName().toLowerCase().endsWith(fileTypes[i])) {
-  				choices.addItem(node.getName());
-  				found = true;
-  			}
-  			else
-  				i++;
-  		}
-  	}
-  	else
-  		choices.addItem(node.getName());
-  }
+			// Check whether our asset was removed.
+			String currentValue = property.getValue();
+			if (node.getName().equals(currentValue)) {
+				// Our asset was removed.
+				property.setValue("");
+			}
+
+			// Remove the asset from the list.
+			choices.removeValue(assetName);
+		}
+	}
+
+	private void addChoiceToList(ProjectNode node) {
+		if (fileTypes != null) {
+			boolean found = false;
+			int i = 0;
+			while (!found && i < fileTypes.length) {
+				if (node.getName().toLowerCase().endsWith(fileTypes[i])) {
+					choices.addItem(node.getName());
+					found = true;
+				} else
+					i++;
+			}
+		} else
+			choices.addItem(node.getName());
+	}
 }

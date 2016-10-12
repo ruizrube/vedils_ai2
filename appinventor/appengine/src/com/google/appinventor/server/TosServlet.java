@@ -33,7 +33,7 @@ public class TosServlet extends OdeServlet {
   // An URL to redirect requests to the first time they access App Inventor.
   // TODO(user): need to figure out what this URL will be and update the comment in doPost.
   private static final Flag<String> initialRedirectionUrl =
-      Flag.createFlag("initial.redirection.url", "/");
+      Flag.createFlag("initial.redirection.url", "/vedils.html");
 
   @Override
   public void doPost(HttpServletRequest req, HttpServletResponse resp)
