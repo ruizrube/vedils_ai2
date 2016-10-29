@@ -13,6 +13,7 @@ https://360.autodesk.com/ViewerPage?id=dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YTM2M
 
 package com.google.appinventor.components.runtime.ar4ai.vuforia;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -430,7 +431,6 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 			Object3D myObject3D = null;
 			for (VirtualObject myVO : this.mActivity.getArrayOfVirtualObjects()) {
 				world = getWorldForVO(myVO.getId());
-
 				if (myVO.isEnabled() && world != null) {
 					if (myVO.getVisualAssetType() == VirtualObject.ASSET_TEXT) {
 						myObject3D = createAssetText(myVO);
@@ -526,40 +526,59 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 
 	private Object3D createAsset3DModel(VirtualObject myVO) throws IOException {
 		Object3D myObject3D = null;
-
+		//FIXME Changed for me.
 		// VIRTUAL OBJECT: 3d Model
 		if (myVO.getOverlaid3DModel().toLowerCase().endsWith("md2")) {
 			myObject3D = Loader.loadMD2(getAssetPath(myVO.getOverlaid3DModel()), 1f);
+			System.out.println("Creating in the world the asset MD2 Model3d" + myVO.getId() + "- VirtualModels");
 		    Log.d(LOGTAG, "Creating in the world the asset MD2 Model3d" + myVO.getId());
-
 		} else if (myVO.getOverlaid3DModel().toLowerCase().endsWith("obj")) {
-			if (myVO.getMaterial() != null && myVO.getMaterial().toLowerCase().endsWith("mtl")) {
-				Config.useNormalsFromOBJ = true;
-				//myObject3D = loadModel(mContext.getAssets().open(myVO.getOverlaid3DModel()), mContext.getAssets().open(myVO.getMaterial()), 1f);
-				myObject3D = Object3D.mergeAll(Loader.loadOBJ(getAssetPath(myVO.getOverlaid3DModel()), getAssetPath(myVO.getMaterial()), 1f));
-				Log.d(LOGTAG, "Creating in the world the asset OBJ Model3d with materials" + myVO.getId());
-			} else {
-				Config.useNormalsFromOBJ = true;
-				//myObject3D = loadModel(mContext.getAssets().open(myVO.getOverlaid3DModel()), null, 1f);
-				myObject3D = Object3D.mergeAll(Loader.loadOBJ(getAssetPath(myVO.getOverlaid3DModel()), null, 1f));
-				Log.d(LOGTAG, "Creating in the world the asset OBJ Model3d without materials" + myVO.getId());
+			try {
+				if (myVO.getMaterial() != null && myVO.getMaterial().toLowerCase().endsWith("mtl")) {
+					Config.useNormalsFromOBJ = true;
+					//myObject3D = loadModel(mContext.getAssets().open(myVO.getOverlaid3DModel()), mContext.getAssets().open(myVO.getMaterial()), 1f);
+					myObject3D = Object3D.mergeAll(Loader.loadOBJ(getAssetPath(myVO.getOverlaid3DModel()), getAssetPath(myVO.getMaterial()), 1f));
+					Log.d(LOGTAG, "Creating in the world the asset OBJ Model3d with materials" + myVO.getId());
+				} else {
+					Config.useNormalsFromOBJ = true;
+					//myObject3D = loadModel(mContext.getAssets().open(myVO.getOverlaid3DModel()), null, 1f);
+					myObject3D = Object3D.mergeAll(Loader.loadOBJ(getAssetPath(myVO.getOverlaid3DModel()), null, 1f));
+					Log.d(LOGTAG, "Creating in the world the asset OBJ Model3d without materials" + myVO.getId());
+				}
+			} catch(ArrayIndexOutOfBoundsException e) { //Config.useNormalsFromOBJ error appears.
+				e.printStackTrace();
 			}
-
+			if(myObject3D == null) { //Retry without Config.useNormalsFromOBJ option active.
+				if (myVO.getMaterial() != null && myVO.getMaterial().toLowerCase().endsWith("mtl")) {
+					Config.useNormalsFromOBJ = false;
+					//myObject3D = loadModel(mContext.getAssets().open(myVO.getOverlaid3DModel()), mContext.getAssets().open(myVO.getMaterial()), 1f);
+					myObject3D = Object3D.mergeAll(Loader.loadOBJ(getAssetPath(myVO.getOverlaid3DModel()), getAssetPath(myVO.getMaterial()), 1f));
+					Log.d(LOGTAG, "Creating in the world the asset OBJ Model3d with materials (without useNormalsFromOBJ)" + myVO.getId());
+				} else {
+					Config.useNormalsFromOBJ = false;
+					//myObject3D = loadModel(mContext.getAssets().open(myVO.getOverlaid3DModel()), null, 1f);
+					myObject3D = Object3D.mergeAll(Loader.loadOBJ(getAssetPath(myVO.getOverlaid3DModel()), null, 1f));
+					Log.d(LOGTAG, "Creating in the world the asset OBJ Model3d without materials (without useNormalsFromOBJ)" + myVO.getId());
+				}
+			}
 		} else if (myVO.getOverlaid3DModel().toLowerCase().endsWith("3ds")) {
 			myObject3D = Object3D.mergeAll(Loader.load3DS(getAssetPath(myVO.getOverlaid3DModel()), 0.2f));
+			System.out.println("Creating in the world the asset 3DS Model3d" + myVO.getId() + "- VirtualModels");
 			Log.d(LOGTAG, "Creating in the world the asset 3DS Model3d" + myVO.getId());
 
 		} else if (myVO.getOverlaid3DModel().toLowerCase().endsWith("asc")) {
 			myObject3D = Loader.loadASC(getAssetPath(myVO.getOverlaid3DModel()), 1f, false);
+			System.out.println("Creating in the world the asset ASC Model3d" + myVO.getId() + "- VirtualModels");
 			Log.d(LOGTAG, "Creating in the world the asset ASC Model3d" + myVO.getId());
 		}
-
+		
 		myObject3D.setName(myVO.getId());
 		myObject3D.rotateY((float)(Math.PI/2));
 		
 		Texture myTexture;
 		if (myVO.getImageTexture() != null && !myVO.getImageTexture().trim().equals("")) {
 			// loading texture with Image
+			//FIXME problema al cargar imágenes grandes parece.
 			myTexture = new com.threed.jpct.Texture(getAssetPath(myVO.getImageTexture()));
 			try {
 				TextureManager.getInstance().addTexture(myVO.getImageTexture(), myTexture);
