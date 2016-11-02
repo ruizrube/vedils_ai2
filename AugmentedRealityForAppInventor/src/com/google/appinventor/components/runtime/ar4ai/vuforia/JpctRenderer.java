@@ -526,11 +526,9 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 
 	private Object3D createAsset3DModel(VirtualObject myVO) throws IOException {
 		Object3D myObject3D = null;
-		//FIXME Changed for me.
 		// VIRTUAL OBJECT: 3d Model
 		if (myVO.getOverlaid3DModel().toLowerCase().endsWith("md2")) {
 			myObject3D = Loader.loadMD2(getAssetPath(myVO.getOverlaid3DModel()), 1f);
-			System.out.println("Creating in the world the asset MD2 Model3d" + myVO.getId() + "- VirtualModels");
 		    Log.d(LOGTAG, "Creating in the world the asset MD2 Model3d" + myVO.getId());
 		} else if (myVO.getOverlaid3DModel().toLowerCase().endsWith("obj")) {
 			try {
@@ -563,12 +561,10 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 			}
 		} else if (myVO.getOverlaid3DModel().toLowerCase().endsWith("3ds")) {
 			myObject3D = Object3D.mergeAll(Loader.load3DS(getAssetPath(myVO.getOverlaid3DModel()), 0.2f));
-			System.out.println("Creating in the world the asset 3DS Model3d" + myVO.getId() + "- VirtualModels");
 			Log.d(LOGTAG, "Creating in the world the asset 3DS Model3d" + myVO.getId());
 
 		} else if (myVO.getOverlaid3DModel().toLowerCase().endsWith("asc")) {
 			myObject3D = Loader.loadASC(getAssetPath(myVO.getOverlaid3DModel()), 1f, false);
-			System.out.println("Creating in the world the asset ASC Model3d" + myVO.getId() + "- VirtualModels");
 			Log.d(LOGTAG, "Creating in the world the asset ASC Model3d" + myVO.getId());
 		}
 		
