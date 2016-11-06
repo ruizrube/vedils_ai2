@@ -64,6 +64,8 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
+import android.view.ScaleGestureDetector.OnScaleGestureListener;
 
 // The renderer class for the FrameMarkers sample. 
 public class JpctRenderer implements GLSurfaceView.Renderer {
@@ -101,6 +103,11 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 	private float index = 0;
 	
 	private Ticker ticker = new Ticker(16);
+	
+	private ScaleGestureDetector scaleGestureDetector;
+	private final int MIN_SIZE = 1;
+	private final int MAX_SIZE = 10;
+	private float currentScaleFactorApplied = 0;
 
 	public JpctRenderer(VuforiaARActivity activity, VuforiaApplicationSession session, Context applicationContext) throws Exception {
 		mActivity = activity;
@@ -109,6 +116,38 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 		
 
 		Config.viewportOffsetAffectsRenderTarget = true;
+		
+		//FIXME pruebas para el zoom
+		scaleGestureDetector = new ScaleGestureDetector(mContext, new OnScaleGestureListener() {
+		    
+			@Override
+		    public void onScaleEnd(ScaleGestureDetector detector) {}
+		    
+		    @Override
+		    public boolean onScaleBegin(ScaleGestureDetector detector) { return true; }
+		    
+		    @Override
+		    public boolean onScale(ScaleGestureDetector detector) {
+		        Log.d(LOGTAG, "scale: " + detector.getScaleFactor());
+		        System.out.println("scale:" + detector.getScaleFactor() + " - zoom");
+		        
+		        for (VirtualObject vo : mActivity.arrayOfVirtualObjects) {
+		        	if (getWorldForVO(vo.getId()) != null) {
+						Object3D object = getWorldForVO(vo.getId()).getObjectByName(vo.getId());
+						System.out.println("Size applied: " + vo.getScale());
+						
+						if((vo.getScale() > MAX_SIZE && currentScaleFactorApplied > detector.getScaleFactor()) ||
+								(vo.getScale() < MIN_SIZE && currentScaleFactorApplied < detector.getScaleFactor()) ||
+								(vo.getScale() < MAX_SIZE && vo.getScale() > MIN_SIZE)) {
+							vo.setScale(vo.getScale() * detector.getScaleFactor());
+							object.setScale(vo.getScale());
+							currentScaleFactorApplied = detector.getScaleFactor();
+						}
+					}
+				}
+		        return false;
+		    }
+		});
 
 		createWorld();
 
@@ -690,7 +729,10 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 		// MotionEvent reports input details from the touch screen
 		// and other input controls. In this case, you are only
 		// interested in events where the touch position changed.
-
+		
+		//FIXME pruebas para el zoom
+		scaleGestureDetector.onTouchEvent(e);
+		
 		Log.d(LOGTAG, "TOCATA 2");
 		int action = e.getAction();
 

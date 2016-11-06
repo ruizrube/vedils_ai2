@@ -9,23 +9,16 @@ package com.google.appinventor.client.editor.youngandroid.properties;
 import java.util.Arrays;
 import java.util.List;
 
-import com.google.appinventor.client.editor.simple.SimpleComponentDatabase;
-import com.google.appinventor.client.editor.youngandroid.YaFormEditor;
-import com.google.appinventor.client.widgets.properties.AdditionalChoicePropertyEditor;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TreeItem;
 
 /**
- * Property editor for selecting methods name for ActivityTracker.
- *
+ * Property editor for selecting methods name for Data.
+ * By SPI-FM.
  */
-public final class YoungAndroidCheckableTreeSelectorForData extends AdditionalChoicePropertyEditor {
+public final class YoungAndroidCheckableTreeSelectorForData extends YoungAndroidCheckableTreeSelector {
 
-	private String fieldsToRetrieve;
-	private CheckableTree tree;
-
-	public YoungAndroidCheckableTreeSelectorForData(final SimpleComponentDatabase COMPONENT_DATABASE) {
+	public YoungAndroidCheckableTreeSelectorForData() {
 		ScrollPanel selectorPanel = new ScrollPanel();
 		selectorPanel.setSize("190px", "290px");
 
@@ -106,10 +99,8 @@ public final class YoungAndroidCheckableTreeSelectorForData extends AdditionalCh
 		tree.addItem(all);
 		selectorPanel.add(tree);
 
-		this.fieldsToRetrieve = "";
+		this.recordedItems = "";
 		initAdditionalChoicePanel(selectorPanel);
-
-		
 
 
 		//// Interaction Data
@@ -129,63 +120,5 @@ public final class YoungAndroidCheckableTreeSelectorForData extends AdditionalCh
 //
 //		}
 		//		all.addItem(interactionDataTree);
-
-
-	}
-
-	@Override
-	protected void openAdditionalChoiceDialog() {
-	//	property.setValue("Nothing");
-		super.openAdditionalChoiceDialog();
-		tree.setFocus(true);
-	}
-
-	@Override
-	protected String getPropertyValueSummary() {
-		return property.getValue();
-	}
-
-	private void recordSelectedItems() {
-		if (!this.fieldsToRetrieve.equals("")) {
-			this.fieldsToRetrieve = "";
-		}
-
-		for (int i = 0; i < tree.getItem(0).getChildCount(); i++) // Child nodes
-																	// of "All".
-		{
-			CheckableTreeItem item = (CheckableTreeItem) tree.getItem(0).getChild(i);
-
-			if (item.getStatus() == CheckableTreeItem.SELECTION_ALL
-					|| item.getStatus() == CheckableTreeItem.SELECTION_SOME) {
-
-				// Search the child nodes
-				for (int j = 0; j < item.getChildCount(); j++) {
-
-					CheckableTreeItem itemLeaf = (CheckableTreeItem) item.getChild(j);
-
-					if (itemLeaf.getStatus() == CheckableTreeItem.SELECTION_ALL) { // Are
-																					// leaf
-						this.fieldsToRetrieve = this.fieldsToRetrieve + itemLeaf.getUserObject() + " - ";
-					}
-
-				}
-
-			}
-		}
-	}
-
-	@Override
-	protected boolean okAction() {
-		// When option "OK" is clicked the elements of tree are recorded.
-		recordSelectedItems();
-		if (this.fieldsToRetrieve.equals("")) {
-			property.setValue("Nothing");
-			Window.alert("Nothing selected.");
-			return true;
-		}
-		property.setValue("Record elements: " + this.fieldsToRetrieve);
-		// Window.alert("Component name: " +componentName + " Options selected:
-		// "+this.methodsSelectedNames);
-		return true;
 	}
 }

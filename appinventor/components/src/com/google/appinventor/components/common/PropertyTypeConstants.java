@@ -210,7 +210,7 @@ public class PropertyTypeConstants {
 	 * Choices in checkableTree offered by
 	 * {@link com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCheckableTreeSelector}
 	 */
-	public static final String PROPERTY_TYPE_CHECKABLETREE = "checkableTree";
+	public static final String PROPERTY_TYPE_CHECKABLETREEFORACTIVITYTRACKER = "checkableTreeForActivityTracker";
 
 	// Para arbol de datos
 	public static final String PROPERTY_TYPE_CHECKABLETREEFORDATA = "checkableTreeForData";

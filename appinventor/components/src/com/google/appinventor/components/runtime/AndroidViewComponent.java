@@ -275,7 +275,7 @@ public abstract class AndroidViewComponent extends VisibleComponent {
   /**
    * Specifies the activities to record for ActivityTracker notification.
    */
-   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_CHECKABLETREE,
+   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_CHECKABLETREEFORACTIVITYTRACKER,
  		      defaultValue = "")
  		  @SimpleProperty(
  		      userVisible = false)

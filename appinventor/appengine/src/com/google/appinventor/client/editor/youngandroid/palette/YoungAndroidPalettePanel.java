@@ -28,7 +28,7 @@ import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroid
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidBooleanPropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidButtonShapeChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidChartTypeChoicePropertyEditor;
-import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCheckableTreeSelector;
+import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCheckableTreeSelectorForActivityTracker;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCheckableTreeSelectorForAggregatedData;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCheckableTreeSelectorForData;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidColorChoicePropertyEditor;
@@ -234,8 +234,8 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 			return new YoungAndroidToastLengthChoicePropertyEditor();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TYPEFACE)) {
 			return new YoungAndroidFontTypefaceChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_CHECKABLETREE)) {
-			return new YoungAndroidCheckableTreeSelector(editor, COMPONENT_DATABASE, componentType);
+		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_CHECKABLETREEFORACTIVITYTRACKER)) {
+			return new YoungAndroidCheckableTreeSelectorForActivityTracker(COMPONENT_DATABASE, componentType);
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_HYPERLINK_ONLY_ACTIVITYTRACKER)) {
 			return new YoungAndroidAnchorProperty("https://goo.gl/5CmgNd");
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_SYNCHRONIZATIONMODE)) {
@@ -243,9 +243,9 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_CHARTTYPE)) {
 			return new YoungAndroidChartTypeChoicePropertyEditor();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_CHECKABLETREEFORDATA)) {
-			return new YoungAndroidCheckableTreeSelectorForData(COMPONENT_DATABASE);
+			return new YoungAndroidCheckableTreeSelectorForData();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_CHECKABLETREEFORAGGREGATEDDATA)) {
-			return new YoungAndroidCheckableTreeSelectorForAggregatedData(COMPONENT_DATABASE);
+			return new YoungAndroidCheckableTreeSelectorForAggregatedData();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_COLUMNTOAGGREGATE)) {
 			return new YoungAndroidColumntToAggregateChoicePropertyEditor();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_COMMUNICATIONMODE)) {
