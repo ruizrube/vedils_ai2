@@ -617,7 +617,6 @@ public interface StorageIo {
   //For SPI-FM user analytics
   public void updateNumberOfTotalBuilds(final long projectId);
   public void updateNumberOfTotalAIAExports(final long projectId);
-  //public void updateNumberOfTotalDebugs(final long projectId);
   public void updateNumberOfTotalEmulatorDebugs(final long projectId);
   public void updateNumberOfTotalUSBDebugs(final long projectId);
   public void updateNumberOfTotalCompanionDebugs(final long projectId);

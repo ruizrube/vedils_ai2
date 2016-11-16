@@ -113,7 +113,6 @@ public class StoredData {
     //For SPI-FM user analytics
     long totalWorkTime;
     int totalBuilds;
-    //int totalDebugs;
     int totalAIAExports;
     int totalEmulatorDebugs;
     int totalUSBDebugs;

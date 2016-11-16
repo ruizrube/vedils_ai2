@@ -25,7 +25,6 @@ public class UpdateVedilsDataServlet extends OdeServlet {
 		String debugMethod = req.getParameter("debugMethod");
 		String projectId = req.getParameter("projectId");
 		
-		//storageIo.updateNumberOfTotalDebugs(Long.parseLong(projectId));
 		if(debugMethod.equals("emulator")) {
 			storageIo.updateNumberOfTotalEmulatorDebugs(Long.parseLong(projectId));
 		} else if(debugMethod.equals("usb")) {

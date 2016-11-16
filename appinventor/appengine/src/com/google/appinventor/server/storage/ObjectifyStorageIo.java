@@ -635,7 +635,6 @@ public class ObjectifyStorageIo implements  StorageIo {
           
           pd.totalWorkTime = UserProject.INITIALWORKTIME;
           pd.totalBuilds = UserProject.INITIALBUILDS;
-          //pd.totalDebugs = UserProject.INITIALDEBUGS;
           pd.totalCompanionDebugs = UserProject.INITIALDEBUGS;
           pd.totalUSBDebugs = UserProject.INITIALDEBUGS;
           pd.totalEmulatorDebugs = UserProject.INITIALDEBUGS;
@@ -1478,23 +1477,6 @@ public class ObjectifyStorageIo implements  StorageIo {
 	      throw CrashReport.createAndLogError(LOG, null, null, e);
 	    }
   }
-  
-  /*public void updateNumberOfTotalDebugs(final long projectId) {
-	  try {
-	      runJobWithRetries(new JobRetryHelper() {
-	          @Override
-	          public void run(Objectify datastore) throws ObjectifyException {
-	               ProjectData pd = datastore.find(projectKey(projectId));
-	               if(pd != null) {
-	            	   pd.totalDebugs = pd.totalDebugs + 1;
-	         		   datastore.put(pd);
-	               }
-	          }
-	        }, true);
-	    } catch (ObjectifyException e) {
-	      throw CrashReport.createAndLogError(LOG, null, null, e);
-	    }
-  }*/
   
   public void updateNumberOfTotalEmulatorDebugs(final long projectId) {
 	  try {
