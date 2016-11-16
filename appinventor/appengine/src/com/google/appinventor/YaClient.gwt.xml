@@ -47,6 +47,7 @@
   <servlet path="/userinfo" class="com.google.appinventor.server.UserInfoServiceImpl" />
   <servlet path="/webstartfile" class="com.google.appinventor.server.WebStartFileServlet" />
   <servlet path="/webstartjnlp" class="com.google.appinventor.server.WebStartJnlpServlet" />
+  <servlet path="/updateVedilsData" class="com.google.appinventor.server.UpdateVedilsDataServlet" />
 
   <!-- srcs -->
   <source path="" includes="simple_components.json" />

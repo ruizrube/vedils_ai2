@@ -223,6 +223,13 @@ public class ServerLayout {
    * Name of the form element to upload user files.
    */
   public static final String UPLOAD_USERFILE_FORM_ELEMENT = "uploadUserFile";
+  
+  /**
+   * Relative base path of the
+   * {@link com.google.appinventor.server.UpdateVedilsDataServlet} within the ODE GWT
+   * module.
+   */
+  public static final String UPDATEVEDILSDATA_SERVLET_BASE = "updateVedilsData/";
 
   public static String genRelativeDownloadPath(long projectId, String target) {
     return DOWNLOAD_SERVLET_BASE + DOWNLOAD_PROJECT_OUTPUT + "/" + projectId + "/" + target;

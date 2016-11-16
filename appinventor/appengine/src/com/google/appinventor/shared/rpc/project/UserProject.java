@@ -52,6 +52,12 @@ public class UserProject implements IsSerializable {
 
   public static final long NOTPUBLISHED = 0;
   public static final long FROMSCRATCH = 0;
+  
+  //For SPI-FM user analytics
+  public static final long INITIALWORKTIME = 0;
+  public static final int INITIALBUILDS = 0;
+  public static final int INITIALDEBUGS = 0;
+  public static final int INITIALAIAEXPORTS = 0;
 
   /**
    * Default constructor. This constructor is required by GWT.

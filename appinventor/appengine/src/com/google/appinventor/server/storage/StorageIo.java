@@ -15,6 +15,7 @@ import com.google.appinventor.shared.rpc.project.Project;
 import com.google.appinventor.shared.rpc.project.ProjectSourceZip;
 import com.google.appinventor.shared.rpc.project.UserProject;
 import com.google.appinventor.shared.rpc.user.User;
+import com.googlecode.objectify.Objectify;
 import com.google.appinventor.shared.rpc.user.SplashConfig;
 
 import java.io.IOException;
@@ -612,5 +613,12 @@ public interface StorageIo {
 
   List<AdminUser> searchUsers(String partialEmail);
   void storeUser(AdminUser user) throws AdminInterfaceException;
-
+  
+  //For SPI-FM user analytics
+  public void updateNumberOfTotalBuilds(final long projectId);
+  public void updateNumberOfTotalAIAExports(final long projectId);
+  //public void updateNumberOfTotalDebugs(final long projectId);
+  public void updateNumberOfTotalEmulatorDebugs(final long projectId);
+  public void updateNumberOfTotalUSBDebugs(final long projectId);
+  public void updateNumberOfTotalCompanionDebugs(final long projectId);
 }
