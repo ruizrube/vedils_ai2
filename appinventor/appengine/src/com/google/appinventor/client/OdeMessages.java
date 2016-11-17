@@ -6295,6 +6295,22 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("Refresh")
 	@Description("")
 	String RefreshMethods();
+	
+	@DefaultMessage("ZoomActivated")
+	@Description("")
+	String ZoomActivatedProperties();
+	
+	@DefaultMessage("RotateActivated")
+	@Description("")
+	String RotateActivatedProperties();
+	
+	@DefaultMessage("ZoomMaxSize")
+	@Description("")
+	String ZoomMaxSizeProperties();
+	
+	@DefaultMessage("ZoomMinSize")
+	@Description("")
+	String ZoomMinSizeProperties();
 
 	//
 	// GoogleCloudMessaging

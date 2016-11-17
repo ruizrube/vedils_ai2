@@ -54,6 +54,9 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	protected ARCamera camera;
 
 	protected VirtualObject data;
+	
+	private static final float ZOOM_MAX_SIZE = 10;
+	private static final float ZOOM_MIN_SIZE = 1;
 
 	
 	/////////////////
@@ -435,9 +438,62 @@ public class ARVirtualObject extends AndroidNonvisibleComponent
 	}
 
 		
+	/**
+	 * @return if zoom is applicable in the model.
+	 */
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR, userVisible = true)
+	public boolean ZoomActivated() {
+		return data.getZoomActivated();
+	}
 	
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN, defaultValue = "True")
+	@SimpleProperty(userVisible = true)
+	public void ZoomActivated(boolean zoomActivated) {
+		data.setZoomActivated(zoomActivated);
+	}
 	
+	/**
+	 * @return if rotation is applicable in the model.
+	 */
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR, userVisible = true)
+	public boolean RotateActivated() {
+		return data.getRotateActivated();
+	}
+	
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN, defaultValue = "True")
+	@SimpleProperty(userVisible = true)
+	public void RotateActivated(boolean rotateActivated) {
+		data.setRotateActivated(rotateActivated);
+	}
+	
+	/**
+	 * @return the max object size when you use zoom.
+	 */
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR, userVisible = true)
+	public float ZoomMaxSize() {
+		return data.getZoomMaxSize();
+	}
+	
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT, defaultValue = ZOOM_MAX_SIZE + "")
+	@SimpleProperty(userVisible = true)
+	public void ZoomMaxSize(float zoomMaxSize) {
 
+		data.setZoomMaxSize(zoomMaxSize);
+	}
+	
+	/**
+	 * @return the min object size when you use zoom.
+	 */
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR, userVisible = true)
+	public float ZoomMinSize() {
+		return data.getZoomMinSize();
+	}
+	
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT, defaultValue = ZOOM_MIN_SIZE + "")
+	@SimpleProperty(userVisible = true)
+	public void ZoomMinSize(float zoomMinSize) {
+		data.setZoomMinSize(zoomMinSize);
+	}
 
 	////////////////
 	// FUNCTIONS //

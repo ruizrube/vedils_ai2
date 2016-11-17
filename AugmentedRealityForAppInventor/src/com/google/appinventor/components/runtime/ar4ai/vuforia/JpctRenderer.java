@@ -105,9 +105,7 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 	private Ticker ticker = new Ticker(16);
 	
 	private ScaleGestureDetector scaleGestureDetector;
-	private final int MIN_SIZE = 1;
-	private final int MAX_SIZE = 10;
-	private float currentScaleFactorApplied = 0;
+	private float currentScaleFactorApplied = 1.f;
 
 	public JpctRenderer(VuforiaARActivity activity, VuforiaApplicationSession session, Context applicationContext) throws Exception {
 		mActivity = activity;
@@ -132,17 +130,13 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 		        System.out.println("scale:" + detector.getScaleFactor() + " - zoom");
 		        
 		        for (VirtualObject vo : mActivity.arrayOfVirtualObjects) {
-		        	if (getWorldForVO(vo.getId()) != null) {
+		        	if (getWorldForVO(vo.getId()) != null && vo.getZoomActivated()) {
 						Object3D object = getWorldForVO(vo.getId()).getObjectByName(vo.getId());
+						currentScaleFactorApplied = Math.max(vo.getZoomMinSize(), Math.min(vo.getScale() * detector.getScaleFactor(), vo.getZoomMaxSize())); // Control the object size.
+						vo.setScale(currentScaleFactorApplied);
+						object.setScale(currentScaleFactorApplied);
 						System.out.println("Size applied: " + vo.getScale());
 						
-						if((vo.getScale() > MAX_SIZE && currentScaleFactorApplied > detector.getScaleFactor()) ||
-								(vo.getScale() < MIN_SIZE && currentScaleFactorApplied < detector.getScaleFactor()) ||
-								(vo.getScale() < MAX_SIZE && vo.getScale() > MIN_SIZE)) {
-							vo.setScale(vo.getScale() * detector.getScaleFactor());
-							object.setScale(vo.getScale());
-							currentScaleFactorApplied = detector.getScaleFactor();
-						}
 					}
 				}
 		        return false;
@@ -730,7 +724,7 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 		// and other input controls. In this case, you are only
 		// interested in events where the touch position changed.
 		
-		//FIXME pruebas para el zoom
+		//Applying zoom.
 		scaleGestureDetector.onTouchEvent(e);
 		
 		Log.d(LOGTAG, "TOCATA 2");
@@ -772,7 +766,7 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 				World world = eworld.getWorld(po.getId());
 				
 				for (VirtualObject vo : po.getVirtualObject()) {
-					if (vo.getVisualAssetType() == VirtualObject.ASSET_3DMODEL) {
+					if (vo.getVisualAssetType() == VirtualObject.ASSET_3DMODEL && vo.getRotateActivated()) {
 						Log.d(LOGTAG, "TOCATA ROTACION  " + movX + " y " + movY);
 						Object3D objeto = world.getObjectByName(vo.getId());
 						objeto.rotateX(-movY/100);
