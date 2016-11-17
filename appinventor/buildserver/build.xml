@@ -226,7 +226,7 @@
 
 	<target name="installplay" depends="PlayApp">
 		<exec executable="adb" failonerror="false">
-			<arg line="uninstall edu.mit.appinventor.vedils" />
+			<arg line="uninstall es.uca.vedils" />
 		</exec>
 		<exec executable="adb" failonerror="true">
 			<arg line='install "${public.build.dir}/VEDILS Companion.apk"' />
