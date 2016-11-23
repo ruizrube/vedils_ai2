@@ -41,7 +41,9 @@ public class NotifyAJManager {
 		} else if(pointcut.getThis() instanceof AndroidViewComponent) {
 			System.out.println("AndroidViewComponent - AspectJ.");
 			AndroidViewComponent viewComponent = (AndroidViewComponent) pointcut.getThis();
-			currentActivity = (Activity) viewComponent.getView().getContext();
+			if(!(pointcut.getThis() instanceof ListView)) {
+				currentActivity = (Activity) viewComponent.getView().getContext();
+			}
 			selectedActivities = viewComponent.getActivitiesToTrack();
 			componentName = viewComponent.getName();
 			System.out.println("Activities to Notify: "+viewComponent.getActivitiesToTrack() + "- AspectJ.");
