@@ -6408,6 +6408,10 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("DisplayExampleTable")
 	@Description("")
 	String DisplayExampleTableProperties();
+	
+	@DefaultMessage("DisplayActiveTable")
+	@Description("")
+	String DisplayActiveTableProperties();
 
 	@DefaultMessage("SynchronizationMode")
 	@Description("")

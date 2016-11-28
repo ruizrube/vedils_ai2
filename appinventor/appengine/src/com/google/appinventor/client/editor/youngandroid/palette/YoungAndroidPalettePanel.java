@@ -56,6 +56,7 @@ import com.google.appinventor.client.widgets.properties.NonNegativeFloatProperty
 import com.google.appinventor.client.widgets.properties.NonNegativeIntegerPropertyEditor;
 import com.google.appinventor.client.widgets.properties.PropertyEditor;
 import com.google.appinventor.client.widgets.properties.ScalingChoicePropertyEditor;
+import com.google.appinventor.client.widgets.properties.StringAndHyperlinkPropertyEditorForActivityTracker;
 import com.google.appinventor.client.widgets.properties.StringPropertyEditor;
 import com.google.appinventor.client.widgets.properties.TextAreaPropertyEditor;
 import com.google.appinventor.client.widgets.properties.TextPropertyEditor;
@@ -171,7 +172,7 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 		for (PropertyDefinition property : COMPONENT_DATABASE.getPropertyDefinitions(mockComponent.getType())) {
 			mockComponent.addProperty(property.getName(), property.getDefaultValue(),
 					ComponentsTranslation.getPropertyName(property.getCaption()),
-					createPropertyEditor(property.getEditorType(), mockComponent.getType()));
+					createPropertyEditor(property.getEditorType(), mockComponent.getType(), property.getName()));
 			/*
 			 * OdeLog.log("Property Caption: " + property.getCaption() + ", " +
 			 * TranslationComponentProperty.getName(property.getCaption()));
@@ -182,7 +183,7 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 	/*
 	 * Creates a new property editor.
 	 */
-	private PropertyEditor createPropertyEditor(String editorType, String componentType) {
+	private PropertyEditor createPropertyEditor(String editorType, String componentType, String propertyName) {
 		if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_HORIZONTAL_ALIGNMENT)) {
 			return new YoungAndroidHorizontalAlignmentChoicePropertyEditor();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_VERTICAL_ALIGNMENT)) {
@@ -236,8 +237,10 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 			return new YoungAndroidFontTypefaceChoicePropertyEditor();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_CHECKABLETREEFORACTIVITYTRACKER)) {
 			return new YoungAndroidCheckableTreeSelectorForActivityTracker(COMPONENT_DATABASE, componentType);
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_HYPERLINK_ONLY_ACTIVITYTRACKER)) {
-			return new YoungAndroidAnchorProperty("https://goo.gl/5CmgNd");
+		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TEXTBOX_AND_HYPERLINK_FORACTIVITYTRACKER)) {
+			return new StringAndHyperlinkPropertyEditorForActivityTracker();
+		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_CONSTANT_HYPERLINK)) {
+			return new YoungAndroidAnchorProperty();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_SYNCHRONIZATIONMODE)) {
 			return new YoungAndroidSynchronizationModeChoicePropertyEditor();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_CHARTTYPE)) {

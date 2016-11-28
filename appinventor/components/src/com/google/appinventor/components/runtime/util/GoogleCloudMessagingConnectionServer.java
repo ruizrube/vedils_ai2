@@ -37,18 +37,6 @@ public class GoogleCloudMessagingConnectionServer {
 	private static final String URL_SERVER_DELETE = "http://vedils.uca.es:8080/VedilsWS/GcmServer/registrationClient/deleteRegistrationClient";
 	private static final String URL_SERVER_DELETE_ALL = "http://vedils.uca.es:8080/VedilsWS/GcmServer/registrationClient/deleteAllRegistrationClients";
 	
-	//Casa:
-	//private static final String URL_SERVER_INSERT = "http://192.168.1.3:8080/VedilsWS/GcmServer/registrationClient/insertRegistrationClient"; 
-	//private static final String URL_SERVER_SEND_MESSAGE = "http://192.168.1.3:8080/VedilsWS/GcmServer/sendData/sendTextMessage";
-	//private static final String URL_SERVER_DELETE = "http://192.168.1.3:8080/VedilsWS/GcmServer/registrationClient/deleteRegistrationClient";
-	//private static final String URL_SERVER_DELETE_ALL = "http://192.168.1.3:8080/VedilsWS/GcmServer/registrationClient/deleteAllRegistrationClients";
-		
-	//UCA
-	//private static final String URL_SERVER_INSERT = "http://10.182.111.83:8080/VedilsWS/GcmServer/registrationClient/insertRegistrationClient"; 
-	//private static final String URL_SERVER_SEND_MESSAGE = "http://10.182.111.83:8080/VedilsWS/GcmServer/sendData/sendTextMessage";
-	//private static final String URL_SERVER_DELETE = "http://10.182.111.83:8080/VedilsWS/GcmServer/registrationClient/deleteRegistrationClient";
-	//private static final String URL_SERVER_DELETE_ALL = "http://10.182.111.83:8080/VedilsWS/GcmServer/registrationClient/deleteAllRegistrationClients";
-	
 	public GoogleCloudMessagingConnectionServer(Context context) {
 		this.context = context;
 		APP_NAME = context.getApplicationInfo().packageName;

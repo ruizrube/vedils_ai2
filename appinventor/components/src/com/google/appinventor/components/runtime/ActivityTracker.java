@@ -75,14 +75,10 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 		this.communicationMode = Component.INDIFFERENT;
 		this.startTracking = false;
 		
-		//Define data for FusionTableControl connection.
-		//tableId = "1xZCj24xYWpj6jHWN2IK2xiErYPY7XbeHAqXVR4Bw";
-		
 		//Record current ActivityTracker
 		ActivityTrackerInstances.insertActivityTracker((Activity)componentContainer.$context(), this);
 		
 		System.out.println("ActivityTracker created - AspectJ.");
-		
 	}
 	
 	/**
@@ -100,7 +96,7 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	 * @param userId
 	 */
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING,
-		      defaultValue = "userIdEmpty")
+		      defaultValue = "")
 	@SimpleProperty
 	public void UserTrackerId(String userTrackerId) {
 		this.userTrackerId = userTrackerId;
@@ -126,11 +122,11 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	 * 
 	 * @param tableId
 	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING,
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_TEXTBOX_AND_HYPERLINK_FORACTIVITYTRACKER,
 		      defaultValue = "")
 	@SimpleProperty
-	public void TableId(String newtableId) {
-		tableId = newtableId;
+	public void TableId(String tableId) {
+		this.tableId = tableId;
 	}
 	
 	/**
@@ -148,13 +144,12 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	}
 	
 	/**
-	 * Display the hyperlink to example FusionTable URL.
-	 * 
+	 * Display the hyperlink to example Fusion Table URL.
 	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_HYPERLINK_ONLY_ACTIVITYTRACKER)
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_CONSTANT_HYPERLINK,
+			defaultValue="https://goo.gl/5CmgNd")
 	@SimpleProperty
 	public void DisplayExampleTable(String exampleTableURL) {}
-	
 	
 	/**
 	 * Specifies the communication mode.

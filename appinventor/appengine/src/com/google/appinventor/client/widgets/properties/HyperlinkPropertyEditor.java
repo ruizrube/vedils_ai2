@@ -5,27 +5,29 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 
-
 /**
- * Property to define GWT Hyperlink 
- * @author Taty
+ * Property to define a constant GWT Hyperlink.
+ * @author SPI-FM at UCA.
  *
  */
 public class HyperlinkPropertyEditor extends PropertyEditor {
 	
 	private final Anchor hyperlink;
 	
-	public HyperlinkPropertyEditor(final String URL) {
-		hyperlink = new Anchor(URL,"");
+	public HyperlinkPropertyEditor() {
+		hyperlink = new Anchor();
 		hyperlink.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				Window.open(URL, "_blank", "");
+				Window.open(hyperlink.getText(), "_blank", "");
 			}
 		});
+		
 		initWidget(hyperlink);
 	}
 
 	@Override
-	protected void updateValue() {}
+	protected void updateValue() {
+		hyperlink.setText(property.getValue());
+	}
 }

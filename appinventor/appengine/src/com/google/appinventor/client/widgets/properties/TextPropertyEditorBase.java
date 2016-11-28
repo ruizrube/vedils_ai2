@@ -22,6 +22,9 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.TextBoxBase;
 
 /**
@@ -43,14 +46,17 @@ public class TextPropertyEditorBase extends PropertyEditor {
   // It can be TextBoxBase object, currently in App Inventor only
   // TextBox and TextArea
   protected TextBoxBase textEdit;
+  protected Anchor hyperlink;
 
   private boolean hasFocus;
+  private boolean activityTracker;
 
   /**
    * Creates a new instance of the property editor.
    */
-  public TextPropertyEditorBase(final TextBoxBase widget) {
-
+  public TextPropertyEditorBase(final TextBoxBase widget, boolean activityTracker) {
+	  
+	this.activityTracker = activityTracker;
     textEdit = widget;
 
     textEdit.addKeyPressHandler(new KeyPressHandler() {
@@ -102,10 +108,28 @@ public class TextPropertyEditorBase extends PropertyEditor {
         }
       }
     });
-
-    initWidget(textEdit); //kludge for now fix this with instanceOf?
-
-    setHeight("2em");
+    
+    if(activityTracker) { //By SPI-FM: If the property belongs to ActivityTracker, we add the URL of active table.
+    	HTMLPanel htmlPanel = new HTMLPanel("");
+    	hyperlink = new Anchor();
+    	hyperlink.setText("No table has yet been connected.");
+    	hyperlink.setTarget("https://");
+    	hyperlink.addClickHandler(new ClickHandler() {
+    		@Override
+    		public void onClick(ClickEvent event) {
+    			Window.open(hyperlink.getTarget(), "_blank", "");
+    		}
+    	});
+    	HTML newLine = new HTML("<BR>");
+    	htmlPanel.add(textEdit);
+    	htmlPanel.add(newLine);
+    	htmlPanel.add(hyperlink);
+    	initWidget(htmlPanel);
+    	setHeight("6em");
+    } else {
+    	initWidget(textEdit);  //kludge for now fix this with instanceOf?
+    	setHeight("2em");
+    }
   }
 
   @Override
@@ -119,7 +143,16 @@ public class TextPropertyEditorBase extends PropertyEditor {
 
   @Override
   protected void updateValue() {
-    textEdit.setText(property.getValue());
+	textEdit.setText(property.getValue());
+	if(activityTracker) {
+		if(!property.getValue().isEmpty()) {
+    		hyperlink.setText("Displays the connected active table.");
+    		hyperlink.setTarget("https://fusiontables.google.com/data?docid="+property.getValue());
+    	} else {
+    		hyperlink.setText("No table has yet been connected.");
+    		hyperlink.setTarget("https://");
+    	}
+	}
   }
 
   private void handleKeyPress(char keyCode) {
