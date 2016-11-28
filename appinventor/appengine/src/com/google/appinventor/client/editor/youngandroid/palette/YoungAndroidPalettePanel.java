@@ -172,7 +172,7 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 		for (PropertyDefinition property : COMPONENT_DATABASE.getPropertyDefinitions(mockComponent.getType())) {
 			mockComponent.addProperty(property.getName(), property.getDefaultValue(),
 					ComponentsTranslation.getPropertyName(property.getCaption()),
-					createPropertyEditor(property.getEditorType(), mockComponent.getType(), property.getName()));
+					createPropertyEditor(property.getEditorType(), mockComponent.getType()));
 			/*
 			 * OdeLog.log("Property Caption: " + property.getCaption() + ", " +
 			 * TranslationComponentProperty.getName(property.getCaption()));
@@ -183,7 +183,7 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 	/*
 	 * Creates a new property editor.
 	 */
-	private PropertyEditor createPropertyEditor(String editorType, String componentType, String propertyName) {
+	private PropertyEditor createPropertyEditor(String editorType, String componentType) {
 		if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_HORIZONTAL_ALIGNMENT)) {
 			return new YoungAndroidHorizontalAlignmentChoicePropertyEditor();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_VERTICAL_ALIGNMENT)) {
