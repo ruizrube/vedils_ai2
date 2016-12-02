@@ -48,30 +48,29 @@ public class ActivityTrackerManager {
 	}
 	
 	public void prepareQueryAutomatic(String actionType, String actionId, String componentType, String componentId, String param1, String param2, String param3, String returnValue) {
-		int valorParam1=-1;
-		int valorParam2=-1;
-		int valorParam3=-1;
-		int valorOutputParam=-1;
-		
+		float valorParam1=-1;
+		float valorParam2=-1;
+		float valorParam3=-1;
+		float valorOutputParam=-1;
 		try {
-			valorParam1=Integer.valueOf(param1);
-		} catch (NumberFormatException e) {
-			;
-		}
-	
-		try {
-			valorParam2=Integer.valueOf(param2);
-		} catch (NumberFormatException e) {
-			;
-		}
-		try {
-			valorParam3=Integer.valueOf(param3);
+			valorParam1=Float.valueOf(param1);
 		} catch (NumberFormatException e) {
 			;
 		}
 		
 		try {
-			valorOutputParam=Integer.valueOf(returnValue);
+			valorParam2=Float.valueOf(param2);
+		} catch (NumberFormatException e) {
+			;
+		}
+		try {
+			valorParam3=Float.valueOf(param3);
+		} catch (NumberFormatException e) {
+			;
+		}
+		
+		try {
+			valorOutputParam=Float.valueOf(returnValue);
 		} catch (NumberFormatException e) {
 			;
 		}
@@ -114,23 +113,23 @@ public class ActivityTrackerManager {
 	
 	public void prepareQueryManual(String actionId, String param1, String param2, String param3) {
 		
-		int valorParam1=-1;
-		int valorParam2=-1;
-		int valorParam3=-1;
+		float valorParam1=-1;
+		float valorParam2=-1;
+		float valorParam3=-1;
 		
 		try {
-			valorParam1=Integer.valueOf(param1);
+			valorParam1=Float.valueOf(param1);
 		} catch (NumberFormatException e) {
 			;
 		}
 	
 		try {
-			valorParam2=Integer.valueOf(param2);
+			valorParam2=Float.valueOf(param2);
 		} catch (NumberFormatException e) {
 			;
 		}
 		try {
-			valorParam3=Integer.valueOf(param3);
+			valorParam3=Float.valueOf(param3);
 		} catch (NumberFormatException e) {
 			;
 		}

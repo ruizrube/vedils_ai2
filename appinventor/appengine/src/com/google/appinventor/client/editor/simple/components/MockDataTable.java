@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.google.appinventor.client.editor.simple.components;
 
 import com.google.appinventor.client.editor.simple.SimpleEditor;
@@ -33,18 +30,15 @@ public class MockDataTable extends MockVisibleComponent {
 	public MockDataTable(SimpleEditor editor) {
 		super(editor, TYPE, images.datatable());
 
-		// Initialize mock WebViewer UI
-		SimplePanel webViewerWidget = new SimplePanel();
-		webViewerWidget.setStylePrimaryName("ode-SimpleMockContainer");
+		// Initialize mock DataTable UI
+		SimplePanel dataTableWidget = new SimplePanel();
+		dataTableWidget.setStylePrimaryName("ode-SimpleMockContainer");
 		// TODO(halabelson): Center vertically as well as horizontally
-		webViewerWidget.addStyleDependentName("centerContents");
-		webViewerWidget.setWidget(largeImage);
-		webViewerWidget.setWidth("100%");
-		initComponent(webViewerWidget);
+		dataTableWidget.addStyleDependentName("centerContents");
+		dataTableWidget.setWidget(largeImage);
+		initComponent(dataTableWidget);
 	}
 
-	// If these are not here, then we don't see the icon as it's
-	// being dragged from the pelette
 	@Override
 	public int getPreferredWidth() {
 		return largeImage.getWidth();
@@ -55,26 +49,6 @@ public class MockDataTable extends MockVisibleComponent {
 		return largeImage.getHeight();
 	}
 
-	// override the width and height hints, so that automatic will in fact be
-	// fill-parent
-	@Override
-	int getWidthHint() {
-		int widthHint = super.getWidthHint();
-		if (widthHint == LENGTH_PREFERRED) {
-			widthHint = LENGTH_FILL_PARENT;
-		}
-		return widthHint;
-	}
-
-	@Override
-	int getHeightHint() {
-		int heightHint = super.getHeightHint();
-		if (heightHint == LENGTH_PREFERRED) {
-			heightHint = LENGTH_FILL_PARENT;
-		}
-		return heightHint;
-	}
-
 	@Override
 	public void onPropertyChange(String propertyName, String newValue) {
 		super.onPropertyChange(propertyName, newValue);
@@ -82,7 +56,5 @@ public class MockDataTable extends MockVisibleComponent {
 		if (propertyName.equals(PROPERTY_NAME_USESLOCATION)) {
 			editor.getProjectEditor().recordLocationSetting(this.getName(), newValue);
 		}
-
 	}
-
 }

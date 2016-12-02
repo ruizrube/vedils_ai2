@@ -632,6 +632,14 @@ public class ObjectifyStorageIo implements  StorageIo {
           pd.type = project.getProjectType();
           pd.galleryId = UserProject.NOTPUBLISHED;
           pd.attributionId = UserProject.FROMSCRATCH;
+          
+          pd.totalWorkTime = UserProject.INITIALWORKTIME;
+          pd.totalBuilds = UserProject.INITIALBUILDS;
+          pd.totalCompanionDebugs = UserProject.INITIALDEBUGS;
+          pd.totalUSBDebugs = UserProject.INITIALDEBUGS;
+          pd.totalEmulatorDebugs = UserProject.INITIALDEBUGS;
+          pd.totalAIAExports = UserProject.INITIALAIAEXPORTS;
+          
           datastore.put(pd); // put the project in the db so that it gets assigned an id
 
           assert pd.id != null;
@@ -977,7 +985,7 @@ public class ObjectifyStorageIo implements  StorageIo {
     }
     return modDate.t;
   }
-
+  
   @Override
   public String getProjectHistory(final String userId, final long projectId) {
     final Result<String> projectHistory = new Result<String>();
@@ -1432,6 +1440,94 @@ public class ObjectifyStorageIo implements  StorageIo {
           + collectProjectErrorInfo(null, projectId, fileName), e);
     }
   }
+  
+  //For SPI-FM user analytics
+  public void updateNumberOfTotalBuilds(final long projectId) {
+	  try {
+	      runJobWithRetries(new JobRetryHelper() {
+	          @Override
+	          public void run(Objectify datastore) throws ObjectifyException {
+	               ProjectData pd = datastore.find(projectKey(projectId));
+	               if(pd != null) {
+	            	   pd.totalAIAExports = pd.totalAIAExports - 1; //In this case, the method responsible for generating 
+																	//the APK also generates the AIA.
+	            	   pd.totalBuilds = pd.totalBuilds + 1;
+	         		   datastore.put(pd);
+	               }
+	          }
+	        }, true);
+	    } catch (ObjectifyException e) {
+	      throw CrashReport.createAndLogError(LOG, null, null, e);
+	    }
+  }
+  
+  public void updateNumberOfTotalAIAExports(final long projectId) {
+	  try {
+	      runJobWithRetries(new JobRetryHelper() {
+	          @Override
+	          public void run(Objectify datastore) throws ObjectifyException {
+	               ProjectData pd = datastore.find(projectKey(projectId));
+	               if(pd != null) {
+	            	   pd.totalAIAExports = pd.totalAIAExports + 1;
+	         		   datastore.put(pd);
+	               }
+	          }
+	        }, true);
+	    } catch (ObjectifyException e) {
+	      throw CrashReport.createAndLogError(LOG, null, null, e);
+	    }
+  }
+  
+  public void updateNumberOfTotalEmulatorDebugs(final long projectId) {
+	  try {
+	      runJobWithRetries(new JobRetryHelper() {
+	          @Override
+	          public void run(Objectify datastore) throws ObjectifyException {
+	               ProjectData pd = datastore.find(projectKey(projectId));
+	               if(pd != null) {
+	            	   pd.totalEmulatorDebugs = pd.totalEmulatorDebugs + 1;
+	         		   datastore.put(pd);
+	               }
+	          }
+	        }, true);
+	    } catch (ObjectifyException e) {
+	      throw CrashReport.createAndLogError(LOG, null, null, e);
+	    }
+  }
+  
+  public void updateNumberOfTotalUSBDebugs(final long projectId) {
+	  try {
+	      runJobWithRetries(new JobRetryHelper() {
+	          @Override
+	          public void run(Objectify datastore) throws ObjectifyException {
+	               ProjectData pd = datastore.find(projectKey(projectId));
+	               if(pd != null) {
+	            	   pd.totalUSBDebugs = pd.totalUSBDebugs + 1;
+	         		   datastore.put(pd);
+	               }
+	          }
+	        }, true);
+	    } catch (ObjectifyException e) {
+	      throw CrashReport.createAndLogError(LOG, null, null, e);
+	    }
+  }
+  
+  public void updateNumberOfTotalCompanionDebugs(final long projectId) {
+	  try {
+	      runJobWithRetries(new JobRetryHelper() {
+	          @Override
+	          public void run(Objectify datastore) throws ObjectifyException {
+	               ProjectData pd = datastore.find(projectKey(projectId));
+	               if(pd != null) {
+	            	   pd.totalCompanionDebugs = pd.totalCompanionDebugs + 1;
+	         		   datastore.put(pd);
+	               }
+	          }
+	        }, true);
+	    } catch (ObjectifyException e) {
+	      throw CrashReport.createAndLogError(LOG, null, null, e);
+	    }
+  }
 
   private long updateProjectModDate(Objectify datastore, long projectId, boolean doingConversion) {
     long modDate = System.currentTimeMillis();
@@ -1442,6 +1538,12 @@ public class ObjectifyStorageIo implements  StorageIo {
       // Also do not update modification time when doing conversion from
       // blobstore to GCS
       if ((modDate > (pd.dateModified + 1000*60)) && !doingConversion) {
+    	//For SPI-FM user analytics
+        if(modDate < (pd.dateModified + 1000*900)) { //If it has not been more than 15 minutes,
+          											  //the user is working on the project.
+    	  	pd.totalWorkTime = pd.totalWorkTime + (modDate - pd.dateModified);
+        }  
+    	  
         pd.dateModified = modDate;
         datastore.put(pd);
       } else {

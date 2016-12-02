@@ -25,6 +25,10 @@ public interface Images extends Resources {
 	ImageResource sphero();
 
 	
+	@Source("com/google/appinventor/images/brain.png")
+	ImageResource brain();
+
+	
 	/**
 	 * Designer palette item: arCamera component
 	 */

@@ -12,6 +12,10 @@
     App Inventor
   </description>
 
+  <!-- ANDROID API VERSION (la de por defecto es 4.2.2)-->
+  <property name="android.version" value="5.1" />
+  
+  
   <target name="all">
     <ant inheritAll="false" useNativeBasedir="true" dir="appengine"/>
     <ant inheritAll="false" useNativeBasedir="true" dir="blocklyeditor"/>
@@ -88,7 +92,10 @@
         <pathelement location="components/src" />
       </sourcepath>
       <classpath>
-        <pathelement location="lib/android/4.2.2/android.jar" />
+          
+          
+          
+        <pathelement location="lib/android/${android.version}/android.jar" />        
         <pathelement location="lib/android/tools/ddmlib.jar"/>
         <pathelement location="lib/bouncycastle/bcprov-jdk15on-149.jar"/>
         <pathelement location="lib/bouncycastle/bcpkix-jdk15on-149.jar"/>
@@ -125,6 +132,10 @@
         <!-- LA4AI -->
         <pathelement location="lib/la4ai/la4ai.jar" />
        
+        <!-- BRAIN EEG -->
+        <pathelement location="lib/brain4ai/bedk.jar" />
+        <pathelement location="lib/brain4ai/armeabi-v7a/libbedk.so" />
+        
         
         <fileset dir="buildserver/lib" includes="**/*.jar"/>
         <!-- Apache Http Libraries -->

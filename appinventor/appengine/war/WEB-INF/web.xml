@@ -400,7 +400,7 @@
 
 <!-- SPECIFIC FOR VEDILS -->
 
-   <servlet>
+  <servlet>
     <servlet-name>exportVedilsData</servlet-name>
     <servlet-class>com.google.appinventor.server.storage.ExportVedilsData</servlet-class>
   </servlet>
@@ -408,5 +408,18 @@
     <servlet-name>exportVedilsData</servlet-name>
     <url-pattern>/exportVedilsData</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>updateVedilsData</servlet-name>
+    <servlet-class>com.google.appinventor.server.UpdateVedilsDataServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>updateVedilsData</servlet-name>
+    <url-pattern>/ode/updateVedilsData/*</url-pattern>
+  </servlet-mapping>
+  <filter-mapping>
+    <filter-name>odeAuthFilter</filter-name>
+    <servlet-name>updateVedilsData</servlet-name>
+  </filter-mapping>
 
 </web-app>

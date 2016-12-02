@@ -28,7 +28,7 @@ import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroid
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidBooleanPropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidButtonShapeChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidChartTypeChoicePropertyEditor;
-import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCheckableTreeSelector;
+import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCheckableTreeSelectorForActivityTracker;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCheckableTreeSelectorForAggregatedData;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCheckableTreeSelectorForData;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidColorChoicePropertyEditor;
@@ -36,6 +36,7 @@ import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroid
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCommunicationModeChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidComponentSelectorPropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidDefaultURLPropertyEditor;
+import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidEEGDeviceChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidFontTypefaceChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidHorizontalAlignmentChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidLegoNxtSensorPortChoicePropertyEditor;
@@ -56,6 +57,7 @@ import com.google.appinventor.client.widgets.properties.NonNegativeFloatProperty
 import com.google.appinventor.client.widgets.properties.NonNegativeIntegerPropertyEditor;
 import com.google.appinventor.client.widgets.properties.PropertyEditor;
 import com.google.appinventor.client.widgets.properties.ScalingChoicePropertyEditor;
+import com.google.appinventor.client.widgets.properties.StringAndHyperlinkPropertyEditorForActivityTracker;
 import com.google.appinventor.client.widgets.properties.StringPropertyEditor;
 import com.google.appinventor.client.widgets.properties.TextAreaPropertyEditor;
 import com.google.appinventor.client.widgets.properties.TextPropertyEditor;
@@ -234,18 +236,20 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 			return new YoungAndroidToastLengthChoicePropertyEditor();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TYPEFACE)) {
 			return new YoungAndroidFontTypefaceChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_CHECKABLETREE)) {
-			return new YoungAndroidCheckableTreeSelector(editor, COMPONENT_DATABASE, componentType);
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_HYPERLINK_ONLY_ACTIVITYTRACKER)) {
-			return new YoungAndroidAnchorProperty("https://goo.gl/5CmgNd");
+		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_CHECKABLETREEFORACTIVITYTRACKER)) {
+			return new YoungAndroidCheckableTreeSelectorForActivityTracker(COMPONENT_DATABASE, componentType);
+		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TEXTBOX_AND_HYPERLINK_FORACTIVITYTRACKER)) {
+			return new StringAndHyperlinkPropertyEditorForActivityTracker();
+		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_CONSTANT_HYPERLINK)) {
+			return new YoungAndroidAnchorProperty();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_SYNCHRONIZATIONMODE)) {
 			return new YoungAndroidSynchronizationModeChoicePropertyEditor();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_CHARTTYPE)) {
 			return new YoungAndroidChartTypeChoicePropertyEditor();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_CHECKABLETREEFORDATA)) {
-			return new YoungAndroidCheckableTreeSelectorForData(COMPONENT_DATABASE);
+			return new YoungAndroidCheckableTreeSelectorForData();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_CHECKABLETREEFORAGGREGATEDDATA)) {
-			return new YoungAndroidCheckableTreeSelectorForAggregatedData(COMPONENT_DATABASE);
+			return new YoungAndroidCheckableTreeSelectorForAggregatedData();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_COLUMNTOAGGREGATE)) {
 			return new YoungAndroidColumntToAggregateChoicePropertyEditor();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_COMMUNICATIONMODE)) {
@@ -293,6 +297,8 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 			return new ScalingChoicePropertyEditor();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_FIREBASE_URL)) {
 			return new YoungAndroidDefaultURLPropertyEditor("DEFAULT");
+		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_EEG)) {
+			return new YoungAndroidEEGDeviceChoicePropertyEditor();	
 		} else {
 			return new TextPropertyEditor();
 		}

@@ -45,7 +45,7 @@ public abstract class AndroidNonvisibleComponent implements Component {
   /**
    * Specifies the activities to record for ActivityTracker notification.
    */
-   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_CHECKABLETREE,
+   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_CHECKABLETREEFORACTIVITYTRACKER,
  		      defaultValue = "")
  		  @SimpleProperty(
  		      userVisible = false)

@@ -34,7 +34,7 @@ import com.google.appinventor.components.common.PropertyTypeConstants;
 @SimpleObject
 public abstract class ActivityProcessor extends AndroidNonvisibleComponent implements Component {
 
-	private String tableId = "1Pk48O7ikOGIW_SnT6tsNh6-uxCuSzI2gJpTB9mFm";
+	private String tableId;
 
 	private String additionalFilter;
 	private String filterByUserId;
@@ -301,7 +301,7 @@ public abstract class ActivityProcessor extends AndroidNonvisibleComponent imple
 	 * 
 	 * @param tableId
 	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING, defaultValue = "1Pk48O7ikOGIW_SnT6tsNh6-uxCuSzI2gJpTB9mFm")
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING, defaultValue = "")
 	@SimpleProperty
 	public void TableId(String newtableId) {
 		tableId = newtableId;

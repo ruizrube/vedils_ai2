@@ -136,6 +136,14 @@ public interface Component {
   static final int LINE = 1;
   //static final int PIE = 2;
    
+  
+  /*
+   * EEG device.
+   */
+ 
+  static final int EMOTIV_EPOC = 0;
+  static final int EMOTIV_INSIGHT = 1;
+  
 
   /*
    * DATA ITEMS.

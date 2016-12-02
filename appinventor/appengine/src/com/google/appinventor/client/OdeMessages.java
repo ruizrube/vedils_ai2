@@ -18,11 +18,348 @@ import com.google.gwt.i18n.client.Messages;
 // @LocalizableResource.DefaultLocale("en")
 
 public interface OdeMessages extends Messages {
+	// Used in EEG
+
+	@DefaultMessage("ReadProfiles")
+	@Description("")
+	String ReadProfilesMethods();
+	
+	@DefaultMessage("TriggerNeutralState")
+	@Description("")
+	String TriggerNeutralStateProperties();
+
+	@DefaultMessage("InfoDataChannels")
+	@Description("")
+	String InfoDataChannelsProperties();
+
+	@DefaultMessage("InfoTrainableMentalCommands")
+	@Description("")
+	String InfoTrainableMentalCommandsProperties();
+
+	@DefaultMessage("InfoTrainableFacialExpressions")
+	@Description("")
+	String InfoTrainableFacialExpressionsProperties();
+	
+	@DefaultMessage("EmotivEPOC+")
+	@Description("")
+	String emotivEPOCPlus();
+
+	@DefaultMessage("EmotivInsight")
+	@Description("")
+	String emotivInsight();
+
+	@DefaultMessage("BeginTrainingNeutralState")
+	@Description("")
+	String BeginTrainingNeutralStateMethods();
+
+	@DefaultMessage("SaveProfile")
+	@Description("")
+	String SaveProfileMethods();
+
+	@DefaultMessage("LoadProfile")
+	@Description("")
+	String LoadProfileMethods();
+	
+	@DefaultMessage("DeleteProfile")
+	@Description("")
+	String DeleteProfileMethods();
+
+	@DefaultMessage("FinishTrainingNeutralState")
+	@Description("")
+	String FinishTrainingNeutralStateMethods();
+
+	@DefaultMessage("RetrieveTrainedMentalCommandRating")
+	@Description("")
+	String RetrieveTrainedMentalCommandRatingMethods();
+
+	@DefaultMessage("AcceptTrainingMentalCommand")
+	@Description("")
+	String AcceptTrainingMentalCommandMethods();
+
+	@DefaultMessage("AcceptTrainingFacialExpression")
+	@Description("")
+	String AcceptTrainingFacialExpressionMethods();
+
+	@DefaultMessage("CheckFacialExpressionTrained")
+	@Description("")
+	String CheckFacialExpressionTrainedMethods();
+
+	@DefaultMessage("CheckMentalCommandTrained")
+	@Description("")
+	String CheckMentalCommandTrainedMethods();
+
+	@DefaultMessage("ClearTrainingFacialExpression")
+	@Description("")
+	String ClearTrainingFacialExpressionMethods();
+
+	@DefaultMessage("ClearTrainingMentalCommand")
+	@Description("")
+	String ClearTrainingMentalCommandMethods();
+
+	@DefaultMessage("RejectTrainingFacialExpression")
+	@Description("")
+	String RejectTrainingFacialExpressionMethods();
+
+	@DefaultMessage("RejectTrainingMentalCommand")
+	@Description("")
+	String RejectTrainingMentalCommandMethods();
+
+	@DefaultMessage("TrainFacialExpression")
+	@Description("")
+	String TrainFacialExpressionMethods();
+
+	@DefaultMessage("TrainMentalCommand")
+	@Description("")
+	String TrainMentalCommandMethods();
+
+	@DefaultMessage("RetrieveFFTChannelData")
+	@Description("")
+	String RetrieveFFTChannelDataMethods();
+
+	
+	@DefaultMessage("RetrieveThetaBand")
+	@Description("")
+	String RetrieveThetaBandMethods();
+
+	@DefaultMessage("RetrieveAlphaBand")
+	@Description("")
+	String RetrieveAlphaBandMethods();
+
+	@DefaultMessage("RetrieveLowBetaBand")
+	@Description("")
+	String RetrieveLowBetaBandMethods();
+
+	@DefaultMessage("RetrieveHighBetaBand")
+	@Description("")
+	String RetrieveHighBetaBandMethods();
+
+	@DefaultMessage("RetrieveGammaBand")
+	@Description("")
+	String RetrieveGammaBandMethods();
+
+	@DefaultMessage("RetrieveContactQuality")
+	@Description("")
+	String RetrieveContactQualityMethods();
+
+	@DefaultMessage("IsTrainning")
+	@Description("")
+	String IsTrainningProperties();
+
+	@DefaultMessage("FacialExpressionDetected")
+	@Description("")
+	String FacialExpressionDetectedEvents();
+	
+	@DefaultMessage("NeutralExpression")
+	@Description("")
+	String NeutralExpressionEvents();
+	
+	@DefaultMessage("Smile")
+	@Description("")
+	String SmileEvents();
+
+	@DefaultMessage("Clench")
+	@Description("")
+	String ClenchEvents();
+
+	@DefaultMessage("Frown")
+	@Description("")
+	String FrownEvents();
+
+	@DefaultMessage("MentalCommandDetected")
+	@Description("")
+	String MentalCommandDetectedEvents();
+
+	@DefaultMessage("NeutralCommand")
+	@Description("")
+	String NeutralCommandEvents();
+	
+	@DefaultMessage("DisappearCommand")
+	@Description("")
+	String DisappearCommandEvents();
+
+	@DefaultMessage("DropCommand")
+	@Description("")
+	String DropCommandEvents();
+
+	@DefaultMessage("LeftCommand")
+	@Description("")
+	String LeftCommandEvents();
+
+	@DefaultMessage("LiftCommand")
+	@Description("")
+	String LiftCommandEvents();
+
+	@DefaultMessage("PushCommand")
+	@Description("")
+	String PushCommandEvents();
+
+	@DefaultMessage("PullCommand")
+	@Description("")
+	String PullCommandEvents();
+
+	@DefaultMessage("RightCommand")
+	@Description("")
+	String RightCommandEvents();
+
+	@DefaultMessage("RotateClockwiseCommand")
+	@Description("")
+	String RotateClockwiseCommandEvents();
+
+	@DefaultMessage("RotateCounterClockwiseCommand")
+	@Description("")
+	String RotateCounterClockwiseCommandEvents();
+
+	@DefaultMessage("RotateForwardsCommand")
+	@Description("")
+	String RotateForwardsCommandEvents();
+
+	@DefaultMessage("RotateLeftCommand")
+	@Description("")
+	String RotateLeftCommandEvents();
+
+	@DefaultMessage("RotateReverseCommand")
+	@Description("")
+	String RotateReverseCommandEvents();
+
+	@DefaultMessage("RotateRightCommand")
+	@Description("")
+	String RotateRightCommandEvents();
+
+	@DefaultMessage("MentalComandSensitivity")
+	@Description("")
+	String MentalComandSensitivityProperties();
+
+	@DefaultMessage("FacialExpressionSensitivity")
+	@Description("")
+	String FacialExpressionSensitivityProperties();
+
+	@DefaultMessage("Password")
+	@Description("")
+	String PasswordProperties();
+
+	@DefaultMessage("InfoRunningTime")
+	@Description("")
+	String InfoRunningTimeProperties();
+
+	@DefaultMessage("EEGDeviceType")
+	@Description("")
+	String EEGDeviceTypeProperties();
+
+	@DefaultMessage("InfoBattery")
+	@Description("")
+	String InfoBatteryProperties();
+
+	@DefaultMessage("EngagementLevel")
+	@Description("")
+	String EngagementLevelProperties();
+
+	@DefaultMessage("MeditationLevel")
+	@Description("")
+	String MeditationLevelProperties();
+
+	@DefaultMessage("ExcitamentLevel")
+	@Description("")
+	String ExcitamentLevelProperties();
+
+	@DefaultMessage("InterestLevel")
+	@Description("")
+	String InterestLevelProperties();
+
+	@DefaultMessage("StressLevel")
+	@Description("")
+	String StressLevelProperties();
+
+	@DefaultMessage("AttentionLevel")
+	@Description("")
+	String AttentionLevelProperties();
+
+	
+	
+	@DefaultMessage("LookingDown")
+	@Description("")
+	String LookingDownEvents();
+
+	@DefaultMessage("LookingUp")
+	@Description("")
+	String LookingUpEvents();
+
+	@DefaultMessage("TrainingCompleted")
+	@Description("")
+	String TrainingCompletedEvents();
+
+	@DefaultMessage("TrainingErased")
+	@Description("")
+	String TrainingErasedEvents();
+
+	@DefaultMessage("TrainingFailed")
+	@Description("")
+	String TrainingFailedEvents();
+
+	@DefaultMessage("TrainingRejected")
+	@Description("")
+	String TrainingRejectedEvents();
+
+	@DefaultMessage("TrainingReset")
+	@Description("")
+	String TrainingResetEvents();
+
+	@DefaultMessage("TrainingStarted")
+	@Description("")
+	String TrainingStartedEvents();
+
+	@DefaultMessage("TrainingSucceded")
+	@Description("")
+	String TrainingSuccededEvents();
+
+	@DefaultMessage("Lift")
+	@Description("")
+	String LiftEvents();
+
+	@DefaultMessage("Drop")
+	@Description("")
+	String DropEvents();
+
+	@DefaultMessage("LeftWink")
+	@Description("")
+	String LeftWinkEvents();
+
+	@DefaultMessage("RightWink")
+	@Description("")
+	String RightWinkEvents();
+
+	@DefaultMessage("Blink")
+	@Description("")
+	String BlinkEvents();
+
+	@DefaultMessage("XAcceleration")
+	@Description("")
+	String XAccelerationProperties();
+
+	@DefaultMessage("YAcceleration")
+	@Description("")
+	String YAccelerationProperties();
+
+	@DefaultMessage("ZAcceleration")
+	@Description("")
+	String ZAccelerationProperties();
+
+	@DefaultMessage("XMagnetization")
+	@Description("")
+	String XMagnetizationProperties();
+
+	@DefaultMessage("YMagnetization")
+	@Description("")
+	String YMagnetizationProperties();
+
+	@DefaultMessage("ZMagnetization")
+	@Description("")
+	String ZMagnetizationProperties();
+
 	// Used in Sphero
 	@DefaultMessage("DefaultColor")
 	@Description("")
 	String DefaultColorProperties();
-	
+
 	@DefaultMessage("AccelerometerX")
 	@Description("")
 	String AccelerometerXProperties();
@@ -55,8 +392,6 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String VelocityYProperties();
 
-	
-	
 	@DefaultMessage("RunColorMacro")
 	@Description("")
 	String RunColorMacroMethods();
@@ -73,16 +408,14 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String RunShapeMacroMethods();
 
-	
 	@DefaultMessage("RunSquareMacro")
 	@Description("")
 	String RunSquareMacroMethods();
 
 	@DefaultMessage("RunVibrateMacro")
 	@Description("")
-	String RunVibrateMacroMethods();	
+	String RunVibrateMacroMethods();
 
-	
 	@DefaultMessage("Rotate")
 	@Description("")
 	String RotateMethods();
@@ -115,7 +448,6 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String DriveAndRotateMethods();
 
-	
 	// Used in
 	// Chart and DataTable
 	@DefaultMessage("ChartType")
@@ -3556,6 +3888,10 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String UsernameProperties();
 
+	@DefaultMessage("Profile")
+	@Description("")
+	String ProfileProperties();
+
 	@DefaultMessage("XAccel")
 	@Description("")
 	String XAccelProperties();
@@ -6295,6 +6631,22 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("Refresh")
 	@Description("")
 	String RefreshMethods();
+	
+	@DefaultMessage("ZoomActivated")
+	@Description("")
+	String ZoomActivatedProperties();
+	
+	@DefaultMessage("RotateActivated")
+	@Description("")
+	String RotateActivatedProperties();
+	
+	@DefaultMessage("ZoomMaxSize")
+	@Description("")
+	String ZoomMaxSizeProperties();
+	
+	@DefaultMessage("ZoomMinSize")
+	@Description("")
+	String ZoomMinSizeProperties();
 
 	//
 	// GoogleCloudMessaging
@@ -6476,4 +6828,5 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("HandDisappears")
 	@Description("")
 	String HandDisappearsEvents();
+
 }

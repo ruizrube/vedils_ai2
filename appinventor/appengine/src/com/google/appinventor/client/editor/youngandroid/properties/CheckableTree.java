@@ -137,10 +137,10 @@ public class CheckableTree extends Tree {
 			}
 		}
 	}
-
+	
 	public CheckableTree() {
 		super();
-		 addSelectionHandler(new CheckableTreeSelectionHandler());
+		addSelectionHandler(new CheckableTreeSelectionHandler());
 	}
 
 	public CheckableTree(TreeImages images) {

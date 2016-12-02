@@ -182,11 +182,13 @@ public abstract class AdditionalChoicePropertyEditor extends PropertyEditor {
 				TreeItem itemPropertyget = new CheckableTreeItem("Get - " + property.getName());
 				itemPropertyget.setHTML(property.getName());
 				itemPropertyget.setTitle("Get - " + property.getName());
+				itemPropertyget.setUserObject("Get - " + property.getName());
 				get.addItem(itemPropertyget);
 				TreeItem itemPropertyset = new CheckableTreeItem("Set - " + property.getName());
 				itemPropertyset.setHTML(property.getName());
-				set.addItem(itemPropertyset);
 				itemPropertyset.setTitle("Set - " + property.getName());
+				itemPropertyset.setUserObject("Set - " + property.getName());
+				set.addItem(itemPropertyset);
 			}
 		}
 
@@ -202,6 +204,7 @@ public abstract class AdditionalChoicePropertyEditor extends PropertyEditor {
 			TreeItem itemFunction = new CheckableTreeItem(function.getName());
 			itemFunction.setHTML(function.getName());
 			itemFunction.setTitle(function.getName());
+			itemFunction.setUserObject(function.getName());
 			functions.addItem(itemFunction);
 		}
 
@@ -215,6 +218,7 @@ public abstract class AdditionalChoicePropertyEditor extends PropertyEditor {
 			TreeItem itemEvent = new CheckableTreeItem(event.getName());
 			itemEvent.setHTML(event.getName());
 			itemEvent.setTitle(event.getName());
+			itemEvent.setUserObject(event.getName());
 			events.addItem(itemEvent);
 		}
 

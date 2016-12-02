@@ -146,7 +146,8 @@ public final class SimpleComponentDescriptor {
     bundledImages.put("images/activitySimpleProcessor_icon.png", images.activitysimpleprocessor());
     bundledImages.put("images/activityAggregationProcessor_icon.png", images.activityaggregationprocessor());
     bundledImages.put("images/sphero_icon.png", images.sphero());
-    
+    bundledImages.put("images/brain.png", images.brain());
+     
     
         imagesInitialized = true;
   }

@@ -50,6 +50,10 @@ public final class FileExporterImpl implements FileExporter {
     for (String fileName : files) {
       if (fileName.endsWith(".apk")) {
         byte[] content = storageIo.downloadRawFile(userId, projectId, fileName);
+        
+        //For SPI-FM user analytics
+        storageIo.updateNumberOfTotalBuilds(projectId);
+        
         return new RawFile(StorageUtil.basename(fileName), content);
       }
     }
@@ -66,6 +70,10 @@ public final class FileExporterImpl implements FileExporter {
                                                  boolean fatalError) throws IOException {
     // Download project source files as a zip.
     if (storageIo instanceof ObjectifyStorageIo) {
+    	
+      //For SPI-FM user analytics
+      storageIo.updateNumberOfTotalAIAExports(projectId);	
+    	
       return ((ObjectifyStorageIo)storageIo).exportProjectSourceZip(userId, projectId,
           includeProjectHistory, includeAndroidKeystore, zipName, includeYail, fatalError);
     } else {

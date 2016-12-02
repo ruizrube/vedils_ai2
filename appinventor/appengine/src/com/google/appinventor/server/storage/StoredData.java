@@ -109,6 +109,14 @@ public class StoredData {
     long galleryId;  // this is the galleryId of this project (if published)
     long attributionId;  // if this project was initiated from the gallery, this is
        // the id of the gallery app that was copied for remix
+    
+    //For SPI-FM user analytics
+    long totalWorkTime;
+    int totalBuilds;
+    int totalAIAExports;
+    int totalEmulatorDebugs;
+    int totalUSBDebugs;
+    int totalCompanionDebugs;
   }
 
   // Project properties specific to the user

@@ -210,7 +210,7 @@ public class PropertyTypeConstants {
 	 * Choices in checkableTree offered by
 	 * {@link com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCheckableTreeSelector}
 	 */
-	public static final String PROPERTY_TYPE_CHECKABLETREE = "checkableTree";
+	public static final String PROPERTY_TYPE_CHECKABLETREEFORACTIVITYTRACKER = "checkableTreeForActivityTracker";
 
 	// Para arbol de datos
 	public static final String PROPERTY_TYPE_CHECKABLETREEFORDATA = "checkableTreeForData";
@@ -221,18 +221,22 @@ public class PropertyTypeConstants {
 	// Para asociar query a chart o table
 	public static final String PROPERTY_TYPE_ONLY_QUERY = "query";
 
-	/**
-	 * Select current component name by
-	 * {@link com.google.appinventor.client.editor.youngandroid.properties.YoungComponentNameSelector}
-	 */
-	// public static final String PROPERTY_COMPONENT_NAME = "componentName";
+	// Para asociar tipo de dispositivo EEG
+	public static final String PROPERTY_TYPE_EEG = "eegType";
 
 	/**
-	 * Display a hyperlink with FusionTable example URL for ActivityTracker
+	 * Display a hyperlink with a constant URL
 	 * record by
 	 * {@link com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidAnchorProperty}
 	 */
-	public static final String PROPERTY_TYPE_HYPERLINK_ONLY_ACTIVITYTRACKER = "hyperLink_only_activitytracker";
+	public static final String PROPERTY_TYPE_CONSTANT_HYPERLINK = "constant_hyperLink";
+	
+	/**
+	 * Display textbox and hyperlink with the tableId for ActivityTracker
+	 * record by
+	 * {@link com.google.appinventor.client.widgets.properties.StringAndHyperlinkPropertyEditorForActivityTracker}
+	 */
+	public static final String PROPERTY_TYPE_TEXTBOX_AND_HYPERLINK_FORACTIVITYTRACKER = "textbox_and_hyperlink_for_activitytracker";
 
 	/**
 	 * Choices of visibility for view components offered by

@@ -841,7 +841,7 @@ public class TopToolbar extends Composite {
    * via Wireless.
    */
 
-  private void startRepl(boolean start, boolean forEmulator, boolean forUsb) {
+  private void startRepl(boolean start, boolean forEmulator, boolean forUsb) {	
     DesignToolbar.DesignProject currentProject = Ode.getInstance().getDesignToolbar().getCurrentProject();
     if (currentProject == null) {
       OdeLog.wlog("DesignToolbar.currentProject is null. "
@@ -851,11 +851,17 @@ public class TopToolbar extends Composite {
     DesignToolbar.Screen screen = currentProject.screens.get(currentProject.currentScreen);
     screen.blocksEditor.startRepl(!start, forEmulator, forUsb);
     if (start) {
-      if (forEmulator) {        // We are starting the emulator...
+      if (forEmulator) {        // We are starting the emulator... 
+    	//For SPI-FM user analytics
+    	Downloader.getInstance().download(ServerLayout.UPDATEVEDILSDATA_SERVLET_BASE + "?debugMethod=emulator&projectId=" + Ode.getInstance().getCurrentYoungAndroidProjectId());  
         updateConnectToDropDownButton(true, false, false);
       } else if (forUsb) {      // We are starting the usb connection
+    	//For SPI-FM user analytics
+    	Downloader.getInstance().download(ServerLayout.UPDATEVEDILSDATA_SERVLET_BASE + "?debugMethod=usb&projectId=" + Ode.getInstance().getCurrentYoungAndroidProjectId());  
         updateConnectToDropDownButton(false, false, true);
       } else {                  // We are connecting via wifi to a Companion
+    	//For SPI-FM user analytics
+    	Downloader.getInstance().download(ServerLayout.UPDATEVEDILSDATA_SERVLET_BASE + "?debugMethod=companion&projectId=" + Ode.getInstance().getCurrentYoungAndroidProjectId());    
         updateConnectToDropDownButton(false, true, false);
       }
     } else {
