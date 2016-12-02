@@ -226,10 +226,13 @@ public class PropertyTypeConstants {
 
 	/**
 	 * Display a hyperlink with a constant URL
+	/**
+	 * Display a hyperlink with a constant URL
 	 * record by
 	 * {@link com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidAnchorProperty}
 	 */
 	public static final String PROPERTY_TYPE_CONSTANT_HYPERLINK = "constant_hyperLink";
+	
 	
 	/**
 	 * Display textbox and hyperlink with the tableId for ActivityTracker

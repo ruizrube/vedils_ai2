@@ -35,13 +35,15 @@ public class VirtualObject implements Parcelable {
 	
 	//private PhysicalObject poObject;
 
-
-
 	private float mass;
 	private int colorTexture=Color.TRANSPARENT;
 	private String imageTexture;
 	private String material;
 	
+	private boolean zoomActivated = true;
+	private boolean rotateActivated = true;
+	private float zoomMaxSize = 10;
+	private float zoomMinSize = 1;
 	
 
 	public VirtualObject(String id) {
@@ -288,6 +290,62 @@ public class VirtualObject implements Parcelable {
 		this.overlaidImage = overlaidImage;
 	}
 	
+	/**
+	 * @return the zoomActivated property (activated or not).
+	 */
+	public boolean getZoomActivated() {
+		return zoomActivated;
+	}
+	
+	/**
+	 * @param zoomActivated set the property (activated or not).
+	 */
+	public void setZoomActivated(boolean zoomActivated) {
+		this.zoomActivated = zoomActivated;
+	}
+	
+	/**
+	 * @return the rotateActivated property (activated or not).
+	 */
+	public boolean getRotateActivated() {
+		return rotateActivated;
+	}
+	
+	/**
+	 * @param rotateActivated set the property (activated or not).
+	 */
+	public void setRotateActivated(boolean rotateActivated) {
+		this.rotateActivated = rotateActivated;
+	}
+	
+	/**
+	 * @return the zoomMaxSize property (max object size).
+	 */
+	public float getZoomMaxSize() {
+		return zoomMaxSize;
+	}
+	
+	/**
+	 * @param zoomMaxSize set the property (max object size).
+	 */
+	public void setZoomMaxSize(float zoomMaxSize) {
+		this.zoomMaxSize = zoomMaxSize;
+	}
+	
+	/**
+	 * @return the zoomMinSize property (min object size).
+	 */
+	public float getZoomMinSize() {
+		return zoomMinSize;
+	}
+	
+	/**
+	 * @param zoomMinSize set the property (min object size).
+	 */
+	public void setZoomMinSize(float zoomMinSize) {
+		this.zoomMinSize = zoomMinSize;
+	}
+	
 	@Override
 	public int describeContents() {
 		return 0;
@@ -323,7 +381,10 @@ public class VirtualObject implements Parcelable {
 		dest.writeString(overlaidText);
 		dest.writeString(overlaidImage);
 		dest.writeString(material);
-		
+		dest.writeValue(zoomActivated);
+		dest.writeValue(rotateActivated);
+		dest.writeFloat(zoomMaxSize);
+		dest.writeFloat(zoomMinSize);
 	}
 	
 	
@@ -366,6 +427,10 @@ public class VirtualObject implements Parcelable {
 		this.setOverlaidText(in.readString());
 		this.setOverlaidImage(in.readString());
 		this.setMaterial(in.readString());
+		this.setZoomActivated((Boolean) in.readValue(null));
+		this.setRotateActivated((Boolean) in.readValue(null));
+		this.setZoomMaxSize(in.readFloat());
+		this.setZoomMinSize(in.readFloat());
 	}
 	
 	

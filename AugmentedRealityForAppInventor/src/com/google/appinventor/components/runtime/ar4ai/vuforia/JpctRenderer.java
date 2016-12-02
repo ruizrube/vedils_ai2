@@ -13,6 +13,7 @@ https://360.autodesk.com/ViewerPage?id=dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YTM2M
 
 package com.google.appinventor.components.runtime.ar4ai.vuforia;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,6 +64,8 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
+import android.view.ScaleGestureDetector.OnScaleGestureListener;
 
 // The renderer class for the FrameMarkers sample. 
 public class JpctRenderer implements GLSurfaceView.Renderer {
@@ -100,6 +103,9 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 	private float index = 0;
 	
 	private Ticker ticker = new Ticker(16);
+	
+	private ScaleGestureDetector scaleGestureDetector;
+	private float currentScaleFactorApplied = 1.f;
 
 	public JpctRenderer(VuforiaARActivity activity, VuforiaApplicationSession session, Context applicationContext) throws Exception {
 		mActivity = activity;
@@ -108,6 +114,34 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 		
 
 		Config.viewportOffsetAffectsRenderTarget = true;
+		
+		//FIXME pruebas para el zoom
+		scaleGestureDetector = new ScaleGestureDetector(mContext, new OnScaleGestureListener() {
+		    
+			@Override
+		    public void onScaleEnd(ScaleGestureDetector detector) {}
+		    
+		    @Override
+		    public boolean onScaleBegin(ScaleGestureDetector detector) { return true; }
+		    
+		    @Override
+		    public boolean onScale(ScaleGestureDetector detector) {
+		        Log.d(LOGTAG, "scale: " + detector.getScaleFactor());
+		        System.out.println("scale:" + detector.getScaleFactor() + " - zoom");
+		        
+		        for (VirtualObject vo : mActivity.arrayOfVirtualObjects) {
+		        	if (getWorldForVO(vo.getId()) != null && vo.getZoomActivated()) {
+						Object3D object = getWorldForVO(vo.getId()).getObjectByName(vo.getId());
+						currentScaleFactorApplied = Math.max(vo.getZoomMinSize(), Math.min(vo.getScale() * detector.getScaleFactor(), vo.getZoomMaxSize())); // Control the object size.
+						vo.setScale(currentScaleFactorApplied);
+						object.setScale(currentScaleFactorApplied);
+						System.out.println("Size applied: " + vo.getScale());
+						
+					}
+				}
+		        return false;
+		    }
+		});
 
 		createWorld();
 
@@ -430,7 +464,6 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 			Object3D myObject3D = null;
 			for (VirtualObject myVO : this.mActivity.getArrayOfVirtualObjects()) {
 				world = getWorldForVO(myVO.getId());
-
 				if (myVO.isEnabled() && world != null) {
 					if (myVO.getVisualAssetType() == VirtualObject.ASSET_TEXT) {
 						myObject3D = createAssetText(myVO);
@@ -526,25 +559,39 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 
 	private Object3D createAsset3DModel(VirtualObject myVO) throws IOException {
 		Object3D myObject3D = null;
-
 		// VIRTUAL OBJECT: 3d Model
 		if (myVO.getOverlaid3DModel().toLowerCase().endsWith("md2")) {
 			myObject3D = Loader.loadMD2(getAssetPath(myVO.getOverlaid3DModel()), 1f);
 		    Log.d(LOGTAG, "Creating in the world the asset MD2 Model3d" + myVO.getId());
-
 		} else if (myVO.getOverlaid3DModel().toLowerCase().endsWith("obj")) {
-			if (myVO.getMaterial() != null && myVO.getMaterial().toLowerCase().endsWith("mtl")) {
-				Config.useNormalsFromOBJ = true;
-				//myObject3D = loadModel(mContext.getAssets().open(myVO.getOverlaid3DModel()), mContext.getAssets().open(myVO.getMaterial()), 1f);
-				myObject3D = Object3D.mergeAll(Loader.loadOBJ(getAssetPath(myVO.getOverlaid3DModel()), getAssetPath(myVO.getMaterial()), 1f));
-				Log.d(LOGTAG, "Creating in the world the asset OBJ Model3d with materials" + myVO.getId());
-			} else {
-				Config.useNormalsFromOBJ = true;
-				//myObject3D = loadModel(mContext.getAssets().open(myVO.getOverlaid3DModel()), null, 1f);
-				myObject3D = Object3D.mergeAll(Loader.loadOBJ(getAssetPath(myVO.getOverlaid3DModel()), null, 1f));
-				Log.d(LOGTAG, "Creating in the world the asset OBJ Model3d without materials" + myVO.getId());
+			try {
+				if (myVO.getMaterial() != null && myVO.getMaterial().toLowerCase().endsWith("mtl")) {
+					Config.useNormalsFromOBJ = true;
+					//myObject3D = loadModel(mContext.getAssets().open(myVO.getOverlaid3DModel()), mContext.getAssets().open(myVO.getMaterial()), 1f);
+					myObject3D = Object3D.mergeAll(Loader.loadOBJ(getAssetPath(myVO.getOverlaid3DModel()), getAssetPath(myVO.getMaterial()), 1f));
+					Log.d(LOGTAG, "Creating in the world the asset OBJ Model3d with materials" + myVO.getId());
+				} else {
+					Config.useNormalsFromOBJ = true;
+					//myObject3D = loadModel(mContext.getAssets().open(myVO.getOverlaid3DModel()), null, 1f);
+					myObject3D = Object3D.mergeAll(Loader.loadOBJ(getAssetPath(myVO.getOverlaid3DModel()), null, 1f));
+					Log.d(LOGTAG, "Creating in the world the asset OBJ Model3d without materials" + myVO.getId());
+				}
+			} catch(ArrayIndexOutOfBoundsException e) { //Config.useNormalsFromOBJ error appears.
+				e.printStackTrace();
 			}
-
+			if(myObject3D == null) { //Retry without Config.useNormalsFromOBJ option active.
+				if (myVO.getMaterial() != null && myVO.getMaterial().toLowerCase().endsWith("mtl")) {
+					Config.useNormalsFromOBJ = false;
+					//myObject3D = loadModel(mContext.getAssets().open(myVO.getOverlaid3DModel()), mContext.getAssets().open(myVO.getMaterial()), 1f);
+					myObject3D = Object3D.mergeAll(Loader.loadOBJ(getAssetPath(myVO.getOverlaid3DModel()), getAssetPath(myVO.getMaterial()), 1f));
+					Log.d(LOGTAG, "Creating in the world the asset OBJ Model3d with materials (without useNormalsFromOBJ)" + myVO.getId());
+				} else {
+					Config.useNormalsFromOBJ = false;
+					//myObject3D = loadModel(mContext.getAssets().open(myVO.getOverlaid3DModel()), null, 1f);
+					myObject3D = Object3D.mergeAll(Loader.loadOBJ(getAssetPath(myVO.getOverlaid3DModel()), null, 1f));
+					Log.d(LOGTAG, "Creating in the world the asset OBJ Model3d without materials (without useNormalsFromOBJ)" + myVO.getId());
+				}
+			}
 		} else if (myVO.getOverlaid3DModel().toLowerCase().endsWith("3ds")) {
 			myObject3D = Object3D.mergeAll(Loader.load3DS(getAssetPath(myVO.getOverlaid3DModel()), 0.2f));
 			Log.d(LOGTAG, "Creating in the world the asset 3DS Model3d" + myVO.getId());
@@ -553,13 +600,14 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 			myObject3D = Loader.loadASC(getAssetPath(myVO.getOverlaid3DModel()), 1f, false);
 			Log.d(LOGTAG, "Creating in the world the asset ASC Model3d" + myVO.getId());
 		}
-
+		
 		myObject3D.setName(myVO.getId());
 		myObject3D.rotateY((float)(Math.PI/2));
 		
 		Texture myTexture;
 		if (myVO.getImageTexture() != null && !myVO.getImageTexture().trim().equals("")) {
 			// loading texture with Image
+			//FIXME problema al cargar imágenes grandes parece.
 			myTexture = new com.threed.jpct.Texture(getAssetPath(myVO.getImageTexture()));
 			try {
 				TextureManager.getInstance().addTexture(myVO.getImageTexture(), myTexture);
@@ -675,7 +723,10 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 		// MotionEvent reports input details from the touch screen
 		// and other input controls. In this case, you are only
 		// interested in events where the touch position changed.
-
+		
+		//Applying zoom.
+		scaleGestureDetector.onTouchEvent(e);
+		
 		Log.d(LOGTAG, "TOCATA 2");
 		int action = e.getAction();
 
@@ -715,7 +766,7 @@ public class JpctRenderer implements GLSurfaceView.Renderer {
 				World world = eworld.getWorld(po.getId());
 				
 				for (VirtualObject vo : po.getVirtualObject()) {
-					if (vo.getVisualAssetType() == VirtualObject.ASSET_3DMODEL) {
+					if (vo.getVisualAssetType() == VirtualObject.ASSET_3DMODEL && vo.getRotateActivated()) {
 						Log.d(LOGTAG, "TOCATA ROTACION  " + movX + " y " + movY);
 						Object3D objeto = world.getObjectByName(vo.getId());
 						objeto.rotateX(-movY/100);
