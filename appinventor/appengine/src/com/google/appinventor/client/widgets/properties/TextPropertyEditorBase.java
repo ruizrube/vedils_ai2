@@ -8,7 +8,10 @@ package com.google.appinventor.client.widgets.properties;
 
 import static com.google.appinventor.client.Ode.MESSAGES;
 
+import java.awt.Cursor;
+
 import com.google.appinventor.client.Ode;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -119,7 +122,9 @@ public class TextPropertyEditorBase extends PropertyEditor {
     	hyperlink = new Anchor();
     	hyperlink.getElement().appendChild(imageHyperlink.getElement());
     	hyperlink.setTarget("https://");
+    	hyperlink.setTitle(Ode.getMessages().ActivityTrackerShowTableMessage());
     	hyperlink.setVisible(false);
+    	hyperlink.getElement().getStyle().setCursor(Style.Cursor.POINTER);
     	hyperlink.addClickHandler(new ClickHandler() {
     		@Override
     		public void onClick(ClickEvent event) {

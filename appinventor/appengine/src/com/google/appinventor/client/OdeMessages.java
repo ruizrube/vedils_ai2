@@ -6732,6 +6732,10 @@ public interface OdeMessages extends Messages {
 			+ "Finally, sending data can be performed in real time, user demand or in batches.")
 	@Description("")
 	String ActivityTrackerHelpStringComponentPallette();
+	
+	@DefaultMessage("Go to the connected table.")
+	@Description("")
+	String ActivityTrackerShowTableMessage();
 
 	@DefaultMessage("UserTrackerId")
 	@Description("")
