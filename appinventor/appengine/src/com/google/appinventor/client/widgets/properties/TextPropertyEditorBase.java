@@ -8,8 +8,6 @@ package com.google.appinventor.client.widgets.properties;
 
 import static com.google.appinventor.client.Ode.MESSAGES;
 
-import java.awt.Cursor;
-
 import com.google.appinventor.client.Ode;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
