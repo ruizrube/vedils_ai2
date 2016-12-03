@@ -12,8 +12,8 @@
     App Inventor
   </description>
 
-  <!-- ANDROID API VERSION (la de por defecto es 4.2.2)-->
-  <property name="android.version" value="5.1" />
+  <!-- ANDROID API VERSION (la de por defecto es 4.2.2). He probado con 5.1-->
+  <property name="android.version" value="4.2.2" />
   
   
   <target name="all">

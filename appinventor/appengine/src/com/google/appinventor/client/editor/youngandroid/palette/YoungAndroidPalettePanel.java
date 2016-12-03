@@ -101,6 +101,7 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 
 	private final Map<ComponentCategory, PaletteHelper> paletteHelpers;
 
+	private int provisional;
 	/**
 	 * Creates a new component palette panel.
 	 *

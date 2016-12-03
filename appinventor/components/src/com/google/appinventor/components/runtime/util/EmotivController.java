@@ -39,8 +39,7 @@ import android.util.Log;
  */
 public class EmotivController implements Runnable {
 
-	private static EmotivController uniqInstance;
-
+	
 	private static IEE_MotionDataChannel_t[] MOTION_CHANNEL_LIST = { IEdk.IEE_MotionDataChannel_t.IMD_COUNTER,
 			IEdk.IEE_MotionDataChannel_t.IMD_GYROX, IEdk.IEE_MotionDataChannel_t.IMD_GYROY,
 			IEdk.IEE_MotionDataChannel_t.IMD_GYROZ, IEdk.IEE_MotionDataChannel_t.IMD_ACCX,
@@ -51,8 +50,7 @@ public class EmotivController implements Runnable {
 	public static final Map<String, IEE_DataChannel_t> DATA_CHANNEL;
 	static {
 		DATA_CHANNEL = new LinkedHashMap<String, IEE_DataChannel_t>();
-		DATA_CHANNEL.put("AF3", IEE_DataChannel_t.IED_AF3); // IEE_InputChannels_enum
-															// 3
+		DATA_CHANNEL.put("AF3", IEE_DataChannel_t.IED_AF3); //IEE InputChannels:3
 		DATA_CHANNEL.put("F7", IEE_DataChannel_t.IED_F7);
 		DATA_CHANNEL.put("F3", IEE_DataChannel_t.IED_F3);
 		DATA_CHANNEL.put("FC5", IEE_DataChannel_t.IED_FC5);
@@ -66,8 +64,8 @@ public class EmotivController implements Runnable {
 		DATA_CHANNEL.put("FC6", IEE_DataChannel_t.IED_FC6);
 		DATA_CHANNEL.put("F4", IEE_DataChannel_t.IED_F4);
 		DATA_CHANNEL.put("F8", IEE_DataChannel_t.IED_F8);
-		DATA_CHANNEL.put("AF4", IEE_DataChannel_t.IED_AF4); // IEE_InputChannels_enum
-															// 17. Hay otro mas
+		DATA_CHANNEL.put("AF4", IEE_DataChannel_t.IED_AF4); 
+		// IEE_InputChannels_enum 17. Hay otro mas
 	}
 
 	public static final Map<String, IEE_FacialExpressionAlgo_t> TRAINABLE_FACIAL_EXPRESSIONS;
@@ -98,6 +96,8 @@ public class EmotivController implements Runnable {
 		TRAINABLE_MENTAL_COMMANDS.put("Rotate Right", IEE_MentalCommandAction_t.MC_ROTATE_RIGHT);
 
 	}
+
+	private static EmotivController uniqInstance;
 
 	private Context context;
 
@@ -582,9 +582,9 @@ public class EmotivController implements Runnable {
 		int sample = IEdk.IEE_MotionDataGetNumberOfSample(userId);
 		if (sample > 0) {
 			for (int sampleIdx = 0; sampleIdx < sample; sampleIdx++) {
-				System.out.println("setXAngularVelocity=" + IEdk.IEE_MotionDataGet(MOTION_CHANNEL_LIST[1])[sampleIdx]);
-				System.out.println("setYAngularVelocity=" + IEdk.IEE_MotionDataGet(MOTION_CHANNEL_LIST[2])[sampleIdx]);
-				System.out.println("setZAngularVelocity=" + IEdk.IEE_MotionDataGet(MOTION_CHANNEL_LIST[3])[sampleIdx]);
+				Log.e("EmotivController", "setXAngularVelocity "+ IEdk.IEE_MotionDataGet(MOTION_CHANNEL_LIST[1])[sampleIdx]);
+				Log.e("EmotivController", "setYAngularVelocity=" + IEdk.IEE_MotionDataGet(MOTION_CHANNEL_LIST[2])[sampleIdx]);
+				Log.e("EmotivController", "setZAngularVelocity=" + IEdk.IEE_MotionDataGet(MOTION_CHANNEL_LIST[3])[sampleIdx]);
 
 				data.setXAngularVelocity(IEdk.IEE_MotionDataGet(MOTION_CHANNEL_LIST[1])[sampleIdx]);
 				data.setYAngularVelocity(IEdk.IEE_MotionDataGet(MOTION_CHANNEL_LIST[2])[sampleIdx]);

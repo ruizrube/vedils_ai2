@@ -166,27 +166,25 @@ public class BrainwaveSensor extends AndroidNonvisibleComponent implements Seria
 
 	@Override
 	public void onInitialize() {
-		// TODO Auto-generated method stub
-		Log.e("EmotivController", "EVENTO EN VENTANA: onInitialize");
+		//Log.e("EmotivController", "EVENTO EN VENTANA: onInitialize");
 
 	}
 
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
-		Log.e("EmotivController", "EVENTO EN VENTANA: onResume");
+		//Log.e("EmotivController", "EVENTO EN VENTANA: onResume");
 
 	}
 
 	@Override
 	public void onPause() {
-		Log.e("EmotivController", "EVENTO EN VENTANA: onPause");
+		//Log.e("EmotivController", "EVENTO EN VENTANA: onPause");
 
 	}
 
 	@Override
 	public void onStop() {
-		Log.e("EmotivController", "EVENTO EN VENTANA: onStop");
+		//Log.e("EmotivController", "EVENTO EN VENTANA: onStop");
 
 		controller.disconnect();
 
@@ -194,7 +192,6 @@ public class BrainwaveSensor extends AndroidNonvisibleComponent implements Seria
 
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
 		Log.e("EmotivController", "EVENTO EN VENTANA: onDestroy");
 
 		try {
@@ -438,11 +435,7 @@ public class BrainwaveSensor extends AndroidNonvisibleComponent implements Seria
 
 		if (mc != null) {
 			return controller.obtainTrainedMentalCommandRating(mc);
-
-			// return
-			// Arrays.toString(controller.obtainTrainedMentalCommandRating(mc)).replace("[",
-			// "").replace("]", "");
-
+	
 		} else {
 			return 0;
 		}
@@ -734,7 +727,6 @@ public class BrainwaveSensor extends AndroidNonvisibleComponent implements Seria
 		EventDispatcher.dispatchEvent(this, "DeviceDisconnected");
 	}
 
-	///////
 
 	/**
 	 * Event to be raised after the training has been reset

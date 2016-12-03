@@ -465,9 +465,12 @@ public final class Compiler {
 			// White:
 			// out.write("android:theme=\"@android:style/Theme.Holo.Light\"");
 
-			// IRR
-			out.write("android:theme=\"@android:style/Theme.Material.Light\"");
+			// IRR: Material design requires Android 5.0 (API nivel 21)
+			if(Integer.valueOf(minSDK).intValue() >= Integer.valueOf(LEVEL_LOLLIPOP).intValue()){
+				out.write("android:theme=\"@android:style/Theme.Material.Light\"");			
+			}
 
+	
 			out.write(">\n");
 
 			for (Project.SourceDescriptor source : project.getSources()) {
