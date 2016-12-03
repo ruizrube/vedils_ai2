@@ -76,8 +76,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author lizlooney@google.com (Liz Looney)
  */
 public class YoungAndroidPalettePanel extends Composite implements SimplePalettePanel {
-	
-	//TEST REPO (2)
 
 	// Component database: information about components (including their
 	// properties and events)
@@ -103,7 +101,6 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 
 	private final Map<ComponentCategory, PaletteHelper> paletteHelpers;
 
-	private int provisional;
 	/**
 	 * Creates a new component palette panel.
 	 *
