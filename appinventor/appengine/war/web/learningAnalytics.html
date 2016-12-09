@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>VEDILS - Visual environment for designing interactive learning scenarios</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+
+    <!-- Plugin CSS -->
+    <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css">
+
+    <!-- Theme CSS -->
+    <link href="css/creative.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body id="page-top">
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top bg-darkest-gray ">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="header-content">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="documentation.html">Back to <strong>VEDILS</strong> Documentation</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="page-scroll" href="#About">About</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#01">SETTING UP THE DATA STORAGE</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#02">CAPTURING DATA</a>
+                    </li>
+					<li>
+                        <a class="page-scroll" href="#03">PROCESSING AND VISUALIZATING</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <section id="About">
+        <div class="container">
+            <div class="row">
+                	 <div class="col-lg-10 col-lg-offset-1 text-center">
+				
+                    <h2 class="section-heading">VEDILS Learning Analytics</h2>
+                    <hr class="primary">
+                    <h3>Learning Analytics (LA), according to the <em>Society for Learning Analytics Research</em> is the measurement, collection, analysis and reporting of data about learners and their contexts, for purposes of understanding and optimizing learning and the environments in which it occurs</h3>
+					
+					<h3>VEDILS includes several modules that give educators the opportunity to include LA in their mobile applications</h3>
+					<br>
+                    </h3>
+                </div>
+
+                <br>
+                <br>
+                <div class="row no-gutter popup-gallery">
+                    <div class="col-lg-6 col-sm-6 col-lg-offset-3">
+                        <a href="img/documentation/vedilsActTraker/activity.png" class="portfolio-box">
+                            <img src="img/documentation/vedilsActTraker/activity.png" class="img-responsive" alt="">
+                            <div class="portfolio-box-caption">
+                                <div class="portfolio-box-caption-content">
+                                    <div class="project-category text-faded">
+                                    </div>
+                                    <div class="project-name">
+                                        Expand
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <section id="01" class=" bg-light-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 text-center">
+					
+				<h2 class="section-heading">Setting up the data storage service</h2>
+                    <hr class="primary">
+					
+					<h3>The Learning Analytics capabilities included in VEDILS provides support for the data collection process of the users' interaction. At the moment, <strong><a href="https://es.wikipedia.org/wiki/Google_Fusion_Tables" target="_blank">Google Fusion Tables</a></strong> is used for this purpose, providing cloud storage and basic support for analytics. In order to use Fusion Tables we need a table to store data and an user with some permissions to insert the information collected from VEDILS.</h3>
+			     </div>
+                <br>
+                <br>
+            </div>
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <h3>
+                    <strong>Steps required to configure <em>Fusion Tables</em>:</strong>
+                    <ul>
+                    <li>Open the FusionTable base template <a href="https://goo.gl/5CmgNd" target="_blank">here</a></li>
+					<li>Once the data table is opened, we need to sign in with our Google credentials (using the correspongin link at the top right of the screen</li>	
+					<li>Make a copy of this table using the option <em>File - Make a Copy</em>
+					<li>If desired, we can change the table name to a more descriptive one, by using the option	<em>File-Rename...</em>
+						<li>Share this new table by clicking the <em>Share</em> button and then invite (with editing permissions) to the following VEDILS user: <font size=2> <br> 1075849932338-n26pqlvqfea3dspaebf52vnacch77nhf@developer.gserviceaccount.com </font></li> 	
+					<li>Additionally, we need to change who has access to this data table. To do this, we must change the permissions to <em>Public on the web - Anyone on the Internet can find and view</em></li>
+					<li>Finally, we need to obtain the identifier of the table which will be used later to configure the data capturing proccess. That information can be found in <em>File - About this table - Id</em>
+        			</ul>
+					In the following video (in spanish), we can see how to set up the Fusion Table service.</h3>
+                </h3>
+                </div>
+            </div>
+
+            <br>
+            <div class="row">
+                <div>
+					
+                    <center>
+                        <iframe width="420" height="315" src="https://www.youtube.com/embed/t6slblSlPeQ" frameborder="0" allowfullscreen style="border:2px dotted"></iframe>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="02">
+        <div class="container">
+             <div class="row">
+				 <div class="col-lg-10 col-lg-offset-1">
+				    <h2 class="section-heading text-center">Capturing user's activities with <strong>ActivityTracker</strong></h2>
+                    <hr class="primary">
+					
+					<p><h3>The <strong>ActivityTracker</strong> component allows to automatically send data when a function of any VEDILS' component is invoked, a certain event is received or if the value of a property in another component is read or modified. ActivityTracker is able to capture the action that happened, the name of the concerned component and the corresponding input and output data, among others. </h3></p>
+						
+					<p><h3>Additionally, ActivityTracker provides the app designer with the following data: date and time when the event occurred, identifiers of the application and screen where the event was generated, IP and MAC addresses of the device, IMEI, user identifier (if previously defined) and geolocation (latitude and longitude). </h3></p>
+						
+					<p><h3>This component has a wide range of configuration options for the data collection process, such as the communication mode (only WIFI or indifferent), the synchronization mode (real time, on-demand or batch), and the events, properties and functions of each of the components to be tracked. This setup options allows app designer to manage the data traffic generated by the monitoring system. In the following video (in spanish), we can see how to configure the ActivityTracker component and view the data collected in Fusion Tables.</h3></p>
+                    
+                </div>
+                <br>
+                <br>
+            </div>
+            <br>
+            <br>
+            <div class="row">
+                <div>
+                    <center>
+                        <iframe width="420" height="315" src="https://www.youtube.com/embed/Qf550H-8jgQ" frameborder="0" allowfullscreen style="border:2px dotted"></iframe>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+	<section id="03" class=" bg-light-gray">
+        <div class="container">
+			
+			<div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2 class="section-heading">Processing and visualizating user's activities</h2>
+                 	<hr class="primary">
+				</div>
+                <br>
+                <br>
+            </div>
+
+			<div class="row">
+                <div class="col-lg-10 col-lg-offset-1">
+				    
+					<p><h3>Two components to issue queries to the storage service (currently FusionTables) and to retrieve information have been developed in order to analyze the data collected by the ActivityTracker component:</p>
+
+					<ul>
+						<li><strong>ActivitySimpleQuery</strong>: this component allows the application designer to select which data want to use from those captured by the ActivityTracker component. Additionally, the app designer may indicate through the Blocks view of VEDILS how to filter the data according to several attributes such as the application ID, the screen ID, the component ID, the action occurred or the user involved.</li>
+
+						<li><strong>ActivityAggregationQuery</strong>: this component allows the user to aggregate certain fields. The aggregation operators currently available are <em>count</em>, <em>maximum</em>, <em>minimum</em>, <em>sum</em> and <em>average</em>. </li>
+					
+                    </h3></ul>
+						
+						
+					<p><h3>Simple dashboards for comparing students' activities with both the expected ones or their mates' activities can be developed with VEDILS in order to contribute to the development of interventions. For that, the following components have been developed:</p>
+				
+					<ul>
+						<li><strong>Chart</strong>: this component allows the creation of simple graphics such as pie, line or bar charts. The application designer has to indicate the data source to use by linking with an <em>ActivitySimpleQuery</em> or an <em>ActivityAggregationQuery</em>. </li>
+						<li><strong>DataTable</strong>: this component allows to represent information in a tabular format from a data query.</li>
+					</ul>
+						
+					 <p><h3>In the following videos, we can see how to configure the above components to create two sample analytical apps.</h3></p>
+                </div>
+            </div>
+			
+   
+            <br>
+            <br>
+            <div class="row">
+                <div>
+                    <center>
+                        <iframe width="420" height="315" src="https://www.youtube.com/embed/HTtT3jeIlaQ" frameborder="0" allowfullscreen style="border:2px dotted"></iframe>
+                        <iframe width="420" height="315" src="https://www.youtube.com/embed/jm2aYXasAwo" frameborder="0" allowfullscreen style="border:2px dotted"></iframe>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- Google Analytics-->
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-72236489-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="vendor/scrollreveal/scrollreveal.min.js"></script>
+    <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+
+    <!-- Theme JavaScript -->
+    <script src="js/creative.min.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>VEDILS - Visual environment for designing interactive learning scenarios</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+
+    <!-- Plugin CSS -->
+    <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css">
+
+    <!-- Theme CSS -->
+    <link href="css/creative.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body id="page-top">
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top bg-darkest-gray ">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="header-content">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="documentation.html">Back to <strong>VEDILS</strong> Documentation</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="page-scroll" href="#About">About</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#01">MARKERS</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#02">IMAGES</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#03">TEXT</a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <section id="About">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2 class="section-heading">VEDILS Augmented Reality</h2>
+                    <hr class="primary">
+                    <h3>La tecnología de realidad aumentada permite superponer elementos virtuales sobre el mundo real en tiempo real. Para poder integrar esta tecnología en nuestros dispositivos móviles <strong>VEDILS</strong> pone a nuestra disposición los elementos necesarios. Los elementos y su relación se muestra en la siguiente imagen.
+                    <br>
+                              </h3>
+                </div>
+
+                <br>
+                <br>
+                <div class="row no-gutter popup-gallery">
+                    <div class="col-lg-6 col-sm-6 col-lg-offset-3">
+                        <a href="img/documentation/vedillsAR/desing.png" class="portfolio-box">
+                            <img src="img/documentation/vedillsAR/desing.png" class="img-responsive" alt="">
+                            <div class="portfolio-box-caption">
+                                <div class="portfolio-box-caption-content">
+                                    <div class="project-category text-faded">
+                                    </div>
+                                    <div class="project-name">
+                                        Expand
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <h3>
+                    <strong>Elementos para implementar realidad aumentada</strong>
+                    <ul>
+                        <li>ARCamera</li>
+                        <ul>
+                            <li>Es el componente que lanza la cámara para empezar a reconocer nuestro entorno.</li>
+                            <li>Pueden definirse parámetros como posición del móvil.</li>
+                            <li>Cuando utilizamos un <strong>ARObjectTracker</strong>, debemos definir dos parametros: fichero .DAT y fichero .XML. Estos son la báse de datos obtenidas del portal de <a href="https://developer.vuforia.com/"><strong>Vuforia</strong></a> con las imágenes que queremos reconocer.</li>
+                          
+                        </ul>
+                        <li>Tracker</li>
+                        <ul>
+                            <li>Son los elementos que queremos reconocer.</li>
+                            <li>El componente <strong>ARTextTracker</strong> nos permite reconocer texto.</li>
+                            <li> El componente <strong>ARMarkerTracker</strong> es capaz de reconocer hasta 512 marcas.</li>
+                            <li>Para reconocer imágenes utilizamos <strong>ARObjectTracker</strong> que deberemos configurar con un nombre de la base de datos configurado en la cámara con los ficheros .DAT y .XMl de <a href="https://developer.vuforia.com/"><strong>Vuforia</strong></a></li>
+                        </ul>
+                        <li>Asset</li>
+                        <ul>
+                            <li>Elementos virtuales que se visualizarán.</li>
+                            <li>El componente <strong>ARImageAsset</strong> nos permite mostrar imágenes 2D.</li>
+                            <li>Con el componente <strong>AR3DModelAsset</strong> podemos poner imágenes 3D en formato .OBJ, .3DS y animaciones .MD2.</li>
+                            <li> Este tipo de elemento debe relacionarse con una cámara y un Asset</li>
+                           
+                        </ul>
+                          <li>ARCameraOverLayer</li>
+                        <ul>
+                            <li>Sirve para poner información sobre la imagen capturada por la cámara en tiempo real.</li>
+                           <li>Esta preparado para poner texto y un par de botones.</li>
+                        </ul>
+                    </ul>
+                </h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="01" class=" bg-light-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2 class="section-heading">Reconocimiento de marcas</h2>
+                    <hr class="primary">
+                    <h3><strong>VEDILS</strong> incoropora las marcas de <a href="https://developer.vuforia.com/library/articles/Training/Frame-Markers-Guide"><strong>Vuforia</strong></a>, pudiendo reconocer cualquiera de sus 512 marcas, para ello debemos, en la ventana de diseño, especificar a que número de marca corresponde el componente <strong>ARMarkerTracker</strong>. El uso de este componente se puede ver en el siguiente video.
+                    </h3>
+                </div>
+                <br>
+                <br>
+            </div>
+            <br>
+            <div class="row">
+                <div>
+                    <center>
+                        <iframe width="420" height="315" src="https://www.youtube.com/embed/OvDy0r7pNa0" frameborder="0" allowfullscreen style="border:2px dotted"></iframe>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section id="02">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 text-center">
+                    <h2 class="section-heading">Reconocimiento de imágenes
+</h2>
+                    <hr class="primary">
+                    <h3><strong>VEDILS</strong> puede reconocer imágenes de nuestro entorno, para eso debemos utilizar la herramienta de para crear la base de datos de imágenes. Esta base de datos cuando la descarguemos obtendremos un fichero .ZIP con dos ficheros, uno .XML y otro .DAT que habrá que subir a <strong>VEDILS</strong> y configurar en el componenete <strong>ARCamera</strong>. Luego en el componente <strong>ARObjecTracker</strong> deberemos indicar el nombre de la imagen de la base de datos creada que deseamos utilizar. El uso de este componente se puede ver en el siguiente video.
+                    </h3>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="row">
+                <div>
+                    <center>
+                        <iframe width="420" height="315" src="https://www.youtube.com/embed/v1ZF1WYFXTo" frameborder="0" allowfullscreen style="border:2px dotted"></iframe>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Deploy-->
+
+    <section id="03" class=" bg-light-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 text-center">
+                    <h2 class="section-heading">Reconocimiento de texto</h2>
+                    <hr class="primary">
+                    <h3><strong>VEDILS</strong>no permite reconocer palabras, para ello solo deberemos configurar en el componente <strong>ARTextTracker</strong> la palabra que queremos que se reconozca. El uso de este componente se puede ver en el siguiente video.</h3>.
+                </div>
+                <div class="row">
+                    <div>
+                        <center>
+                            <iframe width="420" height="315" src="https://www.youtube.com/embed/AmYgnUFPe9I" frameborder="0" allowfullscreen style="border:2px dotted"></iframe>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Google Analytics-->
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-72236489-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="vendor/scrollreveal/scrollreveal.min.js"></script>
+    <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+
+    <!-- Theme JavaScript -->
+    <script src="js/creative.min.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,2 @@
+UserID,IP,MAC,Latitude,Longitude,Date,AppID,ScreenID,ComponentID,ComponentType,ActionID,ActionType,Param1,Param2,Param3
+source,192.168.1.35,78:f8:82:ea:21:bd,0.0,0.0,03/07/2016 17:51:15,appinventor.ai_test.v3TechnicalDrawingEx,List of Exercises,,,Exercise view,SPECIFIC,1,,
