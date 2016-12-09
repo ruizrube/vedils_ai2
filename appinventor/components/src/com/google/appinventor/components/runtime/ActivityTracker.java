@@ -53,8 +53,6 @@ category = ComponentCategory.VEDILSLEARNINGANALYTICS, iconName = "images/activit
 "android.permission.READ_PHONE_STATE")
 public class ActivityTracker extends AndroidNonvisibleComponent implements Component {
 	
-	//TEST REPO (1)
-	
 	private String userTrackerId;
 	@SuppressWarnings("unused")
 	private final ComponentContainer componentContainer;

@@ -569,7 +569,14 @@ public interface Images extends Resources {
   // www.pdclipart.org/displayimage.php/?pid=1047
   @Source("com/google/appinventor/images/activityAggregationProcessor_icon.png")
   ImageResource activityaggregationprocessor();
- 	
+  
+  /**
+   * Designer palette item: tableId for ActivityTracker component
+   */
+  //This image is CC0 Public Domain, the URL is: 
+  //https://pixabay.com/es/haga-clic-en-enlace-abierta-s%C3%ADmbolo-38743/
+  @Source("com/google/appinventor/images/showTable.png")
+  ImageResource showTable();
   
   /**
    * Designer palette item: Web component
@@ -660,5 +667,4 @@ public interface Images extends Resources {
    */
   @Source("com/google/appinventor/images/proximitysensor.png")
   ImageResource proximitysensor();
-
 }

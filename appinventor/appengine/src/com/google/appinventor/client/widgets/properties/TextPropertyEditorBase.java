@@ -8,6 +8,8 @@ package com.google.appinventor.client.widgets.properties;
 
 import static com.google.appinventor.client.Ode.MESSAGES;
 
+import com.google.appinventor.client.Ode;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -23,8 +25,8 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.TextBoxBase;
 
 /**
@@ -47,6 +49,7 @@ public class TextPropertyEditorBase extends PropertyEditor {
   // TextBox and TextArea
   protected TextBoxBase textEdit;
   protected Anchor hyperlink;
+  protected final Image imageHyperlink;
 
   private boolean hasFocus;
   private boolean activityTracker;
@@ -58,6 +61,9 @@ public class TextPropertyEditorBase extends PropertyEditor {
 	  
 	this.activityTracker = activityTracker;
     textEdit = widget;
+    imageHyperlink = new Image(Ode.getImageBundle().showTable());
+    imageHyperlink.setWidth("1.5em");
+    imageHyperlink.setHeight("1.5em");
 
     textEdit.addKeyPressHandler(new KeyPressHandler() {
       @Override
@@ -112,24 +118,24 @@ public class TextPropertyEditorBase extends PropertyEditor {
     if(activityTracker) { //By SPI-FM: If the property belongs to ActivityTracker, we add the URL of active table.
     	HTMLPanel htmlPanel = new HTMLPanel("");
     	hyperlink = new Anchor();
-    	hyperlink.setText("No table has yet been connected.");
+    	hyperlink.getElement().appendChild(imageHyperlink.getElement());
     	hyperlink.setTarget("https://");
+    	hyperlink.setTitle(Ode.getMessages().ActivityTrackerShowTableMessage());
+    	hyperlink.setVisible(false);
+    	hyperlink.getElement().getStyle().setCursor(Style.Cursor.POINTER);
     	hyperlink.addClickHandler(new ClickHandler() {
     		@Override
     		public void onClick(ClickEvent event) {
     			Window.open(hyperlink.getTarget(), "_blank", "");
     		}
     	});
-    	HTML newLine = new HTML("<BR>");
     	htmlPanel.add(textEdit);
-    	htmlPanel.add(newLine);
     	htmlPanel.add(hyperlink);
     	initWidget(htmlPanel);
-    	setHeight("6em");
     } else {
     	initWidget(textEdit);  //kludge for now fix this with instanceOf?
-    	setHeight("2em");
     }
+    setHeight("2em");
   }
 
   @Override
@@ -146,11 +152,11 @@ public class TextPropertyEditorBase extends PropertyEditor {
 	textEdit.setText(property.getValue());
 	if(activityTracker) {
 		if(!property.getValue().isEmpty()) {
-    		hyperlink.setText("Displays the connected active table.");
     		hyperlink.setTarget("https://fusiontables.google.com/data?docid="+property.getValue());
+    		hyperlink.setVisible(true);
     	} else {
-    		hyperlink.setText("No table has yet been connected.");
     		hyperlink.setTarget("https://");
+    		hyperlink.setVisible(false);
     	}
 	}
   }
