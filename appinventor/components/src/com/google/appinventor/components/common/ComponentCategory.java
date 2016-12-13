@@ -64,7 +64,8 @@ import java.util.Map;
     VEDILSLEARNINGANALYTICS("VEDILS Learning Analytics"),
 	VEDILSINTERACTIONS("VEDILS Interactions"),
 	VEDILSCOMMUNICATION("VEDILS Communications"),
-	VEDILSROBOTICS("VEDILS Robotics")
+	VEDILSROBOTICS("VEDILS Robotics"),
+	VEDILSKNOWLEDGE("VEDILS Knowledge")
 	;
 
 

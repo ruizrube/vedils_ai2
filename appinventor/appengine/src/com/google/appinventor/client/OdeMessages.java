@@ -1,3 +1,4 @@
+
 // -*- mode: java; c-basic-offset: 2; -*-
 // Copyright 2009-2011 Google, All Rights reserved
 // Copyright 2011-2012 MIT, All rights reserved
@@ -18,6 +19,56 @@ import com.google.gwt.i18n.client.Messages;
 // @LocalizableResource.DefaultLocale("en")
 
 public interface OdeMessages extends Messages {
+	// Used in LD4AI
+
+	
+	
+	@DefaultMessage("Label")
+	@Description("")
+	String LabelProperties();
+
+	
+	@DefaultMessage("Description")
+	@Description("")
+	String DescriptionProperties();
+
+	@DefaultMessage("Identifier")
+	@Description("")
+	String IdentifierProperties();
+
+	@DefaultMessage("PreferredLanguage")
+	@Description("")
+	String PreferredLanguageProperties();
+	
+	@DefaultMessage("SecondLanguage")
+	@Description("")
+	String SecondLanguageProperties();
+	
+	
+
+	
+	@DefaultMessage("ExplainConceptMethods")
+	@Description("")
+	String ExplainConceptMethods();
+	
+	@DefaultMessage("Load")
+	@Description("")
+	String LoadMethods();
+
+	@DefaultMessage("RetrieveNumericValue")
+	@Description("")
+	String RetrieveNumericValueMethods();
+
+	
+	@DefaultMessage("RetrieveStringValue")
+	@Description("")
+	String RetrieveStringValueMethods();
+
+
+	
+	
+	
+	
 	// Used in EEG
 
 	@DefaultMessage("ReadProfiles")
