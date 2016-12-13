@@ -2,27 +2,23 @@ package com.google.appinventor.components.runtime;
 
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
 import com.google.appinventor.components.annotations.SimpleFunction;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
-import com.google.appinventor.components.annotations.UsesAssets;
-import com.google.appinventor.components.annotations.UsesLibraries;
 import com.google.appinventor.components.annotations.UsesPermissions;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
 import com.google.appinventor.components.common.YaVersion;
-import com.google.appinventor.components.runtime.WebViewer.WebViewInterface;
-import com.google.appinventor.components.runtime.util.EclairUtil;
-import com.google.appinventor.components.runtime.util.FroyoUtil;
-import com.google.appinventor.components.runtime.util.SdkLevel;
 
-import android.view.MotionEvent;
 import android.view.View;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import gnu.mapping.SimpleSymbol;
 
 /**
  * ActivityDataTable
@@ -47,12 +43,15 @@ public class Chart extends AndroidViewComponent {
 	private int indexForCategoryAxis = 1;
 	private int indexForValueAxis = 2;
 	private int chartType = 0;
+	private int refreshInterval = 5;
 
-	private List data;
+	private List<Object> data;
+	private String valuesTitle;
 
 	private ActivityProcessor query;
 
 	private String url_base = "http://vedils.uca.es/web/graph/";
+	//private String url_base = "http://192.168.1.3:8888/web/graph/"; //For local test
 
 	public Chart(ComponentContainer container) {
 		super(container);
@@ -109,7 +108,7 @@ public class Chart extends AndroidViewComponent {
 	 * @return the data
 	 */
 	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
-	public List Data() {
+	public List<Object> Data() {
 		return data;
 	}
 
@@ -118,7 +117,7 @@ public class Chart extends AndroidViewComponent {
 	 *            the data to set
 	 */
 	@SimpleProperty(description = "Specifies the data to render in the graph", userVisible = true)
-	public void Data(List data) {
+	public void Data(List<Object> data) {
 		this.data = data;
 	}
 
@@ -181,6 +180,26 @@ public class Chart extends AndroidViewComponent {
 	public void ValueAxisTitle(String valueAxisTitle) {
 		this.valueAxisTitle = valueAxisTitle;
 	}
+	
+	/**
+	 * @return the valuesTitle separated by commas.
+	 */
+	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
+	public String ValuesTitle() {
+		return valuesTitle;
+	}
+
+	/**
+	 * Specifies the valuesTitle separated by commas.
+	 * 
+	 * @param valuesTitle
+	 */
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING, defaultValue = "")
+	@SimpleProperty(description = "Set the values title separated by commas.", userVisible = true)
+	public void ValuesTitle(String valuesTitle) {
+		this.valuesTitle = valuesTitle;
+	}
+	
 
 	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
 	public ActivityProcessor Query() {
@@ -192,10 +211,30 @@ public class Chart extends AndroidViewComponent {
 	public void Query(ActivityProcessor query) {
 		this.query = query;
 	}
+	
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_INTEGER, defaultValue = "5")
+	@SimpleProperty(description = "Time to refresh the current graph", userVisible = true)
+	public void RefreshInterval(int refreshInterval) {
+		this.refreshInterval = refreshInterval;
+	}
 
 	//////////////
 	// FUNCTIONS //
 	//////////////
+	
+	@SimpleFunction(description = "Function to add a row in the current table (graph)")
+	public void AppendData(List<Object> dataRow) {
+		System.out.println("Adding row..");
+		//Update data in webviewer
+		JSONObject information = new JSONObject();
+		try {
+			information.put("row", prepareRow(dataRow));
+		} catch(JSONException e) {
+			System.out.println("Error to prepare information in JSONObject");
+		}
+		System.out.println("informationToSend = " +information.toString());
+		this.webviewer.WebViewString(information.toString());
+	}
 
 	/**
 	 * Function to send the query to analyze activities.
@@ -205,21 +244,58 @@ public class Chart extends AndroidViewComponent {
 	@SimpleFunction(description = "Function to refresh the current graph.")
 	public void Refresh() {
 		System.out.println("Refrescando grafico");
+		
+		String url = url_base;
 
 		if (this.Query() != null) {
 			this.webviewer.WebViewString(this.Query().generateSQLStatement());
-			String url = url_base;
-
-			if (this.ChartType() == 1) { // 1: Line
-				// clear the history, since changing Home is a kind of reset
-				this.webviewer.HomeUrl(url+"LineChart.html");
-			} else {
-				this.webviewer.HomeUrl(url+"BarChart.html");
+		} else if(Data() != null) {
+			//First, prepare JSONObject to send the information
+			JSONObject information = new JSONObject();
+			try {
+				JSONArray table = new JSONArray();
+				for(Object row: this.data) {
+					if(!(row instanceof SimpleSymbol)) {
+						table.put(prepareRow((List<Object>)row));
+					}
+				}
+				information.put("table", table);
+				information.put("categoryAxisTitle", this.categoryAxisTitle);
+				information.put("valueAxisTitle", this.valueAxisTitle);
+				information.put("valuesTitle", this.valuesTitle);
+				information.put("indexForCategory", this.indexForCategoryAxis);
+				information.put("indexForValue", this.indexForValueAxis);
+			} catch(JSONException e) {
+				System.out.println("Error to prepare information in JSONObject");
 			}
-
-			
+			System.out.println("informationToSend = " +information.toString());
+			this.webviewer.WebViewString(information.toString());
 		}
-
+		
+		if (this.ChartType() == 1) { // 1: Line
+			// clear the history, since changing Home is a kind of reset
+			this.webviewer.HomeUrl(url+"LineChart.html");
+		} else {
+			this.webviewer.HomeUrl(url+"BarChart.html");
+		}
 	}
-
+	
+	/**
+	 * Function to prepare the JSONArray with the values stored in data.
+	 * @param data
+	 * @return JSONArray with the values of data.
+	 */
+	private JSONArray prepareRow(List<Object> data) {
+		JSONArray row = new JSONArray();
+		for(Object param: data) {
+			if(param instanceof String) {
+				row.put((String) param);
+			} else if(param instanceof Number) {
+				row.put((Number) param);
+			} else if(param instanceof Boolean) {
+				row.put((Boolean) param);
+			}
+		}
+		return row;
+	}
 }

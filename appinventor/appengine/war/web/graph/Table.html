@@ -7,32 +7,145 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
+ <script type="text/javascript">
+        var dataTable;
+        var chart;
+        var options;
+        var newRow = "";
+
         google.charts.load("current", {
             packages: ['table']
         });
         google.charts.setOnLoadCallback(drawVisualization);
 
 
+        /*
+            Function to add a column in the data table (with name and type).
+        */
+        function addColumnWithName(name, currentIndex, informationJson) {
+            if(isNaN(informationJson.table[0][currentIndex])) { //Check data type of first data on column
+                dataTable.addColumn('string', name);
+            } else {
+                dataTable.addColumn('number', name);
+            }
+        }
+
+        /*
+            Function to add a row in the data table (with value and position).
+        */
+        function addRowWithValue(currentIndexI, currentIndexJ, value) {
+            if(dataTable.getColumnType(currentIndexJ) == 'string') {
+                dataTable.setCell(currentIndexI, currentIndexJ, value);
+            } else {
+                dataTable.setCell(currentIndexI, currentIndexJ, Number(value));
+            }
+        }
+
+
+        /*
+            Function to draw the chart for first time with the data table values.
+        */
         function drawVisualization() {
-            google.visualization.drawChart({
-                "containerId": "visualization_div",
-                "dataSourceUrl": "//www.google.com/fusiontables/gvizdata?tq=",
-                "query": window.AppInventor.getWebViewString(),
-                "refreshInterval": 5,
-                "chartType": "Table",
-                "options": {
-                    legend: {
-                        position: 'bottom'
-                    },
-                    chartArea: {
-                        left: 20,
-                        top: 10,
-                        width: '75%',
-                        height: '75%'
+
+            if(window.AppInventor.getWebViewString().indexOf('SELECT') != -1) { //Query SQL
+                google.visualization.drawChart({
+                    "containerId": "visualization_div",
+                    "dataSourceUrl": "//www.google.com/fusiontables/gvizdata?tq=",
+                    "query": window.AppInventor.getWebViewString(),
+                    "refreshInterval": 1,
+                    "chartType": "Table",
+                    "options": {
+                        legend: {
+                            position: 'bottom'
+                        },
+                animation:{
+                    duration:1000,
+                easing:'linear'
+                },
+                        chartArea: {
+                left: 70,                       
+                            top: 10,
+                            width: '95%',
+                            height: '75%'
+                        }
+                    }
+                });
+            } else { //Data list
+                var informationJson = JSON.parse(window.AppInventor.getWebViewString());
+                dataTable = new google.visualization.DataTable();
+
+                //Get name for the values (columns)
+                var valuesTitle = [];
+
+                if(informationJson.hasOwnProperty('valuesTitle')) {
+                    valuesTitle = informationJson.valuesTitle.split(',');
+                }
+
+                //Add columns with name and type
+                if(valuesTitle.length != 0) {
+                    for(var i=0; i<valuesTitle.length; i++) {
+                        addColumnWithName(valuesTitle[i], i, informationJson);
+                    }
+                } else {
+                    for(var i=0; i<informationJson.table[0].length; i++) {
+                        addColumnWithName('p'+i, i, informationJson);
                     }
                 }
-            });
+
+                //Set number of rows to add
+                dataTable.addRows(informationJson.table.length);  
+
+                for(var i=0; i<informationJson.table.length; i++) { //Total Rows
+                    for(var j=0; j<informationJson.table[i].length; j++) { //Total Columns
+                        addRowWithValue(i, j, informationJson.table[i][j]);
+                    }
+                }
+
+                // Set chart options
+                options = {
+                        showRowNumber: true,
+                        legend: {
+                            position: 'bottom'
+                        },
+                        animation:{
+                            duration:1000,
+                            easing:'linear',
+                            startup:true
+                        },
+                        chartArea: {
+                            left: 30,                       
+                            top: 10,
+                            width: '95%',
+                            height: '75%'
+                        }};
+
+                chart = new google.visualization.Table(document.getElementById('visualization_div'));
+                chart.draw(dataTable, options);
+            }
+        }
+
+        /*
+            Function to update the chart every second (only for Data list option).
+        */
+        function updateVisualization() {
+
+            if(window.AppInventor.getWebViewString().indexOf('SELECT') == -1) { //Only for Data list
+                var informationJson = JSON.parse(window.AppInventor.getWebViewString());
+
+                //If the "window.AppInventor.getWebViewString()" value is changed and is not a table (is a new row).
+                if(newRow != window.AppInventor.getWebViewString() && window.AppInventor.getWebViewString().indexOf('table') == -1) {
+
+                    newRow = window.AppInventor.getWebViewString();
+
+                    dataTable.addRows(1);
+
+                    for(var i=0; i<informationJson.row.length; i++) { //Total Columns
+                        addRowWithValue(dataTable.getNumberOfRows()-1, i, informationJson.row[i]);
+                    }
+
+                    chart.draw(dataTable, options);
+                }
+            }
         }
     </script>
 </head>
@@ -51,8 +164,11 @@
             document.getElementById("loader").style.display = "none";
             document.getElementById("visualization_div").style.display = "block";
         }
+
+        window.setInterval(function(){
+            updateVisualization();
+        }, 1000);
     </script>
 </body>
-
 
 </html>

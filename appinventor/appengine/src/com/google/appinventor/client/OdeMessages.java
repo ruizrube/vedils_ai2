@@ -453,6 +453,14 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("ChartType")
 	@Description("")
 	String ChartTypeProperties();
+	
+	@DefaultMessage("AppendData")
+	@Description("")
+	String AppendDataMethods();
+	
+	@DefaultMessage("RefreshInterval")
+	@Description("")
+	String RefreshIntervalProperties();
 
 	@DefaultMessage("*CategoryAxisTitle")
 	@Description("")
@@ -461,6 +469,10 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("*ValueAxisTitle")
 	@Description("")
 	String ValueAxisTitleProperties();
+	
+	@DefaultMessage("ValuesTitle")
+	@Description("")
+	String ValuesTitleProperties();
 
 	@DefaultMessage("*IndexForCategoryAxis")
 	@Description("")
