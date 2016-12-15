@@ -141,14 +141,16 @@ public class DataTable extends AndroidViewComponent {
 		
 		if (this.Query() != null) {
 			this.webviewer.WebViewString(this.Query().generateSQLStatement());
-		} else if(Data() != null) {
+		} else {
 			//First, prepare JSONObject to send the information
 			JSONObject information = new JSONObject();
 			try {
 				JSONArray table = new JSONArray();
-				for(Object row: this.data) {
-					if(!(row instanceof SimpleSymbol)) {
-						table.put(prepareRow((List<Object>)row));
+				if(Data() != null) {
+					for(Object row: this.data) {
+						if(!(row instanceof SimpleSymbol)) {
+							table.put(prepareRow((List<Object>)row));
+						}
 					}
 				}
 				information.put("table", table);

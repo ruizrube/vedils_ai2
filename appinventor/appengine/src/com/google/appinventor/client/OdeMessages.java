@@ -482,7 +482,7 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String IndexForValueAxisProperties();
 
-	@DefaultMessage("*Data")
+	@DefaultMessage("Data")
 	@Description("")
 	String DataProperties();
 

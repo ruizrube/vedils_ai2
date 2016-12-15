@@ -301,10 +301,11 @@ public abstract class ActivityProcessor extends AndroidNonvisibleComponent imple
 	 * 
 	 * @param tableId
 	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING, defaultValue = "")
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_TEXTBOX_AND_HYPERLINK_FORACTIVITYTRACKER,
+		      defaultValue = "")
 	@SimpleProperty
-	public void TableId(String newtableId) {
-		tableId = newtableId;
+	public void TableId(String tableId) {
+		this.tableId = tableId;
 	}
 
 	/**

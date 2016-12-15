@@ -12,22 +12,22 @@
         var chart;
         var options;
         var newRow = "";
-
+        var valuesTitle = [];
 
         google.charts.load("current", {packages:['corechart']});
         google.charts.setOnLoadCallback(drawVisualization);
 
 
         /*
-            Function to add a column in the data table (with name and type).
-        */
-        function addColumnWithName(name, currentIndex, informationJson) {
-            if(isNaN(informationJson.table[0][currentIndex])) { //Check data type of first data on column
-                dataTable.addColumn('string', name);
-            } else {
-                dataTable.addColumn('number', name);
-            }
-        }
+        Function to add a column in the data table (with name and type).
+	    */
+	    function addColumnWithName(name, currentIndex, firstRow) {
+	        if(isNaN(firstRow[currentIndex])) { //Check data type of first data on column (first row).
+	            dataTable.addColumn('string', name);
+	        } else {
+	            dataTable.addColumn('number', name);
+	        }
+	    }
 
         /*
             Function to add a row in the data table (with value and position).
@@ -39,6 +39,21 @@
                 dataTable.setCell(currentIndexI, currentIndexJ, Number(value));
             }
         }
+        
+        /*
+    	Function to add all columns in the data table (DRY).
+	    */
+	    function addAllColumns(firstRow) {
+	    	if(valuesTitle.length != 0) {
+	            for(var i=0; i<valuesTitle.length; i++) {
+	                addColumnWithName(valuesTitle[i], i, firstRow);
+	            }
+	        } else {
+	            for(var i=0; i<firstRow.length; i++) {
+	                addColumnWithName('p'+i, i, firstRow);
+	            }
+	        }
+	    }
 
 
         /*
@@ -74,31 +89,23 @@
                 dataTable = new google.visualization.DataTable();
 
                 //Get name for the values (columns)
-                var valuesTitle = [];
-
                 if(informationJson.hasOwnProperty('valuesTitle')) {
                     valuesTitle = informationJson.valuesTitle.split(',');
                 }
 
                 //Add columns with name and type
-                if(valuesTitle.length != 0) {
-                    for(var i=0; i<valuesTitle.length; i++) {
-                        addColumnWithName(valuesTitle[i], i, informationJson);
+                if(informationJson.table.length > 0) {
+                	addAllColumns(informationJson.table[0]);
+                	
+                	//Set number of rows to add
+                    dataTable.addRows(informationJson.table.length);  
+
+
+                    //In the BarChart case only set the last value.
+                    var j = informationJson.table.length-1;
+                    for(var i=0; i<informationJson.table[j].length; i++) { //Total Columns
+                        addRowWithValue(0, i, informationJson.table[j][i]);
                     }
-                } else {
-                    for(var i=0; i<informationJson.table[0].length; i++) {
-                        addColumnWithName('p'+i, i, informationJson);
-                    }
-                }
-
-                //Set number of rows to add
-                dataTable.addRows(informationJson.table.length);  
-
-
-                //In the BarChart case only set the last value.
-                var j = informationJson.table.length-1;
-                for(var i=0; i<informationJson.table[j].length; i++) { //Total Columns
-                    addRowWithValue(0, i, informationJson.table[j][i]);
                 }
 
                 // Set chart options
@@ -148,6 +155,11 @@
                 if(newRow != window.AppInventor.getWebViewString() && window.AppInventor.getWebViewString().indexOf('table') == -1) {
 
                     newRow = window.AppInventor.getWebViewString();
+                    
+                    if(dataTable.getNumberOfColumns() == 0) { //The used table before was empty.
+                    	addAllColumns(informationJson.row);
+                    	dataTable.addRows(1); 
+                    }
 
                     for(var i=0; i<informationJson.row.length; i++) { //Total Rows
                         addRowWithValue(0, i, informationJson.row[i]);
