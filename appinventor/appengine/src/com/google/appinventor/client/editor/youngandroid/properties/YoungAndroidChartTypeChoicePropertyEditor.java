@@ -21,6 +21,7 @@ public class YoungAndroidChartTypeChoicePropertyEditor extends ChoicePropertyEdi
   private static final Choice[] chartTypes = new Choice[] {
     new Choice(MESSAGES.barChart(), "0"),
     new Choice(MESSAGES.lineChart() , "1"),
+    new Choice(MESSAGES.columnChart(), "2")
  //   new Choice(MESSAGES.pieChart(), "2"),
   };
 

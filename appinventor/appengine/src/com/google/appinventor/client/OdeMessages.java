@@ -495,6 +495,10 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("Line")
 	@Description("Text for chart type 'line'")
 	String lineChart();
+	
+	@DefaultMessage("Column")
+	@Description("Text for chart type 'column'")
+	String columnChart();
 
 	// @DefaultMessage("Pie")
 	// @Description("Text for chart type 'pie'")

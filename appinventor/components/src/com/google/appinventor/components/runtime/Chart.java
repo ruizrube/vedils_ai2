@@ -288,6 +288,8 @@ public class Chart extends AndroidViewComponent {
 		if (this.ChartType() == 1) { // 1: Line
 			// clear the history, since changing Home is a kind of reset
 			this.webviewer.HomeUrl(url+"LineChart.html");
+		} else if(this.ChartType() == 2) { // 2: Column
+			this.webviewer.HomeUrl(url+"ColumnChart.html");
 		} else {
 			this.webviewer.HomeUrl(url+"BarChart.html");
 		}
