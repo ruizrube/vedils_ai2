@@ -139,12 +139,16 @@ public class DataTable extends AndroidViewComponent {
 	public void Refresh() {
 		System.out.println("refrescando tabla");
 		
-		if (this.Query() != null) {
-			this.webviewer.WebViewString(this.Query().generateSQLStatement());
-		} else {
-			//First, prepare JSONObject to send the information
-			JSONObject information = new JSONObject();
-			try {
+		JSONObject information = new JSONObject();
+		
+		try {
+			if (this.Query() != null) { //Prepare JSONObject to send the information (SQL option).
+				
+				information.put("querySQL", this.Query().generateSQLStatement());
+				information.put("valuesTitle", this.valuesTitle);
+				information.put("refreshInterval", this.refreshInterval);
+			} else { //Prepare JSONObject to send the information (Data list option).
+				
 				JSONArray table = new JSONArray();
 				if(Data() != null) {
 					for(Object row: this.data) {
@@ -155,12 +159,16 @@ public class DataTable extends AndroidViewComponent {
 				}
 				information.put("table", table);
 				information.put("valuesTitle", this.valuesTitle);
-			} catch(JSONException e) {
-				System.out.println("Error to prepare information in JSONObject");
 			}
-			System.out.println("informationToSend = " +information.toString());
-			this.webviewer.WebViewString(information.toString());
+		} catch(JSONException e) {
+			System.out.println("Error to prepare information in JSONObject");
 		}
+		
+		System.out.println("informationToSend = " +information.toString());
+		
+		//And send the information
+		this.webviewer.WebViewString(information.toString());
+		
 		// clear the history, since changing Home is a kind of reset
 		this.webviewer.HomeUrl(url);
 	}

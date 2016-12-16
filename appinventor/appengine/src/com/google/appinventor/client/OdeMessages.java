@@ -462,11 +462,11 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String RefreshIntervalProperties();
 
-	@DefaultMessage("*CategoryAxisTitle")
+	@DefaultMessage("CategoryAxisTitle")
 	@Description("")
 	String CategoryAxisTitleProperties();
 
-	@DefaultMessage("*ValueAxisTitle")
+	@DefaultMessage("ValueAxisTitle")
 	@Description("")
 	String ValueAxisTitleProperties();
 	

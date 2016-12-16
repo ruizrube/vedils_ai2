@@ -57,35 +57,59 @@
 
 
         /*
-            Function to draw the chart for first time with the data table values.
+            Function to draw the chart for first time with the data table values or query result.
         */
         function drawVisualization() {
+            	
+            //First, read the JSON information
+            var informationJson = JSON.parse(window.AppInventor.getWebViewString());
+            
+         	// Second, read chart options (check if the user not define them)
+            var hAxisValue = "";
+            var vAxisValue = "";
+            var refreshIntervalValue = 5;
 
-            if(window.AppInventor.getWebViewString().indexOf('SELECT') != -1) { //Query SQL
+            if(informationJson.hasOwnProperty('valueAxisTitle')) {
+                hAxisValue = informationJson.valueAxisTitle;
+            }
+
+            if(informationJson.hasOwnProperty('categoryAxisTitle')) {
+                vAxisValue = informationJson.categoryAxisTitle;
+            }
+            
+            if(informationJson.hasOwnProperty('refreshInterval')) {
+                refreshIntervalValue = informationJson.refreshInterval;
+            }
+            
+            //Finally, create the chart with the information
+
+            if(informationJson.hasOwnProperty('querySQL')) { //Query SQL
                 google.visualization.drawChart({
                     "containerId": "visualization_div",
                     "dataSourceUrl": "//www.google.com/fusiontables/gvizdata?tq=",
-                    "query": window.AppInventor.getWebViewString(),
-                    "refreshInterval": 1,
+                    "query": informationJson.querySQL,
+                    "refreshInterval": refreshIntervalValue,
                     "chartType": "BarChart",
                     "options": {
                         legend: {
                             position: 'bottom'
                         },
-                animation:{
-                    duration:1000,
-                easing:'linear'
-                },
-                        chartArea: {
-                left: 70,                       
-                            top: 10,
-                            width: '95%',
-                            height: '75%'
-                        }
+                		animation:{
+                    		duration:1000,
+                			easing:'linear',
+                			startup:true
+                		},
+                     	chartArea: {
+             				left: 30,                       
+                         	top: 10,
+                         	width: '95%',
+                         	height: '75%'
+                     	},
+                        hAxis: {title:hAxisValue},
+                        vAxis: {title:vAxisValue}
                     }
                 });
             } else { //Data list
-                var informationJson = JSON.parse(window.AppInventor.getWebViewString());
                 dataTable = new google.visualization.DataTable();
 
                 //Get name for the values (columns)
@@ -107,19 +131,8 @@
                         addRowWithValue(0, i, informationJson.table[j][i]);
                     }
                 }
-
-                // Set chart options
-                var hAxisValue = "";
-                var vAxisValue = "";
-
-                if(informationJson.hasOwnProperty('valueAxisTitle')) {
-                    hAxisValue = informationJson.valueAxisTitle;
-                }
-
-                if(informationJson.hasOwnProperty('categoryAxisTitle')) {
-                    vAxisValue = informationJson.categoryAxisTitle;
-                }
                 
+             	// Set chart options
                 options = {
                         legend: {
                             position: 'bottom'
@@ -147,12 +160,13 @@
             Function to update the chart every second (only for Data list option).
         */
         function updateVisualization() {
+        	
+        	var informationJson = JSON.parse(window.AppInventor.getWebViewString());
 
-            if(window.AppInventor.getWebViewString().indexOf('SELECT') == -1) { //Only for Data list
-                var informationJson = JSON.parse(window.AppInventor.getWebViewString());
+            if(!informationJson.hasOwnProperty('querySQL')) { //Only for Data list
 
                 //If the "window.AppInventor.getWebViewString()" value is changed and is not a table (is a new row).
-                if(newRow != window.AppInventor.getWebViewString() && window.AppInventor.getWebViewString().indexOf('table') == -1) {
+                if(newRow != window.AppInventor.getWebViewString() && !informationJson.hasOwnProperty('table')) {
 
                     newRow = window.AppInventor.getWebViewString();
                     
