@@ -2,7 +2,6 @@ package com.google.appinventor.components.runtime;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
@@ -301,10 +300,11 @@ public abstract class ActivityProcessor extends AndroidNonvisibleComponent imple
 	 * 
 	 * @param tableId
 	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING, defaultValue = "")
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_TEXTBOX_AND_HYPERLINK_FORACTIVITYTRACKER,
+		      defaultValue = "")
 	@SimpleProperty
-	public void TableId(String newtableId) {
-		tableId = newtableId;
+	public void TableId(String tableId) {
+		this.tableId = tableId;
 	}
 
 	/**

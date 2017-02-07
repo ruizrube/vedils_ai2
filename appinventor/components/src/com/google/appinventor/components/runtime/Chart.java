@@ -250,17 +250,27 @@ public class Chart extends AndroidViewComponent {
 		System.out.println("Refrescando grafico");
 		
 		String url = url_base;
-
-		if (this.Query() != null) {
-			this.webviewer.WebViewString(this.Query().generateSQLStatement());
-		} else if(Data() != null) {
-			//First, prepare JSONObject to send the information
-			JSONObject information = new JSONObject();
-			try {
+		
+		JSONObject information = new JSONObject();
+		
+		try {
+			if (this.Query() != null) { //Prepare JSONObject to send the information (SQL option).
+				
+				information.put("querySQL", this.Query().generateSQLStatement());
+				information.put("categoryAxisTitle", this.categoryAxisTitle);
+				information.put("valueAxisTitle", this.valueAxisTitle);
+				information.put("valuesTitle", this.valuesTitle);
+				information.put("indexForCategory", this.indexForCategoryAxis);
+				information.put("indexForValue", this.indexForValueAxis);
+				information.put("refreshInterval", this.refreshInterval);
+			} else { //Prepare JSONObject to send the information (Data list option).
+				
 				JSONArray table = new JSONArray();
-				for(Object row: this.data) {
-					if(!(row instanceof SimpleSymbol)) {
-						table.put(prepareRow((List<Object>)row));
+				if(Data() != null) {
+					for(Object row: this.data) {
+						if(!(row instanceof SimpleSymbol)) {
+							table.put(prepareRow((List<Object>)row));
+						}
 					}
 				}
 				information.put("table", table);
@@ -269,16 +279,21 @@ public class Chart extends AndroidViewComponent {
 				information.put("valuesTitle", this.valuesTitle);
 				information.put("indexForCategory", this.indexForCategoryAxis);
 				information.put("indexForValue", this.indexForValueAxis);
-			} catch(JSONException e) {
-				System.out.println("Error to prepare information in JSONObject");
 			}
-			System.out.println("informationToSend = " +information.toString());
-			this.webviewer.WebViewString(information.toString());
+		} catch(JSONException e) {
+			System.out.println("Error to prepare information in JSONObject");
 		}
+		
+		System.out.println("informationToSend = " +information.toString());
+		
+		//And send the information
+		this.webviewer.WebViewString(information.toString());
 		
 		if (this.ChartType() == 1) { // 1: Line
 			// clear the history, since changing Home is a kind of reset
 			this.webviewer.HomeUrl(url+"LineChart.html");
+		} else if(this.ChartType() == 2) { // 2: Column
+			this.webviewer.HomeUrl(url+"ColumnChart.html");
 		} else {
 			this.webviewer.HomeUrl(url+"BarChart.html");
 		}

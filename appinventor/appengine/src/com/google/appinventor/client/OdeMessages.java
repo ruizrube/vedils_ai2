@@ -622,11 +622,11 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String RefreshIntervalProperties();
 
-	@DefaultMessage("*CategoryAxisTitle")
+	@DefaultMessage("CategoryAxisTitle")
 	@Description("")
 	String CategoryAxisTitleProperties();
 
-	@DefaultMessage("*ValueAxisTitle")
+	@DefaultMessage("ValueAxisTitle")
 	@Description("")
 	String ValueAxisTitleProperties();
 	
@@ -642,7 +642,7 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String IndexForValueAxisProperties();
 
-	@DefaultMessage("*Data")
+	@DefaultMessage("Data")
 	@Description("")
 	String DataProperties();
 
@@ -655,6 +655,10 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("Line")
 	@Description("Text for chart type 'line'")
 	String lineChart();
+	
+	@DefaultMessage("Column")
+	@Description("Text for chart type 'column'")
+	String columnChart();
 
 	// @DefaultMessage("Pie")
 	// @Description("Text for chart type 'pie'")

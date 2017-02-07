@@ -25,6 +25,8 @@ public class MockChart extends MockVisibleComponent {
 	private static final int BAR = 0;
 
 	private static final int LINE = 1;
+	
+	private static final int COLUMN = 2;
 
 	// Large icon image for use in designer. Smaller version is in the palette.
 	private final Image barLargeImage = new Image(images.barChartbig());
@@ -53,7 +55,7 @@ public class MockChart extends MockVisibleComponent {
 
 	private void setChartTypeProperty(String newValue) {
 		
-		if(newValue.equals(BAR + "")){
+		if(newValue.equals(BAR + "") || newValue.equals(COLUMN + "")){
 			mockChartWidget.setWidget(barLargeImage);
 		} else if(newValue.equals(LINE + "")){
 			mockChartWidget.setWidget(lineLargeImage);

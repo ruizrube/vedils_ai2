@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>VEDILS - Graph Visualization BarChart</title>
+    <title>VEDILS - Graph Visualization ColumnChart</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -89,7 +89,7 @@
                     "dataSourceUrl": "//www.google.com/fusiontables/gvizdata?tq=",
                     "query": informationJson.querySQL,
                     "refreshInterval": refreshIntervalValue,
-                    "chartType": "BarChart",
+                    "chartType": "ColumnChart",
                     "options": {
                         legend: {
                             position: 'bottom'
@@ -125,7 +125,7 @@
                     dataTable.addRows(informationJson.table.length);  
 
 
-                    //In the BarChart case only set the last value.
+                    //In the ColumnChart case only set the last value.
                     var j = informationJson.table.length-1;
                     for(var i=0; i<informationJson.table[j].length; i++) { //Total Columns
                         addRowWithValue(0, i, informationJson.table[j][i]);
@@ -151,7 +151,7 @@
                         hAxis: {title:hAxisValue},
                         vAxis: {title:vAxisValue}};
 
-                chart = new google.visualization.BarChart(document.getElementById('visualization_div'));
+                chart = new google.visualization.ColumnChart(document.getElementById('visualization_div'));
                 chart.draw(dataTable, options);
             }
         }

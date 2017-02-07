@@ -113,7 +113,17 @@ private static final int MAX_STATEMENTS = 10;
 	   }
    }
    
-   
+   /*
+    * Function to check if the NetworkInfo object is null for possible problem with devices without
+    *  3G capabilities (or wifi).
+    */
+   private boolean getNetworkInfoState(NetworkInfo networkInfo) {
+	   if(networkInfo != null) {
+		   return networkInfo.getState().equals(State.CONNECTED);
+	   } else {
+		   return false;
+	   }
+   }
    
    /*
     * Check the internet access to send data or save
@@ -125,10 +135,10 @@ private static final int MAX_STATEMENTS = 10;
 		   NetworkInfo data = connectivity.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 		   
 		   if(communicationMode == Component.INDIFFERENT) {
-			   return wifi.getState().equals(State.CONNECTED) || data.getState().equals(State.CONNECTED);
+			   	return getNetworkInfoState(wifi) || getNetworkInfoState(data);
 		   } else { //only wifi
-			   return wifi.getState().equals(State.CONNECTED);
-		   }
+			   	return getNetworkInfoState(wifi);
+		   }   
 	   }
 	   return false;
    }

@@ -12,6 +12,7 @@
         var chart;
         var options;
         var newRow = "";
+        var valuesTitle = [];
 
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawVisualization);
@@ -19,8 +20,8 @@
         /*
             Function to add a column in the data table (with name and type).
         */
-        function addColumnWithName(name, currentIndex, informationJson) {
-            if(isNaN(informationJson.table[0][currentIndex])) { //Check data type of first data on column
+        function addColumnWithName(name, currentIndex, firstRow) {
+            if(isNaN(firstRow[currentIndex])) { //Check data type of first data on column (first row).
                 dataTable.addColumn('string', name);
             } else {
                 dataTable.addColumn('number', name);
@@ -37,56 +38,87 @@
                 dataTable.setCell(currentIndexI, currentIndexJ, Number(value));
             }
         }
+        
+        /*
+        	Function to add all columns in the data table (DRY).
+        */
+        function addAllColumns(firstRow) {
+        	if(valuesTitle.length != 0) {
+                for(var i=0; i<valuesTitle.length; i++) {
+                    addColumnWithName(valuesTitle[i], i, firstRow);
+                }
+            } else {
+                for(var i=0; i<firstRow.length; i++) {
+                    addColumnWithName('p'+i, i, firstRow);
+                }
+            }
+        }
 
 
         /*
-            Function to draw the chart for first time with the data table values.
-        */
+        	Function to draw the chart for first time with the data table values or query result.
+    	*/
         function drawVisualization() {
+            	
+           	//First, read the JSON information
+            var informationJson = JSON.parse(window.AppInventor.getWebViewString());
+            
+         	// Second, read chart options (check if the user not define them)
+            var hAxisValue = "";
+            var vAxisValue = "";
+            var refreshIntervalValue = 5;
+            
+            if(informationJson.hasOwnProperty('valueAxisTitle')) {
+                hAxisValue = informationJson.valueAxisTitle;
+            }
 
-            if(window.AppInventor.getWebViewString().indexOf('SELECT') != -1) { //Query SQL
+            if(informationJson.hasOwnProperty('categoryAxisTitle')) {
+                vAxisValue = informationJson.categoryAxisTitle;
+            }
+            
+            if(informationJson.hasOwnProperty('refreshInterval')) {
+                refreshIntervalValue = informationJson.refreshInterval;
+            }
+            
+            //Finally, create the chart with the information
+
+            if(informationJson.hasOwnProperty('querySQL')) { //Query SQL
                 google.visualization.drawChart({
                     "containerId": "visualization_div",
                     "dataSourceUrl": "//www.google.com/fusiontables/gvizdata?tq=",
-                    "query": window.AppInventor.getWebViewString(),
-                    "refreshInterval": 1,
+                    "query": informationJson.querySQL,
+                    "refreshInterval": refreshIntervalValue,
                     "chartType": "LineChart",
                     "options": {
                         legend: {
                             position: 'bottom'
                         },
-                animation:{
-                    duration:1000,
-                easing:'linear'
-                },
-                        chartArea: {
-                left: 70,                       
-                            top: 10,
-                            width: '95%',
-                            height: '75%'
-                        }
+                		animation:{
+                    		duration:1000,
+                			easing:'linear',
+                			startup:true
+                		},
+                     	chartArea: {
+             				left: 30,                       
+                         	top: 10,
+                         	width: '95%',
+                         	height: '75%'
+                     	},
+                        hAxis: {title:hAxisValue},
+                        vAxis: {title:vAxisValue}
                     }
                 });
             } else { //Data list
-                var informationJson = JSON.parse(window.AppInventor.getWebViewString());
                 dataTable = new google.visualization.DataTable();
 
                 //Get name for the values (columns)
-                var valuesTitle = [];
-
                 if(informationJson.hasOwnProperty('valuesTitle')) {
                     valuesTitle = informationJson.valuesTitle.split(',');
                 }
 
                 //Add columns with name and type
-                if(valuesTitle.length != 0) {
-                    for(var i=0; i<valuesTitle.length; i++) {
-                        addColumnWithName(valuesTitle[i], i, informationJson);
-                    }
-                } else {
-                    for(var i=0; i<informationJson.table[0].length; i++) {
-                        addColumnWithName('p'+i, i, informationJson);
-                    }
+                if(informationJson.table.length > 0) {
+                	addAllColumns(informationJson.table[0]);
                 }
 
                 //Set number of rows to add
@@ -138,14 +170,19 @@
             Function to update the chart every second (only for Data list option).
         */
         function updateVisualization() {
+        	
+        	var informationJson = JSON.parse(window.AppInventor.getWebViewString());
 
-            if(window.AppInventor.getWebViewString().indexOf('SELECT') == -1) { //Only for Data list
-                var informationJson = JSON.parse(window.AppInventor.getWebViewString());
+            if(!informationJson.hasOwnProperty('querySQL')) { //Only for Data list
 
                 //If the "window.AppInventor.getWebViewString()" value is changed and is not a table (is a new row).
-                if(newRow != window.AppInventor.getWebViewString() && window.AppInventor.getWebViewString().indexOf('table') == -1) {
+                if(newRow != window.AppInventor.getWebViewString() && !informationJson.hasOwnProperty('table')) {
 
                     newRow = window.AppInventor.getWebViewString();
+                    
+                    if(dataTable.getNumberOfColumns() == 0) { //The used table before was empty.
+                    	addAllColumns(informationJson.row);
+                    }
 
                     dataTable.addRows(1);
 
