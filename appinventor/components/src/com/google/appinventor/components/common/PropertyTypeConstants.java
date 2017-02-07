@@ -224,6 +224,9 @@ public class PropertyTypeConstants {
 	// Para asociar tipo de dispositivo EEG
 	public static final String PROPERTY_TYPE_EEG = "eegType";
 
+	// Para arbol de datos
+	public static final String PROPERTY_TYPE_TREEFORSEMANTICTYPE = "treeForSemanticType";
+
 	/**
 	 * Display a hyperlink with a constant URL
 	/**

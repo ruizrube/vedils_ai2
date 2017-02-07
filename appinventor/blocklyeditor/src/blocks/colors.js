@@ -14,6 +14,7 @@ goog.provide('Blockly.Blocks.color');
 
 goog.require('Blockly.Blocks.Utilities');
 
+
 Blockly.Blocks['color_black'] = {
   // Colour picker.
   category: "Colors",

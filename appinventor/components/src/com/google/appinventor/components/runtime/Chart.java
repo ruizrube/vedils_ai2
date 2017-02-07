@@ -50,8 +50,12 @@ public class Chart extends AndroidViewComponent {
 
 	private ActivityProcessor query;
 
-	private String url_base = "http://vedils.uca.es/web/graph/";
-	//private String url_base = "http://192.168.1.3:8888/web/graph/"; //For local test
+	//private String url_base = "http://vedils.uca.es/web/graph/";
+	private String url_base = "http://192.168.1.2:8888/web/graph/"; //For local test
+	
+	//private String url_base = "http://10.182.168.193:8888/web/graph/"; //For local test
+	
+	 
 
 	public Chart(ComponentContainer container) {
 		super(container);

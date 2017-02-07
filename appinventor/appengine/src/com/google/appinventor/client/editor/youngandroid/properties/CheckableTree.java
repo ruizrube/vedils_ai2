@@ -142,6 +142,12 @@ public class CheckableTree extends Tree {
 		super();
 		addSelectionHandler(new CheckableTreeSelectionHandler());
 	}
+	
+	public CheckableTree(CheckableTreeSelectionHandler c) {
+		super();
+		addSelectionHandler(c);
+	}
+
 
 	public CheckableTree(TreeImages images) {
 		super(images);

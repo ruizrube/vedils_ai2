@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import com.google.appinventor.client.ComponentsTranslation;
 import com.google.appinventor.client.TranslationDesignerPallete;
 import com.google.appinventor.client.editor.simple.SimpleComponentDatabase;
 import com.google.appinventor.client.editor.simple.components.MockComponent;
@@ -48,6 +47,7 @@ import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroid
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidSynchronizationModeChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidTextReceivingPropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidToastLengthChoicePropertyEditor;
+import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidTreeSelectorForSemanticType;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidVerticalAlignmentChoicePropertyEditor;
 import com.google.appinventor.client.widgets.properties.CountryChoicePropertyEditor;
 import com.google.appinventor.client.widgets.properties.FloatPropertyEditor;
@@ -68,6 +68,8 @@ import com.google.appinventor.shared.simple.ComponentDatabaseInterface.PropertyD
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.appinventor.client.ComponentsTranslation;
+
 
 /**
  * Panel showing Simple components which can be dropped onto the Young Android
@@ -299,6 +301,8 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 			return new YoungAndroidDefaultURLPropertyEditor("DEFAULT");
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_EEG)) {
 			return new YoungAndroidEEGDeviceChoicePropertyEditor();	
+		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TREEFORSEMANTICTYPE)) {
+			return new YoungAndroidTreeSelectorForSemanticType();	
 		} else {
 			return new TextPropertyEditor();
 		}

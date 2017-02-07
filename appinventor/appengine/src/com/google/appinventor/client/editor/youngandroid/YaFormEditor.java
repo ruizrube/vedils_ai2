@@ -366,6 +366,20 @@ public final class YaFormEditor extends SimpleEditor implements FormChangeListen
     return form;
   }
 
+  
+  public String getComponentInstanceSemanticTypeValue(String instanceName) {
+	 
+	  String aux=getComponents().get(instanceName).getPropertyValue("Classifier");
+	  
+	 // return aux.substring( aux.indexOf("[")+1, aux.indexOf("]"));
+	  
+	  return aux;
+	  
+	    
+	  }
+
+  
+  
   public String getComponentInstanceTypeName(String instanceName) {
     return getComponents().get(instanceName).getType();
   }

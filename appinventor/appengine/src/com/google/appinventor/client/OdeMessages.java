@@ -20,8 +20,20 @@ import com.google.gwt.i18n.client.Messages;
 
 public interface OdeMessages extends Messages {
 	// Used in LD4AI
-
 	
+	
+	
+	@DefaultMessage("Classifier")
+	@Description("")
+	String ClassifierProperties();
+
+	@DefaultMessage("Alias")
+	@Description("")
+	String AliasProperties();
+
+	@DefaultMessage("ImageURL")
+	@Description("")
+	String ImageURLProperties();
 	
 	@DefaultMessage("Label")
 	@Description("")
@@ -45,8 +57,25 @@ public interface OdeMessages extends Messages {
 	String SecondLanguageProperties();
 	
 	
+	@DefaultMessage("RetrievePropertyLabel")
+	@Description("")
+	String RetrievePropertyLabelMethods();
 
 	
+	@DefaultMessage("AvailableProperties")
+	@Description("")
+	String AvailablePropertiesMethods();
+
+	
+	@DefaultMessage("RetrieveAliases")
+	@Description("")
+	String RetrieveAliasesMethods();
+
+	
+	@DefaultMessage("ClassifyTextMethods")
+	@Description("")
+	String ClassifyTextMethods();
+
 	@DefaultMessage("ExplainConceptMethods")
 	@Description("")
 	String ExplainConceptMethods();
@@ -55,17 +84,97 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String LoadMethods();
 
+	@DefaultMessage("RetrieveLinkedConcept")
+	@Description("")
+	String RetrieveLinkedConceptMethods();
+
+	@DefaultMessage("RetrieveLinkedConcepts")
+	@Description("")
+	String RetrieveLinkedConceptsMethods();
+
 	@DefaultMessage("RetrieveNumericValue")
 	@Description("")
 	String RetrieveNumericValueMethods();
 
-	
+	@DefaultMessage("RetrieveNumericValues")
+	@Description("")
+	String RetrieveNumericValuesMethods();
+
 	@DefaultMessage("RetrieveStringValue")
 	@Description("")
 	String RetrieveStringValueMethods();
 
+	@DefaultMessage("RetrieveStringValues")
+	@Description("")
+	String RetrieveStringValuesMethods();
 
 	
+	@DefaultMessage("RetrieveAssistedLinkedConcept")
+	@Description("")
+	String RetrieveAssistedLinkedConceptMethods();
+
+	@DefaultMessage("RetrieveAssistedLinkedConcepts")
+	@Description("")
+	String RetrieveAssistedLinkedConceptsMethods();
+
+	@DefaultMessage("RetrieveAssistedNumericValue")
+	@Description("")
+	String RetrieveAssistedNumericValueMethods();
+
+	@DefaultMessage("RetrieveAssistedNumericValues")
+	@Description("")
+	String RetrieveAssistedNumericValuesMethods();
+
+	@DefaultMessage("RetrieveAssistedStringValue")
+	@Description("")
+	String RetrieveAssistedStringValueMethods();
+
+	@DefaultMessage("RetrieveAssistedStringValues")
+	@Description("")
+	String RetrieveAssistedStringValuesMethods();
+
+	
+	
+	@DefaultMessage("RetrieveInstancesByClassifierID")
+	@Description("")
+	String RetrieveInstancesByClassifierIDMethods();
+
+	@DefaultMessage("RetrievePaginatedInstancesByClassifierID")
+	@Description("")
+	String RetrievePaginatedInstancesByClassifierIDMethods();
+
+	@DefaultMessage("RetrieveInstances")
+	@Description("")
+	String RetrieveInstancesMethods();
+
+	@DefaultMessage("RetrievePaginatedInstances")
+	@Description("")
+	String RetrievePaginatedInstancesMethods();
+
+	@DefaultMessage("RetrievePropertiesByClassifierID")
+	@Description("")
+	String RetrievePropertiesByClassifierIDMethods();
+
+	@DefaultMessage("RetrieveProperties")
+	@Description("")
+	String RetrievePropertiesMethods();
+
+	@DefaultMessage("RetrieveAncestorsByClassifierID")
+	@Description("")
+	String RetrieveAncestorsByClassifierIDMethods();
+
+	@DefaultMessage("RetrieveAncestors")
+	@Description("")
+	String RetrieveAncestorsMethods();
+
+	@DefaultMessage("RetrieveDescendantsByClassifierID")
+	@Description("")
+	String RetrieveDescendantsByClassifierIDMethods();
+	
+	@DefaultMessage("RetrieveDescendants")
+	@Description("")
+	String RetrieveDescendantsMethods();
+
 	
 	
 	

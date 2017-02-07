@@ -194,5 +194,7 @@
 	<classpathentry kind="lib" path="lib/brain4ai/jna.jar"/>
 	<classpathentry kind="lib" path="lib/android/5.0/android.jar"/>
 	<classpathentry kind="lib" path="lib/brain4ai/bedk.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ld4ai"/>
+	<classpathentry kind="lib" path="lib/ld4ai/ld4ai-0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

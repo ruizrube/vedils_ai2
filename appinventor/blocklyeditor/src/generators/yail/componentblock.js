@@ -160,21 +160,35 @@ Blockly.Yail.methodHelper = function(methodBlock, name, methodName, generic) {
   } else {
     callPrefix = Blockly.Yail.YAIL_CALL_COMPONENT_METHOD;
     name = methodBlock.getFieldValue("COMPONENT_SELECTOR");
+ 
     // special case for handling Clock.Add
     timeUnit = methodBlock.getFieldValue("TIME_UNIT");
     if (timeUnit) {
       if (Blockly.ComponentBlock.isClockMethodName(methodName)) {
-        methodName = "Add"+timeUnit; // For example, AddDays
+        methodName = "Add"+timeUnit; // For example, AddDays      
       }
     }
+        
   }
 
   var args = [];
-  for (var x = 0; x < numOfParams; x++) {
+  var x=0;
+  for (x = 0; x < numOfParams; x++) {
     // TODO(hal, andrew): check for empty socket and generate error if necessary
     args.push(Blockly.Yail.YAIL_SPACER
               + Blockly.Yail.valueToCode(methodBlock, 'ARG' + x, Blockly.Yail.ORDER_NONE));
   }
+
+
+  // IRR: special case for handling SemanticConcept.RetrieveString 
+    dataProperty = methodBlock.getFieldValue("DATA_PROPERTY");
+    if (dataProperty) {
+      if (Blockly.ComponentBlock.isSemanticConceptMethodName(methodName)) {
+          args.push(Blockly.Yail.YAIL_SPACER + dataProperty);      
+      }
+    }
+  
+
 
   return callPrefix
     + Blockly.Yail.YAIL_QUOTE
