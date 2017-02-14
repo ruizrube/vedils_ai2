@@ -183,8 +183,9 @@ Blockly.Yail.methodHelper = function(methodBlock, name, methodName, generic) {
   // IRR: special case for handling SemanticConcept.RetrieveString 
     dataProperty = methodBlock.getFieldValue("DATA_PROPERTY");
     if (dataProperty) {
+       console.log('Data Property RetrieveString = '+dataProperty);
       if (Blockly.ComponentBlock.isSemanticConceptMethodName(methodName)) {
-          args.push(Blockly.Yail.YAIL_SPACER + dataProperty);      
+          args.push(Blockly.Yail.YAIL_SPACER + Blockly.Yail.quote_(dataProperty));
       }
     }
   
