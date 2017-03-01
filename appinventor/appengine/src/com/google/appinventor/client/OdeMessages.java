@@ -6898,6 +6898,14 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("IP")
 	@Description("")
 	String IPProperties();
+	
+	@DefaultMessage("InternetConnection")
+	@Description("")
+	String InternetConnectionProperties();
+	
+	@DefaultMessage("AndroidAPILevel")
+	@Description("")
+	String AndroidAPILevelProperties();
 
 	//
 	// ActivityTracker
@@ -7008,5 +7016,32 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("HandDisappears")
 	@Description("")
 	String HandDisappearsEvents();
-
+	
+	@DefaultMessage("WaveOutGesture")
+	@Description("")
+	String WaveOutGestureEvents();
+	
+	@DefaultMessage("WaveInGesture")
+	@Description("")
+	String WaveInGestureEvents();
+	
+	@DefaultMessage("FistGesture")
+	@Description("")
+	String FistGestureEvents();
+	
+	@DefaultMessage("FingersSpreadGesture")
+	@Description("")
+	String FingersSpreadGestureEvents();
+	
+	@DefaultMessage("OrientationData")
+	@Description("")
+	String OrientationDataEvents();
+	
+	@DefaultMessage("DeviceSynchronized")
+	@Description("")
+	String DeviceSynchronizedEvents();
+	
+	@DefaultMessage("DeviceUnsynchronized")
+	@Description("")
+	String DeviceUnsynchronizedEvents();
 }
