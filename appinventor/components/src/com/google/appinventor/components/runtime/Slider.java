@@ -4,6 +4,7 @@ import android.R;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
@@ -59,7 +60,8 @@ public class Slider extends AndroidViewComponent implements SeekBar.OnSeekBarCha
   // the total slider width
   private LayerDrawable fullBar;
   // the part of the slider to the left of the thumb
-  private ClipDrawable beforeThumb;
+  private ClipDrawable beforeThumbClip;
+  private ScaleDrawable beforeThumbScale;
 
   // colors of the bar after and before the thumb position
   private int rightColor;
@@ -97,7 +99,14 @@ public class Slider extends AndroidViewComponent implements SeekBar.OnSeekBarCha
     seekbar = new SeekBar(container.$context());
 
     fullBar = (LayerDrawable) seekbar.getProgressDrawable();
-    beforeThumb = (ClipDrawable) fullBar.findDrawableByLayerId(R.id.progress);
+    
+    //SPI-FM for CastException problem (is not a ClipDrawable).
+    if(fullBar.findDrawableByLayerId(R.id.progress) instanceof ClipDrawable) {
+    	beforeThumbClip = (ClipDrawable) fullBar.findDrawableByLayerId(R.id.progress);
+    } else if(fullBar.findDrawableByLayerId(R.id.progress) instanceof ScaleDrawable) {
+    	beforeThumbScale = (ScaleDrawable) fullBar.findDrawableByLayerId(R.id.progress);
+    }
+    
     leftColor = initialLeftColor;
     rightColor = initialRightColor;
     setSliderColors();
@@ -137,7 +146,11 @@ public class Slider extends AndroidViewComponent implements SeekBar.OnSeekBarCha
   // change until the thumb is moved.  I'm ignoring that problem.
   private void setSliderColors() {
    fullBar.setColorFilter(rightColor,PorterDuff.Mode.SRC);
-   beforeThumb.setColorFilter(leftColor, PorterDuff.Mode.SRC);
+   if(beforeThumbClip != null) {
+	   beforeThumbClip.setColorFilter(leftColor, PorterDuff.Mode.SRC);
+   } else if(beforeThumbScale != null) {
+	   beforeThumbScale.setColorFilter(leftColor, PorterDuff.Mode.SRC);
+   }
  }
 
   /**

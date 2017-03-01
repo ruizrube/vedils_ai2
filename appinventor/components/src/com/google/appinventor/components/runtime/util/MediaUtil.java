@@ -116,7 +116,8 @@ public class MediaUtil {
     }
 
     if (form instanceof ReplForm) {
-      if (((ReplForm)form).isAssetsLoaded())
+      if (((ReplForm)form).isAssetsLoaded() && !mediaPath.contains(".p12")) //SPI-FM: ActivityTracker auth file 
+    	  																	//saved in the Companion internal directory
         return MediaSource.REPL_ASSET;
       else
         return MediaSource.ASSET;
