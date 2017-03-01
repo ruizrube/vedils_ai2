@@ -21,6 +21,7 @@ import java.util.Set;
 
 import org.json.JSONException;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -1045,27 +1046,46 @@ public class Form extends Activity
 	/**
 	 * TitleVisible property setter method.
 	 *
-	 * @param show
-	 *            boolean
+	 * @param show boolean
 	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN, defaultValue = "True")
-	@SimpleProperty(category = PropertyCategory.APPEARANCE)
-	public void TitleVisible(boolean show) {
-		if (show != showTitle) {
-
-			if ((View) findViewById(android.R.id.title) != null) {
-				View v = (View) findViewById(android.R.id.title).getParent();
-				if (v != null) {
-					if (show) {
-						v.setVisibility(View.VISIBLE);
-					} else {
-						v.setVisibility(View.GONE);
-					}
-					showTitle = show;
-				}
-			}
-		}
-	}
+	  @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN,
+	      defaultValue = "True")
+	  @SimpleProperty(category = PropertyCategory.APPEARANCE)
+	  public void TitleVisible(boolean show) {
+	    if (show != showTitle && SdkLevel.getLevel() >= 16) {
+	    	if(show) {
+	    		View decorView = getWindow().getDecorView();
+	    		//Hide the status bar.
+	    		int uiOptions = View.SYSTEM_UI_FLAG_VISIBLE;
+	    		decorView.setSystemUiVisibility(uiOptions);
+	    		//Remember that you should never show the action bar if the
+	    		//status bar is hidden, so hide that too if necessary.
+	    		ActionBar actionBar = getActionBar();
+	    		actionBar.show();
+	    	} else {
+	    		View decorView = getWindow().getDecorView();
+	    		//Hide the status bar.
+	    		int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+	    		decorView.setSystemUiVisibility(uiOptions);
+	    		//Remember that you should never show the action bar if the
+	    		//status bar is hidden, so hide that too if necessary.
+	    		ActionBar actionBar = getActionBar();
+	    		actionBar.hide();
+	    	}
+	    	showTitle = show;
+	      /*if((View)findViewById(android.R.id.title) != null) {
+	    	  View v = (View)findViewById(android.R.id.title).getParent();
+	          if (v != null) {
+	            if (show) {
+	              v.setVisibility(View.VISIBLE);
+	            } else {
+	              v.setVisibility(View.GONE);
+	            }
+	            showTitle = show;
+	          }
+	      }*/
+	    }
+	  }
 
 	/**
 	 * ShowStatusBar property getter method.
