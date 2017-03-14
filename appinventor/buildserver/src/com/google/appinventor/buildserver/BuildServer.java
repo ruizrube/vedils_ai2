@@ -393,7 +393,7 @@ public class BuildServer {
     // cleanUp.
     inputZip = inputZipFile;
     inputZip.deleteOnExit(); // In case build server is killed before cleanUp executes.
-    final String callbackUrlStr2 = callbackUrlStr.replaceAll("localhost:8888","localhost:8888");
+    final String callbackUrlStr2 = callbackUrlStr.replaceAll("localhost:8888","localhost:80");
     String requesting_host = (new URL(callbackUrlStr2)).getHost();
 
     //for the request for update part, the file should be empty
