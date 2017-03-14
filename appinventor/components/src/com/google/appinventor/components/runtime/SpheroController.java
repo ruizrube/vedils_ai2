@@ -22,12 +22,17 @@ import com.orbotix.ConvenienceRobot;
 import com.orbotix.DualStackDiscoveryAgent;
 import com.orbotix.async.CollisionDetectedAsyncData;
 import com.orbotix.async.DeviceSensorAsyncMessage;
+import com.orbotix.command.ConfigureCollisionDetectionCommand;		/*****EDSON ***/
+import com.orbotix.command.SetMotionTimeoutCommand;					/*****EDSON ***/
+import com.orbotix.async.CollisionDetectedAsyncData.CollisionPower;	/*****EDSON ***/
+import com.orbotix.common.sensor.Acceleration;						/*****EDSON ***/
 import com.orbotix.common.DiscoveryException;
 import com.orbotix.common.ResponseListener;
 import com.orbotix.common.Robot;
 import com.orbotix.common.RobotChangedStateListener;
 import com.orbotix.common.internal.AsyncMessage;
 import com.orbotix.common.internal.DeviceResponse;
+
 import com.orbotix.common.sensor.AccelerometerData;
 import com.orbotix.common.sensor.DeviceSensorsData;
 import com.orbotix.common.sensor.GyroData;
@@ -35,6 +40,7 @@ import com.orbotix.common.sensor.LocatorData;
 import com.orbotix.common.sensor.SensorFlag;
 import com.orbotix.le.RobotLE;
 import com.orbotix.subsystem.SensorControl;
+
 
 import android.graphics.Color;
 
@@ -84,6 +90,23 @@ public class SpheroController extends AndroidNonvisibleComponent implements Comp
 	float velocityX = 0.0f;
 	float velocityY = 0.0f;
 
+	/*************************************************************************************EDSON***/	
+	float angle_input = 0;
+	float velocity_input = 0;
+	
+	double impactX = 0.0;
+	double impactY = 0.0;
+	double impactZ = 0.0;
+	
+	short  impactAxis = 0;
+	
+	double impactXMagnitud = 0.0;
+	double impactYMagnitud = 0.0;
+	
+	float impactSpeed = 0.0f;
+	long  impactTimestamp = 0;
+	/*************************************************************************************EDSON***/
+	
 	////////////////
 	// INTERNAL METHODS //
 	////////////////
@@ -243,7 +266,7 @@ public class SpheroController extends AndroidNonvisibleComponent implements Comp
 
 		mRobot.setLed(Color.red(argb) / 255.0f, Color.green(argb) / 255.0f, Color.blue(argb) / 255.0f);
 	}
-
+	
 	private void changeDefaultColor(int argb) {
 		System.out.println("IRR>>>>>>Poniendo defaultcolor a  " + Color.red(argb) / 255 + "--" + Color.green(argb) / 255
 				+ "--" + Color.blue(argb) / 255);
@@ -251,7 +274,7 @@ public class SpheroController extends AndroidNonvisibleComponent implements Comp
 	}
 
 
-	// }
+	
 
 	////////////////
 	// PROPERTIES //
@@ -317,6 +340,61 @@ public class SpheroController extends AndroidNonvisibleComponent implements Comp
 
 	}
 
+	/*************************************************************************************EDSON***/
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR)
+	public float DriveAngle() {
+		return angle_input;
+	}
+		
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR)
+	public float DriveVelocity() {
+		return velocity_input;
+
+	}
+	
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR)
+	public double ImpactX() {
+		return impactX;
+	}	
+
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR)
+	public double ImpactY() {
+		return impactY;
+	}	
+	
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR)
+	public double ImpactZ() {
+		return impactZ;
+	}		
+	
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR)
+	public short ImpactAxis() {
+		return impactAxis;
+	}		
+	
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR)
+	public double ImpactXMagnitud() {
+		return impactXMagnitud;
+	}		
+	
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR)
+	public double ImpactYMagnitud() {
+		return impactYMagnitud;
+	}		
+	
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR)
+	public float ImpactSpeed() {
+		return impactSpeed;
+	}		
+	
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR)
+	public long ImpactTimestamp() {
+		return impactTimestamp;
+	}		
+	
+	
+	/*************************************************************************************EDSON***/
+	
 	@SimpleProperty(category = PropertyCategory.BEHAVIOR)
 	public double AccelerometerX() {
 		return accelerometerX;
@@ -367,6 +445,42 @@ public class SpheroController extends AndroidNonvisibleComponent implements Comp
 		return velocityY;
 	}
 
+	
+	/*************************************************************************************EDSON***/
+	public void setImpactX(double impactX) {
+		this.impactX = impactX;
+	}
+
+	public void setImpactY(double impactY) {
+		this.impactY = impactY;
+	}
+
+	public void setImpactZ(double impactZ) {
+		this.impactZ = impactZ;
+	}
+
+	public void setImpactAxis(short impactAxis) {
+		this.impactAxis = impactAxis;
+	}
+	
+	public void setImpactXMagnitud(double impactXMagnitud) {
+		this.impactXMagnitud = impactXMagnitud;
+	}
+	
+	public void setImpactYMagnitud(double impactYMagnitud) {
+		this.impactYMagnitud = impactYMagnitud;
+	}
+	
+	public void setImpactSpeed(float impactSpeed) {
+		this.impactSpeed = impactSpeed;	
+	}
+	
+		public void setImpactTimestamp(long impactTimestamp) {
+			this.impactTimestamp = impactTimestamp;
+	}
+	/*************************************************************************************EDSON***/
+	
+	
 	public void setGyroX(double gyroX) {
 		this.gyroX = gyroX;
 	}
@@ -406,6 +520,7 @@ public class SpheroController extends AndroidNonvisibleComponent implements Comp
 	public void setVelocityY(float velocityY) {
 		this.velocityY = velocityY;
 	}
+	
 
 	//////////////
 	// FUNCTIONS //
@@ -458,6 +573,10 @@ public class SpheroController extends AndroidNonvisibleComponent implements Comp
 			System.out.println("IRR>>>>>>Moviendo");
 
 			// Forward
+			/*************************************************************************************EDSON***/
+			angle_input = angle;
+			velocity_input = velocity;
+			/*************************************************************************************EDSON***/
 			mRobot.drive(angle, velocity);
 		}
 	}
@@ -611,6 +730,130 @@ public class SpheroController extends AndroidNonvisibleComponent implements Comp
 		this.macros.runVibrateMacro(mRobot, delay, numLoops);
 	}
 
+
+	/*************************************************************************************EDSON***/
+	/**
+	 * Function to turn on BackLED.
+	 * 
+	 * @param lit
+	 */
+	@SimpleFunction(description = "Turn on Back LED, and configure the brightness.")
+	public void BackLED(int intensity){
+		
+		if (mRobot == null) {
+			System.out.println("IRR>>>>>>No hay robot para BackLED");
+			return;
+		} else {
+			mRobot.setBackLedBrightness((intensity) / 255.0f);
+		}		
+	}	
+
+	
+	/**
+	 * Function Disconnect and Sleep the Sphero device.
+	 * 
+	 *  
+	 */
+	@SimpleFunction(description = "Disconnect App and Sleep (turn off) the Sphero device.")
+	public void DisconnectAndSleep(){
+		
+		if (mRobot == null) {
+			System.out.println("IRR>>>>>>No hay robot para Sleep");
+			return;
+		} else {
+			mRobot.sleep();
+			Disconnect();
+		}		
+	}	
+	
+	/**
+	 * Function to Sleep the Sphero device.
+	 * 
+	 *  
+	 */
+	@SimpleFunction(description = "Sleep (turn off) the Sphero device.")
+	public void Sleep(){
+		
+		if (mRobot == null) {
+			System.out.println("IRR>>>>>>No hay robot para Sleep");
+			return;
+		} else {
+			mRobot.sleep();
+		}		
+	}
+	
+	
+	/**
+	 * Function Configure Collision at the Sphero device.
+	 * 
+	 * @param lit
+	 */
+	@SimpleFunction(description = "Configure collision all parameters at the Sphero device.")
+	public void ConfigureCollisionAllParameters(int method, int Xt, int Yt, int Xspd, int Yspd,int deadTime){
+		
+		if (mRobot == null) {
+			System.out.println("IRR>>>>>>No hay robot para ConfigurarColision");
+			return;
+		} else {
+			mRobot.sendCommand( new ConfigureCollisionDetectionCommand(method, Xt%255, Yt%255, Xspd%255, Yspd%255, deadTime%255));
+		}		
+	}	
+	
+	/**
+	 * Function Configure Collision at the Sphero device.
+	 * 
+	 * @param lit
+	 */
+	@SimpleFunction(description = "Configure collision deadtime (ms) at the Sphero device.")
+	public void ConfigureCollisionDeadtime(int time){
+		
+		if (mRobot == null) {
+			System.out.println("IRR>>>>>>No hay robot para ConfigurarColision");
+			return;
+		} else {
+			mRobot.sendCommand( new ConfigureCollisionDetectionCommand(ConfigureCollisionDetectionCommand.DEFAULT_DETECTION_METHOD,
+					100, 1000, 100, 100, time%255));
+		}		
+	}	
+	
+	/**
+	 * Function Dealy the Sphero device.
+	 * 
+	 * @param lit
+	 */
+	@SimpleFunction(description = "Dealy time (ms) at the Sphero device, max time 60000 ms.")
+	public void Delay(int time){
+		
+		if (mRobot == null) {
+			System.out.println("IRR>>>>>>No hay robot para DelaySphero");
+			return;
+		} else {
+			try {
+				Thread.sleep(time%60000);		//Limitado para pruebas 60 seg.
+			} catch (InterruptedException e){}
+		}		
+	}	
+	
+	/**
+	 * Function Configure Motion Time Out of Sphero device.
+	 * 
+	 * @param lit
+	 */
+	@SimpleFunction(description = "Configure time moving (ms) the Sphero device, max time 60000 ms.")
+	public void MotionTimeOut(int time){
+		
+		if (mRobot == null) {
+			System.out.println("IRR>>>>>>No hay robot para MotionTimeOut");
+			return;
+		} else {
+			mRobot.sendCommand( new SetMotionTimeoutCommand(time%60000));	//Limitado para pruebas 60 seg.
+			
+		}		
+	}	
+	
+	
+	/*************************************************************************************EDSON***/	
+	
 	////////////
 	// EVENTS //
 	////////////
@@ -651,6 +894,29 @@ public class SpheroController extends AndroidNonvisibleComponent implements Comp
 		public void handleAsyncMessage(AsyncMessage asyncMessage, Robot robot) {
 			if (asyncMessage instanceof CollisionDetectedAsyncData) {
 				controller.Collision();
+				/*************************************************************************************EDSON***/							
+				final CollisionDetectedAsyncData collisionData = (CollisionDetectedAsyncData) asyncMessage;
+				
+				Acceleration acceleration = collisionData.getImpactAcceleration();
+				if (acceleration != null){
+					this.controller.setImpactX(acceleration.x);
+					this.controller.setImpactY(acceleration.y);
+					this.controller.setImpactZ(acceleration.z);
+				}
+				
+				CollisionPower power = collisionData.getImpactPower();
+				if (power != null){
+					
+					byte[] datos = collisionData.getPacket();
+					
+					this.controller.setImpactAxis(datos[11]);
+					this.controller.setImpactXMagnitud(power.x);
+					this.controller.setImpactYMagnitud(power.y);
+					this.controller.setImpactSpeed(collisionData.getImpactSpeed());					
+					this.controller.setImpactTimestamp(collisionData.getImpactTimeStamp());
+				}				
+	
+				/*************************************************************************************EDSON***/				
 			} else if (asyncMessage instanceof DeviceSensorAsyncMessage) {
 
 				ArrayList<DeviceSensorsData> dataList = ((DeviceSensorAsyncMessage) asyncMessage).getAsyncData();
@@ -682,7 +948,6 @@ public class SpheroController extends AndroidNonvisibleComponent implements Comp
 							this.controller.setVelocityX(locationData.getVelocity().x);
 							this.controller.setVelocityY(locationData.getVelocity().y);
 						}
-
 					}
 				}
 

@@ -355,7 +355,79 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String ZMagnetizationProperties();
 
-	// Used in Sphero
+	// Used in Sphero	
+	
+	/*************************************************************************************EDSON***/
+	@DefaultMessage("DisconnectAndSleep") /*Edson*/
+	@Description("")
+	String DisconnectAndSleepMethods();
+	
+	@DefaultMessage("Sleep") /*Edson*/
+	@Description("")
+	String SleepMethods();
+	
+	@DefaultMessage("BackLED") /*Edson*/
+	@Description("")
+	String BackLEDMethods();
+	
+	@DefaultMessage("ConfigureCollisionAllParameters") /*Edson*/
+	@Description("")
+	String ConfigureCollisionAllParametersMethods();
+
+	@DefaultMessage("ConfigureCollisionDeadtime") /*Edson*/
+	@Description("")
+	String ConfigureCollisionDeadtimeMethods();
+	
+	@DefaultMessage("Delay") /*Edson*/
+	@Description("")
+	String DelayMethods();
+	
+	@DefaultMessage("MotionTimeOut") /*Edson*/
+	@Description("")
+	String MotionTimeOutMethods();
+	
+	@DefaultMessage("DriveAngle")
+	@Description("")
+	String DriveAngleProperties();
+	
+	@DefaultMessage("DriveVelocity")
+	@Description("")
+	String DriveVelocityProperties();
+	
+	@DefaultMessage("ImpactX")
+	@Description("")
+	String ImpactXProperties();	
+	
+	@DefaultMessage("ImpactY")
+	@Description("")
+	String ImpactYProperties();	
+	
+	@DefaultMessage("ImpactZ")
+	@Description("")
+	String ImpactZProperties();	
+
+	@DefaultMessage("ImpactAxis")
+	@Description("")
+	String ImpactAxisProperties();
+	
+	@DefaultMessage("ImpactXMagnitud")
+	@Description("")
+	String ImpactXMagnitudProperties();	
+	
+	@DefaultMessage("ImpactYMagnitud")
+	@Description("")
+	String ImpactYMagnitudProperties();	
+
+	@DefaultMessage("ImpactSpeed")
+	@Description("")
+	String ImpactSpeedProperties();	
+
+	@DefaultMessage("ImpactTimestamp")
+	@Description("")
+	String ImpactTimestampProperties();	
+	
+	/*************************************************************************************EDSON***/
+	
 	@DefaultMessage("DefaultColor")
 	@Description("")
 	String DefaultColorProperties();
@@ -6250,19 +6322,19 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String GetRowsWithConditionsMethods();
 
-	@DefaultMessage("简体中文")
+	@DefaultMessage("ç®€ä½“ä¸­æ–‡")
 	@Description("")
 	String SwitchToSimplifiedChinese();
 
-	@DefaultMessage("繁体中文")
+	@DefaultMessage("ç¹�ä½“ä¸­æ–‡")
 	@Description("")
 	String SwitchToTraditionalChinese();
 
-	@DefaultMessage("Español")
+	@DefaultMessage("EspaÃ±ol")
 	@Description("")
 	String SwitchToSpanish();
 
-	@DefaultMessage("Français")
+	@DefaultMessage("FranÃ§ais")
 	@Description("")
 	String SwitchToFrench();
 
@@ -6270,11 +6342,11 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String SwitchToItalian();
 
-	@DefaultMessage("Pусский")
+	@DefaultMessage("PÑƒÑ�Ñ�ÐºÐ¸Ð¹")
 	@Description("")
 	String SwitchToRussian();
 
-	@DefaultMessage("한국어")
+	@DefaultMessage("í•œêµ­ì–´")
 	@Description("")
 	String SwitchToKorean();
 
@@ -6282,7 +6354,7 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String SwitchToSwedish();
 
-	@DefaultMessage("Português do Brasil")
+	@DefaultMessage("PortuguÃªs do Brasil")
 	@Description("")
 	String switchToPortugueseBR();
 
