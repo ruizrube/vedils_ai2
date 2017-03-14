@@ -515,7 +515,79 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String ZMagnetizationProperties();
 
-	// Used in Sphero
+	// Used in Sphero	
+	
+	/*************************************************************************************EDSON***/
+	@DefaultMessage("DisconnectAndSleep") /*Edson*/
+	@Description("")
+	String DisconnectAndSleepMethods();
+	
+	@DefaultMessage("Sleep") /*Edson*/
+	@Description("")
+	String SleepMethods();
+	
+	@DefaultMessage("BackLED") /*Edson*/
+	@Description("")
+	String BackLEDMethods();
+	
+	@DefaultMessage("ConfigureCollisionAllParameters") /*Edson*/
+	@Description("")
+	String ConfigureCollisionAllParametersMethods();
+
+	@DefaultMessage("ConfigureCollisionDeadtime") /*Edson*/
+	@Description("")
+	String ConfigureCollisionDeadtimeMethods();
+	
+	@DefaultMessage("Delay") /*Edson*/
+	@Description("")
+	String DelayMethods();
+	
+	@DefaultMessage("MotionTimeOut") /*Edson*/
+	@Description("")
+	String MotionTimeOutMethods();
+	
+	@DefaultMessage("DriveAngle")
+	@Description("")
+	String DriveAngleProperties();
+	
+	@DefaultMessage("DriveVelocity")
+	@Description("")
+	String DriveVelocityProperties();
+	
+	@DefaultMessage("ImpactX")
+	@Description("")
+	String ImpactXProperties();	
+	
+	@DefaultMessage("ImpactY")
+	@Description("")
+	String ImpactYProperties();	
+	
+	@DefaultMessage("ImpactZ")
+	@Description("")
+	String ImpactZProperties();	
+
+	@DefaultMessage("ImpactAxis")
+	@Description("")
+	String ImpactAxisProperties();
+	
+	@DefaultMessage("ImpactXMagnitud")
+	@Description("")
+	String ImpactXMagnitudProperties();	
+	
+	@DefaultMessage("ImpactYMagnitud")
+	@Description("")
+	String ImpactYMagnitudProperties();	
+
+	@DefaultMessage("ImpactSpeed")
+	@Description("")
+	String ImpactSpeedProperties();	
+
+	@DefaultMessage("ImpactTimestamp")
+	@Description("")
+	String ImpactTimestampProperties();	
+	
+	/*************************************************************************************EDSON***/
+	
 	@DefaultMessage("DefaultColor")
 	@Description("")
 	String DefaultColorProperties();
