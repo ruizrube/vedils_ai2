@@ -39,8 +39,8 @@ public class DataTable extends AndroidViewComponent {
 	private List<Object> data;
 	private String valuesTitle;
 	private ActivityProcessor query;
-	//private String url="http://vedils.uca.es/web/graph/Table.html";
-	private String url = "192.168.1.2:8888/web/graph/Table.html"; //For local test
+	private String url="http://vedils.uca.es/web/graph/Table.html";
+	//private String url = "192.168.1.2:8888/web/graph/Table.html"; //For local test
 	//private String url = "http://10.182.168.193:8888/web/graph/Table.html"; //For local test
 	
 	private int refreshInterval;
