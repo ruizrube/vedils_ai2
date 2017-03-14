@@ -795,6 +795,16 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("indifferent")
 	@Description("Text for synchronization mode 'indifferent '")
 	String indifferentCommunicationMode();
+	
+	// Used in
+    // editor/youngandroid/properties/YoungAndroidStorageModeChoicePropertyEditor.java
+    @DefaultMessage("Fusion Tables")
+    @Description("Text for storage mode 'Fusion Tables '")
+    String fusionTablesStorageMode();
+
+	@DefaultMessage("MongoDB")
+	@Description("Text for storage mode 'MongoDB '")
+	String mongoDBStorageMode();
 
 	@DefaultMessage("Default")
 	@Description("Text for property editors")
@@ -1554,6 +1564,10 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("Procedures")
 	@Description("Label on built-in-Procedures-blocks branch of block selector tree")
 	String builtinProceduresLabel();
+	
+	@DefaultMessage("Analytics")
+	@Description("Label on built-in-Analytics-blocks branch of block selector tree")
+	String builtinAnalyticsLabel();
 
 	@DefaultMessage("Any component")
 	@Description("Label on any-component branch of block selector tree")
@@ -6940,6 +6954,10 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("CommunicationMode")
 	@Description("")
 	String CommunicationModeProperties();
+	
+	@DefaultMessage("StorageMode")
+	@Description("")
+	String StorageModeProperties();
 
 	@DefaultMessage("NotifyWithoutArguments")
 	@Description("")
@@ -6956,6 +6974,10 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("NotifyWithThreeArguments")
 	@Description("")
 	String NotifyWithThreeArgumentsMethods();
+	
+	@DefaultMessage("NotifyWithData")
+	@Description("")
+	String NotifyWithDataMethods();
 
 	@DefaultMessage("BatchTime")
 	@Description("")
