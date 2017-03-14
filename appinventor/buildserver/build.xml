@@ -122,6 +122,14 @@
 		<copy todir="${classes.files.dir}/armeabi-v7a">
 			<fileset dir="${lib.dir}/gc4ai/armeabi-v7a" includes="*.so" />
 		</copy>
+		
+		<!-- GCA4AI -->
+		
+		<copy toFile="${classes.files.dir}/Myo-connector.jar" file="${lib.dir}/gca4ai/Myo-connector.jar" />
+		
+		<copy todir="${classes.files.dir}/armeabi-v7a">
+			<fileset dir="${lib.dir}/gca4ai/armeabi-v7a" includes="*.so" />
+		</copy>
 
 		<!-- BRAIN EEG -->
         <copy toFile="${classes.files.dir}/bedk.jar" file="${lib.dir}/brain4ai/bedk.jar" />

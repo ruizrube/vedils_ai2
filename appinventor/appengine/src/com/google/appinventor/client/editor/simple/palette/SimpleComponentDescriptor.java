@@ -137,6 +137,7 @@ public final class SimpleComponentDescriptor {
     bundledImages.put("images/arTextAsset.png", images.arTextAsset());
     bundledImages.put("images/activityTracker_icon.png", images.activityTracker());
     bundledImages.put("images/handGestureSensor.png", images.handGestureSensor());
+    bundledImages.put("images/armbandSensor.png", images.armbandSensor());
     bundledImages.put("images/gcm_icon.png", images.googleCloudMessaging());
     bundledImages.put("images/device_info_icon.png", images.deviceInfo());
     bundledImages.put("images/ThingSpeak_icon.png", images.thingSpeakLocationSensor());

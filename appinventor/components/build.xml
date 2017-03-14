@@ -177,6 +177,8 @@
 	        <pathelement location="${lib.dir}/la4ai/google_play_services/google-play-services.jar" />
 	         
 	        <pathelement location="${lib.dir}/gc4ai/LeapJava.jar" />
+	        
+	        <pathelement location="${lib.dir}/gca4ai/Myo-connector.jar" />
            
 	        <pathelement location="${lib.dir}/brain4ai/bedk.jar" />
 
@@ -234,6 +236,8 @@
          <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
          
          <pathelement location="${lib.dir}/gc4ai/LeapJava.jar" />
+         
+         <pathelement location="${lib.dir}/gca4ai/Myo-connector.jar" />
        
          <pathelement location="${lib.dir}/brain4ai/bedk.jar" />
               
@@ -358,6 +362,8 @@
          <pathelement location="${lib.dir}/ar4ai/android-support-v4.jar" />
      
          <pathelement location="${lib.dir}/gc4ai/LeapJava.jar" />
+         
+         <pathelement location="${lib.dir}/gca4ai/Myo-connector.jar" />
          
          <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
          

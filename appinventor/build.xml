@@ -129,6 +129,10 @@
         <pathelement location="lib/gc4ai/LeapJava.jar" />
         <pathelement location="lib/gc4ai/armeabi-v7a/libLeapJava.so" />
         
+        <!-- GESTURE CONTROL ARMBAND -->
+        <pathelement location="lib/gca4ai/Myo-connector.jar" />
+        <pathelement location="lib/gca4ai/armeabi-v7a/libgesture-classifier.so" />
+        
         <!-- LA4AI -->
         <pathelement location="lib/la4ai/la4ai.jar" />
        
