@@ -6,7 +6,13 @@
 
 package com.google.appinventor.client.editor.youngandroid;
 
-import com.google.appinventor.client.ComponentsTranslation;
+import static com.google.appinventor.client.Ode.MESSAGES;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.google.appinventor.client.DesignToolbar;
 import com.google.appinventor.client.ErrorReporter;
 import com.google.appinventor.client.Ode;
@@ -16,12 +22,11 @@ import com.google.appinventor.client.TranslationDesignerPallete;
 import com.google.appinventor.client.editor.simple.SimpleComponentDatabase;
 import com.google.appinventor.client.output.OdeLog;
 import com.google.appinventor.components.common.YaVersion;
-
+import com.google.appinventor.components.runtime.ld4ai.SPARQLClient;
+import com.google.appinventor.client.ComponentsTranslation;
 import com.google.common.collect.Maps;
-
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.core.client.JavaScriptObject;
-
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -30,15 +35,6 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static com.google.appinventor.client.Ode.MESSAGES;
 
 /**
  * Blocks editor panel.
@@ -234,6 +230,9 @@ public class BlocklyPanel extends HTMLPanel {
     return !componentOps.containsKey(formName);
   }
 
+  
+ 
+  
   public static String getBackpack() {
     return backpack;
   }
@@ -731,10 +730,7 @@ public class BlocklyPanel extends HTMLPanel {
     return YaBlocksEditor.getComponentsJSONString();
   }
 
-  public static String getComponentInstanceTypeName(String formName, String instanceName) {
-    return YaBlocksEditor.getComponentInstanceTypeName(formName, instanceName);
-  }
-
+ 
   public static int getYaVersion() {
     return YaVersion.YOUNG_ANDROID_VERSION;
   }
@@ -801,6 +797,15 @@ public class BlocklyPanel extends HTMLPanel {
     return ComponentsTranslation.getMethodName(key);
   }
 
+  public static String getComponentInstanceSemanticTypeValue(String formName, String instanceName) {
+	    return YaBlocksEditor.getComponentInstanceSemanticTypeValue(formName, instanceName);
+	  }
+
+  public static String getComponentInstanceTypeName(String formName, String instanceName) {
+	    return YaBlocksEditor.getComponentInstanceTypeName(formName, instanceName);
+	  }
+
+  
   public static String getLocalizedEventName(String key) {
     return ComponentsTranslation.getEventName(key);
   }
@@ -847,6 +852,8 @@ public class BlocklyPanel extends HTMLPanel {
         $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::HideDialog(Lcom/google/gwt/user/client/ui/DialogBox;));
     $wnd.BlocklyPanel_setDialogContent =
         $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::SetDialogContent(Lcom/google/gwt/user/client/ui/DialogBox;Ljava/lang/String;));
+    $wnd.BlocklyPanel_getComponentInstanceSemanticTypeValue =
+        $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::getComponentInstanceSemanticTypeValue(Ljava/lang/String;Ljava/lang/String;));
     $wnd.BlocklyPanel_getComponentInstanceTypeName =
         $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::getComponentInstanceTypeName(Ljava/lang/String;Ljava/lang/String;));
     $wnd.BlocklyPanel_getComponentInfo =

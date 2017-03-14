@@ -979,6 +979,9 @@ public class YaVersion {
   // For WEBVIEWER_COMPONENT_VERSION 6:
   // - ClearCaches method was added
   public static final int WEBVIEWER_COMPONENT_VERSION = 6;
+  
+  
+  
   // For MEDIASTORE_COMPONENT_VERSION 1:
   // - Initial Version.
   public static final int MEDIASTORE_COMPONENT_VERSION = 1;
@@ -1051,10 +1054,10 @@ public class YaVersion {
 
   public static final String ACCEPTABLE_COMPANION_PACKAGE = "es.uca.vedils";
 
-  public static final String PREFERRED_COMPANION = "2.38";
+  public static final String PREFERRED_COMPANION = "2.39";
   public static final String COMPANION_UPDATE_URL = "";
   public static final String COMPANION_UPDATE_URL1 = "";
-  public static final String [] ACCEPTABLE_COMPANIONS = { "2.38" };
+  public static final String [] ACCEPTABLE_COMPANIONS = { "2.39" };
 
   // Splash Screen Values
   public static final int SPLASH_SURVEY = 1;

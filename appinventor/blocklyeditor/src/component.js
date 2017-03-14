@@ -288,6 +288,10 @@ Blockly.ComponentInstances.getInstanceNames = function() {
   return instanceNames;
 }
 
+Blockly.Component.instanceNameToSemanticTypeValue = function(instanceName) {
+  return window.parent.BlocklyPanel_getComponentInstanceSemanticTypeValue(Blockly.BlocklyEditor.formName,instanceName);
+}
+
 Blockly.Component.instanceNameToTypeName = function(instanceName) {
   return window.parent.BlocklyPanel_getComponentInstanceTypeName(Blockly.BlocklyEditor.formName,instanceName);
 }

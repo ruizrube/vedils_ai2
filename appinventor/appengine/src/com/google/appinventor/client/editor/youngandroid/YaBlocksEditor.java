@@ -379,6 +379,14 @@ public final class YaBlocksEditor extends FileEditor
     return COMPONENT_DATABASE.getComponentsJSONString();
   }
 
+  public static String getComponentInstanceSemanticTypeValue(String formName, String instanceName) {
+	     //use form name to get blocks editor
+      YaBlocksEditor blocksEditor = formToBlocksEditor.get(formName);
+      //get type name from form editor
+      return blocksEditor.myFormEditor.getComponentInstanceSemanticTypeValue(instanceName);
+ 	}
+
+  
   public static String getComponentInstanceTypeName(String formName, String instanceName) {
       //use form name to get blocks editor
       YaBlocksEditor blocksEditor = formToBlocksEditor.get(formName);
@@ -619,5 +627,6 @@ public final class YaBlocksEditor extends FileEditor
   protected String encodeFormAsJsonString(boolean forYail) {
     return myFormEditor.encodeFormAsJsonString(forYail);
   }
+
 
 }

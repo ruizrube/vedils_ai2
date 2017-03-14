@@ -3,9 +3,12 @@ package com.google.appinventor.components.runtime.la4ai.util;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.util.Collections;
 import java.util.Enumeration;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
@@ -13,7 +16,9 @@ import android.util.Log;
 
 public class DeviceInfoFunctions {
 	
-	private static String TAG = "getMobileIP() method exception.";
+	private static String DEFAULT_MAC = "02:00:00:00:00:00";
+	private static String DEFAULT_IP = "0.0.0.0";
+	private static String TAG = "DeviceInfoFunctions methods.";
 	
 	/**
 	 * @param communicationMode
@@ -24,7 +29,7 @@ public class DeviceInfoFunctions {
 		if(communicationMode == 0) { //ONLY_WIFI
 			return getWifiIP(context);
 		} else { //INDIFFERENT
-			if(getWifiIP(context).equals("0.0.0.0")) {
+			if(getWifiIP(context).equals(DEFAULT_IP)) {
 				return getMobileIP();
 			} else {
 				return getWifiIP(context);
@@ -38,7 +43,36 @@ public class DeviceInfoFunctions {
 	 */
 	public static String getMAC(Context context) {
 		WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-		return wm.getConnectionInfo().getMacAddress();
+		String macAddress = wm.getConnectionInfo().getMacAddress();
+		if(!macAddress.equals(DEFAULT_MAC)) {
+			return macAddress;
+		} else { //Get the MAC address in Android 6.
+			try {
+				for (NetworkInterface networkInterface : Collections.list(NetworkInterface.getNetworkInterfaces())) {
+					
+					if(!networkInterface.getName().equalsIgnoreCase("wlan0")) {
+						byte[] MACBytes = networkInterface.getHardwareAddress();
+						
+						if(MACBytes != null) {
+							StringBuilder MACString = new StringBuilder();
+							
+							for (byte MACByte : MACBytes) {
+				                MACString.append(String.format("%02X:", MACByte));
+				            }
+							
+							if (MACString.length() > 0) {
+								MACString.deleteCharAt(MACString.length() - 1);
+				            }
+							
+							return MACString.toString();
+						}
+					}
+				}
+			} catch (SocketException e) {
+				 Log.e(TAG, "Exception in Get MAC Address in Android 6: " + e.toString());
+			}
+			return DEFAULT_MAC;
+		}
 	}
 	
 	/**
@@ -55,7 +89,7 @@ public class DeviceInfoFunctions {
 	 * @return the current IP of 3G/4G connection.
 	 */
 	private static String getMobileIP() {
-	  String ipAddress = "0.0.0.0";
+	  String ipAddress = DEFAULT_IP;
 	  try {
 	    for (Enumeration<NetworkInterface> en = NetworkInterface
 	    .getNetworkInterfaces(); en.hasMoreElements();) {
@@ -63,14 +97,14 @@ public class DeviceInfoFunctions {
 	       for (Enumeration<InetAddress> enumIpAddr = intf
 	          .getInetAddresses(); enumIpAddr.hasMoreElements();) {
 	          InetAddress inetAddress = enumIpAddr.nextElement();
-	          if (!inetAddress.isLoopbackAddress()) {
-	             ipAddress = inetAddress .getHostAddress().toString();
+	          if (!inetAddress.isLoopbackAddress() && !inetAddress.getHostAddress().toString().contains("dummy")) { //Filtering the localhost IP and dummy interfaces
+	             ipAddress = inetAddress.getHostAddress().toString();
 	             return ipAddress.replaceAll("%rmnet0", ""); //Delete this fragment.
 	          }
 	       }
 	    }
-	  } catch (SocketException ex) {
-	     Log.e(TAG, "Exception in Get IP Address: " + ex.toString());
+	  } catch (SocketException e) {
+	     Log.e(TAG, "Exception in Get IP Address: " + e.toString());
 	  }
 	  return ipAddress;
 	}
@@ -86,4 +120,24 @@ public class DeviceInfoFunctions {
 	}
 	
 	
+	/**
+	 * @param context
+	 * @return if the used device has internet connection.
+	 */
+	public static boolean checkInternetConnection(Context context) {
+		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+		if(networkInfo == null) {
+			return false;
+		} else {
+			return networkInfo.isConnected() && networkInfo.isAvailable();
+		}
+	}
+	
+	/**
+	 * @return the Android version of the used device.
+	 */
+	public static int getAndroidAPIVersion() {
+		return android.os.Build.VERSION.SDK_INT;
+	}
 }

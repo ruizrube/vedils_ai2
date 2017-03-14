@@ -230,6 +230,10 @@ public class ServerLayout {
    * module.
    */
   public static final String UPDATEVEDILSDATA_SERVLET_BASE = "updateVedilsData/";
+  
+  public static final String EXPORTWIKIDATA_SERVLET_BASE = "exportWikiData";
+   
+  
 
   public static String genRelativeDownloadPath(long projectId, String target) {
     return DOWNLOAD_SERVLET_BASE + DOWNLOAD_PROJECT_OUTPUT + "/" + projectId + "/" + target;

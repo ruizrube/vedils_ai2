@@ -1,3 +1,4 @@
+
 // -*- mode: java; c-basic-offset: 2; -*-
 // Copyright 2009-2011 Google, All Rights reserved
 // Copyright 2011-2012 MIT, All rights reserved
@@ -18,6 +19,165 @@ import com.google.gwt.i18n.client.Messages;
 // @LocalizableResource.DefaultLocale("en")
 
 public interface OdeMessages extends Messages {
+	// Used in LD4AI
+	
+	
+	
+	@DefaultMessage("Classifier")
+	@Description("")
+	String ClassifierProperties();
+
+	@DefaultMessage("Alias")
+	@Description("")
+	String AliasProperties();
+
+	@DefaultMessage("ImageURL")
+	@Description("")
+	String ImageURLProperties();
+	
+	@DefaultMessage("Label")
+	@Description("")
+	String LabelProperties();
+
+	
+	@DefaultMessage("Description")
+	@Description("")
+	String DescriptionProperties();
+
+	@DefaultMessage("Identifier")
+	@Description("")
+	String IdentifierProperties();
+
+	@DefaultMessage("PreferredLanguage")
+	@Description("")
+	String PreferredLanguageProperties();
+	
+	@DefaultMessage("SecondLanguage")
+	@Description("")
+	String SecondLanguageProperties();
+	
+	
+	@DefaultMessage("RetrievePropertyLabel")
+	@Description("")
+	String RetrievePropertyLabelMethods();
+
+	
+	@DefaultMessage("AvailableProperties")
+	@Description("")
+	String AvailablePropertiesMethods();
+
+	
+	@DefaultMessage("RetrieveAliases")
+	@Description("")
+	String RetrieveAliasesMethods();
+
+	
+	@DefaultMessage("ClassifyTextMethods")
+	@Description("")
+	String ClassifyTextMethods();
+
+	@DefaultMessage("ExplainConceptMethods")
+	@Description("")
+	String ExplainConceptMethods();
+	
+	@DefaultMessage("Load")
+	@Description("")
+	String LoadMethods();
+
+	@DefaultMessage("RetrieveLinkedConcept")
+	@Description("")
+	String RetrieveLinkedConceptMethods();
+
+	@DefaultMessage("RetrieveLinkedConcepts")
+	@Description("")
+	String RetrieveLinkedConceptsMethods();
+
+	@DefaultMessage("RetrieveNumericValue")
+	@Description("")
+	String RetrieveNumericValueMethods();
+
+	@DefaultMessage("RetrieveNumericValues")
+	@Description("")
+	String RetrieveNumericValuesMethods();
+
+	@DefaultMessage("RetrieveStringValue")
+	@Description("")
+	String RetrieveStringValueMethods();
+
+	@DefaultMessage("RetrieveStringValues")
+	@Description("")
+	String RetrieveStringValuesMethods();
+
+	
+	@DefaultMessage("RetrieveAssistedLinkedConcept")
+	@Description("")
+	String RetrieveAssistedLinkedConceptMethods();
+
+	@DefaultMessage("RetrieveAssistedLinkedConcepts")
+	@Description("")
+	String RetrieveAssistedLinkedConceptsMethods();
+
+	@DefaultMessage("RetrieveAssistedNumericValue")
+	@Description("")
+	String RetrieveAssistedNumericValueMethods();
+
+	@DefaultMessage("RetrieveAssistedNumericValues")
+	@Description("")
+	String RetrieveAssistedNumericValuesMethods();
+
+	@DefaultMessage("RetrieveAssistedStringValue")
+	@Description("")
+	String RetrieveAssistedStringValueMethods();
+
+	@DefaultMessage("RetrieveAssistedStringValues")
+	@Description("")
+	String RetrieveAssistedStringValuesMethods();
+
+	
+	
+	@DefaultMessage("RetrieveInstancesByClassifierID")
+	@Description("")
+	String RetrieveInstancesByClassifierIDMethods();
+
+	@DefaultMessage("RetrievePaginatedInstancesByClassifierID")
+	@Description("")
+	String RetrievePaginatedInstancesByClassifierIDMethods();
+
+	@DefaultMessage("RetrieveInstances")
+	@Description("")
+	String RetrieveInstancesMethods();
+
+	@DefaultMessage("RetrievePaginatedInstances")
+	@Description("")
+	String RetrievePaginatedInstancesMethods();
+
+	@DefaultMessage("RetrievePropertiesByClassifierID")
+	@Description("")
+	String RetrievePropertiesByClassifierIDMethods();
+
+	@DefaultMessage("RetrieveProperties")
+	@Description("")
+	String RetrievePropertiesMethods();
+
+	@DefaultMessage("RetrieveAncestorsByClassifierID")
+	@Description("")
+	String RetrieveAncestorsByClassifierIDMethods();
+
+	@DefaultMessage("RetrieveAncestors")
+	@Description("")
+	String RetrieveAncestorsMethods();
+
+	@DefaultMessage("RetrieveDescendantsByClassifierID")
+	@Description("")
+	String RetrieveDescendantsByClassifierIDMethods();
+	
+	@DefaultMessage("RetrieveDescendants")
+	@Description("")
+	String RetrieveDescendantsMethods();
+
+	
+	
+	
 	// Used in EEG
 
 	@DefaultMessage("ReadProfiles")
@@ -6810,6 +6970,14 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("IP")
 	@Description("")
 	String IPProperties();
+	
+	@DefaultMessage("InternetConnection")
+	@Description("")
+	String InternetConnectionProperties();
+	
+	@DefaultMessage("AndroidAPILevel")
+	@Description("")
+	String AndroidAPILevelProperties();
 
 	//
 	// ActivityTracker
@@ -6920,5 +7088,32 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("HandDisappears")
 	@Description("")
 	String HandDisappearsEvents();
-
+	
+	@DefaultMessage("WaveOutGesture")
+	@Description("")
+	String WaveOutGestureEvents();
+	
+	@DefaultMessage("WaveInGesture")
+	@Description("")
+	String WaveInGestureEvents();
+	
+	@DefaultMessage("FistGesture")
+	@Description("")
+	String FistGestureEvents();
+	
+	@DefaultMessage("FingersSpreadGesture")
+	@Description("")
+	String FingersSpreadGestureEvents();
+	
+	@DefaultMessage("OrientationData")
+	@Description("")
+	String OrientationDataEvents();
+	
+	@DefaultMessage("DeviceSynchronized")
+	@Description("")
+	String DeviceSynchronizedEvents();
+	
+	@DefaultMessage("DeviceUnsynchronized")
+	@Description("")
+	String DeviceUnsynchronizedEvents();
 }

@@ -9,16 +9,11 @@ import com.google.appinventor.components.runtime.WebViewer;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-
-import android.view.MotionEvent;
-import android.view.View;
 import android.webkit.GeolocationPermissions;
 import android.webkit.GeolocationPermissions.Callback;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 
 /**
  * Helper methods for calling methods added in Eclair (2.0, API level 5)
@@ -86,6 +81,8 @@ public class EclairUtil {
       });
   }
 
+  
+  
   /**
    * Clear Stored Location permissions. When the geolocation API is used in
    * the WebViewer, the end user is prompted on a per URL basis for whether

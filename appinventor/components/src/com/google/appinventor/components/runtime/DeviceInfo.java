@@ -62,4 +62,16 @@ public class DeviceInfo extends AndroidNonvisibleComponent implements Component 
 	public String IP() {
 		return DeviceInfoFunctions.getCurrentIP(Component.INDIFFERENT, this.context);
 	}
+	
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR,
+			description = "Returns the internet access state", userVisible = true)
+	public boolean InternetConnection() {
+		return DeviceInfoFunctions.checkInternetConnection(context);
+	}
+	
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR,
+			description = "Returns the version of current Android API", userVisible = true)
+	public int AndroidAPILevel() {
+		return DeviceInfoFunctions.getAndroidAPIVersion();
+	}
 }

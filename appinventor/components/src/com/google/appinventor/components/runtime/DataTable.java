@@ -40,7 +40,9 @@ public class DataTable extends AndroidViewComponent {
 	private String valuesTitle;
 	private ActivityProcessor query;
 	private String url="http://vedils.uca.es/web/graph/Table.html";
-	//private String url = "http://192.168.1.3:8888/web/graph/Table.html"; //For local test
+	//private String url = "192.168.1.2:8888/web/graph/Table.html"; //For local test
+	//private String url = "http://10.182.168.193:8888/web/graph/Table.html"; //For local test
+	
 	private int refreshInterval;
 
 	public DataTable(ComponentContainer container) {

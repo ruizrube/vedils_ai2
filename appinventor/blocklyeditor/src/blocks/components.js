@@ -285,6 +285,14 @@ Blockly.Blocks.component_method = {
       container.setAttribute('method_name', 'Add' + timeUnit);
       container.setAttribute('timeUnit', timeUnit);
     }
+    
+    //IRR
+	if (this.typeName == "SemanticConcept" && Blockly.ComponentBlock.isSemanticConceptMethodName(this.methodName)) {
+      var dataProperty = this.getFieldValue('DATA_PROPERTY');
+      container.setAttribute('dataProperty', dataProperty);
+    }
+	
+	
     return container;
   },
 
@@ -340,7 +348,35 @@ Blockly.Blocks.component_method = {
             this.setFieldValue('Duration', "TIME_UNIT");
             break;
         }
-      } else {
+      } else if (this.typeName == "SemanticConcept" && Blockly.ComponentBlock.isSemanticConceptMethodName(this.methodName)) {   //IRR
+      
+	      	var appendix="";
+	      	if(this.methodName=="RetrieveAssistedLinkedConcept") {
+	      		appendix='as a linked concept';
+	      	} else if(this.methodName=="RetrieveAssistedLinkedConcepts") {
+	      		appendix='as a list of linked concepts';
+	      	} else if(this.methodName=="RetrieveAssistedStringValues") {
+	      		appendix='as a list of strings';
+	      	} else if(this.methodName=="RetrieveAssistedStringValue") {
+	      		appendix='as a string';
+	      	} else if(this.methodName=="RetrieveAssistedNumericValue") {
+	      		appendix='as a number';
+	      	} 
+
+			Blockly.ComponentBlock.semanticType=Blockly.Component.instanceNameToSemanticTypeValue(this.instanceName);
+			
+			var dataPropertiesDropDown = Blockly.ComponentBlock.createDataPropertiesAddDropDown();
+		 
+  
+	        this.appendDummyInput()
+	          .appendField(Blockly.Msg.LANG_COMPONENT_BLOCK_METHOD_TITLE_CALL)
+	          .appendField(this.componentDropDown, "COMPONENT_SELECTOR")
+	          .appendField('.Retrieve Property')
+	          .appendField(dataPropertiesDropDown, "DATA_PROPERTY")
+	          .appendField(appendix);
+                             
+    
+	  } else {
         this.appendDummyInput()
           .appendField(Blockly.Msg.LANG_COMPONENT_BLOCK_METHOD_TITLE_CALL)
           .appendField(this.componentDropDown, "COMPONENT_SELECTOR")
@@ -355,12 +391,20 @@ Blockly.Blocks.component_method = {
         .setAlign(Blockly.ALIGN_RIGHT);
     }
     this.setTooltip(this.getMethodTypeObject().description);
-    for (var i = 0, param; param = this.getMethodTypeObject().params[i]; i++) {
-      var newInput = this.appendValueInput("ARG" + i).appendField(window.parent.BlocklyPanel_getLocalizedParameterName(param.name));
-      newInput.setAlign(Blockly.ALIGN_RIGHT);
-      var blockyType = Blockly.Blocks.Utilities.YailTypeToBlocklyType(param.type,Blockly.Blocks.Utilities.INPUT)
-      newInput.connection.setCheck(blockyType);
-    }
+    
+    
+    if (this.typeName == "SemanticConcept" && Blockly.ComponentBlock.isSemanticConceptMethodName(this.methodName)) {
+    	// No añadimos parametro
+    } else {
+  
+	    for (var i = 0, param; param = this.getMethodTypeObject().params[i]; i++) {
+	      var newInput = this.appendValueInput("ARG" + i).appendField(window.parent.BlocklyPanel_getLocalizedParameterName(param.name));
+	      newInput.setAlign(Blockly.ALIGN_RIGHT);
+	      var blockyType = Blockly.Blocks.Utilities.YailTypeToBlocklyType(param.type,Blockly.Blocks.Utilities.INPUT)
+	      newInput.connection.setCheck(blockyType);
+	    }
+	 }  
+    
     // methodType.returnType is a Yail type
     if (this.getMethodTypeObject().returnType) {
       this.setOutput(true, Blockly.Blocks.Utilities.YailTypeToBlocklyType(this.getMethodTypeObject().returnType,Blockly.Blocks.Utilities.OUTPUT));
@@ -760,11 +804,59 @@ Blockly.ComponentBlock.timeUnitsMenu =
    [ Blockly.Msg.TIME_DURATION, "Duration"]
    ];
 
+
+//IRR 
+Blockly.ComponentBlock.semanticType='';
+Blockly.ComponentBlock.dataPropertiesMenu = {};
+
+//IRR
+Blockly.ComponentBlock.loadWikiDataASync =  function  (semanticType) {
+	var xhttp = new XMLHttpRequest();
+  	xhttp.onreadystatechange = function() {
+    	if (this.readyState == 4 && this.status == 200) {
+    		Blockly.ComponentBlock.dataPropertiesMenu[semanticType] = JSON.parse(this.responseText);//.substring(1,this.responseText.length-1);
+    	}
+  	};
+  	xhttp.open('GET', 'http://localhost:8888/exportWikiData?action=getProperties&preferredLanguage=en&secondLanguage=es&semanticType='+semanticType, true);
+    
+  xhttp.send();
+};
+ 
+Blockly.ComponentBlock.loadWikiDataSync =  function  (semanticType) {
+ 	if(!(semanticType in Blockly.ComponentBlock.dataPropertiesMenu)){
+ 		var xhttp = new XMLHttpRequest();
+	  	xhttp.open('GET', './../exportWikiData?action=getProperties&preferredLanguage=en&secondLanguage=es&semanticType='+semanticType, false);
+    	xhttp.send();
+      	console.log('Recuperando datos de '+semanticType);
+    
+    	if (xhttp.readyState == 4 && xhttp.status == 200) {
+    		console.log('datos recibidos');
+    		console.log(xhttp.responseText);
+    		Blockly.ComponentBlock.dataPropertiesMenu[semanticType] = JSON.parse(xhttp.responseText);
+    		
+    	}
+ 	
+ 	} else {
+ 		console.log('No se necesita query');
+ 		
+ 	}
+ 	
+ }
+ 
+
+
 Blockly.ComponentBlock.clockMethodNames = ["AddYears", "AddMonths","AddWeeks", "AddDays",
   "AddHours", "AddMinutes", "AddSeconds", "AddDuration"];
 Blockly.ComponentBlock.isClockMethodName =  function  (name) {
     return Blockly.ComponentBlock.clockMethodNames.indexOf(name) != -1;
 };
+
+//IRR 
+Blockly.ComponentBlock.semanticConceptMethodNames = ["RetrieveAssistedLinkedConcept","RetrieveAssistedLinkedConcepts","RetrieveAssistedStringValues","RetrieveAssistedStringValue","RetrieveAssistedNumericValue"];
+Blockly.ComponentBlock.isSemanticConceptMethodName =  function  (name) {
+    return Blockly.ComponentBlock.semanticConceptMethodNames.indexOf(name) != -1;
+};
+
 
 Blockly.ComponentBlock.createComponentDropDown = function(block){
   var componentDropDown = new Blockly.FieldDropdown([["",""]]);
@@ -788,6 +880,33 @@ Blockly.ComponentBlock.createClockAddDropDown = function(block){
   };
   return componentDropDown;
 }
+
+// IRR
+Blockly.ComponentBlock.createDataPropertiesAddDropDown = function(block){
+ 	
+  var componentDropDown = new Blockly.FieldDropdown([["",""]]);
+  componentDropDown.block = block;
+  componentDropDown.menuGenerator_ = function(){ 
+ 	// console.log("semanticType---"+Blockly.ComponentBlock.semanticType+"--");
+ 	 
+ 	 Blockly.ComponentBlock.loadWikiDataSync(Blockly.ComponentBlock.semanticType);
+	 
+	 var dataToCheck=Blockly.ComponentBlock.dataPropertiesMenu[Blockly.ComponentBlock.semanticType];
+	 if (dataToCheck != undefined && dataToCheck.length>0){
+		 return dataToCheck; 
+	 } else {
+		 return {};
+	 }
+	 
+ 	  
+  };
+  
+  componentDropDown.changeHandler_ = function(value){
+    // Lyn thinks nothing special happens here.
+  };
+  return componentDropDown;
+}
+
 
 Blockly.ComponentBlock.HELPURLS = {
   "Button": Blockly.Msg.LANG_COMPONENT_BLOCK_BUTTON_HELPURL,

@@ -410,6 +410,15 @@
   </servlet-mapping>
   
   <servlet>
+    <servlet-name>exportWikiData</servlet-name>
+    <servlet-class>com.google.appinventor.server.storage.ExportWikiData</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>exportWikiData</servlet-name>
+    <url-pattern>/exportWikiData</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
     <servlet-name>updateVedilsData</servlet-name>
     <servlet-class>com.google.appinventor.server.UpdateVedilsDataServlet</servlet-class>
   </servlet>

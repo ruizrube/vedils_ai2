@@ -106,6 +106,12 @@ public interface Images extends Resources {
 	 */
 	@Source("com/google/appinventor/images/handGestureSensor.png")
 	ImageResource handGestureSensor();
+	
+	/**
+	 * Designer palette item: armbandSensor component
+	 */
+	@Source("com/google/appinventor/images/armbandSensor.png")
+	ImageResource armbandSensor();
 //=======
   /**
    * Android with arms raised for the welcome dialog created by
@@ -595,6 +601,12 @@ public interface Images extends Resources {
    */
   @Source("com/google/appinventor/images/control.png")
   ImageResource control();
+  
+  /**
+   * Built in drawer item: analytics
+   */
+  @Source("com/google/appinventor/images/analytics.png")
+  ImageResource analytics();
 
   /**
    * Built in drawer item: logic
