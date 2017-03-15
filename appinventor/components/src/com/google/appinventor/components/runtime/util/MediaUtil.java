@@ -44,6 +44,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author lizlooney@google.com (Liz Looney)
  */
 public class MediaUtil {
+  //SPI-FM
+  private static final String ACTIVITYTRACKER_AUTHFILE = "ruizrube-cd84632c4ea8.p12";
 
   private enum MediaSource { ASSET, REPL_ASSET, SDCARD, FILE_URL, URL, CONTENT_URI, CONTACT_URI }
 
@@ -116,7 +118,7 @@ public class MediaUtil {
     }
 
     if (form instanceof ReplForm) {
-      if (((ReplForm)form).isAssetsLoaded() && !mediaPath.contains(".p12")) //SPI-FM: ActivityTracker auth file 
+      if (((ReplForm)form).isAssetsLoaded() && !mediaPath.contains(ACTIVITYTRACKER_AUTHFILE)) //SPI-FM: ActivityTracker auth file 
     	  																	//saved in the Companion internal directory
         return MediaSource.REPL_ASSET;
       else
