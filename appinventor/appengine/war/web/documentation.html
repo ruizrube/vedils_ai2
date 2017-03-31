@@ -96,7 +96,15 @@
                     <h3>
                     <strong>Releases</strong>
                     <ul>
-                        <li>Version 1.3 [CURRENT]</li>
+                        <li>Version 1.4 [CURRENT]</li>
+                        <ul>
+                            <li>Availability of a new component for managing devices for brain computer interfaces, such as Emotiv Epoc+ and Emotiv Insight: <strong>BrainwaveSensor</strong></li>
+                            <li>Availability of a new component for managing Myo, a wearable gesture control device: <strong>ArmbandGestureSensor</strong></li>
+                            <li>Availability of two new components for automatically retrieving information from Wikidata (central storage for Wikipedia): <strong>ConceptExplorer</strong> and <strong>SemanticConcept</strong></li>
+							<li>Availability of a new component for rendering 3D models: <strong>Model3DViewer</strong></li>
+    						<li>Several improvements on the component for managing Sphero robots</li>                                               
+                        </ul>
+                        <li>Version 1.3</li>
                         <ul>
                             <li>Availability of a new component for managing Sphero robots: <strong>SpheroController</strong></li>
                             <li>Availability of new specific components for querying and representing analytical data: <strong>ActivitySimpleQuery</strong>, <strong>ActivityAggregationQuery</strong>, <strong>Chart</strong> and <strong>DataTable</strong></li>
@@ -308,7 +316,7 @@
                     <h3>
                     <strong>VEDILS Augmented reality <a href="vedilsAR.html">(+Info)</a></strong>
                     <ul>   
-                        <li>AR3DModelAsset: It allows watching 3D models in .OBJ, .3DS and .MDS format.</li> 
+                        <li>AR3DModelAsset: It allows showing 3D models in .OBJ, .3DS and .MDS format.</li> 
                         <li>ARImageAsset: It shows images in 2D format.</li> 
                         <li>ARCamera: It opens the camera and displays the augmented reality.</li>
                         <li>ARCameraOverLayer: It shows information and buttons on the image in real-time and captured by the camera.</li>
@@ -338,12 +346,15 @@
                     <h3>
                     <strong>VEDILS Interactions</strong>
                     <ul>   
+                        <li>BrainwaveSensor: It allows to capture brain activity patterns  if a <a href="https://www.emotiv.com/" target="_blank">Emotiv</a> device is connected.</li> 
+                        <li>ArmbandGestureSensor: It allows to capture user arm gestures if a <a href="https://www.myo.com/" target="_blank">Myo</a> device is connected.</li> 
                         <li>HandGestureSensor: It allows to capture user hand gestures if a <a href="https://www.leapmotion.com/" target="_blank">Leap Motion</a>n device is connected.</li> 
-                       </ul>
+                    </ul>
                 </h3>
                 </div>
             </div>
-
+			
+				
             <div class="row">
                 <div class="col-lg-10 col-lg-offset-1">
                     <h3>
@@ -357,6 +368,43 @@
                 </div>
             </div>
 
+			 <div class="row">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <h3>
+                   <strong>VEDILS Robotics</strong>
+                    <ul>   
+						<li>SphereController: It allows to remotely control Sphero devices and receive events such as collisions</li>
+                      
+                    </ul>
+                </h3>
+                </div>
+            </div>
+			
+          <div class="row">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <h3>
+                   <strong>VEDILS Knowledge</strong>
+                    <ul>   
+						<li>ConceptExplorer: It automatically obtains data entities from Wikipedia articles.</li> 
+						<li>SemanticConcept: It allows to retrieve data about specific concepts, from general properties (id, description, image, etc.) to domain specific properties</li>
+                      
+                    </ul>
+                </h3>
+                </div>
+            </div>
+
+			 <div class="row">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <h3>
+                   <strong>Experimental</strong>
+                    <ul>   
+						<li>Model3DViewer: It allows rendering 3D models in the app</li>                      
+                    </ul>
+                </h3>
+                </div>
+            </div>
+
+		
         </div>
     </section>
 
