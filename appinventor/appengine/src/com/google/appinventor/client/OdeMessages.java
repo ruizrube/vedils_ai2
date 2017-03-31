@@ -518,34 +518,47 @@ public interface OdeMessages extends Messages {
 	// Used in Sphero	
 	
 	/*************************************************************************************EDSON***/
-	@DefaultMessage("DisconnectAndSleep") /*Edson*/
+	
+	@DefaultMessage("DisconnectAndSleep")
 	@Description("")
 	String DisconnectAndSleepMethods();
 	
-	@DefaultMessage("Sleep") /*Edson*/
+	@DefaultMessage("Sleep")
 	@Description("")
 	String SleepMethods();
-	
-	@DefaultMessage("BackLED") /*Edson*/
-	@Description("")
-	String BackLEDMethods();
-	
-	@DefaultMessage("ConfigureCollisionAllParameters") /*Edson*/
-	@Description("")
-	String ConfigureCollisionAllParametersMethods();
 
-	@DefaultMessage("ConfigureCollisionDeadtime") /*Edson*/
-	@Description("")
-	String ConfigureCollisionDeadtimeMethods();
-	
-	@DefaultMessage("Delay") /*Edson*/
+	@DefaultMessage("Delay")
 	@Description("")
 	String DelayMethods();
 	
-	@DefaultMessage("MotionTimeOut") /*Edson*/
+	@DefaultMessage("ConfigureCollision")
 	@Description("")
-	String MotionTimeOutMethods();
+	String ConfigureCollisionMethods();
 	
+	@DefaultMessage("CollisionMethod")
+	@Description("")
+	String CollisionMethodProperties();	
+
+	@DefaultMessage("CollisionXt")
+	@Description("")
+	String CollisionXtProperties();
+	
+	@DefaultMessage("CollisionYt")
+	@Description("")
+	String CollisionYtProperties();
+	
+	@DefaultMessage("CollisionXspd")
+	@Description("")
+	String CollisionXspdProperties();
+	
+	@DefaultMessage("CollisionYspd")
+	@Description("")
+	String CollisionYspdProperties();
+	
+	@DefaultMessage("CollisionDeadTime")
+	@Description("")
+	String CollisionDeadTimeProperties();	
+		
 	@DefaultMessage("DriveAngle")
 	@Description("")
 	String DriveAngleProperties();
@@ -554,38 +567,13 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String DriveVelocityProperties();
 	
-	@DefaultMessage("ImpactX")
+	@DefaultMessage("BackLed") 
 	@Description("")
-	String ImpactXProperties();	
+	String BackLedProperties();
 	
-	@DefaultMessage("ImpactY")
+	@DefaultMessage("MotionTimeOut")
 	@Description("")
-	String ImpactYProperties();	
-	
-	@DefaultMessage("ImpactZ")
-	@Description("")
-	String ImpactZProperties();	
-
-	@DefaultMessage("ImpactAxis")
-	@Description("")
-	String ImpactAxisProperties();
-	
-	@DefaultMessage("ImpactXMagnitud")
-	@Description("")
-	String ImpactXMagnitudProperties();	
-	
-	@DefaultMessage("ImpactYMagnitud")
-	@Description("")
-	String ImpactYMagnitudProperties();	
-
-	@DefaultMessage("ImpactSpeed")
-	@Description("")
-	String ImpactSpeedProperties();	
-
-	@DefaultMessage("ImpactTimestamp")
-	@Description("")
-	String ImpactTimestampProperties();	
-	
+	String MotionTimeOutProperties();
 	/*************************************************************************************EDSON***/
 	
 	@DefaultMessage("DefaultColor")
