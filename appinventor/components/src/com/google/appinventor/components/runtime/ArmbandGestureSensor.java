@@ -28,23 +28,29 @@ import android.app.Activity;
 		+ "android.permission.INTERNET")
 public class ArmbandGestureSensor extends AndroidNonvisibleComponent implements Component {
 	
-	MyoSensor listener;
-	Hub hub;
-	Activity activity;
+	private MyoSensor listener;
+	private Hub hub;
+	private Activity activity;
+	private boolean linkedListener;
+	private boolean connected;
 	
 	public ArmbandGestureSensor(ComponentContainer componentContainer) {
 		super(componentContainer.$form());
 		activity = componentContainer.$context();
+		linkedListener = false;
+		connected = false;
 	}
 	
 	//Events:
 	@SimpleEvent(description = "Event to be raised when Myo device is connected", userVisible = true)
 	public void DeviceConnected() {
+		connected = true;
 		EventDispatcher.dispatchEvent(this, "DeviceConnected");
 	}
 	
 	@SimpleEvent(description = "Event to be raised when Myo device is connected", userVisible = true)
 	public void DeviceDisconnected() {
+		connected = false;
 		EventDispatcher.dispatchEvent(this, "DeviceDisconnected");
 	}
 	
@@ -128,7 +134,10 @@ public class ArmbandGestureSensor extends AndroidNonvisibleComponent implements 
 		//activity.startActivity(intent);
 
 		// Have the sample listener receive events from the controller
-		hub.addListener(listener);
+		if(!linkedListener) {
+			hub.addListener(listener);
+		}
+		linkedListener = true;
 	}
 	
 	/**
@@ -138,10 +147,13 @@ public class ArmbandGestureSensor extends AndroidNonvisibleComponent implements 
 	public void Stop() {
 
 		if (listener != null && hub != null) {
-
-			// Remove the sample listener when done
-			hub.removeListener(listener);
-			hub.shutdown();
+			if(connected) {
+				// Remove the sample listener when done
+				hub.removeListener(listener);
+				hub.shutdown();
+				linkedListener = false;
+				connected = false;
+			}
 		}
 
 	}
