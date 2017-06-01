@@ -41,6 +41,7 @@ import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroid
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidLegoNxtSensorPortChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidScreenAnimationChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidScreenOrientationChoicePropertyEditor;
+import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidQualityYoutubeChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidSensorDistIntervalChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidSensorTimeIntervalChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidSizingChoicePropertyEditor;
@@ -222,6 +223,8 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 			return new NonNegativeIntegerPropertyEditor();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_SCREEN_ORIENTATION)) {
 			return new YoungAndroidScreenOrientationChoicePropertyEditor();
+		}else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_QUALITY_YOUTUBE)) {
+				return new YoungAndroidQualityYoutubeChoicePropertyEditor();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_SCREEN_ANIMATION)) {
 			return new YoungAndroidScreenAnimationChoicePropertyEditor();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_SENSOR_DIST_INTERVAL)) {
@@ -274,8 +277,10 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_KIND_OF_VISUALASSETS)) {
 			return new YoungAndroidComponentSelectorPropertyEditor(editor,
 					new HashSet<String>(Arrays.asList(ASSETS_TYPES)));
+		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_VRSCENE)) {
+			return new YoungAndroidComponentSelectorPropertyEditor(editor, Collections.singleton("VRScene"));
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_ARCAMERA)) {
-			return new YoungAndroidComponentSelectorPropertyEditor(editor, Collections.singleton("ARCamera"));
+			return new YoungAndroidComponentSelectorPropertyEditor(editor, Collections.singleton(""));
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_ARCAMERAOVERLAYER)) {
 			return new YoungAndroidComponentSelectorPropertyEditor(editor, Collections.singleton("ARCameraOverLayer"));
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_QUERY)) {

@@ -34,6 +34,32 @@ public interface Images extends Resources {
 	 */
 	@Source("com/google/appinventor/images/arCamera.png")
 	ImageResource arCamera();
+	
+	/**
+	 * Designer palette items: virtualReality components
+	 */
+	@Source("com/google/appinventor/images/virtualReality3DObject.png")
+	ImageResource vr3DObject();
+	
+	@Source("com/google/appinventor/images/virtualRealityController.png")
+	ImageResource vrController();
+	
+	@Source("com/google/appinventor/images/virtualRealityImage.png")
+	ImageResource vrImage360();
+	
+	@Source("com/google/appinventor/images/virtualRealityScene.png")
+	ImageResource vrScene();
+	
+	@Source("com/google/appinventor/images/virtualRealityVideo.png")
+	ImageResource vrVideo360();
+	
+	/**
+	 * Designer palette items: Knowledge components
+	 */
+	@Source("com/google/appinventor/images/knexplorer.png")
+	ImageResource knExplorer();
+	@Source("com/google/appinventor/images/knsemantic.png")
+	ImageResource knSemantic();
 
 	/**
 	 * Designer palette item: arMarkerTracker component

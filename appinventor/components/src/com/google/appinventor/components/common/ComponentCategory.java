@@ -65,7 +65,8 @@ import java.util.Map;
 	VEDILSINTERACTIONS("VEDILS Interactions"),
 	VEDILSCOMMUNICATION("VEDILS Communications"),
 	VEDILSROBOTICS("VEDILS Robotics"),
-	VEDILSKNOWLEDGE("VEDILS Knowledge")
+	VEDILSKNOWLEDGE("VEDILS Knowledge"),
+	VEDILSVIRTUALREALITY("VEDILS Virtual Reality")
 	;
 
 
@@ -86,6 +87,7 @@ import java.util.Map;
       DOC_MAP.put("VEDILS Learning Analytics", "vedilslearninganalytics");
       DOC_MAP.put("VEDILS Gesture Control", "vedilsgesturecontrol");
       DOC_MAP.put("VEDILS Communication", "vedilscommunication");
+      DOC_MAP.put("VEDILS Virtual Reality", "vedilsvirtualreality");
       //DOC_MAP.put("Experimental", "experimental");
     }
 

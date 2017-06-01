@@ -518,47 +518,34 @@ public interface OdeMessages extends Messages {
 	// Used in Sphero	
 	
 	/*************************************************************************************EDSON***/
-	
-	@DefaultMessage("DisconnectAndSleep")
+	@DefaultMessage("DisconnectAndSleep") /*Edson*/
 	@Description("")
 	String DisconnectAndSleepMethods();
 	
-	@DefaultMessage("Sleep")
+	@DefaultMessage("Sleep") /*Edson*/
 	@Description("")
 	String SleepMethods();
+	
+	@DefaultMessage("BackLED") /*Edson*/
+	@Description("")
+	String BackLEDMethods();
+	
+	@DefaultMessage("ConfigureCollisionAllParameters") /*Edson*/
+	@Description("")
+	String ConfigureCollisionAllParametersMethods();
 
-	@DefaultMessage("Delay")
+	@DefaultMessage("ConfigureCollisionDeadtime") /*Edson*/
+	@Description("")
+	String ConfigureCollisionDeadtimeMethods();
+	
+	@DefaultMessage("Delay") /*Edson*/
 	@Description("")
 	String DelayMethods();
 	
-	@DefaultMessage("ConfigureCollision")
+	@DefaultMessage("MotionTimeOut") /*Edson*/
 	@Description("")
-	String ConfigureCollisionMethods();
+	String MotionTimeOutMethods();
 	
-	@DefaultMessage("CollisionMethod")
-	@Description("")
-	String CollisionMethodProperties();	
-
-	@DefaultMessage("CollisionXt")
-	@Description("")
-	String CollisionXtProperties();
-	
-	@DefaultMessage("CollisionYt")
-	@Description("")
-	String CollisionYtProperties();
-	
-	@DefaultMessage("CollisionXspd")
-	@Description("")
-	String CollisionXspdProperties();
-	
-	@DefaultMessage("CollisionYspd")
-	@Description("")
-	String CollisionYspdProperties();
-	
-	@DefaultMessage("CollisionDeadTime")
-	@Description("")
-	String CollisionDeadTimeProperties();	
-		
 	@DefaultMessage("DriveAngle")
 	@Description("")
 	String DriveAngleProperties();
@@ -567,13 +554,38 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String DriveVelocityProperties();
 	
-	@DefaultMessage("BackLed") 
+	@DefaultMessage("ImpactX")
 	@Description("")
-	String BackLedProperties();
+	String ImpactXProperties();	
 	
-	@DefaultMessage("MotionTimeOut")
+	@DefaultMessage("ImpactY")
 	@Description("")
-	String MotionTimeOutProperties();
+	String ImpactYProperties();	
+	
+	@DefaultMessage("ImpactZ")
+	@Description("")
+	String ImpactZProperties();	
+
+	@DefaultMessage("ImpactAxis")
+	@Description("")
+	String ImpactAxisProperties();
+	
+	@DefaultMessage("ImpactXMagnitud")
+	@Description("")
+	String ImpactXMagnitudProperties();	
+	
+	@DefaultMessage("ImpactYMagnitud")
+	@Description("")
+	String ImpactYMagnitudProperties();	
+
+	@DefaultMessage("ImpactSpeed")
+	@Description("")
+	String ImpactSpeedProperties();	
+
+	@DefaultMessage("ImpactTimestamp")
+	@Description("")
+	String ImpactTimestampProperties();	
+	
 	/*************************************************************************************EDSON***/
 	
 	@DefaultMessage("DefaultColor")
@@ -2040,7 +2052,25 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("None")
 	@Description("Text for screen animation choice 'None '")
 	String noneScreenAnimation();
+	// Used in
+		// editor/youngandroid/properties/YoungAndroidQualityYoutubeChoicePropertyEditor.java
+	
+	@DefaultMessage("240 SMALL")
+	@Description("quality for youtube video  '240 '")
+	String qualityYoutube240();
 
+	@DefaultMessage("360 MEDIUM")
+	@Description("quality for youtube video  '360 '")
+	String qualityYoutube360();
+
+	@DefaultMessage("720 HD")
+	@Description("quality for youtube video  '720 '")
+	String qualityYoutube720();
+
+	@DefaultMessage("1080 HD no sound")
+	@Description("quality for youtube video  '1080 '")
+	String qualityYoutube1080();
+	
 	// Used in
 	// editor/youngandroid/properties/YoungAndroidScreenOrientationChoicePropertyEditor.java
 
@@ -6470,19 +6500,19 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String GetRowsWithConditionsMethods();
 
-	@DefaultMessage("简体中文")
+	@DefaultMessage("Ã§Â®â‚¬Ã¤Â½â€œÃ¤Â¸Â­Ã¦â€“â€¡")
 	@Description("")
 	String SwitchToSimplifiedChinese();
 
-	@DefaultMessage("繁体中文")
+	@DefaultMessage("Ã§Â¹ï¿½Ã¤Â½â€œÃ¤Â¸Â­Ã¦â€“â€¡")
 	@Description("")
 	String SwitchToTraditionalChinese();
 
-	@DefaultMessage("Español")
+	@DefaultMessage("EspaÃƒÂ±ol")
 	@Description("")
 	String SwitchToSpanish();
 
-	@DefaultMessage("Français")
+	@DefaultMessage("FranÃƒÂ§ais")
 	@Description("")
 	String SwitchToFrench();
 
@@ -6490,11 +6520,11 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String SwitchToItalian();
 
-	@DefaultMessage("Pусский")
+	@DefaultMessage("PÃ‘Æ’Ã‘ï¿½Ã‘ï¿½Ã�ÂºÃ�Â¸Ã�Â¹")
 	@Description("")
 	String SwitchToRussian();
 
-	@DefaultMessage("한국어")
+	@DefaultMessage("Ã­â€¢Å“ÃªÂµÂ­Ã¬â€“Â´")
 	@Description("")
 	String SwitchToKorean();
 
@@ -6502,7 +6532,7 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String SwitchToSwedish();
 
-	@DefaultMessage("Português do Brasil")
+	@DefaultMessage("PortuguÃƒÂªs do Brasil")
 	@Description("")
 	String switchToPortugueseBR();
 
@@ -6883,6 +6913,255 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("ZoomMinSize")
 	@Description("")
 	String ZoomMinSizeProperties();
+	
+	//////////////////////
+	//// MODEL3DVIEWER////
+	//////////////////////
+	
+	@DefaultMessage("getMaterial3D")
+	@Description("")
+	String getMaterial3DProperties();
+	
+	@DefaultMessage("getModel3D")
+	@Description("")
+	String getModel3DProperties();
+	
+	@DefaultMessage("setModel3D")
+	@Description("")
+	String setModel3DProperties();
+	
+	@DefaultMessage("setMaterial3D")
+	@Description("")
+	String setMaterial3DProperties();
+	
+	///////////
+	//// VR////
+	///////////
+	
+	@DefaultMessage("getBinocularMode")
+	@Description("")
+	String getBinocularModeProperties();
+	
+	@DefaultMessage("Binocular")
+	@Description("")
+	String BinocularProperties();
+	
+	@DefaultMessage("VRScene")
+	@Description("")
+	String VRSceneProperties();
+	
+	@DefaultMessage("Move Focus To Another Object3D")
+	@Description("")
+	String MoveFocusMethods();
+	
+
+	
+	
+	//OBJECT3D
+	
+	@DefaultMessage("Skybox Image")
+	@Description("")
+	String SkyboxImageProperties();
+	
+	@DefaultMessage("getSkyboxImage")
+	@Description("")
+	String getSkyboxImageProperties();
+	
+	@DefaultMessage("Model3D")
+	@Description("")
+	String Model3DProperties();
+	
+	@DefaultMessage("Material3D")
+	@Description("")
+	String Material3DProperties();
+	
+	@DefaultMessage("getPositionX")
+	@Description("")
+	String getPositionXProperties();
+	
+	@DefaultMessage("getPositionY")
+	@Description("")
+	String getPositionYProperties();
+	
+	@DefaultMessage("getPositionZ")
+	@Description("")
+	String getPositionZProperties();
+	
+	@DefaultMessage("getScale")
+	@Description("")
+	String getScaleProperties();
+	
+	@DefaultMessage("AmbientLight intensity")
+	@Description("")
+	String AmbientLightIntensityProperties();
+	
+	@DefaultMessage("getAmbientLightIntensity")
+	@Description("")
+	String getAmbientLightIntensityProperties();
+	
+	@DefaultMessage("Rotate Left Focused Object3D ")
+	@Description("")
+	String RotateLeftMethods();
+	
+	@DefaultMessage("Rotate Right Focused Object3D ")
+	@Description("")
+	String RotateRightMethods();
+	
+	@DefaultMessage("Rotate Up Focused Object3D ")
+	@Description("")
+	String RotateUpMethods();
+	
+	@DefaultMessage("Rotate Down Focused Object3D ")
+	@Description("")
+	String RotateDownMethods();
+	
+	@DefaultMessage("Zoom In Focused Object3D ")
+	@Description("")
+	String ZoomInMethods();
+	
+	@DefaultMessage("Zoom out Focused Object3D ")
+	@Description("")
+	String ZoomOutMethods();
+	
+	@DefaultMessage("Move Up Focused Object3D ")
+	@Description("")
+	String MoveUpMethods();
+
+	@DefaultMessage("Move Down Focused Object3D ")
+	@Description("")
+	String MoveDownMethods();
+	
+	@DefaultMessage("Move Left Focused Object3D ")
+	@Description("")
+	String MoveLeftMethods();
+	
+	@DefaultMessage("Move Right Focused Object3D ")
+	@Description("")
+	String MoveRightMethods();
+	
+	
+	//IMAGE360
+	
+	@DefaultMessage("getImage360")
+	@Description("")
+	String getImage360Properties();
+	
+	@DefaultMessage("Image360 Asset")
+	@Description("")
+	String setImage360Properties();
+	
+	//VIDEO360
+	
+	@DefaultMessage("Video360 Asset")
+	@Description("")
+	String Video360AssetProperties();
+	
+	@DefaultMessage("getVideo360Asset")
+	@Description("")
+	String getVideo360AssetProperties();
+	
+	@DefaultMessage("Video360 Url")
+	@Description("")
+	String Video360UrlProperties();
+	
+	@DefaultMessage("getVideo360Url")
+	@Description("")
+	String getVideo360UrlProperties();
+	
+	@DefaultMessage("VideoUrl Quality")
+	@Description("")
+	String VideoUrlQualityProperties();
+	
+	@DefaultMessage("getVideoUrlQuality")
+	@Description("")
+	String getVideoUrlQualityProperties();
+	
+	@DefaultMessage("getLoop")
+	@Description("")
+	String getLoopProperties();
+	
+	@DefaultMessage("getVolume")
+	@Description("")
+	String getVolumeProperties();
+
+	@DefaultMessage("Start video360")
+	@Description("")
+	String StartVideoEvents();
+	
+	@DefaultMessage("End video360")
+	@Description("")
+	String EndVideoEvents();
+	
+	//CONTROLLER VR
+	
+	@DefaultMessage("Objects3D Rotate Speed (1-10)")
+	@Description("")
+	String RotateSpeedProperties();
+	
+	@DefaultMessage("Objects3D Move Speed (1-10)")
+	@Description("")
+	String MoveSpeedProperties();
+	
+	@DefaultMessage("Press A Button")
+	@Description("")
+	String PressAButtonEvents();
+	
+	@DefaultMessage("Press B Button")
+	@Description("")
+	String PressBButtonEvents();
+	
+	@DefaultMessage("Press C Button")
+	@Description("")
+	String PressCButtonEvents();
+	
+	@DefaultMessage("Press D Button")
+	@Description("")
+	String PressDButtonEvents();
+	
+	@DefaultMessage("Press X Button")
+	@Description("")
+	String PressXButtonEvents();
+	
+	@DefaultMessage("Press Z Button")
+	@Description("")
+	String PressZButtonEvents();
+	
+	@DefaultMessage("Move Up Joystick")
+	@Description("")
+	String PressUpJoystickEvents();
+	
+	@DefaultMessage("Move Down Joystick")
+	@Description("")
+	String PressDownJoystickEvents();
+	
+	@DefaultMessage("Move Left Joystick")
+	@Description("")
+	String PressLeftJoystickEvents();
+	
+	@DefaultMessage("Move Right Joystick")
+	@Description("")
+	String PressRightJoystickEvents();
+	
+	@DefaultMessage("Move Up-Left Joystick")
+	@Description("")
+	String PressUpLeftJoystickEvents();
+	
+	@DefaultMessage("Move Up-Right Joystick")
+	@Description("")
+	String PressUpRightJoystickEvents();
+	
+	@DefaultMessage("Move Down-Left Joystick")
+	@Description("")
+	String PressDownLeftJoystickEvents();
+	
+	@DefaultMessage("Move Down-Right Joystick")
+	@Description("")
+	String PressDownRightJoystickEvents();
+	
+	@DefaultMessage("Check controller connected")
+	@Description("")
+	String CheckControllerConectionMethods();
+
 
 	//
 	// GoogleCloudMessaging
@@ -7104,4 +7383,6 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("DeviceUnsynchronized")
 	@Description("")
 	String DeviceUnsynchronizedEvents();
+
+	
 }

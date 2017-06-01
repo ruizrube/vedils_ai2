@@ -32,7 +32,7 @@ import android.os.StrictMode;
  */
 @UsesLibraries(libraries = "ld4ai-0.1.jar")
 @SimpleObject
-@DesignerComponent(nonVisible = true, version = 1, description = "Semantic Concept Component (by SPI-FM at UCA)", category = ComponentCategory.VEDILSKNOWLEDGE, iconName = "images/arCamera.png")
+@DesignerComponent(nonVisible = true, version = 1, description = "Semantic Concept Component (by SPI-FM at UCA)", category = ComponentCategory.VEDILSKNOWLEDGE, iconName = "images/knsemantic.png")
 @UsesPermissions(permissionNames = "android.permission.INTERNET, android.permission.ACCESS_NETWORK_STATE")
 
 public class SemanticConcept extends AndroidNonvisibleComponent implements Serializable {

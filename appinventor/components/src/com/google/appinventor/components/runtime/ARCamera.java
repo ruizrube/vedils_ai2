@@ -77,6 +77,7 @@ public class ARCamera extends AndroidNonvisibleComponent
 	private final ComponentContainer container;
 
 	ARPhysicalObjectBroadCastReceiver poEventBroadCastReceiver = new ARPhysicalObjectBroadCastReceiver();
+	//AQUI DE DECLARAN LAS ORDENES A SEGUIR CUANDO EL LOCALBROADCAST HACE UN RECEIVER
 	ARVirtualObjectBroadCastReceiver voEventBroadCastReceiver = new ARVirtualObjectBroadCastReceiver();
 	ARCameraBroadCastReceiver cameraEventBroadCastReceiver = new ARCameraBroadCastReceiver();
 

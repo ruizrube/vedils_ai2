@@ -196,5 +196,9 @@
 	<classpathentry kind="lib" path="lib/brain4ai/bedk.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ld4ai"/>
 	<classpathentry kind="lib" path="lib/ld4ai/ld4ai-0.1.jar"/>
+	<classpathentry kind="lib" path="lib/3d4ai/3d4ai.jar"/>
+	<classpathentry kind="lib" path="lib/vr4ai/cardboard.jar"/>
+	<classpathentry kind="lib" path="lib/vr4ai/libprotobuf-java-2.3-nano.jar"/>
+	<classpathentry kind="lib" path="lib/vr4ai/vr4ai.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
