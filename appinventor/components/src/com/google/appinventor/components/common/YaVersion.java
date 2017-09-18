@@ -1003,11 +1003,15 @@ public class YaVersion {
   
   public static final int ACTIVITYTRACKER_COMPONENT_VERSION = 1;
   
- //ActivityTracker
+  //ActivityStreamQuery
+  
+  public static final int ACTIVITYSTREAMQUERY_COMPONENT_VERSION = 1;
+  
+  //ActivitySimpleProcessor
   
   public static final int ACTIVITYSIMPLEPROCESSOR_COMPONENT_VERSION = 2;
  
-//ActivityTracker
+  //ActivityAggregationProcessor
   
   public static final int ACTIVITYAGGREGATIONPROCESSOR_COMPONENT_VERSION = 2;
  
