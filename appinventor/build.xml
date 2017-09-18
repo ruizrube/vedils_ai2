@@ -135,6 +135,7 @@
         
         <!-- LA4AI -->
         <pathelement location="lib/la4ai/la4ai.jar" />
+        <pathelement location="lib/la4ai/stream/stream-1.1.7.jar" />
        
         <!-- BRAIN EEG -->
         <pathelement location="lib/brain4ai/bedk.jar" />
