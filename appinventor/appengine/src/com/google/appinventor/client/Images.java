@@ -603,10 +603,10 @@ public interface Images extends Resources {
   ImageResource control();
   
   /**
-   * Built in drawer item: analytics
+   * Built in drawer item: stream
    */
-  @Source("com/google/appinventor/images/analytics.png")
-  ImageResource analytics();
+  @Source("com/google/appinventor/images/stream.png")
+  ImageResource stream();
 
   /**
    * Built in drawer item: logic
