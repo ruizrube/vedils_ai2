@@ -459,17 +459,15 @@ public final class Compiler {
 				out.write("android:name=\"com.google.appinventor.components.runtime.multidex.MultiDexApplication\" ");
 			}
 
-			// Change the app theme
-			// Black:
-			// out.write("android:theme=\"@android:style/Theme.Holo\"");
-			// White:
-			// out.write("android:theme=\"@android:style/Theme.Holo.Light\"");
-
 			// IRR: Material design requires Android 5.0 (API nivel 21)
 			if(Integer.valueOf(minSDK).intValue() >= Integer.valueOf(LEVEL_LOLLIPOP).intValue()){
 				out.write("android:theme=\"@android:style/Theme.Material.Light\"");			
 			}
-
+			
+			//For HTML5 video support on WebViewer
+			if(componentTypes.contains("WebViewer")) {
+				out.write("android:hardwareAccelerated=\"true\""); //Only works in API level 11+
+			}
 	
 			out.write(">\n");
 
@@ -547,8 +545,42 @@ public final class Compiler {
 						+ "android:screenOrientation=\"behind\">\n");
 				out.write("    </activity>\n");
 			}
-
+			
 			// LA4AI
+			
+			//Add permissions to set background service
+			if(componentTypes.contains("ActivityTracker")) {
+				
+				/*
+				 * <service
+    android:name=".MyService"
+    android:label="@string/app_name"
+    android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+       <intent-filter>
+          <action android:name="android.accessibilityservice.AccessibilityService" />
+       </intent-filter>
+ </service>
+				 * 
+				 * 
+				 */
+				
+				/*
+				
+				out.write("<service \n");
+				out.write(
+						"android:name=\"com.google.appinventor.components.runtime.ActivityTrackerBackgroundService\" \n");
+				out.write("android:enabled=\"true\" \n");
+				out.write("android:exported=\"false\" \n");
+				out.write("android:permission=\"android.permission.BIND_ACCESSIBILITY_SERVICE\"> \n");
+				out.write("<intent-filter> \n");
+				out.write("<action android:name=\"android.accessibilityservice.AccessibilityService\" /> \n");
+				out.write("</intent-filter> \n");
+				out.write("</service> \n");
+				
+				*/
+				
+			}
+
 			// Add permiss to get notifications.
 			if (componentTypes.contains("GoogleCloudMessaging")) {
 
