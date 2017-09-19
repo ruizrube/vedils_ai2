@@ -300,6 +300,10 @@ public class PropertyTypeConstants {
 	public static final String PROPERTY_TYPE_KIND_OF_VISUALASSETS = "visualassets";
 
 	public static final String PROPERTY_TYPE_ONLY_ARCAMERA = "arcamera";
+	
+	public static final String PROPERTY_TYPE_ONLY_VRSCENE = "vrscene";
+	
+	public static final String PROPERTY_TYPE_QUALITY_YOUTUBE = "youtube_quality";
 
 	public static final String PROPERTY_TYPE_ONLY_ARCAMERAOVERLAYER = "arcameraoverlayer";
 

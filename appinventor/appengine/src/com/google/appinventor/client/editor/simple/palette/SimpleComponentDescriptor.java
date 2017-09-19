@@ -148,6 +148,16 @@ public final class SimpleComponentDescriptor {
     bundledImages.put("images/activityAggregationProcessor_icon.png", images.activityaggregationprocessor());
     bundledImages.put("images/sphero_icon.png", images.sphero());
     bundledImages.put("images/brain.png", images.brain());
+    
+    bundledImages.put("images/virtualReality3DObject.png", images.vr3DObject());
+    bundledImages.put("images/virtualRealityController.png", images.vrController());
+    bundledImages.put("images/virtualRealityImage.png", images.vrImage360());
+    bundledImages.put("images/virtualRealityScene.png", images.vrScene());
+    bundledImages.put("images/virtualRealityVideo.png", images.vrVideo360());
+    
+    bundledImages.put("images/knexplorer.png", images.knExplorer());
+    bundledImages.put("images/knsemantic.png", images.knSemantic());
+    
      
     
         imagesInitialized = true;

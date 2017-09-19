@@ -128,12 +128,6 @@ public class ArmbandGestureSensor extends AndroidNonvisibleComponent implements 
 			}
 		}
 		
-		//First, disable standard Myo locking policy. All poses will be delivered
-		hub.setLockingPolicy(Hub.LockingPolicy.NONE);
-				
-		//Second, disable send information data to ThalmicLabs
-		hub.setSendUsageData(false);
-		
 		//Connect to a nearby Myo
 		hub.attachToAdjacentMyo();
 		//Intent intent = new Intent(activity, ScanActivity.class);

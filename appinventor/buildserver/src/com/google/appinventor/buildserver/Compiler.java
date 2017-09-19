@@ -64,6 +64,14 @@ public final class Compiler {
 	// IRR
 	private static final String ARSCENE_ACTIVITY_CLASS = "com.google.appinventor.components.runtime.ar4ai.vuforia.VuforiaARActivity";
 
+	//3DAI
+	private static final String JPCT_ACTIVITY_CLASS = "com.google.appinventor.components.runtime.jpctsource.JPCTActivity";
+	private static final String JPCT_ACTIVITY_ACTION = "com.mobile.jpctlauncher.LAUNCH_ACTIVITY";
+	
+	//VR4AI
+	
+	private static final String VR_ACTIVITY_CLASS = "com.google.appinventor.components.runtime.vr4ai.VRActivity";
+
 	// IRR
 	private static final String ARSCENE_JPCT_SHADERS = "jpct_shaders.zip";
 	// "/Users/ivanruizrube/Documents/Proyectos/workspaceRA/appinventor/lib/ar4ai/jpct_shaders.zip";
@@ -382,7 +390,7 @@ public final class Compiler {
 			}
 
 			// BrainwaveSensor requires at least API 21 (Lollipop)
-			if (componentTypes.contains("BrainwaveSensor") && !isForCompanion) {
+			if ((componentTypes.contains("BrainwaveSensor")||componentTypes.contains("VRScene")) && !isForCompanion) {
 				minSDK = LEVEL_LOLLIPOP;
 			}
 
@@ -510,6 +518,10 @@ public final class Compiler {
 				if (isMain) {
 					out.write("        <category android:name=\"android.intent.category.LAUNCHER\" />\n");
 				}
+				if (componentTypes.contains("VRScene")) 
+				{
+					out.write("        <category android:name=\"com.google.intent.category.CARDBOARD\" />\n");
+				}
 				out.write("      </intent-filter>\n");
 
 				if (componentTypes.contains("NearField") && !isForCompanion && isMain) {
@@ -580,6 +592,26 @@ public final class Compiler {
 				*/
 				
 			}
+			
+			// 3D4Ai
+					
+						// is used in the app
+						if (componentTypes.contains("Model3DViewer")) {
+							out.write("    <activity android:name=\"" + JPCT_ACTIVITY_CLASS + "\" "
+									+ "android:configChanges=\"orientation|keyboardHidden|screenSize|smallestScreenSize\" "
+									+ "android:screenOrientation=\"behind\">\n");
+							out.write("    </activity>\n");
+						}
+						
+			//VR4AI
+				
+						if (componentTypes.contains("VRScene")) {
+							out.write("    <activity android:name=\"" + VR_ACTIVITY_CLASS + "\" "
+									+ "android:configChanges=\"orientation|screenSize\" "
+									+ "android:theme=\"@android:style/Theme.NoTitleBar.Fullscreen\" "
+									+ "android:screenOrientation=\"landscape\">\n");
+							out.write("    </activity>\n");
+						}
 
 			// Add permiss to get notifications.
 			if (componentTypes.contains("GoogleCloudMessaging")) {
@@ -1376,12 +1408,40 @@ public final class Compiler {
 						new File(componentAssetDirectory, filename));
 			}
 			// IRR Si usamos la camara incorporamos tambien los shaders del JPCT
-			if (componentTypes.contains("ARCamera")) {
+			if (componentTypes.contains("ARCamera")||componentTypes.contains("Model3DViewer")||componentTypes.contains("VRScene")||componentTypes.contains("VRVideo360")) {
 
 				System.out.println("IRR copiando shaders:" + RUNTIME_FILES_DIR + ARSCENE_JPCT_SHADERS);
 				Files.copy(new File(getResource(RUNTIME_FILES_DIR + ARSCENE_JPCT_SHADERS)),
 						new File(project.getAssetsDirectory(), "jpct_shaders.zip"));
 				System.out.println("IRR  shaders copiados");
+				
+					System.out.println("RBP copiando objeto de esfera360 para VRScene:" + RUNTIME_FILES_DIR
+							+ "sphere_paranomic.obj");
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "sphere_paranomic.obj")),
+							new File(project.getAssetsDirectory(),  "sphere_paranomic.obj"));
+					System.out.println("RBP  esfera360 copiada");
+					
+					System.out.println("RBP copiando shaders especiales VRScene:" + RUNTIME_FILES_DIR
+							+ "surface_fragment_shader.txt");
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "surface_fragment_shader.txt")),
+							new File(project.getAssetsDirectory(),  "surface_fragment_shader.txt"));
+					System.out.println("RBP  shader copiado");
+					
+					System.out.println("RBP copiando shaders especiales VRScene:" + RUNTIME_FILES_DIR
+							+ "defaultVertexShaderTex0.src");
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "defaultVertexShaderTex0.src")),
+							new File(project.getAssetsDirectory(),  "defaultVertexShaderTex0.src"));
+					System.out.println("RBP  shader copiado");
+				
+				if(componentTypes.contains("VRVideo360"))
+						{
+					System.out.println("RBP copiando textura de skybox para VRVideo360:" + RUNTIME_FILES_DIR
+							+ "loadIMG.png");
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "loadIMG.png")),
+							new File(project.getAssetsDirectory(),  "loadIMG.png"));
+					System.out.println("RBP skybox VRVideo360 copiada");
+					
+						}
 				if (componentTypes.contains("ARTextTracker")) {
 					System.out.println("IRR copiando diccionario para TextTracker:" + RUNTIME_FILES_DIR
 							+ "Vuforia-English-word.vwl");

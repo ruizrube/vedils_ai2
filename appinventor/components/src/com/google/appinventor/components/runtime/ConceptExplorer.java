@@ -26,7 +26,7 @@ import android.os.StrictMode;
  */
 @UsesLibraries(libraries = "ld4ai-0.1.jar")
 @SimpleObject
-@DesignerComponent(nonVisible = true, version = 1, description = "Concept Explorer (by SPI-FM at UCA)", category = ComponentCategory.VEDILSKNOWLEDGE, iconName = "images/arCamera.png")
+@DesignerComponent(nonVisible = true, version = 1, description = "Concept Explorer (by SPI-FM at UCA)", category = ComponentCategory.VEDILSKNOWLEDGE, iconName = "images/knexplorer.png")
 @UsesPermissions(permissionNames = "android.permission.INTERNET, android.permission.ACCESS_NETWORK_STATE")
 
 public class ConceptExplorer extends AndroidNonvisibleComponent implements Serializable {

@@ -112,7 +112,6 @@
           description="Generate runtime library implementing components"
           depends="CommonConstants,HtmlEntities,common_CommonVersion">
     <property name="AndroidRuntime-class.dir" location="${class.dir}/AndroidRuntime" />
-    <property name="AspectJAndroidRuntime-class.dir" location="${class.dir}/AspectJAndroidRuntime" />
     <mkdir dir="${AndroidRuntime-class.dir}" />
     <mkdir dir="${AspectJAndroidRuntime-class.dir}" />
     
@@ -189,6 +188,12 @@
 			
 	        <pathelement location="${lib.dir}/ld4ai/ld4ai-0.1.jar" />
 	        
+	        <pathelement location="${lib.dir}/3d4ai/3d4ai.jar" />
+	        
+	        <pathelement location="${lib.dir}/vr4ai/vr4ai.jar" />
+	        <pathelement location="${lib.dir}/vr4ai/cardboard.jar" />
+	        <pathelement location="${lib.dir}/vr4ai/libprotobuf-java-2.3-nano.jar" />
+	        
         </classpath>
    		
 	</iajc>
@@ -262,6 +267,12 @@
          <pathelement location="${lib.dir}/gca4ai/Myo-connector.jar" />
        
          <pathelement location="${lib.dir}/brain4ai/bedk.jar" />
+         
+         <pathelement location="${lib.dir}/3d4ai/3d4ai.jar" />
+         
+         <pathelement location="${lib.dir}/vr4ai/vr4ai.jar" />
+	     <pathelement location="${lib.dir}/vr4ai/cardboard.jar" />
+	     <pathelement location="${lib.dir}/vr4ai/libprotobuf-java-2.3-nano.jar" />
               
       </classpath>
     </ai.javac5> -->
@@ -396,8 +407,12 @@
          <pathelement location="${lib.dir}/brain4ai/bedk.jar" />
        
          <pathelement location="${lib.dir}/ld4ai/ld4ai-0.1.jar" />
-	   
-           
+         
+         <pathelement location="${lib.dir}/3d4ai/3d4ai.jar" />
+         
+         <pathelement location="${lib.dir}/vr4ai/vr4ai.jar" />
+	     <pathelement location="${lib.dir}/vr4ai/cardboard.jar" />
+	     <pathelement location="${lib.dir}/vr4ai/libprotobuf-java-2.3-nano.jar" />
         
         </classpath>
         <compilerarg line="-processorpath ${local.build.dir}/AnnotationProcessors.jar"/>

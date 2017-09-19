@@ -100,6 +100,18 @@
 		<copy toFile="${classes.files.dir}/jpct_shaders.zip" file="${lib.dir}/ar4ai/jpct_shaders.zip" />
 		<copy toFile="${classes.files.dir}/android-support-v4.jar" file="${lib.dir}/ar4ai/android-support-v4.jar" />
         <copy toFile="${classes.files.dir}/Vuforia-English-word.vwl" file="${lib.dir}/ar4ai/Vuforia-English-word.vwl" />
+        
+        <!-- 3D4AI -->
+        <copy toFile="${classes.files.dir}/3d4ai.jar" file="${lib.dir}/3d4ai/3d4ai.jar" />
+        
+        <!-- VR4AI -->
+        <copy toFile="${classes.files.dir}/vr4ai.jar" file="${lib.dir}/vr4ai/vr4ai.jar" />
+        <copy toFile="${classes.files.dir}/cardboard.jar" file="${lib.dir}/vr4ai/cardboard.jar" />
+        <copy toFile="${classes.files.dir}/libprotobuf-java-2.3-nano.jar" file="${lib.dir}/vr4ai/libprotobuf-java-2.3-nano.jar" />
+        <copy toFile="${classes.files.dir}/defaultVertexShaderTex0.src" file="${lib.dir}/vr4ai/defaultVertexShaderTex0.src" />
+        <copy toFile="${classes.files.dir}/loadIMG.png" file="${lib.dir}/vr4ai/loadIMG.png" />
+        <copy toFile="${classes.files.dir}/surface_fragment_shader.txt" file="${lib.dir}/vr4ai/surface_fragment_shader.txt" />
+        <copy toFile="${classes.files.dir}/sphere_paranomic.obj" file="${lib.dir}/vr4ai/sphere_paranomic.obj" />
 
 		<!-- LA4AI -->
 
