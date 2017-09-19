@@ -102,6 +102,10 @@
                         	<li>Availability of tree new components for allows viewing objects, images and videos in 360º, the video locally as in streaming:  <strong>VR3DObject</strong>, <strong>VRImage360</strong> and <strong>VRVideo360</strong></li>
                             <li>Availability of a new component for managing bluetooth remote control, allows interacting with a virtual reality environment: <strong>VRController</strong></li>
 							<li>Availability of a new component to set up the options of the virtual reality scene: <strong>VRScene</strong></li>
+							<li>Availability of a <strong>Streams</strong> block category for analysis from the mobile device on live</li>							
+							<li>Several improvements on the components <strong>ActivityTracker, ActivitySimpleQuery, and ActivityAggregationQuery</strong> for remote streaming analysis with Apache Flink, for sending notifications to a message queue (Apache Kafka), for a new NoSQL (MongoDB) storage</li>
+							<li>Several improvements on the component <strong>BrainWaveSensor</strong> incorporating new events to collect data from the sensors. </li>
+
                         </ul>
                         <li>Version 1.4</li>
                         <ul>
@@ -352,12 +356,13 @@
                 <div class="col-lg-10 col-lg-offset-1">
                     <h3>
                     <strong>VEDILS Learning Analytics <a href="learningAnalytics.html">(+Info)</a></strong>
-                    <ul>   
-                        <li>ActivityAggregationQuery: It allows to issue aggregation queries to the Fusion Tables service in order to retrieve metrics</li> 
-                        <li>ActivitySimpleQuery: It allows to issue queries to the Fusion Tables service in order to select data</li> 
-                        <li>ActivityTracker: It allows to register, on Google Fusion Tables, the user’s interaction with the app</li> 
-                        <li>Chart: It displays a (bar/line) chart with data</li> 
-                        <li>DataTable: It displays a table with data </li> 
+                    <ul>
+                    	<li>Block category "Streams" incorporating functions to work with streams: filter, map, reduce, sort and limit.</li>
+                        <li>ActivityAggregationQuery: It allows to issue aggregation queries to the Fusion Tables and MongoDB service in order to retrieve metrics, it allows too send stream queries to Apache Flink.</li> 
+                        <li>ActivitySimpleQuery: It allows to issue queries to the Fusion Tables service in order to select data (FusionTables, MongoDB and streaming queries with Apache Flink).</li> 
+                        <li>ActivityTracker: It allows to register, on Google Fusion Tables and MongoDB, the user’s interaction with the app, it allows to send the data to a message queue (Apache Kafka).</li> 
+                        <li>Chart: It displays a (bar/line) chart with data.</li> 
+                        <li>DataTable: It displays a table with data.</li> 
                    	</ul>
                 </h3>
                 </div>
