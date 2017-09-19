@@ -1823,12 +1823,12 @@ public class Form extends Activity
 
 	private void setDeviceLanguage() {
 		if (!Locale.getDefault().getLanguage().equals("de")) {
-			stop_Application = "Salir de la aplicación";
-			stop_Application_Question = "¿Salir de la aplicación?";
-			stop_Message = "¿Desea salir de la aplicación? Deberá abrirla de nuevo para poder usarla.";
+			stop_Application = "Salir de la aplicaciÃ³n";
+			stop_Application_Question = "Â¿Salir de la aplicaciÃ³n?";
+			stop_Message = "Â¿Desea salir de la aplicaciÃ³n? DeberÃ­a abrirla de nuevo para poder usarla.";
 			stop_Possitive_Button = "Salir";
 			stop_Negative_Button = "No salir";
-			about_Application = "Acerca de la aplicación";
+			about_Application = "Acerca de la aplicaciÃ³n";
 			about_Button = "Entendido";
 		}
 	}
