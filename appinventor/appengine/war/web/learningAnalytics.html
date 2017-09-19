@@ -83,7 +83,7 @@
                 <br>
                 <br>
                 <div class="row no-gutter popup-gallery">
-                    <div class="col-lg-6 col-sm-6 col-lg-offset-3">
+                    <div class="col-lg-6 col-sm-offset-3">
                         <a href="img/documentation/vedilsActTraker/activity.png" class="portfolio-box">
                             <img src="img/documentation/vedilsActTraker/activity.png" class="img-responsive" alt="">
                             <div class="portfolio-box-caption">
@@ -111,7 +111,7 @@
 				<h2 class="section-heading">Setting up the data storage service</h2>
                     <hr class="primary">
 					
-					<h3>The Learning Analytics capabilities included in VEDILS provides support for the data collection process of the users' interaction. At the moment, <strong><a href="https://es.wikipedia.org/wiki/Google_Fusion_Tables" target="_blank">Google Fusion Tables</a></strong> is used for this purpose, providing cloud storage and basic support for analytics. In order to use Fusion Tables we need a table to store data and an user with some permissions to insert the information collected from VEDILS.</h3>
+					<h3>The Learning Analytics capabilities included in VEDILS provides support for the data collection process of the users' interaction. At the moment, <strong><a href="https://es.wikipedia.org/wiki/Google_Fusion_Tables" target="_blank">Google Fusion Tables</a></strong> and <strong><a href="https://es.wikipedia.org/wiki/MongoDB" target="_blank">MongoDB</a></strong> is used for this purpose, providing cloud storage and basic support for analytics. In order to use Fusion Tables we need a table to store data and an user with some permissions to insert the information collected from VEDILS.</h3>
 			     </div>
                 <br>
                 <br>
@@ -125,7 +125,7 @@
 					<li>Once the data table is opened, we need to sign in with our Google credentials (using the correspongin link at the top right of the screen</li>	
 					<li>Make a copy of this table using the option <em>File - Make a Copy</em>
 					<li>If desired, we can change the table name to a more descriptive one, by using the option	<em>File-Rename...</em>
-						<li>Share this new table by clicking the <em>Share</em> button and then invite (with editing permissions) to the following VEDILS user: <font size=2> <br> 1075849932338-n26pqlvqfea3dspaebf52vnacch77nhf@developer.gserviceaccount.com </font></li> 	
+						<li>Share this new table by clicking the <em>Share</em> button and then invite (with editing permissions) to the following VEDILS user: <font size=4> <em>activitytracker-vedils@activitytracker-vedils.iam.gserviceaccount.com </em></font></li> 	
 					<li>Additionally, we need to change who has access to this data table. To do this, we must change the permissions to <em>Public on the web - Anyone on the Internet can find and view</em></li>
 					<li>Finally, we need to obtain the identifier of the table which will be used later to configure the data capturing proccess. That information can be found in <em>File - About this table - Id</em>
         			</ul>
@@ -136,16 +136,28 @@
 
             <br>
             <div class="row">
-                <div>
-					
+                <div>					
                     <center>
                         <iframe width="420" height="315" src="https://www.youtube.com/embed/t6slblSlPeQ" frameborder="0" allowfullscreen style="border:2px dotted"></iframe>
                     </center>
                 </div>
             </div>
+
+            <br>
+            <br>            
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <h3>
+                    <strong>Steps required to configure <em>Mongo DB</em>:</strong>
+                    <ul>
+                    <li>We have configured an internal WS to work with MongoDB, so to work using this storage mode, just choose a name for your database in the ActivityTracker component.</li>
+                </h3>
+                </div>
+            </div>            
         </div>
     </section>
 
+           
     <section id="02">
         <div class="container">
              <div class="row">
