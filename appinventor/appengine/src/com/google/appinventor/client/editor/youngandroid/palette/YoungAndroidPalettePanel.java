@@ -30,6 +30,7 @@ import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroid
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCheckableTreeSelectorForActivityTracker;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCheckableTreeSelectorForAggregatedData;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCheckableTreeSelectorForData;
+import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCheckableTreeSelectorForTextures;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidColorChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidColumntToAggregateChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCommunicationModeChoicePropertyEditor;
@@ -96,7 +97,7 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 	// Lista de objetos de tipo asset
 	private static final String[] ASSETS_TYPES = { "AR3DModelAsset", "ARImageAsset", "ARTextAsset" };
 	// Listas de terminaciones de ficheros
-	private static final String[] MODEL_FILETYPES = { "md2", "obj", "3ds", "asc" };
+	private static final String[] MODEL_FILETYPES = { "md2", "obj", "3ds", "asc","bones" };
 
 	private static final String[] MATERIAL_FILETYPES = { "mtl" };
 
@@ -300,7 +301,10 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 			return new YoungAndroidAssetSelectorPropertyEditor(editor, new String[] { "dat" });
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ASSET_DATABASE_XML)) {
 			return new YoungAndroidAssetSelectorPropertyEditor(editor, new String[] { "xml" });
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_SCALING)) {
+		}else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ASSET_TEXTURES_LIST)) {
+			return new YoungAndroidCheckableTreeSelectorForTextures(editor,IMAGE_FILETYPES);
+		}
+		else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_SCALING)) {
 			return new ScalingChoicePropertyEditor();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_FIREBASE_URL)) {
 			return new YoungAndroidDefaultURLPropertyEditor("DEFAULT");

@@ -310,6 +310,8 @@ public class PropertyTypeConstants {
 	public static final String PROPERTY_TYPE_ASSET_DATABASE_DAT = "assetdbdat";
 
 	public static final String PROPERTY_TYPE_ASSET_DATABASE_XML = "assetdbxml";
+	
+	public static final String PROPERTY_TYPE_ASSET_TEXTURES_LIST = "textures list";
 
 	/*
 	 * FirebaseURL -- A type of String property that has a special default value

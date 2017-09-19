@@ -54,6 +54,12 @@ public interface Images extends Resources {
 	ImageResource vrVideo360();
 	
 	/**
+	 * Designer palette items: virtualReality components
+	 */
+	@Source("com/google/appinventor/images/model3DIcon.png")
+	ImageResource model3DView();
+	
+	/**
 	 * Designer palette items: Knowledge components
 	 */
 	@Source("com/google/appinventor/images/knexplorer.png")
