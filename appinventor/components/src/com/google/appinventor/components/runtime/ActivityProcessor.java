@@ -31,7 +31,7 @@ import com.google.appinventor.components.common.PropertyTypeConstants;
 		+ "android.permission.ACCESS_MOCK_LOCATION," + "android.permission.ACCESS_LOCATION_EXTRA_COMMANDS,"
 		+ "android.permission.READ_PHONE_STATE")
 @SimpleObject
-public abstract class ActivityProcessor extends AndroidNonvisibleComponent implements Component {
+public abstract class ActivityProcessor extends AndroidNonvisibleComponent {
 
 	private String tableId;
 

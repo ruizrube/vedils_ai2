@@ -48,7 +48,11 @@ public class DeviceInfo extends AndroidNonvisibleComponent implements Component 
 	@SimpleProperty(category = PropertyCategory.BEHAVIOR,
 			description = "Returns the value of IMEI code of the current device.", userVisible = true)
 	public String IMEI() {
-		return this.IMEI;
+		System.out.println("-IMEI-"+this.IMEI+"/n");
+		if (this.IMEI == null)
+			return ("No IMEI");
+		else
+			return this.IMEI;
 	}
 	
 	@SimpleProperty(category = PropertyCategory.BEHAVIOR,

@@ -32,6 +32,7 @@ public class SendDataREST {
 	public String sendTextMessage(SendTextMessageBean sendTextMessage) {
 		System.out.println("The message is: " +sendTextMessage.message);
 		System.out.println("The action is: " +sendTextMessage.action);
+		System.out.println("The imei_receiver is: " +sendTextMessage.imei_receiver); 			/***Edson****/
 		SendDataDAO sendDataDAO = new SendDataDAO();
 		return sendDataDAO.sendTextMessage(sendTextMessage);
 	}

@@ -15,6 +15,11 @@ public class SendTextMessageBean {
 	@JsonProperty("imei")
 	protected String imei;
 	
+/*************************************************** EDSON*/
+	@JsonProperty("imei_receiver")
+	protected String imei_receiver;
+/*************************************************** EDSON*/
+	
 	@JsonProperty("appname")
 	protected String appname;
 }

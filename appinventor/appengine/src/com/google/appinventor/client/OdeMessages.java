@@ -517,7 +517,7 @@ public interface OdeMessages extends Messages {
 
 	// Used in Sphero	
 	
-	/*************************************************************************************EDSON***/
+
 	
 	@DefaultMessage("DisconnectAndSleep")
 	@Description("")
@@ -6917,6 +6917,15 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("DataListReceived")
 	@Description("")
 	String DataListReceivedEvents();
+	/*************************************************************************************EDSON***/
+	@DefaultMessage("SendGlobalMessage")
+	@Description("")
+	String SendGlobalMessageMethods();
+
+	@DefaultMessage("SendGlobalDataList")
+	@Description("")
+	String SendGlobalDataListMethods();
+	/*************************************************************************************EDSON***/	
 
 	//
 	// ThingSpeakLocationSensor

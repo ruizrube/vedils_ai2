@@ -26,6 +26,7 @@ public class RegistrationClientDAO extends ConnectionDAO {
 	 */
 	@SuppressWarnings("resource")
 	protected String insertRegistrationClient(RegistrationClientBean registrationClient) {
+		System.out.println("Hola/n");
 		try {
 			PreparedStatement ps = connection.prepareStatement("SELECT * FROM RegistrationClients WHERE imei = '"+registrationClient.imei+"'");
 			if(!ps.executeQuery().next()) { //New client.
