@@ -15,6 +15,6 @@ import com.google.gwt.user.client.ui.TextArea;
 public class TextAreaPropertyEditor extends TextPropertyEditorBase{
 
   public TextAreaPropertyEditor() {
-   super(new TextArea(), false);
+   super(new TextArea(), null);
   }
 }

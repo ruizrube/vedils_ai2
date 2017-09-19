@@ -15,6 +15,6 @@ import com.google.gwt.user.client.ui.TextBox;
 public class TextPropertyEditor extends TextPropertyEditorBase{
 
   public TextPropertyEditor() {
-   super(new TextBox(), false);
+   super(new TextBox(), null);
   }
 }

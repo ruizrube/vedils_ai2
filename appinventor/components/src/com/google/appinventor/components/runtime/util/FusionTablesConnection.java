@@ -7,15 +7,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,7 +32,9 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.fusiontables.Fusiontables;
+import com.google.api.services.fusiontables.model.Column;
 import com.google.api.services.fusiontables.Fusiontables.Query.Sql;
+import com.google.appinventor.components.runtime.ActivityProcessor;
 import com.google.appinventor.components.runtime.Component;
 import com.google.appinventor.components.runtime.ComponentContainer;
 import com.google.appinventor.components.runtime.EventDispatcher;
@@ -73,6 +80,19 @@ private static final int MAX_STATEMENTS = 10;
    private Activity activity;
    private ComponentContainer container;
    private boolean isServiceAuth = false;
+   private ActivityQueryManager queryManager;
+   private boolean columnsChecked;
+   
+   public FusionTablesConnection(String apiKey, String keyPath, String email, ComponentContainer container, boolean isServiceAuth, ActivityQueryManager queryManager) {
+	   this.apiKey = apiKey;
+	   this.serviceAccountEmail = email;
+	   this.query = DEFAULT_QUERY;
+	   this.container = container;
+	   activity = container.$context();
+	   this.isServiceAuth = isServiceAuth;
+	   this.keyPath = keyPath;
+	   this.queryManager = queryManager;
+   }
    
    public FusionTablesConnection(String columns, String apiKey, String keyPath, String email, ComponentContainer container, boolean isServiceAuth) {
 	   this.apiKey = apiKey;
@@ -83,6 +103,7 @@ private static final int MAX_STATEMENTS = 10;
 	   this.isServiceAuth = isServiceAuth;
 	   this.keyPath = keyPath;
 	   this.columns = columns;
+	   this.columnsChecked = false;
    }
    
    public void insertRow(String values, String tableId) {
@@ -113,36 +134,94 @@ private static final int MAX_STATEMENTS = 10;
 	   }
    }
    
-   /*
-    * Function to check if the NetworkInfo object is null for possible problem with devices without
-    *  3G capabilities (or wifi).
-    */
-   private boolean getNetworkInfoState(NetworkInfo networkInfo) {
-	   if(networkInfo != null) {
-		   return networkInfo.getState().equals(State.CONNECTED);
-	   } else {
-		   return false;
-	   }
+   public void sendQuery(String query) {
+	   new QueryProcessorV1().execute(query);
    }
    
-   /*
-    * Check the internet access to send data or save
-    */
-   public boolean internetAccess(int communicationMode) {
-	   ConnectivityManager connectivity = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
-	   if(connectivity != null) {
-		   NetworkInfo wifi = connectivity.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-		   NetworkInfo data = connectivity.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-		   
-		   if(communicationMode == Component.INDIFFERENT) {
-			   	return getNetworkInfoState(wifi) || getNetworkInfoState(data);
-		   } else { //only wifi
-			   	return getNetworkInfoState(wifi);
-		   }   
-	   }
-	   return false;
+   public void processColumnsToInsert(final String values, final String tableId) {
+	   new AsyncTask<String, Void, Void>() {
+			@Override
+			protected Void doInBackground(String... params) {
+				if(!columnsChecked) {
+					processColumns(tableId);
+				}
+				insertRow(values, tableId);
+				return null;
+			}
+	   }.execute();
    }
    
+   public void processColumnsToInsert(final List<String> values, final String tableId) {
+	   new AsyncTask<String, Void, Void>() {
+			@Override
+			protected Void doInBackground(String... params) {
+				if(!columnsChecked) {
+					processColumns(tableId);
+				}
+				insertRows(values, tableId);
+				return null;
+			}
+	   }.execute();
+   }
+   
+   private void processColumns(String tableId) {
+	   final HttpTransport TRANSPORT = AndroidHttp.newCompatibleTransport();
+       final JsonFactory JSON_FACTORY = new GsonFactory();
+
+       try {
+	       if (cachedServiceCredentials == null) { // Need to cache the credentials in a temp file
+	           // copyMediaToTempFile will copy the credentials either from the /sdcard if
+	           // we are running in the Companion, or from the packaged assets if we are a
+	           // packaged application.
+	           cachedServiceCredentials = MediaUtil.copyMediaToTempFile(container.$form(), keyPath);
+	        }
+	        GoogleCredential credential = new  GoogleCredential.Builder()
+	             .setTransport(TRANSPORT)
+	             .setJsonFactory(JSON_FACTORY)
+	             .setServiceAccountId(serviceAccountEmail)
+	             .setServiceAccountScopes(scope)
+	             .setServiceAccountPrivateKeyFromP12File(cachedServiceCredentials)
+	             .build();
+	
+	        Fusiontables fusiontables = new Fusiontables.Builder(TRANSPORT, JSON_FACTORY, credential)
+	           .setJsonHttpRequestInitializer(new GoogleKeyInitializer(apiKey))
+	           .build();
+	        
+	        //En el caso de que se llame y el nombre de la tabla o cualquier otro elemento sea NULL o algo así,
+	        //se hace el cambio de credenciales (para mantener la compatibilidad, pero intentando siempre con la nueva inicialmente)
+	        //TODO
+	
+	        String details = fusiontables.table().get(tableId).execute().toPrettyString();
+	        JSONObject detailsJSON = new JSONObject(details);
+	        JSONArray columnsJSON = detailsJSON.getJSONArray("columns");
+	        
+	        if(columnsJSON.length() == columns.split(",").length) {
+	        	System.out.println("Columns OK - FusionTablesConnection");
+	        	this.columnsChecked = true;
+	        } else {
+	        	//Adding the columns in the table
+	        	List<String> columnsList = Arrays.asList(columns.split(","));
+	        	for(String column: columnsList) {
+	        		if(!columnsJSON.toString().contains("\"name\":\""+column+"\"")) {
+	        			System.out.println("Adding column " + column + " - FusionTablesConnection");
+	        			fusiontables.column().insert(tableId, new Column().setName(column).setType("STRING")).execute();
+	        		}
+	        	}
+	        	
+	        	details = fusiontables.table().get(tableId).execute().toPrettyString();
+	        	detailsJSON = new JSONObject(details);
+	        	columnsJSON = detailsJSON.getJSONArray("columns");
+	        	
+	        	if(columnsJSON.length() == columns.split(",").length) { //Columns added correctly
+	        		System.out.println("Now, Columns OK - FusionTablesConnection");
+	        		this.columnsChecked = true;
+	        	}
+	        }
+         } catch (Exception e) {
+        	 System.out.println("Exception - FusionTablesConnection");
+        	 e.printStackTrace();
+         }
+   }
    
    /**
     * First uses OAuth2Helper to acquire an access token and then sends the
@@ -284,7 +363,7 @@ private static final int MAX_STATEMENTS = 10;
        .setApplicationName("App Inventor FusiontablesConnection/v1.0")
        .setJsonHttpRequestInitializer(new GoogleKeyInitializer(apiKey))
        .build();
-
+       
        try {
 
          // Construct the SQL query and get a CSV result
@@ -510,8 +589,15 @@ private static final int MAX_STATEMENTS = 10;
      @Override
      protected void onPostExecute(String result) {
        Log.i(LOG_TAG, "Query result " + result);
+       try {
+    	   if(queryManager != null) {
+    		   queryManager.getComponent().DataReceived(CsvUtil.fromCsvTable(result));
+    	   }
+       } catch (Exception e) {
+    	   // TODO Auto-generated catch block
+    	   e.printStackTrace();
+       }
     }
-     
    }
 
    void signalJsonResponseError(String query, String parsedException) {}

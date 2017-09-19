@@ -110,8 +110,8 @@ public interface Component {
   static final int TYPEFACE_SERIF = 2;
   static final int TYPEFACE_MONOSPACE = 3;
   
-  /*
-   * Synchronization mode constants.
+  /* 
+   * ActivityTracker: Synchronization mode constants.
    */
   
   static final int REALTIME = 0;
@@ -120,13 +120,17 @@ public interface Component {
   
   
   /*
-   * Communication mode constants.
+   * ActivityTracker: Communication mode constants.
    */
   static final int ONLY_WIFI = 0;
   static final int INDIFFERENT = 1;
 
-  
- 
+  /*
+   * ActivityTracker: Storage mode constantes.
+   */
+  static final int FUSIONTABLES = 0;
+  static final int MONGODB = 1;
+  static final int STREAM = 2;
   
   /*
    * Chart types.

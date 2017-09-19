@@ -45,7 +45,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class MediaUtil {
   //SPI-FM
-  private static final String ACTIVITYTRACKER_AUTHFILE = "ruizrube-cd84632c4ea8.p12";
+  private static final String ACTIVITYTRACKER_AUTHFILE = "ActivityTrackerVEDILS-e804e05b5eb3.p12";
 
   private enum MediaSource { ASSET, REPL_ASSET, SDCARD, FILE_URL, URL, CONTENT_URI, CONTACT_URI }
 

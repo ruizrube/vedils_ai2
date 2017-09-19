@@ -26,9 +26,11 @@ import com.google.appinventor.shared.youngandroid.YoungAndroidSourceAnalyzer;
 import com.google.common.collect.Maps;
 import com.google.gwt.user.client.Command;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Project editor for Young Android projects. Each instance corresponds to
@@ -268,6 +270,25 @@ public final class YaProjectEditor extends ProjectEditor implements ProjectChang
     } else {
       return null;
     }
+  }
+  
+  //SPI-FM: For dynamic query tree
+  public List<YaFormEditor> getAllFormEditors() {
+	  List<YaFormEditor> yaFormEditors = new ArrayList<YaFormEditor>();
+	  for(EditorSet editor: editorMap.values()) {
+		  yaFormEditors.add(editor.formEditor);
+	  }
+	  return yaFormEditors;
+  }
+  
+  
+  //SPI-FM: For dynamic query tree
+  public List<YaBlocksEditor> getAllBlocksEditors() {
+	  List<YaBlocksEditor> yaBlocksEditors = new ArrayList<YaBlocksEditor>();
+	  for(EditorSet editor: editorMap.values()) {
+		  yaBlocksEditors.add(editor.blocksEditor);
+	  }
+	  return yaBlocksEditors;
   }
 
   // Private methods

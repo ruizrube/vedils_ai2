@@ -9,6 +9,11 @@ package com.google.appinventor.client.widgets.properties;
 import static com.google.appinventor.client.Ode.MESSAGES;
 
 import com.google.appinventor.client.Ode;
+import com.google.appinventor.client.boxes.ProjectListBox;
+import com.google.appinventor.client.editor.simple.components.MockComponent;
+import com.google.appinventor.client.editor.youngandroid.YaFormEditor;
+import com.google.appinventor.client.output.OdeLog;
+import com.google.appinventor.common.utils.StringUtils;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -52,14 +57,16 @@ public class TextPropertyEditorBase extends PropertyEditor {
   protected final Image imageHyperlink;
 
   private boolean hasFocus;
-  private boolean activityTracker;
+  private final YaFormEditor editor;
+  protected String storageMode;
 
   /**
    * Creates a new instance of the property editor.
    */
-  public TextPropertyEditorBase(final TextBoxBase widget, boolean activityTracker) {
-	  
-	this.activityTracker = activityTracker;
+  public TextPropertyEditorBase(final TextBoxBase widget, final YaFormEditor editor) {
+
+	this.editor = editor;
+	this.storageMode = MESSAGES.fusionTablesStorageMode();
     textEdit = widget;
     imageHyperlink = new Image(Ode.getImageBundle().showTable());
     imageHyperlink.setWidth("1.5em");
@@ -115,7 +122,7 @@ public class TextPropertyEditorBase extends PropertyEditor {
       }
     });
     
-    if(activityTracker) { //By SPI-FM: If the property belongs to ActivityTracker, we add the URL of active table.
+    if(editor != null) { //By SPI-FM: If the property belongs to ActivityTracker, we add the URL of active table.
     	HTMLPanel htmlPanel = new HTMLPanel("");
     	hyperlink = new Anchor();
     	hyperlink.getElement().appendChild(imageHyperlink.getElement());
@@ -126,9 +133,19 @@ public class TextPropertyEditorBase extends PropertyEditor {
     	hyperlink.addClickHandler(new ClickHandler() {
     		@Override
     		public void onClick(ClickEvent event) {
+    			MockComponent currentComponent = editor.selectedComponent;
+    			
+    			if(currentComponent != null) {
+    				OdeLog.log("ActivityTracker componentName = " + currentComponent.getName());
+					storageMode = currentComponent.getPropertyValue("StorageMode");
+    			}
+    			
+    			updateValue();
     			Window.open(hyperlink.getTarget(), "_blank", "");
     		}
     	});
+        
+        textEdit.setWidth("11em");
     	htmlPanel.add(textEdit);
     	htmlPanel.add(hyperlink);
     	initWidget(htmlPanel);
@@ -150,15 +167,29 @@ public class TextPropertyEditorBase extends PropertyEditor {
   @Override
   protected void updateValue() {
 	textEdit.setText(property.getValue());
-	if(activityTracker) {
+	if(editor != null) {
 		if(!property.getValue().isEmpty()) {
-    		hyperlink.setTarget("https://fusiontables.google.com/data?docid="+property.getValue());
-    		hyperlink.setVisible(true);
+			if(storageMode.equals("0")) { //Fusion Tables mode
+				hyperlink.setTarget("https://fusiontables.google.com/data?docid="+property.getValue());
+	    		hyperlink.setVisible(true);
+			} else {
+				String packageName = "";
+	    		if(Ode.getInstance().getCurrentYoungAndroidProjectId() != 0) {
+	    			packageName = StringUtils.getProjectPackage(
+	      	              Ode.getInstance().getUser().getUserEmail(), Ode.getInstance().getProjectManager().getProject(Ode.getInstance().getCurrentYoungAndroidProjectId()).getProjectName());
+	    		} else { //Project list page
+	    			packageName = StringUtils.getProjectPackage(
+	        	          Ode.getInstance().getUser().getUserEmail(), Ode.getInstance().getProjectManager().getProject(ProjectListBox.getProjectListBox().getProjectList().getProjects().get(0).getProjectId()).getProjectName());
+	    		}
+	    		//hyperlink.setTarget("http://127.0.0.1:28017/" + packageName.replaceAll("\\.", "_") + "/" + property.getValue() + "/");
+	    		hyperlink.setTarget("http://vedilsanalytics.uca.es:8083/localhost/"+ packageName.replaceAll("\\.", "_") + "/" + property.getValue() + "//1/");
+	    		hyperlink.setVisible(true);
+			}
     	} else {
     		hyperlink.setTarget("https://");
     		hyperlink.setVisible(false);
     	}
-	}
+	 }
   }
 
   private void handleKeyPress(char keyCode) {
@@ -223,8 +254,5 @@ public class TextPropertyEditorBase extends PropertyEditor {
    * @param text  input string to validate
    * @throws InvalidTextException if the text is invalid
    */
-  protected void validate(String text) throws InvalidTextException {
-  }
-
-
+  protected void validate(String text) throws InvalidTextException {}
 }

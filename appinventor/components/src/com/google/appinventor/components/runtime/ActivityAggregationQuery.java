@@ -1,6 +1,7 @@
 package com.google.appinventor.components.runtime;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -13,18 +14,18 @@ import com.google.appinventor.components.common.PropertyTypeConstants;
 import com.google.appinventor.components.common.YaVersion;
 
 /**
- * ActivityAnalyzerComponent
+ * ActivityAggregationQuery component
  * 
  * @author SPI-FM at UCA
  *
  */
 @DesignerComponent(version = YaVersion.ACTIVITYAGGREGATIONPROCESSOR_COMPONENT_VERSION, description = "A component for analyzing activities in an application. "
 		+ "Actions to analyze can be queried. ", category = ComponentCategory.VEDILSLEARNINGANALYTICS, iconName = "images/activityAggregationProcessor_icon.png", nonVisible = true)
-public class ActivityAggregationQuery extends ActivityProcessor implements Component {
+public class ActivityAggregationQuery extends ActivityProcessor {
 
 	private String groupBy;
 
-	private String metricsToRetrieve;
+	private String metricsToRetrieve; 
 
 	public ActivityAggregationQuery(ComponentContainer componentContainer) {
 		super(componentContainer.$form());
@@ -71,53 +72,127 @@ public class ActivityAggregationQuery extends ActivityProcessor implements Compo
 
 	@Override
 	public List<String> obtainGroupingColumns() {
-		List<String> result = new ArrayList<String>();
+		List<String> groupingColumns = new ArrayList<String>();
 
 		System.out.println("!!!!!! las agtupamientos son:" + this.GroupBy());
 
 		String data = this.GroupBy();
-		data = data.replace("Record elements: ", "");
+		
+		if(!data.equals("Nothing")) {
+			data = data.replace("Record elements: ", "");
 
-		if (data != null && !data.equals("")) {
-
-			StringTokenizer stGroup = new StringTokenizer(data, " - ");
-			while (stGroup.hasMoreTokens()) {
-				result.add((String) stGroup.nextElement());
-
+			StringTokenizer st = new StringTokenizer(data, " - ");
+			
+			while (st.hasMoreTokens()) {
+				String groupingColumn = st.nextToken();
+				groupingColumns.add(groupingColumn);
 			}
 		}
-		return result;
-
+		
+		groupingColumns = processTreeFields(groupingColumns);
+		removeFieldsWithNumericAggregators();
+		return groupingColumns;
 	}
 
 	@Override
 	public List<String> obtainFields() {
-		
 		return obtainGroupingColumns();
-
 	}
 
 	@Override
 	public List<String> obtainAggregations() {
 
-		List<String> result = new ArrayList<String>();
+		List<String> aggregations = new ArrayList<String>();
 
 		System.out.println("!!!!!! las metricas son:" + this.MetricsToRetrieve());
 
 		String data = this.MetricsToRetrieve();
-		if (data.equals("Nothing")) {
-
-		} else {
+		if(!data.equals("Nothing")) {
 			data = data.replace("Record elements: ", "");
 
 			StringTokenizer st = new StringTokenizer(data, " - ");
-			boolean first = true;
-
+			
 			while (st.hasMoreTokens()) {
-				result.add(st.nextToken());
+				String groupingColumn = st.nextToken();
+				String processedGroupingColumn = groupingColumn.replace(":" + CATEGORY, "");
+				aggregations.add(processedGroupingColumn);
 			}
 		}
-		return result;
+		
+		aggregations = processTreeAggregations(aggregations);
+		
+		return aggregations;
+	}
+	
+	private List<String> processTreeAggregations(List<String> aggregations) {
+		List<String> operators = Arrays.asList("Count", "Maximum", "Minimum", "Sum", "Average");
+		List<String> processedAggregations = new ArrayList<String>();
+		
+		for(String aggregation: aggregations) {
+			for(String operator: operators) {
+				if(aggregation.contains(operator)) {
+					String field;
+					if(operator.equals("Count")) {
+						field = operator + "()";
+					} else {
+						String[] aggregationField = aggregation.split(":");
+						field = aggregationField[0] + ":" + aggregationField[1] + ":" + aggregationField[3];
+					}
+					processedAggregations.add(field);
+				}
+			}
+		}
+		return processedAggregations;
+	}
+	
+	public void removeFieldsWithNumericAggregators() {
+		List<String> parameters = new ArrayList<String>(propertySetterParameters);
+		for(String param: parameters) {
+			if(containNumericAggregator(param)) {
+				propertySetterParameters.remove(param);
+			}
+		}
+		
+		parameters = new ArrayList<String>(propertyGetterParameters);
+		for(String param: parameters) {
+			if(containNumericAggregator(param)) {
+				propertyGetterParameters.remove(param);
+			}
+		}
+		
+		parameters = new ArrayList<String>(functionsParameters);
+		for(String param: parameters) {
+			String[] paramFields = param.split(":");
+			
+			if(containNumericAggregator(paramFields[0])) {
+				functionsParameters.remove(param);
+			}
+		}
+		
+		parameters = new ArrayList<String>(eventsParameters);
+		for(String param: parameters) {
+			String[] paramFields = param.split(":");
+			
+			if(containNumericAggregator(paramFields[0])) {
+				eventsParameters.remove(param);
+			}
+		}
+		
+		parameters = new ArrayList<String>(userParameters);
+		for(String param: parameters) {
+			String[] paramFields = param.split(":");
+			
+			if(containNumericAggregator(paramFields[0])) {
+				userParameters.remove(param);
+			}
+		}
+	}
+	
+	private boolean containNumericAggregator(String param) {
+		return this.metricsToRetrieve.contains("Maximum(" + param + ")") ||
+				this.metricsToRetrieve.contains("Minimum(" + param + ")") ||
+				this.metricsToRetrieve.contains("Sum(" + param + ")") ||
+				this.metricsToRetrieve.contains("Average(" + param + ")");
 	}
 
 	//////////////
@@ -127,5 +202,4 @@ public class ActivityAggregationQuery extends ActivityProcessor implements Compo
 	////////////
 	// EVENTS //
 	////////////
-
 }

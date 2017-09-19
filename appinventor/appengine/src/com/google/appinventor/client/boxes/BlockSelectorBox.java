@@ -71,7 +71,7 @@ public final class BlockSelectorBox extends Box {
   private static final BlockSelectorBox INSTANCE = new BlockSelectorBox();
 
   private static final String BUILTIN_DRAWER_NAMES[] = { "Control", "Logic", "Math", "Text",
-      "Lists", "Colors", "Variables", "Procedures" };
+      "Lists", "Colors", "Variables", "Procedures", "Stream" };
 
   private static final Images images = Ode.getImageBundle();
   private static final Map<String, ImageResource> bundledImages = Maps.newHashMap();
@@ -114,6 +114,7 @@ public final class BlockSelectorBox extends Box {
     bundledImages.put("Colors", images.colors());
     bundledImages.put("Variables", images.variables());
     bundledImages.put("Procedures", images.procedures());
+    bundledImages.put("Stream", images.stream());
   }
 
   /**
@@ -175,6 +176,8 @@ public final class BlockSelectorBox extends Box {
        name = MESSAGES.builtinVariablesLabel();
     } else if (drawerName.equals("Procedures")) {
        name = MESSAGES.builtinProceduresLabel();
+    } else if (drawerName.equals("Stream")) {
+        name = MESSAGES.builtinStreamLabel();
     } else {
        name = drawerName;
     }

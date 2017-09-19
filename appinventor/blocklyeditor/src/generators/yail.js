@@ -92,6 +92,23 @@ Blockly.Yail.YAIL_HEX_PREFIX = "#x";
 Blockly.Yail.INTEGER_REGEXP = "^[\\s]*[-+]?[0-9]+[\\s]*$";
 Blockly.Yail.FLONUM_REGEXP = "^[\\s]*[-+]?([0-9]*)((\\.[0-9]+)|[0-9]\\.)[\\s]*$";
 
+//For stream blocks (By SPI&FM)
+
+Blockly.Yail.YAIL_FILTER = "(stream-filter ";
+Blockly.Yail.YAIL_MAP = "(stream-map ";
+Blockly.Yail.YAIL_LIMIT = "(stream-limit ";
+Blockly.Yail.YAIL_SORT = "(stream-sort ";
+Blockly.Yail.YAIL_REDUCE = "(stream-reduce ";
+Blockly.Yail.YAIL_SUMMATION = "(stream-summation ";
+Blockly.Yail.YAIL_PRODUCTION = "(stream-production ";
+Blockly.Yail.YAIL_MAXIMUM = "(stream-maximum ";
+Blockly.Yail.YAIL_MINIMUM = "(stream-minimum ";
+Blockly.Yail.YAIL_AVERAGE = "(stream-average ";
+Blockly.Yail.YAIL_STANDARD_DEVIATION = "(stream-standard-deviation ";
+Blockly.Yail.YAIL_VARIANCE = "(stream-variance ";
+Blockly.Yail.YAIL_SORT_ASC = "(stream-sort-asc ";
+Blockly.Yail.YAIL_SORT_DESC = "(stream-sort-desc ";
+Blockly.Yail.YAIL_COUNT = "(stream-count ";
 
 /**
  * Generate the Yail code for this blocks workspace, given its associated form specification.
