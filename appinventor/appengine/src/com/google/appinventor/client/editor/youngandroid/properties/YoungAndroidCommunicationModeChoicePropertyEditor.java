@@ -12,7 +12,7 @@ import static com.google.appinventor.client.Ode.MESSAGES;
 import com.google.appinventor.client.widgets.properties.ChoicePropertyEditor;
 
 /**
- * Property editor for commynication mode of ActivityTracker.
+ * Property editor for communication mode of ActivityTracker.
  *
  */
 public class YoungAndroidCommunicationModeChoicePropertyEditor extends ChoicePropertyEditor {

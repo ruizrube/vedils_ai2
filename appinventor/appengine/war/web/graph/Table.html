@@ -107,16 +107,18 @@
                 }
 
                 //Add columns with name and type
-                if(informationJson.table.length > 0) {
-                	addAllColumns(informationJson.table[0]);
-                }
+                if(informationJson.table && informationJson.table.length) {
+                	if(informationJson.table.length > 0) {
+                    	addAllColumns(informationJson.table[0]);
+                    }
 
-                //Set number of rows to add
-                dataTable.addRows(informationJson.table.length);  
+                    //Set number of rows to add
+                    dataTable.addRows(informationJson.table.length);  
 
-                for(var i=0; i<informationJson.table.length; i++) { //Total Rows
-                    for(var j=0; j<informationJson.table[i].length; j++) { //Total Columns
-                        addRowWithValue(i, j, informationJson.table[i][j]);
+                    for(var i=0; i<informationJson.table.length; i++) { //Total Rows
+                        for(var j=0; j<informationJson.table[i].length; j++) { //Total Columns
+                            addRowWithValue(i, j, informationJson.table[i][j]);
+                        }
                     }
                 }
 
@@ -181,7 +183,7 @@
         var myVar;
 
         function myFunction() {
-            myVar = setTimeout(showPage, 3000);
+            myVar = setTimeout(showPage, 1000);
         }
 
         function showPage() {

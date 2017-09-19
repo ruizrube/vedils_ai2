@@ -229,6 +229,11 @@ public class EmotivController implements Runnable {
 						if (isConnected) {
 							dispatchStateUpdated();
 						}
+					} else if (eventType == IEE_Event_t.IEE_InternalStateChanged.ToInt()) {
+						//TPM: Adding event for bands
+						if(isConnected) {
+							System.out.println("Ocurriendo internal event!");
+						}
 					}
 				} else if (state == IEdkErrorCode.EDK_NO_EVENT.ToInt()) {
 					if (isConnected) {
@@ -572,7 +577,7 @@ public class EmotivController implements Runnable {
 			aux.put(channel, IEdk.IEE_GetAverageBandPowers(channel));
 		}
 		data.setFFTData(aux);
-
+		mHandler.obtainMessage(BrainwaveSensor.HANDLER_CHANNELS_DATA, data).sendToTarget();
 	}
 
 	private void dispatchMotionData() {

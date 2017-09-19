@@ -18,9 +18,14 @@ public abstract class ConnectionDAO {
 	protected ConnectionDAO() {
 		BasicConfigurator.configure();
 		
-		String databaseURL = "jdbc:mysql://localhost:3306/VedilsGcmClients";
+		//local
+//		String databaseURL = "jdbc:mysql://localhost:3306/vedilsgcmclients";		
+//		String user = "root";
+//		String password = "1234";
+		
+		//Server
+		String databaseURL = "jdbc:mysql://localhost:3306/vedilsgcmclients";
 		String user = "root";
-		//String password = "root";
 		String password = "g3st0r123";
 		
 		//Open the connection with the database.

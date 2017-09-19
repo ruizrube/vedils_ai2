@@ -258,6 +258,24 @@ Blockly.FieldLexicalVariable.getLexicalNamesInScope = function (block) {
               var rangeName = parent.getFieldValue('VAR');
               rememberName(rangeName, rangeNames, Blockly.loopRangeParameterPrefix);
 
+          } else if ( parent.type === "filter" && parent.getInputTargetBlock('TEST') == child) { //STREAM
+          	var filterVar = parent.getFieldValue('VAR');
+          	rememberName(filterVar, loopNames, Blockly.loopParameterPrefix);
+          } else if ( parent.type === "map" && parent.getInputTargetBlock('TO') == child) {
+          	var mapVar = parent.getFieldValue('VAR');
+          	rememberName(mapVar, loopNames, Blockly.loopParameterPrefix);
+          } else if ( parent.type === "reduce" && parent.getInputTargetBlock('COMBINE') == child) {
+          	var reduceVar1 = parent.getFieldValue('VAR1');
+          	var reduceVar2 = parent.getFieldValue('VAR2');
+          	
+          	rememberName(reduceVar1, loopNames, Blockly.loopParameterPrefix); 
+          	rememberName(reduceVar2, loopNames, Blockly.loopParameterPrefix);
+          } else if ( parent.type === "sort" && parent.getInputTargetBlock('COMPARE') == child) {
+          	var sortVar1 = parent.getFieldValue('VAR1');
+          	var sortVar2 = parent.getFieldValue('VAR2');
+          	
+          	rememberName(sortVar1, loopNames, Blockly.loopParameterPrefix); 
+          	rememberName(sortVar2, loopNames, Blockly.loopParameterPrefix);
           } else if ( ( parent.type === "local_declaration_expression" 
                         && parent.getInputTargetBlock('RETURN') == child ) // only body is in scope of names
                       || ( parent.type === "local_declaration_statement"  
@@ -633,6 +651,14 @@ Blockly.LexicalVariable.renameParamWithoutRenamingCapturables = function (source
       sourcePrefix = Blockly.loopParameterPrefix;
     } else if ( sourceBlock.type == "controls_forRange") {
       sourcePrefix = Blockly.loopRangeParameterPrefix;
+    } else if (sourceBlock.type == "filter") { //STREAM
+      sourcePrefix = Blockly.loopParameterPrefix;
+    } else if (sourceBlock.type == "map") {
+      sourcePrefix = Blockly.loopParameterPrefix;
+    } else if (sourceBlock.type == "reduce") {
+      sourcePrefix = Blockly.loopParameterPrefix;
+    } else if (sourceBlock.type == "sort") {
+      sourcePrefix = Blockly.loopParameterPrefix;
     } else if (sourceBlock.type == "local_declaration_statement"
                || sourceBlock.type == "local_declaration_expression"
                || sourceBlock.type == "local_mutatorarg") {
@@ -826,6 +852,64 @@ Blockly.LexicalVariable.referenceResult = function (block, name, prefix, env) {
     var doResults = Blockly.LexicalVariable.referenceResult(block.getInputTargetBlock('DO'), name, prefix, newEnv);
     var nextResults = Blockly.LexicalVariable.referenceResult(Blockly.LexicalVariable.getNextTargetBlock(block), name, prefix, env);
     referenceResults = [listResults,doResults,nextResults];
+  } else if (block.type === "filter") { //STREAM
+  	var filterVar = block.getFieldValue('VAR');
+  	
+  	if(Blockly.usePrefixInYail) {
+  		filterVar = (Blockly.possiblyPrefixMenuNameWith(Blockly.loopParameterPrefix))(filterVar)
+  	}
+  	
+  	var newEnv = env.concat([filterVar]);
+  	var list = Blockly.LexicalVariable.referenceResult(block.getInputTargetBlock('LIST'), name, prefix, env);
+  	var description = Blockly.LexicalVariable.referenceResult(block.getInputTargetBlock('DESCRIPTION'), name, prefix, env);
+    var test = Blockly.LexicalVariable.referenceResult(block.getInputTargetBlock('TEST'), name, prefix, newEnv);
+    var nextResults = Blockly.LexicalVariable.referenceResult(Blockly.LexicalVariable.getNextTargetBlock(block), name, prefix, env);
+    referenceResults = [list, description, test, nextResults];
+  } else if (block.type === "map") {
+  	var mapVar = block.getFieldValue('VAR');
+  	
+  	if(Blockly.usePrefixInYail) {
+  		mapVar = (Blockly.possiblyPrefixMenuNameWith(Blockly.loopParameterPrefix))(mapVar)
+  	}
+  	
+  	var newEnv = env.concat([mapVar]);
+  	var list = Blockly.LexicalVariable.referenceResult(block.getInputTargetBlock('LIST'), name, prefix, env);
+  	var initAnswer = Blockly.LexicalVariable.referenceResult(block.getInputTargetBlock('INITANSWER'), name, prefix, env);
+  	var description = Blockly.LexicalVariable.referenceResult(block.getInputTargetBlock('DESCRIPTION'), name, prefix, env);
+    var to = Blockly.LexicalVariable.referenceResult(block.getInputTargetBlock('TO'), name, prefix, newEnv);
+    var nextResults = Blockly.LexicalVariable.referenceResult(Blockly.LexicalVariable.getNextTargetBlock(block), name, prefix, env);
+    referenceResults = [list, initAnswer, description, to, nextResults];
+  } else if (block.type === "reduce") {
+   	var reduceVar1 = block.getFieldValue('VAR1');
+  	var reduceVar2 = block.getFieldValue('VAR2');
+  	
+  	if(Blockly.usePrefixInYail) {
+  		reduceVar1 = (Blockly.possiblyPrefixMenuNameWith(Blockly.loopParameterPrefix))(reduceVar1)
+  		reduceVar2 = (Blockly.possiblyPrefixMenuNameWith(Blockly.loopParameterPrefix))(reduceVar2)
+  	}
+  	
+  	var newEnv = env.concat([reduceVar1]);
+  	newEnv = newEnv + env.concat([reduceVar2]);
+  	var description = Blockly.LexicalVariable.referenceResult(block.getInputTargetBlock('DESCRIPTION'), name, prefix, env);
+    var combine = Blockly.LexicalVariable.referenceResult(block.getInputTargetBlock('COMBINE'), name, prefix, newEnv);
+    var nextResults = Blockly.LexicalVariable.referenceResult(Blockly.LexicalVariable.getNextTargetBlock(block), name, prefix, env);
+    referenceResults = [description, combine, nextResults];
+  } else if (block.type === "sort") {
+  	var sortVar1 = block.getFieldValue('VAR1');
+  	var sortVar2 = block.getFieldValue('VAR2');
+  	
+  	if(Blockly.usePrefixInYail) {
+  		sortVar1 = (Blockly.possiblyPrefixMenuNameWith(Blockly.loopParameterPrefix))(sortVar1)
+  		sortVar2 = (Blockly.possiblyPrefixMenuNameWith(Blockly.loopParameterPrefix))(sortVar2)
+  	}
+  	
+  	var newEnv = env.concat([sortVar1]);
+  	newEnv = newEnv + env.concat([sortVar2]);
+  	var list = Blockly.LexicalVariable.referenceResult(block.getInputTargetBlock('LIST'), name, prefix, env);
+  	var description = Blockly.LexicalVariable.referenceResult(block.getInputTargetBlock('DESCRIPTION'), name, prefix, env);
+    var compare = Blockly.LexicalVariable.referenceResult(block.getInputTargetBlock('COMPARE'), name, prefix, newEnv);
+    var nextResults = Blockly.LexicalVariable.referenceResult(Blockly.LexicalVariable.getNextTargetBlock(block), name, prefix, env);
+    referenceResults = [list, description, compare, nextResults];
   } else if (block.type === "controls_forRange") {
     var loopVar = block.getFieldValue('VAR');
     if (Blockly.usePrefixInYail) { // Invariant: Blockly.showPrefixToUser must also be true!
@@ -1037,7 +1121,40 @@ Blockly.LexicalVariable.getEventParam = function (block) {
            if (loopName == name) {
              return null; // Name is locally bound, not an event parameter.
          }
-       }
+       } else if ( parent.type === "list_reduce" && parent.getInputTargetBlock('COMBINE') == child ) {
+       	 var reduceName1 = parent.getFieldValue('VAR1');
+       	 var reduceName2 = parent.getFieldValue('VAR2');
+       	 
+       	 if(reduceName1 == name && reduceName2 == name) {
+       	 	return null; // Name is locally bound.
+       	 } //STREAM
+       } else if( parent.type === "filter" && parent.getInputTargetBlock('TEST') == child) {
+       		var filterVar = parent.getFieldValue('VAR');
+       		
+       		if(filterVar == name) {
+       			return null; //Name is locally bound.
+       		}
+       } else if ( parent.type === "map" && parent.getInputTargetBlock('TO') == child) {
+       		var mapVar = parent.getFieldValue('VAR');
+       		
+       		if(mapVar == name) {
+       			return null; //Name is locally bound.
+       		}
+       } else if ( parent.type === "reduce" && parent.getInputTargetBlock('COMBINE') == child) {
+       		var reduceName1 = parent.getFieldValue('VAR1');
+       	 	var reduceName2 = parent.getFieldValue('VAR2');
+       	 
+       	 	if(reduceName1 == name && reduceName2 == name) {
+       	 		return null; // Name is locally bound.
+       	 	}
+       } else if ( parent.type === "sort" && parent.getInputTargetBlock('COMPARE') == child) {
+       		var sortName1 = parent.getFieldValue('VAR1');
+       	 	var sortName2 = parent.getFieldValue('VAR2');
+       	 
+       	 	if(sortName1 == name && sortName2 == name) {
+       	 		return null; // Name is locally bound.
+       	 	}
+       } 
       child = parent;
       parent = parent.getParent(); // keep moving up the chain.
     }

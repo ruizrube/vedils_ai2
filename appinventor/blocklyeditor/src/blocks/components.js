@@ -29,6 +29,7 @@ goog.require('Blockly.TypeBlock');
  * all blocks)
  */
 Blockly.ComponentBlock.COLOUR_EVENT = Blockly.CONTROL_CATEGORY_HUE;
+Blockly.ComponentBlock.COLOUR_STREAM_EVENT = [222,15,8];
 Blockly.ComponentBlock.COLOUR_METHOD = Blockly.PROCEDURE_CATEGORY_HUE;
 Blockly.ComponentBlock.COLOUR_GET = [67, 153, 112];
 Blockly.ComponentBlock.COLOUR_SET = [38, 102, 67];
@@ -66,8 +67,12 @@ Blockly.Blocks.component_event = {
     var horizParams = xmlElement.getAttribute('vertical_parameters') !== "true";
 
      // Orient parameters horizontally by default
-
-    this.setColour(Blockly.ComponentBlock.COLOUR_EVENT);
+	
+	if(this.eventName.indexOf('Stream') != -1) {
+    	this.setColour(Blockly.ComponentBlock.COLOUR_STREAM_EVENT);
+    } else {
+    	this.setColour(Blockly.ComponentBlock.COLOUR_EVENT);
+    }
 
     this.componentDropDown = Blockly.ComponentBlock.createComponentDropDown(this);
     this.componentDropDown.setValue(this.instanceName);
@@ -812,17 +817,18 @@ Blockly.ComponentBlock.dataPropertiesMenu = {};
 //IRR
 Blockly.ComponentBlock.loadWikiDataASync =  function  (semanticType) {
 	var xhttp = new XMLHttpRequest();
-  	xhttp.onreadystatechange = function() {
-    	if (this.readyState == 4 && this.status == 200) {
-    		Blockly.ComponentBlock.dataPropertiesMenu[semanticType] = JSON.parse(this.responseText);//.substring(1,this.responseText.length-1);
-    	}
-  	};
-  	xhttp.open('GET', 'http://localhost:8888/exportWikiData?action=getProperties&preferredLanguage=en&secondLanguage=es&semanticType='+semanticType, true);
-    
-  xhttp.send();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+	   		console.log('datos recibidos de forma asincrona.');
+	    	Blockly.ComponentBlock.dataPropertiesMenu[semanticType] = JSON.parse(this.responseText);//.substring(1,this.responseText.length-1);
+	    }
+	};
+	xhttp.open('GET', './../exportWikiData?action=getProperties&preferredLanguage=en&secondLanguage=es&semanticType='+semanticType, true); //TRUE for asynchronous mode    
+	xhttp.send();
 };
  
 Blockly.ComponentBlock.loadWikiDataSync =  function  (semanticType) {
+	console.log('SemanticType Sync: ' +semanticType);
  	if(!(semanticType in Blockly.ComponentBlock.dataPropertiesMenu)){
  		var xhttp = new XMLHttpRequest();
 	  	xhttp.open('GET', './../exportWikiData?action=getProperties&preferredLanguage=en&secondLanguage=es&semanticType='+semanticType, false);
@@ -837,7 +843,7 @@ Blockly.ComponentBlock.loadWikiDataSync =  function  (semanticType) {
     	}
  	
  	} else {
- 		console.log('No se necesita query');
+ 		console.log('No se necesita query -- Sync');
  		
  	}
  	
@@ -887,9 +893,10 @@ Blockly.ComponentBlock.createDataPropertiesAddDropDown = function(block){
   var componentDropDown = new Blockly.FieldDropdown([["",""]]);
   componentDropDown.block = block;
   componentDropDown.menuGenerator_ = function(){ 
- 	// console.log("semanticType---"+Blockly.ComponentBlock.semanticType+"--");
+ 	 console.log("semanticType---"+Blockly.ComponentBlock.semanticType+"--");
  	 
- 	 Blockly.ComponentBlock.loadWikiDataSync(Blockly.ComponentBlock.semanticType);
+ 	 //Blockly.ComponentBlock.loadWikiDataSync(Blockly.ComponentBlock.semanticType);
+ 	 Blockly.ComponentBlock.loadWikiDataASync(Blockly.ComponentBlock.semanticType);
 	 
 	 var dataToCheck=Blockly.ComponentBlock.dataPropertiesMenu[Blockly.ComponentBlock.semanticType];
 	 if (dataToCheck != undefined && dataToCheck.length>0){

@@ -58,32 +58,76 @@ public class GoogleCloudMessaging extends AndroidNonvisibleComponent implements 
 		activity = componentContainer.$context();
 	}
 	
+//	/******************************************************************************** EDSON ***/
+	/**
+	 * Function to send a text message to device, specifying the IMEI of the receiver, or typing 'ALL' for all devices registered in the same app.
+	 *  
+	 * @param receiver IMEI the receptor of the message, can be ALL.
+	 * @param action The action does not specify anything, lets use appinventor programmer. 
+	 * @param message Text to send.
+	 */
+	@SimpleFunction(description="Function to send a text message to device registered in the same app, specifying the IMEI of the receiver.")
+	public void SendMessage(String receiver, String action, String message) {
+		connectionServer.sendMessage(message, action, receiver);
+	}	
 	
 	/**
-	 * Function to send a text message to all devices with the same app.
-	 * @param message
+	 * Function to send a list of objects as a message to a device, specifying the IMEI of the receiver, or typing 'ALL' for all devices registered in the same app.
+	 * 
+	 * @param imei_receiver IMEI the receptor of the message, can be ALL.
+	 * @param objects List of object.
 	 */
-	@SimpleFunction(description="Function to send a text message to all devices registered in the same app.")
-	public void SendMessage(String message, String action) {
-		connectionServer.sendMessage(message, action);
-	}
+	@SimpleFunction(description="Function to send a list of object as a message to device registered in the same app, specifying the IMEI of the receiver.")
+	public void SendDataList(String receiver, List<Object> objects) {
+		connectionServer.sendObjectsMessage(objects, receiver);
+	}	
+
+	@SimpleFunction(description="Function to send a text message for all devices registered in the same app.")
+	public void SendGlobalMessage(String action, String message) {
+		connectionServer.sendMessage(message, action, "ALL");
+	}	
 	
 	/**
-	 * Function to send a list of objects as a message to all devices with the same app.
-	 * @param objects
+	 * Function to send a list of objects as a message to a device, specifying the IMEI of the receiver, or typing 'ALL' for all devices registered in the same app.
+	 * 
+	 * @param imei_receiver IMEI the receptor of the message, can be ALL.
+	 * @param objects List of object.
 	 */
-	@SimpleFunction(description="Function to send a list of object as a message to all devices registered in the same app.")
-	public void SendDataList(List<Object> objects) {
-		connectionServer.sendObjectsMessage(objects);
+	@SimpleFunction(description="Function to send a list of object as a message for all devices registered in the same app.")
+	public void SendGlobalDataList(List<Object> objects) {
+		connectionServer.sendObjectsMessage(objects, "ALL");
 	}
+	
+	// COMENTO ESTE TROZO PARA MODIFICARLO	
+//	/**
+//	 * Function to send a text message to all devices with the same app.
+//	 * @param message
+//	 */
+//	@SimpleFunction(description="Function to send a text message to all devices registered in the same app.")
+//	public void SendMessage(String message, String action) {
+//		connectionServer.sendMessage(message, action);
+//	}
+//	
+//	/**
+//	 * Function to send a list of objects as a message to all devices with the same app.
+//	 * @param objects
+//	 */
+//	@SimpleFunction(description="Function to send a list of object as a message to all devices registered in the same app.")
+//	public void SendDataList(List<Object> objects) {
+//		connectionServer.sendObjectsMessage(objects);
+//	}
+//	/******************************************************************************** EDSON ***/		
+	
 	
 	/**
 	 * Function to get the registration token.
 	 */
 	@SimpleFunction(description="Function to get the registration token.")
 	public void Register() {
+		//System.out.println("HolaEdfunciona/n");
 		connectionServer.register();
 	}
+
 	
 	/**
 	 * Function to unregister client on server.

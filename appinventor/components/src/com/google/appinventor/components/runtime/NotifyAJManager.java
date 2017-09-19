@@ -4,19 +4,20 @@ import com.google.appinventor.components.runtime.AndroidNonvisibleComponent;
 import com.google.appinventor.components.runtime.AndroidViewComponent;
 import com.google.appinventor.components.runtime.util.ActivityTrackerInstances;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.reflect.MethodSignature;
 
 import android.app.Activity;
 
 public class NotifyAJManager {
 	
 	private static boolean notificableMethod(String selectedActivities, String type, String method) {
-		System.out.println("Type operation: " +type + " - MirarEsto");
-		System.out.println("Method: "+method+ " - MirarEsto");
-		System.out.println("SelectedActivities: " + selectedActivities + " - MirarEsto");
+		System.out.println("Type operation: " +type);
+		System.out.println("Method: "+method);
+		System.out.println("SelectedActivities: " + selectedActivities);
 		if(type.equals("Get")) {
-			return selectedActivities.contains("Get - "+method);
+			return selectedActivities.contains("ActionType:Get:ActionID:"+method);
 		} else if(type.equals("Set")) {
-			return selectedActivities.contains("Set - "+method);
+			return selectedActivities.contains("ActionType:Set:ActionID:"+method);
 		} else {
 			return selectedActivities.contains(method);
 		}
@@ -75,25 +76,9 @@ public class NotifyAJManager {
 			//If the activity name is recorded in selectedActivities, then the activity is notify.
 			if(notificableMethod(selectedActivities, type, pointcut.getSignature().getName()) && ActivityTrackerInstances.getActivityTracker(currentActivity).getTrackingStatus()) {
 				//Send data to FusionTables in function of the number of arguments
-				System.out.println("Pass operation: " + selectedActivities + " - ActivitiesToNotify.");
-				switch(pointcut.getArgs().length) {
-					case 0: //0 arguments
-						ActivityTrackerInstances.getActivityTracker(currentActivity).getActivityTrackerManager().prepareQueryAutomatic(
-						type, pointcut.getSignature().getName(), pointcut.getThis().getClass().getSimpleName(), componentName, "", "", "", returnValueString);
-					break;
-					case 1: //1 argument
-						ActivityTrackerInstances.getActivityTracker(currentActivity).getActivityTrackerManager().prepareQueryAutomatic(
-						type, pointcut.getSignature().getName(), pointcut.getThis().getClass().getSimpleName(), componentName, pointcut.getArgs()[0].toString(), "", "", returnValueString);
-					break;
-					case 2: //2 arguments
-						ActivityTrackerInstances.getActivityTracker(currentActivity).getActivityTrackerManager().prepareQueryAutomatic(
-						type, pointcut.getSignature().getName(), pointcut.getThis().getClass().getSimpleName(), componentName, pointcut.getArgs()[0].toString(), pointcut.getArgs()[1].toString(), "", returnValueString);
-					break;
-					default: //3 arguments or more
-						ActivityTrackerInstances.getActivityTracker(currentActivity).getActivityTrackerManager().prepareQueryAutomatic(
-						type, pointcut.getSignature().getName(), pointcut.getThis().getClass().getSimpleName(), componentName, pointcut.getArgs()[0].toString(), pointcut.getArgs()[1].toString(), pointcut.getArgs()[2].toString(), returnValueString);
-					break;
-				}
+				System.out.println("Operation: " + selectedActivities + " - ActivitiesToNotify.");
+				ActivityTrackerInstances.getActivityTracker(currentActivity).getActivityTrackerManager().prepareQueryAutomatic(
+						type, pointcut.getSignature().getName(), pointcut.getThis().getClass().getSimpleName(), componentName, ((MethodSignature)pointcut.getSignature()).getParameterNames(), pointcut.getArgs(), returnValueString);
 			}
 		}
 	}

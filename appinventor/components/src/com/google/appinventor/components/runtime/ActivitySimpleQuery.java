@@ -13,14 +13,14 @@ import com.google.appinventor.components.common.PropertyTypeConstants;
 import com.google.appinventor.components.common.YaVersion;
 
 /**
- * ActivitySimpleProcessor
+ * ActivitySimpleQuery component
  * 
  * @author SPI-FM at UCA
  *
  */
 @DesignerComponent(version = YaVersion.ACTIVITYSIMPLEPROCESSOR_COMPONENT_VERSION, description = "A component for analyzing activities in an application. "
 		+ "Actions to analyze can be queried. ", category = ComponentCategory.VEDILSLEARNINGANALYTICS, iconName = "images/activitySimpleProcessor_icon.png", nonVisible = true)
-public class ActivitySimpleQuery extends ActivityProcessor implements Component {
+public class ActivitySimpleQuery extends ActivityProcessor {
 
 	private boolean distinctResults;
 	private String fieldsToRetrieve;
@@ -42,7 +42,8 @@ public class ActivitySimpleQuery extends ActivityProcessor implements Component 
 	public void FieldsToRetrieve(String fieldsToRetrieve) {
 		this.fieldsToRetrieve = fieldsToRetrieve;
 	}
-
+	
+	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = false)
 	public String FieldsToRetrieve() {
 		return this.fieldsToRetrieve;
 	}
@@ -81,26 +82,27 @@ public class ActivitySimpleQuery extends ActivityProcessor implements Component 
 	@Override
 	public List<String> obtainFields() {
 		
-		List<String> result = new ArrayList<String>();
+		List<String> fields = new ArrayList<String>();
 		
-		System.out.println("!!!!!! las select son:"+this.FieldsToRetrieve());
+		System.out.println("tree selected nodes: "+this.FieldsToRetrieve());
 
 		String data = this.FieldsToRetrieve();
 		if (data.equals("Nothing")) {
 
 		} else {
 			data=data.replace("Record elements: ", "");
-
 			StringTokenizer st = new StringTokenizer(data, " - ");
-			boolean first = true;
 
 			while (st.hasMoreTokens()) {
-				result.add(st.nextToken());
+				String field = st.nextToken();
+				fields.add(field);
 			}
 		}
-		return result;
+		
+		//Remove the special fields (if the tree has used)
+		fields = processTreeFields(fields);
+		return fields;
 	}
-
 	
 	//////////////
 	// FUNCTIONS //
@@ -109,5 +111,4 @@ public class ActivitySimpleQuery extends ActivityProcessor implements Component 
 	////////////
 	// EVENTS //
 	////////////
-
 }

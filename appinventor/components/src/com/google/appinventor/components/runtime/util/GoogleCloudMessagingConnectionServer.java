@@ -37,12 +37,27 @@ public class GoogleCloudMessagingConnectionServer {
 	private static final String URL_SERVER_DELETE = "http://vedils.uca.es:8080/VedilsWS/GcmServer/registrationClient/deleteRegistrationClient";
 	private static final String URL_SERVER_DELETE_ALL = "http://vedils.uca.es:8080/VedilsWS/GcmServer/registrationClient/deleteAllRegistrationClients";
 	
+//	//local UCA
+//	private static final String URL_SERVER_INSERT = "http://10.162.158.24:8080/VedilsWS/GcmServer/registrationClient/insertRegistrationClient"; 
+//	private static final String URL_SERVER_SEND_MESSAGE = "http://10.162.158.24:8080/VedilsWS/GcmServer/sendData/sendTextMessage";
+//	private static final String URL_SERVER_DELETE = "http://10.162.158.24:8080/VedilsWS/GcmServer/registrationClient/deleteRegistrationClient";
+//	private static final String URL_SERVER_DELETE_ALL = "http://10.162.158.24:8080/VedilsWS/GcmServer/registrationClient/deleteAllRegistrationClients";	
+
+	//local CASA
+//	private static final String URL_SERVER_INSERT = "http://192.168.1.39:8080/VedilsWS/GcmServer/registrationClient/insertRegistrationClient"; 
+//	private static final String URL_SERVER_SEND_MESSAGE = "http://192.168.1.39:8080/VedilsWS/GcmServer/sendData/sendTextMessage";
+//	private static final String URL_SERVER_DELETE = "http://192.168.1.39:8080/VedilsWS/GcmServer/registrationClient/deleteRegistrationClient";
+//	private static final String URL_SERVER_DELETE_ALL = "http://192.168.1.39:8080/VedilsWS/GcmServer/registrationClient/deleteAllRegistrationClients";	
+	
+	
+	
 	public GoogleCloudMessagingConnectionServer(Context context) {
 		this.context = context;
 		APP_NAME = context.getApplicationInfo().packageName;
 		//Get the IMEI code of the device to get the registration token.
 		IMEI = DeviceInfoFunctions.getIMEI(this.context);
 	}
+	
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void register() {
@@ -83,6 +98,7 @@ public class GoogleCloudMessagingConnectionServer {
 			protected void onPostExecute(Object result) {}
 		}.execute();
 	}
+	
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void unRegister() {
@@ -153,9 +169,141 @@ public class GoogleCloudMessagingConnectionServer {
 			protected void onPostExecute(Object result) {}
 		}.execute();
 	}
+
+//	/*************************************************************************************************************** EDSON*/
+//	@SuppressWarnings({ "unchecked", "rawtypes" })
+//	public void sendObjectsMessage(final List<Object> objects) {	
+//		new AsyncTask() {
+//			@Override
+//			protected Object doInBackground(Object... arg0) {
+//				try {
+//					
+//					System.out.println("Prepare message - GCMTest");
+//					
+//					System.out.println("JSONObject creado - GCMTest");
+//					
+//					ArrayList<Object> listObjects = new ArrayList<Object>(objects);
+//					listObjects = removeTypesNoAccepted(listObjects);
+//					listObjects = castNumbersToString(listObjects);
+//					
+//					Type listType = new TypeToken<ArrayList<Object>>(){}.getType();
+//					Gson gson = new GsonBuilder()./*registerTypeAdapter(listType, ListObjectsSerializer.class).*/create();
+//					
+//					String objectsJson = gson.toJson(listObjects, listType);
+//					System.out.println("Object String Send to Server = " + objectsJson + " - GCMTest ");
+//					
+//					JSONObject information = new JSONObject();
+//					
+//					information.put("message", objectsJson);
+//					information.put("action", "ObjectListGCM");
+//					information.put("imei", IMEI);
+//					information.put("appname", APP_NAME);
+//					
+//					System.out.println("JSONObject creado - GCMTest");
+//					
+//					String request = establishCommunicationWithServer(information, URL_SERVER_SEND_MESSAGE);
+//				  	 
+//				  	if(!request.equals("ESTABLISHED_CONNECTION")) {
+//				  		throw new Exception("Error while intent to send message: " + request + " - GCMTest");
+//				  	}
+//				  	
+//				} catch (Exception e) {
+//					// TODO Auto-generated catch block
+//					System.out.println("Some error - GCMTest" + e.getMessage());
+//					e.printStackTrace();
+//				}
+//				return null;
+//			}
+//			
+//			@Override
+//			protected void onPostExecute(Object result) {}
+//		}.execute();
+//	}
+	
+	
+//	@SuppressWarnings({ "rawtypes", "unchecked" })
+//	public void sendMessage(final String message, final String action) {	
+//		new AsyncTask() {
+//			@Override
+//			protected Object doInBackground(Object... arg0) {
+//				try {
+//					
+//					System.out.println("Prepare message - GCMTest");
+//					
+//					System.out.println("JSONObject creado - GCMTest");
+//					
+//					JSONObject information = new JSONObject();
+//					
+//					information.put("message", message);
+//					information.put("action", action);
+//					information.put("imei", IMEI);				
+//					information.put("appname", APP_NAME);
+//					
+//					System.out.println("JSONObject creado - GCMTest");
+//					
+//					String request = establishCommunicationWithServer(information, URL_SERVER_SEND_MESSAGE);
+//				  	 
+//				  	if(!request.equals("ESTABLISHED_CONNECTION")) {
+//				  		throw new Exception("Error while intent to send message: " + request + " - GCMTest");
+//				  	}
+//				  	
+//				} catch (Exception e) {
+//					// TODO Auto-generated catch block
+//					System.out.println("Some error - GCMTest" + e.getMessage());
+//					e.printStackTrace();
+//				}
+//				return null;
+//			}
+//			
+//			@Override
+//			protected void onPostExecute(Object result) {}
+//		}.execute();
+//	}
+
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void sendMessage(final String message, final String action, final String imei_receiver) {				/*EDSON*/
+		new AsyncTask() {
+			@Override
+			protected Object doInBackground(Object... arg0) {
+				try {
+					
+					System.out.println("Prepare message - GCMTest");
+					
+					System.out.println("JSONObject creado - GCMTest");
+					
+					JSONObject information = new JSONObject();
+					
+					information.put("message", message);
+					information.put("action", action);
+					information.put("imei", IMEI);
+					information.put("imei_receiver", imei_receiver);					/*EDSON*/
+					information.put("appname", APP_NAME);
+					
+					System.out.println("JSONObject creado - GCMTest");
+					
+					String request = establishCommunicationWithServer(information, URL_SERVER_SEND_MESSAGE);
+				  	 
+				  	if(!request.equals("ESTABLISHED_CONNECTION")) {
+				  		throw new Exception("Error while intent to send message: " + request + " - GCMTest");
+				  	}
+				  	
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					System.out.println("Some error - GCMTest" + e.getMessage());
+					e.printStackTrace();
+				}
+				return null;
+			}
+			
+			@Override
+			protected void onPostExecute(Object result) {}
+		}.execute();
+	}
+	
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void sendObjectsMessage(final List<Object> objects) {
+	public void sendObjectsMessage(final List<Object> objects, final String imei_receiver) {					/*EDSON*/
 		new AsyncTask() {
 			@Override
 			protected Object doInBackground(Object... arg0) {
@@ -180,6 +328,7 @@ public class GoogleCloudMessagingConnectionServer {
 					information.put("message", objectsJson);
 					information.put("action", "ObjectListGCM");
 					information.put("imei", IMEI);
+					information.put("imei_receiver", imei_receiver);					/*EDSON*/
 					information.put("appname", APP_NAME);
 					
 					System.out.println("JSONObject creado - GCMTest");
@@ -202,6 +351,8 @@ public class GoogleCloudMessagingConnectionServer {
 			protected void onPostExecute(Object result) {}
 		}.execute();
 	}
+			
+	/*********************************************************************************************************************************************EDSON*/
 	
 	private ArrayList<Object> castNumbersToString(ArrayList<Object> listObjects) {
 		ArrayList<Object> listObjectsAux = new ArrayList<Object>();
@@ -231,45 +382,7 @@ public class GoogleCloudMessagingConnectionServer {
 		return listObjectsAux;
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void sendMessage(final String message, final String action) {
-		new AsyncTask() {
-			@Override
-			protected Object doInBackground(Object... arg0) {
-				try {
-					
-					System.out.println("Prepare message - GCMTest");
-					
-					System.out.println("JSONObject creado - GCMTest");
-					
-					JSONObject information = new JSONObject();
-					
-					information.put("message", message);
-					information.put("action", action);
-					information.put("imei", IMEI);
-					information.put("appname", APP_NAME);
-					
-					System.out.println("JSONObject creado - GCMTest");
-					
-					String request = establishCommunicationWithServer(information, URL_SERVER_SEND_MESSAGE);
-				  	 
-				  	if(!request.equals("ESTABLISHED_CONNECTION")) {
-				  		throw new Exception("Error while intent to send message: " + request + " - GCMTest");
-				  	}
-				  	
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					System.out.println("Some error - GCMTest" + e.getMessage());
-					e.printStackTrace();
-				}
-				return null;
-			}
-			
-			@Override
-			protected void onPostExecute(Object result) {}
-		}.execute();
-	}
-	
+		
 	private String establishCommunicationWithServer(JSONObject information, String URL) {
 		try {
 			DefaultHttpClient httpClient = new DefaultHttpClient();

@@ -8,11 +8,6 @@ package com.google.appinventor.client.widgets.properties;
 
 import static com.google.appinventor.client.Ode.MESSAGES;
 
-import com.google.appinventor.client.editor.simple.SimpleComponentDatabase;
-import com.google.appinventor.client.editor.youngandroid.properties.CheckableTreeItem;
-import com.google.appinventor.shared.simple.ComponentDatabaseInterface.EventDefinition;
-import com.google.appinventor.shared.simple.ComponentDatabaseInterface.MethodDefinition;
-import com.google.appinventor.shared.simple.ComponentDatabaseInterface.PropertyDefinition;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -21,7 +16,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -36,8 +30,9 @@ public abstract class AdditionalChoicePropertyEditor extends PropertyEditor {
   private static final int ADDITIONAL_CHOICE_ONSCREEN_PADDING = 10;
 
   // UI elements
-  private final TextBox summary;
+  protected final TextBox summary;
   private PopupPanel popup;
+  
 
   /**
    * Creates a new additional choice dialog.
@@ -166,63 +161,4 @@ public abstract class AdditionalChoicePropertyEditor extends PropertyEditor {
    * @return true if the dialog is allowed to close
    */
   protected abstract boolean okAction();
-  
-  
-  public void makeTreeForComponentType(final SimpleComponentDatabase COMPONENT_DATABASE,
-			final String componentType, TreeItem all) {
-
-		// Getters and Setters
-		TreeItem set = new CheckableTreeItem("Setters");
-		set.setHTML("<b> Setters </b>");
-		TreeItem get = new CheckableTreeItem("Getters");
-		get.setHTML("<b> Getters </b>");
-
-		for (PropertyDefinition property : COMPONENT_DATABASE.getPropertyDefinitions(componentType)) {
-			if (!property.getName().equals("ComponentName") && !property.getName().equals("ActivitiesToTrack")) {
-				TreeItem itemPropertyget = new CheckableTreeItem("Get - " + property.getName());
-				itemPropertyget.setHTML(property.getName());
-				itemPropertyget.setTitle("Get - " + property.getName());
-				itemPropertyget.setUserObject("Get - " + property.getName());
-				get.addItem(itemPropertyget);
-				TreeItem itemPropertyset = new CheckableTreeItem("Set - " + property.getName());
-				itemPropertyset.setHTML(property.getName());
-				itemPropertyset.setTitle("Set - " + property.getName());
-				itemPropertyset.setUserObject("Set - " + property.getName());
-				set.addItem(itemPropertyset);
-			}
-		}
-
-		all.addItem(set);
-		all.addItem(get);
-
-		// Functions
-		TreeItem functions = new CheckableTreeItem("Functions");
-		functions.setHTML("<b> Functions </b>");
-		functions.setState(true, false);
-
-		for (MethodDefinition function : COMPONENT_DATABASE.getMethodDefinitions(componentType)) {
-			TreeItem itemFunction = new CheckableTreeItem(function.getName());
-			itemFunction.setHTML(function.getName());
-			itemFunction.setTitle(function.getName());
-			itemFunction.setUserObject(function.getName());
-			functions.addItem(itemFunction);
-		}
-
-		all.addItem(functions);
-
-		// Events
-		TreeItem events = new CheckableTreeItem("Events");
-		events.setHTML("<b> Events </b>");
-
-		for (EventDefinition event : COMPONENT_DATABASE.getEventDefinitions(componentType)) {
-			TreeItem itemEvent = new CheckableTreeItem(event.getName());
-			itemEvent.setHTML(event.getName());
-			itemEvent.setTitle(event.getName());
-			itemEvent.setUserObject(event.getName());
-			events.addItem(itemEvent);
-		}
-
-		all.addItem(events);
-
-	}
 }

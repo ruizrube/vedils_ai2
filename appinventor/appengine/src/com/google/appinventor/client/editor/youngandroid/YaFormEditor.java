@@ -118,6 +118,8 @@ public final class YaFormEditor extends SimpleEditor implements FormChangeListen
   private JSONArray authURL;    // List of App Inventor versions we have been edited on.
 
   private static final int OLD_PROJECT_YAV = 150; // Projects older then this have no authURL
+  
+  public MockComponent selectedComponent;
 
   /**
    * Creates a new YaFormEditor.
@@ -266,6 +268,17 @@ public final class YaFormEditor extends SimpleEditor implements FormChangeListen
     }
     return map;
   }
+  
+  //SPI-FM: Access to properties values in design mode
+  public MockComponent getComponent(String name) {
+	  MockComponent mockComponent = null;
+	  for(MockComponent mockComponentAux: getComponents().values()) {
+			if(mockComponentAux.getName().equals(name)) {
+				mockComponent = mockComponentAux;
+			}
+	  }
+	  return mockComponent;
+  }
 
   @Override
   public List<String> getComponentNames() {
@@ -343,6 +356,7 @@ public final class YaFormEditor extends SimpleEditor implements FormChangeListen
       if (selected) {
         // Select the item in the source structure explorer.
         sourceStructureExplorer.selectItem(component.getSourceStructureExplorerItem());
+        selectedComponent = component;
 
         // Show the component properties in the properties panel.
         updatePropertiesPanel(component);

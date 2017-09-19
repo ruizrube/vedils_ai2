@@ -2002,7 +2002,336 @@ list, use the make-yail-list constructor with no arguments.
         (begin
           (for-each proc (yail-list-contents verified-list))
           *the-null-value*))))
+          
+;; For stream blocks (By SPI&FM)
 
+;; For variance block (reduce option)
+
+(define-syntax stream-variance
+  (syntax-rules ()
+    ((_ list)
+     (yail-stream-variance list))))
+     
+(define (yail-stream-variance yail-list)
+  (define (variance lst n avg)
+  	(cond ((null? lst) (error "Empty list"))
+    	((= (length lst) 1) (get-item (car lst) n avg))
+    	(else (+ (get-item (car lst) n avg) (variance (cdr lst) n avg)))))
+  (let ((verified-list (coerce-to-yail-list yail-list)))
+    (if (eq? verified-list *non-coercible-value*)
+       (signal-runtime-error
+		(format #f
+               "The second argument to standard deviation is not a list. The second argument is: ~A"
+               (get-display-representation yail-list))
+        		"Bad list argument to average")
+        (variance (yail-list-contents verified-list) (count (yail-list-contents verified-list)) (average (yail-list-contents verified-list))))))
+
+(define (get-item x n avg)
+  (/ (expt (- x avg) 2) n))
+  
+;; For standard deviation block (reduce option)
+        
+(define-syntax stream-standard-deviation
+  (syntax-rules ()
+    ((_ list)
+     (sqrt (yail-stream-variance list)))))
+     
+;; For average block (reduce option)
+
+(define-syntax stream-average
+  (syntax-rules ()
+    ((_ list)
+     (yail-stream-average list))))
+     
+(define (average lst)
+	(/ (summation lst) (count lst)))
+     
+(define (yail-stream-average yail-list)
+  (let ((verified-list (coerce-to-yail-list yail-list)))
+    (if (eq? verified-list *non-coercible-value*)
+       (signal-runtime-error
+		(format #f
+               "The second argument to average is not a list. The second argument is: ~A"
+               (get-display-representation yail-list))
+        		"Bad list argument to average")
+        (average (yail-list-contents verified-list)))))
+
+;; For minimum block (reduce option)
+
+(define-syntax stream-minimum
+  (syntax-rules ()
+    ((_ list)
+     (yail-stream-minimum list))))
+     
+(define (yail-stream-minimum yail-list)
+  (define (minimum lst)
+  	(cond ((null? lst) (error "Empty list"))
+    	((= (length lst) 1) (car lst))
+    	(else (min (car lst) (minimum (cdr lst))))))
+  (let ((verified-list (coerce-to-yail-list yail-list)))
+    (if (eq? verified-list *non-coercible-value*)
+       (signal-runtime-error
+		(format #f
+               "The second argument to minimum is not a list. The second argument is: ~A"
+               (get-display-representation yail-list))
+        		"Bad list argument to minimum")
+        (minimum (yail-list-contents verified-list)))))
+
+;; For maximum block (reduce option)
+
+(define-syntax stream-maximum
+  (syntax-rules ()
+    ((_ list)
+     (yail-stream-maximum list))))
+     
+(define (yail-stream-maximum yail-list)
+  (define (maximum lst)
+  	(cond ((null? lst) (error "Empty list"))
+    	((= (length lst) 1) (car lst))
+    	(else (max (car lst) (maximum (cdr lst))))))
+  (let ((verified-list (coerce-to-yail-list yail-list)))
+    (if (eq? verified-list *non-coercible-value*)
+       (signal-runtime-error
+		(format #f
+               "The second argument to maximum is not a list. The second argument is: ~A"
+               (get-display-representation yail-list))
+        		"Bad list argument to maximum")
+        (maximum (yail-list-contents verified-list)))))
+
+;; For production block (reduce option)
+
+(define-syntax stream-production
+  (syntax-rules ()
+    ((_ list)
+     (yail-stream-production list))))
+     
+(define (yail-stream-production yail-list)
+  (define (production list)
+   (if (null? list)
+      1
+      (* (car list) (production (cdr list)))))
+  (let ((verified-list (coerce-to-yail-list yail-list)))
+    (if (eq? verified-list *non-coercible-value*)
+       (signal-runtime-error
+		(format #f
+               "The second argument to production is not a list. The second argument is: ~A"
+               (get-display-representation yail-list))
+        		"Bad list argument to production")
+        (production (yail-list-contents verified-list)))))
+
+;; For count block (reduce option)
+
+(define-syntax stream-count
+  (syntax-rules ()
+    ((_ list)
+     (yail-stream-count list))))
+     
+(define (count list)
+    (if (null? list)
+        0
+        (+ 1 (count (cdr list)))))
+
+(define (yail-stream-count yail-list)
+  (let ((verified-list (coerce-to-yail-list yail-list)))
+    (if (eq? verified-list *non-coercible-value*)
+       (signal-runtime-error
+		(format #f
+               "The second argument to count is not a list. The second argument is: ~A"
+               (get-display-representation yail-list))
+        		"Bad list argument to count")
+        (count (yail-list-contents verified-list)))))
+
+;; For summation block (reduce option)
+
+(define-syntax stream-summation
+  (syntax-rules ()
+    ((_ list)
+     (yail-stream-summation list))))
+     
+(define (summation list)
+   (if (null? list)
+      0
+      (+ (car list) (summation (cdr list)))))
+     
+(define (yail-stream-summation yail-list)
+  (let ((verified-list (coerce-to-yail-list yail-list)))
+    (if (eq? verified-list *non-coercible-value*)
+       (signal-runtime-error
+		(format #f
+               "The second argument to summation is not a list. The second argument is: ~A"
+               (get-display-representation yail-list))
+        		"Bad list argument to summation")
+        (summation (yail-list-contents verified-list)))))
+
+;; For sort block
+
+(define-syntax stream-sort
+  (syntax-rules ()
+    ((_ lambda-arg-name1 lambda-arg-name2 body-form list)
+     (yail-stream-sort-comparator (lambda (lambda-arg-name1 lambda-arg-name2) body-form) list))))
+
+(define (yail-stream-sort-comparator lessthan? y1)
+   (cond ((yail-list-empty? y1) (make YailList))
+         ((not (pair? y1)) y1)
+         (else (kawa-list->yail-list (mergesort lessthan? (yail-list-contents y1))))))
+
+(define (mergesort lessthan? lst)
+   (cond ((null? lst) lst)
+       ((null? (cdr lst)) lst)
+       (else (merge lessthan? (mergesort lessthan? (take lst (quotient (length lst) 2)))
+           (mergesort lessthan? (drop lst (quotient (length lst) 2)))))))
+           
+(define (merge lessthan? lst1 lst2)
+   (cond ((null? lst1) lst2)
+       ((null? lst2) lst1)
+		((lessthan? (car lst1) (car lst2)) (cons (car lst1) (merge lessthan? (cdr lst1)
+           lst2)))
+       (else (cons (car lst2) (merge lessthan? lst1 (cdr lst2))))))
+       
+(define (take alist n)
+    (if (or (null? alist) (= n 0))
+        '()
+        (cons (car alist) (take (cdr alist) (- n 1)))))
+        
+(define (drop alist n)
+    (if (or (null? alist) (= n 0))
+        alist
+        (drop (cdr alist) (- n 1))))
+        
+(define-syntax stream-sort-desc
+  (syntax-rules ()
+    ((_ list)
+     (yail-stream-sort-desc list))))
+     
+(define (sortDESC lst)
+  (cond
+    ((null? lst) '())
+    (else (insertToSortedListDESC (car lst) (sortDESC (cdr lst))))))
+    
+(define (insertToSortedListDESC element lst)
+  (cond
+    ((or (null? lst) (>= element (car lst))) (cons element lst))
+    (else (cons (car lst) (insertToSortedListDESC element (cdr lst))))))
+     
+(define (yail-stream-sort-desc yail-list)
+  (let ((verified-list (coerce-to-yail-list yail-list)))
+    (if (eq? verified-list *non-coercible-value*)
+       (signal-runtime-error
+		(format #f
+               "The second argument to average is not a list. The second argument is: ~A"
+               (get-display-representation yail-list))
+        		"Bad list argument to average")
+        (kawa-list->yail-list (sortDESC (yail-list-contents verified-list))))))
+
+(define-syntax stream-sort-asc
+  (syntax-rules ()
+    ((_ list)
+     (yail-stream-sort-asc list))))
+     
+(define (sortASC lst)
+  (cond
+    ((null? lst) '())
+    (else (insertToSortedListASC (car lst) (sortASC (cdr lst))))))
+    
+(define (insertToSortedListASC element lst)
+  (cond
+    ((or (null? lst) (<= element (car lst))) (cons element lst))
+    (else (cons (car lst) (insertToSortedListASC element (cdr lst))))))
+     
+(define (yail-stream-sort-asc yail-list)
+  (let ((verified-list (coerce-to-yail-list yail-list)))
+    (if (eq? verified-list *non-coercible-value*)
+       (signal-runtime-error
+		(format #f
+               "The second argument to average is not a list. The second argument is: ~A"
+               (get-display-representation yail-list))
+        		"Bad list argument to average")
+        (kawa-list->yail-list (sortASC (yail-list-contents verified-list))))))    
+
+;; For limit block 
+          
+(define-syntax stream-limit
+  (syntax-rules ()
+    ((_ body-form list)
+     (yail-stream-limit body-form list))))
+     
+(define (yail-stream-limit value yail-list)
+  (define (limit n alist)
+    (if (or (null? alist) (= n 0))
+        '()
+        (cons (car alist) (limit (- n 1) (cdr alist)))))
+  (let ((verified-list (coerce-to-yail-list yail-list)))
+    (if (eq? verified-list *non-coercible-value*)
+       (signal-runtime-error
+		(format #f
+               "The second argument to limit is not a list. The second argument is: ~A"
+               (get-display-representation yail-list))
+        		"Bad list argument to limit")
+        (kawa-list->yail-list (limit value (yail-list-contents verified-list))))))
+
+;; For map block
+
+(define-syntax stream-map
+  (syntax-rules ()
+    ((_ lambda-arg-name body-form list)
+     (yail-stream-map (lambda (lambda-arg-name) body-form) list))))
+
+(define (yail-stream-map proc yail-list)
+  (let ((verified-list (coerce-to-yail-list yail-list)))
+    (if (eq? verified-list *non-coercible-value*)
+       (signal-runtime-error
+		(format #f
+               "The second argument to map is not a list. The second argument is: ~A"
+               (get-display-representation yail-list))
+        		"Bad list argument to map")
+        (kawa-list->yail-list (map proc (yail-list-contents verified-list))))))         
+
+;; For filter block
+          
+(define-syntax stream-filter
+  (syntax-rules ()
+    ((_ lambda-arg-name body-form list)
+     (yail-stream-filter (lambda (lambda-arg-name) body-form) list))))
+
+          
+(define (yail-stream-filter pred yail-list)
+  (define (filter pred lst)
+  	(if (null? lst) 
+  		'()
+  		(if (pred (car lst))
+  			(cons (car lst) (filter pred (cdr lst)))
+  			(filter pred (cdr lst)))))
+  (let ((verified-list (coerce-to-yail-list yail-list)))
+    (if (eq? verified-list *non-coercible-value*)
+       (signal-runtime-error
+		(format #f
+               "The second argument to filter is not a list. The second argument is: ~A"
+               (get-display-representation yail-list))
+        "Bad list argument to filter")
+       (kawa-list->yail-list (filter pred (yail-list-contents verified-list))))))
+
+;; For reduce block
+
+(define-syntax stream-reduce
+  (syntax-rules ()
+    ((_ lambda-arg-name1 lambda-arg-name2 body-form list)
+     (yail-stream-reduce (lambda (lambda-arg-name1 lambda-arg-name2) body-form) list))))
+
+(define (yail-stream-reduce binop yail-list)
+  (define (reduce op lst)
+  		(let loop ((res (car lst)) (lst (cdr lst)))
+    		(if (null? lst)
+       			 res
+        	(loop (op res (car lst)) (cdr lst)))))
+  (let ((verified-list (coerce-to-yail-list yail-list)))
+    (if (eq? verified-list *non-coercible-value*)
+		(signal-runtime-error
+ 		(format #f
+        	"The second argument to reduce is not a list. The second argument is: ~A"
+        	(get-display-representation yail-list))
+ 		"Bad list argument to reduce")
+		(reduce binop (yail-list-contents verified-list)))))
+		
 ;; yail-for-range needs to check that its args are numeric
 ;; because the blocks editor can't guarantee this
 (define (yail-for-range proc start end step)

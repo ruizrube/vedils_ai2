@@ -108,6 +108,8 @@ public class Form extends Activity
 	private static final String ARGUMENT_NAME = "APP_INVENTOR_START";
 
 	public static final String APPINVENTOR_URL_SCHEME = "appinventor";
+	
+	private static final int LEVEL_LOLLIPOP = 21;
 
 	// Keep track of the current form object.
 	// activeForm always holds the Form that is currently handling event
@@ -249,6 +251,13 @@ public class Form extends Activity
 	public void onCreate(Bundle icicle) {
 		// Called when the activity is first created
 		super.onCreate(icicle);
+		
+		//SPI-FM Apply Material design when the device support it:
+		if(android.os.Build.VERSION.SDK_INT >= LEVEL_LOLLIPOP) {
+			setTheme(android.R.style.Theme_Material);
+			//getWindow().setNavigationBarColor(getResources().getColor(android.R.color.holo_red_dark));
+	        //getWindow().setStatusBarColor(getResources().getColor(android.R.color.holo_red_dark));
+		}
 
 		// Figure out the name of this form.
 		String className = getClass().getName();
@@ -1814,10 +1823,10 @@ public class Form extends Activity
 	private String about_Button = "Got it";
 
 	private void setDeviceLanguage() {
-		if (!Locale.getDefault().getLanguage().equals("en")) {
+		if (!Locale.getDefault().getLanguage().equals("de")) {
 			stop_Application = "Salir de la aplicación";
 			stop_Application_Question = "¿Salir de la aplicación?";
-			stop_Message = "¿Desea salir de la aplicación? Deberá abrirla de nuevo para poder usarla.";
+			stop_Message = "¿Desea salir de la aplicación? Debería abrirla de nuevo para poder usarla.";
 			stop_Possitive_Button = "Salir";
 			stop_Negative_Button = "No salir";
 			about_Application = "Acerca de la aplicación";

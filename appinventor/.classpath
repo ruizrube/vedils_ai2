@@ -175,7 +175,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/tablelayout/TableLayout-jdk1.5-2007-04-21.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/twitter/twitter4j-core-3.0.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/twitter/twitter4j-media-support-3.0.5.jar"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry exported="true" kind="lib" path="lib/ar4ai/android-support-v4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/ar4ai/jME3-android.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/ar4ai/jME3-core.jar"/>
@@ -196,9 +196,11 @@
 	<classpathentry exported="true" kind="lib" path="lib/brain4ai/bedk.jar"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/ld4ai"/>
 	<classpathentry exported="true" kind="lib" path="lib/ld4ai/ld4ai-0.1.jar"/>
+	<classpathentry kind="lib" path="lib/la4ai/stream/stream-1.1.7.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/3d4ai/3d4ai.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/vr4ai/cardboard.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/vr4ai/libprotobuf-java-2.3-nano.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/vr4ai/vr4ai.jar"/>
 	<classpathentry kind="output" path="bin"/>
+		<classpathentry kind="lib" path="lib/gca4ai/Myo-connector.jar"/>
 </classpath>

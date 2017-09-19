@@ -28,24 +28,47 @@ public class SendDataDAO extends ConnectionDAO {
 	protected String sendTextMessage(SendTextMessageBean sendTextMessage) {
 		try {
 			PreparedStatement ps = connection.prepareStatement("SELECT * FROM RegistrationClients WHERE imei = '"+sendTextMessage.imei+"'");
-			if(ps.executeQuery().next()) { //Client exists in DB
-				PreparedStatement psAux = connection.prepareStatement("SELECT token FROM RegistrationClients WHERE imei != '"+sendTextMessage.imei+"' AND appname = '"+sendTextMessage.appname+"'");
-				ResultSet clients = psAux.executeQuery();
-				while(clients.next()) {
-					//Send message to all clients.
-					try {
-						Sender sender = new Sender(apiKey);
-						Message message = new Message.Builder()
-						    .addData("message", sendTextMessage.message)
-						    .addData("action", sendTextMessage.action)
-						    .build();
-						Result result = sender.send(message, clients.getString("token"), 2);
-						System.out.println("Result Code to send message GCM: " +result.getErrorCodeName());
-					} catch(IOException e) {
-						System.out.println("Any error when try send message");
-						e.printStackTrace();
-					}
+			if(ps.executeQuery().next()) { //Client exists in DB				
+//				/*************************************************************************************************************** EDSON*/				
+				if(sendTextMessage.imei_receiver.equalsIgnoreCase("ALL")){	//Send message to all clients.					
+					PreparedStatement psAux = connection.prepareStatement("SELECT token FROM RegistrationClients WHERE imei != '"+sendTextMessage.imei+"' AND appname = '"+sendTextMessage.appname+"'");
+					ResultSet clients = psAux.executeQuery();
+					while(clients.next()) {
+						
+						try {
+							Sender sender = new Sender(apiKey);
+							Message message = new Message.Builder()
+							    .addData("message", sendTextMessage.message)
+							    .addData("action", sendTextMessage.action)						    
+							    .build();
+							Result result = sender.send(message, clients.getString("token"), 2);
+							System.out.println("Result Code to send message GCM: " +result.getErrorCodeName());
+						} catch(IOException e) {
+							System.out.println("Any error when try send message");
+							e.printStackTrace();
+						}
+					}					
 				}
+				else{	//Send message to specific IMEI.
+					PreparedStatement psAux = connection.prepareStatement("SELECT token FROM RegistrationClients WHERE imei = '"+sendTextMessage.imei_receiver+"' AND appname = '"+sendTextMessage.appname+"'");
+					ResultSet clients = psAux.executeQuery();
+						if(clients.next()){
+							try {
+								Sender sender = new Sender(apiKey);
+								Message message = new Message.Builder()
+								    .addData("message", sendTextMessage.message)
+								    .addData("action", sendTextMessage.action)						    
+								    .build();
+								Result result = sender.send(message, clients.getString("token"), 2);
+								System.out.println("Result Code to send message GCM: " +result.getErrorCodeName());
+							} catch(IOException e) {
+								System.out.println("Any error when try send message");
+								e.printStackTrace();
+							}
+						}						
+				}				
+//				/*************************************************************************************************************** EDSON*/		
+				
 				closeConnection();
 				return ESTABLISHED_CONNECTION;
 			} else {

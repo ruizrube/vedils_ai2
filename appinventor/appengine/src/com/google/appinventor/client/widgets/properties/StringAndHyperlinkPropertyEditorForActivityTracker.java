@@ -1,5 +1,6 @@
 package com.google.appinventor.client.widgets.properties;
 
+import com.google.appinventor.client.editor.youngandroid.YaFormEditor;
 import com.google.gwt.user.client.ui.TextBox;
 
 /**
@@ -9,7 +10,7 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 public class StringAndHyperlinkPropertyEditorForActivityTracker extends TextPropertyEditorBase {
 	
-	public StringAndHyperlinkPropertyEditorForActivityTracker() {
-		super(new TextBox(), true);
+	public StringAndHyperlinkPropertyEditorForActivityTracker(final YaFormEditor editor) {
+		super(new TextBox(), editor);
 	}
 }

@@ -205,6 +205,12 @@ public class PropertyTypeConstants {
 	 * {@link com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCommunicationModeChoicePropertyEditor}
 	 */
 	public static final String PROPERTY_TYPE_COMMUNICATIONMODE = "communicationMode";
+	
+	/**
+	 * Choices of storageModes offered by
+	 * {@link com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCommunicationModeChoicePropertyEditor}
+	 */
+	public static final String PROPERTY_TYPE_STORAGEMODE = "storageMode";
 
 	/**
 	 * Choices in checkableTree offered by
