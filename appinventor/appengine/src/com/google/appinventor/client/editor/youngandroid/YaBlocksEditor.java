@@ -406,6 +406,11 @@ public final class YaBlocksEditor extends FileEditor
       blocksArea.removeComponent(typeName, instanceName, uuid);
     }
   }
+  
+  //SPI-FM: For dynamic tree
+  public BlocklyPanel getBlocksArea() {
+	  return blocksArea;
+  }
 
   public void renameComponent(String typeName, String oldName, String newName, String uuid) {
     blocksArea.renameComponent(typeName, oldName, newName, uuid);

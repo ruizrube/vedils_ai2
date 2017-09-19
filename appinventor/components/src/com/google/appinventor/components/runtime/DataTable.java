@@ -16,6 +16,8 @@ import com.google.appinventor.components.annotations.UsesPermissions;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
 import com.google.appinventor.components.common.YaVersion;
+import com.google.appinventor.components.runtime.util.ActivityQueryManagerMongoDB;
+import com.google.appinventor.components.runtime.util.AsyncHttpRequestManager;
 
 import android.view.View;
 import gnu.mapping.SimpleSymbol;
@@ -40,14 +42,14 @@ public class DataTable extends AndroidViewComponent {
 	private String valuesTitle;
 	private ActivityProcessor query;
 	private String url="http://vedils.uca.es/web/graph/Table.html";
-	//private String url = "192.168.1.2:8888/web/graph/Table.html"; //For local test
-	//private String url = "http://10.182.168.193:8888/web/graph/Table.html"; //For local test
+	//private String url = "http://192.168.1.22:8888/web/graph/Table.html"; //For local test
 	
 	private int refreshInterval;
 
 	public DataTable(ComponentContainer container) {
 		super(container);
 		webviewer = new WebViewer(container);
+		webviewer.WidthPercent(98);
 	}
 
 	@Override
@@ -142,37 +144,74 @@ public class DataTable extends AndroidViewComponent {
 		System.out.println("refrescando tabla");
 		
 		JSONObject information = new JSONObject();
+		JSONArray table = new JSONArray();
 		
 		try {
-			if (this.Query() != null) { //Prepare JSONObject to send the information (SQL option).
-				
-				information.put("querySQL", this.Query().generateSQLStatement());
-				information.put("valuesTitle", this.valuesTitle);
-				information.put("refreshInterval", this.refreshInterval);
-			} else { //Prepare JSONObject to send the information (Data list option).
-				
-				JSONArray table = new JSONArray();
-				if(Data() != null) {
+			if(this.Query() != null && this.Query().StorageMode() == Component.MONGODB
+					&& this.Data() == null) { //automatic query MongoDB 
+				new AsyncHttpRequestManager(((ActivityQueryManagerMongoDB)this.Query().getQueryManager()).URL_SERVER_QUERY, 
+						new JSONObject(this.Query().getQueryManager().generateQueryStatement()), this, false).execute();
+			} else {
+				if(this.Query() != null && this.Query().StorageMode() == Component.FUSIONTABLES
+						&& this.Data() == null) { //automatic query Google Fusion Tables
+					information.put("querySQL", this.Query().getQueryManager().generateQueryStatement());
+					information.put("valuesTitle", this.valuesTitle);
+					information.put("refreshInterval", this.refreshInterval);
+				} else if(this.Query() != null && this.Data() != null) { //manual user query (FusionTables or MongoDB)
+					int columnNamesRow = 1;
+					
 					for(Object row: this.data) {
-						if(!(row instanceof SimpleSymbol)) {
+						if(!(row instanceof SimpleSymbol) && this.data.indexOf(row) != columnNamesRow) {
 							table.put(prepareRow((List<Object>)row));
 						}
 					}
+					
+					String columnNames = "";
+					boolean first = true;
+					
+					if(this.data.size() > 1) { //Not empty result for query
+						for(Object name: (List<Object>) this.data.get(1)) {
+							if(name instanceof String) { //Is a column name
+								if(!((String) name).isEmpty()) {
+									if(first) {
+										columnNames = columnNames + name;
+									} else {
+										columnNames = columnNames + "," + name;
+									}
+									first = false;
+								}
+							}
+						}
+					}
+					
+					this.valuesTitle = columnNames;
+					
+					information.put("table", table);
+					information.put("valuesTitle", this.valuesTitle);
+				} else {
+					if(Data() != null) {
+						for(Object row: this.data) {
+							if(!(row instanceof SimpleSymbol)) {
+								table.put(prepareRow((List<Object>)row));
+							}
+						}
+					}
+					
+					information.put("table", table);
+					information.put("valuesTitle", this.valuesTitle);
 				}
-				information.put("table", table);
-				information.put("valuesTitle", this.valuesTitle);
+				
+				System.out.println("informationToSend = " +information.toString());
+				
+				//And send the information
+				this.webviewer.WebViewString(information.toString());
+				
+				// clear the history, since changing Home is a kind of reset
+				this.webviewer.HomeUrl(url);
 			}
 		} catch(JSONException e) {
 			System.out.println("Error to prepare information in JSONObject");
 		}
-		
-		System.out.println("informationToSend = " +information.toString());
-		
-		//And send the information
-		this.webviewer.WebViewString(information.toString());
-		
-		// clear the history, since changing Home is a kind of reset
-		this.webviewer.HomeUrl(url);
 	}
 	
 	/**

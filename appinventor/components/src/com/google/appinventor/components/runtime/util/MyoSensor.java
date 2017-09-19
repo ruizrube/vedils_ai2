@@ -35,7 +35,6 @@ public class MyoSensor extends AbstractDeviceListener {
     // onDisconnect() is called whenever a Myo has been disconnected.
     @Override
     public void onDisconnect(Myo myo, long timestamp) {
-        // Set the text color of the text view to red when a Myo disconnects.
     	System.out.println("Myo Disconnected");
     	getComponent().DeviceDisconnected();
     }

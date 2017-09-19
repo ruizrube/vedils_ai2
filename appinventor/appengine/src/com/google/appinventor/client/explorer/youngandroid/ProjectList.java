@@ -366,6 +366,17 @@ public class ProjectList extends Composite implements ProjectManagerEventListene
   public List<Project> getSelectedProjects() {
     return selectedProjects;
   }
+  
+  /**
+   * By SPI-FM: For Show mongoDB associate table in ActivityTracker.
+   *
+   * Returns the list of projects
+   * 
+   * @return the projects list
+   */
+  public List<Project> getProjects() {
+	  return projects;
+  }
 
   // ProjectManagerEventListener implementation
 

@@ -100,14 +100,26 @@
 		<copy toFile="${classes.files.dir}/jpct_shaders.zip" file="${lib.dir}/ar4ai/jpct_shaders.zip" />
 		<copy toFile="${classes.files.dir}/android-support-v4.jar" file="${lib.dir}/ar4ai/android-support-v4.jar" />
         <copy toFile="${classes.files.dir}/Vuforia-English-word.vwl" file="${lib.dir}/ar4ai/Vuforia-English-word.vwl" />
+        
+        <!-- 3D4AI -->
+        <copy toFile="${classes.files.dir}/3d4ai.jar" file="${lib.dir}/3d4ai/3d4ai.jar" />
+        
+        <!-- VR4AI -->
+        <copy toFile="${classes.files.dir}/vr4ai.jar" file="${lib.dir}/vr4ai/vr4ai.jar" />
+        <copy toFile="${classes.files.dir}/cardboard.jar" file="${lib.dir}/vr4ai/cardboard.jar" />
+        <copy toFile="${classes.files.dir}/libprotobuf-java-2.3-nano.jar" file="${lib.dir}/vr4ai/libprotobuf-java-2.3-nano.jar" />
+        <copy toFile="${classes.files.dir}/defaultVertexShaderTex0.src" file="${lib.dir}/vr4ai/defaultVertexShaderTex0.src" />
+        <copy toFile="${classes.files.dir}/loadIMG.png" file="${lib.dir}/vr4ai/loadIMG.png" />
+        <copy toFile="${classes.files.dir}/surface_fragment_shader.txt" file="${lib.dir}/vr4ai/surface_fragment_shader.txt" />
+        <copy toFile="${classes.files.dir}/sphere_paranomic.obj" file="${lib.dir}/vr4ai/sphere_paranomic.obj" />
 
 		<!-- LA4AI -->
 
-		<copy toFile="${classes.files.dir}/ruizrube-4718dd8c5168.json"
-			file="${lib.dir}/la4ai/resources/ruizrube-4718dd8c5168.json" />
-		<copy toFile="${classes.files.dir}/ruizrube-cd84632c4ea8.p12"
-			file="${lib.dir}/la4ai/resources/ruizrube-cd84632c4ea8.p12" />
+		<copy toFile="${classes.files.dir}/ActivityTrackerVEDILS-e804e05b5eb3.p12"
+			file="${lib.dir}/la4ai/resources/ActivityTrackerVEDILS-e804e05b5eb3.p12" />
 		<copy toFile="${classes.files.dir}/la4ai.jar" file="${lib.dir}/la4ai/la4ai.jar" />
+		<copy toFile="${classes.files.dir}/stream-1.1.7.jar" file="${lib.dir}/la4ai/stream/stream-1.1.7.jar" />
+		
 		<copy toFile="${classes.files.dir}/google-play-services.jar"
 			file="${lib.dir}/la4ai/google_play_services/google-play-services.jar" />
 		<copy toFile="${classes.files.dir}/gson-2.1.jar" file="${lib.dir}/gson/gson-2.1.jar" />

@@ -16,6 +16,8 @@ import com.google.appinventor.components.annotations.UsesPermissions;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
 import com.google.appinventor.components.common.YaVersion;
+import com.google.appinventor.components.runtime.util.ActivityQueryManagerMongoDB;
+import com.google.appinventor.components.runtime.util.AsyncHttpRequestManager;
 
 import android.view.View;
 import gnu.mapping.SimpleSymbol;
@@ -51,15 +53,12 @@ public class Chart extends AndroidViewComponent {
 	private ActivityProcessor query;
 
 	private String url_base = "http://vedils.uca.es/web/graph/";
-	//private String url_base = "http://192.168.1.2:8888/web/graph/"; //For local test
-	
-	//private String url_base = "http://10.182.168.193:8888/web/graph/"; //For local test
-	
-	 
+	//private String url_base = "http://192.168.1.22:8888/web/graph/"; //For local test	 
 
 	public Chart(ComponentContainer container) {
 		super(container);
 		webviewer = new WebViewer(container);
+		webviewer.WidthPercent(100);
 	}
 
 	@Override
@@ -254,48 +253,55 @@ public class Chart extends AndroidViewComponent {
 		JSONObject information = new JSONObject();
 		
 		try {
-			if (this.Query() != null) { //Prepare JSONObject to send the information (SQL option).
-				
-				information.put("querySQL", this.Query().generateSQLStatement());
-				information.put("categoryAxisTitle", this.categoryAxisTitle);
-				information.put("valueAxisTitle", this.valueAxisTitle);
-				information.put("valuesTitle", this.valuesTitle);
-				information.put("indexForCategory", this.indexForCategoryAxis);
-				information.put("indexForValue", this.indexForValueAxis);
-				information.put("refreshInterval", this.refreshInterval);
-			} else { //Prepare JSONObject to send the information (Data list option).
-				
-				JSONArray table = new JSONArray();
-				if(Data() != null) {
-					for(Object row: this.data) {
-						if(!(row instanceof SimpleSymbol)) {
-							table.put(prepareRow((List<Object>)row));
+			if(this.Query() != null && this.Query().StorageMode() == Component.MONGODB
+					&& this.Data() == null) { //automatic query MongoDB 
+				new AsyncHttpRequestManager(((ActivityQueryManagerMongoDB)this.Query().getQueryManager()).URL_SERVER_QUERY, 
+						new JSONObject(this.Query().getQueryManager().generateQueryStatement()), this, false).execute();
+			} else {
+				if (this.Query() != null && this.Query().StorageMode() == Component.FUSIONTABLES) { //Prepare JSONObject to send the information (SQL option).
+					
+					information.put("querySQL", this.Query().getQueryManager().generateQueryStatement());
+					information.put("categoryAxisTitle", this.categoryAxisTitle);
+					information.put("valueAxisTitle", this.valueAxisTitle);
+					information.put("valuesTitle", this.valuesTitle);
+					information.put("indexForCategory", this.indexForCategoryAxis);
+					information.put("indexForValue", this.indexForValueAxis);
+					information.put("refreshInterval", this.refreshInterval);
+				} else { //Prepare JSONObject to send the information (Data list option).
+					
+					JSONArray table = new JSONArray();
+					if(Data() != null) {
+						for(Object row: this.data) {
+							if(!(row instanceof SimpleSymbol)) {
+								table.put(prepareRow((List<Object>)row));
+							}
 						}
 					}
+					
+					information.put("table", table);
+					information.put("categoryAxisTitle", this.categoryAxisTitle);
+					information.put("valueAxisTitle", this.valueAxisTitle);
+					information.put("valuesTitle", this.valuesTitle);
+					information.put("indexForCategory", this.indexForCategoryAxis);
+					information.put("indexForValue", this.indexForValueAxis);
 				}
-				information.put("table", table);
-				information.put("categoryAxisTitle", this.categoryAxisTitle);
-				information.put("valueAxisTitle", this.valueAxisTitle);
-				information.put("valuesTitle", this.valuesTitle);
-				information.put("indexForCategory", this.indexForCategoryAxis);
-				information.put("indexForValue", this.indexForValueAxis);
+				
+				System.out.println("informationToSend = " +information.toString());
+				
+				//And send the information
+				this.webviewer.WebViewString(information.toString());
+				
+				if (this.ChartType() == 1) { // 1: Line
+					// clear the history, since changing Home is a kind of reset
+					this.webviewer.HomeUrl(url+"LineChart.html");
+				} else if(this.ChartType() == 2) { // 2: Column
+					this.webviewer.HomeUrl(url+"ColumnChart.html");
+				} else {
+					this.webviewer.HomeUrl(url+"BarChart.html");
+				}
 			}
 		} catch(JSONException e) {
 			System.out.println("Error to prepare information in JSONObject");
-		}
-		
-		System.out.println("informationToSend = " +information.toString());
-		
-		//And send the information
-		this.webviewer.WebViewString(information.toString());
-		
-		if (this.ChartType() == 1) { // 1: Line
-			// clear the history, since changing Home is a kind of reset
-			this.webviewer.HomeUrl(url+"LineChart.html");
-		} else if(this.ChartType() == 2) { // 2: Column
-			this.webviewer.HomeUrl(url+"ColumnChart.html");
-		} else {
-			this.webviewer.HomeUrl(url+"BarChart.html");
 		}
 	}
 	

@@ -113,6 +113,7 @@
           depends="CommonConstants,HtmlEntities,common_CommonVersion">
     <property name="AndroidRuntime-class.dir" location="${class.dir}/AndroidRuntime" />
     <mkdir dir="${AndroidRuntime-class.dir}" />
+    <mkdir dir="${AspectJAndroidRuntime-class.dir}" />
     
     <!-- AspectJ compilation -->
     
@@ -124,8 +125,8 @@
         </classpath>
     </taskdef>
     
-    <iajc destdir="${AndroidRuntime-class.dir}" 
-        source="1.7" target="1.7">
+    <iajc destdir="${AspectJAndroidRuntime-class.dir}" 
+        source="1.8" target="1.8">
         
         <include name="${components.pkg}/annotations/*.java" />
         <include name="${components.pkg}/runtime/**/*.java" />
@@ -148,9 +149,10 @@
 	        <pathelement location="${lib.dir}/kawa/kawa-1.11-modified.jar" />
 	        <pathelement location="${lib.dir}/acra/acra-4.4.0.jar" />
 	        <pathelement location="${lib.dir}/guava/guava-14.0.1.jar" />
-	        <!-- Conditionally included libraries --> 
+	        <!-- Conditionally included libraries -->
+	        
 	        <pathelement location="${lib.dir}/apache-http/httpcore-4.3.2.jar" />
-        	<pathelement location="${lib.dir}/apache-http/httpmime-4.3.4.jar" />
+	        <pathelement location="${lib.dir}/apache-http/httpmime-4.3.4.jar" />
 	        <pathelement location="${lib.dir}/twitter/twitter4j-core-3.0.5.jar" />
 	        <pathelement location="${lib.dir}/twitter/twitter4j-media-support-3.0.5.jar" />
 	        <pathelement location="${lib.dir}/fusiontables/fusiontables.jar" />
@@ -174,6 +176,8 @@
 	         
 	        <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
 	        
+	        <pathelement location="${lib.dir}/la4ai/stream/stream-1.1.7.jar" />
+	        
 	        <pathelement location="${lib.dir}/la4ai/google_play_services/google-play-services.jar" />
 	         
 	        <pathelement location="${lib.dir}/gc4ai/LeapJava.jar" />
@@ -181,16 +185,37 @@
 	        <pathelement location="${lib.dir}/gca4ai/Myo-connector.jar" />
            
 	        <pathelement location="${lib.dir}/brain4ai/bedk.jar" />
-
+			
 	        <pathelement location="${lib.dir}/ld4ai/ld4ai-0.1.jar" />
-	      
-	
+	        
+	        <pathelement location="${lib.dir}/3d4ai/3d4ai.jar" />
+	        
+	        <pathelement location="${lib.dir}/vr4ai/vr4ai.jar" />
+	        <pathelement location="${lib.dir}/vr4ai/cardboard.jar" />
+	        <pathelement location="${lib.dir}/vr4ai/libprotobuf-java-2.3-nano.jar" />
 	        
         </classpath>
    		
 	</iajc>
    
     <echo level="info">--- AspectJ (end) ---</echo>
+    
+    
+    <echo level="info">--- RetroLambda (start) ---</echo>
+      
+     <exec executable="java">
+         <arg value="-Dretrolambda.inputDir=${AspectJAndroidRuntime-class.dir}"/>
+		 <arg value="-Dretrolambda.classpath=${AspectJAndroidRuntime-class.dir}:${lib.dir}/la4ai/aspectjrt-1.8.8.jar:${lib.dir}/la4ai/stream/stream-1.1.7.jar:${lib.dir}/android/${android.version}/android.jar"/>
+		 <arg value="-Dretrolambda.outputDir=${AndroidRuntime-class.dir}"/>
+		 <arg value="-Dretrolambda.defaultMethods=false"/>
+		 <arg value="-jar"/>
+		 <arg value="${lib.dir}/la4ai/stream/retrolambda-2.5.1.jar"/>
+     </exec>
+        
+     <echo level="info">--- RetroLambda (end) ---</echo>
+     
+     <delete dir="${AspectJAndroidRuntime-class.dir}"/>
+    
     <!--  
     <ai.javac5 destdir="${AndroidRuntime-class.dir}">
       <include name="${components.pkg}/annotations/*.java" />
@@ -235,11 +260,19 @@
          
          <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
          
+         <pathelement location="${lib.dir}/la4ai/stream/stream-1.1.7.jar" />
+         
          <pathelement location="${lib.dir}/gc4ai/LeapJava.jar" />
          
          <pathelement location="${lib.dir}/gca4ai/Myo-connector.jar" />
        
          <pathelement location="${lib.dir}/brain4ai/bedk.jar" />
+         
+         <pathelement location="${lib.dir}/3d4ai/3d4ai.jar" />
+         
+         <pathelement location="${lib.dir}/vr4ai/vr4ai.jar" />
+	     <pathelement location="${lib.dir}/vr4ai/cardboard.jar" />
+	     <pathelement location="${lib.dir}/vr4ai/libprotobuf-java-2.3-nano.jar" />
               
       </classpath>
     </ai.javac5> -->
@@ -367,13 +400,19 @@
          
          <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
          
+         <pathelement location="${lib.dir}/la4ai/stream/stream-1.1.7.jar" />
+         
          <pathelement location="${lib.dir}/la4ai/google_play_services/google-play-services.jar" />
          
          <pathelement location="${lib.dir}/brain4ai/bedk.jar" />
        
          <pathelement location="${lib.dir}/ld4ai/ld4ai-0.1.jar" />
-	   
-           
+         
+         <pathelement location="${lib.dir}/3d4ai/3d4ai.jar" />
+         
+         <pathelement location="${lib.dir}/vr4ai/vr4ai.jar" />
+	     <pathelement location="${lib.dir}/vr4ai/cardboard.jar" />
+	     <pathelement location="${lib.dir}/vr4ai/libprotobuf-java-2.3-nano.jar" />
         
         </classpath>
         <compilerarg line="-processorpath ${local.build.dir}/AnnotationProcessors.jar"/>

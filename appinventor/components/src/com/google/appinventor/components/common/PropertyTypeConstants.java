@@ -205,6 +205,12 @@ public class PropertyTypeConstants {
 	 * {@link com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCommunicationModeChoicePropertyEditor}
 	 */
 	public static final String PROPERTY_TYPE_COMMUNICATIONMODE = "communicationMode";
+	
+	/**
+	 * Choices of storageModes offered by
+	 * {@link com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCommunicationModeChoicePropertyEditor}
+	 */
+	public static final String PROPERTY_TYPE_STORAGEMODE = "storageMode";
 
 	/**
 	 * Choices in checkableTree offered by
@@ -294,6 +300,10 @@ public class PropertyTypeConstants {
 	public static final String PROPERTY_TYPE_KIND_OF_VISUALASSETS = "visualassets";
 
 	public static final String PROPERTY_TYPE_ONLY_ARCAMERA = "arcamera";
+	
+	public static final String PROPERTY_TYPE_ONLY_VRSCENE = "vrscene";
+	
+	public static final String PROPERTY_TYPE_QUALITY_YOUTUBE = "youtube_quality";
 
 	public static final String PROPERTY_TYPE_ONLY_ARCAMERAOVERLAYER = "arcameraoverlayer";
 

@@ -5,9 +5,14 @@ package com.google.appinventor.components.runtime;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Timer;
+//import java.util.Timer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.annimon.stream.Stream;
+//import com.annimon.stream.Stream;
 import com.emotiv.insight.IEdk.IEE_DataChannel_t;
 import com.emotiv.insight.IEmoStateDLL.IEE_FacialExpressionAlgo_t;
 import com.emotiv.insight.IEmoStateDLL.IEE_MentalCommandAction_t;
@@ -23,12 +28,15 @@ import com.google.appinventor.components.annotations.UsesNativeLibraries;
 import com.google.appinventor.components.annotations.UsesPermissions;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
+import com.google.appinventor.components.runtime.util.BrainwaveSensorStreamEventsTimer;
+//import com.google.appinventor.components.runtime.util.EmotivBandsData;
 import com.google.appinventor.components.runtime.util.EmotivController;
 import com.google.appinventor.components.runtime.util.EmotivData;
 import com.google.appinventor.components.runtime.util.JellybeanMR2Util;
 import com.google.appinventor.components.runtime.util.OnInitializeListener;
 import com.google.appinventor.components.runtime.util.SdkLevel;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
@@ -40,7 +48,7 @@ import android.util.Log;
  * @author ivanruizrube
  *
  */
-@UsesLibraries(libraries = "bedk.jar")
+@UsesLibraries(libraries = "bedk.jar," + "stream-1.1.7.jar")
 @UsesNativeLibraries(v7aLibraries = "libbedk.so")
 @SimpleObject
 @DesignerComponent(nonVisible = true, version = 1, description = "Brainwave Sensor Component (by SPI-FM at UCA)", category = ComponentCategory.VEDILSINTERACTIONS, iconName = "images/brain.png")
@@ -91,12 +99,14 @@ public class BrainwaveSensor extends AndroidNonvisibleComponent implements Seria
 	public static final int HANDLER_COMMAND_ROTATE_LEFT = 31;
 	public static final int HANDLER_COMMAND_ROTATE_REVERSE = 32;
 	public static final int HANDLER_COMMAND_ROTATE_RIGHT = 33;
+	
+	public static final int HANDLER_CHANNELS_DATA = 34;
 
 	/////////////////////
 	// CLASS ATTRIBUTES //
 	/////////////////////
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 
 	private static final int SCALING_FE = 10; // Multiplicamos por 100 para
 												// ajustar escala de 0-100 a
@@ -131,7 +141,118 @@ public class BrainwaveSensor extends AndroidNonvisibleComponent implements Seria
 	private String profile = "";
 
 	private boolean triggerNeutralState = false;
-
+	
+	//Channel AF3
+	public Stream<Double> channelAF3ThetaStream;
+	public Stream<Double> channelAF3AlphaStream;
+	public Stream<Double> channelAF3LowBetaStream;
+	public Stream<Double> channelAF3HighBetaStream;
+	public Stream<Double> channelAF3GammaStream;
+	
+	//Channel F7
+	public Stream<Double> channelF7ThetaStream;
+	public Stream<Double> channelF7AlphaStream;
+	public Stream<Double> channelF7LowBetaStream;
+	public Stream<Double> channelF7HighBetaStream;
+	public Stream<Double> channelF7GammaStream;
+	
+	//Channel F3
+	public Stream<Double> channelF3ThetaStream;
+	public Stream<Double> channelF3AlphaStream;
+	public Stream<Double> channelF3LowBetaStream;
+	public Stream<Double> channelF3HighBetaStream;
+	public Stream<Double> channelF3GammaStream;
+	
+	//Channel FC5
+	public Stream<Double> channelFC5ThetaStream;
+	public Stream<Double> channelFC5AlphaStream;
+	public Stream<Double> channelFC5LowBetaStream;
+	public Stream<Double> channelFC5HighBetaStream;
+	public Stream<Double> channelFC5GammaStream;
+	
+	//Channel T7
+	public Stream<Double> channelT7ThetaStream;
+	public Stream<Double> channelT7AlphaStream;
+	public Stream<Double> channelT7LowBetaStream;
+	public Stream<Double> channelT7HighBetaStream;
+	public Stream<Double> channelT7GammaStream;
+	
+	//Channel P7
+	public Stream<Double> channelP7ThetaStream;
+	public Stream<Double> channelP7AlphaStream;
+	public Stream<Double> channelP7LowBetaStream;
+	public Stream<Double> channelP7HighBetaStream;
+	public Stream<Double> channelP7GammaStream;
+	
+	//Channel Pz
+	public Stream<Double> channelPzThetaStream;
+	public Stream<Double> channelPzAlphaStream;
+	public Stream<Double> channelPzLowBetaStream;
+	public Stream<Double> channelPzHighBetaStream;
+	public Stream<Double> channelPzGammaStream;
+	
+	//Channel O1
+	public Stream<Double> channelO1ThetaStream;
+	public Stream<Double> channelO1AlphaStream;
+	public Stream<Double> channelO1LowBetaStream;
+	public Stream<Double> channelO1HighBetaStream;
+	public Stream<Double> channelO1GammaStream;
+	
+	//Channel O2
+	public Stream<Double> channelO2ThetaStream;
+	public Stream<Double> channelO2AlphaStream;
+	public Stream<Double> channelO2LowBetaStream;
+	public Stream<Double> channelO2HighBetaStream;
+	public Stream<Double> channelO2GammaStream;
+	
+	//Channel P8
+	public Stream<Double> channelP8ThetaStream;
+	public Stream<Double> channelP8AlphaStream;
+	public Stream<Double> channelP8LowBetaStream;
+	public Stream<Double> channelP8HighBetaStream;
+	public Stream<Double> channelP8GammaStream;
+	
+	//Channel T8
+	public Stream<Double> channelT8ThetaStream;
+	public Stream<Double> channelT8AlphaStream;
+	public Stream<Double> channelT8LowBetaStream;
+	public Stream<Double> channelT8HighBetaStream;
+	public Stream<Double> channelT8GammaStream;
+	
+	//Channel FC6
+	public Stream<Double> channelFC6ThetaStream;
+	public Stream<Double> channelFC6AlphaStream;
+	public Stream<Double> channelFC6LowBetaStream;
+	public Stream<Double> channelFC6HighBetaStream;
+	public Stream<Double> channelFC6GammaStream;
+	
+	//Channel F4
+	public Stream<Double> channelF4ThetaStream;
+	public Stream<Double> channelF4AlphaStream;
+	public Stream<Double> channelF4LowBetaStream;
+	public Stream<Double> channelF4HighBetaStream;
+	public Stream<Double> channelF4GammaStream;
+	
+	//Channel F8
+	public Stream<Double> channelF8ThetaStream;
+	public Stream<Double> channelF8AlphaStream;
+	public Stream<Double> channelF8LowBetaStream;
+	public Stream<Double> channelF8HighBetaStream;
+	public Stream<Double> channelF8GammaStream;
+	
+	//Channel FC4
+	public Stream<Double> channelAF4ThetaStream;
+	public Stream<Double> channelAF4AlphaStream;
+	public Stream<Double> channelAF4LowBetaStream;
+	public Stream<Double> channelAF4HighBetaStream;
+	public Stream<Double> channelAF4GammaStream;
+	
+	private BrainwaveSensorStreamEventsTimer timer;
+	
+	//private EmotivBandsData timerEmotivBandsData;
+	
+	public Activity activity;
+	
 	/////////////////
 	// CONSTRUCTOR //
 	/////////////////
@@ -149,7 +270,11 @@ public class BrainwaveSensor extends AndroidNonvisibleComponent implements Seria
 		controller = EmotivController.getInstance();
 
 		executorService = Executors.newSingleThreadExecutor();
-
+		
+		//TPM: Simulated event
+		//this.timerEmotivBandsData = new EmotivBandsData(this);
+		this.activity = container.$context();
+		this.timer = new BrainwaveSensorStreamEventsTimer(this);
 	}
 
 	public Context getContext() {
@@ -454,6 +579,163 @@ public class BrainwaveSensor extends AndroidNonvisibleComponent implements Seria
 		}
 
 	}
+	
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_NON_NEGATIVE_INTEGER, defaultValue = "0")
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR, userVisible = false)
+	public void TimeToStreamBandsData(int seconds) {
+		new Timer().schedule(this.timer, 0, seconds * 1000);
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel AF3.", userVisible = true)
+	public void ChannelAF3Changed(double thetaBand, double alphaBand, double lowBetaBand, double highBetaBand, double gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelAF3Changed", thetaBand, alphaBand, lowBetaBand, highBetaBand, gammaBand);
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel AF3 (Stream mode on 10 secs).", userVisible = true)
+	public void ChannelAF3ChangedStream(Stream<Double> thetaBand, Stream<Double> alphaBand, Stream<Double> lowBetaBand, Stream<Double> highBetaBand, Stream<Double> gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelAF3ChangedStream", thetaBand.toList(), alphaBand.toList(), lowBetaBand.toList(), highBetaBand.toList(), gammaBand.toList());
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel F7.", userVisible = true)
+	public void ChannelF7Changed(double thetaBand, double alphaBand, double lowBetaBand, double highBetaBand, double gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelF7Changed", thetaBand, alphaBand, lowBetaBand, highBetaBand, gammaBand);
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel F7 (Stream mode on 10 secs).", userVisible = true)
+	public void ChannelF7ChangedStream(Stream<Double> thetaBand, Stream<Double> alphaBand, Stream<Double> lowBetaBand, Stream<Double> highBetaBand, Stream<Double> gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelF7ChangedStream", thetaBand.toList(), alphaBand.toList(), lowBetaBand.toList(), highBetaBand.toList(), gammaBand.toList());
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel F3.", userVisible = true)
+	public void ChannelF3Changed(double thetaBand, double alphaBand, double lowBetaBand, double highBetaBand, double gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelF3Changed", thetaBand, alphaBand, lowBetaBand, highBetaBand, gammaBand);
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel F3 (Stream mode on 10 secs).", userVisible = true)
+	public void ChannelF3ChangedStream(Stream<Double> thetaBand, Stream<Double> alphaBand, Stream<Double> lowBetaBand, Stream<Double> highBetaBand, Stream<Double> gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelF3ChangedStream", thetaBand.toList(), alphaBand.toList(), lowBetaBand.toList(), highBetaBand.toList(), gammaBand.toList());
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel FC5.", userVisible = true)
+	public void ChannelFC5Changed(double thetaBand, double alphaBand, double lowBetaBand, double highBetaBand, double gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelFC5Changed", thetaBand, alphaBand, lowBetaBand, highBetaBand, gammaBand);
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel FC5 (Stream mode on 10 secs).", userVisible = true)
+	public void ChannelFC5ChangedStream(Stream<Double> thetaBand, Stream<Double> alphaBand, Stream<Double> lowBetaBand, Stream<Double> highBetaBand, Stream<Double> gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelFC5ChangedStream", thetaBand.toList(), alphaBand.toList(), lowBetaBand.toList(), highBetaBand.toList(), gammaBand.toList());
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel T7.", userVisible = true)
+	public void ChannelT7Changed(double thetaBand, double alphaBand, double lowBetaBand, double highBetaBand, double gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelT7Changed", thetaBand, alphaBand, lowBetaBand, highBetaBand, gammaBand);
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel T7 (Stream mode on 10 secs).", userVisible = true)
+	public void ChannelT7ChangedStream(Stream<Double> thetaBand, Stream<Double> alphaBand, Stream<Double> lowBetaBand, Stream<Double> highBetaBand, Stream<Double> gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelT7ChangedStream", thetaBand.toList(), alphaBand.toList(), lowBetaBand.toList(), highBetaBand.toList(), gammaBand.toList());
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel P7.", userVisible = true)
+	public void ChannelP7Changed(double thetaBand, double alphaBand, double lowBetaBand, double highBetaBand, double gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelP7Changed", thetaBand, alphaBand, lowBetaBand, highBetaBand, gammaBand);
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel P7 (Stream mode on 10 secs).", userVisible = true)
+	public void ChannelP7ChangedStream(Stream<Double> thetaBand, Stream<Double> alphaBand, Stream<Double> lowBetaBand, Stream<Double> highBetaBand, Stream<Double> gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelP7ChangedStream", thetaBand.toList(), alphaBand.toList(), lowBetaBand.toList(), highBetaBand.toList(), gammaBand.toList());
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel Pz.", userVisible = true)
+	public void ChannelPzChanged(double thetaBand, double alphaBand, double lowBetaBand, double highBetaBand, double gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelPzChanged", thetaBand, alphaBand, lowBetaBand, highBetaBand, gammaBand);
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel Pz (Stream mode on 10 secs).", userVisible = true)
+	public void ChannelPzChangedStream(Stream<Double> thetaBand, Stream<Double> alphaBand, Stream<Double> lowBetaBand, Stream<Double> highBetaBand, Stream<Double> gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelPzChangedStream", thetaBand.toList(), alphaBand.toList(), lowBetaBand.toList(), highBetaBand.toList(), gammaBand.toList());
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel O1.", userVisible = true)
+	public void ChannelO1Changed(double thetaBand, double alphaBand, double lowBetaBand, double highBetaBand, double gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelO1Changed", thetaBand, alphaBand, lowBetaBand, highBetaBand, gammaBand);
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel O1 (Stream mode on 10 secs).", userVisible = true)
+	public void ChannelO1ChangedStream(Stream<Double> thetaBand, Stream<Double> alphaBand, Stream<Double> lowBetaBand, Stream<Double> highBetaBand, Stream<Double> gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelO1ChangedStream", thetaBand.toList(), alphaBand.toList(), lowBetaBand.toList(), highBetaBand.toList(), gammaBand.toList());
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel O2.", userVisible = true)
+	public void ChannelO2Changed(double thetaBand, double alphaBand, double lowBetaBand, double highBetaBand, double gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelO2Changed", thetaBand, alphaBand, lowBetaBand, highBetaBand, gammaBand);
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel O2 (Stream mode on 10 secs).", userVisible = true)
+	public void ChannelO2ChangedStream(Stream<Double> thetaBand, Stream<Double> alphaBand, Stream<Double> lowBetaBand, Stream<Double> highBetaBand, Stream<Double> gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelO2ChangedStream", thetaBand.toList(), alphaBand.toList(), lowBetaBand.toList(), highBetaBand.toList(), gammaBand.toList());
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel P8.", userVisible = true)
+	public void ChannelP8Changed(double thetaBand, double alphaBand, double lowBetaBand, double highBetaBand, double gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelP8Changed", thetaBand, alphaBand, lowBetaBand, highBetaBand, gammaBand);
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel P8 (Stream mode on 10 secs).", userVisible = true)
+	public void ChannelP8ChangedStream(Stream<Double> thetaBand, Stream<Double> alphaBand, Stream<Double> lowBetaBand, Stream<Double> highBetaBand, Stream<Double> gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelP8ChangedStream", thetaBand.toList(), alphaBand.toList(), lowBetaBand.toList(), highBetaBand.toList(), gammaBand.toList());
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel T8.", userVisible = true)
+	public void ChannelT8Changed(double thetaBand, double alphaBand, double lowBetaBand, double highBetaBand, double gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelT8Changed", thetaBand, alphaBand, lowBetaBand, highBetaBand, gammaBand);
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel T8 (Stream mode on 10 secs).", userVisible = true)
+	public void ChannelT8ChangedStream(Stream<Double> thetaBand, Stream<Double> alphaBand, Stream<Double> lowBetaBand, Stream<Double> highBetaBand, Stream<Double> gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelT8ChangedStream", thetaBand.toList(), alphaBand.toList(), lowBetaBand.toList(), highBetaBand.toList(), gammaBand.toList());
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel FC6.", userVisible = true)
+	public void ChannelFC6Changed(double thetaBand, double alphaBand, double lowBetaBand, double highBetaBand, double gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelFC6Changed", thetaBand, alphaBand, lowBetaBand, highBetaBand, gammaBand);
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel FC6 (Stream mode on 10 secs).", userVisible = true)
+	public void ChannelFC6ChangedStream(Stream<Double> thetaBand, Stream<Double> alphaBand, Stream<Double> lowBetaBand, Stream<Double> highBetaBand, Stream<Double> gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelFC6ChangedStream", thetaBand.toList(), alphaBand.toList(), lowBetaBand.toList(), highBetaBand.toList(), gammaBand.toList());
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel F4.", userVisible = true)
+	public void ChannelF4Changed(double thetaBand, double alphaBand, double lowBetaBand, double highBetaBand, double gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelF4Changed", thetaBand, alphaBand, lowBetaBand, highBetaBand, gammaBand);
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel F4 (Stream mode on 10 secs).", userVisible = true)
+	public void ChannelF4ChangedStream(Stream<Double> thetaBand, Stream<Double> alphaBand, Stream<Double> lowBetaBand, Stream<Double> highBetaBand, Stream<Double> gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelF4ChangedStream", thetaBand.toList(), alphaBand.toList(), lowBetaBand.toList(), highBetaBand.toList(), gammaBand.toList());
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel F8.", userVisible = true)
+	public void ChannelF8Changed(double thetaBand, double alphaBand, double lowBetaBand, double highBetaBand, double gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelF8Changed", thetaBand, alphaBand, lowBetaBand, highBetaBand, gammaBand);
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel F8 (Stream mode on 10 secs).", userVisible = true)
+	public void ChannelF8ChangedStream(Stream<Double> thetaBand, Stream<Double> alphaBand, Stream<Double> lowBetaBand, Stream<Double> highBetaBand, Stream<Double> gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelF8ChangedStream", thetaBand.toList(), alphaBand.toList(), lowBetaBand.toList(), highBetaBand.toList(), gammaBand.toList());
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel AF4.", userVisible = true)
+	public void ChannelAF4Changed(double thetaBand, double alphaBand, double lowBetaBand, double highBetaBand, double gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelAF4Changed", thetaBand, alphaBand, lowBetaBand, highBetaBand, gammaBand);
+	}
+	
+	@SimpleEvent(description = "Returns the band values for the channel AF4 (Stream mode on 10 secs).", userVisible = true)
+	public void ChannelAF4ChangedStream(Stream<Double> thetaBand, Stream<Double> alphaBand, Stream<Double> lowBetaBand, Stream<Double> highBetaBand, Stream<Double> gammaBand) {
+		EventDispatcher.dispatchEvent(this, "ChannelAF4ChangedStream", thetaBand.toList(), alphaBand.toList(), lowBetaBand.toList(), highBetaBand.toList(), gammaBand.toList());
+	}
+	
 
 	@SimpleFunction(description = "Retrieve the theta band data for the given channel", userVisible = true)
 	public double RetrieveThetaBand(String channelName) {
@@ -798,7 +1080,7 @@ public class BrainwaveSensor extends AndroidNonvisibleComponent implements Seria
 	// PROPERTIES //
 	////////////////
 
-	private double obtainBandValue(String channelName, int band) {
+	public double obtainBandValue(String channelName, int band) {
 
 		double result = -1.0;
 
@@ -1153,6 +1435,504 @@ public class BrainwaveSensor extends AndroidNonvisibleComponent implements Seria
 			case HANDLER_COMMAND_ROTATE_RIGHT:
 				RotateRightCommand(data.getPowerForRotateRightCommand());
 				MentalCommandDetected("Rotate Right", data.getPowerForRotateRightCommand());
+				break;
+			case HANDLER_CHANNELS_DATA:
+				
+				//1) Channel AF3:
+				double thetaBand = obtainBandValue("AF3", 0);
+				double alphaBand = obtainBandValue("AF3", 1);
+				double lowBetaBand = obtainBandValue("AF3", 2);
+				double highBetaBand = obtainBandValue("AF3", 3);
+				double gammaBand = obtainBandValue("AF3", 4);
+				
+				ChannelAF3Changed(thetaBand, alphaBand, lowBetaBand,
+						highBetaBand, gammaBand);
+				
+				List<Double> thetaBandStream = Arrays.asList(thetaBand);
+				List<Double> alphaBandStream = Arrays.asList(alphaBand);
+				List<Double> lowBetaBandStream = Arrays.asList(lowBetaBand);
+				List<Double> highBetaBandStream = Arrays.asList(highBetaBand);
+				List<Double> gammaBandStream = Arrays.asList(gammaBand);
+				
+				if(channelAF3AlphaStream != null && channelAF3GammaStream != null &&
+						channelAF3HighBetaStream != null && channelAF3LowBetaStream != null &&
+						channelAF3ThetaStream != null) {					
+					channelAF3AlphaStream = Stream.concat(Stream.of(alphaBandStream), channelAF3AlphaStream);
+					channelAF3GammaStream = Stream.concat(Stream.of(gammaBandStream), channelAF3GammaStream);
+					channelAF3HighBetaStream = Stream.concat(Stream.of(highBetaBandStream), channelAF3HighBetaStream);
+					channelAF3LowBetaStream = Stream.concat(Stream.of(lowBetaBandStream), channelAF3LowBetaStream);
+					channelAF3ThetaStream = Stream.concat(Stream.of(thetaBandStream), channelAF3ThetaStream);
+					
+				} else {
+					channelAF3AlphaStream = Stream.of(alphaBandStream);
+					channelAF3GammaStream = Stream.of(gammaBandStream);
+					channelAF3HighBetaStream = Stream.of(highBetaBandStream);
+					channelAF3LowBetaStream = Stream.of(lowBetaBandStream);
+					channelAF3ThetaStream = Stream.of(thetaBandStream);
+				}
+				
+				//2) Channel F7:
+				thetaBand = obtainBandValue("F7", 0);
+				alphaBand = obtainBandValue("F7", 1);
+				lowBetaBand = obtainBandValue("F7", 2);
+				highBetaBand = obtainBandValue("F7", 3);
+				gammaBand = obtainBandValue("F7", 4);
+				
+				ChannelF7Changed(thetaBand, alphaBand, lowBetaBand,
+						highBetaBand, gammaBand);
+				
+				thetaBandStream = Arrays.asList(thetaBand);
+				alphaBandStream = Arrays.asList(alphaBand);
+				lowBetaBandStream = Arrays.asList(lowBetaBand);
+				highBetaBandStream = Arrays.asList(highBetaBand);
+				gammaBandStream = Arrays.asList(gammaBand);
+				
+				if(channelF7AlphaStream != null && channelF7GammaStream != null &&
+						channelF7HighBetaStream != null && channelF7LowBetaStream != null &&
+						channelF7ThetaStream != null) {					
+					channelF7AlphaStream = Stream.concat(Stream.of(alphaBandStream), channelF7AlphaStream);
+					channelF7GammaStream = Stream.concat(Stream.of(gammaBandStream), channelF7GammaStream);
+					channelF7HighBetaStream = Stream.concat(Stream.of(highBetaBandStream), channelF7HighBetaStream);
+					channelF7LowBetaStream = Stream.concat(Stream.of(lowBetaBandStream), channelF7LowBetaStream);
+					channelF7ThetaStream = Stream.concat(Stream.of(thetaBandStream), channelF7ThetaStream);
+					
+				} else {
+					channelF7AlphaStream = Stream.of(alphaBandStream);
+					channelF7GammaStream = Stream.of(gammaBandStream);
+					channelF7HighBetaStream = Stream.of(highBetaBandStream);
+					channelF7LowBetaStream = Stream.of(lowBetaBandStream);
+					channelF7ThetaStream = Stream.of(thetaBandStream);
+				}
+				
+				//3) Channel F3:
+				thetaBand = obtainBandValue("F3", 0);
+				alphaBand = obtainBandValue("F3", 1);
+				lowBetaBand = obtainBandValue("F3", 2);
+				highBetaBand = obtainBandValue("F3", 3);
+				gammaBand = obtainBandValue("F3", 4);
+				
+				ChannelF3Changed(thetaBand, alphaBand, lowBetaBand,
+						highBetaBand, gammaBand);
+				
+				thetaBandStream = Arrays.asList(thetaBand);
+				alphaBandStream = Arrays.asList(alphaBand);
+				lowBetaBandStream = Arrays.asList(lowBetaBand);
+				highBetaBandStream = Arrays.asList(highBetaBand);
+				gammaBandStream = Arrays.asList(gammaBand);
+				
+				if(channelF3AlphaStream != null && channelF3GammaStream != null &&
+						channelF3HighBetaStream != null && channelF3LowBetaStream != null &&
+						channelF3ThetaStream != null) {					
+					channelF3AlphaStream = Stream.concat(Stream.of(alphaBandStream), channelF3AlphaStream);
+					channelF3GammaStream = Stream.concat(Stream.of(gammaBandStream), channelF3GammaStream);
+					channelF3HighBetaStream = Stream.concat(Stream.of(highBetaBandStream), channelF3HighBetaStream);
+					channelF3LowBetaStream = Stream.concat(Stream.of(lowBetaBandStream), channelF3LowBetaStream);
+					channelF3ThetaStream = Stream.concat(Stream.of(thetaBandStream), channelF3ThetaStream);
+					
+				} else {
+					channelF3AlphaStream = Stream.of(alphaBandStream);
+					channelF3GammaStream = Stream.of(gammaBandStream);
+					channelF3HighBetaStream = Stream.of(highBetaBandStream);
+					channelF3LowBetaStream = Stream.of(lowBetaBandStream);
+					channelF3ThetaStream = Stream.of(thetaBandStream);
+				}
+				
+				//4) Channel FC5:
+				thetaBand = obtainBandValue("FC5", 0);
+				alphaBand = obtainBandValue("FC5", 1);
+				lowBetaBand = obtainBandValue("FC5", 2);
+				highBetaBand = obtainBandValue("FC5", 3);
+				gammaBand = obtainBandValue("FC5", 4);
+				
+				ChannelFC5Changed(thetaBand, alphaBand, lowBetaBand,
+						highBetaBand, gammaBand);
+				
+				thetaBandStream = Arrays.asList(thetaBand);
+				alphaBandStream = Arrays.asList(alphaBand);
+				lowBetaBandStream = Arrays.asList(lowBetaBand);
+				highBetaBandStream = Arrays.asList(highBetaBand);
+				gammaBandStream = Arrays.asList(gammaBand);
+				
+				if(channelFC5AlphaStream != null && channelFC5GammaStream != null &&
+						channelFC5HighBetaStream != null && channelFC5LowBetaStream != null &&
+						channelFC5ThetaStream != null) {					
+					channelFC5AlphaStream = Stream.concat(Stream.of(alphaBandStream), channelFC5AlphaStream);
+					channelFC5GammaStream = Stream.concat(Stream.of(gammaBandStream), channelFC5GammaStream);
+					channelFC5HighBetaStream = Stream.concat(Stream.of(highBetaBandStream), channelFC5HighBetaStream);
+					channelFC5LowBetaStream = Stream.concat(Stream.of(lowBetaBandStream), channelFC5LowBetaStream);
+					channelFC5ThetaStream = Stream.concat(Stream.of(thetaBandStream), channelFC5ThetaStream);
+					
+				} else {
+					channelFC5AlphaStream = Stream.of(alphaBandStream);
+					channelFC5GammaStream = Stream.of(gammaBandStream);
+					channelFC5HighBetaStream = Stream.of(highBetaBandStream);
+					channelFC5LowBetaStream = Stream.of(lowBetaBandStream);
+					channelFC5ThetaStream = Stream.of(thetaBandStream);
+				}
+				
+				//5) Channel T7:
+				thetaBand = obtainBandValue("T7", 0);
+				alphaBand = obtainBandValue("T7", 1);
+				lowBetaBand = obtainBandValue("T7", 2);
+				highBetaBand = obtainBandValue("T7", 3);
+				gammaBand = obtainBandValue("T7", 4);
+				
+				ChannelT7Changed(thetaBand, alphaBand, lowBetaBand,
+						highBetaBand, gammaBand);
+				
+				thetaBandStream = Arrays.asList(thetaBand);
+				alphaBandStream = Arrays.asList(alphaBand);
+				lowBetaBandStream = Arrays.asList(lowBetaBand);
+				highBetaBandStream = Arrays.asList(highBetaBand);
+				gammaBandStream = Arrays.asList(gammaBand);
+				
+				if(channelT7AlphaStream != null && channelT7GammaStream != null &&
+						channelT7HighBetaStream != null && channelT7LowBetaStream != null &&
+						channelT7ThetaStream != null) {					
+					channelT7AlphaStream = Stream.concat(Stream.of(alphaBandStream), channelT7AlphaStream);
+					channelT7GammaStream = Stream.concat(Stream.of(gammaBandStream), channelT7GammaStream);
+					channelT7HighBetaStream = Stream.concat(Stream.of(highBetaBandStream), channelT7HighBetaStream);
+					channelT7LowBetaStream = Stream.concat(Stream.of(lowBetaBandStream), channelT7LowBetaStream);
+					channelT7ThetaStream = Stream.concat(Stream.of(thetaBandStream), channelT7ThetaStream);
+					
+				} else {
+					channelT7AlphaStream = Stream.of(alphaBandStream);
+					channelT7GammaStream = Stream.of(gammaBandStream);
+					channelT7HighBetaStream = Stream.of(highBetaBandStream);
+					channelT7LowBetaStream = Stream.of(lowBetaBandStream);
+					channelT7ThetaStream = Stream.of(thetaBandStream);
+				}
+				
+				//6) Channel P7:
+				thetaBand = obtainBandValue("P7", 0);
+				alphaBand = obtainBandValue("P7", 1);
+				lowBetaBand = obtainBandValue("P7", 2);
+				highBetaBand = obtainBandValue("P7", 3);
+				gammaBand = obtainBandValue("P7", 4);
+				
+				ChannelP7Changed(thetaBand, alphaBand, lowBetaBand,
+						highBetaBand, gammaBand);
+				
+				thetaBandStream = Arrays.asList(thetaBand);
+				alphaBandStream = Arrays.asList(alphaBand);
+				lowBetaBandStream = Arrays.asList(lowBetaBand);
+				highBetaBandStream = Arrays.asList(highBetaBand);
+				gammaBandStream = Arrays.asList(gammaBand);
+				
+				if(channelP7AlphaStream != null && channelP7GammaStream != null &&
+						channelP7HighBetaStream != null && channelP7LowBetaStream != null &&
+						channelP7ThetaStream != null) {					
+					channelP7AlphaStream = Stream.concat(Stream.of(alphaBandStream), channelP7AlphaStream);
+					channelP7GammaStream = Stream.concat(Stream.of(gammaBandStream), channelP7GammaStream);
+					channelP7HighBetaStream = Stream.concat(Stream.of(highBetaBandStream), channelP7HighBetaStream);
+					channelP7LowBetaStream = Stream.concat(Stream.of(lowBetaBandStream), channelP7LowBetaStream);
+					channelP7ThetaStream = Stream.concat(Stream.of(thetaBandStream), channelP7ThetaStream);
+					
+				} else {
+					channelP7AlphaStream = Stream.of(alphaBandStream);
+					channelP7GammaStream = Stream.of(gammaBandStream);
+					channelP7HighBetaStream = Stream.of(highBetaBandStream);
+					channelP7LowBetaStream = Stream.of(lowBetaBandStream);
+					channelP7ThetaStream = Stream.of(thetaBandStream);
+				}
+				
+				//7) Channel Pz:
+				thetaBand = obtainBandValue("Pz", 0);
+				alphaBand = obtainBandValue("Pz", 1);
+				lowBetaBand = obtainBandValue("Pz", 2);
+				highBetaBand = obtainBandValue("Pz", 3);
+				gammaBand = obtainBandValue("Pz", 4);
+				
+				ChannelPzChanged(thetaBand, alphaBand, lowBetaBand,
+						highBetaBand, gammaBand);
+				
+				thetaBandStream = Arrays.asList(thetaBand);
+				alphaBandStream = Arrays.asList(alphaBand);
+				lowBetaBandStream = Arrays.asList(lowBetaBand);
+				highBetaBandStream = Arrays.asList(highBetaBand);
+				gammaBandStream = Arrays.asList(gammaBand);
+				
+				if(channelPzAlphaStream != null && channelPzGammaStream != null &&
+						channelPzHighBetaStream != null && channelPzLowBetaStream != null &&
+						channelPzThetaStream != null) {					
+					channelPzAlphaStream = Stream.concat(Stream.of(alphaBandStream), channelPzAlphaStream);
+					channelPzGammaStream = Stream.concat(Stream.of(gammaBandStream), channelPzGammaStream);
+					channelPzHighBetaStream = Stream.concat(Stream.of(highBetaBandStream), channelPzHighBetaStream);
+					channelPzLowBetaStream = Stream.concat(Stream.of(lowBetaBandStream), channelPzLowBetaStream);
+					channelPzThetaStream = Stream.concat(Stream.of(thetaBandStream), channelPzThetaStream);
+					
+				} else {
+					channelPzAlphaStream = Stream.of(alphaBandStream);
+					channelPzGammaStream = Stream.of(gammaBandStream);
+					channelPzHighBetaStream = Stream.of(highBetaBandStream);
+					channelPzLowBetaStream = Stream.of(lowBetaBandStream);
+					channelPzThetaStream = Stream.of(thetaBandStream);
+				}
+				
+				//8) Channel O1:	
+				thetaBand = obtainBandValue("O1", 0);
+				alphaBand = obtainBandValue("O1", 1);
+				lowBetaBand = obtainBandValue("O1", 2);
+				highBetaBand = obtainBandValue("O1", 3);
+				gammaBand = obtainBandValue("O1", 4);
+				
+				ChannelO1Changed(thetaBand, alphaBand, lowBetaBand,
+						highBetaBand, gammaBand);
+				
+				thetaBandStream = Arrays.asList(thetaBand);
+				alphaBandStream = Arrays.asList(alphaBand);
+				lowBetaBandStream = Arrays.asList(lowBetaBand);
+				highBetaBandStream = Arrays.asList(highBetaBand);
+				gammaBandStream = Arrays.asList(gammaBand);
+				
+				if(channelO1AlphaStream != null && channelO1GammaStream != null &&
+						channelO1HighBetaStream != null && channelO1LowBetaStream != null &&
+						channelO1ThetaStream != null) {					
+					channelO1AlphaStream = Stream.concat(Stream.of(alphaBandStream), channelO1AlphaStream);
+					channelO1GammaStream = Stream.concat(Stream.of(gammaBandStream), channelO1GammaStream);
+					channelO1HighBetaStream = Stream.concat(Stream.of(highBetaBandStream), channelO1HighBetaStream);
+					channelO1LowBetaStream = Stream.concat(Stream.of(lowBetaBandStream), channelO1LowBetaStream);
+					channelO1ThetaStream = Stream.concat(Stream.of(thetaBandStream), channelO1ThetaStream);
+					
+				} else {
+					channelO1AlphaStream = Stream.of(alphaBandStream);
+					channelO1GammaStream = Stream.of(gammaBandStream);
+					channelO1HighBetaStream = Stream.of(highBetaBandStream);
+					channelO1LowBetaStream = Stream.of(lowBetaBandStream);
+					channelO1ThetaStream = Stream.of(thetaBandStream);
+				}
+				
+				//9) Channel O2:
+				thetaBand = obtainBandValue("O2", 0);
+				alphaBand = obtainBandValue("O2", 1);
+				lowBetaBand = obtainBandValue("O2", 2);
+				highBetaBand = obtainBandValue("O2", 3);
+				gammaBand = obtainBandValue("O2", 4);
+				
+				ChannelO2Changed(thetaBand, alphaBand, lowBetaBand,
+						highBetaBand, gammaBand);
+				
+				thetaBandStream = Arrays.asList(thetaBand);
+				alphaBandStream = Arrays.asList(alphaBand);
+				lowBetaBandStream = Arrays.asList(lowBetaBand);
+				highBetaBandStream = Arrays.asList(highBetaBand);
+				gammaBandStream = Arrays.asList(gammaBand);
+				
+				if(channelO2AlphaStream != null && channelO2GammaStream != null &&
+						channelO2HighBetaStream != null && channelO2LowBetaStream != null &&
+						channelO2ThetaStream != null) {					
+					channelO2AlphaStream = Stream.concat(Stream.of(alphaBandStream), channelO2AlphaStream);
+					channelO2GammaStream = Stream.concat(Stream.of(gammaBandStream), channelO2GammaStream);
+					channelO2HighBetaStream = Stream.concat(Stream.of(highBetaBandStream), channelO2HighBetaStream);
+					channelO2LowBetaStream = Stream.concat(Stream.of(lowBetaBandStream), channelO2LowBetaStream);
+					channelO2ThetaStream = Stream.concat(Stream.of(thetaBandStream), channelO2ThetaStream);
+					
+				} else {
+					channelO2AlphaStream = Stream.of(alphaBandStream);
+					channelO2GammaStream = Stream.of(gammaBandStream);
+					channelO2HighBetaStream = Stream.of(highBetaBandStream);
+					channelO2LowBetaStream = Stream.of(lowBetaBandStream);
+					channelO2ThetaStream = Stream.of(thetaBandStream);
+				}
+				
+				//10) Channel P8:
+				thetaBand = obtainBandValue("P8", 0);
+				alphaBand = obtainBandValue("P8", 1);
+				lowBetaBand = obtainBandValue("P8", 2);
+				highBetaBand = obtainBandValue("P8", 3);
+				gammaBand = obtainBandValue("P8", 4);
+				
+				ChannelP8Changed(thetaBand, alphaBand, lowBetaBand,
+						highBetaBand, gammaBand);
+				
+				thetaBandStream = Arrays.asList(thetaBand);
+				alphaBandStream = Arrays.asList(alphaBand);
+				lowBetaBandStream = Arrays.asList(lowBetaBand);
+				highBetaBandStream = Arrays.asList(highBetaBand);
+				gammaBandStream = Arrays.asList(gammaBand);
+				
+				if(channelP8AlphaStream != null && channelP8GammaStream != null &&
+						channelP8HighBetaStream != null && channelP8LowBetaStream != null &&
+						channelP8ThetaStream != null) {					
+					channelP8AlphaStream = Stream.concat(Stream.of(alphaBandStream), channelP8AlphaStream);
+					channelP8GammaStream = Stream.concat(Stream.of(gammaBandStream), channelP8GammaStream);
+					channelP8HighBetaStream = Stream.concat(Stream.of(highBetaBandStream), channelP8HighBetaStream);
+					channelP8LowBetaStream = Stream.concat(Stream.of(lowBetaBandStream), channelP8LowBetaStream);
+					channelP8ThetaStream = Stream.concat(Stream.of(thetaBandStream), channelP8ThetaStream);
+					
+				} else {
+					channelP8AlphaStream = Stream.of(alphaBandStream);
+					channelP8GammaStream = Stream.of(gammaBandStream);
+					channelP8HighBetaStream = Stream.of(highBetaBandStream);
+					channelP8LowBetaStream = Stream.of(lowBetaBandStream);
+					channelP8ThetaStream = Stream.of(thetaBandStream);
+				}
+				
+				//11) Channel T8:
+				thetaBand = obtainBandValue("T8", 0);
+				alphaBand = obtainBandValue("T8", 1);
+				lowBetaBand = obtainBandValue("T8", 2);
+				highBetaBand = obtainBandValue("T8", 3);
+				gammaBand = obtainBandValue("T8", 4);
+				
+				ChannelT8Changed(thetaBand, alphaBand, lowBetaBand,
+						highBetaBand, gammaBand);
+				
+				thetaBandStream = Arrays.asList(thetaBand);
+				alphaBandStream = Arrays.asList(alphaBand);
+				lowBetaBandStream = Arrays.asList(lowBetaBand);
+				highBetaBandStream = Arrays.asList(highBetaBand);
+				gammaBandStream = Arrays.asList(gammaBand);
+				
+				if(channelT8AlphaStream != null && channelT8GammaStream != null &&
+						channelT8HighBetaStream != null && channelT8LowBetaStream != null &&
+						channelT8ThetaStream != null) {					
+					channelT8AlphaStream = Stream.concat(Stream.of(alphaBandStream), channelT8AlphaStream);
+					channelT8GammaStream = Stream.concat(Stream.of(gammaBandStream), channelT8GammaStream);
+					channelT8HighBetaStream = Stream.concat(Stream.of(highBetaBandStream), channelT8HighBetaStream);
+					channelT8LowBetaStream = Stream.concat(Stream.of(lowBetaBandStream), channelT8LowBetaStream);
+					channelT8ThetaStream = Stream.concat(Stream.of(thetaBandStream), channelT8ThetaStream);
+					
+				} else {
+					channelT8AlphaStream = Stream.of(alphaBandStream);
+					channelT8GammaStream = Stream.of(gammaBandStream);
+					channelT8HighBetaStream = Stream.of(highBetaBandStream);
+					channelT8LowBetaStream = Stream.of(lowBetaBandStream);
+					channelT8ThetaStream = Stream.of(thetaBandStream);
+				}
+				
+				//12) Channel FC6:
+				thetaBand = obtainBandValue("FC6", 0);
+				alphaBand = obtainBandValue("FC6", 1);
+				lowBetaBand = obtainBandValue("FC6", 2);
+				highBetaBand = obtainBandValue("FC6", 3);
+				gammaBand = obtainBandValue("FC6", 4);
+				
+				ChannelFC6Changed(thetaBand, alphaBand, lowBetaBand,
+						highBetaBand, gammaBand);
+				
+				thetaBandStream = Arrays.asList(thetaBand);
+				alphaBandStream = Arrays.asList(alphaBand);
+				lowBetaBandStream = Arrays.asList(lowBetaBand);
+				highBetaBandStream = Arrays.asList(highBetaBand);
+				gammaBandStream = Arrays.asList(gammaBand);
+				
+				if(channelFC6AlphaStream != null && channelFC6GammaStream != null &&
+						channelFC6HighBetaStream != null && channelFC6LowBetaStream != null &&
+						channelFC6ThetaStream != null) {					
+					channelFC6AlphaStream = Stream.concat(Stream.of(alphaBandStream), channelFC6AlphaStream);
+					channelFC6GammaStream = Stream.concat(Stream.of(gammaBandStream), channelFC6GammaStream);
+					channelFC6HighBetaStream = Stream.concat(Stream.of(highBetaBandStream), channelFC6HighBetaStream);
+					channelFC6LowBetaStream = Stream.concat(Stream.of(lowBetaBandStream), channelFC6LowBetaStream);
+					channelFC6ThetaStream = Stream.concat(Stream.of(thetaBandStream), channelFC6ThetaStream);
+					
+				} else {
+					channelFC6AlphaStream = Stream.of(alphaBandStream);
+					channelFC6GammaStream = Stream.of(gammaBandStream);
+					channelFC6HighBetaStream = Stream.of(highBetaBandStream);
+					channelFC6LowBetaStream = Stream.of(lowBetaBandStream);
+					channelFC6ThetaStream = Stream.of(thetaBandStream);
+				}
+				
+				//13) Channel F4:
+				thetaBand = obtainBandValue("F4", 0);
+				alphaBand = obtainBandValue("F4", 1);
+				lowBetaBand = obtainBandValue("F4", 2);
+				highBetaBand = obtainBandValue("F4", 3);
+				gammaBand = obtainBandValue("F4", 4);
+				
+				ChannelF4Changed(thetaBand, alphaBand, lowBetaBand,
+						highBetaBand, gammaBand);
+				
+				thetaBandStream = Arrays.asList(thetaBand);
+				alphaBandStream = Arrays.asList(alphaBand);
+				lowBetaBandStream = Arrays.asList(lowBetaBand);
+				highBetaBandStream = Arrays.asList(highBetaBand);
+				gammaBandStream = Arrays.asList(gammaBand);
+				
+				if(channelF4AlphaStream != null && channelF4GammaStream != null &&
+						channelF4HighBetaStream != null && channelF4LowBetaStream != null &&
+						channelF4ThetaStream != null) {					
+					channelF4AlphaStream = Stream.concat(Stream.of(alphaBandStream), channelF4AlphaStream);
+					channelF4GammaStream = Stream.concat(Stream.of(gammaBandStream), channelF4GammaStream);
+					channelF4HighBetaStream = Stream.concat(Stream.of(highBetaBandStream), channelF4HighBetaStream);
+					channelF4LowBetaStream = Stream.concat(Stream.of(lowBetaBandStream), channelF4LowBetaStream);
+					channelF4ThetaStream = Stream.concat(Stream.of(thetaBandStream), channelF4ThetaStream);
+					
+				} else {
+					channelF4AlphaStream = Stream.of(alphaBandStream);
+					channelF4GammaStream = Stream.of(gammaBandStream);
+					channelF4HighBetaStream = Stream.of(highBetaBandStream);
+					channelF4LowBetaStream = Stream.of(lowBetaBandStream);
+					channelF4ThetaStream = Stream.of(thetaBandStream);
+				}
+				
+				//14) Channel F8:
+				thetaBand = obtainBandValue("F8", 0);
+				alphaBand = obtainBandValue("F8", 1);
+				lowBetaBand = obtainBandValue("F8", 2);
+				highBetaBand = obtainBandValue("F8", 3);
+				gammaBand = obtainBandValue("F8", 4);
+				
+				ChannelF8Changed(thetaBand, alphaBand, lowBetaBand,
+						highBetaBand, gammaBand);
+				
+				thetaBandStream = Arrays.asList(thetaBand);
+				alphaBandStream = Arrays.asList(alphaBand);
+				lowBetaBandStream = Arrays.asList(lowBetaBand);
+				highBetaBandStream = Arrays.asList(highBetaBand);
+				gammaBandStream = Arrays.asList(gammaBand);
+				
+				if(channelF8AlphaStream != null && channelF8GammaStream != null &&
+						channelF8HighBetaStream != null && channelF8LowBetaStream != null &&
+						channelF8ThetaStream != null) {					
+					channelF8AlphaStream = Stream.concat(Stream.of(alphaBandStream), channelF8AlphaStream);
+					channelF8GammaStream = Stream.concat(Stream.of(gammaBandStream), channelF8GammaStream);
+					channelF8HighBetaStream = Stream.concat(Stream.of(highBetaBandStream), channelF8HighBetaStream);
+					channelF8LowBetaStream = Stream.concat(Stream.of(lowBetaBandStream), channelF8LowBetaStream);
+					channelF8ThetaStream = Stream.concat(Stream.of(thetaBandStream), channelF8ThetaStream);
+					
+				} else {
+					channelF8AlphaStream = Stream.of(alphaBandStream);
+					channelF8GammaStream = Stream.of(gammaBandStream);
+					channelF8HighBetaStream = Stream.of(highBetaBandStream);
+					channelF8LowBetaStream = Stream.of(lowBetaBandStream);
+					channelF8ThetaStream = Stream.of(thetaBandStream);
+				}
+				
+				//15) Channel AF4:
+				thetaBand = obtainBandValue("AF4", 0);
+				alphaBand = obtainBandValue("AF4", 1);
+				lowBetaBand = obtainBandValue("AF4", 2);
+				highBetaBand = obtainBandValue("AF4", 3);
+				gammaBand = obtainBandValue("AF4", 4);
+				
+				ChannelAF4Changed(thetaBand, alphaBand, lowBetaBand,
+						highBetaBand, gammaBand);
+				
+				thetaBandStream = Arrays.asList(thetaBand);
+				alphaBandStream = Arrays.asList(alphaBand);
+				lowBetaBandStream = Arrays.asList(lowBetaBand);
+				highBetaBandStream = Arrays.asList(highBetaBand);
+				gammaBandStream = Arrays.asList(gammaBand);
+				
+				if(channelAF4AlphaStream != null && channelAF4GammaStream != null &&
+						channelAF4HighBetaStream != null && channelAF4LowBetaStream != null &&
+						channelAF4ThetaStream != null) {					
+					channelAF4AlphaStream = Stream.concat(Stream.of(alphaBandStream), channelAF4AlphaStream);
+					channelAF4GammaStream = Stream.concat(Stream.of(gammaBandStream), channelAF4GammaStream);
+					channelAF4HighBetaStream = Stream.concat(Stream.of(highBetaBandStream), channelAF4HighBetaStream);
+					channelAF4LowBetaStream = Stream.concat(Stream.of(lowBetaBandStream), channelAF4LowBetaStream);
+					channelAF4ThetaStream = Stream.concat(Stream.of(thetaBandStream), channelAF4ThetaStream);
+					
+				} else {
+					channelAF4AlphaStream = Stream.of(alphaBandStream);
+					channelAF4GammaStream = Stream.of(gammaBandStream);
+					channelAF4HighBetaStream = Stream.of(highBetaBandStream);
+					channelAF4LowBetaStream = Stream.of(lowBetaBandStream);
+					channelAF4ThetaStream = Stream.of(thetaBandStream);
+				}
+				
 				break;
 			default:
 				break;

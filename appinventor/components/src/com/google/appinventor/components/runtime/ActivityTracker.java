@@ -1,5 +1,7 @@
 package com.google.appinventor.components.runtime;
 
+import java.util.List;
+
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
@@ -14,6 +16,10 @@ import com.google.appinventor.components.common.PropertyTypeConstants;
 import com.google.appinventor.components.common.YaVersion;
 import com.google.appinventor.components.runtime.util.ActivityTrackerInstances;
 import com.google.appinventor.components.runtime.util.ActivityTrackerManager;
+import com.google.appinventor.components.runtime.util.ActivityTrackerManagerFusionTables;
+import com.google.appinventor.components.runtime.util.ActivityTrackerManagerMongoDB;
+//import com.google.appinventor.components.runtime.util.ActivityTrackerManagerStream;
+
 //import java.util.List;
 //import java.util.ArrayList;
 import android.app.Activity;
@@ -23,7 +29,7 @@ import android.app.Activity;
  * @author SPI-FM at UCA
  *
  */
-@UsesAssets(fileNames = "ruizrube-cd84632c4ea8.p12, ruizrube-4718dd8c5168.json")
+@UsesAssets(fileNames = "ActivityTrackerVEDILS-e804e05b5eb3.p12")
 @UsesLibraries(libraries =
 "fusiontables.jar," +
 "google-api-client-beta.jar," +
@@ -49,12 +55,13 @@ category = ComponentCategory.VEDILSLEARNINGANALYTICS, iconName = "images/activit
 "android.permission.ACCESS_FINE_LOCATION," +
 "android.permission.ACCESS_COARSE_LOCATION," +
 "android.permission.ACCESS_MOCK_LOCATION," +
+"android.permission.SYSTEM_ALERT_WINDOW," +
+"android.permission.BIND_ACCESSIBILITY_SERVICE," +
 "android.permission.ACCESS_LOCATION_EXTRA_COMMANDS," +
 "android.permission.READ_PHONE_STATE")
 public class ActivityTracker extends AndroidNonvisibleComponent implements Component {
 	
 	private String userTrackerId;
-	@SuppressWarnings("unused")
 	private final ComponentContainer componentContainer;
 	private String tableId;
 	private int synchronizationMode;
@@ -62,11 +69,12 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	private int communicationMode;
 	private boolean startTracking;
 	private ActivityTrackerManager activityTrackerManager;
+	private int storageMode;
+	private boolean streamMode;
 	
 	public ActivityTracker(ComponentContainer componentContainer) {
 		super(componentContainer.$form());
-		
-		activityTrackerManager = new ActivityTrackerManager(this, componentContainer);
+
 		this.componentContainer = componentContainer; 
 		
 		//Default mode
@@ -74,11 +82,23 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 		this.batchTime = 0;
 		this.communicationMode = Component.INDIFFERENT;
 		this.startTracking = false;
+		this.storageMode = Component.FUSIONTABLES;
+		activityTrackerManager = new ActivityTrackerManagerFusionTables(this, componentContainer);
+		this.streamMode = false;
 		
 		//Record current ActivityTracker
 		ActivityTrackerInstances.insertActivityTracker((Activity)componentContainer.$context(), this);
 		
 		System.out.println("ActivityTracker created - AspectJ.");
+		
+		//Intent intent = new Intent(componentContainer.$form().getApplication(), ActivityTrackerBackgroundService.class);
+		
+		/*Gson gson = new Gson();
+		intent.putExtra("ActivityTracker", gson.toJson(this));*/
+		
+		//componentContainer.$form().startService(intent);
+		
+		//System.out.println("AccessibilityService: ActivityTracker lanzando service..");
 	}
 	
 	/**
@@ -88,6 +108,59 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	 */
 	public ActivityTrackerManager getActivityTrackerManager() {
 		return activityTrackerManager;
+	}
+	
+	/**
+	 * Specifies the storage mode used.
+	 * 
+	 * @param storage
+	 */
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STORAGEMODE,
+		      defaultValue = Component.FUSIONTABLES + "")
+		  @SimpleProperty(
+		      userVisible = false)
+	public void StorageMode(int storageMode) {
+		this.storageMode = storageMode;
+		
+		//Configure ActivityTrackerManager to send data (Fusion Tables or MongoDB storage mode).
+		if(this.storageMode == Component.FUSIONTABLES) {
+			activityTrackerManager = new ActivityTrackerManagerFusionTables(this, componentContainer);
+		} else if(this.storageMode == Component.MONGODB) {
+			activityTrackerManager = new ActivityTrackerManagerMongoDB(this, componentContainer);
+		} /*else if(this.storageMode == Component.STREAM) {
+			activityTrackerManager = new ActivityTrackerManagerStream(this, componentContainer);
+		}*/
+	}
+	
+	/**
+	 * Returns the current storage mode.
+	 * @return  one of {@link Component#FUSIONTABLES} or
+	 *          {@link Component#MONGODB}
+	 */
+	@SimpleProperty(
+		      category = PropertyCategory.BEHAVIOR,
+		      description = "Storage mode for ActivityTracker component.",
+		      userVisible = false)
+    public int StorageMode() {
+		return this.storageMode;
+    }
+	
+	
+	/**
+	 * Allows to enable / disable the stream mode.
+	 * 
+	 * @param streamMode
+	 */
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN,
+		      defaultValue = false + "")
+		  @SimpleProperty(
+		      userVisible = false)
+	public void StreamMode(boolean streamMode) {
+		this.streamMode = streamMode;
+	}
+	
+	public boolean getStreamMode() {
+		return this.streamMode;
 	}
 	
 	/**
@@ -142,14 +215,6 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	public String getTableId() {
 		return tableId;
 	}
-	
-	/**
-	 * Display the hyperlink to example Fusion Table URL.
-	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_CONSTANT_HYPERLINK,
-			defaultValue="https://goo.gl/5CmgNd")
-	@SimpleProperty
-	public void DisplayExampleTable(String exampleTableURL) {}
 	
 	/**
 	 * Specifies the communication mode.
@@ -284,6 +349,16 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	public void NotifyWithThreeArguments(String actionId, String valueArgument, String valueArgument2, String valueArgument3) {
 		activityTrackerManager.prepareQueryManual(actionId, valueArgument, valueArgument2, valueArgument3);
 	}
+	
+	/**
+	 * Function to notify a specific action (version to send multiple data in List(key,value) format).
+	 * 
+	 */
+	@SimpleFunction(description="Function to notify a specific action (version to send multiple data in List(key,value) format).")
+	public void NotifyWithData(String actionId, List<Object> data) {
+		activityTrackerManager.prepareQueryManual(actionId, data);
+	}
+	
 	
 	/**
 	 * Function to send data on user demand.

@@ -7,6 +7,10 @@
 package com.google.appinventor.client.editor.simple;
 
 import static com.google.appinventor.client.Ode.MESSAGES;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.appinventor.client.editor.simple.components.MockComponent;
 import com.google.appinventor.client.editor.simple.components.MockForm;
 import com.google.appinventor.client.editor.simple.palette.SimplePaletteItem;
@@ -57,6 +61,20 @@ public final class SimpleNonVisibleComponentsPanel extends Composite implements 
    */
   public void setForm(MockForm form) {
     this.form = form;
+  }
+  
+  /**
+   * SPI-FM: Method to dynamic tree information
+   */
+  public List<String> getComponents() {
+	  List<String> components = new ArrayList<String>();
+	  
+	  for(int i=0; i<componentsPanel.getWidgetCount(); i++) {
+		  Widget widget = componentsPanel.getWidget(i);
+		  components.add(widget.getTitle());
+	  }
+	  
+	  return components;
   }
 
   /**

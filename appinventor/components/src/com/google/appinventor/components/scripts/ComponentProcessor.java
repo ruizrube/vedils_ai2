@@ -1123,6 +1123,11 @@ public abstract class ComponentProcessor extends AbstractProcessor {
     if (type.startsWith("java.util.List")) {
       return "list";
     }
+    
+    //Stream<?> -> list
+    if(type.startsWith("com.annimon.stream.Stream")) {
+    	return "list";
+    }
 
     // Calendar -> InstantInTime
     if (type.equals("java.util.Calendar")) {

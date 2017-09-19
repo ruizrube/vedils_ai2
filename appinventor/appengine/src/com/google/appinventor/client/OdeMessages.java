@@ -1,4 +1,3 @@
-
 // -*- mode: java; c-basic-offset: 2; -*-
 // Copyright 2009-2011 Google, All Rights reserved
 // Copyright 2011-2012 MIT, All rights reserved
@@ -13,15 +12,274 @@ import com.google.gwt.i18n.client.Messages;
  * I18n strings for {@link Ode}.
  *
  */
-// <<<<<<< HEAD
-// @LocalizableResource.Generate(format =
-// "com.google.gwt.i18n.rebind.format.PropertiesFormat")
-// @LocalizableResource.DefaultLocale("en")
 
 public interface OdeMessages extends Messages {
+	
+	// Used in
+				// editor/youngandroid/properties/YoungAndroidQualityYoutubeChoicePropertyEditor.java
+			
+			@DefaultMessage("240 SMALL")
+			@Description("quality for youtube video  '240 '")
+			String qualityYoutube240();
+
+			@DefaultMessage("360 MEDIUM")
+			@Description("quality for youtube video  '360 '")
+			String qualityYoutube360();
+
+			@DefaultMessage("720 HD")
+			@Description("quality for youtube video  '720 '")
+			String qualityYoutube720();
+
+			@DefaultMessage("1080 HD no sound")
+			@Description("quality for youtube video  '1080 '")
+			String qualityYoutube1080();
+	//////////////////////
+	//// MODEL3DVIEWER////
+	//////////////////////
+
+	@DefaultMessage("getMaterial3D")
+	@Description("")
+	String getMaterial3DProperties();
+
+	@DefaultMessage("getModel3D")
+	@Description("")
+	String getModel3DProperties();
+
+	@DefaultMessage("setModel3D")
+	@Description("")
+	String setModel3DProperties();
+
+	@DefaultMessage("setMaterial3D")
+	@Description("")
+	String setMaterial3DProperties();
+
+	///////////
+	//// VR////
+	///////////
+
+	@DefaultMessage("getBinocularMode")
+	@Description("")
+	String getBinocularModeProperties();
+
+	@DefaultMessage("Binocular")
+	@Description("")
+	String BinocularProperties();
+
+	@DefaultMessage("VRScene")
+	@Description("")
+	String VRSceneProperties();
+
+	@DefaultMessage("Move Focus To Another Object3D")
+	@Description("")
+	String MoveFocusMethods();
+
+
+	//OBJECT3D
+
+	@DefaultMessage("Skybox Image")
+	@Description("")
+	String SkyboxImageProperties();
+
+	@DefaultMessage("getSkyboxImage")
+	@Description("")
+	String getSkyboxImageProperties();
+
+	@DefaultMessage("Model3D")
+	@Description("")
+	String Model3DProperties();
+
+	@DefaultMessage("Material3D")
+	@Description("")
+	String Material3DProperties();
+
+	@DefaultMessage("getPositionX")
+	@Description("")
+	String getPositionXProperties();
+
+	@DefaultMessage("getPositionY")
+	@Description("")
+	String getPositionYProperties();
+
+	@DefaultMessage("getPositionZ")
+	@Description("")
+	String getPositionZProperties();
+
+	@DefaultMessage("getScale")
+	@Description("")
+	String getScaleProperties();
+
+	@DefaultMessage("AmbientLight intensity")
+	@Description("")
+	String AmbientLightIntensityProperties();
+
+	@DefaultMessage("getAmbientLightIntensity")
+	@Description("")
+	String getAmbientLightIntensityProperties();
+
+	@DefaultMessage("Rotate Left Focused Object3D ")
+	@Description("")
+	String RotateLeftMethods();
+
+	@DefaultMessage("Rotate Right Focused Object3D ")
+	@Description("")
+	String RotateRightMethods();
+
+	@DefaultMessage("Rotate Up Focused Object3D ")
+	@Description("")
+	String RotateUpMethods();
+
+	@DefaultMessage("Rotate Down Focused Object3D ")
+	@Description("")
+	String RotateDownMethods();
+
+	@DefaultMessage("Zoom In Focused Object3D ")
+	@Description("")
+	String ZoomInMethods();
+
+	@DefaultMessage("Zoom out Focused Object3D ")
+	@Description("")
+	String ZoomOutMethods();
+
+	@DefaultMessage("Move Up Focused Object3D ")
+	@Description("")
+	String MoveUpMethods();
+
+	@DefaultMessage("Move Down Focused Object3D ")
+	@Description("")
+	String MoveDownMethods();
+
+	@DefaultMessage("Move Left Focused Object3D ")
+	@Description("")
+	String MoveLeftMethods();
+
+	@DefaultMessage("Move Right Focused Object3D ")
+	@Description("")
+	String MoveRightMethods();
+
+
+	//IMAGE360
+
+	@DefaultMessage("getImage360")
+	@Description("")
+	String getImage360Properties();
+
+	@DefaultMessage("Image360 Asset")
+	@Description("")
+	String setImage360Properties();
+
+	//VIDEO360
+
+	@DefaultMessage("Video360 Asset")
+	@Description("")
+	String Video360AssetProperties();
+
+	@DefaultMessage("getVideo360Asset")
+	@Description("")
+	String getVideo360AssetProperties();
+
+	@DefaultMessage("Video360 Url")
+	@Description("")
+	String Video360UrlProperties();
+
+	@DefaultMessage("getVideo360Url")
+	@Description("")
+	String getVideo360UrlProperties();
+
+	@DefaultMessage("VideoUrl Quality")
+	@Description("")
+	String VideoUrlQualityProperties();
+
+	@DefaultMessage("getVideoUrlQuality")
+	@Description("")
+	String getVideoUrlQualityProperties();
+
+	@DefaultMessage("getLoop")
+	@Description("")
+	String getLoopProperties();
+
+	@DefaultMessage("getVolume")
+	@Description("")
+	String getVolumeProperties();
+
+	@DefaultMessage("Start video360")
+	@Description("")
+	String StartVideoEvents();
+
+	@DefaultMessage("End video360")
+	@Description("")
+	String EndVideoEvents();
+
+	//CONTROLLER VR
+
+	@DefaultMessage("Objects3D Rotate Speed (1-10)")
+	@Description("")
+	String RotateSpeedProperties();
+
+	@DefaultMessage("Objects3D Move Speed (1-10)")
+	@Description("")
+	String MoveSpeedProperties();
+
+	@DefaultMessage("Press A Button")
+	@Description("")
+	String PressAButtonEvents();
+
+	@DefaultMessage("Press B Button")
+	@Description("")
+	String PressBButtonEvents();
+
+	@DefaultMessage("Press C Button")
+	@Description("")
+	String PressCButtonEvents();
+
+	@DefaultMessage("Press D Button")
+	@Description("")
+	String PressDButtonEvents();
+
+	@DefaultMessage("Press X Button")
+	@Description("")
+	String PressXButtonEvents();
+
+	@DefaultMessage("Press Z Button")
+	@Description("")
+	String PressZButtonEvents();
+
+	@DefaultMessage("Move Up Joystick")
+	@Description("")
+	String PressUpJoystickEvents();
+
+	@DefaultMessage("Move Down Joystick")
+	@Description("")
+	String PressDownJoystickEvents();
+
+	@DefaultMessage("Move Left Joystick")
+	@Description("")
+	String PressLeftJoystickEvents();
+
+	@DefaultMessage("Move Right Joystick")
+	@Description("")
+	String PressRightJoystickEvents();
+
+	@DefaultMessage("Move Up-Left Joystick")
+	@Description("")
+	String PressUpLeftJoystickEvents();
+
+	@DefaultMessage("Move Up-Right Joystick")
+	@Description("")
+	String PressUpRightJoystickEvents();
+
+	@DefaultMessage("Move Down-Left Joystick")
+	@Description("")
+	String PressDownLeftJoystickEvents();
+
+	@DefaultMessage("Move Down-Right Joystick")
+	@Description("")
+	String PressDownRightJoystickEvents();
+
+	@DefaultMessage("Check controller connected")
+	@Description("")
+	String CheckControllerConectionMethods();
+	
 	// Used in LD4AI
-	
-	
 	
 	@DefaultMessage("Classifier")
 	@Description("")
@@ -275,7 +533,130 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("RetrieveFFTChannelData")
 	@Description("")
 	String RetrieveFFTChannelDataMethods();
+	
+	@DefaultMessage("ChannelAF3Changed")
+	@Description("")
+	String ChannelAF3ChangedEvents();
+	
+	@DefaultMessage("ChannelAF3ChangedStream")
+	@Description("")
+	String ChannelAF3ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelF7Changed")
+	@Description("")
+	String ChannelF7ChangedEvents();
+	
+	@DefaultMessage("ChannelF7ChangedStream")
+	@Description("")
+	String ChannelF7ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelF3Changed")
+	@Description("")
+	String ChannelF3ChangedEvents();
+	
+	@DefaultMessage("ChannelF3ChangedStream")
+	@Description("")
+	String ChannelF3ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelFC5Changed")
+	@Description("")
+	String ChannelFC5ChangedEvents();
+	
+	@DefaultMessage("ChannelFC5ChangedStream")
+	@Description("")
+	String ChannelFC5ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelT7Changed")
+	@Description("")
+	String ChannelT7ChangedEvents();
+	
+	@DefaultMessage("ChannelT7ChangedStream")
+	@Description("")
+	String ChannelT7ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelP7Changed")
+	@Description("")
+	String ChannelP7ChangedEvents();
+	
+	@DefaultMessage("ChannelP7ChangedStream")
+	@Description("")
+	String ChannelP7ChangedStreamEvents();
+	
+	@DefaultMessage("ChannePzChanged")
+	@Description("")
+	String ChannelPzChangedEvents();
+	
+	@DefaultMessage("ChannelPzChangedStream")
+	@Description("")
+	String ChannelPzChangedStreamEvents();
+	
+	@DefaultMessage("ChannelO1Changed")
+	@Description("")
+	String ChannelO1ChangedEvents();
+	
+	@DefaultMessage("ChannelO1ChangedStream")
+	@Description("")
+	String ChannelO1ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelO2Changed")
+	@Description("")
+	String ChannelO2ChangedEvents();
+	
+	@DefaultMessage("ChannelO2ChangedStream")
+	@Description("")
+	String ChannelO2ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelP8Changed")
+	@Description("")
+	String ChannelP8ChangedEvents();
 
+	@DefaultMessage("ChannelP8ChangedStream")
+	@Description("")
+	String ChannelP8ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelT8Changed")
+	@Description("")
+	String ChannelT8ChangedEvents();
+	
+	@DefaultMessage("ChannelT8ChangedStream")
+	@Description("")
+	String ChannelT8ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelFC6Changed")
+	@Description("")
+	String ChannelFC6ChangedEvents();
+	
+	@DefaultMessage("ChannelFC6ChangedStream")
+	@Description("")
+	String ChannelFC6ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelF4Changed")
+	@Description("")
+	String ChannelF4ChangedEvents();
+	
+	@DefaultMessage("ChannelF4ChangedStream")
+	@Description("")
+	String ChannelF4ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelF8Changed")
+	@Description("")
+	String ChannelF8ChangedEvents();
+	
+	@DefaultMessage("ChannelF8ChangedStream")
+	@Description("")
+	String ChannelF8ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelAF4Changed")
+	@Description("")
+	String ChannelAF4ChangedEvents();
+	
+	@DefaultMessage("ChannelAF4ChangedStream")
+	@Description("")
+	String ChannelAF4ChangedStreamEvents();
+	
+	@DefaultMessage("TimeToStreamBandsData")
+	@Description("")
+	String TimeToStreamBandsDataProperties();
 	
 	@DefaultMessage("RetrieveThetaBand")
 	@Description("")
@@ -808,11 +1189,23 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String AdditionalFilterProperties();
 
-	@DefaultMessage("*DataReceived")
+	@DefaultMessage("DataReceived")
 	@Description("")
 	String DataReceivedEvents();
+	
+	@DefaultMessage("SendStreamQuery")
+	@Description("")
+	String SendStreamQueryMethods();
+	
+	@DefaultMessage("StopStreamQuery")
+	@Description("")
+	String StopStreamQueryMethods();
+	
+	@DefaultMessage("StreamDataReceived")
+	@Description("")
+	String StreamDataReceivedEvents();
 
-	// Used in ActivityAggregatedProcessor
+	// Used in ActivityAggregatedQuery
 
 	@DefaultMessage("GroupBy")
 	@Description("")
@@ -822,7 +1215,7 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String MetricsToRetrieveProperties();
 
-	// Used in ActivitySimpleProcessor
+	// Used in ActivitySimpleQuery
 
 	@DefaultMessage("*DistinctResults")
 	@Description("")
@@ -855,6 +1248,20 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("indifferent")
 	@Description("Text for synchronization mode 'indifferent '")
 	String indifferentCommunicationMode();
+	
+	// Used in
+    // editor/youngandroid/properties/YoungAndroidStorageModeChoicePropertyEditor.java
+    @DefaultMessage("Fusion Tables")
+    @Description("Text for storage mode 'Fusion Tables '")
+    String fusionTablesStorageMode();
+
+	@DefaultMessage("MongoDB")
+	@Description("Text for storage mode 'MongoDB '")
+	String mongoDBStorageMode();
+	
+	@DefaultMessage("Stream")
+	@Description("Text for storage mode 'Stream mode'")
+	String streamStorageMode();
 
 	@DefaultMessage("Default")
 	@Description("Text for property editors")
@@ -1614,6 +2021,10 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("Procedures")
 	@Description("Label on built-in-Procedures-blocks branch of block selector tree")
 	String builtinProceduresLabel();
+	
+	@DefaultMessage("Stream")
+	@Description("Label on built-in-Stream-blocks branch of block selector tree")
+	String builtinStreamLabel();
 
 	@DefaultMessage("Any component")
 	@Description("Label on any-component branch of block selector tree")
@@ -6975,6 +7386,14 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("AndroidAPILevel")
 	@Description("")
 	String AndroidAPILevelProperties();
+	
+	//
+	// ActivityStreamQuery
+	//
+	
+	@DefaultMessage("ExecuteQuery")
+	@Description("")
+	String ExecuteQueryMethods();
 
 	//
 	// ActivityTracker
@@ -7009,6 +7428,14 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("CommunicationMode")
 	@Description("")
 	String CommunicationModeProperties();
+	
+	@DefaultMessage("StorageMode")
+	@Description("")
+	String StorageModeProperties();
+	
+	@DefaultMessage("StreamMode")
+	@Description("")
+	String StreamModeProperties();
 
 	@DefaultMessage("NotifyWithoutArguments")
 	@Description("")
@@ -7025,6 +7452,10 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("NotifyWithThreeArguments")
 	@Description("")
 	String NotifyWithThreeArgumentsMethods();
+	
+	@DefaultMessage("NotifyWithData")
+	@Description("")
+	String NotifyWithDataMethods();
 
 	@DefaultMessage("BatchTime")
 	@Description("")
