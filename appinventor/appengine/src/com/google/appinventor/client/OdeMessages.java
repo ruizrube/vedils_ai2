@@ -40,6 +40,181 @@ public interface OdeMessages extends Messages {
 	@Description("quality for youtube video  '1080 '")
 	String qualityYoutube1080();
 	
+	//
+	// ActivityTracker
+	//
+
+	
+	
+	@DefaultMessage("StorageMode")
+	@Description("")
+	String StorageModeProperties();
+	
+	@DefaultMessage("StreamMode")
+	@Description("")
+	String StreamModeProperties();
+
+	
+	@DefaultMessage("NotifyWithData")
+	@Description("")
+	String NotifyWithDataMethods();
+
+	@DefaultMessage("SendStreamQuery")
+	@Description("")
+	String SendStreamQueryMethods();
+	
+	@DefaultMessage("StopStreamQuery")
+	@Description("")
+	String StopStreamQueryMethods();
+	
+	@DefaultMessage("StreamDataReceived")
+	@Description("")
+	String StreamDataReceivedEvents();
+	
+	
+	@DefaultMessage("ChannelAF3Changed")
+	@Description("")
+	String ChannelAF3ChangedEvents();
+	
+	@DefaultMessage("ChannelAF3ChangedStream")
+	@Description("")
+	String ChannelAF3ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelF7Changed")
+	@Description("")
+	String ChannelF7ChangedEvents();
+	
+	@DefaultMessage("ChannelF7ChangedStream")
+	@Description("")
+	String ChannelF7ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelF3Changed")
+	@Description("")
+	String ChannelF3ChangedEvents();
+	
+	@DefaultMessage("ChannelF3ChangedStream")
+	@Description("")
+	String ChannelF3ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelFC5Changed")
+	@Description("")
+	String ChannelFC5ChangedEvents();
+	
+	@DefaultMessage("ChannelFC5ChangedStream")
+	@Description("")
+	String ChannelFC5ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelT7Changed")
+	@Description("")
+	String ChannelT7ChangedEvents();
+	
+	@DefaultMessage("ChannelT7ChangedStream")
+	@Description("")
+	String ChannelT7ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelP7Changed")
+	@Description("")
+	String ChannelP7ChangedEvents();
+	
+	@DefaultMessage("ChannelP7ChangedStream")
+	@Description("")
+	String ChannelP7ChangedStreamEvents();
+	
+	@DefaultMessage("ChannePzChanged")
+	@Description("")
+	String ChannelPzChangedEvents();
+	
+	@DefaultMessage("ChannelPzChangedStream")
+	@Description("")
+	String ChannelPzChangedStreamEvents();
+	
+	@DefaultMessage("ChannelO1Changed")
+	@Description("")
+	String ChannelO1ChangedEvents();
+	
+	@DefaultMessage("ChannelO1ChangedStream")
+	@Description("")
+	String ChannelO1ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelO2Changed")
+	@Description("")
+	String ChannelO2ChangedEvents();
+	
+	@DefaultMessage("ChannelO2ChangedStream")
+	@Description("")
+	String ChannelO2ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelP8Changed")
+	@Description("")
+	String ChannelP8ChangedEvents();
+
+	@DefaultMessage("ChannelP8ChangedStream")
+	@Description("")
+	String ChannelP8ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelT8Changed")
+	@Description("")
+	String ChannelT8ChangedEvents();
+	
+	@DefaultMessage("ChannelT8ChangedStream")
+	@Description("")
+	String ChannelT8ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelFC6Changed")
+	@Description("")
+	String ChannelFC6ChangedEvents();
+	
+	@DefaultMessage("ChannelFC6ChangedStream")
+	@Description("")
+	String ChannelFC6ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelF4Changed")
+	@Description("")
+	String ChannelF4ChangedEvents();
+	
+	@DefaultMessage("ChannelF4ChangedStream")
+	@Description("")
+	String ChannelF4ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelF8Changed")
+	@Description("")
+	String ChannelF8ChangedEvents();
+	
+	@DefaultMessage("ChannelF8ChangedStream")
+	@Description("")
+	String ChannelF8ChangedStreamEvents();
+	
+	@DefaultMessage("ChannelAF4Changed")
+	@Description("")
+	String ChannelAF4ChangedEvents();
+	
+	@DefaultMessage("ChannelAF4ChangedStream")
+	@Description("")
+	String ChannelAF4ChangedStreamEvents();
+	
+	@DefaultMessage("SendGlobalMessage")
+	@Description("")
+	String SendGlobalMessageMethods();
+
+	@DefaultMessage("SendGlobalDataList")
+	@Description("")
+	String SendGlobalDataListMethods();
+	
+	@DefaultMessage("TimeToStreamBandsData")
+	@Description("")
+	String TimeToStreamBandsDataProperties();
+	
+	@DefaultMessage("Stream")
+	@Description("Label on built-in-Stream-blocks branch of block selector tree")
+	String builtinStreamLabel();
+	
+	@DefaultMessage("Fusion Tables")
+    @Description("Text for storage mode 'Fusion Tables '")
+    String fusionTablesStorageMode();
+	
+	@DefaultMessage("MongoDB")
+	@Description("Text for storage mode 'MongoDB '")
+	String mongoDBStorageMode();
 	
 	//////////////////////
 	////// DEVICE INFO////

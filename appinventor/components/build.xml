@@ -206,7 +206,7 @@
       
      <exec executable="java">
          <arg value="-Dretrolambda.inputDir=${AspectJAndroidRuntime-class.dir}"/>
-		 <arg value="-Dretrolambda.classpath=${AspectJAndroidRuntime-class.dir}:${lib.dir}/la4ai/aspectjrt-1.8.8.jar:${lib.dir}/la4ai/stream/stream-1.1.7.jar:${lib.dir}/android/${android.version}/android.jar"/>
+		 <arg value="-Dretrolambda.classpath=${AspectJAndroidRuntime-class.dir};${lib.dir}//la4ai//aspectjrt-1.8.8.jar;${lib.dir}//la4ai//stream//stream-1.1.7.jar;${lib.dir}//android//${android.version}//android.jar"/>
 		 <arg value="-Dretrolambda.outputDir=${AndroidRuntime-class.dir}"/>
 		 <arg value="-Dretrolambda.defaultMethods=false"/>
 		 <arg value="-jar"/>
