@@ -28,6 +28,8 @@ public class VR3DObject extends AndroidNonvisibleComponent {
 	public int positionX=0;
 	public int positionY=0;
 	public int positionZ=15;
+	public float rotateSpeed=1;
+	public float moveSpeed=1;
 	public int scale=1;
 	private int ambientLight;
 	public UUID id = UUID.randomUUID();
@@ -46,6 +48,8 @@ public class VR3DObject extends AndroidNonvisibleComponent {
 		object3Dpar.setPositionX(positionX);
 		object3Dpar.setPositionY(positionY);
 		object3Dpar.setPositionZ(positionZ);
+		object3Dpar.setRotateSpeed(rotateSpeed);
+		object3Dpar.setMoveSpeed(moveSpeed);
 		object3Dpar.setScale(scale);
 		
 		// intent = new Intent("custom-event-name");
@@ -61,8 +65,8 @@ public class VR3DObject extends AndroidNonvisibleComponent {
 	public void VRScene(VRScene scene) {
 		if (scene != null) {
 			scene.is3DObject=true;
-			scene.object3DList.add(object3Dpar);
-			scene.setAssetToExtract(this);
+			scene.object3DParList.add(object3Dpar);
+			//scene.setAssetToExtract(this);
 			
 		}
 		
@@ -167,11 +171,37 @@ public class VR3DObject extends AndroidNonvisibleComponent {
 
 	}
 	
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_NON_NEGATIVE_INTEGER, defaultValue = "1")
+	@SimpleProperty(description = "speed of rotate", userVisible = true)
+	public void RotateSpeed(int value) {
+		if(value>0&&value<11){
+		this.rotateSpeed=value/10.0f;
+		}
+		else
+		{
+			this.rotateSpeed=0.2f;
+		}
+		object3Dpar.setRotateSpeed(rotateSpeed);
+	}
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_NON_NEGATIVE_INTEGER, defaultValue = "1")
+	@SimpleProperty(description = "speed of move", userVisible = true)
+	public void MoveSpeed(int value) {
+		if(value>0&&value<11){
+		this.moveSpeed=value/10.0f;
+		}
+		else
+		{
+			this.moveSpeed=0.2f;
+		}
+		object3Dpar.setMoveSpeed(moveSpeed);
+
+	}
 	
-	/*@SimpleFunction(description = "Reset position  object3D", userVisible = true)
+	@SimpleFunction(description = "Reset position object3D", userVisible = true)
 	public void Reset() {
 	
 		    Intent resetIntent = new Intent(VRActivity.VR_3DOBJECT_RESET);
+		    resetIntent.putExtra("id", id+"");
 			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(resetIntent);
 
 	}
@@ -180,6 +210,7 @@ public class VR3DObject extends AndroidNonvisibleComponent {
 	public void RotateLeft() {
 	
 		    Intent rotateLeft = new Intent(VRActivity.VR_3DOBJECT_ROTATE_LEFT);
+		    rotateLeft.putExtra("id", id+"");
 			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(rotateLeft);
 
 	}
@@ -187,6 +218,7 @@ public class VR3DObject extends AndroidNonvisibleComponent {
 	public void RotateRight() {
 	
 		    Intent rotateRight = new Intent(VRActivity.VR_3DOBJECT_ROTATE_RIGHT);
+		    rotateRight.putExtra("id", id+"");
 			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(rotateRight);
 
 	}
@@ -194,6 +226,7 @@ public class VR3DObject extends AndroidNonvisibleComponent {
 	public void RotateUp() {
 	
 		    Intent rotateUp = new Intent(VRActivity.VR_3DOBJECT_ROTATE_UP);
+		    rotateUp.putExtra("id", id+"");
 			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(rotateUp);
 
 	}
@@ -201,6 +234,7 @@ public class VR3DObject extends AndroidNonvisibleComponent {
 	public void RotateDown() {
 	
 		    Intent rotateDown = new Intent(VRActivity.VR_3DOBJECT_ROTATE_DOWN);
+		    rotateDown.putExtra("id", id+"");
 			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(rotateDown);
 
 	}
@@ -208,6 +242,7 @@ public class VR3DObject extends AndroidNonvisibleComponent {
 	public void ZoomIn() {
 	
 		    Intent zoomIn = new Intent(VRActivity.VR_3DOBJECT_ZOOM_IN);
+		    zoomIn.putExtra("id", id+"");
 			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(zoomIn);
 
 	}
@@ -215,6 +250,7 @@ public class VR3DObject extends AndroidNonvisibleComponent {
 	public void ZoomOut() {
 	
 		    Intent zoomOut = new Intent(VRActivity.VR_3DOBJECT_ZOOM_OUT);
+		    zoomOut.putExtra("id", id+"");
 			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(zoomOut);
 
 	}
@@ -222,6 +258,7 @@ public class VR3DObject extends AndroidNonvisibleComponent {
 	public void MoveUp() {
 	
 		    Intent moveUp = new Intent(VRActivity.VR_3DOBJECT_MOVE_UP);
+		    moveUp.putExtra("id", id+"");
 			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(moveUp);
 
 	}
@@ -229,6 +266,7 @@ public class VR3DObject extends AndroidNonvisibleComponent {
 	public void MoveDown() {
 	
 		    Intent moveDown = new Intent(VRActivity.VR_3DOBJECT_MOVE_DOWN);
+		    moveDown.putExtra("id", id+"");
 			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(moveDown);
 
 	}
@@ -236,17 +274,46 @@ public class VR3DObject extends AndroidNonvisibleComponent {
 	public void MoveLeft() {
 	
 		    Intent moveLeft = new Intent(VRActivity.VR_3DOBJECT_MOVE_LEFT);
+		    moveLeft.putExtra("id", id+"");
 			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(moveLeft);
 
 	}
+	@SimpleFunction(description = "Scale increase object3D", userVisible = true)
+	public void ScaleIncrease() {
+	
+		    Intent scaleIncre = new Intent(VRActivity.VR_3DOBJECT_SCALE_IN);
+		    scaleIncre.putExtra("id", id+"");
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(scaleIncre);
+
+	}
+	
+	@SimpleFunction(description = "Scale increase object3D", userVisible = true)
+	public void ScaleDecrease() {
+	
+		    Intent scaleDecre = new Intent(VRActivity.VR_3DOBJECT_SCALE_DE);
+		    scaleDecre.putExtra("id", id+"");
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(scaleDecre);
+
+	}
+	
 	@SimpleFunction(description = "Zoom out position  object3D", userVisible = true)
 	public void MoveRight() {
 	
 		    Intent moveRight = new Intent(VRActivity.VR_3DOBJECT_MOVE_RIGHT);
+		    moveRight.putExtra("id", id+"");
 			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(moveRight);
 
-	}*/
+	}
+	@SimpleFunction(description = "set as focused object3D", userVisible = true)
+	public void SetAsFocusObject3D() {
+	
+		    Intent setAsFocusedObject = new Intent(VRActivity.VR_3DOBJECT_SETFOCUS);
+		    setAsFocusedObject.putExtra("id", id+"");
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(setAsFocusedObject);
 
+	}
+
+	
 	
 
 }

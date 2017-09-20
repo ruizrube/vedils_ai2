@@ -393,6 +393,7 @@ public final class Compiler {
 			if ((componentTypes.contains("BrainwaveSensor")||componentTypes.contains("VRScene")) && !isForCompanion) {
 				minSDK = LEVEL_LOLLIPOP;
 			}
+			
 
 			for (String permission : permissionsNeeded) {
 				out.write("  <uses-permission android:name=\"" + permission + "\" />\n");
@@ -1448,6 +1449,104 @@ public final class Compiler {
 					Files.copy(new File(getResource(RUNTIME_FILES_DIR + "Vuforia-English-word.vwl")),
 							new File(project.getAssetsDirectory(), "Vuforia-English-word.vwl"));
 					System.out.println("IRR  diccionario copiado");
+				}
+				if(componentTypes.contains("Model3DViewer"))
+				{
+					System.out.println("RBP copiando iconos de control de animaciones de Model3DView:" + RUNTIME_FILES_DIR
+							+ "play.png");
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "play.png")),
+							new File(project.getAssetsDirectory(),  "play.png"));
+					System.out.println("RBP play copiado");
+					
+					System.out.println("RBP copiando iconos de control de animaciones de Model3DView:" + RUNTIME_FILES_DIR
+							+ "pause.png");
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "pause.png")),
+							new File(project.getAssetsDirectory(),  "pause.png"));
+					System.out.println("RBP pause copiado");
+					
+					System.out.println("RBP copiando iconos de control de animaciones de Model3DView:" + RUNTIME_FILES_DIR
+							+ "forward.png");
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "forward.png")),
+							new File(project.getAssetsDirectory(),  "forward.png"));
+					System.out.println("RBP forward copiado");
+					
+					System.out.println("RBP copiando iconos de control de animaciones de Model3DView:" + RUNTIME_FILES_DIR
+							+ "rewind.png");
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "rewind.png")),
+							new File(project.getAssetsDirectory(),  "rewind.png"));
+					System.out.println("RBP rewind copiado");
+					
+					System.out.println("RBP copiando iconos de control de movimiento de Model3DView:" + RUNTIME_FILES_DIR
+							+ "rewind.png");
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "menuOFF.png")),
+							new File(project.getAssetsDirectory(),  "menuOFF.png"));
+					System.out.println("RBP menuOFF copiado");
+					
+					System.out.println("RBP copiando iconos de control de movimiento de Model3DView:" + RUNTIME_FILES_DIR
+							+ "rewind.png");
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "menuON.png")),
+							new File(project.getAssetsDirectory(),  "menuON.png"));
+					System.out.println("RBP menuON copiado");
+					
+					System.out.println("RBP copiando iconos de control de movimiento de Model3DView:" + RUNTIME_FILES_DIR
+							+ "rewind.png");
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "moveOFF.png")),
+							new File(project.getAssetsDirectory(),  "moveOFF.png"));
+					System.out.println("RBP moveOFF copiado");
+					
+					System.out.println("RBP copiando iconos de control de movimiento de Model3DView:" + RUNTIME_FILES_DIR
+							+ "rewind.png");
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "moveON.png")),
+							new File(project.getAssetsDirectory(),  "moveON.png"));
+					System.out.println("RBP moveON copiado");
+					
+					System.out.println("RBP copiando iconos de control de movimiento de Model3DView:" + RUNTIME_FILES_DIR
+							+ "rewind.png");
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "rotateOFF.png")),
+							new File(project.getAssetsDirectory(),  "rotateOFF.png"));
+					System.out.println("RBP rotateOFF copiado");
+					
+					System.out.println("RBP copiando iconos de control de movimiento de Model3DView:" + RUNTIME_FILES_DIR
+							+ "rewind.png");
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "rotateON.png")),
+							new File(project.getAssetsDirectory(),  "rotateON.png"));
+					System.out.println("RBP rotateON copiado");
+					
+					System.out.println("RBP copiando iconos de control de movimiento de Model3DView:" + RUNTIME_FILES_DIR
+							+ "rewind.png");
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "scaleOFF.png")),
+							new File(project.getAssetsDirectory(),  "scaleOFF.png"));
+					System.out.println("RBP scaleOFF copiado");
+					
+					System.out.println("RBP copiando iconos de control de movimiento de Model3DView:" + RUNTIME_FILES_DIR
+							+ "rewind.png");
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "scaleON.png")),
+							new File(project.getAssetsDirectory(),  "scaleON.png"));
+					System.out.println("RBP scaleON copiado");
+					
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "playOFF.png")),
+							new File(project.getAssetsDirectory(),  "playOFF.png"));
+					System.out.println("RBP playOFF copiado");
+					
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "pauseOFF.png")),
+							new File(project.getAssetsDirectory(),  "pauseOFF.png"));
+					System.out.println("RBP pauseOFF copiado");
+					
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "rewindOFF.png")),
+							new File(project.getAssetsDirectory(),  "rewindOFF.png"));
+					System.out.println("RBP rewindOFF copiado");
+					
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "forwardOFF.png")),
+							new File(project.getAssetsDirectory(),  "forwardOFF.png"));
+					System.out.println("RBP forwardOFF copiado");
+					
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "back.png")),
+							new File(project.getAssetsDirectory(),  "back.png"));
+					System.out.println("RBP back copiado");
+					
+					Files.copy(new File(getResource(RUNTIME_FILES_DIR +  "reset.png")),
+							new File(project.getAssetsDirectory(),  "reset.png"));
+					System.out.println("RBP reset copiado");
 				}
 
 			}

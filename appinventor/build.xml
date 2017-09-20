@@ -146,6 +146,7 @@
         
         <!-- 3D4AI -->
         <pathelement location="lib/3d4ai/3d4ai.jar" />
+        <pathelement location="lib/3d4ai/bones.jar" />
         
         <!-- VR4AI -->
         <pathelement location="lib/vr4ai/vr4ai.jar" />

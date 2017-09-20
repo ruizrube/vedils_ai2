@@ -158,6 +158,8 @@ public final class SimpleComponentDescriptor {
     bundledImages.put("images/knexplorer.png", images.knExplorer());
     bundledImages.put("images/knsemantic.png", images.knSemantic());
     
+    bundledImages.put("images/model3DIcon.png", images.model3DView());
+    
      
     
         imagesInitialized = true;

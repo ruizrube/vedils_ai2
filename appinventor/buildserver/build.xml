@@ -103,6 +103,26 @@
         
         <!-- 3D4AI -->
         <copy toFile="${classes.files.dir}/3d4ai.jar" file="${lib.dir}/3d4ai/3d4ai.jar" />
+        <copy toFile="${classes.files.dir}/bones.jar" file="${lib.dir}/3d4ai/bones.jar" />
+        <copy toFile="${classes.files.dir}/back.png" file="${lib.dir}/3d4ai/back.png" />
+        <copy toFile="${classes.files.dir}/forward.png" file="${lib.dir}/3d4ai/forward.png" />
+        <copy toFile="${classes.files.dir}/forwardOFF.png" file="${lib.dir}/3d4ai/forwardOFF.png" />
+        <copy toFile="${classes.files.dir}/menuON.png" file="${lib.dir}/3d4ai/menuON.png" />
+        <copy toFile="${classes.files.dir}/menuOFF.png" file="${lib.dir}/3d4ai/menuOFF.png" />
+        <copy toFile="${classes.files.dir}/moveON.png" file="${lib.dir}/3d4ai/moveON.png" />
+        <copy toFile="${classes.files.dir}/moveOFF.png" file="${lib.dir}/3d4ai/moveOFF.png" />
+        <copy toFile="${classes.files.dir}/pause.png" file="${lib.dir}/3d4ai/pause.png" />
+        <copy toFile="${classes.files.dir}/pauseOFF.png" file="${lib.dir}/3d4ai/pauseOFF.png" />
+        <copy toFile="${classes.files.dir}/play.png" file="${lib.dir}/3d4ai/play.png" />
+        <copy toFile="${classes.files.dir}/playOFF.png" file="${lib.dir}/3d4ai/playOFF.png" />
+        <copy toFile="${classes.files.dir}/reset.png" file="${lib.dir}/3d4ai/reset.png" />
+        <copy toFile="${classes.files.dir}/rewind.png" file="${lib.dir}/3d4ai/rewind.png" />
+        <copy toFile="${classes.files.dir}/rewindOFF.png" file="${lib.dir}/3d4ai/rewindOFF.png" />
+        <copy toFile="${classes.files.dir}/rotateON.png" file="${lib.dir}/3d4ai/rotateON.png" />
+        <copy toFile="${classes.files.dir}/rotateOFF.png" file="${lib.dir}/3d4ai/rotateOFF.png" />
+        <copy toFile="${classes.files.dir}/scaleON.png" file="${lib.dir}/3d4ai/scaleON.png" />
+        <copy toFile="${classes.files.dir}/scaleOFF.png" file="${lib.dir}/3d4ai/scaleOFF.png" />
+       
         
         <!-- VR4AI -->
         <copy toFile="${classes.files.dir}/vr4ai.jar" file="${lib.dir}/vr4ai/vr4ai.jar" />

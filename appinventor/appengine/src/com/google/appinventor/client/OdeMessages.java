@@ -1,3 +1,4 @@
+
 // -*- mode: java; c-basic-offset: 2; -*-
 // Copyright 2009-2011 Google, All Rights reserved
 // Copyright 2011-2012 MIT, All rights reserved
@@ -12,527 +13,64 @@ import com.google.gwt.i18n.client.Messages;
  * I18n strings for {@link Ode}.
  *
  */
+// <<<<<<< HEAD
+// @LocalizableResource.Generate(format =
+// "com.google.gwt.i18n.rebind.format.PropertiesFormat")
+// @LocalizableResource.DefaultLocale("en")
 
 public interface OdeMessages extends Messages {
-	
-	// Used in
-				// editor/youngandroid/properties/YoungAndroidQualityYoutubeChoicePropertyEditor.java
-			
-			@DefaultMessage("240 SMALL")
-			@Description("quality for youtube video  '240 '")
-			String qualityYoutube240();
-
-			@DefaultMessage("360 MEDIUM")
-			@Description("quality for youtube video  '360 '")
-			String qualityYoutube360();
-
-			@DefaultMessage("720 HD")
-			@Description("quality for youtube video  '720 '")
-			String qualityYoutube720();
-
-			@DefaultMessage("1080 HD no sound")
-			@Description("quality for youtube video  '1080 '")
-			String qualityYoutube1080();
-	//////////////////////
-	//// MODEL3DVIEWER////
-	//////////////////////
-
-	@DefaultMessage("getMaterial3D")
-	@Description("")
-	String getMaterial3DProperties();
-
-	@DefaultMessage("getModel3D")
-	@Description("")
-	String getModel3DProperties();
-
-	@DefaultMessage("setModel3D")
-	@Description("")
-	String setModel3DProperties();
-
-	@DefaultMessage("setMaterial3D")
-	@Description("")
-	String setMaterial3DProperties();
-
-	///////////
-	//// VR////
-	///////////
-
-	@DefaultMessage("getBinocularMode")
-	@Description("")
-	String getBinocularModeProperties();
-
-	@DefaultMessage("Binocular")
-	@Description("")
-	String BinocularProperties();
-
-	@DefaultMessage("VRScene")
-	@Description("")
-	String VRSceneProperties();
-
-	@DefaultMessage("Move Focus To Another Object3D")
-	@Description("")
-	String MoveFocusMethods();
-
-
-	//OBJECT3D
-
-	@DefaultMessage("Skybox Image")
-	@Description("")
-	String SkyboxImageProperties();
-
-	@DefaultMessage("getSkyboxImage")
-	@Description("")
-	String getSkyboxImageProperties();
-
-	@DefaultMessage("Model3D")
-	@Description("")
-	String Model3DProperties();
-
-	@DefaultMessage("Material3D")
-	@Description("")
-	String Material3DProperties();
-
-	@DefaultMessage("getPositionX")
-	@Description("")
-	String getPositionXProperties();
-
-	@DefaultMessage("getPositionY")
-	@Description("")
-	String getPositionYProperties();
-
-	@DefaultMessage("getPositionZ")
-	@Description("")
-	String getPositionZProperties();
-
-	@DefaultMessage("getScale")
-	@Description("")
-	String getScaleProperties();
-
-	@DefaultMessage("AmbientLight intensity")
-	@Description("")
-	String AmbientLightIntensityProperties();
-
-	@DefaultMessage("getAmbientLightIntensity")
-	@Description("")
-	String getAmbientLightIntensityProperties();
-
-	@DefaultMessage("Rotate Left Focused Object3D ")
-	@Description("")
-	String RotateLeftMethods();
-
-	@DefaultMessage("Rotate Right Focused Object3D ")
-	@Description("")
-	String RotateRightMethods();
-
-	@DefaultMessage("Rotate Up Focused Object3D ")
-	@Description("")
-	String RotateUpMethods();
-
-	@DefaultMessage("Rotate Down Focused Object3D ")
-	@Description("")
-	String RotateDownMethods();
-
-	@DefaultMessage("Zoom In Focused Object3D ")
-	@Description("")
-	String ZoomInMethods();
-
-	@DefaultMessage("Zoom out Focused Object3D ")
-	@Description("")
-	String ZoomOutMethods();
-
-	@DefaultMessage("Move Up Focused Object3D ")
-	@Description("")
-	String MoveUpMethods();
-
-	@DefaultMessage("Move Down Focused Object3D ")
-	@Description("")
-	String MoveDownMethods();
-
-	@DefaultMessage("Move Left Focused Object3D ")
-	@Description("")
-	String MoveLeftMethods();
-
-	@DefaultMessage("Move Right Focused Object3D ")
-	@Description("")
-	String MoveRightMethods();
-
-
-	//IMAGE360
-
-	@DefaultMessage("getImage360")
-	@Description("")
-	String getImage360Properties();
-
-	@DefaultMessage("Image360 Asset")
-	@Description("")
-	String setImage360Properties();
-
-	//VIDEO360
-
-	@DefaultMessage("Video360 Asset")
-	@Description("")
-	String Video360AssetProperties();
-
-	@DefaultMessage("getVideo360Asset")
-	@Description("")
-	String getVideo360AssetProperties();
-
-	@DefaultMessage("Video360 Url")
-	@Description("")
-	String Video360UrlProperties();
-
-	@DefaultMessage("getVideo360Url")
-	@Description("")
-	String getVideo360UrlProperties();
-
-	@DefaultMessage("VideoUrl Quality")
-	@Description("")
-	String VideoUrlQualityProperties();
-
-	@DefaultMessage("getVideoUrlQuality")
-	@Description("")
-	String getVideoUrlQualityProperties();
-
-	@DefaultMessage("getLoop")
-	@Description("")
-	String getLoopProperties();
-
-	@DefaultMessage("getVolume")
-	@Description("")
-	String getVolumeProperties();
-
-	@DefaultMessage("Start video360")
-	@Description("")
-	String StartVideoEvents();
-
-	@DefaultMessage("End video360")
-	@Description("")
-	String EndVideoEvents();
-
-	//CONTROLLER VR
-
-	@DefaultMessage("Objects3D Rotate Speed (1-10)")
-	@Description("")
-	String RotateSpeedProperties();
-
-	@DefaultMessage("Objects3D Move Speed (1-10)")
-	@Description("")
-	String MoveSpeedProperties();
-
-	@DefaultMessage("Press A Button")
-	@Description("")
-	String PressAButtonEvents();
-
-	@DefaultMessage("Press B Button")
-	@Description("")
-	String PressBButtonEvents();
-
-	@DefaultMessage("Press C Button")
-	@Description("")
-	String PressCButtonEvents();
-
-	@DefaultMessage("Press D Button")
-	@Description("")
-	String PressDButtonEvents();
-
-	@DefaultMessage("Press X Button")
-	@Description("")
-	String PressXButtonEvents();
-
-	@DefaultMessage("Press Z Button")
-	@Description("")
-	String PressZButtonEvents();
-
-	@DefaultMessage("Move Up Joystick")
-	@Description("")
-	String PressUpJoystickEvents();
-
-	@DefaultMessage("Move Down Joystick")
-	@Description("")
-	String PressDownJoystickEvents();
-
-	@DefaultMessage("Move Left Joystick")
-	@Description("")
-	String PressLeftJoystickEvents();
-
-	@DefaultMessage("Move Right Joystick")
-	@Description("")
-	String PressRightJoystickEvents();
-
-	@DefaultMessage("Move Up-Left Joystick")
-	@Description("")
-	String PressUpLeftJoystickEvents();
-
-	@DefaultMessage("Move Up-Right Joystick")
-	@Description("")
-	String PressUpRightJoystickEvents();
-
-	@DefaultMessage("Move Down-Left Joystick")
-	@Description("")
-	String PressDownLeftJoystickEvents();
-
-	@DefaultMessage("Move Down-Right Joystick")
-	@Description("")
-	String PressDownRightJoystickEvents();
-
-	@DefaultMessage("Check controller connected")
-	@Description("")
-	String CheckControllerConectionMethods();
-	
 	// Used in LD4AI
+
+	// Used in
+	// editor/youngandroid/properties/YoungAndroidQualityYoutubeChoicePropertyEditor.java
+
+	@DefaultMessage("240 SMALL")
+	@Description("quality for youtube video  '240 '")
+	String qualityYoutube240();
+
+	@DefaultMessage("360 MEDIUM")
+	@Description("quality for youtube video  '360 '")
+	String qualityYoutube360();
+
+	@DefaultMessage("720 HD")
+	@Description("quality for youtube video  '720 '")
+	String qualityYoutube720();
+
+	@DefaultMessage("1080 HD no sound")
+	@Description("quality for youtube video  '1080 '")
+	String qualityYoutube1080();
 	
-	@DefaultMessage("Classifier")
-	@Description("")
-	String ClassifierProperties();
-
-	@DefaultMessage("Alias")
-	@Description("")
-	String AliasProperties();
-
-	@DefaultMessage("ImageURL")
-	@Description("")
-	String ImageURLProperties();
-	
-	@DefaultMessage("Label")
-	@Description("")
-	String LabelProperties();
-
-	
-	@DefaultMessage("Description")
-	@Description("")
-	String DescriptionProperties();
-
-	@DefaultMessage("Identifier")
-	@Description("")
-	String IdentifierProperties();
-
-	@DefaultMessage("PreferredLanguage")
-	@Description("")
-	String PreferredLanguageProperties();
-	
-	@DefaultMessage("SecondLanguage")
-	@Description("")
-	String SecondLanguageProperties();
-	
-	
-	@DefaultMessage("RetrievePropertyLabel")
-	@Description("")
-	String RetrievePropertyLabelMethods();
-
-	
-	@DefaultMessage("AvailableProperties")
-	@Description("")
-	String AvailablePropertiesMethods();
-
-	
-	@DefaultMessage("RetrieveAliases")
-	@Description("")
-	String RetrieveAliasesMethods();
-
-	
-	@DefaultMessage("ClassifyTextMethods")
-	@Description("")
-	String ClassifyTextMethods();
-
-	@DefaultMessage("ExplainConceptMethods")
-	@Description("")
-	String ExplainConceptMethods();
-	
-	@DefaultMessage("Load")
-	@Description("")
-	String LoadMethods();
-
-	@DefaultMessage("RetrieveLinkedConcept")
-	@Description("")
-	String RetrieveLinkedConceptMethods();
-
-	@DefaultMessage("RetrieveLinkedConcepts")
-	@Description("")
-	String RetrieveLinkedConceptsMethods();
-
-	@DefaultMessage("RetrieveNumericValue")
-	@Description("")
-	String RetrieveNumericValueMethods();
-
-	@DefaultMessage("RetrieveNumericValues")
-	@Description("")
-	String RetrieveNumericValuesMethods();
-
-	@DefaultMessage("RetrieveStringValue")
-	@Description("")
-	String RetrieveStringValueMethods();
-
-	@DefaultMessage("RetrieveStringValues")
-	@Description("")
-	String RetrieveStringValuesMethods();
-
-	
-	@DefaultMessage("RetrieveAssistedLinkedConcept")
-	@Description("")
-	String RetrieveAssistedLinkedConceptMethods();
-
-	@DefaultMessage("RetrieveAssistedLinkedConcepts")
-	@Description("")
-	String RetrieveAssistedLinkedConceptsMethods();
-
-	@DefaultMessage("RetrieveAssistedNumericValue")
-	@Description("")
-	String RetrieveAssistedNumericValueMethods();
-
-	@DefaultMessage("RetrieveAssistedNumericValues")
-	@Description("")
-	String RetrieveAssistedNumericValuesMethods();
-
-	@DefaultMessage("RetrieveAssistedStringValue")
-	@Description("")
-	String RetrieveAssistedStringValueMethods();
-
-	@DefaultMessage("RetrieveAssistedStringValues")
-	@Description("")
-	String RetrieveAssistedStringValuesMethods();
+	//
+	// ActivityTracker
+	//
 
 	
 	
-	@DefaultMessage("RetrieveInstancesByClassifierID")
+	@DefaultMessage("StorageMode")
 	@Description("")
-	String RetrieveInstancesByClassifierIDMethods();
-
-	@DefaultMessage("RetrievePaginatedInstancesByClassifierID")
-	@Description("")
-	String RetrievePaginatedInstancesByClassifierIDMethods();
-
-	@DefaultMessage("RetrieveInstances")
-	@Description("")
-	String RetrieveInstancesMethods();
-
-	@DefaultMessage("RetrievePaginatedInstances")
-	@Description("")
-	String RetrievePaginatedInstancesMethods();
-
-	@DefaultMessage("RetrievePropertiesByClassifierID")
-	@Description("")
-	String RetrievePropertiesByClassifierIDMethods();
-
-	@DefaultMessage("RetrieveProperties")
-	@Description("")
-	String RetrievePropertiesMethods();
-
-	@DefaultMessage("RetrieveAncestorsByClassifierID")
-	@Description("")
-	String RetrieveAncestorsByClassifierIDMethods();
-
-	@DefaultMessage("RetrieveAncestors")
-	@Description("")
-	String RetrieveAncestorsMethods();
-
-	@DefaultMessage("RetrieveDescendantsByClassifierID")
-	@Description("")
-	String RetrieveDescendantsByClassifierIDMethods();
+	String StorageModeProperties();
 	
-	@DefaultMessage("RetrieveDescendants")
+	@DefaultMessage("StreamMode")
 	@Description("")
-	String RetrieveDescendantsMethods();
+	String StreamModeProperties();
 
 	
+	@DefaultMessage("NotifyWithData")
+	@Description("")
+	String NotifyWithDataMethods();
+
+	@DefaultMessage("SendStreamQuery")
+	@Description("")
+	String SendStreamQueryMethods();
 	
+	@DefaultMessage("StopStreamQuery")
+	@Description("")
+	String StopStreamQueryMethods();
 	
-	// Used in EEG
-
-	@DefaultMessage("ReadProfiles")
+	@DefaultMessage("StreamDataReceived")
 	@Description("")
-	String ReadProfilesMethods();
+	String StreamDataReceivedEvents();
 	
-	@DefaultMessage("TriggerNeutralState")
-	@Description("")
-	String TriggerNeutralStateProperties();
-
-	@DefaultMessage("InfoDataChannels")
-	@Description("")
-	String InfoDataChannelsProperties();
-
-	@DefaultMessage("InfoTrainableMentalCommands")
-	@Description("")
-	String InfoTrainableMentalCommandsProperties();
-
-	@DefaultMessage("InfoTrainableFacialExpressions")
-	@Description("")
-	String InfoTrainableFacialExpressionsProperties();
-	
-	@DefaultMessage("EmotivEPOC+")
-	@Description("")
-	String emotivEPOCPlus();
-
-	@DefaultMessage("EmotivInsight")
-	@Description("")
-	String emotivInsight();
-
-	@DefaultMessage("BeginTrainingNeutralState")
-	@Description("")
-	String BeginTrainingNeutralStateMethods();
-
-	@DefaultMessage("SaveProfile")
-	@Description("")
-	String SaveProfileMethods();
-
-	@DefaultMessage("LoadProfile")
-	@Description("")
-	String LoadProfileMethods();
-	
-	@DefaultMessage("DeleteProfile")
-	@Description("")
-	String DeleteProfileMethods();
-
-	@DefaultMessage("FinishTrainingNeutralState")
-	@Description("")
-	String FinishTrainingNeutralStateMethods();
-
-	@DefaultMessage("RetrieveTrainedMentalCommandRating")
-	@Description("")
-	String RetrieveTrainedMentalCommandRatingMethods();
-
-	@DefaultMessage("AcceptTrainingMentalCommand")
-	@Description("")
-	String AcceptTrainingMentalCommandMethods();
-
-	@DefaultMessage("AcceptTrainingFacialExpression")
-	@Description("")
-	String AcceptTrainingFacialExpressionMethods();
-
-	@DefaultMessage("CheckFacialExpressionTrained")
-	@Description("")
-	String CheckFacialExpressionTrainedMethods();
-
-	@DefaultMessage("CheckMentalCommandTrained")
-	@Description("")
-	String CheckMentalCommandTrainedMethods();
-
-	@DefaultMessage("ClearTrainingFacialExpression")
-	@Description("")
-	String ClearTrainingFacialExpressionMethods();
-
-	@DefaultMessage("ClearTrainingMentalCommand")
-	@Description("")
-	String ClearTrainingMentalCommandMethods();
-
-	@DefaultMessage("RejectTrainingFacialExpression")
-	@Description("")
-	String RejectTrainingFacialExpressionMethods();
-
-	@DefaultMessage("RejectTrainingMentalCommand")
-	@Description("")
-	String RejectTrainingMentalCommandMethods();
-
-	@DefaultMessage("TrainFacialExpression")
-	@Description("")
-	String TrainFacialExpressionMethods();
-
-	@DefaultMessage("TrainMentalCommand")
-	@Description("")
-	String TrainMentalCommandMethods();
-
-	@DefaultMessage("RetrieveFFTChannelData")
-	@Description("")
-	String RetrieveFFTChannelDataMethods();
 	
 	@DefaultMessage("ChannelAF3Changed")
 	@Description("")
@@ -654,10 +192,689 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String ChannelAF4ChangedStreamEvents();
 	
+	@DefaultMessage("SendGlobalMessage")
+	@Description("")
+	String SendGlobalMessageMethods();
+
+	@DefaultMessage("SendGlobalDataList")
+	@Description("")
+	String SendGlobalDataListMethods();
+	
 	@DefaultMessage("TimeToStreamBandsData")
 	@Description("")
 	String TimeToStreamBandsDataProperties();
 	
+	@DefaultMessage("Stream")
+	@Description("Label on built-in-Stream-blocks branch of block selector tree")
+	String builtinStreamLabel();
+	
+	@DefaultMessage("Fusion Tables")
+    @Description("Text for storage mode 'Fusion Tables '")
+    String fusionTablesStorageMode();
+	
+	@DefaultMessage("MongoDB")
+	@Description("Text for storage mode 'MongoDB '")
+	String mongoDBStorageMode();
+	
+	//////////////////////
+	////// DEVICE INFO////
+	//////////////////////
+	
+	@DefaultMessage("ScreenWidth")
+	@Description("")
+	String ScreenWidthProperties();
+	
+	@DefaultMessage("ScreenHeight")
+	@Description("")
+	String ScreenHeightProperties();
+	
+	//////////////////////
+	//// MODEL3DVIEWER////
+	//////////////////////
+
+	@DefaultMessage("getMaterial3D")
+	@Description("")
+	String getMaterial3DProperties();
+
+	@DefaultMessage("getModel3D")
+	@Description("")
+	String getModel3DProperties();
+
+	@DefaultMessage("Model3D")
+	@Description("")
+	String setModel3DProperties();
+
+	@DefaultMessage("Material3D")
+	@Description("")
+	String setMaterial3DProperties();
+	
+	@DefaultMessage("Animation secuence")
+	@Description("")
+	String setAnimationSecuenceProperties();
+	
+	@DefaultMessage("Animation activated")
+	@Description("")
+	String setAnimationActivatedProperties();
+	
+	@DefaultMessage("Animation speed")
+	@Description("")
+	String setAnimationSpeedProperties();
+	
+	@DefaultMessage("Background color")
+	@Description("")
+	String setBGColorProperties();
+	
+	@DefaultMessage("Move speed")
+	@Description("")
+	String setMoveSpeedProperties();
+	
+	@DefaultMessage("Position X")
+	@Description("")
+	String setPositionXProperties();
+
+	@DefaultMessage("Position Y")
+	@Description("")
+	String setPositionYProperties();
+	
+	@DefaultMessage("Position Z")
+	@Description("")
+	String setPositionZProperties();
+	
+	@DefaultMessage("Rotation X")
+	@Description("")
+	String setRotationXProperties();
+	
+	@DefaultMessage("Rotation Y")
+	@Description("")
+	String setRotationYProperties();
+	
+	@DefaultMessage("Rotation Z")
+	@Description("")
+	String setRotationZProperties();
+	
+	
+	@DefaultMessage("Rotation speed")
+	@Description("")
+	String setRotateSpeedProperties();
+	
+	@DefaultMessage("Scale")
+	@Description("")
+	String setScaleProperties();
+	
+	@DefaultMessage("Zoom speed")
+	@Description("")
+	String setZoomSpeedProperties();
+	
+	@DefaultMessage("Zoom min ")
+	@Description("")
+	String setZoomMinProperties();
+	
+	@DefaultMessage("Zoom max ")
+	@Description("")
+	String setZoomMaxProperties();
+	
+	@DefaultMessage("Wideframe activated")
+	@Description("")
+	String setWideframeActivatedProperties();
+	
+	@DefaultMessage("Textures")
+	@Description("")
+	String setTexturesProperties();
+	
+	
+	///////////
+	//// VR////
+	///////////
+
+	@DefaultMessage("getBinocularMode")
+	@Description("")
+	String getBinocularModeProperties();
+
+	@DefaultMessage("Binocular")
+	@Description("")
+	String BinocularProperties();
+
+	@DefaultMessage("VRScene")
+	@Description("")
+	String VRSceneProperties();
+
+	@DefaultMessage("MoveFocusNext")
+	@Description("")
+	String MoveFocusNextMethods();
+	
+	@DefaultMessage("MoveFocusPrevious")
+	@Description("")
+	String MoveFocusPreviousMethods();
+	
+	@DefaultMessage("DobleTap Touch")
+	@Description("")
+	String DobleTapTouchEvents();
+	
+	@DefaultMessage("SingleTap Touch")
+	@Description("")
+	String SingleTapTouchEvents();
+	
+	@DefaultMessage("LongPress Touch")
+	@Description("")
+	String LongPressTouchEvents();
+	
+	
+	@DefaultMessage("RotateLeftFocusedObject3D ")
+	@Description("")
+	String RotateLeftFocusObject3DMethods();
+
+	@DefaultMessage("RotateRightFocusedObject3D ")
+	@Description("")
+	String RotateRightFocusObject3DMethods();
+
+	@DefaultMessage("RotateUpFocusedObject3D ")
+	@Description("")
+	String RotateUpFocusObject3DMethods();
+
+	@DefaultMessage("RotateDownFocusedObject3D ")
+	@Description("")
+	String RotateDownFocusObject3DMethods();
+
+	@DefaultMessage("ZoomInFocusedObject3D ")
+	@Description("")
+	String ZoomInFocusObject3DMethods();
+
+	@DefaultMessage("ZoomOutFocusedObject3D ")
+	@Description("")
+	String ZoomOutFocusObject3DMethods();
+
+	@DefaultMessage("MoveUpFocusedObject3D ")
+	@Description("")
+	String MoveUpFocusObject3DMethods();
+
+	@DefaultMessage("MoveDownFocusedObject3D ")
+	@Description("")
+	String MoveDownFocusObject3DMethods();
+
+	@DefaultMessage("MoveLeftFocusedObject3D ")
+	@Description("")
+	String MoveLeftFocusObject3DMethods();
+
+	@DefaultMessage("MoveRightFocusedObject3D ")
+	@Description("")
+	String MoveRightFocusObject3DMethods();
+	
+	@DefaultMessage("ResetFocusedObject3D ")
+	@Description("")
+	String ResetFocusObject3DMethods();
+	
+	@DefaultMessage("ScaleIncreaseFocusedObject3D ")
+	@Description("")
+	String ScaleIncreaseFocusObject3DMethods();
+
+	@DefaultMessage("ScaleDecreaseFocusedObject3D ")
+	@Description("")
+	String ScaleDecreaseFocusObject3DMethods();
+	
+	
+	@DefaultMessage("SetAsFocusedObject3D ")
+	@Description("")
+	String SetAsFocusObject3DMethods();
+	
+	
+	
+
+	// OBJECT3D
+
+	@DefaultMessage("Rotate Speed")
+	@Description("")
+	String RotateSpeedProperties();
+
+	@DefaultMessage("Move Speed")
+	@Description("")
+	String MoveSpeedProperties();
+	
+	@DefaultMessage("Skybox Image")
+	@Description("")
+	String SkyboxImageProperties();
+
+	@DefaultMessage("getSkyboxImage")
+	@Description("")
+	String getSkyboxImageProperties();
+
+	@DefaultMessage("Model3D")
+	@Description("")
+	String Model3DProperties();
+
+	@DefaultMessage("Material3D")
+	@Description("")
+	String Material3DProperties();
+
+	@DefaultMessage("getPositionX")
+	@Description("")
+	String getPositionXProperties();
+
+	@DefaultMessage("getPositionY")
+	@Description("")
+	String getPositionYProperties();
+
+	@DefaultMessage("getPositionZ")
+	@Description("")
+	String getPositionZProperties();
+
+	@DefaultMessage("getScale")
+	@Description("")
+	String getScaleProperties();
+
+	@DefaultMessage("AmbientLight intensity")
+	@Description("")
+	String AmbientLightIntensityProperties();
+
+	@DefaultMessage("getAmbientLightIntensity")
+	@Description("")
+	String getAmbientLightIntensityProperties();
+
+	@DefaultMessage("RotateLeftObject3D ")
+	@Description("")
+	String RotateLeftMethods();
+
+	@DefaultMessage("RotateRightObject3D ")
+	@Description("")
+	String RotateRightMethods();
+
+	@DefaultMessage("RotateUpObject3D ")
+	@Description("")
+	String RotateUpMethods();
+
+	@DefaultMessage("RotateDownObject3D ")
+	@Description("")
+	String RotateDownMethods();
+
+	@DefaultMessage("ZoomInObject3D ")
+	@Description("")
+	String ZoomInMethods();
+
+	@DefaultMessage("ZoomOutObject3D ")
+	@Description("")
+	String ZoomOutMethods();
+
+	@DefaultMessage("MoveUpObject3D ")
+	@Description("")
+	String MoveUpMethods();
+
+	@DefaultMessage("MoveDownObject3D ")
+	@Description("")
+	String MoveDownMethods();
+
+	@DefaultMessage("MoveLeftObject3D ")
+	@Description("")
+	String MoveLeftMethods();
+
+	@DefaultMessage("MoveRightObject3D ")
+	@Description("")
+	String MoveRightMethods();
+	
+	@DefaultMessage("ScaleIncreaseObject3D ")
+	@Description("")
+	String ScaleIncreaseMethods();
+
+	@DefaultMessage("ScaleDecreaseObject3D ")
+	@Description("")
+	String ScaleDecreaseMethods();
+
+	// IMAGE360
+
+	@DefaultMessage("getImage360")
+	@Description("")
+	String getImage360Properties();
+
+	@DefaultMessage("Image360 Asset")
+	@Description("")
+	String setImage360Properties();
+
+	// VIDEO360
+
+	@DefaultMessage("Video360 Asset")
+	@Description("")
+	String Video360AssetProperties();
+
+	@DefaultMessage("getVideo360Asset")
+	@Description("")
+	String getVideo360AssetProperties();
+
+	@DefaultMessage("Video360 Url")
+	@Description("")
+	String Video360UrlProperties();
+
+	@DefaultMessage("getVideo360Url")
+	@Description("")
+	String getVideo360UrlProperties();
+
+	@DefaultMessage("VideoUrl Quality")
+	@Description("")
+	String VideoUrlQualityProperties();
+
+	@DefaultMessage("getVideoUrlQuality")
+	@Description("")
+	String getVideoUrlQualityProperties();
+
+	@DefaultMessage("getLoop")
+	@Description("")
+	String getLoopProperties();
+
+	@DefaultMessage("getVolume")
+	@Description("")
+	String getVolumeProperties();
+
+	@DefaultMessage("Start video360")
+	@Description("")
+	String StartVideoEvents();
+
+	@DefaultMessage("End video360")
+	@Description("")
+	String EndVideoEvents();
+
+	// CONTROLLER VR
+
+	
+
+	@DefaultMessage("Press A Button")
+	@Description("")
+	String PressAButtonEvents();
+
+	@DefaultMessage("Press B Button")
+	@Description("")
+	String PressBButtonEvents();
+
+	@DefaultMessage("Press C Button")
+	@Description("")
+	String PressCButtonEvents();
+
+	@DefaultMessage("Press D Button")
+	@Description("")
+	String PressDButtonEvents();
+
+	@DefaultMessage("Press X Button")
+	@Description("")
+	String PressXButtonEvents();
+
+	@DefaultMessage("Press Z Button")
+	@Description("")
+	String PressZButtonEvents();
+
+	@DefaultMessage("Move Up Joystick")
+	@Description("")
+	String PressUpJoystickEvents();
+
+	@DefaultMessage("Move Down Joystick")
+	@Description("")
+	String PressDownJoystickEvents();
+
+	@DefaultMessage("Move Left Joystick")
+	@Description("")
+	String PressLeftJoystickEvents();
+
+	@DefaultMessage("Move Right Joystick")
+	@Description("")
+	String PressRightJoystickEvents();
+
+	@DefaultMessage("Move Up-Left Joystick")
+	@Description("")
+	String PressUpLeftJoystickEvents();
+
+	@DefaultMessage("Move Up-Right Joystick")
+	@Description("")
+	String PressUpRightJoystickEvents();
+
+	@DefaultMessage("Move Down-Left Joystick")
+	@Description("")
+	String PressDownLeftJoystickEvents();
+
+	@DefaultMessage("Move Down-Right Joystick")
+	@Description("")
+	String PressDownRightJoystickEvents();
+
+	@DefaultMessage("Check controller connected")
+	@Description("")
+	String CheckControllerConectionMethods();
+
+	@DefaultMessage("Classifier")
+	@Description("")
+	String ClassifierProperties();
+
+	@DefaultMessage("Alias")
+	@Description("")
+	String AliasProperties();
+
+	@DefaultMessage("ImageURL")
+	@Description("")
+	String ImageURLProperties();
+
+	@DefaultMessage("Label")
+	@Description("")
+	String LabelProperties();
+
+	@DefaultMessage("Description")
+	@Description("")
+	String DescriptionProperties();
+
+	@DefaultMessage("Identifier")
+	@Description("")
+	String IdentifierProperties();
+
+	@DefaultMessage("PreferredLanguage")
+	@Description("")
+	String PreferredLanguageProperties();
+
+	@DefaultMessage("SecondLanguage")
+	@Description("")
+	String SecondLanguageProperties();
+
+	@DefaultMessage("RetrievePropertyLabel")
+	@Description("")
+	String RetrievePropertyLabelMethods();
+
+	@DefaultMessage("AvailableProperties")
+	@Description("")
+	String AvailablePropertiesMethods();
+
+	@DefaultMessage("RetrieveAliases")
+	@Description("")
+	String RetrieveAliasesMethods();
+
+	@DefaultMessage("ClassifyTextMethods")
+	@Description("")
+	String ClassifyTextMethods();
+
+	@DefaultMessage("ExplainConceptMethods")
+	@Description("")
+	String ExplainConceptMethods();
+
+	@DefaultMessage("Load")
+	@Description("")
+	String LoadMethods();
+
+	@DefaultMessage("RetrieveLinkedConcept")
+	@Description("")
+	String RetrieveLinkedConceptMethods();
+
+	@DefaultMessage("RetrieveLinkedConcepts")
+	@Description("")
+	String RetrieveLinkedConceptsMethods();
+
+	@DefaultMessage("RetrieveNumericValue")
+	@Description("")
+	String RetrieveNumericValueMethods();
+
+	@DefaultMessage("RetrieveNumericValues")
+	@Description("")
+	String RetrieveNumericValuesMethods();
+
+	@DefaultMessage("RetrieveStringValue")
+	@Description("")
+	String RetrieveStringValueMethods();
+
+	@DefaultMessage("RetrieveStringValues")
+	@Description("")
+	String RetrieveStringValuesMethods();
+
+	@DefaultMessage("RetrieveAssistedLinkedConcept")
+	@Description("")
+	String RetrieveAssistedLinkedConceptMethods();
+
+	@DefaultMessage("RetrieveAssistedLinkedConcepts")
+	@Description("")
+	String RetrieveAssistedLinkedConceptsMethods();
+
+	@DefaultMessage("RetrieveAssistedNumericValue")
+	@Description("")
+	String RetrieveAssistedNumericValueMethods();
+
+	@DefaultMessage("RetrieveAssistedNumericValues")
+	@Description("")
+	String RetrieveAssistedNumericValuesMethods();
+
+	@DefaultMessage("RetrieveAssistedStringValue")
+	@Description("")
+	String RetrieveAssistedStringValueMethods();
+
+	@DefaultMessage("RetrieveAssistedStringValues")
+	@Description("")
+	String RetrieveAssistedStringValuesMethods();
+
+	@DefaultMessage("RetrieveInstancesByClassifierID")
+	@Description("")
+	String RetrieveInstancesByClassifierIDMethods();
+
+	@DefaultMessage("RetrievePaginatedInstancesByClassifierID")
+	@Description("")
+	String RetrievePaginatedInstancesByClassifierIDMethods();
+
+	@DefaultMessage("RetrieveInstances")
+	@Description("")
+	String RetrieveInstancesMethods();
+
+	@DefaultMessage("RetrievePaginatedInstances")
+	@Description("")
+	String RetrievePaginatedInstancesMethods();
+
+	@DefaultMessage("RetrievePropertiesByClassifierID")
+	@Description("")
+	String RetrievePropertiesByClassifierIDMethods();
+
+	@DefaultMessage("RetrieveProperties")
+	@Description("")
+	String RetrievePropertiesMethods();
+
+	@DefaultMessage("RetrieveAncestorsByClassifierID")
+	@Description("")
+	String RetrieveAncestorsByClassifierIDMethods();
+
+	@DefaultMessage("RetrieveAncestors")
+	@Description("")
+	String RetrieveAncestorsMethods();
+
+	@DefaultMessage("RetrieveDescendantsByClassifierID")
+	@Description("")
+	String RetrieveDescendantsByClassifierIDMethods();
+
+	@DefaultMessage("RetrieveDescendants")
+	@Description("")
+	String RetrieveDescendantsMethods();
+
+	// Used in EEG
+
+	@DefaultMessage("ReadProfiles")
+	@Description("")
+	String ReadProfilesMethods();
+
+	@DefaultMessage("TriggerNeutralState")
+	@Description("")
+	String TriggerNeutralStateProperties();
+
+	@DefaultMessage("InfoDataChannels")
+	@Description("")
+	String InfoDataChannelsProperties();
+
+	@DefaultMessage("InfoTrainableMentalCommands")
+	@Description("")
+	String InfoTrainableMentalCommandsProperties();
+
+	@DefaultMessage("InfoTrainableFacialExpressions")
+	@Description("")
+	String InfoTrainableFacialExpressionsProperties();
+
+	@DefaultMessage("EmotivEPOC+")
+	@Description("")
+	String emotivEPOCPlus();
+
+	@DefaultMessage("EmotivInsight")
+	@Description("")
+	String emotivInsight();
+
+	@DefaultMessage("BeginTrainingNeutralState")
+	@Description("")
+	String BeginTrainingNeutralStateMethods();
+
+	@DefaultMessage("SaveProfile")
+	@Description("")
+	String SaveProfileMethods();
+
+	@DefaultMessage("LoadProfile")
+	@Description("")
+	String LoadProfileMethods();
+
+	@DefaultMessage("DeleteProfile")
+	@Description("")
+	String DeleteProfileMethods();
+
+	@DefaultMessage("FinishTrainingNeutralState")
+	@Description("")
+	String FinishTrainingNeutralStateMethods();
+
+	@DefaultMessage("RetrieveTrainedMentalCommandRating")
+	@Description("")
+	String RetrieveTrainedMentalCommandRatingMethods();
+
+	@DefaultMessage("AcceptTrainingMentalCommand")
+	@Description("")
+	String AcceptTrainingMentalCommandMethods();
+
+	@DefaultMessage("AcceptTrainingFacialExpression")
+	@Description("")
+	String AcceptTrainingFacialExpressionMethods();
+
+	@DefaultMessage("CheckFacialExpressionTrained")
+	@Description("")
+	String CheckFacialExpressionTrainedMethods();
+
+	@DefaultMessage("CheckMentalCommandTrained")
+	@Description("")
+	String CheckMentalCommandTrainedMethods();
+
+	@DefaultMessage("ClearTrainingFacialExpression")
+	@Description("")
+	String ClearTrainingFacialExpressionMethods();
+
+	@DefaultMessage("ClearTrainingMentalCommand")
+	@Description("")
+	String ClearTrainingMentalCommandMethods();
+
+	@DefaultMessage("RejectTrainingFacialExpression")
+	@Description("")
+	String RejectTrainingFacialExpressionMethods();
+
+	@DefaultMessage("RejectTrainingMentalCommand")
+	@Description("")
+	String RejectTrainingMentalCommandMethods();
+
+	@DefaultMessage("TrainFacialExpression")
+	@Description("")
+	String TrainFacialExpressionMethods();
+
+	@DefaultMessage("TrainMentalCommand")
+	@Description("")
+	String TrainMentalCommandMethods();
+
+	@DefaultMessage("RetrieveFFTChannelData")
+	@Description("")
+	String RetrieveFFTChannelDataMethods();
+
 	@DefaultMessage("RetrieveThetaBand")
 	@Description("")
 	String RetrieveThetaBandMethods();
@@ -689,11 +906,11 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("FacialExpressionDetected")
 	@Description("")
 	String FacialExpressionDetectedEvents();
-	
+
 	@DefaultMessage("NeutralExpression")
 	@Description("")
 	String NeutralExpressionEvents();
-	
+
 	@DefaultMessage("Smile")
 	@Description("")
 	String SmileEvents();
@@ -713,7 +930,7 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("NeutralCommand")
 	@Description("")
 	String NeutralCommandEvents();
-	
+
 	@DefaultMessage("DisappearCommand")
 	@Description("")
 	String DisappearCommandEvents();
@@ -814,8 +1031,6 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String AttentionLevelProperties();
 
-	
-	
 	@DefaultMessage("LookingDown")
 	@Description("")
 	String LookingDownEvents();
@@ -896,14 +1111,14 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String ZMagnetizationProperties();
 
-	// Used in Sphero	
-	
+	// Used in Sphero
 
-	
+	/************************************************************************************* EDSON ***/
+
 	@DefaultMessage("DisconnectAndSleep")
 	@Description("")
 	String DisconnectAndSleepMethods();
-	
+
 	@DefaultMessage("Sleep")
 	@Description("")
 	String SleepMethods();
@@ -911,52 +1126,53 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("Delay")
 	@Description("")
 	String DelayMethods();
-	
+
 	@DefaultMessage("ConfigureCollision")
 	@Description("")
 	String ConfigureCollisionMethods();
-	
+
 	@DefaultMessage("CollisionMethod")
 	@Description("")
-	String CollisionMethodProperties();	
+	String CollisionMethodProperties();
 
 	@DefaultMessage("CollisionXt")
 	@Description("")
 	String CollisionXtProperties();
-	
+
 	@DefaultMessage("CollisionYt")
 	@Description("")
 	String CollisionYtProperties();
-	
+
 	@DefaultMessage("CollisionXspd")
 	@Description("")
 	String CollisionXspdProperties();
-	
+
 	@DefaultMessage("CollisionYspd")
 	@Description("")
 	String CollisionYspdProperties();
-	
+
 	@DefaultMessage("CollisionDeadTime")
 	@Description("")
-	String CollisionDeadTimeProperties();	
-		
+	String CollisionDeadTimeProperties();
+
 	@DefaultMessage("DriveAngle")
 	@Description("")
 	String DriveAngleProperties();
-	
+
 	@DefaultMessage("DriveVelocity")
 	@Description("")
 	String DriveVelocityProperties();
-	
-	@DefaultMessage("BackLed") 
+
+	@DefaultMessage("BackLed")
 	@Description("")
 	String BackLedProperties();
-	
+
 	@DefaultMessage("MotionTimeOut")
 	@Description("")
 	String MotionTimeOutProperties();
-	/*************************************************************************************EDSON***/
-	
+
+	/************************************************************************************* EDSON ***/
+
 	@DefaultMessage("DefaultColor")
 	@Description("")
 	String DefaultColorProperties();
@@ -1054,11 +1270,11 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("ChartType")
 	@Description("")
 	String ChartTypeProperties();
-	
+
 	@DefaultMessage("AppendData")
 	@Description("")
 	String AppendDataMethods();
-	
+
 	@DefaultMessage("RefreshInterval")
 	@Description("")
 	String RefreshIntervalProperties();
@@ -1070,7 +1286,7 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("ValueAxisTitle")
 	@Description("")
 	String ValueAxisTitleProperties();
-	
+
 	@DefaultMessage("ValuesTitle")
 	@Description("")
 	String ValuesTitleProperties();
@@ -1096,7 +1312,7 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("Line")
 	@Description("Text for chart type 'line'")
 	String lineChart();
-	
+
 	@DefaultMessage("Column")
 	@Description("Text for chart type 'column'")
 	String columnChart();
@@ -1189,23 +1405,11 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String AdditionalFilterProperties();
 
-	@DefaultMessage("DataReceived")
+	@DefaultMessage("*DataReceived")
 	@Description("")
 	String DataReceivedEvents();
-	
-	@DefaultMessage("SendStreamQuery")
-	@Description("")
-	String SendStreamQueryMethods();
-	
-	@DefaultMessage("StopStreamQuery")
-	@Description("")
-	String StopStreamQueryMethods();
-	
-	@DefaultMessage("StreamDataReceived")
-	@Description("")
-	String StreamDataReceivedEvents();
 
-	// Used in ActivityAggregatedQuery
+	// Used in ActivityAggregatedProcessor
 
 	@DefaultMessage("GroupBy")
 	@Description("")
@@ -1215,7 +1419,7 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String MetricsToRetrieveProperties();
 
-	// Used in ActivitySimpleQuery
+	// Used in ActivitySimpleProcessor
 
 	@DefaultMessage("*DistinctResults")
 	@Description("")
@@ -1248,20 +1452,6 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("indifferent")
 	@Description("Text for synchronization mode 'indifferent '")
 	String indifferentCommunicationMode();
-	
-	// Used in
-    // editor/youngandroid/properties/YoungAndroidStorageModeChoicePropertyEditor.java
-    @DefaultMessage("Fusion Tables")
-    @Description("Text for storage mode 'Fusion Tables '")
-    String fusionTablesStorageMode();
-
-	@DefaultMessage("MongoDB")
-	@Description("Text for storage mode 'MongoDB '")
-	String mongoDBStorageMode();
-	
-	@DefaultMessage("Stream")
-	@Description("Text for storage mode 'Stream mode'")
-	String streamStorageMode();
 
 	@DefaultMessage("Default")
 	@Description("Text for property editors")
@@ -2021,10 +2211,6 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("Procedures")
 	@Description("Label on built-in-Procedures-blocks branch of block selector tree")
 	String builtinProceduresLabel();
-	
-	@DefaultMessage("Stream")
-	@Description("Label on built-in-Stream-blocks branch of block selector tree")
-	String builtinStreamLabel();
 
 	@DefaultMessage("Any component")
 	@Description("Label on any-component branch of block selector tree")
@@ -6881,19 +7067,19 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String GetRowsWithConditionsMethods();
 
-	@DefaultMessage("简体中文")
+	@DefaultMessage("Ã§Â®â‚¬Ã¤Â½â€œÃ¤Â¸Â­Ã¦â€“â€¡")
 	@Description("")
 	String SwitchToSimplifiedChinese();
 
-	@DefaultMessage("繁体中文")
+	@DefaultMessage("Ã§Â¹Â�Ã¤Â½â€œÃ¤Â¸Â­Ã¦â€“â€¡")
 	@Description("")
 	String SwitchToTraditionalChinese();
 
-	@DefaultMessage("Español")
+	@DefaultMessage("EspaÃƒÂ±ol")
 	@Description("")
 	String SwitchToSpanish();
 
-	@DefaultMessage("Français")
+	@DefaultMessage("FranÃƒÂ§ais")
 	@Description("")
 	String SwitchToFrench();
 
@@ -6901,11 +7087,11 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String SwitchToItalian();
 
-	@DefaultMessage("Pусский")
+	@DefaultMessage("PÃ‘Æ’Ã‘Â�Ã‘Â�Ã�ÂºÃ�Â¸Ã�Â¹")
 	@Description("")
 	String SwitchToRussian();
 
-	@DefaultMessage("한국어")
+	@DefaultMessage("Ã­â€¢Å“ÃªÂµÂ­Ã¬â€“Â´")
 	@Description("")
 	String SwitchToKorean();
 
@@ -6913,7 +7099,7 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String SwitchToSwedish();
 
-	@DefaultMessage("Português do Brasil")
+	@DefaultMessage("PortuguÃƒÂªs do Brasil")
 	@Description("")
 	String switchToPortugueseBR();
 
@@ -7278,19 +7464,19 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("Refresh")
 	@Description("")
 	String RefreshMethods();
-	
+
 	@DefaultMessage("ZoomActivated")
 	@Description("")
 	String ZoomActivatedProperties();
-	
+
 	@DefaultMessage("RotateActivated")
 	@Description("")
 	String RotateActivatedProperties();
-	
+
 	@DefaultMessage("ZoomMaxSize")
 	@Description("")
 	String ZoomMaxSizeProperties();
-	
+
 	@DefaultMessage("ZoomMinSize")
 	@Description("")
 	String ZoomMinSizeProperties();
@@ -7328,15 +7514,6 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("DataListReceived")
 	@Description("")
 	String DataListReceivedEvents();
-	/*************************************************************************************EDSON***/
-	@DefaultMessage("SendGlobalMessage")
-	@Description("")
-	String SendGlobalMessageMethods();
-
-	@DefaultMessage("SendGlobalDataList")
-	@Description("")
-	String SendGlobalDataListMethods();
-	/*************************************************************************************EDSON***/	
 
 	//
 	// ThingSpeakLocationSensor
@@ -7378,22 +7555,14 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("IP")
 	@Description("")
 	String IPProperties();
-	
+
 	@DefaultMessage("InternetConnection")
 	@Description("")
 	String InternetConnectionProperties();
-	
+
 	@DefaultMessage("AndroidAPILevel")
 	@Description("")
 	String AndroidAPILevelProperties();
-	
-	//
-	// ActivityStreamQuery
-	//
-	
-	@DefaultMessage("ExecuteQuery")
-	@Description("")
-	String ExecuteQueryMethods();
 
 	//
 	// ActivityTracker
@@ -7404,7 +7573,7 @@ public interface OdeMessages extends Messages {
 			+ "Finally, sending data can be performed in real time, user demand or in batches.")
 	@Description("")
 	String ActivityTrackerHelpStringComponentPallette();
-	
+
 	@DefaultMessage("Go to the connected table.")
 	@Description("")
 	String ActivityTrackerShowTableMessage();
@@ -7428,14 +7597,6 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("CommunicationMode")
 	@Description("")
 	String CommunicationModeProperties();
-	
-	@DefaultMessage("StorageMode")
-	@Description("")
-	String StorageModeProperties();
-	
-	@DefaultMessage("StreamMode")
-	@Description("")
-	String StreamModeProperties();
 
 	@DefaultMessage("NotifyWithoutArguments")
 	@Description("")
@@ -7452,10 +7613,6 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("NotifyWithThreeArguments")
 	@Description("")
 	String NotifyWithThreeArgumentsMethods();
-	
-	@DefaultMessage("NotifyWithData")
-	@Description("")
-	String NotifyWithDataMethods();
 
 	@DefaultMessage("BatchTime")
 	@Description("")
@@ -7516,31 +7673,31 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("HandDisappears")
 	@Description("")
 	String HandDisappearsEvents();
-	
+
 	@DefaultMessage("WaveOutGesture")
 	@Description("")
 	String WaveOutGestureEvents();
-	
+
 	@DefaultMessage("WaveInGesture")
 	@Description("")
 	String WaveInGestureEvents();
-	
+
 	@DefaultMessage("FistGesture")
 	@Description("")
 	String FistGestureEvents();
-	
+
 	@DefaultMessage("FingersSpreadGesture")
 	@Description("")
 	String FingersSpreadGestureEvents();
-	
+
 	@DefaultMessage("OrientationData")
 	@Description("")
 	String OrientationDataEvents();
-	
+
 	@DefaultMessage("DeviceSynchronized")
 	@Description("")
 	String DeviceSynchronizedEvents();
-	
+
 	@DefaultMessage("DeviceUnsynchronized")
 	@Description("")
 	String DeviceUnsynchronizedEvents();

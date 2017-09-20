@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
+import com.google.appinventor.components.annotations.SimpleEvent;
 import com.google.appinventor.components.annotations.SimpleFunction;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
@@ -12,19 +13,17 @@ import com.google.appinventor.components.annotations.UsesLibraries;
 import com.google.appinventor.components.annotations.UsesPermissions;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
-import com.google.appinventor.components.runtime.util.ARVirtualObjectBroadCastReceiver;
 import com.google.appinventor.components.runtime.util.OnInitializeListener;
 import com.google.appinventor.components.runtime.util.VRObject3DBroadCastReceiver;
 import com.google.appinventor.components.runtime.vr4ai.VRActivity;
 import com.google.appinventor.components.runtime.vr4ai.util.Object3DParcelable;
-import com.threed.jpct.Texture;
+import com.google.appinventor.components.runtime.vr4ai.util.Video360Parcelable;
 
 import android.util.Log;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Parcelable;
 import android.support.v4.content.LocalBroadcastManager;
 
 @UsesLibraries(libraries = "vr4ai.jar, jpct_ae.jar, cardboard.jar, libprotobuf-java-2.3-nano.jar, android-support-v4.jar")
@@ -54,7 +53,8 @@ public class VRScene  extends AndroidNonvisibleComponent implements OnInitialize
 	private VRController controller;
 	private boolean stereoMode;
 	private String skyboxPath;
-	public ArrayList<Object3DParcelable> object3DList= new ArrayList<Object3DParcelable>();
+	public ArrayList<Object3DParcelable> object3DParList= new ArrayList<Object3DParcelable>();
+	public Video360Parcelable video360Par;
 	private int ambientLight;
 	
 	public VRScene(ComponentContainer container) {
@@ -75,7 +75,46 @@ public class VRScene  extends AndroidNonvisibleComponent implements OnInitialize
 		instance = this;
 	
 	}
+	public BroadcastReceiver doubleTapTouchEventBroadCastReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
 
+			
+			DobleTapTouch();
+		}
+
+	};
+	public BroadcastReceiver singleTapTouchEventBroadCastReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+
+			
+			SingleTapTouch();
+		}
+
+	};
+	public BroadcastReceiver longPressTouchEventBroadCastReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+
+			
+			LongPressTouch();
+		}
+
+	};
+	@SimpleEvent
+	public void DobleTapTouch() {
+		EventDispatcher.dispatchEvent(this, "DobleTapTouch");
+		
+	}
+	@SimpleEvent
+	public void SingleTapTouch() {
+		EventDispatcher.dispatchEvent(this, "SingleTapTouch");
+	}
+	@SimpleEvent
+	public void LongPressTouch() {
+		EventDispatcher.dispatchEvent(this, "LongPressTouch");
+	}
 	public void setAssetToExtract(Object obj)
 	{
 		objtoExtract=obj;
@@ -113,12 +152,20 @@ public class VRScene  extends AndroidNonvisibleComponent implements OnInitialize
 			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(stopIntent);
 
 	}
-	@SimpleFunction(description = "Move Object3D focus", userVisible = true)
-	public void MoveFocus() {
+	@SimpleFunction(description = "Move focus to next Object3D", userVisible = true)
+	public void MoveFocusNext() {
 	
 		
-		    Intent moveFocusIntent = new Intent(VRActivity.VR_MOVEFOCUS);
-			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(moveFocusIntent);
+		    Intent moveFocusNextIntent = new Intent(VRActivity.VR_MOVEFOCUS_NEXT);
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(moveFocusNextIntent);
+
+	}
+	@SimpleFunction(description = "Move focus to previous Object3D", userVisible = true)
+	public void MoveFocusPrevious() {
+	
+		
+		    Intent moveFocusPrevIntent = new Intent(VRActivity.VR_MOVEFOCUS_PREVIOUS);
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(moveFocusPrevIntent);
 
 	}
 	@SimpleFunction(description = "Start 3d viewer", userVisible = true)
@@ -156,6 +203,17 @@ public class VRScene  extends AndroidNonvisibleComponent implements OnInitialize
 		
 		intent.putExtra("StereoMode", stereoMode);
 		intent.putExtra("Controller", hasController);
+		intent.putExtra(VRActivity.VR_COMPANION, container.$form() instanceof ReplForm);
+		
+		LocalBroadcastManager.getInstance(container.$form()).registerReceiver(doubleTapTouchEventBroadCastReceiver,
+				new IntentFilter(VRActivity.VR_EVENT_TOUCH_DOBLETAP));
+		
+		LocalBroadcastManager.getInstance(container.$form()).registerReceiver(singleTapTouchEventBroadCastReceiver,
+				new IntentFilter(VRActivity.VR_EVENT_TOUCH_SINGLETAP));
+		
+		LocalBroadcastManager.getInstance(container.$form()).registerReceiver(longPressTouchEventBroadCastReceiver,
+				new IntentFilter(VRActivity.VR_EVENT_TOUCH_LONGPRESS));
+		
 		//OBJECT3D//
 		if(is3DObject)
 		{
@@ -171,7 +229,7 @@ public class VRScene  extends AndroidNonvisibleComponent implements OnInitialize
 			intent.putExtra("MoveSpeed", controller.moveSpeed);
 			intent.putExtra("RotateSpeed", controller.rotationSpeed);
 			
-			intent.putParcelableArrayListExtra("Object3DList", object3DList);
+			intent.putParcelableArrayListExtra("Object3DList", object3DParList);
 			
 		}
 	
@@ -188,12 +246,14 @@ public class VRScene  extends AndroidNonvisibleComponent implements OnInitialize
 		if(isVideo360)
 		{
 			vrV360=(VRVideo360)objtoExtract;
-			intent.putExtra("Video360Path",vrV360.video360Path);
-			intent.putExtra("IsURL", vrV360.isURL);
-			intent.putExtra("IsLoop", vrV360.video360isloop);
-			intent.putExtra("Video360Volume", vrV360.video360Volume);
-			intent.putExtra("Video360Quality", vrV360.video360Quality);
-			intent.putExtra("Video360", true);
+			//intent.putExtra("Video360Path",vrV360.video360Path);
+			//intent.putExtra("IsURL", vrV360.video360IsURL);
+			//intent.putExtra("IsLoop", vrV360.video360isloop);
+			//intent.putExtra("Video360Volume", vrV360.video360Volume);
+			//intent.putExtra("Video360Quality", vrV360.video360Quality);
+			
+			intent.putExtra("Video360", true);	
+			intent.putExtra("Video360Object", video360Par);
 			
 			LocalBroadcastManager.getInstance(container.$form()).registerReceiver(vrV360.videoEndEventBroadCastReceiver,
 					new IntentFilter(VRActivity.VR_EVENT_VIDEO_END));
@@ -242,6 +302,9 @@ public class VRScene  extends AndroidNonvisibleComponent implements OnInitialize
 	@Override
 	public void resultReturned(int requestCode, int resultCode, Intent data) {
 		//cuando vuelvo al scrren1 dejo de recibir de vractivity
+		LocalBroadcastManager.getInstance(container.$context()).unregisterReceiver(doubleTapTouchEventBroadCastReceiver);
+		LocalBroadcastManager.getInstance(container.$context()).unregisterReceiver(singleTapTouchEventBroadCastReceiver);
+		LocalBroadcastManager.getInstance(container.$context()).unregisterReceiver(longPressTouchEventBroadCastReceiver);
 		if(hasController){
 		LocalBroadcastManager.getInstance(container.$context()).unregisterReceiver(controller.pressAEventBroadCastReceiver);
 		LocalBroadcastManager.getInstance(container.$context()).unregisterReceiver(controller.pressBEventBroadCastReceiver);
@@ -259,6 +322,7 @@ public class VRScene  extends AndroidNonvisibleComponent implements OnInitialize
 		LocalBroadcastManager.getInstance(container.$context()).unregisterReceiver(controller.pressUpRightJoystickEventBroadCastReceiver);
 		LocalBroadcastManager.getInstance(container.$context()).unregisterReceiver(controller.pressDownLeftJoystickEventBroadCastReceiver);
 		LocalBroadcastManager.getInstance(container.$context()).unregisterReceiver(controller.pressDownRightJoystickEventBroadCastReceiver);
+
 
 		}
 		
@@ -293,5 +357,114 @@ public class VRScene  extends AndroidNonvisibleComponent implements OnInitialize
 		// TODO Auto-generated method stub
 		
 	}
+	@SimpleFunction(description = "Reset position focus object3D", userVisible = true)
+	public void ResetFocusObject3D() {
+	
+		    Intent resetIntent = new Intent(VRActivity.VR_3DOBJECT_RESET);
+		    resetIntent.putExtra("id", "genericAction");
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(resetIntent);
+
+	}
+	
+	@SimpleFunction(description = "Rotate left position focus object3D", userVisible = true)
+	public void RotateLeftFocusObject3D() {
+	
+		    Intent rotateLeft = new Intent(VRActivity.VR_3DOBJECT_ROTATE_LEFT);
+		    rotateLeft.putExtra("id", "genericAction");
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(rotateLeft);
+
+	}
+	@SimpleFunction(description = "Rotate right position focus object3D", userVisible = true)
+	public void RotateRightFocusObject3D() {
+	
+		    Intent rotateRight = new Intent(VRActivity.VR_3DOBJECT_ROTATE_RIGHT);
+		    rotateRight.putExtra("id", "genericAction");
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(rotateRight);
+
+	}
+	@SimpleFunction(description = "Rotate up position focus object3D", userVisible = true)
+	public void RotateUpFocusObject3D() {
+	
+		    Intent rotateUp = new Intent(VRActivity.VR_3DOBJECT_ROTATE_UP);
+		    rotateUp.putExtra("id", "genericAction");
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(rotateUp);
+
+	}
+	@SimpleFunction(description = "Rotate down position focus object3D", userVisible = true)
+	public void RotateDownFocusObject3D() {
+	
+		    Intent rotateDown = new Intent(VRActivity.VR_3DOBJECT_ROTATE_DOWN);
+		    rotateDown.putExtra("id", "genericAction");
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(rotateDown);
+
+	}
+	@SimpleFunction(description = "Zoom in position focus object3D", userVisible = true)
+	public void ZoomInFocusObject3D() {
+	
+		    Intent zoomIn = new Intent(VRActivity.VR_3DOBJECT_ZOOM_IN);
+		    zoomIn.putExtra("id", "genericAction");
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(zoomIn);
+
+	}
+	@SimpleFunction(description = "Zoom out position focus object3D", userVisible = true)
+	public void ZoomOutFocusObject3D() {
+	
+		    Intent zoomOut = new Intent(VRActivity.VR_3DOBJECT_ZOOM_OUT);
+		    zoomOut.putExtra("id", "genericAction");
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(zoomOut);
+
+	}
+	@SimpleFunction(description = " Move up focus object3D", userVisible = true)
+	public void MoveUpFocusObject3D() {
+	
+		    Intent moveUp = new Intent(VRActivity.VR_3DOBJECT_MOVE_UP);
+		    moveUp.putExtra("id", "genericAction");
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(moveUp);
+
+	}
+	@SimpleFunction(description = "Move down focus object3D", userVisible = true)
+	public void MoveDownFocusObject3D() {
+	
+		    Intent moveDown = new Intent(VRActivity.VR_3DOBJECT_MOVE_DOWN);
+		    moveDown.putExtra("id", "genericAction");
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(moveDown);
+
+	}
+	@SimpleFunction(description = "Zoom out position focus object3D", userVisible = true)
+	public void MoveLeftFocusObject3D() {
+	
+		    Intent moveLeft = new Intent(VRActivity.VR_3DOBJECT_MOVE_LEFT);
+		    moveLeft.putExtra("id", "genericAction");
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(moveLeft);
+
+	}
+	@SimpleFunction(description = "Zoom out position focus object3D", userVisible = true)
+	public void MoveRightFocusObject3D() {
+	
+		    Intent moveRight = new Intent(VRActivity.VR_3DOBJECT_MOVE_RIGHT);
+		    moveRight.putExtra("id", "genericAction");
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(moveRight);
+
+	}
+	@SimpleFunction(description = "Scale increase focus object3D", userVisible = true)
+	public void ScaleIncreaseFocusObject3D() {
+	
+		    Intent scaleIncre = new Intent(VRActivity.VR_3DOBJECT_SCALE_IN);
+		    scaleIncre.putExtra("id",  "genericAction");
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(scaleIncre);
+
+	}
+	
+	@SimpleFunction(description = "Scale increase focus object3D", userVisible = true)
+	public void ScaleDecreaseFocusObject3D() {
+	
+		    Intent scaleDecre = new Intent(VRActivity.VR_3DOBJECT_SCALE_DE);
+		    scaleDecre.putExtra("id",  "genericAction");
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(scaleDecre);
+
+	}
+	
+	
+	
 
 }

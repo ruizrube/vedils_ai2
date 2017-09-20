@@ -189,6 +189,7 @@
 	        <pathelement location="${lib.dir}/ld4ai/ld4ai-0.1.jar" />
 	        
 	        <pathelement location="${lib.dir}/3d4ai/3d4ai.jar" />
+	        <pathelement location="${lib.dir}/3d4ai/bones.jar" />
 	        
 	        <pathelement location="${lib.dir}/vr4ai/vr4ai.jar" />
 	        <pathelement location="${lib.dir}/vr4ai/cardboard.jar" />
@@ -409,6 +410,8 @@
          <pathelement location="${lib.dir}/ld4ai/ld4ai-0.1.jar" />
          
          <pathelement location="${lib.dir}/3d4ai/3d4ai.jar" />
+         <pathelement location="${lib.dir}/3d4ai/bones.jar" />
+         
          
          <pathelement location="${lib.dir}/vr4ai/vr4ai.jar" />
 	     <pathelement location="${lib.dir}/vr4ai/cardboard.jar" />

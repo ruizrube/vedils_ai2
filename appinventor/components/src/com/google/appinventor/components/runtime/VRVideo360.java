@@ -1,5 +1,7 @@
 package com.google.appinventor.components.runtime;
 
+import java.util.UUID;
+
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
@@ -10,6 +12,7 @@ import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
 import com.google.appinventor.components.runtime.vr4ai.VRActivity;
+import com.google.appinventor.components.runtime.vr4ai.util.Video360Parcelable;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -24,11 +27,13 @@ public class VRVideo360 extends AndroidNonvisibleComponent{
 
 	private ComponentContainer container;
 	public String video360Path=null;
-	public boolean isURL=false;
+	public boolean video360IsURL=false;
 	public boolean video360isloop=false;
 	public int video360Volume=50;
 	public static  VRVideo360 instance;
-	public String video360Quality="720";
+	public String video360Quality="240";
+	public UUID id = UUID.randomUUID();
+	public Video360Parcelable video360par= new Video360Parcelable();
 	
 	public BroadcastReceiver videoEndEventBroadCastReceiver = new BroadcastReceiver() {
 		@Override
@@ -54,6 +59,28 @@ public class VRVideo360 extends AndroidNonvisibleComponent{
 		super(container.$form());
 		this.container = container;
 		instance = this;
+		
+		
+		//valores por defecto
+		video360par.setId(id+"");
+		video360par.setVideo360Volumen(video360Volume);
+		video360par.setVideo360Quality(video360Quality);
+		
+		if(video360isloop){
+			video360par.setIsLoop(1);
+			}else
+			{
+			video360par.setIsLoop(0);
+			}
+		if(video360IsURL){
+			video360par.setIsURL(1);
+			}else
+			{
+			video360par.setIsURL(0);
+			}
+		
+		
+		
 	}
 
 	public static VRVideo360 getInstance() {
@@ -64,6 +91,7 @@ public class VRVideo360 extends AndroidNonvisibleComponent{
 	public void VRScene(VRScene scene) {
 		if (scene != null) {
 			scene.isVideo360=true;
+			scene.video360Par=video360par;
 			scene.setAssetToExtract(this);
 			
 		}
@@ -95,8 +123,11 @@ public class VRVideo360 extends AndroidNonvisibleComponent{
 	public void Video360Url(String path) {
 		
 		if(video360Path==null){
-			isURL=true;
+			video360IsURL=true;
 			this.video360Path=path;
+			
+			video360par.setIsURL(1);
+			video360par.setVideo360Path(path);
 			}
 		
 		
@@ -115,6 +146,13 @@ public class VRVideo360 extends AndroidNonvisibleComponent{
 	public void Loop(boolean loop) {
 
 		video360isloop = loop;
+		
+		if(video360isloop){
+			video360par.setIsLoop(1);
+			}else
+			{
+			video360par.setIsLoop(0);
+			}
 
 		Log.d("video360", video360isloop + "");
 	}
@@ -124,6 +162,8 @@ public class VRVideo360 extends AndroidNonvisibleComponent{
 	public void Volume(int vol) 
 	{
 		video360Volume=vol;
+		
+		video360par.setVideo360Volumen(video360Volume);
 	}
 	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
 	public int getVolume() {
@@ -136,12 +176,16 @@ public class VRVideo360 extends AndroidNonvisibleComponent{
 	public void VideoUrlQuality(String quality) 
 	{
 		video360Quality=quality;
+		
+		video360par.setVideo360Quality(video360Quality);
 	}
 	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
 	public String getVideoUrlQuality() {
 
 		return video360Quality;
 	}
+	//al existir ahora mas de un video en la escena, tengo que pensar bien estos eventos
+
 	@SimpleFunction(description = "Stop video360", userVisible = true)
 	public void Stop() {
 	

@@ -11,6 +11,9 @@ import com.google.appinventor.components.common.YaVersion;
 import com.google.appinventor.components.runtime.la4ai.util.DeviceInfoFunctions;
 
 import android.content.Context;
+import android.graphics.Point;
+import android.view.Display;
+import android.view.WindowManager;
 
 /**
  * DeviceInfo Component
@@ -30,6 +33,8 @@ public class DeviceInfo extends AndroidNonvisibleComponent implements Component 
 	
 	private String IMEI;
 	private String MAC;
+	private int width=0;
+	private int height=0;
 	private Context context;
 	
 	public DeviceInfo(ComponentContainer componentContainer) {
@@ -39,12 +44,33 @@ public class DeviceInfo extends AndroidNonvisibleComponent implements Component 
 		this.context = componentContainer.$form().$context();
 		this.IMEI = DeviceInfoFunctions.getIMEI(this.context);
 		this.MAC = DeviceInfoFunctions.getMAC(this.context);
+		
+		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		Display display = wm.getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		this.width = size.x;
+		this.height= size.y;
 	}
 	
 	/**
 	 * Specifies the IMEI code of the current device
 	 * 
 	 */
+	
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR,
+			description = "Returns the value of width of the current device.", userVisible = true)
+	public int ScreenWidth() {
+		
+		return this.width;
+	}
+	
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR,
+			description = "Returns the value of height of the current device.", userVisible = true)
+	public int ScreenHeight() {
+		
+		return this.height;
+	}
 	@SimpleProperty(category = PropertyCategory.BEHAVIOR,
 			description = "Returns the value of IMEI code of the current device.", userVisible = true)
 	public String IMEI() {

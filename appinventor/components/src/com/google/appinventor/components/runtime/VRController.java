@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.InputDevice;
+import android.view.MotionEvent;
 
 @SimpleObject
 @DesignerComponent(nonVisible = true, version = 1, description = "Controller source for VR (by SPI-FM at UCA)", category = ComponentCategory.VEDILSVIRTUALREALITY, iconName = "images/virtualRealityController.png")
@@ -142,6 +143,8 @@ public class VRController extends AndroidNonvisibleComponent {
 		super(container.$form());
 		this.container = container;
 	}
+	
+	
 
 	@SimpleFunction(description = "check connection controller", userVisible = true)
 	public boolean CheckControllerConection() {
@@ -173,7 +176,7 @@ public class VRController extends AndroidNonvisibleComponent {
 
 	}
 
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_NON_NEGATIVE_INTEGER, defaultValue = DEFAULT_ROTATION+"")
+	/*@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_NON_NEGATIVE_INTEGER, defaultValue = DEFAULT_ROTATION+"")
 	@SimpleProperty(description = "speed of rotate", userVisible = true)
 	public void RotateSpeed(int rotateSpeed) {
 		if(rotateSpeed>0&&rotateSpeed<11){
@@ -196,7 +199,7 @@ public class VRController extends AndroidNonvisibleComponent {
 			this.moveSpeed=0.2f;
 		}
 
-	}
+	}*/
 	
 	// declarare el receiver en el VRScene si el hascontroller es true
 	@SimpleEvent
@@ -261,83 +264,5 @@ public class VRController extends AndroidNonvisibleComponent {
 	
 	
 
-	@SimpleFunction(description = "Reset position  object3D", userVisible = true)
-	public void Reset() {
-	
-		    Intent resetIntent = new Intent(VRActivity.VR_3DOBJECT_RESET);
-			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(resetIntent);
-
-	}
-	
-	@SimpleFunction(description = "Rotate left position  object3D", userVisible = true)
-	public void RotateLeft() {
-	
-		    Intent rotateLeft = new Intent(VRActivity.VR_3DOBJECT_ROTATE_LEFT);
-			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(rotateLeft);
-
-	}
-	@SimpleFunction(description = "Rotate right position  object3D", userVisible = true)
-	public void RotateRight() {
-	
-		    Intent rotateRight = new Intent(VRActivity.VR_3DOBJECT_ROTATE_RIGHT);
-			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(rotateRight);
-
-	}
-	@SimpleFunction(description = "Rotate up position  object3D", userVisible = true)
-	public void RotateUp() {
-	
-		    Intent rotateUp = new Intent(VRActivity.VR_3DOBJECT_ROTATE_UP);
-			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(rotateUp);
-
-	}
-	@SimpleFunction(description = "Rotate down position  object3D", userVisible = true)
-	public void RotateDown() {
-	
-		    Intent rotateDown = new Intent(VRActivity.VR_3DOBJECT_ROTATE_DOWN);
-			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(rotateDown);
-
-	}
-	@SimpleFunction(description = "Zoom in position  object3D", userVisible = true)
-	public void ZoomIn() {
-	
-		    Intent zoomIn = new Intent(VRActivity.VR_3DOBJECT_ZOOM_IN);
-			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(zoomIn);
-
-	}
-	@SimpleFunction(description = "Zoom out position  object3D", userVisible = true)
-	public void ZoomOut() {
-	
-		    Intent zoomOut = new Intent(VRActivity.VR_3DOBJECT_ZOOM_OUT);
-			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(zoomOut);
-
-	}
-	@SimpleFunction(description = " Move up object3D", userVisible = true)
-	public void MoveUp() {
-	
-		    Intent moveUp = new Intent(VRActivity.VR_3DOBJECT_MOVE_UP);
-			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(moveUp);
-
-	}
-	@SimpleFunction(description = "Move down object3D", userVisible = true)
-	public void MoveDown() {
-	
-		    Intent moveDown = new Intent(VRActivity.VR_3DOBJECT_MOVE_DOWN);
-			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(moveDown);
-
-	}
-	@SimpleFunction(description = "Zoom out position  object3D", userVisible = true)
-	public void MoveLeft() {
-	
-		    Intent moveLeft = new Intent(VRActivity.VR_3DOBJECT_MOVE_LEFT);
-			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(moveLeft);
-
-	}
-	@SimpleFunction(description = "Zoom out position  object3D", userVisible = true)
-	public void MoveRight() {
-	
-		    Intent moveRight = new Intent(VRActivity.VR_3DOBJECT_MOVE_RIGHT);
-			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(moveRight);
-
-	}
 	
 }
