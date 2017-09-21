@@ -1405,7 +1405,7 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String AdditionalFilterProperties();
 
-	@DefaultMessage("*DataReceived")
+	@DefaultMessage("DataReceived")
 	@Description("")
 	String DataReceivedEvents();
 
