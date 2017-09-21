@@ -169,7 +169,7 @@ public class Model3DViewer extends AndroidNonvisibleComponent implements OnIniti
 		
 	}
 	
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_ASSET_TEXTURES_LIST, defaultValue = "")
+  /*	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_ASSET_TEXTURES_LIST, defaultValue = "")
 	@SimpleProperty(userVisible = true)
 	public void setTextures(String value) {
 		
@@ -186,7 +186,7 @@ public class Model3DViewer extends AndroidNonvisibleComponent implements OnIniti
 		
 		object3DParcel.setTexturePath(texturePath);
 		
-	}
+	}*/
 	
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_INTEGER, defaultValue = "0")
 	@SimpleProperty(userVisible = true)
