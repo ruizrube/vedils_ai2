@@ -234,7 +234,9 @@ public final class YoungAndroidCheckableTreeSelectorForAggregatedData extends Yo
 				String groupBy = "";
 				
 				if(currentComponent != null) {
-					groupBy = currentComponent.getPropertyValue("GroupBy");
+					if(currentComponent.hasProperty("GroupBy")) {
+						groupBy = currentComponent.getPropertyValue("GroupBy");
+					}
 				}
 				
 				for(String column: userColumns) {
