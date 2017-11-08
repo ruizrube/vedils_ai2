@@ -7701,4 +7701,21 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("DeviceUnsynchronized")
 	@Description("")
 	String DeviceUnsynchronizedEvents();
+	
+	@DefaultMessage("CancelRecognition")
+	@Description("")
+	String CancelRecognitionMethods();
+
+	@DefaultMessage("StopRecognition")
+	@Description("")
+	String StopRecognitionMethods();
+
+	@DefaultMessage("StartRecognition")
+	@Description("")
+	String StartRecognitionMethods();
+
+	@DefaultMessage("TTS")
+	@Description("")
+	String TTSProperties();
+
 }

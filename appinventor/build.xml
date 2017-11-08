@@ -153,6 +153,8 @@
         <pathelement location="lib/vr4ai/cardboard.jar" />
         <pathelement location="lib/vr4ai/libprotobuf-java-2.3-nano.jar" />
        
+        <!-- DIALOG4AI -->
+        <pathelement location="lib/dialog4ai/libai-1.6.12.jar" />
         
         <fileset dir="buildserver/lib" includes="**/*.jar"/>
         <!-- Apache Http Libraries -->
@@ -185,7 +187,7 @@
         <pathelement location="common/build/classes/CommonVersion" />
         
         <!-- Google Play Services library -->
-        <pathelement location="lib/la4ai/google_play_services/google-play-services.jar" />
+        <pathelement location="lib/la4ai/google_play_services/google-play-services.jar" />  
         
       </classpath>
       <!-- TODO(opensource) - Add more <link> elements that correspond to the jars on the

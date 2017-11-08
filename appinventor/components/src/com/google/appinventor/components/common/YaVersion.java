@@ -1034,6 +1034,8 @@ public class YaVersion {
 
   public static final String RENDEZVOUS_SERVER = "rendezvous.appinventor.mit.edu";
 
+  public static final int CONVERSATION_COMPONENT_VERSION = 1;
+  
   // Companion Versions and Update Information
 
   // The PREFERRED_COMPANION is displayed to the end-user if
