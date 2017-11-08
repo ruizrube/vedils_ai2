@@ -1230,8 +1230,8 @@ public final class Compiler {
 		// had 16 libraries and broke at 17. So this is a conservative number
 		// to try.
 		if (!secondTry) { // First time through, try base + 12 libraries
-			if (offset > 12)
-				offset = 12;
+			if (offset > 15)
+				offset = 15;
 		} else {
 			offset = 0; // Add NO libraries the second time through!
 		}

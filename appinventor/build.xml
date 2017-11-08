@@ -13,7 +13,7 @@
   </description>
 
   <!-- ANDROID API VERSION (la de por defecto es 4.2.2). He probado con 5.1-->
-  <property name="android.version" value="4.2.2" />
+  <property name="android.version" value="5.1" />
   
   
   <target name="all">
@@ -135,6 +135,10 @@
         
         <!-- LA4AI -->
         <pathelement location="lib/la4ai/la4ai.jar" />
+        <!-- 
+        <pathelement location="lib/la4ai/ailib.jar" />
+        <pathelement location="lib/la4ai/libai.jar" />
+        <pathelement location="lib/la4ai/tincan.jar" /> -->
         <pathelement location="lib/la4ai/stream/stream-1.1.7.jar" />
        
         <!-- BRAIN EEG -->
