@@ -256,7 +256,25 @@ public final class Compiler {
 		for (String componentType : componentTypes) {
 			librariesNeeded.addAll(componentLibraries.get(componentType));
 		}
+		
+		removeSimilarLibraries(librariesNeeded);
 		System.out.println("Libraries needed, n= " + librariesNeeded.size());
+	}
+
+	private void removeSimilarLibraries(Set<String> librariesNeeded) {
+		if(librariesNeeded.contains("google-http-client-android3-beta.jar") && librariesNeeded.contains("google-http-client-android2-beta.jar") ) {
+			librariesNeeded.remove("google-http-client-android2-beta.jar");
+		}
+		
+		if(librariesNeeded.contains("gson-2.1.jar") && librariesNeeded.contains("gson-2.8.1.jar") ) {
+			librariesNeeded.remove("gson-2.1.jar");
+		}
+		
+		if(librariesNeeded.contains("slf4j-api-1.7.25.jar") && librariesNeeded.contains("ld4ai-0.1.jar") ) {
+			librariesNeeded.remove("slf4j-api-1.7.25.jar");
+		}
+		
+		
 	}
 
 	/*
@@ -1219,8 +1237,9 @@ public final class Compiler {
 		inputList.add(new File(getResource(SIMPLE_ANDROID_RUNTIME_JAR)));
 		inputList.add(new File(getResource(KAWA_RUNTIME)));
 		inputList.add(new File(getResource(ACRA_RUNTIME)));
-
+		
 		for (String library : librariesNeeded) {
+			System.out.println("----------------> LIB: "+library);
 			libList.add(new File(getResource(RUNTIME_FILES_DIR + library)));
 		}
 

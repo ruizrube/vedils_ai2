@@ -196,6 +196,10 @@
 	        <pathelement location="${lib.dir}/vr4ai/libprotobuf-java-2.3-nano.jar" />
 	       
 	         <pathelement location="${lib.dir}/dialog4ai/libai-1.6.12.jar" />
+	         <pathelement location="${lib.dir}/dialog4ai/slf4j-api-1.7.25.jar" />
+	         <pathelement location="${lib.dir}/dialog4ai/gson-2.8.1.jar" />
+	         
+	         	      <!--    <pathelement location="${lib.dir}/dialog4ai/slf4j-android-1.7.25.jar" /> -->
 	         
 	       
         </classpath>
@@ -279,7 +283,9 @@
 	     <pathelement location="${lib.dir}/vr4ai/libprotobuf-java-2.3-nano.jar" />
 	    
 	     <pathelement location="${lib.dir}/dialog4ai/libai-1.6.12.jar" />
-	     
+	     <pathelement location="${lib.dir}/dialog4ai/slf4j-api-1.7.25.jar" />
+	     <pathelement location="${lib.dir}/dialog4ai/gson-2.8.1.jar" />
+	       
               
       </classpath>
     </ai.javac5> -->
@@ -424,6 +430,10 @@
 	     <pathelement location="${lib.dir}/vr4ai/libprotobuf-java-2.3-nano.jar" />
         
 	     <pathelement location="${lib.dir}/dialog4ai/libai-1.6.12.jar" />
+	     <pathelement location="${lib.dir}/dialog4ai/slf4j-api-1.7.25.jar" />
+	     <pathelement location="${lib.dir}/dialog4ai/gson-2.8.1.jar" />
+	       
+	     	   <!--   <pathelement location="${lib.dir}/dialog4ai/slf4j-android-1.7.25.jar" /> -->
 	     
         </classpath>
         <compilerarg line="-processorpath ${local.build.dir}/AnnotationProcessors.jar"/>

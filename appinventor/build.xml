@@ -159,6 +159,9 @@
        
         <!-- DIALOG4AI -->
         <pathelement location="lib/dialog4ai/libai-1.6.12.jar" />
+        <pathelement location="lib/dialog4ai/slf4j-api-1.7.25.jar" />
+        <pathelement location="lib/dialog4ai/gson-2.8.1.jar" />
+        <!--     <pathelement location="lib/dialog4ai/slf4j-android-1.7.25.jar" /> -->
         
         <fileset dir="buildserver/lib" includes="**/*.jar"/>
         <!-- Apache Http Libraries -->

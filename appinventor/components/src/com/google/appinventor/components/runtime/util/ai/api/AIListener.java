@@ -26,6 +26,15 @@ import ai.api.model.AIResponse;
  */
 public interface AIListener {
 
+	
+	/**
+     * Event fires when the speech has been recognized
+     *
+     * @param result the result text
+     */
+    void onRecognizement(String result);
+
+	
     /**
      * Event fires when entire process finished successfully, and returns result object
      *

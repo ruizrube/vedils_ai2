@@ -75,16 +75,23 @@ public abstract class AIService {
         aiDataService = new AIDataService(context, config);
     }
 
+	
+    /**
+     * Send event to dialogflow
+     */
+    public abstract void sendEvent(AIRequest request);
+	
+    /**
+     * Starts listening process without using dialogflow
+     */
+   public abstract void startListeningWithoutIA();
+	
     /**
      * Starts listening process
      */
     public abstract void startListening();
 
-    /**
-     * Starts listening process. Request to the AI service will be done with specified contexts.
-     */
-    public abstract void startListening(List<AIContext> contexts);
-
+  
     /**
      * Starts listening process. Request to the AI service will be done with specified extra data.
      * @param requestExtras extras can hold additional contexts and entities
@@ -107,6 +114,12 @@ public abstract class AIService {
      */
     public void setListener(final AIListener listener) {
         this.listener = listener;
+    }
+
+    protected void onRecognizement(final String response) {
+        if (listener != null) {
+            listener.onRecognizement(response);
+        }
     }
 
     protected void onResult(final AIResponse response) {
@@ -201,4 +214,6 @@ public abstract class AIService {
         }
         return granted;
     }
+
+
 }

@@ -7714,8 +7714,24 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String StartRecognitionMethods();
 
-	@DefaultMessage("TTS")
+	@DefaultMessage("InvokeDialog")
 	@Description("")
-	String TTSProperties();
+	String InvokeDialogMethods();
 
+	@DefaultMessage("TextToSpeech")
+	@Description("")
+	String TextToSpeechProperties();
+
+	@DefaultMessage("DialogError")
+	@Description("")
+	String DialogErrorEvents();
+
+	@DefaultMessage("ActionReceived")
+	@Description("")
+	String ActionReceivedEvents();
+
+	@DefaultMessage("UnknownActionReceived")
+	@Description("")
+	String UnknownActionReceivedEvents();
+	
 }

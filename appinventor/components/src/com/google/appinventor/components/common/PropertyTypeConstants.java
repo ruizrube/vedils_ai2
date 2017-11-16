@@ -226,6 +226,10 @@ public class PropertyTypeConstants {
 
 	// Para asociar query a chart o table
 	public static final String PROPERTY_TYPE_ONLY_QUERY = "query";
+	
+	// para asociar el tts a dialog
+	public static final String PROPERTY_TYPE_ONLY_TTS = "tts";
+
 
 	// Para asociar tipo de dispositivo EEG
 	public static final String PROPERTY_TYPE_EEG = "eegType";
@@ -333,5 +337,6 @@ public class PropertyTypeConstants {
 	 */
 	public static final String PROPERTY_TYPE_SCALING = "scaling";
 
+	
 	
 }
