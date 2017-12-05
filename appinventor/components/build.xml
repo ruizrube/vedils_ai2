@@ -176,6 +176,10 @@
 	         
 	        <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
 	        
+	        <pathelement location="${lib.dir}/la4ai/tincan.jar" />
+	        
+	        <pathelement location="${lib.dir}/la4ai/jsonld.jar" />
+	        
 	        <pathelement location="${lib.dir}/la4ai/stream/stream-1.1.7.jar" />
 	        
 	        <pathelement location="${lib.dir}/la4ai/google_play_services/google-play-services.jar" /> 
@@ -423,6 +427,10 @@
          <pathelement location="${lib.dir}/gca4ai/Myo-connector.jar" />
          
          <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
+         
+         <pathelement location="${lib.dir}/la4ai/tincan.jar" />
+         
+         <pathelement location="${lib.dir}/la4ai/jsonld.jar" />
          
          <pathelement location="${lib.dir}/la4ai/stream/stream-1.1.7.jar" />
          

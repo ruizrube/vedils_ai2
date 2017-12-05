@@ -1003,6 +1003,18 @@ public class YaVersion {
   
   public static final int ACTIVITYTRACKER_COMPONENT_VERSION = 1;
   
+  //UserData
+  
+  public static final int USER_COMPONENT_VERSION = 1;
+  
+  //Activity
+  
+  public static final int ACTIVITYDESCRIPTION_COMPONENT_VERSION = 1;
+  
+  // LearningStatement
+  
+  public static final int LEARNINGSTATEMENT_COMPONENT_VERSION = 1;
+  
   //ActivityStreamQuery
   
   public static final int ACTIVITYSTREAMQUERY_COMPONENT_VERSION = 1;

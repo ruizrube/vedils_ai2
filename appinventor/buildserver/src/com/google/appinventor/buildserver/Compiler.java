@@ -181,7 +181,10 @@ public final class Compiler {
 	private String dexCacheDir;
 	private boolean hasSecondDex = false; // True if classes2.dex should be
 											// added to the APK
-
+	private boolean hasThirdDex = false;
+	
+	private int numberDexFiles = 2;
+	
 	/*
 	 * Generate the set of Android permissions needed by this project.
 	 */
@@ -942,9 +945,18 @@ public final class Compiler {
 		try {
 			ApkBuilder apkBuilder = new ApkBuilder(apkAbsolutePath, zipArchive,
 					dexedClassesDir + File.separator + "classes.dex", null, System.out);
-			if (hasSecondDex) {
+			/*if (hasSecondDex) {
 				apkBuilder.addFile(new File(dexedClassesDir + File.separator + "classes2.dex"), "classes2.dex");
 			}
+			
+			if (hasThirdDex) {
+				apkBuilder.addFile(new File(dexedClassesDir + File.separator + "classes3.dex"), "classes3.dex");
+			}*/
+			
+			for(int i=2; i<numberDexFiles; i++) {
+				apkBuilder.addFile(new File(dexedClassesDir + File.separator + "classes" + i + ".dex"), "classes" + i + ".dex");
+			}
+			
 			apkBuilder.sealApk();
 			return true;
 		} catch (Exception e) {
@@ -1249,8 +1261,8 @@ public final class Compiler {
 		// had 16 libraries and broke at 17. So this is a conservative number
 		// to try.
 		if (!secondTry) { // First time through, try base + 12 libraries
-			if (offset > 15)
-				offset = 15;
+			if (offset > 8)
+				offset = 8;
 		} else {
 			offset = 0; // Add NO libraries the second time through!
 		}
@@ -1280,16 +1292,53 @@ public final class Compiler {
 		// build messages with
 		// tools output
 		boolean dxSuccess;
+		
 		synchronized (SYNC_KAWA_OR_DX) {
 			setProgress(50);
 			dxSuccess = dexTask.execute(inputList);
 			if (dxSuccess && (class2List.size() > 0)) {
 				setProgress(60);
-				dexTask.setOutput(dexedClassesDir + File.separator + "classes2.dex");
-				inputList = new ArrayList<File>();
-				dxSuccess = dexTask.execute(class2List);
-				setProgress(75);
-				hasSecondDex = true;
+				
+				dxSuccess = false;
+				int top = class2List.size();
+				int init = 0;
+				
+				while(init < class2List.size()) {
+					while(!dxSuccess) {
+						LOG.info("DX try with the " + numberDexFiles + " dex file with top = " + top);
+						dexTask.setOutput(dexedClassesDir + File.separator + "classes" + numberDexFiles + ".dex");
+						inputList = new ArrayList<File>();
+						dxSuccess = dexTask.execute(class2List.subList(init, top));
+						if(!dxSuccess) {
+							top = top - 1;
+						}
+					}
+					init = top;
+					top = class2List.size();
+					numberDexFiles = numberDexFiles + 1;
+					if(init < class2List.size()) {
+						dxSuccess = false;
+					}
+				}
+				
+				/*if(class2List.size() > 12) {
+					LOG.info("DX try 3 .dex file");
+					dexTask.setOutput(dexedClassesDir + File.separator + "classes2.dex");
+					inputList = new ArrayList<File>();
+					dxSuccess = dexTask.execute(class2List.subList(0, 12));
+					dexTask.setOutput(dexedClassesDir + File.separator + "classes3.dex");
+					inputList = new ArrayList<File>();
+					dxSuccess = dexTask.execute(class2List.subList(12, class2List.size()));
+					setProgress(75);
+					hasSecondDex = true;
+					hasThirdDex = true;
+				} else {
+					dexTask.setOutput(dexedClassesDir + File.separator + "classes2.dex");
+					inputList = new ArrayList<File>();
+					dxSuccess = dexTask.execute(class2List);
+					setProgress(75);
+					hasSecondDex = true;
+				}*/
 			} else if (!dxSuccess) {
 				// If we get into this block of code, it means that the Dexer
 				// returned an error. It *might* be because of overflowing the

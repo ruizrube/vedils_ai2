@@ -151,6 +151,8 @@
 		<copy toFile="${classes.files.dir}/ActivityTrackerVEDILS-e804e05b5eb3.p12"
 			file="${lib.dir}/la4ai/resources/ActivityTrackerVEDILS-e804e05b5eb3.p12" />
 		<copy toFile="${classes.files.dir}/la4ai.jar" file="${lib.dir}/la4ai/la4ai.jar" />
+		<copy toFile="${classes.files.dir}/tincan.jar" file="${lib.dir}/la4ai/tincan.jar" />
+		<copy toFile="${classes.files.dir}/jsonld.jar" file="${lib.dir}/la4ai/jsonld.jar" />
 		<copy toFile="${classes.files.dir}/stream-1.1.7.jar" file="${lib.dir}/la4ai/stream/stream-1.1.7.jar" />
 		
 		<copy toFile="${classes.files.dir}/google-play-services.jar"

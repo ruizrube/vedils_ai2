@@ -23,10 +23,6 @@ import com.google.appinventor.components.runtime.util.EclairUtil;
 import com.google.appinventor.components.runtime.util.FroyoUtil;
 import com.google.appinventor.components.runtime.util.SdkLevel;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
@@ -153,6 +149,7 @@ public  class WebViewer extends AndroidViewComponent {
   @SimpleProperty(category = PropertyCategory.BEHAVIOR)
   public void WebViewString(String newString) {
     wvInterface.setWebViewString(newString);
+    System.out.println("Me llaman diciendo: " + newString);
   }
 
   @Override
@@ -470,6 +467,7 @@ public  class WebViewer extends AndroidViewComponent {
     @JavascriptInterface
     public void setWebViewString(String newString) {
       webViewString = newString;
+      System.out.println("Me llaman diciendo 2: " +newString);
     }
 
   }
