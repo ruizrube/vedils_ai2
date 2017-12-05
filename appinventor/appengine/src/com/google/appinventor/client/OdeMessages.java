@@ -7734,4 +7734,68 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String UnknownActionReceivedEvents();
 	
+	
+	
+
+	@DefaultMessage("NodeChanged")
+	@Description("")
+	String NodeChangedEvents();
+	
+	@DefaultMessage("TaskLaunched")
+	@Description("")
+	String TaskLaunchedEvents();
+	
+	@DefaultMessage("WorkflowAborted")
+	@Description("")
+	String WorkflowAbortedEvents();
+	
+	@DefaultMessage("WorkflowEnded")
+	@Description("")
+	String WorkflowEndedEvents();
+	
+	@DefaultMessage("WorkflowError")
+	@Description("")
+	String WorkflowErrorEvents();
+	
+	@DefaultMessage("WorkflowStarted")
+	@Description("")
+	String WorkflowStartedEvents();
+	
+	
+	@DefaultMessage("AddNode")
+	@Description("")
+	String AddNodeMethods();
+	
+	@DefaultMessage("AddTransition")
+	@Description("")
+	String AddTransitionMethods();
+	
+	@DefaultMessage("LoadWorkflowDefinition")
+	@Description("")
+	String LoadWorkflowDefinitionMethods();
+	
+	@DefaultMessage("PutData")
+	@Description("")
+	String PutDataMethods();
+	
+	@DefaultMessage("AbortTask")
+	@Description("")
+	String AbortTaskMethods();
+	
+	@DefaultMessage("CompleteTask")
+	@Description("")
+	String CompleteTaskMethods();
+	
+	@DefaultMessage("StartWorkflow")
+	@Description("")
+	String StartWorkflowMethods();
+	
+	@DefaultMessage("IsRunning")
+	@Description("")
+	String IsRunningProperties();
+		
+	@DefaultMessage("Definition")
+	@Description("")
+	String DefinitionProperties();
+	
 }

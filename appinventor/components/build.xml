@@ -199,6 +199,12 @@
 	         <pathelement location="${lib.dir}/dialog4ai/slf4j-api-1.7.25.jar" />
 	         <pathelement location="${lib.dir}/dialog4ai/gson-2.8.1.jar" />
 	         
+	         
+	          <pathelement location="${lib.dir}/workflow4ai/camunda-bpmn-model-7.8.0.jar" />
+      		  <pathelement location="${lib.dir}/workflow4ai/camunda-xml-model-7.8.0.jar" />
+      <pathelement location="${lib.dir}/workflow4ai/sax-2.0.1.jar" />
+      
+      		  
 	         	      <!--    <pathelement location="${lib.dir}/dialog4ai/slf4j-android-1.7.25.jar" /> -->
 	         
 	       
@@ -286,7 +292,12 @@
 	     <pathelement location="${lib.dir}/dialog4ai/slf4j-api-1.7.25.jar" />
 	     <pathelement location="${lib.dir}/dialog4ai/gson-2.8.1.jar" />
 	       
-              
+         <pathelement location="${lib.dir}/workflow4ai/camunda-bpmn-model-7.8.0.jar" />
+         <pathelement location="${lib.dir}/workflow4ai/camunda-xml-model-7.8.0.jar" />
+         <pathelement location="${lib.dir}/workflow4ai/sax-2.0.1.jar" />
+         
+      
+           
       </classpath>
     </ai.javac5> -->
 
@@ -433,6 +444,10 @@
 	     <pathelement location="${lib.dir}/dialog4ai/slf4j-api-1.7.25.jar" />
 	     <pathelement location="${lib.dir}/dialog4ai/gson-2.8.1.jar" />
 	       
+	     <pathelement location="${lib.dir}/workflow4ai/camunda-bpmn-model-7.8.0.jar" />
+      	 <pathelement location="${lib.dir}/workflow4ai/camunda-xml-model-7.8.0.jar" />
+      	 <pathelement location="${lib.dir}/workflow4ai/sax-2.0.1.jar" />
+      
 	     	   <!--   <pathelement location="${lib.dir}/dialog4ai/slf4j-android-1.7.25.jar" /> -->
 	     
         </classpath>
