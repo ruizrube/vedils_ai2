@@ -295,6 +295,11 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 			set.add("ActivityAggregationQuery");
 			return new YoungAndroidComponentSelectorPropertyEditor(editor, set);
 
+		} else if(editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_USER)) {
+			HashSet<String> set = new HashSet<String>();
+			set.add("User");
+			return new YoungAndroidComponentSelectorPropertyEditor(editor, set);
+			
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ASSET_3DMODEL)) {
 			return new YoungAndroidAssetSelectorPropertyEditor(editor, MODEL_FILETYPES);
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ASSET_MATERIAL)) {
@@ -315,7 +320,7 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_EEG)) {
 			return new YoungAndroidEEGDeviceChoicePropertyEditor();	
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TREEFORSEMANTICTYPE)) {
-			return new YoungAndroidTreeSelectorForSemanticType();	
+			return new YoungAndroidTreeSelectorForSemanticType(editor);	
 		} else {
 			return new TextPropertyEditor();
 		}

@@ -134,11 +134,9 @@
         <pathelement location="lib/gca4ai/armeabi-v7a/libgesture-classifier.so" />
         
         <!-- LA4AI -->
-        <pathelement location="lib/la4ai/la4ai.jar" />
-        <!-- 
-        <pathelement location="lib/la4ai/ailib.jar" />
-        <pathelement location="lib/la4ai/libai.jar" />
-        <pathelement location="lib/la4ai/tincan.jar" /> -->
+        <pathelement location="lib/la4ai/la4ai.jar" /> 
+        <pathelement location="lib/la4ai/tincan.jar" />
+        <pathelement location="lib/la4ai/jsonld.jar" />
         <pathelement location="lib/la4ai/stream/stream-1.1.7.jar" />
        
         <!-- BRAIN EEG -->

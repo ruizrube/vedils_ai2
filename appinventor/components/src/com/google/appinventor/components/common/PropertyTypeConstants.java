@@ -218,6 +218,9 @@ public class PropertyTypeConstants {
 	 */
 	public static final String PROPERTY_TYPE_CHECKABLETREEFORACTIVITYTRACKER = "checkableTreeForActivityTracker";
 
+	//Para userData vinculation
+	public static final String PROPERTY_TYPE_ONLY_USER = "user";
+	
 	// Para arbol de datos
 	public static final String PROPERTY_TYPE_CHECKABLETREEFORDATA = "checkableTreeForData";
 
@@ -332,6 +335,5 @@ public class PropertyTypeConstants {
 	 * {@link com.google.appinventor.client.widgets.properties.ScalingChoicePropertyEditor}
 	 */
 	public static final String PROPERTY_TYPE_SCALING = "scaling";
-
 	
 }

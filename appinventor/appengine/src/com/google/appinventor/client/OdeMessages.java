@@ -41,11 +41,102 @@ public interface OdeMessages extends Messages {
 	String qualityYoutube1080();
 	
 	//
+	// Activity
+	//
+	
+	@DefaultMessage("Name")
+	@Description("")
+	String ActivityNameProperties();
+	
+	@DefaultMessage("Completion")
+	@Description("")
+	String CompletionProperties();
+	
+	@DefaultMessage("Duration")
+	@Description("")
+	String DurationProperties();
+	
+	@DefaultMessage("Success")
+	@Description("")
+	String SuccessProperties();
+	
+	@DefaultMessage("MaxScore")
+	@Description("")
+	String MaxScoreProperties();
+	
+	@DefaultMessage("MinScore")
+	@Description("")
+	String MinScoreProperties();
+	
+	@DefaultMessage("RawScore")
+	@Description("")
+	String RawScoreProperties();
+	
+	@DefaultMessage("ScaledScore")
+	@Description("")
+	String ScaledScoreProperties();
+	
+	//
+	// UserData
+	//
+	
+	@DefaultMessage("Id")
+	@Description("")
+	String IdProperties();
+	
+	@DefaultMessage("Name")
+	@Description("")
+	String UserNameProperties();
+	
+	@DefaultMessage("Surname")
+	@Description("")
+	String SurnameProperties();
+	
+	@DefaultMessage("Email")
+	@Description("")
+	String EmailProperties();
+	
+	@DefaultMessage("TwitterAccount")
+	@Description("")
+	String TwitterAccountProperties();
+	
+	@DefaultMessage("FacebookAccount")
+	@Description("")
+	String FacebookAccountProperties();
+	
+	@DefaultMessage("LinkedinAccount")
+	@Description("")
+	String LinkedinAccountProperties();
+	
+	@DefaultMessage("User")
+	@Description("")
+	String UserProperties();
+
+	
+	//
+	// LearningStatement
+	//
+	
+	@DefaultMessage("GenerateStatement")
+	@Description("")
+	String GenerateStatementMethods();
+	
+	@DefaultMessage("ConfigureActorIdentifiedByEmail")
+	@Description("")
+	String ConfigureActorIdentifiedByEmailMethods();
+	
+	@DefaultMessage("ConfigureVerb")
+	@Description("")
+	String ConfigureVerbMethods();
+	
+	@DefaultMessage("ConfigureActivity")
+	@Description("")
+	String ConfigureActivityMethods();
+	
+	//
 	// ActivityTracker
 	//
 
-	
-	
 	@DefaultMessage("StorageMode")
 	@Description("")
 	String StorageModeProperties();
@@ -54,10 +145,13 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String StreamModeProperties();
 
-	
 	@DefaultMessage("NotifyWithData")
 	@Description("")
 	String NotifyWithDataMethods();
+	
+	@DefaultMessage("NotifyAndReturnStatement")
+	@Description("")
+	String NotifyAndReturnStatementMethods();
 
 	@DefaultMessage("SendStreamQuery")
 	@Description("")
@@ -71,6 +165,9 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String StreamDataReceivedEvents();
 	
+	@DefaultMessage("BandsDataChanged")
+	@Description("")
+	String BandsDataChangedEvents();
 	
 	@DefaultMessage("ChannelAF3Changed")
 	@Description("")
@@ -215,6 +312,10 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("MongoDB")
 	@Description("Text for storage mode 'MongoDB '")
 	String mongoDBStorageMode();
+	
+	@DefaultMessage("Learning Record Store")
+	@Description("Text for storage mode 'Learning Record Store '")
+	String lrsStorageMode();
 	
 	//////////////////////
 	////// DEVICE INFO////
@@ -632,6 +733,14 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("Check controller connected")
 	@Description("")
 	String CheckControllerConectionMethods();
+	
+	@DefaultMessage("EndpointRDF")
+	@Description("")
+	String EndpointRDFProperties();
+	
+	@DefaultMessage("Prefixes")
+	@Description("")
+	String PrefixesProperties();
 
 	@DefaultMessage("Classifier")
 	@Description("")
