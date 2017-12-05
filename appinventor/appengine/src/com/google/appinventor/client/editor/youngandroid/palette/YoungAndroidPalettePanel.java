@@ -322,7 +322,8 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_EEG)) {
 			return new YoungAndroidEEGDeviceChoicePropertyEditor();	
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TREEFORSEMANTICTYPE)) {
-			return new YoungAndroidTreeSelectorForSemanticType(editor);	
+			return new YoungAndroidTreeSelectorForSemanticType();
+			//return new YoungAndroidTreeSelectorForSemanticType(editor);	
 		} else {
 			return new TextPropertyEditor();
 		}
