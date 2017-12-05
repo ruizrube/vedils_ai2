@@ -284,6 +284,8 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 					new HashSet<String>(Arrays.asList(ASSETS_TYPES)));
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_VRSCENE)) {
 			return new YoungAndroidComponentSelectorPropertyEditor(editor, Collections.singleton("VRScene"));
+		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_TTS)) {
+			return new YoungAndroidComponentSelectorPropertyEditor(editor, Collections.singleton("TextToSpeech"));
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_ARCAMERA)) {
 			return new YoungAndroidComponentSelectorPropertyEditor(editor, Collections.singleton("ARCamera"));
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_ARCAMERAOVERLAYER)) {

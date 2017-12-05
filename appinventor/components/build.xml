@@ -182,8 +182,8 @@
 	        
 	        <pathelement location="${lib.dir}/la4ai/stream/stream-1.1.7.jar" />
 	        
-	        <pathelement location="${lib.dir}/la4ai/google_play_services/google-play-services.jar" />
-	         
+	        <pathelement location="${lib.dir}/la4ai/google_play_services/google-play-services.jar" /> 
+	        	         
 	        <pathelement location="${lib.dir}/gc4ai/LeapJava.jar" />
 	        
 	        <pathelement location="${lib.dir}/gca4ai/Myo-connector.jar" />
@@ -198,7 +198,14 @@
 	        <pathelement location="${lib.dir}/vr4ai/vr4ai.jar" />
 	        <pathelement location="${lib.dir}/vr4ai/cardboard.jar" />
 	        <pathelement location="${lib.dir}/vr4ai/libprotobuf-java-2.3-nano.jar" />
-	        
+	       
+	         <pathelement location="${lib.dir}/dialog4ai/libai-1.6.12.jar" />
+	         <pathelement location="${lib.dir}/dialog4ai/slf4j-api-1.7.25.jar" />
+	         <pathelement location="${lib.dir}/dialog4ai/gson-2.8.1.jar" />
+	         
+	         	      <!--    <pathelement location="${lib.dir}/dialog4ai/slf4j-android-1.7.25.jar" /> -->
+	         
+	       
         </classpath>
    		
 	</iajc>
@@ -278,6 +285,11 @@
          <pathelement location="${lib.dir}/vr4ai/vr4ai.jar" />
 	     <pathelement location="${lib.dir}/vr4ai/cardboard.jar" />
 	     <pathelement location="${lib.dir}/vr4ai/libprotobuf-java-2.3-nano.jar" />
+	    
+	     <pathelement location="${lib.dir}/dialog4ai/libai-1.6.12.jar" />
+	     <pathelement location="${lib.dir}/dialog4ai/slf4j-api-1.7.25.jar" />
+	     <pathelement location="${lib.dir}/dialog4ai/gson-2.8.1.jar" />
+	       
               
       </classpath>
     </ai.javac5> -->
@@ -411,7 +423,7 @@
          
          <pathelement location="${lib.dir}/la4ai/stream/stream-1.1.7.jar" />
          
-         <pathelement location="${lib.dir}/la4ai/google_play_services/google-play-services.jar" />
+         <pathelement location="${lib.dir}/la4ai/google_play_services/google-play-services.jar" /> 
          
          <pathelement location="${lib.dir}/brain4ai/bedk.jar" />
        
@@ -425,6 +437,12 @@
 	     <pathelement location="${lib.dir}/vr4ai/cardboard.jar" />
 	     <pathelement location="${lib.dir}/vr4ai/libprotobuf-java-2.3-nano.jar" />
         
+	     <pathelement location="${lib.dir}/dialog4ai/libai-1.6.12.jar" />
+	     <pathelement location="${lib.dir}/dialog4ai/slf4j-api-1.7.25.jar" />
+	     <pathelement location="${lib.dir}/dialog4ai/gson-2.8.1.jar" />
+	       
+	     	   <!--   <pathelement location="${lib.dir}/dialog4ai/slf4j-android-1.7.25.jar" /> -->
+	     
         </classpath>
         <compilerarg line="-processorpath ${local.build.dir}/AnnotationProcessors.jar"/>
         <compilerarg line="-processor @{apt-processor}" />

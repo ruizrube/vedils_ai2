@@ -1046,6 +1046,8 @@ public class YaVersion {
 
   public static final String RENDEZVOUS_SERVER = "rendezvous.appinventor.mit.edu";
 
+  public static final int CONVERSATION_COMPONENT_VERSION = 1;
+  
   // Companion Versions and Update Information
 
   // The PREFERRED_COMPANION is displayed to the end-user if
@@ -1070,10 +1072,10 @@ public class YaVersion {
 
   public static final String ACCEPTABLE_COMPANION_PACKAGE = "es.uca.vedils";
 
-  public static final String PREFERRED_COMPANION = "2.44";
+  public static final String PREFERRED_COMPANION = "2.45";
   public static final String COMPANION_UPDATE_URL = "";
   public static final String COMPANION_UPDATE_URL1 = "";
-  public static final String [] ACCEPTABLE_COMPANIONS = { "2.44" };
+  public static final String [] ACCEPTABLE_COMPANIONS = { "2.45" };
 
   // Splash Screen Values
   public static final int SPLASH_SURVEY = 1;

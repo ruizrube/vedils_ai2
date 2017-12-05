@@ -7810,4 +7810,37 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("DeviceUnsynchronized")
 	@Description("")
 	String DeviceUnsynchronizedEvents();
+	
+	@DefaultMessage("CancelRecognition")
+	@Description("")
+	String CancelRecognitionMethods();
+
+	@DefaultMessage("StopRecognition")
+	@Description("")
+	String StopRecognitionMethods();
+
+	@DefaultMessage("StartRecognition")
+	@Description("")
+	String StartRecognitionMethods();
+
+	@DefaultMessage("InvokeDialog")
+	@Description("")
+	String InvokeDialogMethods();
+
+	@DefaultMessage("TextToSpeech")
+	@Description("")
+	String TextToSpeechProperties();
+
+	@DefaultMessage("DialogError")
+	@Description("")
+	String DialogErrorEvents();
+
+	@DefaultMessage("ActionReceived")
+	@Description("")
+	String ActionReceivedEvents();
+
+	@DefaultMessage("UnknownActionReceived")
+	@Description("")
+	String UnknownActionReceivedEvents();
+	
 }
