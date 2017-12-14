@@ -10,29 +10,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-
-import org.camunda.bpm.model.bpmn.Bpmn;
-import org.camunda.bpm.model.bpmn.BpmnModelInstance;
-import org.camunda.bpm.model.bpmn.instance.Documentation;
-import org.camunda.bpm.model.bpmn.instance.EndEvent;
-import org.camunda.bpm.model.bpmn.instance.Event;
-import org.camunda.bpm.model.bpmn.instance.ExclusiveGateway;
-import org.camunda.bpm.model.bpmn.instance.Gateway;
-import org.camunda.bpm.model.bpmn.instance.InclusiveGateway;
-import org.camunda.bpm.model.bpmn.instance.ParallelGateway;
-import org.camunda.bpm.model.bpmn.instance.ServiceTask;
-import org.camunda.bpm.model.bpmn.instance.StartEvent;
-import org.camunda.bpm.model.bpmn.instance.Task;
-import org.camunda.bpm.model.bpmn.instance.UserTask;
 
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
@@ -46,8 +26,14 @@ import com.google.appinventor.components.annotations.UsesPermissions;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
 import com.google.appinventor.components.common.YaVersion;
+import com.google.appinventor.components.runtime.util.WorkflowDefinition;
+import com.google.appinventor.components.runtime.util.WorkflowLoader;
+import com.google.appinventor.components.runtime.util.WorkflowNode;
+import com.google.appinventor.components.runtime.util.WorkflowTransition;
 
 import android.util.Log;
+import bsh.EvalError;
+import bsh.Interpreter;
 
 /**
  * Component for using the built in VoiceRecognizer to convert speech to text.
@@ -56,7 +42,7 @@ import android.util.Log;
  *
  */
 
-@UsesLibraries(libraries = "camunda-bpmn-model-7.8.0.jar,camunda-xml-model-7.8.0.jar,sax-2.0.1.jar")
+@UsesLibraries(libraries = "bsh-2.0b4.jar")
 @DesignerComponent(version = YaVersion.CONVERSATION_COMPONENT_VERSION, description = "Component for using a workflow during the execution of the app", category = ComponentCategory.VEDILSINTERACTIONS, nonVisible = true, iconName = "images/sharing.png")
 @SimpleObject
 @UsesPermissions(permissionNames = "android.permission.READ_EXTERNAL_STORAGE,android.permission.WRITE_EXTERNAL_STORAGE")
@@ -68,13 +54,9 @@ public class Workflow extends AndroidNonvisibleComponent implements Component {
 
 	private Map<String, Object> data;
 
-	private Node currentNode;
+	private WorkflowNode currentNode;
 
-	private Map<String, Node> nodes;
-
-	private List<Transition> transitions;
-
-	private BpmnModelInstance modelInstance;
+	private WorkflowDefinition process;
 
 	private String bpmnPath = "";
 
@@ -88,8 +70,6 @@ public class Workflow extends AndroidNonvisibleComponent implements Component {
 		super(container.$form());
 		this.container = container;
 		data = new HashMap<String, Object>();
-		nodes = new HashMap<String, Node>();
-		transitions = new ArrayList<Transition>();
 
 	}
 
@@ -107,19 +87,45 @@ public class Workflow extends AndroidNonvisibleComponent implements Component {
 	}
 
 	@SimpleFunction
+	public void LoadWorkflowDefinition(String fileName) {
+
+		try {
+
+			// prepareXMLParser();
+
+			InputStream stream = getAssetPath(fileName);
+			Log.d("Workflow", "Stream obtained...");
+
+			WorkflowLoader loader = new WorkflowLoader();
+			Log.d("Workflow", "Loading workflow...");
+			this.process = loader.readStream(stream);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Log.d("Workflow", "Error Loading workflow...");
+			Log.d("Workflow", "Error: " + e.getMessage());
+
+		}
+
+	}
+
+	@SimpleFunction
 	public void AddNode(String nodeId, String nodeType, String nodeSubType, Object arguments) {
 
-		this.nodes.put(nodeId, new Node(nodeId, nodeType, nodeSubType, arguments));
+		List list = new ArrayList();
+		list.add(arguments);
+		this.process.getNodes().put(nodeId, new WorkflowNode(nodeId, nodeId, nodeType, nodeSubType, list));
 
 	}
 
 	@SimpleFunction
 	public void AddTransition(String sourceNode, String targetNode, String condition) {
 
-		Node source = this.nodes.get(sourceNode);
-		Node target = this.nodes.get(targetNode);
+		// WorkflowNode source = this.process.getNodes().get(sourceNode);
+		// WorkflowNode target = this.process.getNodes().get(targetNode);
 
-		this.transitions.add(new Transition(source, target, condition));
+		this.process.getTransitions().add(new WorkflowTransition(sourceNode, targetNode, condition));
 
 	}
 
@@ -142,79 +148,6 @@ public class Workflow extends AndroidNonvisibleComponent implements Component {
 	}
 
 	@SimpleFunction
-	public void LoadWorkflowDefinition(String fileName) {
-
-		// read a model from a file
-		// File file = new File(fileName);
-		try {
-			
-			InputStream stream=getAssetPath(fileName);
-			Log.d("Workflow", "Stream obtained...");
-
-			modelInstance = Bpmn.readModelFromStream(stream);
-
-			Log.d("Workflow", "Loading workflow...");
-
-			Collection<Task> tasks = modelInstance.getModelElementsByType(Task.class);
-
-			for (Task task : tasks) {
-
-				if (task instanceof ServiceTask) {
-					Iterator<Documentation> it = task.getDocumentations().iterator();
-					while (it.hasNext()) {
-						Documentation doc = it.next();
-						this.AddNode(task.getName(), "TASK", "SERVICE TASK", doc.getTextContent());
-					}
-				} else if (task instanceof UserTask) {
-					this.AddNode(task.getName(), "TASK", "USER TASK", "");
-
-					Log.d("Workflow", "USER TASK " + task.getName() + ":" + "...");
-
-				}
-			}
-
-			Collection<Event> events = modelInstance.getModelElementsByType(Event.class);
-
-			for (Event event : events) {
-				if (event instanceof StartEvent) {
-					this.AddNode(event.getName(), "EVENT", "START", "");
-					Log.d("Workflow", "START EVENT " + event.getName());
-				} else if (event instanceof EndEvent) {
-					this.AddNode(event.getName(), "EVENT", "END", "");
-					Log.d("Workflow", "END EVENT " + event.getName());
-				} else {
-					this.AddNode(event.getName(), "EVENT", "INTERMEDIATE", "");
-					Log.d("Workflow", "INTERMEDIATE EVENT " + event.getName());
-				}
-			}
-
-			Collection<Gateway> gateways = modelInstance.getModelElementsByType(Gateway.class);
-			for (Gateway gateway : gateways) {
-				if (gateway instanceof ParallelGateway) {
-					this.AddNode(gateway.getName(), "GATEWAY", "AND", "");
-					Log.d("Workflow", "AND GATEWAY " + gateway.getName());
-				} else if (gateway instanceof ExclusiveGateway) {
-					this.AddNode(gateway.getName(), "GATEWAY", "XOR", "");
-					Log.d("Workflow", "XOR GATEWAY " + gateway.getName());
-				} else if (gateway instanceof InclusiveGateway) {
-					this.AddNode(gateway.getName(), "GATEWAY", "OR", "");
-					Log.d("Workflow", "OR GATEWAY " + gateway.getName());
-				} else {
-					Log.d("Workflow", "OTHER GATEWAY " + gateway.getName());
-				}
-
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			Log.d("Workflow", "Error Loading workflow...");
-			Log.d("Workflow", "Error: " + e.getMessage());
-
-		}
-
-	}
-
-	@SimpleFunction
 	public void PutData(String dataKey, Object dataValue) {
 
 		this.data.put(dataKey, dataValue);
@@ -223,22 +156,27 @@ public class Workflow extends AndroidNonvisibleComponent implements Component {
 
 	@SimpleFunction
 	public void StartWorkflow() {
-		this.running = true;
-		Log.d("Workflow", "Comenzando... ");
 
-		this.currentNode = null;
-		
-		
-		if(this.nodes.size()==0){
+		if (this.process == null) {
 			this.LoadWorkflowDefinition(bpmnPath);
 		}
-		
-		for (Node node : this.nodes.values()) {
-			if (node.getNodeType().equals("EVENT") && node.getSubType().equals("START")) {
-				this.currentNode = node;
+
+		if (this.process != null) {
+			this.running = true;
+			Log.d("Workflow", "Comenzando... ");
+
+			this.currentNode = null;
+			this.data = new HashMap<String, Object>();
+
+			for (WorkflowNode node : this.process.getNodes().values()) {
+				if (node.getNodeType().equals("EVENT") && node.getSubType().equals("START")) {
+					this.currentNode = node;
+				}
 			}
+			WorkflowStarted();
+			
+			CompleteTask();
 		}
-		CompleteTask();
 
 	}
 
@@ -248,14 +186,19 @@ public class Workflow extends AndroidNonvisibleComponent implements Component {
 		if (running) {
 			this.currentNode = retrieveNextNode(currentNode);
 
-			if (currentNode.getNodeType().equals("TASK")) {
-				dispatchTask(currentNode);
-			} else if (currentNode.getNodeType().equals("EVENT")) {
-				dispatchEvent(currentNode);
-			} else if (currentNode.getNodeType().equals("GATEWAY")) {
-				dispatchGateway(currentNode);
+			if (this.currentNode != null) {
+				NodeChanged(this.currentNode.getName());
+				if (currentNode.getNodeType().equals("TASK")) {
+					dispatchTask(currentNode);
+				} else if (currentNode.getNodeType().equals("EVENT")) {
+					dispatchEvent(currentNode);
+				} else if (currentNode.getNodeType().equals("GATEWAY")) {
+					dispatchGateway(currentNode);
+				} else {
+					WorkflowError("CurrentNodeType unknown");
+				}
 			} else {
-				WorkflowError("CurrentNodeType unknown");
+					WorkflowError("No viable ways. Data: "+this.data.toString());				
 			}
 		}
 
@@ -288,13 +231,15 @@ public class Workflow extends AndroidNonvisibleComponent implements Component {
 
 	@SimpleEvent
 	public void WorkflowAborted() {
-
+		this.running = false;
+		
 		EventDispatcher.dispatchEvent(this, "WorkflowAborted");
 	}
 
 	@SimpleEvent
 	public void WorkflowEnded() {
-
+		this.running = false;
+		
 		EventDispatcher.dispatchEvent(this, "WorkflowEnded");
 	}
 
@@ -306,7 +251,8 @@ public class Workflow extends AndroidNonvisibleComponent implements Component {
 
 	@SimpleEvent
 	public void WorkflowError(String errorType) {
-
+		this.running = false;
+		
 		EventDispatcher.dispatchEvent(this, "WorkflowError", errorType);
 	}
 
@@ -316,49 +262,65 @@ public class Workflow extends AndroidNonvisibleComponent implements Component {
 		EventDispatcher.dispatchEvent(this, "TaskLaunched", taskType, taskArguments);
 	}
 
-	private Node retrieveNextNode(Node node) {
+	private WorkflowNode retrieveNextNode(WorkflowNode node) {
 
-		Node result = node;
-		for (Transition transition : this.transitions) {
-			if (result == node && transition.getSource().equals(this.currentNode)
+		WorkflowNode result = null;
+		for (WorkflowTransition transition : this.process.getTransitions()) {
+			if (result == null && transition.getSource() != null
+					&& transition.getSource().equals(this.currentNode.getId())
 					&& conditionSatisfied(transition.getCondition())) {
-				result = transition.getTarget();
+				result = this.process.getNodes().get(transition.getTarget());
+				Log.d("Workflow", "Proximo nodo: " + result.getName());
 			}
 		}
 
-		Log.d("Workflow", "Proximo nodo: " + result.getId());
+		return result;
+	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((bpmnPath == null) ? 0 : bpmnPath.hashCode());
 		return result;
 	}
 
 	private boolean conditionSatisfied(String condition) {
-		boolean result = false;
+		boolean result = true;
 
-		ScriptEngineManager mgr = new ScriptEngineManager();
-		ScriptEngine jsEngine = mgr.getEngineByName("JavaScript");
+		// ScriptEngineManager mgr = new ScriptEngineManager();
+		// ScriptEngine jsEngine = mgr.getEngineByName("JavaScript");
 
-		for (String dataIndex : this.data.keySet()) {
-			condition = condition.replace(dataIndex, this.data.get(dataIndex).toString());
-		}
+		if (condition != null && !condition.equals("")) {
+			Log.d("Workflow", "Pre-Executing in script environment... " + condition);
 
-		Log.d("Workflow", "Executing in script environment...");
-		try {
+			for (String dataIndex : this.data.keySet()) {
+				condition = condition.replace(dataIndex, this.data.get(dataIndex).toString());
+			}
 
-			Object aux = jsEngine.eval(condition);
-			Log.d("Workflow", "Resulting in script environment..." + aux);
-			result = aux.toString().equals("true");
-		} catch (ScriptException ex) {
-			ex.printStackTrace();
+			Log.d("Workflow", "Executing in script environment... " + condition);
+			try {
+
+				Interpreter interpreter = new Interpreter();
+				interpreter.eval("result = " + condition);
+				String aux = interpreter.get("result").toString();
+				Log.d("Workflow", "Resulting in script environment..." + aux);
+				result = aux.equals("true");
+			} catch (EvalError e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				result = false;
+			}
 		}
 		return result;
 	}
 
-	private void dispatchGateway(Node node) {
+	private void dispatchGateway(WorkflowNode node) {
 		this.CompleteTask();
 
 	}
 
-	private void dispatchEvent(Node node) {
+	private void dispatchEvent(WorkflowNode node) {
 		if (currentNode.getSubType().equals("START")) {
 			WorkflowStarted();
 		} else if (currentNode.getSubType().equals("END")) {
@@ -370,95 +332,10 @@ public class Workflow extends AndroidNonvisibleComponent implements Component {
 
 	}
 
-	private void dispatchTask(Node node) {
+	private void dispatchTask(WorkflowNode node) {
 
 		TaskLaunched(node.getSubType(), node.getArguments());
 		// WorkflowError("CurrentNodeType unknown");
-	}
-
-	public class Transition {
-		private Node source;
-		private Node target;
-		private String condition;
-
-		public Transition(Node source, Node target, String condition) {
-			this.source = source;
-			this.target = target;
-			this.condition = condition;
-		}
-
-		public String getCondition() {
-			return condition;
-		}
-
-		public void setCondition(String condition) {
-			this.condition = condition;
-		}
-
-		public Node getSource() {
-			return source;
-		}
-
-		public void setSource(Node source) {
-			this.source = source;
-		}
-
-		public Node getTarget() {
-			return target;
-		}
-
-		public void setTarget(Node target) {
-			this.target = target;
-		}
-
-	}
-
-	public class Node {
-		private String id;
-		private String nodeType;
-		private String subType;
-		private List arguments;
-
-		public Node(String nodeId, String nodeType, String nodeSubType, Object arguments) {
-			this.id = nodeId;
-			this.nodeType = nodeType;
-			this.subType = nodeSubType;
-			this.arguments = (List) arguments;
-
-		}
-
-		public String getId() {
-			return id;
-		}
-
-		public void setId(String id) {
-			this.id = id;
-		}
-
-		public String getNodeType() {
-			return nodeType;
-		}
-
-		public void setNodeType(String nodeType) {
-			this.nodeType = nodeType;
-		}
-
-		public String getSubType() {
-			return subType;
-		}
-
-		public void setSubType(String subType) {
-			this.subType = subType;
-		}
-
-		public List getArguments() {
-			return arguments;
-		}
-
-		public void setArguments(List arguments) {
-			this.arguments = arguments;
-		}
-
 	}
 
 }

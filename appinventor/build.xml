@@ -162,12 +162,10 @@
         <!--     <pathelement location="lib/dialog4ai/slf4j-android-1.7.25.jar" /> -->
         
         <!-- WORKFLOW4AI -->
-        <pathelement location="lib/workflow4ai/camunda-bpmn-model-7.8.0.jar" />
-        <pathelement location="lib/workflow4ai/camunda-xml-model-7.8.0.jar" />
-        <pathelement location="lib/workflow4ai/sax-2.0.1.jar" />
+        <pathelement location="lib/workflow4ai/bsh-2.0b4.jar" />
         
         
-      
+        
         
         <fileset dir="buildserver/lib" includes="**/*.jar"/>
         <!-- Apache Http Libraries -->

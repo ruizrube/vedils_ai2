@@ -7,7 +7,9 @@
 package com.google.appinventor.components.runtime;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -195,6 +197,30 @@ public class Dialog extends AndroidNonvisibleComponent implements Component, AIL
 
 	}
 
+	
+//	@SimpleFunction
+//	public void normalizeAmountWithUnit(int amount, String oldUnit, String newUnit) {
+//		Calendar ahoraCal = Calendar.getInstance();
+//		
+//		if(oldUnit.equals("year")) {
+//			ahoraCal.set(Calendar.YEAR, amount);			
+//		} else if(oldUnit.equals("mo")) {
+//			ahoraCal.set(Calendar.MONTH, amount);			
+//		} else if(oldUnit.equals("day")) {
+//			ahoraCal.set(Calendar.DAY_OF_MONTH, amount);			
+//		} else if(oldUnit.equals("h")) {
+//			ahoraCal.set(Calendar.HOUR, amount);
+//		} else if(oldUnit.equals("min")) {
+//			ahoraCal.set(Calendar.MINUTE, amount);
+//		} else if(oldUnit.equals("s") || oldUnit.equals("sec")) {
+//			ahoraCal.set(Calendar.SECOND, amount);
+//		}
+//			
+//		ahoraCal.getTime().get	
+//	
+//	}
+		
+		
 	@SimpleFunction
 	public void StartRecognition(String context) {
 
