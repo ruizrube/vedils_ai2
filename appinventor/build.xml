@@ -161,6 +161,12 @@
         <pathelement location="lib/dialog4ai/gson-2.8.1.jar" />
         <!--     <pathelement location="lib/dialog4ai/slf4j-android-1.7.25.jar" /> -->
         
+        <!-- WORKFLOW4AI -->
+        <pathelement location="lib/workflow4ai/bsh-2.0b4.jar" />
+        
+        
+        
+        
         <fileset dir="buildserver/lib" includes="**/*.jar"/>
         <!-- Apache Http Libraries -->
         <pathelement location="lib/apache-http/httpcore-4.3.2.jar" />

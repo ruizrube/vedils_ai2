@@ -203,6 +203,10 @@
 	         <pathelement location="${lib.dir}/dialog4ai/slf4j-api-1.7.25.jar" />
 	         <pathelement location="${lib.dir}/dialog4ai/gson-2.8.1.jar" />
 	         
+	         <pathelement location="${lib.dir}/workflow4ai/bsh-2.0b4.jar" />
+       
+	  
+      		  
 	         	      <!--    <pathelement location="${lib.dir}/dialog4ai/slf4j-android-1.7.25.jar" /> -->
 	         
 	       
@@ -289,8 +293,9 @@
 	     <pathelement location="${lib.dir}/dialog4ai/libai-1.6.12.jar" />
 	     <pathelement location="${lib.dir}/dialog4ai/slf4j-api-1.7.25.jar" />
 	     <pathelement location="${lib.dir}/dialog4ai/gson-2.8.1.jar" />
-	       
-              
+	      
+	     <pathelement location="${lib.dir}/workflow4ai/bsh-2.0b4.jar" />
+         
       </classpath>
     </ai.javac5> -->
 
@@ -441,6 +446,9 @@
 	     <pathelement location="${lib.dir}/dialog4ai/slf4j-api-1.7.25.jar" />
 	     <pathelement location="${lib.dir}/dialog4ai/gson-2.8.1.jar" />
 	       
+	     <pathelement location="${lib.dir}/workflow4ai/bsh-2.0b4.jar" />
+       
+      
 	     	   <!--   <pathelement location="${lib.dir}/dialog4ai/slf4j-android-1.7.25.jar" /> -->
 	     
         </classpath>
