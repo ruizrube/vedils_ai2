@@ -7742,6 +7742,10 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("ActivitiesToTrack")
 	@Description("")
 	String ActivitiesToTrackProperties();
+	
+	@DefaultMessage("GlobalComponent")
+	@Description("")
+	String GlobalComponentProperties();
 
 	@DefaultMessage("ComponentName")
 	@Description("")
