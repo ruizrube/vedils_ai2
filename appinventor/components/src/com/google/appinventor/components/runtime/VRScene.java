@@ -56,6 +56,7 @@ public class VRScene  extends AndroidNonvisibleComponent implements OnInitialize
 	public ArrayList<Object3DParcelable> object3DParList= new ArrayList<Object3DParcelable>();
 	public Video360Parcelable video360Par;
 	private int ambientLight;
+	private boolean receiverV360EventsRegistered;
 	
 	public VRScene(ComponentContainer container) {
 		super(container.$form());
@@ -73,6 +74,7 @@ public class VRScene  extends AndroidNonvisibleComponent implements OnInitialize
 		Log.v("VRSCENE", "seteando clase del intent");
 		intent.setClassName(container.$context(), VR_ACTIVITY_CLASS);
 		instance = this;
+		this.receiverV360EventsRegistered = false;
 	
 	}
 	public BroadcastReceiver doubleTapTouchEventBroadCastReceiver = new BroadcastReceiver() {
@@ -255,10 +257,14 @@ public class VRScene  extends AndroidNonvisibleComponent implements OnInitialize
 			intent.putExtra("Video360", true);	
 			intent.putExtra("Video360Object", video360Par);
 			
-			LocalBroadcastManager.getInstance(container.$form()).registerReceiver(vrV360.videoEndEventBroadCastReceiver,
-					new IntentFilter(VRActivity.VR_EVENT_VIDEO_END));
-			LocalBroadcastManager.getInstance(container.$form()).registerReceiver(vrV360.videoStartEventBroadCastReceiver,
-					new IntentFilter(VRActivity.VR_EVENT_VIDEO_START));
+			if(!this.receiverV360EventsRegistered) {
+				LocalBroadcastManager.getInstance(container.$form()).registerReceiver(vrV360.videoEndEventBroadCastReceiver,
+						new IntentFilter(VRActivity.VR_EVENT_VIDEO_END));
+				LocalBroadcastManager.getInstance(container.$form()).registerReceiver(vrV360.videoStartEventBroadCastReceiver,
+						new IntentFilter(VRActivity.VR_EVENT_VIDEO_START));
+				this.receiverV360EventsRegistered = true;
+			} 
+
 		}
 			
 		if(hasController)
