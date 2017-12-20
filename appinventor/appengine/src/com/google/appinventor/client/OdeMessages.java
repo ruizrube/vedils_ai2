@@ -737,10 +737,6 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("EndpointRDF")
 	@Description("")
 	String EndpointRDFProperties();
-	
-	@DefaultMessage("Prefixes")
-	@Description("")
-	String PrefixesProperties();
 
 	@DefaultMessage("Classifier")
 	@Description("")
@@ -853,6 +849,14 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("RetrievePaginatedInstancesByClassifierID")
 	@Description("")
 	String RetrievePaginatedInstancesByClassifierIDMethods();
+	
+	@DefaultMessage("RetrieveInstancesByLabel")
+	@Description("")
+	String RetrieveInstancesByLabelMethods();
+
+	@DefaultMessage("RetrievePaginatedInstancesByLabel")
+	@Description("")
+	String RetrievePaginatedInstancesByLabelMethods();
 
 	@DefaultMessage("RetrieveInstances")
 	@Description("")
@@ -7743,9 +7747,9 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String ActivitiesToTrackProperties();
 	
-	@DefaultMessage("GlobalComponent")
+	/*@DefaultMessage("GlobalComponent")
 	@Description("")
-	String GlobalComponentProperties();
+	String GlobalComponentProperties();*/
 
 	@DefaultMessage("ComponentName")
 	@Description("")

@@ -187,8 +187,7 @@ Blockly.Yail.methodHelper = function(methodBlock, name, methodName, generic) {
       if (Blockly.ComponentBlock.isSemanticConceptMethodName(methodName)) {
           args.push(Blockly.Yail.YAIL_SPACER + Blockly.Yail.quote_(dataProperty));
       }
-    }
-  
+    }  
 
 
   return callPrefix

@@ -1,0 +1,10 @@
+com/google/appinventor/components/runtime/ld4ai/utils/WikiDataClient.class
+com/google/appinventor/components/runtime/ld4ai/SPARQLClientForWikiData.class
+com/google/appinventor/components/runtime/ld4ai/utils/VedilsStatement.class
+com/google/appinventor/components/runtime/ld4ai/SPARQLClientForGenericRDF.class
+com/google/appinventor/components/runtime/ld4ai/utils/GenericRDFClient.class
+com/google/appinventor/components/runtime/ld4ai/Concept.class
+com/google/appinventor/components/runtime/ld4ai/test/Main.class
+com/google/appinventor/components/runtime/ld4ai/SPARQLClient.class
+com/google/appinventor/components/runtime/ld4ai/ConceptForWikiData.class
+com/google/appinventor/components/runtime/ld4ai/ConceptForGenericRDF.class

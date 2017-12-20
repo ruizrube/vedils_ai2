@@ -1,5 +1,10 @@
-/Users/ruizrube/Proyectos/workspaceVEDILS/ld4ai/src/main/java/com/google/appinventor/components/runtime/ld4ai/WikiDataClient.java
-/Users/ruizrube/Proyectos/workspaceVEDILS/ld4ai/src/main/java/com/google/appinventor/components/runtime/ld4ai/Concept.java
-/Users/ruizrube/Proyectos/workspaceVEDILS/ld4ai/src/main/java/com/google/appinventor/components/runtime/ld4ai/VedilsStatement.java
-/Users/ruizrube/Proyectos/workspaceVEDILS/ld4ai/src/main/java/com/google/appinventor/components/runtime/ld4ai/SPARQLClient.java
-/Users/ruizrube/Proyectos/workspaceVEDILS/ld4ai/src/main/java/com/google/appinventor/components/runtime/ld4ai/Main.java
+/Users/Taty/git/vedils_final/ld4ai/src/main/java/com/google/appinventor/components/runtime/ld4ai/SPARQLClientForGenericRDF.java
+/Users/Taty/git/vedils_final/ld4ai/src/main/java/com/google/appinventor/components/runtime/ld4ai/SPARQLClientForWikiData.java
+/Users/Taty/git/vedils_final/ld4ai/src/main/java/com/google/appinventor/components/runtime/ld4ai/Concept.java
+/Users/Taty/git/vedils_final/ld4ai/src/main/java/com/google/appinventor/components/runtime/ld4ai/utils/VedilsStatement.java
+/Users/Taty/git/vedils_final/ld4ai/src/main/java/com/google/appinventor/components/runtime/ld4ai/SPARQLClient.java
+/Users/Taty/git/vedils_final/ld4ai/src/main/java/com/google/appinventor/components/runtime/ld4ai/test/Main.java
+/Users/Taty/git/vedils_final/ld4ai/src/main/java/com/google/appinventor/components/runtime/ld4ai/ConceptForWikiData.java
+/Users/Taty/git/vedils_final/ld4ai/src/main/java/com/google/appinventor/components/runtime/ld4ai/utils/WikiDataClient.java
+/Users/Taty/git/vedils_final/ld4ai/src/main/java/com/google/appinventor/components/runtime/ld4ai/ConceptForGenericRDF.java
+/Users/Taty/git/vedils_final/ld4ai/src/main/java/com/google/appinventor/components/runtime/ld4ai/utils/GenericRDFClient.java

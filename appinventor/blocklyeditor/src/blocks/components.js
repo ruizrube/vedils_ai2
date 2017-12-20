@@ -380,7 +380,6 @@ Blockly.Blocks.component_method = {
 	          .appendField(dataPropertiesDropDown, "DATA_PROPERTY")
 	          .appendField(appendix);
                              
-    
 	  } else {
         this.appendDummyInput()
           .appendField(Blockly.Msg.LANG_COMPONENT_BLOCK_METHOD_TITLE_CALL)
@@ -814,24 +813,28 @@ Blockly.ComponentBlock.timeUnitsMenu =
 Blockly.ComponentBlock.semanticType='';
 Blockly.ComponentBlock.dataPropertiesMenu = {};
 
+
 //IRR
 Blockly.ComponentBlock.loadWikiDataASync =  function  (semanticType) {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 	   		console.log('datos recibidos de forma asincrona.');
+	   		console.log(JSON.parse(this.responseText));
 	    	Blockly.ComponentBlock.dataPropertiesMenu[semanticType] = JSON.parse(this.responseText);//.substring(1,this.responseText.length-1);
 	    }
 	};
-	xhttp.open('GET', './../exportWikiData?action=getProperties&preferredLanguage=en&secondLanguage=es&semanticType='+semanticType, true); //TRUE for asynchronous mode    
+	console.log('semanticType='+semanticType);
+	xhttp.open('GET', './../exportRDFData?action=getProperties&preferredLanguage=en&secondLanguage=es&semanticType='+semanticType, true); //TRUE for asynchronous mode    
 	xhttp.send();
 };
+
  
 Blockly.ComponentBlock.loadWikiDataSync =  function  (semanticType) {
 	console.log('SemanticType Sync: ' +semanticType);
  	if(!(semanticType in Blockly.ComponentBlock.dataPropertiesMenu)){
  		var xhttp = new XMLHttpRequest();
-	  	xhttp.open('GET', './../exportWikiData?action=getProperties&preferredLanguage=en&secondLanguage=es&semanticType='+semanticType, false);
+	  	xhttp.open('GET', './../exportRDFData?action=getProperties&preferredLanguage=en&secondLanguage=es&semanticType='+semanticType, false);
     	xhttp.send();
       	console.log('Recuperando datos de '+semanticType);
     
@@ -848,8 +851,6 @@ Blockly.ComponentBlock.loadWikiDataSync =  function  (semanticType) {
  	}
  	
  }
- 
-
 
 Blockly.ComponentBlock.clockMethodNames = ["AddYears", "AddMonths","AddWeeks", "AddDays",
   "AddHours", "AddMinutes", "AddSeconds", "AddDuration"];
@@ -862,7 +863,6 @@ Blockly.ComponentBlock.semanticConceptMethodNames = ["RetrieveAssistedLinkedConc
 Blockly.ComponentBlock.isSemanticConceptMethodName =  function  (name) {
     return Blockly.ComponentBlock.semanticConceptMethodNames.indexOf(name) != -1;
 };
-
 
 Blockly.ComponentBlock.createComponentDropDown = function(block){
   var componentDropDown = new Blockly.FieldDropdown([["",""]]);
@@ -900,8 +900,10 @@ Blockly.ComponentBlock.createDataPropertiesAddDropDown = function(block){
 	 
 	 var dataToCheck=Blockly.ComponentBlock.dataPropertiesMenu[Blockly.ComponentBlock.semanticType];
 	 if (dataToCheck != undefined && dataToCheck.length>0){
+	 	 console.log("DropDown with data---"+dataToCheck);
 		 return dataToCheck; 
 	 } else {
+	 	 console.log("DropDown empty---"+{});
 		 return {};
 	 }
 	 
@@ -913,6 +915,7 @@ Blockly.ComponentBlock.createDataPropertiesAddDropDown = function(block){
   };
   return componentDropDown;
 }
+
 
 
 Blockly.ComponentBlock.HELPURLS = {

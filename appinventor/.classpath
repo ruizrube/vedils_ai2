@@ -193,7 +193,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/brain4ai/jna.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/android/5.0/android.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/brain4ai/bedk.jar"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/ld4ai"/>
 	<classpathentry exported="true" kind="lib" path="lib/ld4ai/ld4ai-0.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/la4ai/stream/stream-1.1.7.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/3d4ai/3d4ai.jar"/>
@@ -202,5 +201,8 @@
 	<classpathentry exported="true" kind="lib" path="lib/vr4ai/vr4ai.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/gca4ai/Myo-connector.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/la4ai/tincan.jar"/>
+	<classpathentry kind="lib" path="lib/la4ai/jsonld.jar"/>
+	<classpathentry kind="lib" path="lib/la4ai/android-joda.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

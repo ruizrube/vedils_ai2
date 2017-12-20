@@ -231,9 +231,10 @@ public class ServerLayout {
    */
   public static final String UPDATEVEDILSDATA_SERVLET_BASE = "updateVedilsData/";
   
-  public static final String EXPORTWIKIDATA_SERVLET_BASE = "exportWikiData";
-   
+  public static final String EXPORTRDFDATA_SERVLET_BASE = "exportRDFData";
   
+  public static final String EXPORTHEALTHLIFESCIDATA_SERVLET_BASE = "exportHealthLifeSciData";
+   
 
   public static String genRelativeDownloadPath(long projectId, String target) {
     return DOWNLOAD_SERVLET_BASE + DOWNLOAD_PROJECT_OUTPUT + "/" + projectId + "/" + target;

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.google.appinventor.components.runtime.ld4ai;
+package com.google.appinventor.components.runtime.ld4ai.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

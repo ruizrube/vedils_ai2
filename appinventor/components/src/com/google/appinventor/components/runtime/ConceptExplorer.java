@@ -17,6 +17,8 @@ import com.google.appinventor.components.annotations.UsesPermissions;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
 import com.google.appinventor.components.runtime.ld4ai.SPARQLClient;
+import com.google.appinventor.components.runtime.ld4ai.SPARQLClientForGenericRDF;
+import com.google.appinventor.components.runtime.ld4ai.SPARQLClientForWikiData;
 
 import android.os.StrictMode;
 
@@ -35,8 +37,9 @@ public class ConceptExplorer extends AndroidNonvisibleComponent implements Seria
 	// CLASS ATTRIBUTES //
 	/////////////////////
 
-	private SPARQLClient dataProvider = SPARQLClient.getInstance();
-
+	private SPARQLClient dataProvider = SPARQLClientForWikiData.getInstance();
+	
+	private final String DBPEDIA_KEYWORD = "dbpedia";
 	
 	private static final long serialVersionUID = 1L;
 
@@ -47,14 +50,14 @@ public class ConceptExplorer extends AndroidNonvisibleComponent implements Seria
 	/////////////////////
 	// LOCAL ATTRIBUTES //
 	/////////////////////
-
-	private final ComponentContainer container;
 	
 	private String preferredLanguage = "es";
 
 	private String secondLanguage = "en";
 
 	private String classifierID;
+	
+	private String endpointRDF = "";
 	
 
 	/////////////////
@@ -63,7 +66,6 @@ public class ConceptExplorer extends AndroidNonvisibleComponent implements Seria
 
 	public ConceptExplorer(ComponentContainer container) {
 		super(container.$form());
-		this.container = container;
 
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
@@ -82,6 +84,27 @@ public class ConceptExplorer extends AndroidNonvisibleComponent implements Seria
 	////////////////
 	// PROPERTIES //
 	////////////////
+	
+	
+	/**
+	 * Specifies the endpoint URL for the RDF query
+	 */
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING, defaultValue = "")
+	@SimpleProperty(userVisible = false)
+	public void EndpointRDF(String endpointRDF) {
+		this.endpointRDF = endpointRDF;
+		
+		if(!this.endpointRDF.contains(DBPEDIA_KEYWORD)) {
+			dataProvider = new SPARQLClientForGenericRDF(this.endpointRDF);
+		} else {
+			dataProvider = SPARQLClientForWikiData.getInstance();
+		}
+		
+	}
+
+	public String EndpointRDF() {
+		return this.endpointRDF;
+	}
 
 
 	/**
@@ -154,6 +177,16 @@ public class ConceptExplorer extends AndroidNonvisibleComponent implements Seria
 	public List<List<String>> RetrievePaginatedInstancesByClassifierID(String classifierID, int limit, int offset){
 		return dataProvider.selectInstances(classifierID, preferredLanguage, secondLanguage,limit,offset);
 	}
+	
+	@SimpleFunction(description = "Retrieve the list of instances of the given label", userVisible = true)
+	public List<List<String>> RetrieveInstancesByLabel(String label){
+		return dataProvider.selectInstancesByLabel(label, preferredLanguage, secondLanguage);
+	}
+	
+	@SimpleFunction(description = "Retrieve the list of instances of the given label", userVisible = true)
+	public List<List<String>> RetrievePaginatedInstancesByLabel(String label, int limit, int offset){
+		return dataProvider.selectInstancesByLabel(classifierID, preferredLanguage, secondLanguage,limit,offset);
+	}
 
 	@SimpleFunction(description = "Retrieve the list of properties of the given classifier", userVisible = true)
 	public List<List<String>> RetrieveProperties(){
@@ -167,12 +200,12 @@ public class ConceptExplorer extends AndroidNonvisibleComponent implements Seria
 
 	@SimpleFunction(description = "Retrieve the list of ancestors of the given classifier", userVisible = true)
 	public List<List<String>> RetrieveAncestors(){
-		return dataProvider.selectSubclasses(this.classifierID, preferredLanguage, secondLanguage);
+		return dataProvider.selectSuperclasses(this.classifierID, preferredLanguage, secondLanguage);
 	}
 	
 	@SimpleFunction(description = "Retrieve the list of ancestors of the given classifier", userVisible = true)
 	public List<List<String>> RetrieveAncestorsByClassifierID(String classifierID){
-		return dataProvider.selectSubclasses(classifierID, preferredLanguage, secondLanguage);
+		return dataProvider.selectSuperclasses(classifierID, preferredLanguage, secondLanguage);
 	}
 	
 	@SimpleFunction(description = "Retrieve the list of descendants of the given classifier", userVisible = true)

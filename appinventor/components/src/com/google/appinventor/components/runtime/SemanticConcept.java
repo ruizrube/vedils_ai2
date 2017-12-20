@@ -4,10 +4,7 @@
 package com.google.appinventor.components.runtime;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
 
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
@@ -20,9 +17,8 @@ import com.google.appinventor.components.annotations.UsesPermissions;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
 import com.google.appinventor.components.runtime.ld4ai.Concept;
-import com.google.appinventor.components.runtime.ld4ai.VedilsStatement;
-import com.google.appinventor.components.runtime.util.EmotivController;
-import com.google.appinventor.components.runtime.util.YailList;
+import com.google.appinventor.components.runtime.ld4ai.ConceptForGenericRDF;
+import com.google.appinventor.components.runtime.ld4ai.ConceptForWikiData;
 
 import android.os.StrictMode;
 
@@ -51,12 +47,15 @@ public class SemanticConcept extends AndroidNonvisibleComponent implements Seria
 	// LOCAL ATTRIBUTES //
 	/////////////////////
 
-	private final ComponentContainer container;
-
 	public Concept data;
 
-	
 	private String conceptURI;
+	
+	private String endpointRDF = "";
+	
+	private final String DBPEDIA_KEYWORD = "dbpedia";
+	
+	//private String prefixes = "";
 	
 
 	/////////////////
@@ -65,14 +64,12 @@ public class SemanticConcept extends AndroidNonvisibleComponent implements Seria
 
 	public SemanticConcept(ComponentContainer container) {
 		super(container.$form());
-		this.container = container;
 
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
 		StrictMode.setThreadPolicy(policy);
 
-		
-		data = new Concept();
+		data = new ConceptForWikiData();
 	}
 
 	///////////////////////
@@ -86,6 +83,26 @@ public class SemanticConcept extends AndroidNonvisibleComponent implements Seria
 	////////////////
 	// PROPERTIES //
 	////////////////
+	
+	
+	/**
+	 * Specifies the endpoint URL for the RDF query
+	 */
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING, defaultValue = "")
+	@SimpleProperty(userVisible = false)
+	public void EndpointRDF(String endpointRDF) {
+		this.endpointRDF = endpointRDF;
+		
+		if(!this.endpointRDF.contains(DBPEDIA_KEYWORD)) {
+			data = new ConceptForGenericRDF(this.endpointRDF);
+		} else {
+			data = new ConceptForWikiData();
+		}
+	}
+
+	public String EndpointRDF() {
+		return this.endpointRDF;
+	}
 
 	/**
 	 * Specifies a classifier.
@@ -213,22 +230,30 @@ public class SemanticConcept extends AndroidNonvisibleComponent implements Seria
 	
 	@SimpleFunction(description = "Retrieve concepts linked with the current one through a specific property", userVisible = true)
 	public String RetrieveLinkedConcept(String property) {
-		return data.RetrieveLinkedConcept(property);
+		String result = data.RetrieveLinkedConcept(property);
+		System.out.println("Retrieve Linked Concept = " + result);
+		return result;
+	}
+	
+	@SimpleFunction(description = "Retrieve a concept linked with the current one through a specific property", userVisible = true)
+	public List<String> RetrieveLinkedConcepts(String property) {
+		List<String> result = data.RetrieveLinkedConcepts(property);
+		System.out.println("Retrieve Linked Concepts = " + result);
+		return result;
 	}
 
 	@SimpleFunction(description = "Retrieve concepts linked with the current one through a specific property", userVisible = true)
 	public String RetrieveAssistedLinkedConcept(String input) {
-		return data.RetrieveLinkedConcept(input.replace("package ", ""));
-	}
-
-	@SimpleFunction(description = "Retrieve a concept linked with the current one through a specific property", userVisible = true)
-	public List<String> RetrieveLinkedConcepts(String property) {
-		return data.RetrieveLinkedConcepts(property);
+		String result = data.RetrieveLinkedConcept(input.replace("package ", ""));
+		System.out.println("Retrieve Linked Concept = " + result);
+		return result;
 	}
 
 	@SimpleFunction(description = "Retrieve a concept linked with the current one through a specific property", userVisible = true)
 	public List<String> RetrieveAssistedLinkedConcepts(String input) {
-		return data.RetrieveLinkedConcepts(input.replace("package ", ""));
+		List<String> result = data.RetrieveLinkedConcepts(input.replace("package ", ""));
+		System.out.println("Retrieve Linked Concepts = " + result);
+		return result;
 	}
 	
 	
