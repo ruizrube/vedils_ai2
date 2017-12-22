@@ -14,7 +14,7 @@ public class YoungAndroidStorageModeChoicePropertyEditor extends ChoicePropertyE
   private static final Choice[] storageModes = new Choice[] {
      new Choice(MESSAGES.fusionTablesStorageMode(), "0"),
 	 new Choice(MESSAGES.mongoDBStorageMode() , "1"),
-	 //new Choice(MESSAGES.streamStorageMode(), "2"),
+	 new Choice(MESSAGES.lrsStorageMode(), "2"),
   };
 
   public YoungAndroidStorageModeChoicePropertyEditor() {

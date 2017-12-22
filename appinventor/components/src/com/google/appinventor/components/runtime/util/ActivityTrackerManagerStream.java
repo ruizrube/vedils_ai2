@@ -19,6 +19,7 @@ public class ActivityTrackerManagerStream implements ActivityTrackerManager  {
 	private ComponentContainer componentContainer;
 	
 	private String URL_SERVER_ADD_QUEUE = "http://vedilsanalytics.uca.es:8080/VedilsAnalyticsWS/flinkClient/AddToKafkaQueue";
+	//private String URL_SERVER_ADD_QUEUE = "http://192.168.1.22:8080/VedilsAnalyticsWS/flinkClient/AddToKafkaQueue";
 	
 	private JSONObject dataJSON;
 	
@@ -67,28 +68,32 @@ public class ActivityTrackerManagerStream implements ActivityTrackerManager  {
 	}
 
 	@Override
-	public void prepareQueryManual(String actionId, List<Object> data) {
-		try {
-			addBasicNotificationData();
-			dataJSON.put("ActionType", "SPECIFIC");
-			dataJSON.put("ActionID", actionId);
+	public void prepareQueryManual(String actionId, Object data) {
+		if(data instanceof List) {
+			try {
+				addBasicNotificationData();
+				dataJSON.put("ActionType", "SPECIFIC");
+				dataJSON.put("ActionID", actionId);
+				
+				List<Object> dataList = (List<Object>) data;
+				
+				//Add Data
+				for(Object value: dataList) {
+					System.out.println("Type of element: " + value.getClass().getName());
+					if(value instanceof YailList) { //main YailList
+						YailList list = (YailList) value;
+						System.out.println("element of list: " + list.getString(1));
+						dataJSON.put(list.getString(0), list.getString(1));
+					}
+				}		
+			} catch (Exception e) {
+				System.out.println("ActivityTrackerManagerMongoDB error" + e.getMessage());
+				e.printStackTrace();
+			}
 			
-			//Add Data
-			for(Object value: data) {
-				System.out.println("Type of element: " + value.getClass().getName());
-				if(value instanceof YailList) { //main YailList
-					YailList list = (YailList) value;
-					System.out.println("element of list: " + list.getString(1));
-					dataJSON.put(list.getString(0), list.getString(1));
-				}
-			}		
-		} catch (Exception e) {
-			System.out.println("ActivityTrackerManagerMongoDB error" + e.getMessage());
-			e.printStackTrace();
+			//And try to send data to MongoDB
+			recordData();
 		}
-		
-		//And try to send data to MongoDB
-		recordData();
 	}
 
 	@Override
@@ -168,7 +173,8 @@ public class ActivityTrackerManagerStream implements ActivityTrackerManager  {
 	
 	private void addBasicNotificationData() throws Exception {
 		dataJSON = new JSONObject();
-		dataJSON.put("UserID", currentActivityTracker.getUserTrackerId());
+		//dataJSON.put("UserID", currentActivityTracker.getUserTrackerId());
+		dataJSON.put("UserID", currentActivityTracker.getUser().getName() + " " + currentActivityTracker.getUser().getSurname());
 		dataJSON.put("IP", DeviceInfoFunctions.getCurrentIP(currentActivityTracker.getCommunicationMode(), this.componentContainer.$context()));
 		dataJSON.put("MAC", DeviceInfoFunctions.getMAC(componentContainer.$context()));
 		dataJSON.put("IMEI", DeviceInfoFunctions.getIMEI(componentContainer.$context()));
@@ -178,5 +184,39 @@ public class ActivityTrackerManagerStream implements ActivityTrackerManager  {
 		dataJSON.put("Date", Clock.FormatDate(Clock.Now(), "MM/dd/yyyy HH:mm:ss"));
 		dataJSON.put("AppID", componentContainer.$context().getApplicationInfo().packageName);
 		dataJSON.put("ScreenID", componentContainer.$form().getLocalClassName());
+	}
+
+	@Override
+	public Object prepareQueryManualWithReturn(String actionId, Object data) {
+		if(data instanceof List) {
+			try {
+				addBasicNotificationData();
+				dataJSON.put("ActionType", "SPECIFIC");
+				dataJSON.put("ActionID", actionId);
+				
+				List<Object> dataList = (List<Object>) data;
+				
+				//Add Data
+				for(Object value: dataList) {
+					System.out.println("Type of element: " + value.getClass().getName());
+					if(value instanceof YailList) { //main YailList
+						YailList list = (YailList) value;
+						System.out.println("element of list: " + list.getString(1));
+						dataJSON.put(list.getString(0), list.getString(1));
+					}
+				}
+				
+				dataJSON.put("database", componentContainer.$context().getApplicationInfo().packageName);
+				dataJSON.put("collection", currentActivityTracker.getTableId());
+				
+				return dataJSON.toString();
+				
+			} catch (Exception e) {
+				System.out.println("ActivityTrackerManagerMongoDB error" + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		
+		return "";
 	}
 }

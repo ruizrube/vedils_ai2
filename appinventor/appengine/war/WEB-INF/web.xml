@@ -418,14 +418,14 @@
     <url-pattern>/exportRDFData</url-pattern>
   </servlet-mapping>
   
-  <!--  <servlet>
+  <servlet>
     <servlet-name>exportxAPIVocabularyForVEDILS</servlet-name>
     <servlet-class>com.google.appinventor.server.storage.ExportxAPIVocabularyForVEDILS</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>exportxAPIVocabularyForVEDILS</servlet-name>
-    <url-pattern>/xapi</url-pattern>
-  </servlet-mapping> -->
+    <url-pattern>/xapi/*</url-pattern>
+  </servlet-mapping>
   
   <servlet>
     <servlet-name>updateVedilsData</servlet-name>

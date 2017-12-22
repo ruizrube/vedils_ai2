@@ -17,8 +17,10 @@ import com.google.appinventor.components.common.YaVersion;
 import com.google.appinventor.components.runtime.util.ActivityTrackerInstances;
 import com.google.appinventor.components.runtime.util.ActivityTrackerManager;
 import com.google.appinventor.components.runtime.util.ActivityTrackerManagerFusionTables;
+import com.google.appinventor.components.runtime.util.ActivityTrackerManagerLearningRecordStore;
 import com.google.appinventor.components.runtime.util.ActivityTrackerManagerMongoDB;
 //import com.google.appinventor.components.runtime.util.ActivityTrackerManagerStream;
+import com.google.appinventor.components.runtime.util.GlobalComponentsInstances;
 
 //import java.util.List;
 //import java.util.ArrayList;
@@ -40,6 +42,7 @@ import android.app.Activity;
 "google-oauth-client-beta.jar," +
 "guava-14.0.1.jar," +
 "gson-2.1.jar," +
+"tincan.jar," +
 "la4ai.jar")
 @SimpleObject
 @DesignerComponent(version = YaVersion.ACTIVITYTRACKER_COMPONENT_VERSION, 
@@ -71,6 +74,7 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	private ActivityTrackerManager activityTrackerManager;
 	private int storageMode;
 	private boolean streamMode;
+	private User user;
 	
 	public ActivityTracker(ComponentContainer componentContainer) {
 		super(componentContainer.$form());
@@ -111,6 +115,27 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	}
 	
 	/**
+	 * Specifies the user data associated.
+	 * 
+	 * @param user
+	 */
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_ONLY_USER,
+		      defaultValue = "")
+		  @SimpleProperty(userVisible = false)
+	public void User(User user) {
+		this.user = user;		
+	} 
+	
+	public User getUser() {
+		
+		/*if(this.user == null) {
+			this.user = (User) GlobalComponentsInstances.getGlobalComponentByType(User.class);
+		}*/
+		
+		return this.user;
+	}
+	
+	/**
 	 * Specifies the storage mode used.
 	 * 
 	 * @param storage
@@ -122,14 +147,14 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	public void StorageMode(int storageMode) {
 		this.storageMode = storageMode;
 		
-		//Configure ActivityTrackerManager to send data (Fusion Tables or MongoDB storage mode).
+		//Configure ActivityTrackerManager to send data (Fusion Tables, MongoDB or LRS storage mode).
 		if(this.storageMode == Component.FUSIONTABLES) {
 			activityTrackerManager = new ActivityTrackerManagerFusionTables(this, componentContainer);
 		} else if(this.storageMode == Component.MONGODB) {
 			activityTrackerManager = new ActivityTrackerManagerMongoDB(this, componentContainer);
-		} /*else if(this.storageMode == Component.STREAM) {
-			activityTrackerManager = new ActivityTrackerManagerStream(this, componentContainer);
-		}*/
+		} else if(this.storageMode == Component.LEARNINGRECORDSTORE) {
+			activityTrackerManager = new ActivityTrackerManagerLearningRecordStore(this, componentContainer);
+		}
 	}
 	
 	/**
@@ -168,8 +193,9 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	 * 
 	 * @param userId
 	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING,
-		      defaultValue = "")
+	@Deprecated
+	/*@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING,
+		      defaultValue = "")*/
 	@SimpleProperty
 	public void UserTrackerId(String userTrackerId) {
 		this.userTrackerId = userTrackerId;
@@ -181,11 +207,13 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	 * 
 	 * Return userId
 	 */
+	@Deprecated
 	@SimpleProperty(category = PropertyCategory.BEHAVIOR, description = "Returns the value of userId of the application.", userVisible = true)
 	public String UserTrackerId() {
 		return this.userTrackerId;
 	}
 	
+	@Deprecated
 	public String getUserTrackerId() {
 		return this.userTrackerId;
 	}
@@ -319,7 +347,8 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	 * @param actionId
 	 * @param valueArgument
 	 */
-	@SimpleFunction(description="Function to notify a specific action (version with one argument).")
+	@Deprecated 
+	@SimpleFunction(description="DEPRECATED. Function to notify a specific action (version with one argument).")
 	public void NotifyWithOneArgument(String actionId, String valueArgument) {
 		activityTrackerManager.prepareQueryManual(actionId, valueArgument, "", "");
 	}
@@ -332,7 +361,8 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	 * @param valueArgument
 	 * @param valueArgument2
 	 */
-	@SimpleFunction(description="Function to notify a specific action (version with two arguments).")
+	@Deprecated
+	@SimpleFunction(description="DEPRECATED. Function to notify a specific action (version with two arguments).")
 	public void NotifyWithTwoArguments(String actionId, String valueArgument, String valueArgument2) {
 		activityTrackerManager.prepareQueryManual(actionId, valueArgument, valueArgument2, "");
 	}
@@ -345,7 +375,8 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	 * @param valueArgument2
 	 * @param valueArgument3
 	 */
-	@SimpleFunction(description="Function to notify a specific action (version with three arguments).")
+	@Deprecated
+	@SimpleFunction(description="DEPRECATED. Function to notify a specific action (version with three arguments).")
 	public void NotifyWithThreeArguments(String actionId, String valueArgument, String valueArgument2, String valueArgument3) {
 		activityTrackerManager.prepareQueryManual(actionId, valueArgument, valueArgument2, valueArgument3);
 	}
@@ -355,10 +386,18 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	 * 
 	 */
 	@SimpleFunction(description="Function to notify a specific action (version to send multiple data in List(key,value) format).")
-	public void NotifyWithData(String actionId, List<Object> data) {
+	public void NotifyWithData(String actionId, Object data) {
 		activityTrackerManager.prepareQueryManual(actionId, data);
 	}
 	
+	/**
+	 * Function to notify a specific action (version to send multiple data in List(key,value) format).
+	 * 
+	 */
+	@SimpleFunction(description="Function to return the statement of a notify specific action (version to send multiple data in List(key,value) format).")
+	public Object NotifyAndReturnStatement(String actionId, Object data) {
+		return activityTrackerManager.prepareQueryManualWithReturn(actionId, data);
+	}
 	
 	/**
 	 * Function to send data on user demand.

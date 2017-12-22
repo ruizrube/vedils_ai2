@@ -172,7 +172,7 @@ public class TextPropertyEditorBase extends PropertyEditor {
 			if(storageMode.equals("0")) { //Fusion Tables mode
 				hyperlink.setTarget("https://fusiontables.google.com/data?docid="+property.getValue());
 	    		hyperlink.setVisible(true);
-			} else {
+			} else if(storageMode.equals("1")) { //MongoDB mode
 				String packageName = "";
 	    		if(Ode.getInstance().getCurrentYoungAndroidProjectId() != 0) {
 	    			packageName = StringUtils.getProjectPackage(
@@ -183,6 +183,9 @@ public class TextPropertyEditorBase extends PropertyEditor {
 	    		}
 	    		//hyperlink.setTarget("http://127.0.0.1:28017/" + packageName.replaceAll("\\.", "_") + "/" + property.getValue() + "/");
 	    		hyperlink.setTarget("http://vedilsanalytics.uca.es:8083/localhost/"+ packageName.replaceAll("\\.", "_") + "/" + property.getValue() + "//1/");
+	    		hyperlink.setVisible(true);
+			} else { //LRS mode
+				hyperlink.setTarget("http://vedilslearning.ddns.net");
 	    		hyperlink.setVisible(true);
 			}
     	} else {

@@ -385,7 +385,6 @@ public final class YaBlocksEditor extends FileEditor
       //get type name from form editor
       return blocksEditor.myFormEditor.getComponentInstanceSemanticTypeValue(instanceName);
  	}
-
   
   public static String getComponentInstanceTypeName(String formName, String instanceName) {
       //use form name to get blocks editor

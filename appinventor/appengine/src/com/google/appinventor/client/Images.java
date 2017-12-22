@@ -115,6 +115,20 @@ public interface Images extends Resources {
 	@Source("com/google/appinventor/images/activityTracker_icon.png")
 	ImageResource activityTracker();
 	
+	
+	/**
+	 * Designer palette item: User component
+	 */
+	@Source("com/google/appinventor/images/user_icon.png")
+	ImageResource user();
+	
+	
+	/**
+	 * Designer palette item: ActivityDescription component
+	 */
+	@Source("com/google/appinventor/images/ActivityDescription_icon.png")
+	ImageResource activitydescription();
+	
 	/**
 	 * Designer palette item: GoogleCloudMessaging component
 	 */
@@ -639,6 +653,13 @@ public interface Images extends Resources {
    */
   @Source("com/google/appinventor/images/stream.png")
   ImageResource stream();
+  
+  
+  /**
+   * Built in drawer item: xAPI verbs
+   */
+  @Source("com/google/appinventor/images/xAPI_verbs.png")
+  ImageResource xapi_verbs();
 
   /**
    * Built in drawer item: logic

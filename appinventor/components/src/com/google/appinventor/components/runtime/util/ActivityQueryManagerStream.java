@@ -11,8 +11,10 @@ import com.google.appinventor.components.runtime.la4ai.util.DeviceInfoFunctions;
 
 public class ActivityQueryManagerStream implements ActivityQueryManager {
 	private ActivityProcessor currentActivityProcessor;
-	public String URL_SERVER_QUERY = "http://vedilsanalytics.uca.es:8080/AnalyticsWSForAppInventor/FlinkClient/query";
-	public String URL_SERVER_STOP_QUERY = "http://vedilsanalytics.uca.es:8080/AnalyticsWSForAppInventor/FlinkClient/stopQuery";
+	//public String URL_SERVER_QUERY = "http://vedilsanalytics.uca.es:8080/AnalyticsWSForAppInventor/FlinkClient/query";
+	//public String URL_SERVER_STOP_QUERY = "http://vedilsanalytics.uca.es:8080/AnalyticsWSForAppInventor/FlinkClient/stopQuery";
+	public String URL_SERVER_QUERY = "http://192.168.1.22:8080/AnalyticsWSForAppInventor/FlinkClient/query";
+	public String URL_SERVER_STOP_QUERY = "http://192.168.1.22:8080/AnalyticsWSForAppInventor/FlinkClient/stopQuery";
 	
 	public ActivityQueryManagerStream(ActivityProcessor currentActivityProcessor, ComponentContainer componentContainer) {
 		this.currentActivityProcessor = currentActivityProcessor;

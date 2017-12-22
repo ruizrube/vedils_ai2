@@ -130,7 +130,7 @@ public interface Component {
    */
   static final int FUSIONTABLES = 0;
   static final int MONGODB = 1;
-  static final int STREAM = 2;
+  static final int LEARNINGRECORDSTORE = 2;
   
   /*
    * Chart types.

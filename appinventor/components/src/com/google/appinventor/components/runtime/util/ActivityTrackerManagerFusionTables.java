@@ -104,7 +104,9 @@ public class ActivityTrackerManagerFusionTables implements ActivityTrackerManage
 	    currentIP = ip;
 	    
 	    //Do the query
-		values = "'" + currentActivityTracker.getUserTrackerId() + "','" + 
+		//values = "'" + currentActivityTracker.getUserTrackerId() + "','" +
+	    values = "'" + currentActivityTracker.getUser().getName() + " " 
+		+ currentActivityTracker.getUser().getSurname()  + "','" +
 		ip + "','" +
 	    mac + "','" +
 	    DeviceInfoFunctions.getIMEI(componentContainer.$context()) + "'," +
@@ -131,32 +133,37 @@ public class ActivityTrackerManagerFusionTables implements ActivityTrackerManage
 		recordData();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public void prepareQueryManual(String actionId, List<Object> data) {
-		String param1 = "";
-		String param2 = "";
-		String param3 = "";
-		int count = 1; //Only get the first 3 values.
-		
-		for(Object value: data) {
-			System.out.println("Type of element: " + value.getClass().getName());
-			if(value instanceof YailList) { //main YailList
-				YailList list = (YailList) value;
-				if(count == 1) {
-					System.out.println("element of list: " + list.getString(1));
-					param1 = list.getString(1);
-				} else if(count == 2) {
-					System.out.println("element of list: " + list.getString(1));
-					param2 = list.getString(1);
-				} else if(count == 3) {
-					System.out.println("element of list: " + list.getString(1));
-					param3 = list.getString(1);
+	public void prepareQueryManual(String actionId, Object data) {
+		if(data instanceof List) {
+			String param1 = "";
+			String param2 = "";
+			String param3 = "";
+			int count = 1; //Only get the first 3 values.
+			
+			List<Object> dataList = (List<Object>) data;
+			
+			for(Object value: dataList) {
+				System.out.println("Type of element: " + value.getClass().getName());
+				if(value instanceof YailList) { //main YailList
+					YailList list = (YailList) value;
+					if(count == 1) {
+						System.out.println("element of list: " + list.getString(1));
+						param1 = list.getString(1);
+					} else if(count == 2) {
+						System.out.println("element of list: " + list.getString(1));
+						param2 = list.getString(1);
+					} else if(count == 3) {
+						System.out.println("element of list: " + list.getString(1));
+						param3 = list.getString(1);
+					}
+					count += 1;
 				}
-				count += 1;
 			}
+			
+			prepareQueryManual(actionId, param1, param2, param3);
 		}
-		
-		prepareQueryManual(actionId, param1, param2, param3);
 	}
 	
 	@Override
@@ -192,7 +199,9 @@ public class ActivityTrackerManagerFusionTables implements ActivityTrackerManage
 	    currentIP = ip;
 	    
 	    //Do the query
-		values = "'" + currentActivityTracker.getUserTrackerId() + "','" + 
+		//values = "'" + currentActivityTracker.getUserTrackerId() + "','" + 
+	    values = "'" + currentActivityTracker.getUser().getName() + " " 
+	    		+ currentActivityTracker.getUser().getSurname()  + "','" +
 		ip + "','" +
 	    mac + "','" +
 	    DeviceInfoFunctions.getIMEI(componentContainer.$context()) + "'," +
@@ -263,5 +272,98 @@ public class ActivityTrackerManagerFusionTables implements ActivityTrackerManage
 			fusionTablesConnection.processColumnsToInsert(listValues, currentActivityTracker.getTableId());
 			tinyDB.ClearAll();
 		}
+	}
+
+	@Override
+	public Object prepareQueryManualWithReturn(String actionId, Object data) {
+		if(data instanceof List) {
+			
+			String query = "";
+			
+			String param1 = "";
+			String param2 = "";
+			String param3 = "";
+			int count = 1; //Only get the first 3 values.
+			
+			List<Object> dataList = (List<Object>) data;
+			
+			for(Object value: dataList) {
+				System.out.println("Type of element: " + value.getClass().getName());
+				if(value instanceof YailList) { //main YailList
+					YailList list = (YailList) value;
+					if(count == 1) {
+						System.out.println("element of list: " + list.getString(1));
+						param1 = list.getString(1);
+					} else if(count == 2) {
+						System.out.println("element of list: " + list.getString(1));
+						param2 = list.getString(1);
+					} else if(count == 3) {
+						System.out.println("element of list: " + list.getString(1));
+						param3 = list.getString(1);
+					}
+					count += 1;
+				}
+			}
+			
+			float valorParam1=-1;
+			float valorParam2=-1;
+			float valorParam3=-1;
+			
+			try {
+				valorParam1=Float.valueOf(param1);
+			} catch (NumberFormatException e) {
+				;
+			}
+		
+			try {
+				valorParam2=Float.valueOf(param2);
+			} catch (NumberFormatException e) {
+				;
+			}
+			try {
+				valorParam3=Float.valueOf(param3);
+			} catch (NumberFormatException e) {
+				;
+			}
+			
+			String ip = DeviceInfoFunctions.getCurrentIP(currentActivityTracker.getCommunicationMode(), this.componentContainer.$context());
+			String mac = DeviceInfoFunctions.getMAC(componentContainer.$context());
+		    String appName = componentContainer.$context().getApplicationInfo().packageName;
+		    String actionType = "SPECIFIC";
+		    String screenName = componentContainer.$form().getLocalClassName(); 
+		    currentIP = ip;
+		    
+		    //Do the query
+			//values = "'" + currentActivityTracker.getUserTrackerId() + "','" + 
+		    values = "'" + currentActivityTracker.getUser().getName() + " " 
+		    		+ currentActivityTracker.getUser().getSurname()  + "','" +
+			ip + "','" +
+		    mac + "','" +
+		    DeviceInfoFunctions.getIMEI(componentContainer.$context()) + "'," +
+			gpsTracker.getLatitude() + "," +
+			gpsTracker.getLongitude() + ",'" +
+			Clock.FormatDate(Clock.Now(), "MM/dd/yyyy HH:mm:ss") + "','" +
+			appName + "','" +
+			screenName + "','" +
+			"" + "','" +
+			"" + "','" +
+			actionId + "','" +
+			actionType + "'," +
+			valorParam1 + "," +
+			valorParam2 + "," +
+			valorParam3 + "," +
+			"-1" + ",'"  +
+			param1 + "','" +
+			param2 + "','" +
+			param3 + "','" +
+			"" + "','" +
+			DeviceInfoFunctions.getAndroidAPIVersion() + "'";
+			
+			query = "INSERT INTO " + currentActivityTracker.TableId() + " (" + columns + ")" + " VALUES " + "(" + values + ");";
+			return query;
+			
+		}
+		
+		return "";
 	}
 }

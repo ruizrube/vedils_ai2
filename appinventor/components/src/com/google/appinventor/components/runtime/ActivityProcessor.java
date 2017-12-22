@@ -412,11 +412,6 @@ public abstract class ActivityProcessor extends AndroidNonvisibleComponent {
 	 */
 	@SimpleFunction(description = "Function to send the query to analyze activities.")
 	public void SendQuery() {
-		/*if(this.storageMode == Component.STREAM) {
-			//And on this time, launch timer to receive Kafka data (30 sec)
-			this.timerStreamQueryResultData = new StreamQueryResultData(this.activityQueryManager, componentContainer.$context().getApplicationInfo().packageName, this.tableId);
-			new Timer().schedule(this.timerStreamQueryResultData, 0, 30000);
-		}*/
 		System.out.println("enviando datos");
 		this.activityQueryManager.sendQuery();
 	}
@@ -484,7 +479,7 @@ public abstract class ActivityProcessor extends AndroidNonvisibleComponent {
 	@SimpleEvent(description = "Event to be raised after stream query results are catched", userVisible = true)
 	public void StreamDataReceived(List data) {
 		EventDispatcher.dispatchEvent(this, "StreamDataReceived", data);
-	}
+	} 
 	
 	public List<String> getFiltersByScreenId() {
 		return this.filtersByScreenId;

@@ -305,6 +305,10 @@ public interface OdeMessages extends Messages {
 	@Description("Label on built-in-Stream-blocks branch of block selector tree")
 	String builtinStreamLabel();
 	
+	@DefaultMessage("xAPI verbs")
+	@Description("Label on built-in-xAPI verbs-blocks branch of block selector tree")
+	String builtinxAPIVerbsLabel();
+	
 	@DefaultMessage("Fusion Tables")
     @Description("Text for storage mode 'Fusion Tables '")
     String fusionTablesStorageMode();

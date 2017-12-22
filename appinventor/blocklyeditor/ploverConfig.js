@@ -113,6 +113,9 @@
     
     //SPI-FM blocks for Stream
     './src/blocks/stream.js',
+    
+    //SPI-FM blocks for xAPI verbs
+    './src/blocks/xapiverbs.js',
 
     //generator files
     "./src/generators/yail.js",
@@ -128,6 +131,9 @@
     
     //SPI-FM blocks for Stream
     './src/generators/yail/stream.js',
+    
+     //SPI-FM blocks for xAPI verbs
+    './src/generators/yail/xapiverbs.js',
 
     // Repl
     "./src/replmgr.js"

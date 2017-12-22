@@ -202,7 +202,7 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 					// Pass the set of component types that will be shown in the
 					// property editor,
 					// in this case, just "BluetoothClient".
-					Collections.singleton("BluetoothClient"));
+					Collections.singleton("BluetoothClient"), false);
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN)) {
 			return new YoungAndroidBooleanPropertyEditor();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_BUTTON_SHAPE)) {
@@ -278,29 +278,29 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 			return new YoungAndroidSizingChoicePropertyEditor();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_KIND_OF_TRACKERS)) {
 			return new YoungAndroidComponentSelectorPropertyEditor(editor,
-					new HashSet<String>(Arrays.asList(TRACKERS_TYPES)));
+					new HashSet<String>(Arrays.asList(TRACKERS_TYPES)), false);
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_KIND_OF_VISUALASSETS)) {
 			return new YoungAndroidComponentSelectorPropertyEditor(editor,
-					new HashSet<String>(Arrays.asList(ASSETS_TYPES)));
+					new HashSet<String>(Arrays.asList(ASSETS_TYPES)), false);
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_VRSCENE)) {
-			return new YoungAndroidComponentSelectorPropertyEditor(editor, Collections.singleton("VRScene"));
+			return new YoungAndroidComponentSelectorPropertyEditor(editor, Collections.singleton("VRScene"), false);
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_TTS)) {
-			return new YoungAndroidComponentSelectorPropertyEditor(editor, Collections.singleton("TextToSpeech"));
+			return new YoungAndroidComponentSelectorPropertyEditor(editor, Collections.singleton("TextToSpeech"), false);
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_ARCAMERA)) {
-			return new YoungAndroidComponentSelectorPropertyEditor(editor, Collections.singleton("ARCamera"));
+			return new YoungAndroidComponentSelectorPropertyEditor(editor, Collections.singleton("ARCamera"), false);
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_ARCAMERAOVERLAYER)) {
-			return new YoungAndroidComponentSelectorPropertyEditor(editor, Collections.singleton("ARCameraOverLayer"));
+			return new YoungAndroidComponentSelectorPropertyEditor(editor, Collections.singleton("ARCameraOverLayer"), false);
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_QUERY)) {
 
 			HashSet<String> set = new HashSet<String>();
 			set.add("ActivitySimpleQuery");
 			set.add("ActivityAggregationQuery");
-			return new YoungAndroidComponentSelectorPropertyEditor(editor, set);
+			return new YoungAndroidComponentSelectorPropertyEditor(editor, set, false);
 
 		} else if(editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_USER)) {
 			HashSet<String> set = new HashSet<String>();
 			set.add("User");
-			return new YoungAndroidComponentSelectorPropertyEditor(editor, set);
+			return new YoungAndroidComponentSelectorPropertyEditor(editor, set, true);
 			
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ASSET_3DMODEL)) {
 			return new YoungAndroidAssetSelectorPropertyEditor(editor, MODEL_FILETYPES);
@@ -322,8 +322,7 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_EEG)) {
 			return new YoungAndroidEEGDeviceChoicePropertyEditor();	
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TREEFORSEMANTICTYPE)) {
-			return new YoungAndroidTreeSelectorForSemanticType();
-			//return new YoungAndroidTreeSelectorForSemanticType(editor);	
+			return new YoungAndroidTreeSelectorForSemanticType(editor);
 		} else {
 			return new TextPropertyEditor();
 		}

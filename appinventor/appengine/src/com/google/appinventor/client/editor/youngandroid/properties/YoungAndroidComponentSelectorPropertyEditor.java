@@ -10,6 +10,8 @@ import static com.google.appinventor.client.Ode.MESSAGES;
 import com.google.appinventor.client.editor.simple.components.FormChangeListener;
 import com.google.appinventor.client.editor.simple.components.MockComponent;
 import com.google.appinventor.client.editor.youngandroid.YaFormEditor;
+import com.google.appinventor.client.editor.youngandroid.YaProjectEditor;
+import com.google.appinventor.client.output.OdeLog;
 import com.google.appinventor.client.widgets.properties.AdditionalChoicePropertyEditor;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
@@ -17,6 +19,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -36,6 +40,12 @@ public final class YoungAndroidComponentSelectorPropertyEditor
 
   // The types of component that can be chosen
   private final Set<String> componentTypes;
+  
+  private final YaProjectEditor projectEditor;
+  
+  private boolean allComponents;
+  
+  private List<YaFormEditor> editors;
 
   /**
    * Creates a new property editor for selecting a component.
@@ -43,7 +53,7 @@ public final class YoungAndroidComponentSelectorPropertyEditor
    * @param editor the editor that this property editor belongs to
    */
   public YoungAndroidComponentSelectorPropertyEditor(YaFormEditor editor) {
-    this(editor, null);
+    this(editor, null, false);
   }
 
   /**
@@ -55,9 +65,11 @@ public final class YoungAndroidComponentSelectorPropertyEditor
    *        all types of components can be selected.
    */
   public YoungAndroidComponentSelectorPropertyEditor(final YaFormEditor editor,
-      Set<String> componentTypes) {
+      Set<String> componentTypes, boolean allComponents) {
     this.editor = editor;
     this.componentTypes = componentTypes;
+    this.projectEditor = (YaProjectEditor) editor.getProjectEditor();
+    this.allComponents = allComponents;
 
     VerticalPanel selectorPanel = new VerticalPanel();
     componentsList = new ListBox();
@@ -110,11 +122,43 @@ public final class YoungAndroidComponentSelectorPropertyEditor
     editor.getForm().addFormChangeListener(this);
 
     // Fill choices with the components.
-    for (MockComponent component : editor.getComponents().values()) {
-      if (componentTypes == null || componentTypes.contains(component.getType())) {
-        choices.addItem(component.getName());
-      }
-    }
+    //Load all components
+    
+    /*if(this.allComponents) {
+    	
+    	editors = new ArrayList<YaFormEditor>();
+    	
+    	if(projectEditor != null) {
+			editors = projectEditor.getAllFormEditors();
+		}
+    	
+    	for(YaFormEditor editor: editors) {
+    		for (MockComponent component : editor.getComponents().values()) {
+    			if(editor.equals(this.editor)) {
+    				if (componentTypes == null || componentTypes.contains(component.getType())) {
+ 		        	   choices.addItem(component.getName());
+ 		        	}
+    			} else {
+    				if(component.hasProperty("GlobalComponent")) {
+        				if(component.getPropertyValue("GlobalComponent").equals("True")) {
+        					if (componentTypes == null || componentTypes.contains(component.getType())) {
+        		        	   choices.addItem(component.getName());
+        		        	}
+        				}
+        			} 
+    			}
+        	}
+    	}
+    	
+    } else {*/
+    	
+    	for (MockComponent component : editor.getComponents().values()) {
+    	    if (componentTypes == null || componentTypes.contains(component.getType())) {
+    	       choices.addItem(component.getName());
+    	    }
+    	}
+    	
+    //}
 
     // Previous version had a bug where the value could be accidentally saved as "None".
     // If the property value is "None" and choices doesn't contain the value "None", set the
