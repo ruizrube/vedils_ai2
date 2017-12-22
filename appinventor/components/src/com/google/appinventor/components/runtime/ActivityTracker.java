@@ -20,7 +20,7 @@ import com.google.appinventor.components.runtime.util.ActivityTrackerManagerFusi
 import com.google.appinventor.components.runtime.util.ActivityTrackerManagerLearningRecordStore;
 import com.google.appinventor.components.runtime.util.ActivityTrackerManagerMongoDB;
 //import com.google.appinventor.components.runtime.util.ActivityTrackerManagerStream;
-import com.google.appinventor.components.runtime.util.GlobalComponentsInstances;
+//import com.google.appinventor.components.runtime.util.GlobalComponentsInstances;
 
 //import java.util.List;
 //import java.util.ArrayList;
