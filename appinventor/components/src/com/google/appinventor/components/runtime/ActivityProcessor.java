@@ -52,7 +52,7 @@ public abstract class ActivityProcessor extends AndroidNonvisibleComponent {
 	private String filterByActionType;
 	private String filterByActionId;
 	
-	// Filters collected from query-tree
+	// Filters collected from query-tree 
 	protected List<String> filtersByScreenId;
 	protected List<String> filtersByComponentType;
 	protected List<String> filtersByComponentId;

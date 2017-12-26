@@ -10,6 +10,7 @@ import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.common.PropertyTypeConstants;
+import com.google.appinventor.components.runtime.util.GlobalComponentsInstances;
 
 /**
  * Base class for all non-visible components.
@@ -24,6 +25,7 @@ public abstract class AndroidNonvisibleComponent implements Component {
   // Fields for ActivityTracker Component.
   private String activitiesNames;
   private String name;
+  //private boolean global;
 
   /**
    * Creates a new AndroidNonvisibleComponent.
@@ -33,6 +35,7 @@ public abstract class AndroidNonvisibleComponent implements Component {
   protected AndroidNonvisibleComponent(Form form) {
     this.form = form;
     this.activitiesNames = "";
+    //this.global = false;
   }
 
   // Component implementation
@@ -41,6 +44,26 @@ public abstract class AndroidNonvisibleComponent implements Component {
   public HandlesEventDispatching getDispatchDelegate() {
     return form;
   }
+  
+  /**
+   * Specifies if the component is global or not
+   */
+   /*@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN,
+ 		      defaultValue = "false")
+ 		  @SimpleProperty(
+ 		      userVisible = false)
+   public void GlobalComponent(boolean global) {
+ 		this.global = global;
+ 		
+ 		if(this.global) {
+ 			GlobalComponentsInstances.addGlobalComponent(this);
+ 		}
+ 		
+   }
+   
+   public boolean isGlobalComponent() {
+	   return this.global;
+   }*/
   
   /**
    * Specifies the activities to record for ActivityTracker notification.

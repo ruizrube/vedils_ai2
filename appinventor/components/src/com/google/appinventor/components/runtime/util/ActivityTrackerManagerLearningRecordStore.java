@@ -40,19 +40,16 @@ public class ActivityTrackerManagerLearningRecordStore implements ActivityTracke
 	
 	//LRS information
 	private StatementClient client;
-	private String LRS_URI = "http://vedilslearning.ddns.net/data/xAPI";
-	//private String USERNAME = "b532f5c2139c70209087207b79bdf21f9e59abec";
-	//private String PASSWORD = "30085a28262e00554c3e82ae0eba260108e9ea07";
-	//private String BASIC_OAUTH = "YjUzMmY1YzIxMzljNzAyMDkwODcyMDdiNzliZGYyMWY5ZTU5YWJlYzozMDA4NWEyODI2MmUwMDU1NGMzZTgyYWUwZWJhMjYwMTA4ZTllYTA3";
+	private String LRS_URI = "http://vedilsanalytics.uca.es/data/xAPI";
+	//BASIC_OAUTH (VEDILS xAPI global client) = ZjQ4ZjZmYmQ5OGFkYTU5YWI5NThmMGZiYjA2NmNkYjQ1N2JiZTg3NTo4MjQzZDE5MTFjNTBmM2Y1NjdhMjY0YzBiNWFlNGU4YmQxY2MzOGQ2
 	
 	//Record data when not internet access
 	private TinyDB tinyDB;
 	private int tagDB;
 			
 	private TimerSendData timerSendData;
-	private String currentIP;
 	private GPSTracker gpsTracker;
-	private String URI = "http://vedils.uca.es/";
+	private String URI = "http://example.com/";
 	
 	
 	public ActivityTrackerManagerLearningRecordStore(ActivityTracker currentActivityTracker, ComponentContainer componentContainer) {

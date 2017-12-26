@@ -18,9 +18,9 @@ public class ActivityTrackerManagerMongoDB implements ActivityTrackerManager {
 	private ActivityTracker currentActivityTracker;
 	private ComponentContainer componentContainer;
 	
-	private String URL_SERVER_INSERT = "http://vedilsanalytics.uca.es:8080/AnalyticsWSForAppInventor/MongoDBClient/insert";
-	private String URL_SERVER_INSERTMANY = "http://vedilsanalytics.uca.es:8080/AnalyticsWSForAppInventor/MongoDBClient/insertMany";
-	private String URL_SERVER_INSERT_WITH_STREAM = "http://vedilsanalytics.uca.es:8080/AnalyticsWSForAppInventor/MongoDBClient/insertWithStream";
+	private String URL_SERVER_INSERT = "http://vedilsanalytics.uca.es:80/AnalyticsWSForAppInventor/MongoDBClient/insert";
+	private String URL_SERVER_INSERTMANY = "http://vedilsanalytics.uca.es:80/AnalyticsWSForAppInventor/MongoDBClient/insertMany";
+	private String URL_SERVER_INSERT_WITH_STREAM = "http://vedilsanalytics.uca.es:80/AnalyticsWSForAppInventor/MongoDBClient/insertWithStream";
 	//private String URL_SERVER_INSERT = "http://192.168.1.22:8080/AnalyticsWSForAppInventor/MongoDBClient/insert";
 	//private String URL_SERVER_INSERTMANY = "http://192.168.1.22:8080/AnalyticsWSForAppInventor/MongoDBClient/insertMany";
 	//private String URL_SERVER_INSERT_WITH_STREAM = "http://192.168.1.22:8080/AnalyticsWSForAppInventor/MongoDBClient/insertWithStream";
@@ -47,6 +47,7 @@ public class ActivityTrackerManagerMongoDB implements ActivityTrackerManager {
 	@Override
 	public void prepareQueryAutomatic(String actionType, String actionId, String componentType, String componentId,
 			String[] paramsName, Object[] paramsValue, String returnParamValue) {
+		System.out.println("Preparando query automatica de " + this.currentActivityTracker.getName());
 		try {
 			addBasicNotificationData();
 			dataJSON.put("ComponentType", componentType);
@@ -74,7 +75,7 @@ public class ActivityTrackerManagerMongoDB implements ActivityTrackerManager {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void prepareQueryManual(String actionId, Object data) {
-		if(data instanceof List) {
+		if(data instanceof YailList || data instanceof List) {
 			try {
 				addBasicNotificationData();
 				dataJSON.put("ActionType", "SPECIFIC");
@@ -184,7 +185,11 @@ public class ActivityTrackerManagerMongoDB implements ActivityTrackerManager {
 	private void addBasicNotificationData() throws Exception {
 		dataJSON = new JSONObject();
 		//dataJSON.put("UserID", currentActivityTracker.getUserTrackerId());
-		dataJSON.put("UserID", currentActivityTracker.getUser().getName() + " " + currentActivityTracker.getUser().getSurname());
+		if(currentActivityTracker.getUser() != null) {
+			dataJSON.put("UserID", currentActivityTracker.getUser().getName() + " " + currentActivityTracker.getUser().getSurname());
+		} else {
+			dataJSON.put("UserID", "emptyUser");
+		}
 		dataJSON.put("IP", DeviceInfoFunctions.getCurrentIP(currentActivityTracker.getCommunicationMode(), this.componentContainer.$context()));
 		dataJSON.put("MAC", DeviceInfoFunctions.getMAC(componentContainer.$context()));
 		dataJSON.put("IMEI", DeviceInfoFunctions.getIMEI(componentContainer.$context()));
@@ -198,14 +203,13 @@ public class ActivityTrackerManagerMongoDB implements ActivityTrackerManager {
 
 	@Override
 	public Object prepareQueryManualWithReturn(String actionId, Object data) {
-		if(data instanceof List) {
-			
+		if(data instanceof YailList || data instanceof List) {
 			JSONObject sendJSON = new JSONObject();
 			
 			try {
 				addBasicNotificationData();
-				dataJSON.put("ActionType", "SPECIFIC");
-				dataJSON.put("ActionID", actionId);
+				sendJSON.put("ActionType", "SPECIFIC");
+				sendJSON.put("ActionID", actionId);
 				
 				//Add Data
 				List<Object> dataList = (List<Object>) data;
@@ -214,7 +218,7 @@ public class ActivityTrackerManagerMongoDB implements ActivityTrackerManager {
 					if(value instanceof YailList) { //main YailList
 						YailList list = (YailList) value;
 						System.out.println("element of list: " + list.getString(1));
-						dataJSON.put(list.getString(0), list.getString(1));
+						sendJSON.put(list.getString(0), list.getString(1));
 					}
 				}
 				

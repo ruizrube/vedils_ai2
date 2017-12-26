@@ -265,9 +265,9 @@ public final class Compiler {
 	}
 
 	private void removeSimilarLibraries(Set<String> librariesNeeded) {
-		if(librariesNeeded.contains("google-http-client-android3-beta.jar") && librariesNeeded.contains("google-http-client-android2-beta.jar") ) {
-			librariesNeeded.remove("google-http-client-android2-beta.jar");
-		}
+		//if(librariesNeeded.contains("google-http-client-android3-beta.jar") && librariesNeeded.contains("google-http-client-android2-beta.jar") ) {
+		//	librariesNeeded.remove("google-http-client-android2-beta.jar");
+		//} Fail for FusionTables and ActivityTracker FusionTables mode.
 		
 		if(librariesNeeded.contains("gson-2.1.jar") && librariesNeeded.contains("gson-2.8.1.jar") ) {
 			librariesNeeded.remove("gson-2.1.jar");

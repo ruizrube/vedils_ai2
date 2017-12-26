@@ -7,7 +7,9 @@ import org.json.JSONObject;
 public class StreamQueryResultData extends TimerTask {
 	
 	private ActivityQueryManager activityQueryManagerComponent;
-	private String URL_SERVER_QUERY = "http://vedilsanalytics.uca.es:8080/AnalyticsWSForAppInventor/FlinkClient/readFromKafkaQueue/";
+	private String URL_SERVER_QUERY = "http://vedilsanalytics.uca.es:80/AnalyticsWSForAppInventor/FlinkClient/readFromKafkaQueue/";
+	//private String URL_SERVER_QUERY = "http://192.168.1.22:8080/AnalyticsWSForAppInventor/FlinkClient/readFromKafkaQueue/";
+	
 	private String topic;
 	private String idQuery;
 	

@@ -136,7 +136,7 @@ public class ActivityTrackerManagerFusionTables implements ActivityTrackerManage
 	@SuppressWarnings("unchecked")
 	@Override
 	public void prepareQueryManual(String actionId, Object data) {
-		if(data instanceof List) {
+		if(data instanceof YailList || data instanceof List) {
 			String param1 = "";
 			String param2 = "";
 			String param3 = "";
@@ -276,7 +276,7 @@ public class ActivityTrackerManagerFusionTables implements ActivityTrackerManage
 
 	@Override
 	public Object prepareQueryManualWithReturn(String actionId, Object data) {
-		if(data instanceof List) {
+		if(data instanceof YailList || data instanceof List) {
 			
 			String query = "";
 			
@@ -333,10 +333,17 @@ public class ActivityTrackerManagerFusionTables implements ActivityTrackerManage
 		    String screenName = componentContainer.$form().getLocalClassName(); 
 		    currentIP = ip;
 		    
+		    String userId = "";
+		    
+		    if(currentActivityTracker.getUser() != null) {
+				userId = currentActivityTracker.getUser().getName() + " " + currentActivityTracker.getUser().getSurname();
+			} else {
+				userId = "emptyUser";
+			}
+		    
 		    //Do the query
 			//values = "'" + currentActivityTracker.getUserTrackerId() + "','" + 
-		    values = "'" + currentActivityTracker.getUser().getName() + " " 
-		    		+ currentActivityTracker.getUser().getSurname()  + "','" +
+		    values = "'" + userId  + "','" +
 			ip + "','" +
 		    mac + "','" +
 		    DeviceInfoFunctions.getIMEI(componentContainer.$context()) + "'," +

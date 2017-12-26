@@ -10,7 +10,7 @@ import com.google.appinventor.components.runtime.ActivityProcessor;
 public class ActivityQueryManagerMongoDB implements ActivityQueryManager {
 	
 	private ActivityProcessor currentActivityProcessor;
-	public String URL_SERVER_QUERY = "http://vedilsanalytics.uca.es:8080/AnalyticsWSForAppInventor/MongoDBClient/query";
+	public String URL_SERVER_QUERY = "http://vedilsanalytics.uca.es:80/AnalyticsWSForAppInventor/MongoDBClient/query";
 	//public String URL_SERVER_QUERY = "http://192.168.1.22:8080/AnalyticsWSForAppInventor/MongoDBClient/query";
 	
 	public ActivityQueryManagerMongoDB(ActivityProcessor currentActivityProcessor) {

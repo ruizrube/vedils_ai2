@@ -182,10 +182,10 @@ public class TextPropertyEditorBase extends PropertyEditor {
 	        	          Ode.getInstance().getUser().getUserEmail(), Ode.getInstance().getProjectManager().getProject(ProjectListBox.getProjectListBox().getProjectList().getProjects().get(0).getProjectId()).getProjectName());
 	    		}
 	    		//hyperlink.setTarget("http://127.0.0.1:28017/" + packageName.replaceAll("\\.", "_") + "/" + property.getValue() + "/");
-	    		hyperlink.setTarget("http://vedilsanalytics.uca.es:8083/localhost/"+ packageName.replaceAll("\\.", "_") + "/" + property.getValue() + "//1/");
+	    		hyperlink.setTarget("http://vedilsanalytics.uca.es:8082/localhost/"+ packageName.replaceAll("\\.", "_") + "/" + property.getValue() + "//1/");
 	    		hyperlink.setVisible(true);
 			} else { //LRS mode
-				hyperlink.setTarget("http://vedilslearning.ddns.net");
+				hyperlink.setTarget("http://vedilsanalytics.uca.es");
 	    		hyperlink.setVisible(true);
 			}
     	} else {

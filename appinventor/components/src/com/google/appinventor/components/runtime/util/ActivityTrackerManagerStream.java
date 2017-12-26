@@ -18,7 +18,7 @@ public class ActivityTrackerManagerStream implements ActivityTrackerManager  {
 	private ActivityTracker currentActivityTracker;
 	private ComponentContainer componentContainer;
 	
-	private String URL_SERVER_ADD_QUEUE = "http://vedilsanalytics.uca.es:8080/VedilsAnalyticsWS/flinkClient/AddToKafkaQueue";
+	private String URL_SERVER_ADD_QUEUE = "http://vedilsanalytics.uca.es:80/VedilsAnalyticsWS/flinkClient/AddToKafkaQueue";
 	//private String URL_SERVER_ADD_QUEUE = "http://192.168.1.22:8080/VedilsAnalyticsWS/flinkClient/AddToKafkaQueue";
 	
 	private JSONObject dataJSON;
@@ -69,7 +69,7 @@ public class ActivityTrackerManagerStream implements ActivityTrackerManager  {
 
 	@Override
 	public void prepareQueryManual(String actionId, Object data) {
-		if(data instanceof List) {
+		if(data instanceof YailList || data instanceof List) {
 			try {
 				addBasicNotificationData();
 				dataJSON.put("ActionType", "SPECIFIC");
@@ -174,7 +174,11 @@ public class ActivityTrackerManagerStream implements ActivityTrackerManager  {
 	private void addBasicNotificationData() throws Exception {
 		dataJSON = new JSONObject();
 		//dataJSON.put("UserID", currentActivityTracker.getUserTrackerId());
-		dataJSON.put("UserID", currentActivityTracker.getUser().getName() + " " + currentActivityTracker.getUser().getSurname());
+		if(currentActivityTracker.getUser() != null) {
+			dataJSON.put("UserID", currentActivityTracker.getUser().getName() + " " + currentActivityTracker.getUser().getSurname());
+		} else {
+			dataJSON.put("UserID", "emptyUser");
+		}
 		dataJSON.put("IP", DeviceInfoFunctions.getCurrentIP(currentActivityTracker.getCommunicationMode(), this.componentContainer.$context()));
 		dataJSON.put("MAC", DeviceInfoFunctions.getMAC(componentContainer.$context()));
 		dataJSON.put("IMEI", DeviceInfoFunctions.getIMEI(componentContainer.$context()));
@@ -188,7 +192,7 @@ public class ActivityTrackerManagerStream implements ActivityTrackerManager  {
 
 	@Override
 	public Object prepareQueryManualWithReturn(String actionId, Object data) {
-		if(data instanceof List) {
+		if(data instanceof YailList || data instanceof List) {
 			try {
 				addBasicNotificationData();
 				dataJSON.put("ActionType", "SPECIFIC");
