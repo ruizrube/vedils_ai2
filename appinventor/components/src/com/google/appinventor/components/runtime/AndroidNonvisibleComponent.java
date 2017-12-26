@@ -10,7 +10,7 @@ import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.common.PropertyTypeConstants;
-import com.google.appinventor.components.runtime.util.GlobalComponentsInstances;
+//import com.google.appinventor.components.runtime.util.GlobalComponentsInstances;
 
 /**
  * Base class for all non-visible components.
