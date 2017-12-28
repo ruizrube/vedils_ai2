@@ -176,7 +176,7 @@
 	         
 	        <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
 	        
-	        <pathelement location="${lib.dir}/la4ai/tincan.jar" />
+	        <pathelement location="${lib.dir}/la4ai/jxapi.jar" />
 	        
 	        <pathelement location="${lib.dir}/la4ai/jsonld.jar" />
 	        
@@ -422,7 +422,7 @@
          
          <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
          
-         <pathelement location="${lib.dir}/la4ai/tincan.jar" />
+         <pathelement location="${lib.dir}/la4ai/jxapi.jar" />
          
          <pathelement location="${lib.dir}/la4ai/jsonld.jar" />
          

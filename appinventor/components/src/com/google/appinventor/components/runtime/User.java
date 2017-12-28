@@ -11,7 +11,7 @@ import com.google.appinventor.components.common.YaVersion;
 
 @SimpleObject
 @DesignerComponent(version = YaVersion.USER_COMPONENT_VERSION,
-description = "A component for defining the user data of the application. ", 
+description = "A component for defining the data of the user of the application. ", 
 category = ComponentCategory.VEDILSLEARNINGANALYTICS, iconName = "images/user_icon.png", nonVisible= true)
 public class User extends AndroidNonvisibleComponent implements Component {
 	

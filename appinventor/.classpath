@@ -201,8 +201,8 @@
 	<classpathentry exported="true" kind="lib" path="lib/vr4ai/vr4ai.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/gca4ai/Myo-connector.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/la4ai/tincan.jar"/>
 	<classpathentry kind="lib" path="lib/la4ai/jsonld.jar"/>
 	<classpathentry kind="lib" path="lib/la4ai/android-joda.jar"/>
+	<classpathentry kind="lib" path="lib/la4ai/jxapi.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

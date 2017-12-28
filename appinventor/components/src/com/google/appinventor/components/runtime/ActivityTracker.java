@@ -1,7 +1,5 @@
 package com.google.appinventor.components.runtime;
 
-import java.util.List;
-
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
@@ -22,8 +20,6 @@ import com.google.appinventor.components.runtime.util.ActivityTrackerManagerMong
 //import com.google.appinventor.components.runtime.util.ActivityTrackerManagerStream;
 //import com.google.appinventor.components.runtime.util.GlobalComponentsInstances;
 
-//import java.util.List;
-//import java.util.ArrayList;
 import android.app.Activity;
 
 /**
@@ -42,7 +38,7 @@ import android.app.Activity;
 "google-oauth-client-beta.jar," +
 "guava-14.0.1.jar," +
 "gson-2.1.jar," +
-"tincan.jar," +
+"jxapi.jar," +
 "la4ai.jar")
 @SimpleObject
 @DesignerComponent(version = YaVersion.ACTIVITYTRACKER_COMPONENT_VERSION, 

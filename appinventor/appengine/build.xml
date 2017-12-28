@@ -193,7 +193,7 @@
     <copy todir="${build.war.dir}/WEB-INF/lib" file="${gwt.sdk}/gwt-servlet-deps.jar" />
     <!-- Add any additional server libs that need to be copied -->
     <copy todir="${build.war.dir}/WEB-INF/lib" file="${lib.dir}/la4ai/la4ai.jar" />
-    <copy todir="${build.war.dir}/WEB-INF/lib" file="${lib.dir}/la4ai/tincan.jar" />
+    <copy todir="${build.war.dir}/WEB-INF/lib" file="${lib.dir}/la4ai/jxapi.jar" />
     <copy todir="${build.war.dir}/WEB-INF/lib" file="${lib.dir}/la4ai/jsonld.jar" />
     <copy todir="${build.war.dir}/WEB-INF/lib" file="${lib.dir}/la4ai/stream/stream-1.1.7.jar" />
     <copy todir="${build.war.dir}/WEB-INF/lib" flatten="true">
@@ -236,7 +236,7 @@
         <!-- gwt lib needed only at compile time for javax.servlet.http.HttpServlet* -->
         <pathelement location="${gwt.sdk}/gwt-user.jar"/>
         <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
-        <pathelement location="${lib.dir}/la4ai/tincan.jar" />
+        <pathelement location="${lib.dir}/la4ai/jxapi.jar" />
         <pathelement location="${lib.dir}/la4ai/jsonld.jar" />
         <pathelement location="${lib.dir}/la4ai/stream/stream-1.1.7.jar" />
         <pathelement location="${lib.dir}/ld4ai/ld4ai-0.1.jar" />
@@ -281,7 +281,7 @@
     <pathelement location="${appengine.sdk}/lib/testing/appengine-testing.jar" />
     <pathelement location="${appengine.sdk}/lib/user/orm/geronimo-jpa_3.0_spec-1.1.1.jar" />
     <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
-    <pathelement location="${lib.dir}/la4ai/tincan.jar" />
+    <pathelement location="${lib.dir}/la4ai/jxapi.jar" />
     <pathelement location="${lib.dir}/la4ai/jsonld.jar" />
     <pathelement location="${lib.dir}/la4ai/stream/stream-1.1.7.jar" />
     <pathelement location="${lib.dir}/ld4ai/ld4ai-0.1.jar" />
@@ -339,7 +339,7 @@
     <pathelement location="${lib.dir}/gcs/appengine-gcs-client-0.4.3.jar" />
     <pathelement location="${gwt.sdk}/gwt-servlet.jar" />
     <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
-    <pathelement location="${lib.dir}/la4ai/tincan.jar" />
+    <pathelement location="${lib.dir}/la4ai/jxapi.jar" />
     <pathelement location="${lib.dir}/la4ai/jsonld.jar" />
     <pathelement location="${lib.dir}/ld4ai/ld4ai-0.1.jar" />
     
@@ -349,7 +349,7 @@
     <path refid="libsForAiSharedLibTests.path"/>
     <pathelement location="${local.build.dir}/AiSharedLibTests.jar" />
     <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
-    <pathelement location="${lib.dir}/la4ai/tincan.jar" />
+    <pathelement location="${lib.dir}/la4ai/jxapi.jar" />
     <pathelement location="${lib.dir}/la4ai/jsonld.jar" />
     <pathelement location="${lib.dir}/la4ai/stream/stream-1.1.7.jar" />
     <pathelement location="${lib.dir}/ld4ai/ld4ai-0.1.jar" />
@@ -381,7 +381,7 @@
         <pathelement location="${gwt.sdk}/gwt-dev.jar"/>
         <pathelement location="${gwt.sdk}/gwt-user.jar"/>
         <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
-        <pathelement location="${lib.dir}/la4ai/tincan.jar" />
+        <pathelement location="${lib.dir}/la4ai/jxapi.jar" />
         <pathelement location="${lib.dir}/la4ai/jsonld.jar" />
         <pathelement location="${lib.dir}/la4ai/stream/stream-1.1.7.jar" />
         <pathelement location="${lib.dir}/ld4ai/ld4ai-0.1.jar" />
@@ -427,7 +427,7 @@
         
         <!-- la4ai lib -->
         <pathelement location="${lib.dir}/la4ai/la4ai.jar"/>
-        <pathelement location="${lib.dir}/la4ai/tincan.jar"/>
+        <pathelement location="${lib.dir}/la4ai/jxapi.jar"/>
         <pathelement location="${lib.dir}/la4ai/jsonld.jar" />
         <pathelement location="${lib.dir}/la4ai/stream/stream-1.1.7.jar" />
         <pathelement location="¢{lib.dir}/la4ai/fusiontables_v2/libs/google-api-client-1.22.0.jar"/>
@@ -465,7 +465,7 @@
       <srcfiles file="${build.dir}/common/CommonVersion-gwt.jar" />
       <srcfiles file="${build.dir}/components/CommonConstants-gwt.jar" />
       <srcfiles file="${lib.dir}/la4ai/la4ai.jar" />
-      <srcfiles file="${lib.dir}/la4ai/tincan.jar" />
+      <srcfiles file="${lib.dir}/la4ai/jxapi.jar" />
       <srcfiles file="${lib.dir}/la4ai/jsonld.jar" />
       <srcfiles file="${lib.dir}/la4ai/stream/stream-1.1.7.jar" />
       <srcfiles file="${lib.dir}/ld4ai/ld4ai-0.1.jar" />
@@ -495,7 +495,7 @@
         <pathelement location="${lib.dir}/gwt_incubator/gwt-incubator-20101117-r1766.jar" />
         <!-- la4ai lib -->
         <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
-        <pathelement location="${lib.dir}/la4ai/tincan.jar" />
+        <pathelement location="${lib.dir}/la4ai/jxapi.jar" />
         <pathelement location="${lib.dir}/la4ai/jsonld.jar" />
         <pathelement location="${lib.dir}/la4ai/stream/stream-1.1.7.jar" />
 
@@ -532,7 +532,7 @@
     <pathelement location="${lib.dir}/junit/junit-4.8.2.jar" />
     <pathelement location="${gwt.sdk}/gwt-user.jar"/>
     <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
-    <pathelement location="${lib.dir}/la4ai/tincan.jar" />
+    <pathelement location="${lib.dir}/la4ai/jxapi.jar" />
     <pathelement location="${lib.dir}/la4ai/jsonld.jar" />
     <pathelement location="${lib.dir}/la4ai/stream/stream-1.1.7.jar" />
     <pathelement location="${lib.dir}/ld4ai/ld4ai-0.1.jar" />
@@ -544,7 +544,7 @@
     <pathelement location="${local.build.dir}/AiSharedLib.jar" />
     <pathelement location="${local.build.dir}/AiClientLibTests.jar" />
     <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
-    <pathelement location="${lib.dir}/la4ai/tincan.jar" />
+    <pathelement location="${lib.dir}/la4ai/jxapi.jar" />
     <pathelement location="${lib.dir}/la4ai/jsonld.jar" />
     <pathelement location="${lib.dir}/la4ai/stream/stream-1.1.7.jar" />
     <pathelement location="lib/la4ai/stream/stream-1.1.4.jar" />
