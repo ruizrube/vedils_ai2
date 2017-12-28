@@ -103,10 +103,17 @@ public class ActivityTrackerManagerFusionTables implements ActivityTrackerManage
 	    String screenName = componentContainer.$form().getLocalClassName(); 
 	    currentIP = ip;
 	    
+	    String userId = "";
+	    
+	    if(currentActivityTracker.getUser() != null) {
+			userId = currentActivityTracker.getUser().getName() + " " + currentActivityTracker.getUser().getSurname();
+		} else {
+			userId = "emptyUser";
+		}
+	    
 	    //Do the query
 		//values = "'" + currentActivityTracker.getUserTrackerId() + "','" +
-	    values = "'" + currentActivityTracker.getUser().getName() + " " 
-		+ currentActivityTracker.getUser().getSurname()  + "','" +
+	    values = "'" + userId  + "','" +
 		ip + "','" +
 	    mac + "','" +
 	    DeviceInfoFunctions.getIMEI(componentContainer.$context()) + "'," +
@@ -198,10 +205,17 @@ public class ActivityTrackerManagerFusionTables implements ActivityTrackerManage
 	    String screenName = componentContainer.$form().getLocalClassName(); 
 	    currentIP = ip;
 	    
+	    String userId = "";
+	    
+	    if(currentActivityTracker.getUser() != null) {
+			userId = currentActivityTracker.getUser().getName() + " " + currentActivityTracker.getUser().getSurname();
+		} else {
+			userId = "emptyUser";
+		}
+	    
 	    //Do the query
 		//values = "'" + currentActivityTracker.getUserTrackerId() + "','" + 
-	    values = "'" + currentActivityTracker.getUser().getName() + " " 
-	    		+ currentActivityTracker.getUser().getSurname()  + "','" +
+	    values = "'" + userId  + "','" +
 		ip + "','" +
 	    mac + "','" +
 	    DeviceInfoFunctions.getIMEI(componentContainer.$context()) + "'," +

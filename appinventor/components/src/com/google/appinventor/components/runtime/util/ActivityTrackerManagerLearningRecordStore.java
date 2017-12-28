@@ -49,7 +49,7 @@ public class ActivityTrackerManagerLearningRecordStore implements ActivityTracke
 			
 	private TimerSendData timerSendData;
 	private GPSTracker gpsTracker;
-	private String URI = "http://example.com/";
+	private String URI = "http://vedils.uca.es/xapi/";
 	
 	
 	public ActivityTrackerManagerLearningRecordStore(ActivityTracker currentActivityTracker, ComponentContainer componentContainer) {
