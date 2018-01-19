@@ -2015,8 +2015,8 @@ list, use the make-yail-list constructor with no arguments.
 (define (yail-stream-variance yail-list)
   (define (variance lst n avg)
   	(cond ((null? lst) (error "Empty list"))
-    	((= (length lst) 1) (get-item (car lst) n avg))
-    	(else (+ (get-item (car lst) n avg) (variance (cdr lst) n avg)))))
+    	((= (length lst) 1) (get-item (coerce-to-number (car lst)) n avg))
+    	(else (+ (get-item (coerce-to-number (car lst)) n avg) (variance (cdr lst) n avg)))))
   (let ((verified-list (coerce-to-yail-list yail-list)))
     (if (eq? verified-list *non-coercible-value*)
        (signal-runtime-error
@@ -2066,8 +2066,8 @@ list, use the make-yail-list constructor with no arguments.
 (define (yail-stream-minimum yail-list)
   (define (minimum lst)
   	(cond ((null? lst) (error "Empty list"))
-    	((= (length lst) 1) (car lst))
-    	(else (min (car lst) (minimum (cdr lst))))))
+    	((= (length lst) 1) (coerce-to-number (car lst)))
+    	(else (min (coerce-to-number (car lst)) (minimum (cdr lst))))))
   (let ((verified-list (coerce-to-yail-list yail-list)))
     (if (eq? verified-list *non-coercible-value*)
        (signal-runtime-error
@@ -2087,8 +2087,8 @@ list, use the make-yail-list constructor with no arguments.
 (define (yail-stream-maximum yail-list)
   (define (maximum lst)
   	(cond ((null? lst) (error "Empty list"))
-    	((= (length lst) 1) (car lst))
-    	(else (max (car lst) (maximum (cdr lst))))))
+    	((= (length lst) 1) (coerce-to-number (car lst)))
+    	(else (max (coerce-to-number (car lst)) (maximum (cdr lst))))))
   (let ((verified-list (coerce-to-yail-list yail-list)))
     (if (eq? verified-list *non-coercible-value*)
        (signal-runtime-error
@@ -2109,7 +2109,7 @@ list, use the make-yail-list constructor with no arguments.
   (define (production list)
    (if (null? list)
       1
-      (* (car list) (production (cdr list)))))
+      (* (coerce-to-number (car list)) (production (cdr list)))))
   (let ((verified-list (coerce-to-yail-list yail-list)))
     (if (eq? verified-list *non-coercible-value*)
        (signal-runtime-error
@@ -2151,7 +2151,7 @@ list, use the make-yail-list constructor with no arguments.
 (define (summation list)
    (if (null? list)
       0
-      (+ (car list) (summation (cdr list)))))
+      (+ (coerce-to-number (car list)) (summation (cdr list)))))
      
 (define (yail-stream-summation yail-list)
   (let ((verified-list (coerce-to-yail-list yail-list)))
