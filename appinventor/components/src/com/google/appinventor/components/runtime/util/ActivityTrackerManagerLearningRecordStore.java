@@ -88,7 +88,7 @@ public class ActivityTrackerManagerLearningRecordStore implements ActivityTracke
 		this.statement.setObject(activity);
 		
 		Context context = new Context();
-		context.setPlatform("VEDILS");
+		context.setPlatform(componentContainer.$context().getApplicationInfo().packageName);
 		HashMap<String, JsonElement> extensions = new HashMap<String, JsonElement>();
 		extensions.put(URI + "context/appContext", addContextNotificationData());
 		context.setExtensions(extensions);
@@ -195,7 +195,7 @@ public class ActivityTrackerManagerLearningRecordStore implements ActivityTracke
 		
 		if(!(data instanceof User) && !(data instanceof Statement)) {
 			Context context = new Context();
-			context.setPlatform("VEDILS");
+			context.setPlatform(componentContainer.$context().getApplicationInfo().packageName);
 			HashMap<String, JsonElement> extensions = new HashMap<String, JsonElement>();
 			extensions.put(URI + "context/appContext", addContextNotificationData());
 			context.setExtensions(extensions);
