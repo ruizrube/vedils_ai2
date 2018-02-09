@@ -3,6 +3,7 @@ package com.google.appinventor.components.runtime.util;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.UUID;
 
@@ -99,6 +100,7 @@ public class ActivityTrackerManagerLearningRecordStore implements ActivityTracke
 		//And try to send data to LRS
 		recordData();
 	}
+	
 
 	@Override
 	public void prepareQueryManual(String actionId, Object data) {
@@ -106,11 +108,12 @@ public class ActivityTrackerManagerLearningRecordStore implements ActivityTracke
 		this.statement = new Statement();
 		this.statement.setId(UUID.randomUUID().toString());
 		this.statement.setTimestamp(Clock.FormatDate(Clock.Now(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+		this.statement.setStored(Clock.FormatDate(Clock.Now(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
 		
 		Agent actor = new Agent();
 		actor.setName(this.currentActivityTracker.getUser().getName() + 
 				" " + this.currentActivityTracker.getUser().getSurname());
-		actor.setMbox("mailto:"+this.currentActivityTracker.getUser().getEmail());
+		actor.setMbox("mailto:"+this.currentActivityTracker.getUser().getEmail().replaceAll(" ", ""));
 		
 		Verb verb = new Verb();
 		if(!actionId.contains("http")) {
@@ -127,7 +130,7 @@ public class ActivityTrackerManagerLearningRecordStore implements ActivityTracke
 			Agent actorSecond = new Agent();
 			actorSecond.setName(user.getName() + 
 					" " + user.getSurname());
-			actorSecond.setMbox("mailto:"+user.getEmail());
+			actorSecond.setMbox("mailto:"+user.getEmail().replaceAll(" ", ""));
 			this.statement.setObject(actorSecond);
 		} else if(data instanceof Statement) { //Statement type: Actor + Verb + Statement
 			Statement statementSecond = (Statement) data;
@@ -165,6 +168,25 @@ public class ActivityTrackerManagerLearningRecordStore implements ActivityTracke
 			
 			ActivityDefinition definition = new ActivityDefinition();
 			definition.setType(URI + "activities/specific");
+			
+			//Add Extensions
+			
+			HashMap<String,JsonElement> extensionsMap = new HashMap<String, JsonElement>();
+			
+			List<Object> extensions = activityDescription.Extensions();
+			JsonObject element = new JsonObject();
+			
+			if(extensions != null) {
+				for(Object value: extensions) {
+					if(value instanceof YailList) { //main YailList
+						YailList list = (YailList) value;
+						element.addProperty(list.getString(0), list.getString(1));
+					}
+				}
+				extensionsMap.put(URI + "extensions", element);
+			}
+			
+			definition.setExtensions(extensionsMap);
 			activity.setDefinition(definition);
 			statement.setObject(activity);
 			
@@ -176,21 +198,27 @@ public class ActivityTrackerManagerLearningRecordStore implements ActivityTracke
 				result.setDuration(activityDescription.Duration());
 			}
 			
+			Score score = new Score();
+			
 			if(activityDescription.ScaledScore() != 0) {
-				Score score = new Score();
 				score.setScaled(activityDescription.ScaledScore());
-				result.setScore(score);
-			} else if(activityDescription.MaxScore() != 0 &&
-					activityDescription.MinScore() != 0 &&
-					activityDescription.RawScore() != 0) {
-				Score score = new Score();
+			} 
+			
+			if(activityDescription.MaxScore() != 0) {
 				score.setMax(activityDescription.MaxScore());
-				score.setMin(activityDescription.MinScore());
-				score.setRaw(activityDescription.RawScore());
-				result.setScore(score);
 			}
 			
-			statement.setResult(result);
+			if(activityDescription.MinScore() != 0) {
+				score.setMin(activityDescription.MinScore());
+			}
+			
+			if(activityDescription.RawScore() != 0) {
+				score.setRaw(activityDescription.RawScore());
+			}
+			
+			result.setScore(score);
+			
+			this.statement.setResult(result);
 		}
 		
 		if(!(data instanceof User) && !(data instanceof Statement)) {
@@ -214,11 +242,12 @@ public class ActivityTrackerManagerLearningRecordStore implements ActivityTracke
 		Statement statement = new Statement();
 		statement.setId(UUID.randomUUID().toString());
 		statement.setTimestamp(Clock.FormatDate(Clock.Now(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+		statement.setStored(Clock.FormatDate(Clock.Now(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
 		
 		Agent actor = new Agent();
 		actor.setName(this.currentActivityTracker.getUser().getName() + 
 				" " + this.currentActivityTracker.getUser().getSurname());
-		actor.setMbox("mailto:"+this.currentActivityTracker.getUser().getEmail());
+		actor.setMbox("mailto:"+this.currentActivityTracker.getUser().getEmail().replaceAll(" ", ""));
 		
 		Verb verb = new Verb();
 		if(!actionId.contains("http")) {
@@ -235,7 +264,7 @@ public class ActivityTrackerManagerLearningRecordStore implements ActivityTracke
 			Agent actorSecond = new Agent();
 			actorSecond.setName(user.getName() + 
 					" " + user.getSurname());
-			actorSecond.setMbox("mailto:"+user.getEmail());
+			actorSecond.setMbox("mailto:"+user.getEmail().replaceAll(" ", ""));
 			statement.setObject(actorSecond);
 		} else if(data instanceof Statement) { //Statement type: Actor + Verb + Statement
 			Statement statementSecond = (Statement) data;
@@ -271,6 +300,25 @@ public class ActivityTrackerManagerLearningRecordStore implements ActivityTracke
 			
 			ActivityDefinition definition = new ActivityDefinition();
 			definition.setType(URI + "activities/specific");
+			
+			//Add Extensions
+			
+			HashMap<String,JsonElement> extensionsMap = new HashMap<String, JsonElement>();
+			
+			List<Object> extensions = activityDescription.Extensions();
+			JsonObject element = new JsonObject();
+			
+			if(extensions != null) {
+				for(Object value: extensions) {
+					if(value instanceof YailList) { //main YailList
+						YailList list = (YailList) value;
+						element.addProperty(list.getString(0), list.getString(1));
+					}
+				}
+				extensionsMap.put(URI + "extensions", element);
+			}
+			
+			definition.setExtensions(extensionsMap);
 			activity.setDefinition(definition);
 			statement.setObject(activity);
 			
@@ -282,19 +330,25 @@ public class ActivityTrackerManagerLearningRecordStore implements ActivityTracke
 				result.setDuration(activityDescription.Duration());
 			}
 			
+			Score score = new Score();
+			
 			if(activityDescription.ScaledScore() != 0) {
-				Score score = new Score();
 				score.setScaled(activityDescription.ScaledScore());
-				result.setScore(score);
-			} else if(activityDescription.MaxScore() != 0 &&
-					activityDescription.MinScore() != 0 &&
-					activityDescription.RawScore() != 0) {
-				Score score = new Score();
+			} 
+			
+			if(activityDescription.MaxScore() != 0) {
 				score.setMax(activityDescription.MaxScore());
-				score.setMin(activityDescription.MinScore());
-				score.setRaw(activityDescription.RawScore());
-				result.setScore(score);
 			}
+			
+			if(activityDescription.MinScore() != 0) {
+				score.setMin(activityDescription.MinScore());
+			}
+			
+			if(activityDescription.RawScore() != 0) {
+				score.setRaw(activityDescription.RawScore());
+			}
+			
+			result.setScore(score);
 			
 			statement.setResult(result);
 		}
@@ -304,6 +358,7 @@ public class ActivityTrackerManagerLearningRecordStore implements ActivityTracke
 		//And return the content
 		return statement;
 	}
+	
 	
 	@Deprecated
 	@Override
