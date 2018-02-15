@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
+import org.json.JSONObject;
+
 import com.google.appinventor.components.runtime.ActivityTracker;
 import com.google.appinventor.components.runtime.Clock;
 import com.google.appinventor.components.runtime.Component;
@@ -19,6 +21,8 @@ public class ActivityTrackerManagerFusionTables implements ActivityTrackerManage
 	private ActivityTracker currentActivityTracker;
 	
 	private ComponentContainer componentContainer;
+	
+	private String URL_SERVER_INSERT_WITH_STREAM = "http://vedilsanalytics.uca.es:80/AnalyticsWSForAppInventor/FlinkClient/addToKafkaQueue/";
 	
 	//FusionTablesConnection data
 	//A new field is added last, to make it compatible with tables with older versions of ActivityTracker (FusionTables API inserts the new columns at the end of the list).
@@ -38,6 +42,7 @@ public class ActivityTrackerManagerFusionTables implements ActivityTrackerManage
 	private String currentIP;
 	private GPSTracker gpsTracker;
 	
+	private JSONObject dataJSON;
 	
 	public ActivityTrackerManagerFusionTables(ActivityTracker currentActivityTracker, ComponentContainer componentContainer) {
 		this.currentActivityTracker = currentActivityTracker;
@@ -138,6 +143,27 @@ public class ActivityTrackerManagerFusionTables implements ActivityTrackerManage
 		
 		//And try to send data to FusionTables
 		recordData();
+		
+		if(this.currentActivityTracker.getStreamMode()) {
+			try {
+				addBasicNotificationData();
+				dataJSON.put("ComponentType", componentType);
+				dataJSON.put("ComponentID", componentId);
+				dataJSON.put("ActionType", actionType);
+				dataJSON.put("ActionID", actionId);
+				
+				//Add data
+				dataJSON.put("param1", param1);
+				dataJSON.put("param2", param2);
+				dataJSON.put("param3", param3);
+				
+				dataJSON.put(actionId.toLowerCase(), returnParamValue);
+			
+			} catch (Exception e) {
+				System.out.println("ActivityTrackerManagerFusionTables error" + e.getMessage());
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -240,6 +266,23 @@ public class ActivityTrackerManagerFusionTables implements ActivityTrackerManage
 		
 		//And try to send data to FusionTables
 		recordData();
+		
+		if(this.currentActivityTracker.getStreamMode()) {
+			try {
+				addBasicNotificationData();
+				dataJSON.put("ActionType", "SPECIFIC");
+				dataJSON.put("ActionID", actionId);
+				
+				//Add data
+				dataJSON.put("param1", param1);
+				dataJSON.put("param2", param2);
+				dataJSON.put("param3", param3);
+			
+			} catch (Exception e) {
+				System.out.println("ActivityTrackerManagerFusionTables error" + e.getMessage());
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	@SuppressWarnings({"unchecked"})
@@ -251,6 +294,21 @@ public class ActivityTrackerManagerFusionTables implements ActivityTrackerManage
 				
 			//fusionTablesConnection.insertRow(values, currentActivityTracker.getTableId());
 			fusionTablesConnection.processColumnsToInsert(values, currentActivityTracker.getTableId());
+			
+			if(this.currentActivityTracker.getStreamMode()) {
+				
+				JSONObject sendJSON = new JSONObject();
+				try {
+					sendJSON.put("database", componentContainer.$context().getApplicationInfo().packageName);
+					sendJSON.put("collection", currentActivityTracker.getTableId());
+					sendJSON.put("data", dataJSON);
+				} catch(Exception e) {
+					System.out.println("ActivityTrackerManagerFusionTables error" + e.getMessage());
+					e.printStackTrace();
+				}
+				
+				new AsyncHttpRequestManager(URL_SERVER_INSERT_WITH_STREAM, sendJSON, null, true).execute();
+			}
 				
 			//And if db is not empty send the content too
 			List<String> listTags = (List<String>) tinyDB.GetTags();
@@ -386,5 +444,24 @@ public class ActivityTrackerManagerFusionTables implements ActivityTrackerManage
 		}
 		
 		return "";
+	}
+	
+	private void addBasicNotificationData() throws Exception {
+		dataJSON = new JSONObject();
+		//dataJSON.put("UserID", currentActivityTracker.getUserTrackerId());
+		if(currentActivityTracker.getUser() != null) {
+			dataJSON.put("UserID", currentActivityTracker.getUser().getName() + " " + currentActivityTracker.getUser().getSurname());
+		} else {
+			dataJSON.put("UserID", "emptyUser");
+		}
+		dataJSON.put("IP", DeviceInfoFunctions.getCurrentIP(currentActivityTracker.getCommunicationMode(), this.componentContainer.$context()));
+		dataJSON.put("MAC", DeviceInfoFunctions.getMAC(componentContainer.$context()));
+		dataJSON.put("IMEI", DeviceInfoFunctions.getIMEI(componentContainer.$context()));
+		dataJSON.put("APILevel", DeviceInfoFunctions.getAndroidAPIVersion());
+		dataJSON.put("Latitude", gpsTracker.getLatitude());
+		dataJSON.put("Longitude", gpsTracker.getLongitude());
+		dataJSON.put("Date", Clock.FormatDate(Clock.Now(), "MM/dd/yyyy HH:mm:ss"));
+		dataJSON.put("AppID", componentContainer.$context().getApplicationInfo().packageName);
+		dataJSON.put("ScreenID", componentContainer.$form().getLocalClassName());
 	}
 }

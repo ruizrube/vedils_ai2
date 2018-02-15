@@ -208,9 +208,15 @@ public class PropertyTypeConstants {
 	
 	/**
 	 * Choices of storageModes offered by
-	 * {@link com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidCommunicationModeChoicePropertyEditor}
+	 * {@link com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidStorageModeChoicePropertyEditor}
 	 */
 	public static final String PROPERTY_TYPE_STORAGEMODE = "storageMode";
+	
+	/**
+	 * Choices of storageModes offered by
+	 * {@link com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidQueryStorageModeChoicePropertyEditor}
+	 */
+	public static final String PROPERTY_TYPE_QUERYSTORAGEMODE = "queryStorageMode";
 
 	/**
 	 * Choices in checkableTree offered by
@@ -218,7 +224,7 @@ public class PropertyTypeConstants {
 	 */
 	public static final String PROPERTY_TYPE_CHECKABLETREEFORACTIVITYTRACKER = "checkableTreeForActivityTracker";
 
-	//Para userData vinculation
+	//userData
 	public static final String PROPERTY_TYPE_ONLY_USER = "user";
 	
 	// Para arbol de datos

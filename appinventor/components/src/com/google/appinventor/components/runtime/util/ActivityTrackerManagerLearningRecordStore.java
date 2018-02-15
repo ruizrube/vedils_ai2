@@ -169,28 +169,19 @@ public class ActivityTrackerManagerLearningRecordStore implements ActivityTracke
 			ActivityDefinition definition = new ActivityDefinition();
 			definition.setType(URI + "activities/specific");
 			
-			//Add Extensions
-			
-			HashMap<String,JsonElement> extensionsMap = new HashMap<String, JsonElement>();
-			
-			List<Object> extensions = activityDescription.Extensions();
-			JsonObject element = new JsonObject();
-			
-			if(extensions != null) {
-				for(Object value: extensions) {
-					if(value instanceof YailList) { //main YailList
-						YailList list = (YailList) value;
-						element.addProperty(list.getString(0), list.getString(1));
-					}
-				}
-				extensionsMap.put(URI + "extensions", element);
+			if(activityDescription.Extensions() != null) {
+				definition.setExtensions(addExtensions(activityDescription.Extensions()));
 			}
 			
-			definition.setExtensions(extensionsMap);
 			activity.setDefinition(definition);
 			statement.setObject(activity);
 			
 			Result result = new Result();
+			
+			if(activityDescription.ResultExtensions() != null) {
+				result.setExtensions(addExtensionsForResult(activityDescription.ResultExtensions()));
+			}
+			
 			result.setCompletion(activityDescription.Completion());
 			result.setSuccess(activityDescription.Success());
 			
@@ -300,29 +291,20 @@ public class ActivityTrackerManagerLearningRecordStore implements ActivityTracke
 			
 			ActivityDefinition definition = new ActivityDefinition();
 			definition.setType(URI + "activities/specific");
-			
-			//Add Extensions
-			
-			HashMap<String,JsonElement> extensionsMap = new HashMap<String, JsonElement>();
-			
-			List<Object> extensions = activityDescription.Extensions();
-			JsonObject element = new JsonObject();
-			
-			if(extensions != null) {
-				for(Object value: extensions) {
-					if(value instanceof YailList) { //main YailList
-						YailList list = (YailList) value;
-						element.addProperty(list.getString(0), list.getString(1));
-					}
-				}
-				extensionsMap.put(URI + "extensions", element);
+
+			if(activityDescription.Extensions() != null) {
+				definition.setExtensions(addExtensions(activityDescription.Extensions()));
 			}
 			
-			definition.setExtensions(extensionsMap);
 			activity.setDefinition(definition);
 			statement.setObject(activity);
 			
 			Result result = new Result();
+			
+			if(activityDescription.ResultExtensions() != null) {
+				result.setExtensions(addExtensionsForResult(activityDescription.ResultExtensions()));
+			}
+			
 			result.setCompletion(activityDescription.Completion());
 			result.setSuccess(activityDescription.Success());
 			
@@ -427,6 +409,38 @@ public class ActivityTrackerManagerLearningRecordStore implements ActivityTracke
 				}
 			}.execute();
 		}
+	}
+	
+	private HashMap<String,JsonElement> addExtensions(List<Object> extensions) {
+		HashMap<String,JsonElement> extensionsMap = new HashMap<String, JsonElement>();
+		JsonObject element = new JsonObject();
+		
+		if(extensions != null) {
+			for(Object value: extensions) {
+				if(value instanceof YailList) { //main YailList
+					YailList list = (YailList) value;
+					element.addProperty(URI + list.getString(0), list.getString(1));
+				}
+			}
+			extensionsMap.put(URI + "extensions", element);
+		}
+		
+		return extensionsMap;
+	}
+	
+	private JsonObject addExtensionsForResult(List<Object> extensions) {
+		JsonObject element = new JsonObject();
+		
+		if(extensions != null) {
+			for(Object value: extensions) {
+				if(value instanceof YailList) { //main YailList
+					YailList list = (YailList) value;
+					element.addProperty(URI + list.getString(0), list.getString(1));
+				}
+			}
+		}
+		
+		return element;
 	}
 	
 	private JsonObject addContextNotificationData() {

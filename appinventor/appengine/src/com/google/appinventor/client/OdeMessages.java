@@ -76,6 +76,14 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String ScaledScoreProperties();
 	
+	@DefaultMessage("Extensions")
+	@Description("")
+	String ExtensionsProperties();
+	
+	@DefaultMessage("ResultExtensions")
+	@Description("")
+	String ResultExtensionsProperties();
+	
 	//
 	// UserData
 	//

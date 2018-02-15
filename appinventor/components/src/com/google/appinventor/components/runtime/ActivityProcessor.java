@@ -129,7 +129,7 @@ public abstract class ActivityProcessor extends AndroidNonvisibleComponent {
 	 * 
 	 * @param storage
 	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STORAGEMODE,
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_QUERYSTORAGEMODE,
 		      defaultValue = Component.FUSIONTABLES + "")
 		  @SimpleProperty(
 		      userVisible = false)
@@ -419,7 +419,7 @@ public abstract class ActivityProcessor extends AndroidNonvisibleComponent {
 	/**
 	 * Function to stream send the query to analyze activities from Flink.
 	 * 
-	 * @param actionId 
+	 * @param actionId
 	 */
 	@SimpleFunction(description = "Function to stream send the query to analyze activities from Flink.")
 	public void SendStreamQuery(int seconds) {
@@ -438,7 +438,6 @@ public abstract class ActivityProcessor extends AndroidNonvisibleComponent {
 			this.streamQueryRunning = true;
 		}
 	}
-	
 	
 	/**
 	 * Function to stream send the query to analyze activities from Flink.

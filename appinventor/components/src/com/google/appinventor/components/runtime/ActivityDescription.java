@@ -1,5 +1,7 @@
 package com.google.appinventor.components.runtime;
 
+import java.util.List;
+
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
@@ -23,6 +25,8 @@ public class ActivityDescription extends AndroidNonvisibleComponent implements C
 	private float minScore;
 	private float rawScore;
 	private float scaledScore;
+	private List<Object> extensions;
+	private List<Object> resultExtensions;
 	
 	public ActivityDescription(ComponentContainer componentContainer) {
 		super(componentContainer.$form());
@@ -218,6 +222,52 @@ public class ActivityDescription extends AndroidNonvisibleComponent implements C
 	@SimpleProperty(category = PropertyCategory.BEHAVIOR, description = "Return the activity scaled score.", userVisible = true)
 	public float ScaledScore() {
 		return this.scaledScore;
+	}
+	
+	/**
+	 * Specifies the activity extensions.
+	 * 
+	 * @param extensions
+	 */
+	/*@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT,
+		      defaultValue = "")*/
+	@SimpleProperty
+	public void Extensions(List<Object> extensions) {
+		this.extensions = extensions;
+	}
+	
+	
+	/**
+	 * Return the activity extensions.
+	 * 
+	 * Return extensions
+	 */
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR, description = "Return the activity extensions.", userVisible = true)
+	public List<Object> Extensions() {
+		return this.extensions;
+	}
+	
+	/**
+	 * Specifies the result extensions.
+	 * 
+	 * @param extensions
+	 */
+	/*@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT,
+		      defaultValue = "")*/
+	@SimpleProperty
+	public void ResultExtensions(List<Object> extensions) {
+		this.resultExtensions = extensions;
+	}
+	
+	
+	/**
+	 * Return the activity extensions.
+	 * 
+	 * Return extensions
+	 */
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR, description = "Return the result extensions.", userVisible = true)
+	public List<Object> ResultExtensions() {
+		return this.resultExtensions;
 	}
 
 }

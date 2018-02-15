@@ -157,42 +157,63 @@ public class DataTable extends AndroidViewComponent {
 					information.put("querySQL", this.Query().getQueryManager().generateQueryStatement());
 					information.put("valuesTitle", this.valuesTitle);
 					information.put("refreshInterval", this.refreshInterval);
-				} else if(this.Query() != null && this.Data() != null) { //manual user query (FusionTables or MongoDB)
+				} else { //manual user query (FusionTables or MongoDB)
 					int columnNamesRow = 1;
 					
-					for(Object row: this.data) {
-						if(!(row instanceof SimpleSymbol) && this.data.indexOf(row) != columnNamesRow) {
-							table.put(prepareRow((List<Object>)row));
-						}
-					}
-					
-					String columnNames = "";
-					boolean first = true;
-					
-					if(this.data.size() > 1) { //Not empty result for query
-						for(Object name: (List<Object>) this.data.get(1)) {
-							if(name instanceof String) { //Is a column name
-								if(!((String) name).isEmpty()) {
+					if(Data() != null) {
+						
+						System.out.println("El size es (data): " + this.data.size());
+						
+						if(this.data.size() > 1) {
+							
+							for(Object row: this.data) {
+								if(!(row instanceof SimpleSymbol) && this.data.indexOf(row) != columnNamesRow) {
+									table.put(prepareRow((List<Object>)row));
+								}
+							}
+							
+							if(this.valuesTitle == null) {
+								String columnNames = "";
+								boolean first = true;
+								
+								for(Object name: (List<Object>) this.data.get(1)) {
+									if(name instanceof String) { //Is a column name
+										if(!((String) name).isEmpty()) {
+											if(first) {
+												columnNames = columnNames + name;
+											} else {
+												columnNames = columnNames + "," + name;
+											}
+											first = false;
+										}
+									}
+								}
+								
+								this.valuesTitle = columnNames;
+							}
+							
+						} else if(this.data.size() > 0) {
+							
+							for(Object row: this.data) {
+								if(!(row instanceof SimpleSymbol)) {
+									table.put(prepareRow((List<Object>)row));
+								}
+							}
+							
+							if(this.valuesTitle == null) {
+								String columnNames = "";
+								boolean first = true;
+								
+								for(int i=0; i<((List<Object>) this.data.get(1)).size(); i++) {
 									if(first) {
-										columnNames = columnNames + name;
+										columnNames = columnNames + "param" + i;
 									} else {
-										columnNames = columnNames + "," + name;
+										columnNames = columnNames + "," + "param" + i;
 									}
 									first = false;
 								}
-							}
-						}
-					}
-					
-					this.valuesTitle = columnNames;
-					
-					information.put("table", table);
-					information.put("valuesTitle", this.valuesTitle);
-				} else {
-					if(Data() != null) {
-						for(Object row: this.data) {
-							if(!(row instanceof SimpleSymbol)) {
-								table.put(prepareRow((List<Object>)row));
+								
+								this.valuesTitle = columnNames;
 							}
 						}
 					}

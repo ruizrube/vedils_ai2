@@ -43,6 +43,7 @@ import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroid
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidScreenAnimationChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidScreenOrientationChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidQualityYoutubeChoicePropertyEditor;
+import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidQueryStorageModeChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidSensorDistIntervalChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidSensorTimeIntervalChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidSizingChoicePropertyEditor;
@@ -264,6 +265,8 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
 			return new YoungAndroidCommunicationModeChoicePropertyEditor();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_STORAGEMODE)) {
 			return new YoungAndroidStorageModeChoicePropertyEditor();
+		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_QUERYSTORAGEMODE)) {
+			return new YoungAndroidQueryStorageModeChoicePropertyEditor();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_VISIBILITY)) {
 			return new YoungAndroidBooleanPropertyEditor();
 		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TEXT_RECEIVING)) {

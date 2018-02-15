@@ -113,8 +113,8 @@ public final class YoungAndroidCheckableTreeSelectorForData extends YoungAndroid
 				"<b> User Info </b>", "User Info");
 
 		//// Context
-		addNode(parentNode, Arrays.asList("Date", "AppID", "ScreenID", "ComponentID","Component Type"), 
-				Arrays.asList("Date:Category", "AppID:Category", "ScreenID:Category", "ComponentID:Category","Component Type:Category"),
+		addNode(parentNode, Arrays.asList("Date", "AppID", "ScreenID", "ComponentID","ComponentType"), 
+				Arrays.asList("Date:Category", "AppID:Category", "ScreenID:Category", "ComponentID:Category","ComponentType:Category"),
 				"<b> Context </b>", "Context");
 		
 		//// Activity

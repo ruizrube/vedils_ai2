@@ -74,7 +74,8 @@ public class Chart extends AndroidViewComponent {
 	/**
 	 * @return the indexForCategoryAxis
 	 */
-	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
+	@Deprecated
+	//@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = false)
 	public int IndexForCategoryAxis() {
 		return indexForCategoryAxis;
 	}
@@ -83,8 +84,9 @@ public class Chart extends AndroidViewComponent {
 	 * @param indexForCategoryAxis
 	 *            the indexForCategoryAxis to set
 	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_INTEGER, defaultValue = "1")
-	@SimpleProperty(description = "Specifies the column index for represent the category axis in the graph", userVisible = true)
+	@Deprecated
+	//@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_INTEGER, defaultValue = "1")
+	//@SimpleProperty(description = "Specifies the column index for represent the category axis in the graph", userVisible = true)
 	public void IndexForCategoryAxis(int indexForCategoryAxis) {
 		this.indexForCategoryAxis = indexForCategoryAxis;
 	}
@@ -92,7 +94,8 @@ public class Chart extends AndroidViewComponent {
 	/**
 	 * @return the indexForValueAxis
 	 */
-	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
+	@Deprecated
+	//@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
 	public int IndexForValueAxis() {
 		return indexForValueAxis;
 	}
@@ -101,8 +104,9 @@ public class Chart extends AndroidViewComponent {
 	 * @param indexForValueAxis
 	 *            the indexForValueAxis to set
 	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_INTEGER, defaultValue = "2")
-	@SimpleProperty(description = "Specifies the column index for represent the value axis in the graph", userVisible = true)
+	@Deprecated
+	//@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_INTEGER, defaultValue = "2")
+	//@SimpleProperty(description = "Specifies the column index for represent the value axis in the graph", userVisible = true)
 	public void IndexForValueAxis(int indexForValueAxis) {
 		this.indexForValueAxis = indexForValueAxis;
 	}
@@ -270,10 +274,62 @@ public class Chart extends AndroidViewComponent {
 				} else { //Prepare JSONObject to send the information (Data list option).
 					
 					JSONArray table = new JSONArray();
-					if(Data() != null) {
-						for(Object row: this.data) {
-							if(!(row instanceof SimpleSymbol)) {
-								table.put(prepareRow((List<Object>)row));
+					int columnNamesRow = 1;
+					
+if(Data() != null) {
+						
+						System.out.println("El size es (data): " + this.data.size());
+						
+						if(this.data.size() > 1) {
+							
+							for(Object row: this.data) {
+								if(!(row instanceof SimpleSymbol) && this.data.indexOf(row) != columnNamesRow) {
+									table.put(prepareRow((List<Object>)row));
+								}
+							}
+							
+							if(this.valuesTitle == null) {
+								String columnNames = "";
+								boolean first = true;
+								
+								for(Object name: (List<Object>) this.data.get(1)) {
+									if(name instanceof String) { //Is a column name
+										if(!((String) name).isEmpty()) {
+											if(first) {
+												columnNames = columnNames + name;
+											} else {
+												columnNames = columnNames + "," + name;
+											}
+											first = false;
+										}
+									}
+								}
+								
+								this.valuesTitle = columnNames;
+							}
+							
+						} else if(this.data.size() > 0) {
+							
+							for(Object row: this.data) {
+								if(!(row instanceof SimpleSymbol)) {
+									table.put(prepareRow((List<Object>)row));
+								}
+							}
+							
+							if(this.valuesTitle == null) {
+								String columnNames = "";
+								boolean first = true;
+								
+								for(int i=0; i<((List<Object>) this.data.get(1)).size(); i++) {
+									if(first) {
+										columnNames = columnNames + "param" + i;
+									} else {
+										columnNames = columnNames + "," + "param" + i;
+									}
+									first = false;
+								}
+								
+								this.valuesTitle = columnNames;
 							}
 						}
 					}
