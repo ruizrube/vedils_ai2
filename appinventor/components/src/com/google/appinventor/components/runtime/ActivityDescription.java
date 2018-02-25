@@ -179,7 +179,7 @@ public class ActivityDescription extends AndroidNonvisibleComponent implements C
 	 * @param maxScore
 	 */
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT,
-		      defaultValue = "")
+		      defaultValue = "0")
 	@SimpleProperty
 	public void MaxScore(float maxScore) {
 		this.maxScore = maxScore;
@@ -202,7 +202,7 @@ public class ActivityDescription extends AndroidNonvisibleComponent implements C
 	 * @param minScore
 	 */
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT,
-		      defaultValue = "")
+		      defaultValue = "0")
 	@SimpleProperty
 	public void MinScore(float minScore) {
 		this.minScore = minScore;
@@ -225,7 +225,7 @@ public class ActivityDescription extends AndroidNonvisibleComponent implements C
 	 * @param rawScore
 	 */
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT,
-		      defaultValue = "")
+		      defaultValue = "0")
 	@SimpleProperty
 	public void RawScore(float rawScore) {
 		this.rawScore = rawScore;
@@ -248,7 +248,7 @@ public class ActivityDescription extends AndroidNonvisibleComponent implements C
 	 * @param scaledScore
 	 */
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FLOAT,
-		      defaultValue = "")
+		      defaultValue = "0")
 	@SimpleProperty
 	public void ScaledScore(float scaledScore) {
 		this.scaledScore = scaledScore;
