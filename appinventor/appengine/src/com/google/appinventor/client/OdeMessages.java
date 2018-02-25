@@ -84,6 +84,10 @@ public interface OdeMessages extends Messages {
 	@Description("")
 	String ResultExtensionsProperties();
 	
+	@DefaultMessage("MakeDurationFormat")
+	@Description("")
+	String MakeDurationFormatMethods();
+	
 	//
 	// UserData
 	//

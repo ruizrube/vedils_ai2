@@ -190,23 +190,10 @@ public class ActivityTrackerManagerLearningRecordStore implements ActivityTracke
 			}
 			
 			Score score = new Score();
-			
-			if(activityDescription.ScaledScore() != 0) {
-				score.setScaled(activityDescription.ScaledScore());
-			} 
-			
-			if(activityDescription.MaxScore() != 0) {
-				score.setMax(activityDescription.MaxScore());
-			}
-			
-			if(activityDescription.MinScore() != 0) {
-				score.setMin(activityDescription.MinScore());
-			}
-			
-			if(activityDescription.RawScore() != 0) {
-				score.setRaw(activityDescription.RawScore());
-			}
-			
+			score.setScaled(activityDescription.ScaledScore());
+			score.setMax(activityDescription.MaxScore());
+			score.setMin(activityDescription.MinScore());
+			score.setRaw(activityDescription.RawScore());
 			result.setScore(score);
 			
 			this.statement.setResult(result);
@@ -313,23 +300,10 @@ public class ActivityTrackerManagerLearningRecordStore implements ActivityTracke
 			}
 			
 			Score score = new Score();
-			
-			if(activityDescription.ScaledScore() != 0) {
-				score.setScaled(activityDescription.ScaledScore());
-			} 
-			
-			if(activityDescription.MaxScore() != 0) {
-				score.setMax(activityDescription.MaxScore());
-			}
-			
-			if(activityDescription.MinScore() != 0) {
-				score.setMin(activityDescription.MinScore());
-			}
-			
-			if(activityDescription.RawScore() != 0) {
-				score.setRaw(activityDescription.RawScore());
-			}
-			
+			score.setScaled(activityDescription.ScaledScore());
+			score.setMax(activityDescription.MaxScore());
+			score.setMin(activityDescription.MinScore());
+			score.setRaw(activityDescription.RawScore());
 			result.setScore(score);
 			
 			statement.setResult(result);
@@ -414,14 +388,22 @@ public class ActivityTrackerManagerLearningRecordStore implements ActivityTracke
 	private HashMap<String,JsonElement> addExtensions(List<Object> extensions) {
 		HashMap<String,JsonElement> extensionsMap = new HashMap<String, JsonElement>();
 		JsonObject element = new JsonObject();
+		List<Object> pair = new ArrayList<Object>();
 		
 		if(extensions != null) {
 			for(Object value: extensions) {
 				if(value instanceof YailList) { //main YailList
 					YailList list = (YailList) value;
 					element.addProperty(URI + list.getString(0), list.getString(1));
+				} else {
+					pair.add(value);
 				}
 			}
+			
+			if(pair.size() >= 3) { //only main list with elements
+				element.addProperty(URI + pair.get(1).toString(), pair.get(2).toString());
+			}
+			
 			extensionsMap.put(URI + "extensions", element);
 		}
 		
@@ -430,13 +412,20 @@ public class ActivityTrackerManagerLearningRecordStore implements ActivityTracke
 	
 	private JsonObject addExtensionsForResult(List<Object> extensions) {
 		JsonObject element = new JsonObject();
+		List<Object> pair = new ArrayList<Object>();
 		
 		if(extensions != null) {
 			for(Object value: extensions) {
 				if(value instanceof YailList) { //main YailList
 					YailList list = (YailList) value;
 					element.addProperty(URI + list.getString(0), list.getString(1));
+				} else {
+					pair.add(value);
 				}
+			}
+			
+			if(pair.size() >= 3) { //only main list with elements
+				element.addProperty(URI + pair.get(1).toString(), pair.get(2).toString());
 			}
 		}
 		

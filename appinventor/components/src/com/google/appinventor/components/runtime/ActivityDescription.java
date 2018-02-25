@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
+import com.google.appinventor.components.annotations.SimpleFunction;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.common.ComponentCategory;
@@ -87,7 +88,7 @@ public class ActivityDescription extends AndroidNonvisibleComponent implements C
 	}
 	
 	/**
-	 * Specifies the activity duration.
+	 * Specifies the activity duration with ISO 8601 standard format.
 	 * 
 	 * @param duration
 	 */
@@ -100,14 +101,54 @@ public class ActivityDescription extends AndroidNonvisibleComponent implements C
 	
 	
 	/**
-	 * Return the activity duration.
+	 * Return the activity duration with ISO 8601 standard format.
 	 * 
 	 * Return completion
 	 */
-	@SimpleProperty(category = PropertyCategory.BEHAVIOR, description = "Return the activity duration.", userVisible = true)
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR, description = "Return the activity duration with ISO 8601 standard format.", userVisible = true)
 	public String Duration() {
 		return this.duration;
 	}
+	
+	
+	/**
+	 *Function to make duration format
+	 * 
+	 * @param years, months, days, hours, minutes, seconds
+	 */
+	@SimpleFunction(description="Function to make duration format with ISO 8601 standard.")
+	public String MakeDurationFormat(int years, int months, int days, double hours, double minutes, double seconds) {
+		String duration = "P";
+		
+		if(years != 0) {
+			duration += years + "Y";
+		}
+		
+		if(months != 0) {
+			duration += months + "M";
+		}
+		
+		if(days != 0) {
+			duration += days + "D";
+		}
+		
+		duration += "T";
+		
+		if(hours != 0) {
+			duration += hours + "H";
+		}
+		
+		if(minutes != 0) {
+			duration += minutes + "M";
+		}
+		
+		if(seconds != 0) {
+			duration += seconds + "S";
+		}
+		
+		return duration;
+	}
+	
 	
 	/**
 	 * Specifies if the activity is done with success.
