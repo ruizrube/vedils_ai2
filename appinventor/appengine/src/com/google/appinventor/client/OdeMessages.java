@@ -19,6 +19,34 @@ import com.google.gwt.i18n.client.Messages;
 // @LocalizableResource.DefaultLocale("en")
 
 public interface OdeMessages extends Messages {
+
+	// METHOD AND EVENTS TO ADD NEW ITEM MENU
+	
+	@DefaultMessage("createOptionForMenu")
+	@Description("")
+	String createOptionForMenuMethods();
+	
+	
+	@DefaultMessage("AfterMenuOptionPicking")
+	@Description("")
+	String AfterMenuOptionPickingEvents();
+	
+	@DefaultMessage("OnPrepareOptionsForMenu")
+	@Description("")
+	String OnPrepareOptionsForMenuEvents();
+	
+	@DefaultMessage("GlobalMenuOptionsFromString")
+	@Description("")
+	String GlobalMenuOptionsFromStringProperties();
+	
+	@DefaultMessage("GlobalMenuOptions")
+	@Description("")
+	String GlobalMenuOptionsProperties();
+	
+	@DefaultMessage("BackgroundColorActionBar")
+	@Description("")
+	String BackgroundColorActionBarProperties();
+	
 	// Used in LD4AI
 
 	// Used in

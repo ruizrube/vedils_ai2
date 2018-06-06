@@ -50,6 +50,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
@@ -70,6 +71,7 @@ import com.google.appinventor.components.runtime.multidex.MultiDex;
 import com.google.appinventor.components.runtime.multidex.MultiDexApplication;
 import com.google.appinventor.components.runtime.util.AlignmentUtil;
 import com.google.appinventor.components.runtime.util.AnimationUtil;
+import com.google.appinventor.components.runtime.util.ElementsUtil;
 import com.google.appinventor.components.runtime.util.ErrorMessages;
 import com.google.appinventor.components.runtime.util.FullScreenVideoUtil;
 import com.google.appinventor.components.runtime.util.JsonUtil;
@@ -78,6 +80,7 @@ import com.google.appinventor.components.runtime.util.OnInitializeListener;
 import com.google.appinventor.components.runtime.util.SdkLevel;
 import com.google.appinventor.components.runtime.util.ScreenDensityUtil;
 import com.google.appinventor.components.runtime.util.ViewUtil;
+import com.google.appinventor.components.runtime.util.YailList;
 
 /**
  * Component underlying activities and UI apps, not directly accessible to
@@ -110,7 +113,23 @@ public class Form extends Activity
 	public static final String APPINVENTOR_URL_SCHEME = "appinventor";
 	
 	private static final int LEVEL_LOLLIPOP = 21;
-
+	
+	//RBP
+	
+	//For create Menu options
+	
+	public Menu menu;
+	private YailList items= YailList.makeEmptyList();
+	
+	//For personalize Action Bar
+	
+	public ActionBar actionbar;
+	public int backgroundColorActionBar;
+	
+	
+	
+	//RBP
+	
 	// Keep track of the current form object.
 	// activeForm always holds the Form that is currently handling event
 	// dispatching so runtime.scm
@@ -230,6 +249,8 @@ public class Form extends Activity
 
 	private ArrayList<PercentStorageRecord> dimChanges = new ArrayList();
 
+	
+
 	private static class MultiDexInstaller extends AsyncTask<Form, Void, Boolean> {
 		Form ourForm;
 
@@ -251,6 +272,9 @@ public class Form extends Activity
 	public void onCreate(Bundle icicle) {
 		// Called when the activity is first created
 		super.onCreate(icicle);
+		
+		//RBP
+		actionbar=getActionBar();
 		
 		//SPI-FM Apply Material design when the device support it:
 		if(android.os.Build.VERSION.SDK_INT >= LEVEL_LOLLIPOP) {
@@ -361,6 +385,7 @@ public class Form extends Activity
 		AboutScreen("");
 		BackgroundImage("");
 		BackgroundColor(Component.COLOR_WHITE);
+		BackgroundColorActionBar(Component.COLOR_BLUE);
 		AlignHorizontal(ComponentConstants.GRAVITY_LEFT);
 		AlignVertical(ComponentConstants.GRAVITY_TOP);
 		Title("");
@@ -959,6 +984,34 @@ public class Form extends Activity
 		// setBackground(viewLayout.getLayoutManager()); // Doesn't seem
 		// necessary anymore
 		setBackground(frameLayout);
+	}
+	
+	//RBP
+	
+	/**
+	 * BackgroundColorActionBar property getter method.
+	 *
+	 * @return background RGB color with alpha
+	 */
+	@SimpleProperty(category = PropertyCategory.APPEARANCE)
+	public int BackgroundColorActionBar() {
+		return backgroundColorActionBar;
+	}
+
+	/**
+	 * BackgroundColor property setter method.
+	 *
+	 * @param argb
+	 *            background RGB color with alpha
+	 */
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_COLOR, defaultValue = Component.DEFAULT_VALUE_COLOR_BLUE)
+	@SimpleProperty
+	public void BackgroundColorActionBar(int argb) {
+		
+		backgroundColorActionBar=argb;
+		actionbar.setBackgroundDrawable(new ColorDrawable(argb));
+		
+		
 	}
 
 	/**
@@ -1764,7 +1817,7 @@ public class Form extends Activity
 	private void closeApplicationFromMenu() {
 		closeApplication();
 	}
-
+	
 	private void closeApplication() {
 		// In a multi-screen application, only Screen1 can successfully call
 		// System.exit(0). Here, we
@@ -1797,17 +1850,79 @@ public class Form extends Activity
 	// Configure the system menu to include items to kill the application and to
 	// show "about"
 	// information
-
+	
+	//RBP
+	
+		@SimpleProperty(description="",category = PropertyCategory.BEHAVIOR)
+		public void GlobalMenuOptions(YailList itemsList) {
+		 items = ElementsUtil.elements(itemsList, "Form");
+		}
+		
+		
+		
+		@SimpleProperty(category = PropertyCategory.BEHAVIOR)
+		public YailList GlobalMenuOptions() {
+		 return items;
+		}
+		
+		@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING, defaultValue = "")
+		@SimpleProperty(description="",category = PropertyCategory.BEHAVIOR)
+		public void GlobalMenuOptionsFromString(String itemstring) {
+			
+		    items = ElementsUtil.elementsFromString(itemstring);
+		   //String [] elementos=items.toStringArray();
+		   
+		  }
+	
+		@Override
+		public boolean onPrepareOptionsMenu(Menu menu) {
+			menu.clear();
+			this.menu=menu;
+			
+			
+			
+			createOptionsForMenu();
+		
+			return true;}
+		
+		@SimpleEvent
+		public void  AfterMenuOptionPicking(String optionName) {
+			EventDispatcher.dispatchEvent(this, "AfterMenuOptionPicking",optionName);
+		}
+		
+		//@SimpleFunction(description = "create new options for menu", userVisible = true)
+		public void createOptionsForMenu() 
+		{
+			
+			 String [] optionsForMenu=items.toStringArray();
+			 for(int i=0;i<optionsForMenu.length;i++){
+				
+		     final String optionNameFinal=optionsForMenu[i];
+			MenuItem optionMenuItem = menu.add(Menu.NONE, Menu.NONE,i+1,optionNameFinal)
+					.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+						public boolean onMenuItemClick(MenuItem item) {
+							AfterMenuOptionPicking(optionNameFinal);
+							return true;
+						}
+					});
+			
+			optionMenuItem.setIcon(android.R.drawable.ic_notification_clear_all);
+			
+			 }
+			
+		}
+	//
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		
 		// This procedure is called only once. To change the items dynamically
 		// we would use onPrepareOptionsMenu.
 		super.onCreateOptionsMenu(menu);
 		// add the menu items
 		// Comment out the next line if we don't want the exit button
-		setDeviceLanguage();
-		addExitButtonToMenu(menu);
-		addAboutInfoToMenu(menu);
+		//setDeviceLanguage();
+		//addExitButtonToMenu(menu);
+		//addAboutInfoToMenu(menu);
 		for (OnCreateOptionsMenuListener onCreateOptionsMenuListener : onCreateOptionsMenuListeners) {
 			onCreateOptionsMenuListener.onCreateOptionsMenu(menu);
 		}
@@ -1844,6 +1959,7 @@ public class Form extends Activity
 				});
 		stopApplicationItem.setIcon(android.R.drawable.ic_notification_clear_all);
 	}
+	
 
 	public void addAboutInfoToMenu(Menu menu) {
 		MenuItem aboutAppItem = menu.add(Menu.NONE, Menu.NONE, 2, about_Application)
@@ -1858,8 +1974,10 @@ public class Form extends Activity
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		
 		for (OnOptionsItemSelectedListener onOptionsItemSelectedListener : onOptionsItemSelectedListeners) {
 			if (onOptionsItemSelectedListener.onOptionsItemSelected(item)) {
+				
 				return true;
 			}
 		}
