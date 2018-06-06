@@ -1,148 +1,104 @@
+// 
+// Decompiled by Procyon v0.5.30
+// 
+
 package com.google.appinventor.components.runtime.vr4ai;
 
-import java.io.IOException;
-
 import javax.microedition.khronos.egl.EGLConfig;
-
-import com.google.vrtoolkit.cardboard.CardboardView;
-import com.google.vrtoolkit.cardboard.Eye;
+import com.threed.jpct.util.MemoryHelper;
+import com.google.appinventor.components.runtime.vr4ai.util.Util;
+import com.threed.jpct.GLSLShader;
+import com.threed.jpct.ShaderLocator;
+import android.util.Log;
 import com.google.vrtoolkit.cardboard.HeadTransform;
 import com.google.vrtoolkit.cardboard.Viewport;
-import com.threed.jpct.FrameBuffer;
-import com.threed.jpct.GLSLShader;
-import com.threed.jpct.Matrix;
-import com.threed.jpct.Object3D;
-import com.threed.jpct.Primitives;
 import com.threed.jpct.RGBColor;
-import com.threed.jpct.ShaderLocator;
+import com.google.vrtoolkit.cardboard.Eye;
+import android.view.MotionEvent;
+import java.io.IOException;
 import com.threed.jpct.Texture;
 import com.threed.jpct.TextureManager;
+import com.threed.jpct.Matrix;
+import com.threed.jpct.Object3D;
 import com.threed.jpct.World;
-import com.threed.jpct.util.MemoryHelper;
-
-import android.graphics.Paint;
-import android.util.Log;
-import android.view.MotionEvent;
+import com.threed.jpct.FrameBuffer;
 import android.view.View;
+import com.google.vrtoolkit.cardboard.CardboardView;
 
-import com.google.appinventor.components.runtime.vr4ai.util.Util;;
-
-
-
-public class VRImage360RenderScene implements CardboardView.StereoRenderer,View.OnTouchListener  {
-
+public class VRImage360RenderScene implements CardboardView.StereoRenderer, View.OnTouchListener
+{
     private FrameBuffer frameBuffer;
     public VRActivity mActivity;
     private World world;
     private Object3D object3D;
-    private final Matrix tempTransform = new Matrix();
-    private float[] mHeadView = new float[16];
-
-	public VRImage360RenderScene(VRActivity vrActivity) throws IOException {
-		
-		this.mActivity=vrActivity;
-		TextureManager.getInstance().addTexture("panorama", new Texture(mActivity.getAssets().open(mActivity.image360Path)));
-
-	}
-
-	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void onDrawEye(Eye eye) {
-		
-		if (frameBuffer == null) {
-            frameBuffer = new FrameBuffer(eye.getViewport().height, eye.getViewport().height); // OpenGL ES 2.0 constructor
+    private final Matrix tempTransform;
+    private float[] mHeadView;
+    
+    public VRImage360RenderScene(final VRActivity vrActivity) throws IOException {
+        this.tempTransform = new Matrix();
+        this.mHeadView = new float[16];
+        this.mActivity = vrActivity;
+        TextureManager.getInstance().addTexture("panorama", new Texture(this.mActivity.getAssets().open(this.mActivity.image360Path)));
+    }
+    
+    public boolean onTouch(final View v, final MotionEvent event) {
+        return false;
+    }
+    
+    public void onDrawEye(final Eye eye) {
+        if (this.frameBuffer == null) {
+            this.frameBuffer = new FrameBuffer(eye.getViewport().height, eye.getViewport().height);
         }
-
-        Matrix camBack = world.getCamera().getBack();
+        final Matrix camBack = this.world.getCamera().getBack();
         camBack.setIdentity();
-
-        tempTransform.setDump(eye.getEyeView());
-        tempTransform.transformToGL();
-        camBack.matMul(tempTransform);
-
-        // TODO what todo with perspective
-//        tempTransform.setDump(eye.getPerspective(Config.nearPlane, Config.farPlane));
-//        tempTransform.transformToGL();
-//        camBack.matMul(tempTransform);
-
-        world.getCamera().setBack(camBack);
-
-        frameBuffer.clear(RGBColor.BLACK);
-
-        world.renderScene(frameBuffer);
-        world.draw(frameBuffer);
-//        world.drawWireframe(frameBuffer, RGBColor.WHITE, 1, false);
-
-        frameBuffer.display();
-		
-	}
-
-	@Override
-	public void onFinishFrame(Viewport arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onNewFrame(HeadTransform headTransform) {
-		
-		 headTransform.getHeadView(mHeadView, 0);
-		
-	}
-
-	
-	@Override
-	public void onRendererShutdown() {
-		Log.v("RENDEROFF", "");
-		if (frameBuffer != null) {
-            frameBuffer.dispose();
-        	frameBuffer = null;
+        this.tempTransform.setDump(eye.getEyeView());
+        this.tempTransform.transformToGL();
+        camBack.matMul(this.tempTransform);
+        this.world.getCamera().setBack(camBack);
+        this.frameBuffer.clear(RGBColor.BLACK);
+        this.world.renderScene(this.frameBuffer);
+        this.world.draw(this.frameBuffer);
+        this.frameBuffer.display();
+    }
+    
+    public void onFinishFrame(final Viewport arg0) {
+    }
+    
+    public void onNewFrame(final HeadTransform headTransform) {
+        headTransform.getHeadView(this.mHeadView, 0);
+    }
+    
+    public void onRendererShutdown() {
+        Log.v("RENDEROFF", "");
+        if (this.frameBuffer != null) {
+            this.frameBuffer.dispose();
+            this.frameBuffer = null;
         }
-		
-	}
-
-	@Override
-	public void onSurfaceChanged(int arg0, int arg1) {
-		
-		 if (world != null)
-	            return;
-
-
-	        world = new World();
-	        world.setAmbientLight(255, 255, 255);
-	        ShaderLocator s = new ShaderLocator(this.mActivity.getAssets());
-			GLSLShader.setShaderLocator(s);
-	       // object3D = new Object3D(Primitives.getSphere(1));
-	        try {
-				object3D=Object3D.mergeAll(Util.loadOBJ(mActivity.getApplicationContext().getAssets().open("sphere_paranomic.obj"), 1f));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	        object3D.setTexture("panorama");
-	        object3D.setTransparency(100);
-	        
-	        // TODO for some reason (because sphere is inverted) sphere looks upside down, fix it
-	        object3D.rotateZ((float) Math.PI);
-	        object3D.rotateMesh();
-	        object3D.getRotationMatrix().setIdentity();
-
-	        object3D.build();
-	        world.addObject(object3D);
-
-	        MemoryHelper.compact();
-		
-	}
-
-	@Override
-	public void onSurfaceCreated(EGLConfig arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
+    }
+    
+    public void onSurfaceChanged(final int arg0, final int arg1) {
+        if (this.world != null) {
+            return;
+        }
+        (this.world = new World()).setAmbientLight(255, 255, 255);
+        final ShaderLocator s = new ShaderLocator(this.mActivity.getAssets());
+        GLSLShader.setShaderLocator(s);
+        try {
+            this.object3D = Object3D.mergeAll(new Object3D[] { Util.loadOBJ(this.mActivity.getApplicationContext().getAssets().open("sphere_paranomic.obj"), 1.0f) });
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.object3D.setTexture("panorama");
+        this.object3D.setTransparency(100);
+        this.object3D.rotateZ(3.1415927f);
+        this.object3D.rotateMesh();
+        this.object3D.getRotationMatrix().setIdentity();
+        this.object3D.build();
+        this.world.addObject(this.object3D);
+        MemoryHelper.compact();
+    }
+    
+    public void onSurfaceCreated(final EGLConfig arg0) {
+    }
 }

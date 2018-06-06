@@ -105,11 +105,14 @@ public class Util {
 	}
 	
 	public static Object3D load3DS(InputStream in, float scale) {
+
 		Object3D[] array = Loader.load3DS(in, scale);
-		if (array.length != 1)
-			throw new IllegalArgumentException("array length:" + array.length);
+		for (Object3D object : array) {
+			prepare3DS(object);
+		}
+		Object3D object = Object3D.mergeAll(array);
 		
-		return prepare3DS(array[0]);
+		return object;
 	}
 	
 	public static Object3D[] load3DSArray(Context context, int rawResourceId, float scale) {
@@ -125,7 +128,7 @@ public class Util {
 	}
 	
 	private static Object3D prepare3DS(Object3D object) {
-		object.rotateX( (float) -Math.PI / 2 );
+		object.rotateX( (float) Math.PI / 2 );
 		//object.rotateZ( (float) Math.PI );		
 		object.rotateMesh();
 		object.getRotationMatrix().setIdentity();
@@ -138,28 +141,22 @@ public class Util {
 }*/
 
 public static Object3D loadOBJ(InputStream in,InputStream material, float scale) {
-	Object3D[] array = Loader.loadOBJ(in, material, scale);
-	if (array.length != 1)
-		throw new IllegalArgumentException("array length:" + array.length);
 	
-	Object3D object = array[0];
-	object.rotateX((float)Math.PI);
-	object.rotateMesh();
-	object.getRotationMatrix().setIdentity();
-//	object.build();
+	Object3D[] array = Loader.loadOBJ(in, material, scale);
+	for (Object3D object : array) {
+		prepare3DS(object);
+	}
+	Object3D object = Object3D.mergeAll(array);
 	
 	return object;
 }
 public static Object3D loadOBJ(InputStream in, float scale) {
+
 	Object3D[] array = Loader.loadOBJ(in, null, scale);
-	if (array.length != 1)
-		throw new IllegalArgumentException("array length:" + array.length);
-	
-	Object3D object = array[0];
-	object.rotateX((float)Math.PI);
-	object.rotateMesh();
-	object.getRotationMatrix().setIdentity();
-//	object.build();
+	for (Object3D object : array) {
+		prepare3DS(object);
+	}
+	Object3D object = Object3D.mergeAll(array);
 	
 	return object;
 }
