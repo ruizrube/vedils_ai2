@@ -128,7 +128,7 @@ public class Util {
 	}
 	
 	private static Object3D prepare3DS(Object3D object) {
-		object.rotateX( (float) Math.PI / 2 );
+		object.rotateX((float)Math.PI);
 		//object.rotateZ( (float) Math.PI );		
 		object.rotateMesh();
 		object.getRotationMatrix().setIdentity();
