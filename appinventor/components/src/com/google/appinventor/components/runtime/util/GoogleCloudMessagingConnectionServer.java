@@ -32,10 +32,10 @@ public class GoogleCloudMessagingConnectionServer {
 	private String IMEI;
 	
 	//SERVER:
-	private static final String URL_SERVER_INSERT = "http://vedils.uca.es:8080/VedilsWS/GcmServer/registrationClient/insertRegistrationClient"; 
-	private static final String URL_SERVER_SEND_MESSAGE = "http://vedils.uca.es:8080/VedilsWS/GcmServer/sendData/sendTextMessage";
-	private static final String URL_SERVER_DELETE = "http://vedils.uca.es:8080/VedilsWS/GcmServer/registrationClient/deleteRegistrationClient";
-	private static final String URL_SERVER_DELETE_ALL = "http://vedils.uca.es:8080/VedilsWS/GcmServer/registrationClient/deleteAllRegistrationClients";
+	private static final String URL_SERVER_INSERT = "http://vedilsanalytics.uca.es:80/VedilsWS/GcmServer/registrationClient/insertRegistrationClient"; 
+	private static final String URL_SERVER_SEND_MESSAGE = "http://vedilsanalytics.uca.es:80/VedilsWS/GcmServer/sendData/sendTextMessage";
+	private static final String URL_SERVER_DELETE = "http://vedilsanalytics.uca.es:80/VedilsWS/GcmServer/registrationClient/deleteRegistrationClient";
+	private static final String URL_SERVER_DELETE_ALL = "http://vedilsanalytics.uca.es:80/VedilsWS/GcmServer/registrationClient/deleteAllRegistrationClients";
 	
 //	//local UCA
 //	private static final String URL_SERVER_INSERT = "http://10.162.158.24:8080/VedilsWS/GcmServer/registrationClient/insertRegistrationClient"; 
