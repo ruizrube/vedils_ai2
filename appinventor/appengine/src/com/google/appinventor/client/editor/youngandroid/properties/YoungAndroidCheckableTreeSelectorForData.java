@@ -45,9 +45,13 @@ public final class YoungAndroidCheckableTreeSelectorForData extends YoungAndroid
 	private final String notifyWithThreeArgumentsOP = "<mutation component_type=\"ActivityTracker\" method_name=\"NotifyWithThreeArguments\"";
 	private final String notifyWithTwoArgumentsOP = "<mutation component_type=\"ActivityTracker\" method_name=\"NotifyWithTwoArguments\"";
 	private final String notifyWithOneArgumentOP = "<mutation component_type=\"ActivityTracker\" method_name=\"NotifyWithOneArgument\"";
-	private final String endComponentBlock = "<mutation component_type=";
+	private final String endComponentBlock = "method_name=";
 	private final String firstParameter = "<value name=\"ADD0\">";
 	private final String nameParameter = "<field name=\"TEXT\">";
+	private final String extensionsOP = "<mutation component_type=\"ActivityDescription\" method_name=\"Extensions\"";
+	private final String resultExtensionsOP = "<mutation component_type=\"ActivityDescription\" method_name=\"ResultExtensions\"";
+	private final String lastParameter = "<value name=\"ARG0\">";
+	private final String learningRecordStoreOption = "2";
 	
 	public YoungAndroidCheckableTreeSelectorForData(final YaFormEditor editor, final SimpleComponentDatabase COMPONENT_DATABASE) {
 		this.COMPONENT_DATABASE = COMPONENT_DATABASE;
@@ -80,7 +84,7 @@ public final class YoungAndroidCheckableTreeSelectorForData extends YoungAndroid
 		userSpecificDataDynamic.setUserObject("User Specific Data");
 		userSpecificDataDynamic.setState(true, false);
 		
-		addUserSpecificDataDynamicNodes();
+		addUserSpecificDataDynamicNodes(editor);
 		
 		parentNode.addItem(userSpecificDataDynamic);
 		
@@ -93,7 +97,7 @@ public final class YoungAndroidCheckableTreeSelectorForData extends YoungAndroid
 	      public void onClick(ClickEvent event) {
 	    	  OdeLog.log("Loading data tree...");
 	    	  addInteractionDataDynamicNodes();
-	    	  addUserSpecificDataDynamicNodes();
+	    	  addUserSpecificDataDynamicNodes(editor);
 	    	  loadSelectedNodes(property.getValue());
 	    	  openAdditionalChoiceDialog();
 	      }
@@ -180,8 +184,24 @@ public final class YoungAndroidCheckableTreeSelectorForData extends YoungAndroid
 	}
 	
 	////Specific data
-	private void addUserSpecificDataDynamicNodes() {
+	private void addUserSpecificDataDynamicNodes(final YaFormEditor editor) {
 		userSpecificDataDynamic.removeItems(); //Clear subtree
+		
+		//add xAPI data 
+		MockComponent currentComponent = editor.selectedComponent;
+		String storageMode = "";
+		
+		if(currentComponent != null) {
+			if(currentComponent.hasProperty("StorageMode")) {
+				storageMode = currentComponent.getPropertyValue("StorageMode");
+			}
+			
+			OdeLog.log("storageMode = " + storageMode);
+			
+			if(storageMode.equals(learningRecordStoreOption)) { //Learning Record Store option
+				addxAPIParameters();
+			}
+		}
 		
 		List<YaBlocksEditor> blocksEditors = new ArrayList<YaBlocksEditor>();
 		
@@ -194,7 +214,9 @@ public final class YoungAndroidCheckableTreeSelectorForData extends YoungAndroid
 		for(YaBlocksEditor blocksEditor: blocksEditors) {
 			String workspaceData = blocksEditor.getBlocksArea().getBlocksContent();
 			
-			if(workspaceData.contains(notifyWithDataOP)) {	
+			if(workspaceData.contains(notifyWithDataOP) 
+					|| workspaceData.contains(extensionsOP) 
+					|| workspaceData.contains(resultExtensionsOP)) {	
 				String[] lines = workspaceData.split("\\r?\\n");
 				List<String> userColumns = new ArrayList<String>();
 				
@@ -203,7 +225,9 @@ public final class YoungAndroidCheckableTreeSelectorForData extends YoungAndroid
 				boolean notifyWithDataBlock = false;
 				
 				for(String line: lines) {
-					if(line.contains(notifyWithDataOP)) {
+					if(line.contains(notifyWithDataOP) 
+							|| line.contains(extensionsOP) 
+							|| line.contains(resultExtensionsOP)) {
 						notifyWithDataBlock = true;
 					} else if(line.contains(endComponentBlock)) {
 						notifyWithDataBlock = false;
@@ -211,6 +235,8 @@ public final class YoungAndroidCheckableTreeSelectorForData extends YoungAndroid
 					
 					if(line.contains(firstParameter)) {
 						value = true;
+					} else if(line.contains(lastParameter)) {
+						value = false;
 					}
 					
 					if(line.contains(nameParameter)) {
@@ -262,7 +288,7 @@ public final class YoungAndroidCheckableTreeSelectorForData extends YoungAndroid
 			if(currentComponent.hasProperty("ActivitiesToTrack")) {
 				activitiesToTrack = currentComponent.getPropertyValue("ActivitiesToTrack");
 			}
-		} 
+		}
 		
 		if(!activitiesToTrack.equals("Nothing") && !activitiesToTrack.isEmpty()) {
 			TreeItem component = new CheckableTreeItem("ComponentID:" + componentName);
@@ -293,6 +319,44 @@ public final class YoungAndroidCheckableTreeSelectorForData extends YoungAndroid
 		}
 		Collections.sort(componentNames);
 		return componentNames;
+	}
+	
+	private void addxAPIParameters() {
+		TreeItem userNode = new CheckableTreeItem("User:Param:" + "success" + ":" + 0);
+		userNode.setHTML("success");
+		userNode.setUserObject("User:Param:" + "success" + ":" + 0);
+		userNode.setState(true, false);
+		this.userSpecificDataDynamic.addItem(userNode);
+		
+		userNode = new CheckableTreeItem("User:Param:" + "scaled" + ":" + 1);
+		userNode.setHTML("scaled");
+		userNode.setUserObject("User:Param:" + "scaled" + ":" + 1);
+		userNode.setState(true, false);
+		
+		this.userSpecificDataDynamic.addItem(userNode);
+		userNode = new CheckableTreeItem("User:Param:" + "raw" + ":" + 2);
+		userNode.setHTML("raw");
+		userNode.setUserObject("User:Param:" + "raw" + ":" + 2);
+		userNode.setState(true, false);
+		
+		this.userSpecificDataDynamic.addItem(userNode);
+		userNode = new CheckableTreeItem("User:Param:" + "min" + ":" + 3);
+		userNode.setHTML("min");
+		userNode.setUserObject("User:Param:" + "min" + ":" + 3);
+		userNode.setState(true, false);
+		this.userSpecificDataDynamic.addItem(userNode);
+		
+		userNode = new CheckableTreeItem("User:Param:" + "max" + ":" + 4);
+		userNode.setHTML("max");
+		userNode.setUserObject("User:Param:" + "max" + ":" + 4);
+		userNode.setState(true, false);
+		this.userSpecificDataDynamic.addItem(userNode);
+		
+		userNode = new CheckableTreeItem("User:Param:" + "completion" + ":" + 5);
+		userNode.setHTML("completion");
+		userNode.setUserObject("User:Param:" + "completion" + ":" + 5);
+		userNode.setState(true, false);
+		this.userSpecificDataDynamic.addItem(userNode);
 	}
 	
 	private void addUserParameters(int numParameters) {

@@ -40,6 +40,7 @@ public final class YoungAndroidCheckableTreeSelectorForAggregatedData extends Yo
 	private final YaFormEditor currentEditor;
 	private final TreeItem userSpecificDataDynamic;
 	private final List<String> aggregators;
+	private final List<String> aggregatorsForNonNumericOperators;
 	private List<String> userParametersAdded;
 	
 	//Constants definition
@@ -47,9 +48,13 @@ public final class YoungAndroidCheckableTreeSelectorForAggregatedData extends Yo
 	private final String notifyWithThreeArgumentsOP = "<mutation component_type=\"ActivityTracker\" method_name=\"NotifyWithThreeArguments\"";
 	private final String notifyWithTwoArgumentsOP = "<mutation component_type=\"ActivityTracker\" method_name=\"NotifyWithTwoArguments\"";
 	private final String notifyWithOneArgumentOP = "<mutation component_type=\"ActivityTracker\" method_name=\"NotifyWithOneArgument\"";
-	private final String endComponentBlock = "<mutation component_type=";
+	private final String endComponentBlock = "method_name=";
 	private final String firstParameter = "<value name=\"ADD0\">";
 	private final String nameParameter = "<field name=\"TEXT\">";
+	private final String extensionsOP = "<mutation component_type=\"ActivityDescription\" method_name=\"Extensions\"";
+	private final String resultExtensionsOP = "<mutation component_type=\"ActivityDescription\" method_name=\"ResultExtensions\"";
+	private final String lastParameter = "<value name=\"ARG0\">";
+	private final String learningRecordStoreOption = "2";
 	
 	public YoungAndroidCheckableTreeSelectorForAggregatedData(final YaFormEditor editor, final SimpleComponentDatabase COMPONENT_DATABASE) {
 		
@@ -58,6 +63,7 @@ public final class YoungAndroidCheckableTreeSelectorForAggregatedData extends Yo
 		this.projectEditor = (YaProjectEditor) editor.getProjectEditor();
 		this.recordedItems = "";
 		this.aggregators = Arrays.asList("Count", "Maximum", "Minimum", "Sum", "Average");
+		this.aggregatorsForNonNumericOperators = Arrays.asList("Count");
 		this.userParametersAdded = new ArrayList<String>();
 		
 		ScrollPanel treePanel = new ScrollPanel();
@@ -85,7 +91,7 @@ public final class YoungAndroidCheckableTreeSelectorForAggregatedData extends Yo
 		userSpecificDataDynamic.setUserObject("User Specific Data");
 		userSpecificDataDynamic.setState(true, false);
 		
-		addUserSpecificDataDynamicNodes();
+		addUserSpecificDataDynamicNodes(editor);
 		
 		parentNode.addItem(userSpecificDataDynamic);
 		
@@ -98,7 +104,7 @@ public final class YoungAndroidCheckableTreeSelectorForAggregatedData extends Yo
 	      public void onClick(ClickEvent event) {
 	    	  OdeLog.log("Loading data tree...");
 	    	  addInteractionDataDynamicNodes();
-	    	  addUserSpecificDataDynamicNodes();
+	    	  addUserSpecificDataDynamicNodes(editor);
 	    	  loadSelectedNodes(property.getValue());
 	    	  openAdditionalChoiceDialog();
 	      }
@@ -186,8 +192,32 @@ public final class YoungAndroidCheckableTreeSelectorForAggregatedData extends Yo
 	}
 	
 	////Specific Data
-	private void addUserSpecificDataDynamicNodes() {
+	private void addUserSpecificDataDynamicNodes(final YaFormEditor editor) {
 		userSpecificDataDynamic.removeItems(); //Clear subtree
+		
+		//add xAPI data 
+		MockComponent currentComponent = editor.selectedComponent;
+		String groupBy = "";
+		
+		if(currentComponent != null) {
+			if(currentComponent.hasProperty("GroupBy")) {
+				groupBy = currentComponent.getPropertyValue("GroupBy");
+			}
+		}
+		
+		String storageMode = "";
+		
+		if(currentComponent != null) {
+			if(currentComponent.hasProperty("StorageMode")) {
+				storageMode = currentComponent.getPropertyValue("StorageMode");
+			}
+			
+			OdeLog.log("storageMode = " + storageMode);
+			
+			if(storageMode.equals(learningRecordStoreOption)) { //Learning Record Store option
+				addxAPIParameters(groupBy);
+			}
+		}
 		
 		List<YaBlocksEditor> blocksEditors = new ArrayList<YaBlocksEditor>();
 		
@@ -200,7 +230,9 @@ public final class YoungAndroidCheckableTreeSelectorForAggregatedData extends Yo
 		for(YaBlocksEditor blocksEditor: blocksEditors) {
 			String workspaceData = blocksEditor.getBlocksArea().getBlocksContent();
 			
-			if(workspaceData.contains(notifyWithDataOP)) {	
+			if(workspaceData.contains(notifyWithDataOP) 
+					|| workspaceData.contains(extensionsOP) 
+					|| workspaceData.contains(resultExtensionsOP)) {	
 				String[] lines = workspaceData.split("\\r?\\n");
 				List<String> userColumns = new ArrayList<String>();
 				
@@ -209,7 +241,9 @@ public final class YoungAndroidCheckableTreeSelectorForAggregatedData extends Yo
 				boolean notifyWithDataBlock = false;
 				
 				for(String line: lines) {
-					if(line.contains(notifyWithDataOP)) {
+					if(line.contains(notifyWithDataOP) 
+							|| line.contains(extensionsOP) 
+							|| line.contains(resultExtensionsOP)) {
 						notifyWithDataBlock = true;
 					} else if(line.contains(endComponentBlock)) {
 						notifyWithDataBlock = false;
@@ -217,6 +251,8 @@ public final class YoungAndroidCheckableTreeSelectorForAggregatedData extends Yo
 					
 					if(line.contains(firstParameter)) {
 						value = true;
+					} else if(line.contains(lastParameter)) {
+						value = false;
 					}
 					
 					if(line.contains(nameParameter)) {
@@ -230,8 +266,8 @@ public final class YoungAndroidCheckableTreeSelectorForAggregatedData extends Yo
 					}
 				}
 				
-				MockComponent currentComponent = currentEditor.selectedComponent;
-				String groupBy = "";
+				currentComponent = currentEditor.selectedComponent;
+				groupBy = "";
 				
 				if(currentComponent != null) {
 					if(currentComponent.hasProperty("GroupBy")) {
@@ -316,6 +352,111 @@ public final class YoungAndroidCheckableTreeSelectorForAggregatedData extends Yo
 				userSpecificDataDynamic.addItem(userNode);
 				userParametersAdded.add("param" + index);
 			}
+		}
+	}
+	
+	private void addxAPIParameters(String groupBy) {
+		
+		if(groupBy.contains("User:Param:" + "success")) {
+			TreeItem userNode = new CheckableTreeItem("User:Param:" + "success" + ":" + 0);
+			userNode.setHTML("success");
+			userNode.setUserObject("User:Param:" + "success" + ":" + 0);
+			userNode.setState(true, false);
+			
+			for (String aggregator : aggregatorsForNonNumericOperators) {
+				TreeItem aggregatorNode = new CheckableTreeItem(aggregator);
+				aggregatorNode.setHTML(aggregator);
+				aggregatorNode.setTitle(aggregator);
+				aggregatorNode.setUserObject("User" + ":" + aggregator + "(success)" +  "" + ":Param:" + 0);
+				userNode.addItem(aggregatorNode);
+			}
+			
+			this.userSpecificDataDynamic.addItem(userNode);
+		}
+		
+		if(groupBy.contains("User:Param:" + "scaled")) {
+			TreeItem userNode = new CheckableTreeItem("User:Param:" + "scaled" + ":" + 1);
+			userNode.setHTML("scaled");
+			userNode.setUserObject("User:Param:" + "scaled" + ":" + 1);
+			userNode.setState(true, false);
+			
+			for (String aggregator : aggregators) {
+				TreeItem aggregatorNode = new CheckableTreeItem(aggregator);
+				aggregatorNode.setHTML(aggregator);
+				aggregatorNode.setTitle(aggregator);
+				aggregatorNode.setUserObject("User" + ":" + aggregator + "(scaled)" +  "" + ":Param:" + 0);
+				userNode.addItem(aggregatorNode);
+			}
+			
+			this.userSpecificDataDynamic.addItem(userNode);
+		}
+		
+		if(groupBy.contains("User:Param:" + "raw")) {
+			TreeItem userNode = new CheckableTreeItem("User:Param:" + "raw" + ":" + 2);
+			userNode.setHTML("raw");
+			userNode.setUserObject("User:Param:" + "raw" + ":" + 2);
+			userNode.setState(true, false);
+			
+			for (String aggregator : aggregators) {
+				TreeItem aggregatorNode = new CheckableTreeItem(aggregator);
+				aggregatorNode.setHTML(aggregator);
+				aggregatorNode.setTitle(aggregator);
+				aggregatorNode.setUserObject("User" + ":" + aggregator + "(raw)" +  "" + ":Param:" + 0);
+				userNode.addItem(aggregatorNode);
+			}
+			
+			this.userSpecificDataDynamic.addItem(userNode);
+		}
+		
+		if(groupBy.contains("User:Param:" + "min")) {
+			TreeItem userNode = new CheckableTreeItem("User:Param:" + "min" + ":" + 3);
+			userNode.setHTML("min");
+			userNode.setUserObject("User:Param:" + "min" + ":" + 3);
+			userNode.setState(true, false);
+			
+			for (String aggregator : aggregators) {
+				TreeItem aggregatorNode = new CheckableTreeItem(aggregator);
+				aggregatorNode.setHTML(aggregator);
+				aggregatorNode.setTitle(aggregator);
+				aggregatorNode.setUserObject("User" + ":" + aggregator + "(min)" +  "" + ":Param:" + 0);
+				userNode.addItem(aggregatorNode);
+			}
+			
+			this.userSpecificDataDynamic.addItem(userNode);
+		}
+		
+		if(groupBy.contains("User:Param:" + "max")) {
+			TreeItem userNode = new CheckableTreeItem("User:Param:" + "max" + ":" + 4);
+			userNode.setHTML("max");
+			userNode.setUserObject("User:Param:" + "max" + ":" + 4);
+			userNode.setState(true, false);
+			
+			for (String aggregator : aggregators) {
+				TreeItem aggregatorNode = new CheckableTreeItem(aggregator);
+				aggregatorNode.setHTML(aggregator);
+				aggregatorNode.setTitle(aggregator);
+				aggregatorNode.setUserObject("User" + ":" + aggregator + "(max)" +  "" + ":Param:" + 0);
+				userNode.addItem(aggregatorNode);
+			}
+			
+			this.userSpecificDataDynamic.addItem(userNode);
+		}
+		
+		if(groupBy.contains("User:Param:" + "completion")) {
+			TreeItem userNode = new CheckableTreeItem("User:Param:" + "completion" + ":" + 5);
+			userNode.setHTML("completion");
+			userNode.setUserObject("User:Param:" + "completion" + ":" + 5);
+			userNode.setState(true, false);
+			
+			for (String aggregator : aggregatorsForNonNumericOperators) {
+				TreeItem aggregatorNode = new CheckableTreeItem(aggregator);
+				aggregatorNode.setHTML(aggregator);
+				aggregatorNode.setTitle(aggregator);
+				aggregatorNode.setUserObject("User" + ":" + aggregator + "(completion)" +  "" + ":Param:" + 0);
+				userNode.addItem(aggregatorNode);
+			}
+			
+			this.userSpecificDataDynamic.addItem(userNode);
 		}
 	}
 }
