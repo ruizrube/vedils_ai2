@@ -51,7 +51,8 @@ public class ActivitySimpleQuery extends ActivityProcessor {
 	/**
 	 * @return the DistinctResults
 	 */
-	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
+	//@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
+	@Deprecated
 	public boolean DistinctResults() {
 		return distinctResults;
 	}
@@ -60,8 +61,9 @@ public class ActivitySimpleQuery extends ActivityProcessor {
 	 * @param DistinctResults
 	 *            the DistinctResults to set
 	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN, defaultValue = "False")
-	@SimpleProperty(description = "Specifies if duplicated results are not allowed", userVisible = true)
+	//@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN, defaultValue = "False")
+	//@SimpleProperty(description = "Specifies if duplicated results are not allowed", userVisible = true)
+	@Deprecated
 	public void DistinctResults(boolean distinctResults) {
 		this.distinctResults = distinctResults;
 	}
