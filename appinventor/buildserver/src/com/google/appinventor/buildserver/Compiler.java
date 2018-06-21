@@ -1426,7 +1426,7 @@ public final class Compiler {
 		 * with suffixes before being placed in the appropriate directory with
 		 * their suffix removed.
 		 */
-		// <<<<<<< HEAD (Lo dejo así para pruebas)
+		// <<<<<<< HEAD (Lo dejo asÃ­ para pruebas)
 		/*
 		 * try {
 		 * 

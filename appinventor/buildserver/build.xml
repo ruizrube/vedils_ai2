@@ -140,6 +140,9 @@
       
         <!-- WORKFLOW4AI  -->
         <copy toFile="${classes.files.dir}/bsh-2.0b4.jar" file="${lib.dir}/workflow4ai/bsh-2.0b4.jar" />
+        
+        
+        <copy toFile="${classes.files.dir}/appcompat-v7-22.2.1.jar" file="${lib.dir}/appcompat-v7-22.2.1.jar" />
        
         
       <!--   <copy toFile="${classes.files.dir}/slf4j-android-1.7.25.jar" file="${lib.dir}/dialog4ai/slf4j-android-1.7.25.jar" /> -->
