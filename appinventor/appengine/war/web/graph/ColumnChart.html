@@ -125,11 +125,10 @@
                     	//Set number of rows to add
                         dataTable.addRows(informationJson.table.length);  
 
-
-                        //In the ColumnChart case only set the last value.
-                        var j = informationJson.table.length-1;
-                        for(var i=0; i<informationJson.table[j].length; i++) { //Total Columns
-                            addRowWithValue(0, i, informationJson.table[j][i]);
+                        for(var i=0; i<informationJson.table.length; i++) { //Total Rows
+                            for(var j=0; j<informationJson.table[i].length; j++) { //Total Columns
+                                addRowWithValue(i, j, informationJson.table[i][j]);
+                            }
                         }
                     }
                 }
