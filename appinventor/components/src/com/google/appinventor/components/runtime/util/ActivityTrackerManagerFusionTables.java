@@ -111,7 +111,8 @@ public class ActivityTrackerManagerFusionTables implements ActivityTrackerManage
 	    String userId = "";
 	    
 	    if(currentActivityTracker.getUser() != null) {
-			userId = currentActivityTracker.getUser().getName() + " " + currentActivityTracker.getUser().getSurname();
+			//userId = currentActivityTracker.getUser().getName() + " " + currentActivityTracker.getUser().getSurname();
+	    	userId = currentActivityTracker.getUser().getId();
 		} else {
 			userId = "emptyUser";
 		}
@@ -234,7 +235,8 @@ public class ActivityTrackerManagerFusionTables implements ActivityTrackerManage
 	    String userId = "";
 	    
 	    if(currentActivityTracker.getUser() != null) {
-			userId = currentActivityTracker.getUser().getName() + " " + currentActivityTracker.getUser().getSurname();
+			//userId = currentActivityTracker.getUser().getName() + " " + currentActivityTracker.getUser().getSurname();
+	    	userId = currentActivityTracker.getUser().getId();
 		} else {
 			userId = "emptyUser";
 		}
@@ -307,7 +309,7 @@ public class ActivityTrackerManagerFusionTables implements ActivityTrackerManage
 					e.printStackTrace();
 				}
 				
-				new AsyncHttpRequestManager(URL_SERVER_INSERT_WITH_STREAM, sendJSON, null, true).execute();
+				new AsyncHttpRequestManager(URL_SERVER_INSERT_WITH_STREAM, "POST", sendJSON, null, true).execute();
 			}
 				
 			//And if db is not empty send the content too
@@ -408,7 +410,8 @@ public class ActivityTrackerManagerFusionTables implements ActivityTrackerManage
 		    String userId = "";
 		    
 		    if(currentActivityTracker.getUser() != null) {
-				userId = currentActivityTracker.getUser().getName() + " " + currentActivityTracker.getUser().getSurname();
+				//userId = currentActivityTracker.getUser().getName() + " " + currentActivityTracker.getUser().getSurname();
+		    	userId = currentActivityTracker.getUser().getId();
 			} else {
 				userId = "emptyUser";
 			}
@@ -450,7 +453,8 @@ public class ActivityTrackerManagerFusionTables implements ActivityTrackerManage
 		dataJSON = new JSONObject();
 		//dataJSON.put("UserID", currentActivityTracker.getUserTrackerId());
 		if(currentActivityTracker.getUser() != null) {
-			dataJSON.put("UserID", currentActivityTracker.getUser().getName() + " " + currentActivityTracker.getUser().getSurname());
+			//dataJSON.put("UserID", currentActivityTracker.getUser().getName() + " " + currentActivityTracker.getUser().getSurname());
+			dataJSON.put("UserID", currentActivityTracker.getUser().getId());
 		} else {
 			dataJSON.put("UserID", "emptyUser");
 		}
