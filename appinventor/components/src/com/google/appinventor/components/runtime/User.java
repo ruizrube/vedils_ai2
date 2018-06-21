@@ -220,4 +220,8 @@ public class User extends AndroidNonvisibleComponent implements Component {
 	public String getLinkedinAccount() {
 		return this.linkedinAccount;
 	}
+	
+	public String getId() {
+		return this.id;
+	}
 }
