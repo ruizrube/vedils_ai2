@@ -89,6 +89,9 @@ public class FlinkClientDAO {
 		props.put("group.id", "app_producer");
 		props.put("key.serializer", StringSerializer.class.getName());
 		props.put("value.serializer", StringSerializer.class.getName());
+		//props.put("auto.offset.reset", "earliest");
+		//props.put("partition.assignment.strategy", "roundrobin");
+        //props.put("enable.auto.commit", "true");
 		//props.put("acks", "all");
 		//props.put("block.on.buffer.full", "true");
 		
@@ -372,6 +375,9 @@ public class FlinkClientDAO {
 		props.put("group.id", "android_consumer");
 		props.put("key.deserializer", StringDeserializer.class.getName());
 		props.put("value.deserializer", StringDeserializer.class.getName());
+		//props.put("auto.offset.reset", "earliest");
+		//props.put("partition.assignment.strategy", "roundrobin");
+        //props.put("enable.auto.commit", "true");
 		KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
 		
 		consumer.subscribe(Arrays.asList(usedTopic)); 

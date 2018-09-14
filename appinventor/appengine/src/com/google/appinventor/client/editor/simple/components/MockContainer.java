@@ -198,7 +198,8 @@ public abstract class MockContainer extends MockVisibleComponent implements Drop
         refreshForm();
       }
     } else {
-      editor.getNonVisibleComponentsPanel().removeComponent(component);
+    	editor.getNonVisibleComponentsPanel().removeComponent(component);
+		//editor.getGlobalComponentsPanel().removeComponent(component);
     }
 
     getForm().fireComponentRemoved(component, permanentlyDeleted);

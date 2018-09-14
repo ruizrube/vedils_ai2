@@ -149,6 +149,7 @@ public abstract class AdditionalChoicePropertyEditor extends PropertyEditor {
         return;
       }
     } else {
+      cancelAction();
       updateValue(); // Restore previous property value
     }
     popup.hide();
@@ -160,5 +161,8 @@ public abstract class AdditionalChoicePropertyEditor extends PropertyEditor {
    *
    * @return true if the dialog is allowed to close
    */
+ 
+  
   protected abstract boolean okAction();
+  protected abstract void cancelAction();
 }

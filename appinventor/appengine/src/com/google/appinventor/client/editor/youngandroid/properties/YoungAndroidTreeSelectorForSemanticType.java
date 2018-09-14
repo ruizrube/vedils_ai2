@@ -189,4 +189,10 @@ public final class YoungAndroidTreeSelectorForSemanticType extends AdditionalCho
 			}
 		}
 	}
+
+	@Override
+	protected void cancelAction() {
+		// TODO Auto-generated method stub
+		
+	}
 }

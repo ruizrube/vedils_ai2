@@ -503,6 +503,10 @@ select {
   padding: 5px;
 }
 
+.ya-globalNonVisibleComponentsPanel {
+	height: 80px;
+}
+
 .ode-SimpleUiDesignerNonVisibleComponents .ode-Icon,
 .ode-SimpleUiDesignerNonVisibleComponents .ode-Icon-selected {
   display: inline-table;

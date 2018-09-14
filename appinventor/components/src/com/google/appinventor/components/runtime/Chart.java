@@ -52,8 +52,8 @@ public class Chart extends AndroidViewComponent {
 
 	private ActivityProcessor query;
 
-	private String url_base = "http://vedils.uca.es/web/graph/";
-	//private String url_base = "http://192.168.1.22:8888/web/graph/"; //For local test	 
+	//private String url_base = "http://vedils.uca.es/web/graph/";
+	private String url_base = "http://192.168.1.22:8888/web/graph/"; //For local test	 
 
 	public Chart(ComponentContainer container) {
 		super(container);
@@ -255,15 +255,16 @@ public class Chart extends AndroidViewComponent {
 		String url = url_base;
 		
 		JSONObject information = new JSONObject();
+		JSONArray table = new JSONArray();
 		
 		try {
 			if(this.Query() != null && this.Query().StorageMode() == Component.MONGODB
 					&& this.Data() == null) { //automatic query MongoDB 
 				new AsyncHttpRequestManager(((ActivityQueryManagerMongoDB)this.Query().getQueryManager()).URL_SERVER_QUERY, 
-						new JSONObject(this.Query().getQueryManager().generateQueryStatement()), this, false).execute();
+						"POST", new JSONObject(this.Query().getQueryManager().generateQueryStatement()), this, false).execute();
 			} else {
-				if (this.Query() != null && this.Query().StorageMode() == Component.FUSIONTABLES) { //Prepare JSONObject to send the information (SQL option).
-					
+				if (this.Query() != null && this.Query().StorageMode() == Component.FUSIONTABLES
+						&& this.Data() == null) { //Prepare JSONObject to send the information (SQL option).	
 					information.put("querySQL", this.Query().getQueryManager().generateQueryStatement());
 					information.put("categoryAxisTitle", this.categoryAxisTitle);
 					information.put("valueAxisTitle", this.valueAxisTitle);
@@ -272,11 +273,9 @@ public class Chart extends AndroidViewComponent {
 					information.put("indexForValue", this.indexForValueAxis);
 					information.put("refreshInterval", this.refreshInterval);
 				} else { //Prepare JSONObject to send the information (Data list option).
-					
-					JSONArray table = new JSONArray();
 					int columnNamesRow = 1;
 					
-if(Data() != null) {
+					if(Data() != null) {
 						
 						System.out.println("El size es (data): " + this.data.size());
 						

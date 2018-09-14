@@ -150,7 +150,7 @@ public class DataTable extends AndroidViewComponent {
 			if(this.Query() != null && this.Query().StorageMode() == Component.MONGODB
 					&& this.Data() == null) { //automatic query MongoDB 
 				new AsyncHttpRequestManager(((ActivityQueryManagerMongoDB)this.Query().getQueryManager()).URL_SERVER_QUERY, 
-						new JSONObject(this.Query().getQueryManager().generateQueryStatement()), this, false).execute();
+						"POST", new JSONObject(this.Query().getQueryManager().generateQueryStatement()), this, false).execute();
 			} else {
 				if(this.Query() != null && this.Query().StorageMode() == Component.FUSIONTABLES
 						&& this.Data() == null) { //automatic query Google Fusion Tables

@@ -54,6 +54,14 @@ public abstract class YoungAndroidCheckableTreeSelector extends AdditionalChoice
 		return true;
 	}
 	
+	@Override
+	protected void cancelAction() {
+		//Window.alert("Estoy pulsando la opción cancelar.");
+		//Delete the selected nodes
+		//property.setValue("Record elements: " + this.recordedItems);
+		//loadSelectedNodes(property.getValue());
+	}
+	
 	//
 	// Retrieve Tree values
 	//

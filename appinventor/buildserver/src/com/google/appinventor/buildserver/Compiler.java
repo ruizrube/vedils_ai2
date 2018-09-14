@@ -613,6 +613,17 @@ public final class Compiler {
 				
 				*/
 				
+				out.write("<service \n");
+				out.write(
+						"android:name=\"com.google.appinventor.components.runtime.GoogleCloudMessagingBackgroundService\" \n");
+				out.write("android:enabled=\"true\" \n");
+				out.write("android:exported=\"false\" \n");
+				out.write("android:permission=\"android.permission.ACCESS_BACKGROUND_SERVICE\"> \n");
+				out.write("<intent-filter> \n");
+				out.write("<action android:name=\"android.app.Service\" /> \n");
+				out.write("</intent-filter> \n");
+				out.write("</service> \n");
+				
 			}
 			
 			// 3D4Ai

@@ -213,4 +213,10 @@ public class YoungAndroidLengthPropertyEditor extends AdditionalChoicePropertyEd
     }
     return true;
   }
+
+@Override
+protected void cancelAction() {
+	// TODO Auto-generated method stub
+	
+}
 }

@@ -580,6 +580,12 @@ public class BrainwaveSensor extends AndroidNonvisibleComponent implements Seria
 
 	}
 	
+	//TPM: Simulated event (30/05/2017)
+	@SimpleEvent(description = "Returns the bands data in the time interval specified in TimeToUpdateBandsData property. The channels are sorted in the list as follows: AF3, F7, F3, FC5, T7, P7, Pz, O1, O2, P8, T8, FC6, F4, F8, AF4", userVisible = true)
+	public void BandsDataChanged(List<Double> thetaBand, List<Double> alphaBand, List<Double> lowBetaBand, List<Double> highBetaBand, List<Double> gammaBand) {
+		EventDispatcher.dispatchEvent(this, "BandsDataChanged", thetaBand, alphaBand, lowBetaBand, highBetaBand, gammaBand);
+	}
+	
 	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_NON_NEGATIVE_INTEGER, defaultValue = "0")
 	@SimpleProperty(category = PropertyCategory.BEHAVIOR, userVisible = false)
 	public void TimeToStreamBandsData(int seconds) {

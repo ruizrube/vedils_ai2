@@ -33,7 +33,7 @@ public class ActivityQueryManagerStream implements ActivityQueryManager {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		new AsyncHttpRequestManager(URL_SERVER_QUERY, information, null, true).execute();
+		new AsyncHttpRequestManager(URL_SERVER_QUERY, "POST", information, null, true).execute();
 	}
 	
 	public void stopQuery() {
@@ -46,7 +46,7 @@ public class ActivityQueryManagerStream implements ActivityQueryManager {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		new AsyncHttpRequestManager(URL_SERVER_STOP_QUERY, information, null, false).execute();
+		new AsyncHttpRequestManager(URL_SERVER_STOP_QUERY, "POST", information, null, false).execute();
 	}
 
 	@Override

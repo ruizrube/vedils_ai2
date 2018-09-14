@@ -60,6 +60,13 @@ public abstract class SimpleEditor extends FileEditor {
    * @return  non-visible components panel
    */
   public abstract SimpleNonVisibleComponentsPanel getNonVisibleComponentsPanel();
+  
+  /**
+   * SPI&FM: Returns the global components panel
+   *
+   * @return  global components panel
+   */
+  //public abstract SimpleGlobalComponentsPanel getGlobalComponentsPanel();
 
   /**
    * Returns the visible components panel

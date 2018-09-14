@@ -10,11 +10,13 @@ import com.google.appinventor.components.runtime.ActivityProcessor;
 public class ActivityQueryManagerMongoDB implements ActivityQueryManager {
 	
 	private ActivityProcessor currentActivityProcessor;
-	public String URL_SERVER_QUERY = "http://vedilsanalytics.uca.es:80/AnalyticsWSForAppInventor/MongoDBClient/query";
+	public String URL_SERVER_QUERY;
+	//public String URL_SERVER_QUERY = "http://vedilsanalytics.uca.es:80/AnalyticsWSForAppInventor/MongoDBClient/query";
 	//public String URL_SERVER_QUERY = "http://192.168.1.22:8080/AnalyticsWSForAppInventor/MongoDBClient/query";
 	
-	public ActivityQueryManagerMongoDB(ActivityProcessor currentActivityProcessor) {
+	public ActivityQueryManagerMongoDB(ActivityProcessor currentActivityProcessor, String urlServer) {
 		this.currentActivityProcessor = currentActivityProcessor;
+		this.URL_SERVER_QUERY = urlServer;
 	}
 
 	@Override
@@ -30,7 +32,7 @@ public class ActivityQueryManagerMongoDB implements ActivityQueryManager {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		new AsyncHttpRequestManager(URL_SERVER_QUERY, information, this, false).execute();
+		new AsyncHttpRequestManager(URL_SERVER_QUERY, "POST", information, this, false).execute();
 	}
 
 	@Override

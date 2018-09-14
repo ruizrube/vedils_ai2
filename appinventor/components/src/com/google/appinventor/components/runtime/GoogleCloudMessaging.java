@@ -10,6 +10,7 @@ import com.google.appinventor.components.annotations.UsesPermissions;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.YaVersion;
 import com.google.appinventor.components.runtime.util.GoogleCloudMessagingConnectionServer;
+import com.google.gson.Gson;
 
 import android.app.Activity;
 import android.app.NotificationManager;
@@ -50,9 +51,12 @@ public class GoogleCloudMessaging extends AndroidNonvisibleComponent implements 
 	private static GoogleCloudMessagingConnectionServer connectionServer;
 	private static Component component;
 	private static Activity activity;
+	private final ComponentContainer componentContainer;
 	
 	public GoogleCloudMessaging(ComponentContainer componentContainer) {
-		super(componentContainer.$form());	
+		super(componentContainer.$form());
+		
+		this.componentContainer = componentContainer;
 		connectionServer = new GoogleCloudMessagingConnectionServer(componentContainer.$context());
 		GoogleCloudMessaging.component = (GoogleCloudMessaging) this;
 		activity = componentContainer.$context();
@@ -127,6 +131,30 @@ public class GoogleCloudMessaging extends AndroidNonvisibleComponent implements 
 		//System.out.println("HolaEdfunciona/n");
 		connectionServer.register();
 	}
+	
+	/**
+	 * Function to configure the background service.
+	 */
+	@SimpleFunction(description="Function to start the GCM background service.")
+	public void StartBackgroundService() {
+		Intent intent = new Intent(componentContainer.$form().getApplication(), GoogleCloudMessagingBackgroundService.class);
+		//Gson gson = new Gson();
+		//intent.putExtra("GCM", gson.toJson(this));
+		componentContainer.$form().startService(intent);
+		System.out.println("Background service GCM: starting service..");
+	}
+	
+	/**
+	 * Function to configure the background service.
+	 */
+	@SimpleFunction(description="Function to stop the GCM background service.")
+	public void StopBackgroundService() {
+		Intent intent = new Intent(componentContainer.$form().getApplication(), GoogleCloudMessagingBackgroundService.class);
+		//Gson gson = new Gson();
+		//intent.putExtra("GCM", gson.toJson(this));
+		componentContainer.$form().stopService(intent);
+		System.out.println("Background service GCM: stopping service..");
+	}
 
 	
 	/**
@@ -147,23 +175,39 @@ public class GoogleCloudMessaging extends AndroidNonvisibleComponent implements 
 	
 	public static void handledReceivedMessage(final String message, final String action) {
 		//Dispatch the event
-		activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-            	MessageReceived(message, action);
-            }
-        });
+		if(activity != null) {
+			activity.runOnUiThread(new Runnable() {
+	            @Override
+	            public void run() {
+	            	MessageReceived(message, action);
+	            }
+	        });
+		} else {
+			/*Intent intent = GoogleCloudMessagingBackgroundService.activity.getPackageManager()
+					.getLaunchIntentForPackage(GoogleCloudMessagingBackgroundService.packageName);
+			GoogleCloudMessagingBackgroundService.activity.startActivity(intent);
+			MessageReceived(message, action);*/
+			MessageReceived(message, action);
+		}
 	}
 	
 	
 	public static void handledDataListReceived(final List<Object> objects) {
 		//Dispatch the event
-		activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-            	DataListReceived(objects);
-            }
-        });
+		if(activity != null) {
+			activity.runOnUiThread(new Runnable() {
+	            @Override
+	            public void run() {
+	            	DataListReceived(objects);
+	            }
+	        });
+		} else {
+			/*Intent intent = GoogleCloudMessagingBackgroundService.activity.getPackageManager()
+					.getLaunchIntentForPackage(GoogleCloudMessagingBackgroundService.packageName);
+			GoogleCloudMessagingBackgroundService.activity.startActivity(intent);
+			DataListReceived(objects);*/
+			DataListReceived(objects);
+		}
 	}
 	
 	/**

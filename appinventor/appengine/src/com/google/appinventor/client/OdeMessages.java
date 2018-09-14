@@ -2404,6 +2404,10 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("Non-visible components")
 	@Description("Header for the non-visible components in the designer.")
 	String nonVisibleComponentsHeader();
+	
+	//@DefaultMessage("Global components")
+	//@Description("Header for the global components in the designer.")
+	//String globalComponentsHeader();
 
 	// Used in editor/simple/SimpleVisibleComponentsPanel.java
 
@@ -7659,6 +7663,14 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("UnRegisterAll")
 	@Description("")
 	String UnRegisterAllMethods();
+	
+	@DefaultMessage("StartBackgroundService")
+	@Description("")
+	String StartBackgroundServiceMethods();
+	
+	@DefaultMessage("StopBackgroundService")
+	@Description("")
+	String StopBackgroundServiceMethods();
 
 	@DefaultMessage("ShowNotificationBar")
 	@Description("")

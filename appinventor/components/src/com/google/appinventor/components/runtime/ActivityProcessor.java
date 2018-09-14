@@ -103,9 +103,6 @@ public abstract class ActivityProcessor extends AndroidNonvisibleComponent {
 		return this.activityQueryManager;
 	}
 
-	@Override
-	public void ActivitiesToTrack(String activitiesNames) {}
-
 	////////////////
 	// PROPERTIES //
 	////////////////
@@ -129,21 +126,24 @@ public abstract class ActivityProcessor extends AndroidNonvisibleComponent {
 	 * 
 	 * @param storage
 	 */
-	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_QUERYSTORAGEMODE,
+	@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STORAGEMODE,
 		      defaultValue = Component.FUSIONTABLES + "")
 		  @SimpleProperty(
 		      userVisible = false)
 	public void StorageMode(int storageMode) {
 		this.storageMode = storageMode;
 		
-		//Configure ActivityQueryManager to query data (Fusion Tables or MongoDB storage mode).
+		//Configure ActivityQueryManager to query data (Fusion Tables, MongoDB or Learning Record Store) storage mode).
 		if(this.storageMode == Component.FUSIONTABLES) {
 			this.activityQueryManager = new ActivityQueryManagerFusionTables(this, this.componentContainer);
 		} else if(this.storageMode == Component.MONGODB) {
-			this.activityQueryManager = new ActivityQueryManagerMongoDB(this);
-		} /* else if(this.storageMode == Component.STREAM) {
-			this.activityQueryManager = new ActivityQueryManagerStream(this);
-		} */
+			this.activityQueryManager = new ActivityQueryManagerMongoDB(this, 
+					"http://vedilsanalytics.uca.es:80/AnalyticsWSForAppInventor/MongoDBClient/query");
+		} else if(this.storageMode == Component.LEARNINGRECORDSTORE) {
+			this.activityQueryManager = new ActivityQueryManagerMongoDB(this, 
+					"http://vedilsanalytics.uca.es:80/AnalyticsWSForAppInventor/LearningLockerClient/query");
+			//this.activityQueryManager = new ActivityQueryManagerLearningRecordStoreOld(this);
+		}
 	}
 
 	/**
@@ -400,6 +400,8 @@ public abstract class ActivityProcessor extends AndroidNonvisibleComponent {
 	public String TableId() {
 		return tableId;
 	}
+	
+	
 
 	//////////////
 	// FUNCTIONS //
@@ -481,7 +483,7 @@ public abstract class ActivityProcessor extends AndroidNonvisibleComponent {
 	} 
 	
 	public List<String> getFiltersByScreenId() {
-		return this.filtersByScreenId;
+		return this.filtersByScreenId; 
 	}
 	
 	public List<String> getFiltersByActionId() {

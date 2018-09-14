@@ -17,6 +17,7 @@ import com.google.appinventor.client.boxes.SourceStructureBox;
 import com.google.appinventor.client.editor.ProjectEditor;
 import com.google.appinventor.client.editor.simple.SimpleComponentDatabase;
 import com.google.appinventor.client.editor.simple.SimpleEditor;
+import com.google.appinventor.client.editor.simple.SimpleGlobalComponentsPanel;
 import com.google.appinventor.client.editor.simple.SimpleNonVisibleComponentsPanel;
 import com.google.appinventor.client.editor.simple.SimpleVisibleComponentsPanel;
 import com.google.appinventor.client.editor.simple.components.FormChangeListener;
@@ -104,6 +105,7 @@ public final class YaFormEditor extends SimpleEditor implements FormChangeListen
   // UI elements
   private final SimpleVisibleComponentsPanel visibleComponentsPanel;
   private final SimpleNonVisibleComponentsPanel nonVisibleComponentsPanel;
+  //private final SimpleGlobalComponentsPanel globalComponentsPanel;
 
   private MockForm form;  // initialized lazily after the file is loaded from the ODE server
 
@@ -137,11 +139,13 @@ public final class YaFormEditor extends SimpleEditor implements FormChangeListen
         SourceStructureBox.getSourceStructureBox().getSourceStructureExplorer();
 
     // Create UI elements for the designer panels.
+    //globalComponentsPanel = new SimpleGlobalComponentsPanel();
     nonVisibleComponentsPanel = new SimpleNonVisibleComponentsPanel();
     visibleComponentsPanel = new SimpleVisibleComponentsPanel(this, nonVisibleComponentsPanel);
     DockPanel componentsPanel = new DockPanel();
     componentsPanel.setHorizontalAlignment(DockPanel.ALIGN_CENTER);
     componentsPanel.add(visibleComponentsPanel, DockPanel.NORTH);
+    //componentsPanel.add(globalComponentsPanel, DockPanel.EAST);
     componentsPanel.add(nonVisibleComponentsPanel, DockPanel.SOUTH);
     componentsPanel.setSize("100%", "100%");
 
@@ -155,6 +159,7 @@ public final class YaFormEditor extends SimpleEditor implements FormChangeListen
         // NOTE: These targets must be specified in depth-first order.
         List<DropTarget> dropTargets = form.getDropTargetsWithin();
         dropTargets.add(visibleComponentsPanel);
+        //dropTargets.add(globalComponentsPanel);
         dropTargets.add(nonVisibleComponentsPanel);
         return dropTargets.toArray(new DropTarget[dropTargets.size()]);
       }
@@ -294,6 +299,11 @@ public final class YaFormEditor extends SimpleEditor implements FormChangeListen
   public SimpleNonVisibleComponentsPanel getNonVisibleComponentsPanel() {
     return nonVisibleComponentsPanel;
   }
+  
+  //@Override
+  //public SimpleGlobalComponentsPanel getGlobalComponentsPanel() {
+	  //return globalComponentsPanel;
+  //}
 
   public SimpleVisibleComponentsPanel getVisibleComponentsPanel() {
     return visibleComponentsPanel;
@@ -509,6 +519,7 @@ public final class YaFormEditor extends SimpleEditor implements FormChangeListen
 
     // Initialize the nonVisibleComponentsPanel and visibleComponentsPanel.
     nonVisibleComponentsPanel.setForm(form);
+    //globalComponentsPanel.setForm(form);
     visibleComponentsPanel.setForm(form);
     form.select();
 

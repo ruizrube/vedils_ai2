@@ -308,9 +308,7 @@ public class ActivityTrackerManagerFusionTables implements ActivityTrackerManage
 					System.out.println("ActivityTrackerManagerFusionTables error" + e.getMessage());
 					e.printStackTrace();
 				}
-				
-				new AsyncHttpRequestManager(URL_SERVER_INSERT_WITH_STREAM, sendJSON, null, true).execute();
-				//new AsyncHttpRequestManager(URL_SERVER_INSERT_WITH_STREAM, "POST", sendJSON, null, true).execute();
+				new AsyncHttpRequestManager(URL_SERVER_INSERT_WITH_STREAM, "POST", sendJSON, null, true).execute();
 			}
 				
 			//And if db is not empty send the content too

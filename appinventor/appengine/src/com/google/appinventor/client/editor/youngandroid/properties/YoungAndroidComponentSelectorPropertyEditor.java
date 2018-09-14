@@ -253,4 +253,10 @@ public final class YoungAndroidComponentSelectorPropertyEditor
 
   public void onComponentSelectionChange(MockComponent component, boolean selected) {
   }
+
+@Override
+protected void cancelAction() {
+	// TODO Auto-generated method stub
+	
+}
 }

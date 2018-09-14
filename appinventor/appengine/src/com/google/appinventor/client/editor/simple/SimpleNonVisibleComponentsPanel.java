@@ -31,6 +31,10 @@ public final class SimpleNonVisibleComponentsPanel extends Composite implements 
   // UI elements
   private final Label heading;
   private final FlowPanel componentsPanel;
+  
+  //Global elements
+  //private final Label headingGlobals;
+  //private final FlowPanel globalComponentsPanel;
 
   // Backing mocked Simple form component
   private MockForm form;
@@ -39,19 +43,38 @@ public final class SimpleNonVisibleComponentsPanel extends Composite implements 
    * Creates new component design panel for non-visible components.
    */
   public SimpleNonVisibleComponentsPanel() {
-    // Initialize UI
+    //SPI&FM Global components first
+	
+	// Initialize UI
+	 
     VerticalPanel panel = new VerticalPanel();
     panel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
+    
+	//VerticalPanel globalPanel = new VerticalPanel();
+	//globalPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
+	//globalPanel.setStyleName("ya-globalNonVisibleComponentsPanel");
+	  
+    //headingGlobals = new Label("");
+    //headingGlobals.setStyleName("ya-NonVisibleComponentsHeader");
+    //globalPanel.add(headingGlobals);
+    
+    //globalComponentsPanel = new FlowPanel();
+    //globalComponentsPanel.setStyleName("ode-SimpleUiDesignerNonVisibleComponents");
+    //globalPanel.add(globalComponentsPanel);
+    
+    //panel.add(globalPanel);
 
     heading = new Label("");
     heading.setStyleName("ya-NonVisibleComponentsHeader");
     panel.add(heading);
-
+    
     componentsPanel = new FlowPanel();
     componentsPanel.setStyleName("ode-SimpleUiDesignerNonVisibleComponents");
     panel.add(componentsPanel);
 
     initWidget(panel);
+    
+    //headingGlobals.setText(MESSAGES.globalNonVisibleComponentsHeader());
   }
 
   /**

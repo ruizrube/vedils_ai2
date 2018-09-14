@@ -264,14 +264,14 @@ public class SPARQLClientForGenericRDF implements SPARQLClient {
 		
 		try {
 
-			String queryString = endpoint + "?query=" +  URLEncoder.encode(prefixes + query, "UTF-8") + "&format=json";
+			String queryString = endpoint + "?query=" +  URLEncoder.encode(prefixes + query, "UTF-8") + "&format=json" + "&apikey=3d7ae721-5602-4ad3-8114-3a2d5f612d3e";
 			
 			System.out.println("Query: " + queryString);
 			
 			URL url = new URL(queryString);
 			connection = (HttpURLConnection) url.openConnection();
-			connection.setConnectTimeout(60000); // 60 secs
-			connection.setReadTimeout(60000); // 60 secs
+			//connection.setConnectTimeout(60000); // 60 secs
+			//connection.setReadTimeout(60000); // 60 secs
 			connection.setRequestMethod("GET");
 			resultStream = connection.getInputStream();
 		} catch (Exception e) {

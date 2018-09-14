@@ -7,6 +7,7 @@
 package com.google.appinventor.components.runtime.util;
 
 import com.google.appinventor.components.runtime.collect.Lists;
+import com.google.gson.JsonObject;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -14,7 +15,12 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Static methods to convert between CSV-formatted strings and YailLists.
@@ -24,6 +30,74 @@ import java.util.regex.Pattern;
 public final class CsvUtil {
 
   private CsvUtil() {
+  }
+  
+  public static String CsvFromxAPIJson(String jsonString) {
+	  
+	  String csv = "actorName, actorMbox, IP, MAC, IMEI, APILevel, "
+	  		+ "latitude, longitude, date, appID, screenID, platform, "
+	  		+ "resultCompletion, resultSuccess, scoreMax, scoreMin, "
+	  		+ "scoreRaw, scoreScaled" + "\n";
+	  
+	  try {
+		  
+		  JSONObject jsonObject = new JSONObject(jsonString);
+		  JSONArray jsonArray = jsonObject.getJSONArray("statements");
+		  
+		  for(int i=0; i<jsonArray.length(); i++) {
+			  JSONObject json = jsonArray.getJSONObject(i);
+			  
+			  System.out.println("XAPI statement number " + i + " = " + json.toString());
+			  
+			  //Get Actor data
+			  csv = csv + json.getJSONObject("actor").getString("name") + ",";
+			  csv = csv + json.getJSONObject("actor").getString("mbox").replace("mailto:", "") + ",";
+			  
+			  //Get Context data
+			  if(json.has("context")) {
+				  JSONObject context = json.getJSONObject("context").getJSONObject("extensions").getJSONObject("http://vedils.uca.es/xapi/context/appContext");
+				  csv = csv + context.getString("http://vedils.uca.es/xapi/context/IP") + ",";
+				  csv = csv + context.getString("http://vedils.uca.es/xapi/context/MAC") + ",";
+				  csv = csv + context.getInt("http://vedils.uca.es/xapi/context/IMEI") + ",";
+				  csv = csv + context.getInt("http://vedils.uca.es/xapi/context/APILevel") + ",";
+				  csv = csv + context.getDouble("http://vedils.uca.es/xapi/context/Latitude") + ",";
+				  csv = csv + context.getDouble("http://vedils.uca.es/xapi/context/Longitude") + ",";
+				  csv = csv + context.getString("http://vedils.uca.es/xapi/context/Date") + ",";
+				  csv = csv + context.getString("http://vedils.uca.es/xapi/context/AppID") + ",";
+				  csv = csv + context.getString("http://vedils.uca.es/xapi/context/ScreenID") + ",";
+				  csv = csv + json.getJSONObject("context").getString("platform") + ","; 
+			  }
+			  
+			  //Get Result data
+			  //Check if exists
+			  
+			  if(json.has("result")) {  
+				  csv = csv + json.getJSONObject("result").getBoolean("completion") + ",";
+				  csv = csv + json.getJSONObject("result").getBoolean("success") + ",";
+				  csv = csv + json.getJSONObject("result").getJSONObject("score").getDouble("max") + ",";
+				  csv = csv + json.getJSONObject("result").getJSONObject("score").getDouble("min") + ",";
+				  csv = csv + json.getJSONObject("result").getJSONObject("score").getDouble("raw") + ",";
+				  csv = csv + json.getJSONObject("result").getJSONObject("score").getDouble("scaled") + "\n";
+			  } else {
+				  csv = csv + "false" + ",";
+				  csv = csv + "false" + ",";
+				  csv = csv + "0" + ",";
+				  csv = csv + "0" + ",";
+				  csv = csv + "0" + ",";
+				  csv = csv + "0" + "\n";
+			  }
+		  }
+		  
+	  } catch(JSONException e) {
+		  System.out.println("CSV-XAPI Exception = " + e.getMessage());
+		  e.printStackTrace();
+		  
+		  return "";
+	  }
+	  
+	  System.out.println("CSV-XAPI = " +csv);
+	  
+	  return csv;
   }
 
   public static YailList fromCsvTable(String csvString) throws Exception {

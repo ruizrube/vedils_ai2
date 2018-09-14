@@ -28,6 +28,6 @@ public class StreamQueryResultData extends TimerTask {
 		} catch(Exception e) {
 			
 		}
-		new AsyncHttpRequestManager(URL_SERVER_QUERY, information, this.activityQueryManagerComponent, false).execute();
+		new AsyncHttpRequestManager(URL_SERVER_QUERY, "POST", information, this.activityQueryManagerComponent, false).execute();
 	}
 }

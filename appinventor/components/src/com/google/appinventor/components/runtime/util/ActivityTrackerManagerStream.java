@@ -128,7 +128,7 @@ public class ActivityTrackerManagerStream implements ActivityTrackerManager  {
 				e.printStackTrace();
 			}
 			
-			new AsyncHttpRequestManager(URL_SERVER_ADD_QUEUE, dataJSON, null, false).execute();
+			new AsyncHttpRequestManager(URL_SERVER_ADD_QUEUE, "POST", dataJSON, null, false).execute();
 			
 			//And if db is not empty send the content too
 			List<String> listTags = (List<String>) tinyDB.GetTags();
@@ -166,7 +166,7 @@ public class ActivityTrackerManagerStream implements ActivityTrackerManager  {
 				System.out.println("ActivityTrackerManagerMongoDB error" + e.getMessage());
 				e.printStackTrace();
 			}
-			new AsyncHttpRequestManager(URL_SERVER_ADD_QUEUE, dataJsonAux, null, false).execute();
+			new AsyncHttpRequestManager(URL_SERVER_ADD_QUEUE, "POST", dataJsonAux, null, false).execute();
 			tinyDB.ClearAll();
 		}
 	}

@@ -257,4 +257,10 @@ public final class YoungAndroidAssetSelectorPropertyEditor extends AdditionalCho
 		} else
 			choices.addItem(node.getName());
 	}
+
+	@Override
+	protected void cancelAction() {
+		// TODO Auto-generated method stub
+		
+	}
 }

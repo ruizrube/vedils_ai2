@@ -211,12 +211,6 @@ public class PropertyTypeConstants {
 	 * {@link com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidStorageModeChoicePropertyEditor}
 	 */
 	public static final String PROPERTY_TYPE_STORAGEMODE = "storageMode";
-	
-	/**
-	 * Choices of storageModes offered by
-	 * {@link com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidQueryStorageModeChoicePropertyEditor}
-	 */
-	public static final String PROPERTY_TYPE_QUERYSTORAGEMODE = "queryStorageMode";
 
 	/**
 	 * Choices in checkableTree offered by

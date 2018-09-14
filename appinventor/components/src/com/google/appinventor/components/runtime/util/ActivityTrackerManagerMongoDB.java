@@ -136,11 +136,9 @@ public class ActivityTrackerManagerMongoDB implements ActivityTrackerManager {
 			}
 			
 			if(this.currentActivityTracker.getStreamMode()) {
-				new AsyncHttpRequestManager(URL_SERVER_INSERT_WITH_STREAM, sendJSON, null, true).execute();
-				//new AsyncHttpRequestManager(URL_SERVER_INSERT_WITH_STREAM, "POST", sendJSON, null, true).execute();
+				new AsyncHttpRequestManager(URL_SERVER_INSERT_WITH_STREAM, "POST", sendJSON, null, true).execute();
 			} else {
-				new AsyncHttpRequestManager(URL_SERVER_INSERT, sendJSON, null, true).execute();
-				//new AsyncHttpRequestManager(URL_SERVER_INSERT, "POST", sendJSON, null, true).execute();
+				new AsyncHttpRequestManager(URL_SERVER_INSERT, "POST", sendJSON, null, true).execute();
 			}
 			
 			//And if db is not empty send the content too
@@ -179,9 +177,7 @@ public class ActivityTrackerManagerMongoDB implements ActivityTrackerManager {
 				System.out.println("ActivityTrackerManagerMongoDB error" + e.getMessage());
 				e.printStackTrace();
 			}
-			
-			new AsyncHttpRequestManager(URL_SERVER_INSERTMANY, dataJsonAux, null, true).execute();
-			//new AsyncHttpRequestManager(URL_SERVER_INSERTMANY, "POST", dataJsonAux, null, true).execute();
+			new AsyncHttpRequestManager(URL_SERVER_INSERTMANY, "POST", dataJsonAux, null, true).execute();
 			tinyDB.ClearAll();
 		}
 	}

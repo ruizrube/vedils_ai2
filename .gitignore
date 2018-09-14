@@ -5,3 +5,6 @@ LearningAnalyticsForAppInventor/bin/*.jar
 AugmentedRealityForAppInventor/bin/*.jar
 android-support-v7-appcompat/bin/*.jar
 /Servers/
+MongoDBWS
+VedilsWS/build/
+LibARpruebas/assets/
