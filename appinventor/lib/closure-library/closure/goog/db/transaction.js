@@ -24,6 +24,7 @@ goog.provide('goog.db.Transaction.TransactionMode');
 goog.require('goog.async.Deferred');
 goog.require('goog.db.Error');
 goog.require('goog.db.ObjectStore');
+goog.require('goog.events');
 goog.require('goog.events.EventHandler');
 goog.require('goog.events.EventTarget');
 
@@ -39,9 +40,10 @@ goog.require('goog.events.EventTarget');
  * @param {!goog.db.IndexedDb} db The database that this transaction modifies.
  * @constructor
  * @extends {goog.events.EventTarget}
+ * @final
  */
 goog.db.Transaction = function(tx, db) {
-  goog.base(this);
+  goog.db.Transaction.base(this, 'constructor');
 
   /**
    * Underlying IndexedDB transaction object.
@@ -62,7 +64,7 @@ goog.db.Transaction = function(tx, db) {
   /**
    * Event handler for this transaction.
    *
-   * @type {!goog.events.EventHandler}
+   * @type {!goog.events.EventHandler<!goog.db.Transaction>}
    * @private
    */
   this.eventHandler_ = new goog.events.EventHandler(this);
@@ -70,23 +72,15 @@ goog.db.Transaction = function(tx, db) {
   // TODO(user): remove these casts once the externs file is updated to
   // correctly reflect that IDBTransaction extends EventTarget
   this.eventHandler_.listen(
-      /** @type {EventTarget} */ (this.tx_),
-      'complete',
+      /** @type {!EventTarget} */ (this.tx_), 'complete',
       goog.bind(
-          this.dispatchEvent,
-          this,
-          goog.db.Transaction.EventTypes.COMPLETE));
+          this.dispatchEvent, this, goog.db.Transaction.EventTypes.COMPLETE));
   this.eventHandler_.listen(
-      /** @type {EventTarget} */ (this.tx_),
-      'abort',
+      /** @type {!EventTarget} */ (this.tx_), 'abort',
       goog.bind(
-          this.dispatchEvent,
-          this,
-          goog.db.Transaction.EventTypes.ABORT));
+          this.dispatchEvent, this, goog.db.Transaction.EventTypes.ABORT));
   this.eventHandler_.listen(
-      /** @type {EventTarget} */ (this.tx_),
-      'error',
-      this.dispatchError_);
+      /** @type {!EventTarget} */ (this.tx_), 'error', this.dispatchError_);
 };
 goog.inherits(goog.db.Transaction, goog.events.EventTarget);
 
@@ -100,10 +94,8 @@ goog.inherits(goog.db.Transaction, goog.events.EventTarget);
  */
 goog.db.Transaction.prototype.dispatchError_ = function(ev) {
   if (ev.target instanceof goog.db.Error) {
-    this.dispatchEvent({
-      type: goog.db.Transaction.EventTypes.ERROR,
-      target: ev.target
-    });
+    this.dispatchEvent(
+        {type: goog.db.Transaction.EventTypes.ERROR, target: ev.target});
   } else {
     this.dispatchEvent({
       type: goog.db.Transaction.EventTypes.ERROR,
@@ -172,20 +164,23 @@ goog.db.Transaction.prototype.wait = function() {
   var d = new goog.async.Deferred();
   goog.events.listenOnce(
       this, goog.db.Transaction.EventTypes.COMPLETE, goog.bind(d.callback, d));
-  goog.events.listenOnce(
+  var errorKey;
+  var abortKey = goog.events.listenOnce(
       this, goog.db.Transaction.EventTypes.ABORT, function() {
-        d.errback(new goog.db.Error(goog.db.Error.ErrorCode.ABORT_ERR,
-            'waiting for transaction to complete'));
+        goog.events.unlistenByKey(errorKey);
+        d.errback(
+            new goog.db.Error(
+                goog.db.Error.ErrorCode.ABORT_ERR,
+                'waiting for transaction to complete'));
       });
-  goog.events.listenOnce(
+  errorKey = goog.events.listenOnce(
       this, goog.db.Transaction.EventTypes.ERROR, function(e) {
+        goog.events.unlistenByKey(abortKey);
         d.errback(e.target);
       });
 
   var db = this.getDatabase();
-  return d.addCallback(function() {
-    return db;
-  });
+  return d.addCallback(function() { return db; });
 };
 
 
@@ -200,7 +195,7 @@ goog.db.Transaction.prototype.abort = function() {
 
 /** @override */
 goog.db.Transaction.prototype.disposeInternal = function() {
-  goog.base(this, 'disposeInternal');
+  goog.db.Transaction.base(this, 'disposeInternal');
   this.eventHandler_.dispose();
 };
 

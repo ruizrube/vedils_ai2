@@ -121,4 +121,5 @@ public final class LinearLayout implements Layout {
   }
 
   public void setBaselineAligned(boolean baselineAligned) { layoutManager.setBaselineAligned(baselineAligned); }
+
 }

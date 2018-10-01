@@ -14,6 +14,7 @@ public class AIScreen {
 
   /**
    * Creates a new AIScreen.
+   *
    * @param screenPath the path to the screen within the project file
    */
   public AIScreen(String screenPath) {
@@ -22,6 +23,7 @@ public class AIScreen {
 
   /**
    * Returns an AIScreen's directory path within the project file.
+   *
    * @return AIScreen's directory path within the project file
    */
   public String getPath() {
@@ -30,6 +32,7 @@ public class AIScreen {
 
   /**
    * Returns the AIScreen's name.
+   *
    * @return AIScreen's name
    */
   public String getName() {

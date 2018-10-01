@@ -30,9 +30,8 @@ public abstract class AdditionalChoicePropertyEditor extends PropertyEditor {
   private static final int ADDITIONAL_CHOICE_ONSCREEN_PADDING = 10;
 
   // UI elements
-  protected final TextBox summary;
+  public final TextBox summary;
   private PopupPanel popup;
-  
 
   /**
    * Creates a new additional choice dialog.

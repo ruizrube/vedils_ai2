@@ -16,13 +16,13 @@
 /**
  * @fileoverview CanvasGraphics sub class that uses the canvas tag for drawing.
  * @author robbyw@google.com (Robby Walker)
- * @author wcrosby@google.com (Wayne Crosby)
  */
 
 
 goog.provide('goog.graphics.CanvasGraphics');
 
 
+goog.require('goog.dom.TagName');
 goog.require('goog.events.EventType');
 goog.require('goog.graphics.AbstractGraphics');
 goog.require('goog.graphics.CanvasEllipseElement');
@@ -31,6 +31,7 @@ goog.require('goog.graphics.CanvasImageElement');
 goog.require('goog.graphics.CanvasPathElement');
 goog.require('goog.graphics.CanvasRectElement');
 goog.require('goog.graphics.CanvasTextElement');
+goog.require('goog.graphics.Font');
 goog.require('goog.graphics.SolidFill');
 goog.require('goog.math.Size');
 goog.require('goog.style');
@@ -55,12 +56,10 @@ goog.require('goog.style');
  *     differences before the canvas tag was widely supported.  See
  *     http://en.wikipedia.org/wiki/Canvas_element for details.
  */
-goog.graphics.CanvasGraphics = function(width, height,
-                                        opt_coordWidth, opt_coordHeight,
-                                        opt_domHelper) {
-  goog.graphics.AbstractGraphics.call(this, width, height,
-                                      opt_coordWidth, opt_coordHeight,
-                                      opt_domHelper);
+goog.graphics.CanvasGraphics = function(
+    width, height, opt_coordWidth, opt_coordHeight, opt_domHelper) {
+  goog.graphics.AbstractGraphics.call(
+      this, width, height, opt_coordWidth, opt_coordHeight, opt_domHelper);
 };
 goog.inherits(goog.graphics.CanvasGraphics, goog.graphics.AbstractGraphics);
 
@@ -72,8 +71,8 @@ goog.inherits(goog.graphics.CanvasGraphics, goog.graphics.AbstractGraphics);
  * @param {goog.graphics.Fill} fill The fill object.
  * @override
  */
-goog.graphics.CanvasGraphics.prototype.setElementFill = function(element,
-    fill) {
+goog.graphics.CanvasGraphics.prototype.setElementFill = function(
+    element, fill) {
   this.redraw();
 };
 
@@ -92,7 +91,10 @@ goog.graphics.CanvasGraphics.prototype.setElementStroke = function(
 
 
 /**
- * Set the transformation of an element.
+ * Set the translation and rotation of an element.
+ *
+ * If a more general affine transform is needed than this provides
+ * (e.g. skew and scale) then use setElementAffineTransform.
  * @param {goog.graphics.Element} element The element wrapper.
  * @param {number} x The x coordinate of the translation transform.
  * @param {number} y The y coordinate of the translation transform.
@@ -101,8 +103,24 @@ goog.graphics.CanvasGraphics.prototype.setElementStroke = function(
  * @param {number} centerY The vertical center of the rotation transform.
  * @override
  */
-goog.graphics.CanvasGraphics.prototype.setElementTransform = function(element,
-    x, y, angle, centerX, centerY) {
+goog.graphics.CanvasGraphics.prototype.setElementTransform = function(
+    element, x, y, angle, centerX, centerY) {
+  this.redraw();
+};
+
+
+/**
+ * Set the transformation of an element.
+ *
+ * Note that in this implementation this method just calls this.redraw()
+ * and the affineTransform param is unused.
+ * @param {!goog.graphics.Element} element The element wrapper.
+ * @param {!goog.graphics.AffineTransform} affineTransform The
+ *     transformation applied to this element.
+ * @override
+ */
+goog.graphics.CanvasGraphics.prototype.setElementAffineTransform = function(
+    element, affineTransform) {
   this.redraw();
 };
 
@@ -145,11 +163,11 @@ goog.graphics.CanvasGraphics.prototype.popElementTransform = function() {
  * @override
  */
 goog.graphics.CanvasGraphics.prototype.createDom = function() {
-  var element = this.dom_.createDom('div',
-      {'style': 'position:relative;overflow:hidden'});
+  var element = this.dom_.createDom(
+      goog.dom.TagName.DIV, {'style': 'position:relative;overflow:hidden'});
   this.setElementInternal(element);
 
-  this.canvas_ = this.dom_.createDom('canvas');
+  this.canvas_ = this.dom_.createDom(goog.dom.TagName.CANVAS);
   element.appendChild(this.canvas_);
 
   /**
@@ -210,8 +228,8 @@ goog.graphics.CanvasGraphics.prototype.setCoordOrigin = function(left, top) {
  * @param {number} coordHeight The coordinate height.
  * @override
  */
-goog.graphics.CanvasGraphics.prototype.setCoordSize = function(coordWidth,
-                                                               coordHeight) {
+goog.graphics.CanvasGraphics.prototype.setCoordSize = function(
+    coordWidth, coordHeight) {
   goog.graphics.CanvasGraphics.superClass_.setCoordSize.apply(this, arguments);
   this.redraw();
 };
@@ -223,8 +241,8 @@ goog.graphics.CanvasGraphics.prototype.setCoordSize = function(coordWidth,
  * @param {number} pixelHeight The height in pixels.
  * @override
  */
-goog.graphics.CanvasGraphics.prototype.setSize = function(pixelWidth,
-    pixelHeight) {
+goog.graphics.CanvasGraphics.prototype.setSize = function(
+    pixelWidth, pixelHeight) {
   this.width = pixelWidth;
   this.height = pixelHeight;
 
@@ -258,11 +276,12 @@ goog.graphics.CanvasGraphics.prototype.getPixelSize = function() {
   if (computeHeight) {
     parent = parent || /** @type {Element} */ (this.getElement().parentNode);
     parentSize = parentSize || goog.style.getSize(parent);
-    height = parseFloat(/** @type {string} */ (height)) * parentSize.height /
-        100;
+    height =
+        parseFloat(/** @type {string} */ (height)) * parentSize.height / 100;
   }
 
-  return new goog.math.Size(/** @type {number} */ (width),
+  return new goog.math.Size(
+      /** @type {number} */ (width),
       /** @type {number} */ (height));
 };
 
@@ -275,7 +294,8 @@ goog.graphics.CanvasGraphics.prototype.updateSize = function() {
 
   var pixels = this.getPixelSize();
   if (pixels) {
-    goog.style.setSize(this.canvas_,
+    goog.style.setSize(
+        this.canvas_,
         /** @type {number} */ (pixels.width),
         /** @type {number} */ (pixels.height));
     this.canvas_.width = pixels.width;
@@ -329,8 +349,8 @@ goog.graphics.CanvasGraphics.prototype.redraw = function() {
 
     if (this.coordWidth) {
       var pixels = this.getPixelSize();
-      this.getContext().scale(pixels.width / this.coordWidth,
-          pixels.height / this.coordHeight);
+      this.getContext().scale(
+          pixels.width / this.coordWidth, pixels.height / this.coordHeight);
     }
     if (this.coordLeft || this.coordTop) {
       this.getContext().translate(-this.coordLeft, -this.coordTop);
@@ -372,9 +392,9 @@ goog.graphics.CanvasGraphics.prototype.drawElement = function(element) {
         ctx.fill();
         ctx.globalAlpha = 1;
       }
-    } else { // (fill instanceof goog.graphics.LinearGradient)
-      var linearGradient = ctx.createLinearGradient(fill.getX1(), fill.getY1(),
-          fill.getX2(), fill.getY2());
+    } else {  // (fill instanceof goog.graphics.LinearGradient)
+      var linearGradient = ctx.createLinearGradient(
+          fill.getX1(), fill.getY1(), fill.getX2(), fill.getY2());
       linearGradient.addColorStop(0.0, fill.getColor1());
       linearGradient.addColorStop(1.0, fill.getColor2());
 
@@ -399,20 +419,6 @@ goog.graphics.CanvasGraphics.prototype.drawElement = function(element) {
   }
 
   this.popElementTransform();
-};
-
-
-/**
- * Append an element.
- *
- * @param {goog.graphics.Element} element The element to draw.
- * @param {goog.graphics.CanvasGroupElement|undefined} group The group to draw
- *     it in. If null or undefined, defaults to the root group.
- * @private
- * @deprecated Use append instead.
- */
-goog.graphics.CanvasGraphics.prototype.append_ = function(element, group) {
-  this.append(element, group);
 };
 
 
@@ -447,13 +453,13 @@ goog.graphics.CanvasGraphics.prototype.append = function(element, group) {
  * @param {goog.graphics.GroupElement=} opt_group The group wrapper
  *     element to append to.  If not specified, appends to the main canvas.
  *
- * @return {goog.graphics.EllipseElement} The newly created element.
+ * @return {!goog.graphics.EllipseElement} The newly created element.
  * @override
  */
-goog.graphics.CanvasGraphics.prototype.drawEllipse = function(cx, cy, rx, ry,
-    stroke, fill, opt_group) {
-  var element = new goog.graphics.CanvasEllipseElement(null, this,
-      cx, cy, rx, ry, stroke, fill);
+goog.graphics.CanvasGraphics.prototype.drawEllipse = function(
+    cx, cy, rx, ry, stroke, fill, opt_group) {
+  var element = new goog.graphics.CanvasEllipseElement(
+      null, this, cx, cy, rx, ry, stroke, fill);
   this.append(element, opt_group);
   return element;
 };
@@ -472,13 +478,13 @@ goog.graphics.CanvasGraphics.prototype.drawEllipse = function(cx, cy, rx, ry,
  * @param {goog.graphics.GroupElement=} opt_group The group wrapper
  *     element to append to. If not specified, appends to the main canvas.
  *
- * @return {goog.graphics.RectElement} The newly created element.
+ * @return {!goog.graphics.RectElement} The newly created element.
  * @override
  */
-goog.graphics.CanvasGraphics.prototype.drawRect = function(x, y, width, height,
-    stroke, fill, opt_group) {
-  var element = new goog.graphics.CanvasRectElement(null, this,
-      x, y, width, height, stroke, fill);
+goog.graphics.CanvasGraphics.prototype.drawRect = function(
+    x, y, width, height, stroke, fill, opt_group) {
+  var element = new goog.graphics.CanvasRectElement(
+      null, this, x, y, width, height, stroke, fill);
   this.append(element, opt_group);
   return element;
 };
@@ -495,12 +501,12 @@ goog.graphics.CanvasGraphics.prototype.drawRect = function(x, y, width, height,
  * @param {goog.graphics.GroupElement=} opt_group The group wrapper
  *     element to append to. If not specified, appends to the main canvas.
  *
- * @return {goog.graphics.ImageElement} The newly created element.
+ * @return {!goog.graphics.ImageElement} The newly created element.
  */
-goog.graphics.CanvasGraphics.prototype.drawImage = function(x, y, width, height,
-    src, opt_group) {
-  var element = new goog.graphics.CanvasImageElement(null, this, x, y, width,
-      height, src);
+goog.graphics.CanvasGraphics.prototype.drawImage = function(
+    x, y, width, height, src, opt_group) {
+  var element = new goog.graphics.CanvasImageElement(
+      null, this, x, y, width, height, src);
   this.append(element, opt_group);
   return element;
 };
@@ -521,14 +527,14 @@ goog.graphics.CanvasGraphics.prototype.drawImage = function(x, y, width, height,
  * @param {goog.graphics.GroupElement=} opt_group The group wrapper
  *     element to append to. If not specified, appends to the main canvas.
  *
- * @return {goog.graphics.TextElement} The newly created element.
+ * @return {!goog.graphics.TextElement} The newly created element.
  * @override
  */
 goog.graphics.CanvasGraphics.prototype.drawTextOnLine = function(
     text, x1, y1, x2, y2, align, font, stroke, fill, opt_group) {
-  var element = new goog.graphics.CanvasTextElement(this,
-      text, x1, y1, x2, y2, align, /** @type {!goog.graphics.Font} */ (font),
-      stroke, fill);
+  var element = new goog.graphics.CanvasTextElement(
+      this, text, x1, y1, x2, y2, align,
+      /** @type {!goog.graphics.Font} */ (font), stroke, fill);
   this.append(element, opt_group);
   return element;
 };
@@ -542,13 +548,13 @@ goog.graphics.CanvasGraphics.prototype.drawTextOnLine = function(
  * @param {goog.graphics.GroupElement=} opt_group The group wrapper
  *     element to append to. If not specified, appends to the main canvas.
  *
- * @return {goog.graphics.PathElement} The newly created element.
+ * @return {!goog.graphics.PathElement} The newly created element.
  * @override
  */
-goog.graphics.CanvasGraphics.prototype.drawPath = function(path, stroke, fill,
-    opt_group) {
-  var element = new goog.graphics.CanvasPathElement(null, this,
-      path, stroke, fill);
+goog.graphics.CanvasGraphics.prototype.drawPath = function(
+    path, stroke, fill, opt_group) {
+  var element =
+      new goog.graphics.CanvasPathElement(null, this, path, stroke, fill);
   this.append(element, opt_group);
   return element;
 };
@@ -582,7 +588,7 @@ goog.graphics.CanvasGraphics.prototype.isRedrawRequired = function(group) {
  * @param {goog.graphics.GroupElement=} opt_group The group wrapper
  *     element to append to. If not specified, appends to the main canvas.
  *
- * @return {goog.graphics.CanvasGroupElement} The newly created group.
+ * @return {!goog.graphics.CanvasGroupElement} The newly created group.
  * @override
  */
 goog.graphics.CanvasGraphics.prototype.createGroup = function(opt_group) {
@@ -605,7 +611,7 @@ goog.graphics.CanvasGraphics.prototype.createGroup = function(opt_group) {
  * Measure and return the width (in pixels) of a given text string.
  * Text measurement is needed to make sure a text can fit in the allocated
  * area. The way text length is measured is by writing it into a div that is
- * after the visible area, measure the div width, and immediatly erase the
+ * after the visible area, measure the div width, and immediately erase the
  * written value.
  *
  * @param {string} text The text string to measure.
@@ -662,4 +668,18 @@ goog.graphics.CanvasGraphics.prototype.resume = function() {
     this.redraw();
     this.needsRedraw_ = false;
   }
+};
+
+
+/**
+ * Removes an element from the Canvas.
+ * @param {goog.graphics.Element} elem the element to remove.
+ * @override
+ */
+goog.graphics.CanvasGraphics.prototype.removeElement = function(elem) {
+  if (!elem) {
+    return;
+  }
+  this.canvasElement.removeElement(elem);
+  this.redraw();
 };

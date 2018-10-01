@@ -23,9 +23,11 @@
 
 goog.provide('goog.net.xpc.FrameElementMethodTransport');
 
+goog.require('goog.log');
 goog.require('goog.net.xpc');
 goog.require('goog.net.xpc.CrossPageChannelRole');
 goog.require('goog.net.xpc.Transport');
+goog.require('goog.net.xpc.TransportTypes');
 
 
 
@@ -42,9 +44,11 @@ goog.require('goog.net.xpc.Transport');
  *     the correct window.
  * @constructor
  * @extends {goog.net.xpc.Transport}
+ * @final
  */
 goog.net.xpc.FrameElementMethodTransport = function(channel, opt_domHelper) {
-  goog.base(this, opt_domHelper);
+  goog.net.xpc.FrameElementMethodTransport.base(
+      this, 'constructor', opt_domHelper);
 
   /**
    * The channel this transport belongs to.
@@ -59,7 +63,7 @@ goog.net.xpc.FrameElementMethodTransport = function(channel, opt_domHelper) {
 
   /**
    * Array for queued messages.
-   * @type {Array}
+   * @type {Array<{serviceName: string, payload: string}>}
    * @private
    */
   this.queue_ = [];
@@ -84,20 +88,24 @@ goog.net.xpc.FrameElementMethodTransport.prototype.transportType =
     goog.net.xpc.TransportTypes.FRAME_ELEMENT_METHOD;
 
 
+/** @private */
+goog.net.xpc.FrameElementMethodTransport.prototype.attemptSetupCb_;
+
+
+/** @private */
+goog.net.xpc.FrameElementMethodTransport.prototype.outgoing_;
+
+
+/** @private */
+goog.net.xpc.FrameElementMethodTransport.prototype.iframeElm_;
+
+
 /**
  * Flag used to enforce asynchronous messaging semantics.
  * @type {boolean}
  * @private
  */
 goog.net.xpc.FrameElementMethodTransport.prototype.recursive_ = false;
-
-
-/**
- * Timer used to enforce asynchronous message delivery.
- * @type {number}
- * @private
- */
-goog.net.xpc.FrameElementMethodTransport.prototype.timer_ = 0;
 
 
 /**
@@ -161,10 +169,9 @@ goog.net.xpc.FrameElementMethodTransport.prototype.attemptSetup_ = function() {
       // notify channel that the transport is ready
       this.channel_.notifyConnected();
     }
-  }
-  catch (e) {
-    goog.log.error(goog.net.xpc.logger,
-        'exception caught while attempting setup: ' + e);
+  } catch (e) {
+    goog.log.error(
+        goog.net.xpc.logger, 'exception caught while attempting setup: ' + e);
   }
   // retry necessary?
   if (retry) {
@@ -202,15 +209,14 @@ goog.net.xpc.FrameElementMethodTransport.prototype.transportServiceHandler =
  * @param {string} payload The message to process.
  * @private
  */
-goog.net.xpc.FrameElementMethodTransport.prototype.incoming_ =
-    function(serviceName, payload) {
+goog.net.xpc.FrameElementMethodTransport.prototype.incoming_ = function(
+    serviceName, payload) {
   if (!this.recursive_ && this.queue_.length == 0) {
     this.channel_.xpcDeliver(serviceName, payload);
-  }
-  else {
+  } else {
     this.queue_.push({serviceName: serviceName, payload: payload});
     if (this.queue_.length == 1) {
-      this.timer_ = this.getWindow().setTimeout(this.deliverQueuedCb_, 1);
+      this.getWindow().setTimeout(this.deliverQueuedCb_, 1);
     }
   }
 };
@@ -220,8 +226,7 @@ goog.net.xpc.FrameElementMethodTransport.prototype.incoming_ =
  * Delivers queued messages.
  * @private
  */
-goog.net.xpc.FrameElementMethodTransport.prototype.deliverQueued_ =
-    function() {
+goog.net.xpc.FrameElementMethodTransport.prototype.deliverQueued_ = function() {
   while (this.queue_.length) {
     var msg = this.queue_.shift();
     this.channel_.xpcDeliver(msg.serviceName, msg.payload);
@@ -236,8 +241,8 @@ goog.net.xpc.FrameElementMethodTransport.prototype.deliverQueued_ =
  * @param {string} payload The message content.
  * @override
  */
-goog.net.xpc.FrameElementMethodTransport.prototype.send =
-    function(service, payload) {
+goog.net.xpc.FrameElementMethodTransport.prototype.send = function(
+    service, payload) {
   this.recursive_ = true;
   this.outgoing_(service, payload);
   this.recursive_ = false;

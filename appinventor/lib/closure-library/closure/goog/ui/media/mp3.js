@@ -48,10 +48,8 @@
  *   mp3.setSelected(true);
  * </pre>
  *
+ * Requires flash to actually work.
  *
- * @supported IE6, FF2+, Safari. Requires flash to actually work.
- *
- * TODO(user): test on other browsers
  */
 
 goog.provide('goog.ui.media.Mp3');
@@ -82,6 +80,7 @@ goog.require('goog.ui.media.MediaRenderer');
  *
  * @constructor
  * @extends {goog.ui.media.MediaRenderer}
+ * @final
  */
 goog.ui.media.Mp3 = function() {
   goog.ui.media.MediaRenderer.call(this);
@@ -149,14 +148,12 @@ goog.ui.media.Mp3.MATCHER =
  *     an mp3 url on {@code dataModel.getUrl}.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper, used for
  *     document interaction.
- * @return {goog.ui.media.Media} A goog.ui.Control subclass with the mp3
+ * @return {!goog.ui.media.Media} A goog.ui.Control subclass with the mp3
  *     renderer.
  */
 goog.ui.media.Mp3.newControl = function(dataModel, opt_domHelper) {
   var control = new goog.ui.media.Media(
-      dataModel,
-      goog.ui.media.Mp3.getInstance(),
-      opt_domHelper);
+      dataModel, goog.ui.media.Mp3.getInstance(), opt_domHelper);
   // mp3 ui doesn't have a non selected view: it shows the mp3 player by
   // default.
   control.setSelected(true);
@@ -184,9 +181,9 @@ goog.ui.media.Mp3.setFlashUrl = function(flashUrl) {
  *     given {@code mp3Url}.
  */
 goog.ui.media.Mp3.buildFlashUrl = function(mp3Url) {
-  var flashUrl = goog.ui.media.Mp3.flashUrl_ + '?' + goog.string.subs(
-      goog.ui.media.Mp3.PLAYER_ARGUMENTS_,
-      goog.string.urlEncode(mp3Url));
+  var flashUrl = goog.ui.media.Mp3.flashUrl_ + '?' +
+      goog.string.subs(
+          goog.ui.media.Mp3.PLAYER_ARGUMENTS_, goog.string.urlEncode(mp3Url));
   return flashUrl;
 };
 
@@ -196,7 +193,7 @@ goog.ui.media.Mp3.buildFlashUrl = function(mp3Url) {
  * the flash object pointing to a flash mp3 player.
  *
  * @param {goog.ui.Control} c The media control.
- * @return {Element} A DOM structure that represents the control.
+ * @return {!Element} A DOM structure that represents the control.
  * @override
  */
 goog.ui.media.Mp3.prototype.createDom = function(c) {
@@ -205,11 +202,8 @@ goog.ui.media.Mp3.prototype.createDom = function(c) {
 
   var dataModel =
       /** @type {goog.ui.media.MediaModel} */ (control.getDataModel());
-  var flashUrl = goog.ui.media.Mp3.flashUrl_ + '?' + goog.string.subs(
-      goog.ui.media.Mp3.PLAYER_ARGUMENTS_,
-      goog.string.urlEncode(dataModel.getUrl()));
   var flash = new goog.ui.media.FlashObject(
-      dataModel.getPlayer().getUrl(), control.getDomHelper());
+      dataModel.getPlayer().getTrustedResourceUrl(), control.getDomHelper());
   flash.setFlashVar('playerMode', 'embedded');
   flash.render(div);
 

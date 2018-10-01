@@ -78,7 +78,7 @@ goog.require('goog.functions');
 goog.require('goog.string');
 goog.require('goog.userAgent');
 
-  /**
+/**
    * Returns nodes which match the given CSS3 selector, searching the
    * entire document by default but optionally taking a node to scope
    * the search by.
@@ -103,12 +103,12 @@ goog.require('goog.userAgent');
    *   * `~`, the immediately preceded-by sibling selector
    *   * `+`, the preceded-by sibling selector
    *   * attribute queries:
-   *   |  * `[foo]` attribute presence selector
-   *   |  * `[foo='bar']` attribute value exact match
-   *   |  * `[foo~='bar']` attribute value list item match
-   *   |  * `[foo^='bar']` attribute start match
-   *   |  * `[foo$='bar']` attribute end match
-   *   |  * `[foo*='bar']` attribute substring match
+   *      * `[foo]` attribute presence selector
+   *      * `[foo='bar']` attribute value exact match
+   *      * `[foo~='bar']` attribute value list item match
+   *      * `[foo^='bar']` attribute start match
+   *      * `[foo$='bar']` attribute end match
+   *      * `[foo*='bar']` attribute substring match
    *   * `:first-child`, `:last-child` positional selectors
    *   * `:empty` content empty selector
    *   * `:empty` content empty selector
@@ -131,9 +131,9 @@ goog.require('goog.userAgent');
    *   * namespace-differentiated selectors of any form
    *   * all `::` pseudo-element selectors
    *   * certain pseudo-selectors which don't get a lot of day-to-day use:
-   *   |  * `:root`, `:lang()`, `:target`, `:focus`
+   *      * `:root`, `:lang()`, `:target`, `:focus`
    *   * all visual and state selectors:
-   *   |  * `:root`, `:active`, `:hover`, `:visited`, `:link`,
+   *      * `:root`, `:active`, `:hover`, `:visited`, `:link`,
    *       `:enabled`, `:disabled`, `:checked`
    *   * `:*-of-type` pseudo selectors
    *
@@ -155,37 +155,47 @@ goog.require('goog.userAgent');
    * can quickly construct a new array of nodes from the original by
    * calling `dojo.query(node)` or `dojo.query(array)`.
    *
-   * example:
-   *   search the entire document for elements with the class "foo":
-   * |  dojo.query(".foo");
-   *   these elements will match:
-   * |  <span class="foo"></span>
-   * |  <span class="foo bar"></span>
-   * |  <p class="thud foo"></p>
-   * example:
-   *   search the entire document for elements with the classes "foo" *and*
-   *   "bar":
-   * |  dojo.query(".foo.bar");
-   *   these elements will match:
-   * |  <span class="foo bar"></span>
-   *   while these will not:
-   * |  <span class="foo"></span>
-   * |  <p class="thud foo"></p>
-   * example:
-   *   find `<span>` elements which are descendants of paragraphs and
-   *   which have a "highlighted" class:
-   * |  dojo.query("p span.highlighted");
-   *   the innermost span in this fragment matches:
-   * |  <p class="foo">
-   * |    <span>...
-   * |      <span class="highlighted foo bar">...</span>
-   * |    </span>
-   * |  </p>
-   * example:
-   *   find all odd table rows inside of the table
-   *   `#tabular_data`, using the `>` (direct child) selector to avoid
-   *   affecting any nested tables:
-   * |  dojo.query("#tabular_data > tbody > tr:nth-child(odd)");
+   * __Example:__ search the entire document for elements with the class "foo":
+   *
+   *    dojo.query(".foo");
+   *
+   * these elements will match:
+   *
+   *    <span class="foo"></span>
+   *    <span class="foo bar"></span>
+   *    <p class="thud foo"></p>
+   *
+   * __Example:__ search the entire document for elements with the classes "foo"
+   * _and_ "bar":
+   *
+   *    dojo.query(".foo.bar");
+   *
+   * these elements will match:
+   *
+   *    <span class="foo bar"></span>
+   *
+   * while these will not:
+   *
+   *    <span class="foo"></span>
+   *    <p class="thud foo"></p>
+   *
+   * __Example:__ find `<span>` elements which are descendants of paragraphs and
+   * which have a "highlighted" class:
+   *
+   *    dojo.query("p span.highlighted");
+   *
+   * the innermost span in this fragment matches:
+   *
+   *    <p class="foo">
+   *      <span>...
+   *        <span class="highlighted foo bar">...</span>
+   *      </span>
+   *    </p>
+   *
+   * __Example:__ find all odd table rows inside of the table `#tabular_data`,
+   * using the `>` (direct child) selector to avoid affecting any nested tables:
+   *
+   *    dojo.query("#tabular_data > tbody > tr:nth-child(odd)");
    *
    * @param {string|Array} query The CSS3 expression to match against.
    *     For details on the syntax of CSS3 selectors, see
@@ -207,11 +217,12 @@ goog.dom.query = (function() {
                      ((goog.dom.getDocument().compatMode) == 'BackCompat')
                    );
 
+  var legacyIE = goog.userAgent.IE && !goog.userAgent.isVersionOrHigher('9');
+
   // On browsers that support the "children" collection we can avoid a lot of
   // iteration on chaff (non-element) nodes.
-  var childNodesName = !!goog.dom.getDocument().firstChild['children'] ?
-                          'children' :
-                          'childNodes';
+  var childNodesName =
+      goog.dom.getDocument().firstChild['children'] ? 'children' : 'childNodes';
 
   var specials = '>~+';
 
@@ -248,7 +259,7 @@ goog.dom.query = (function() {
     if (specials.indexOf(query.slice(-1)) >= 0) {
       // If we end with a ">", "+", or "~", that means we're implicitly
       // searching all children, so make it explicit.
-      query += ' * '
+      query += ' * ';
     } else {
       // if you have not provided a terminator, one will be provided for
       // you...
@@ -384,7 +395,7 @@ goog.dom.query = (function() {
       queryParts.push(currentPart);
 
       currentPart = null;
-    }
+    };
 
     // iterate over the query, character by character, building up a
     // list of query part objects
@@ -518,10 +529,7 @@ goog.dom.query = (function() {
         // expression if we're already inside a pseudo-selector match
         if (inPseudo >= 0) {
           // provide a new structure for the pseudo match to fill-in
-          cp = {
-            name: ts(inPseudo + 1, x),
-            value: null
-          }
+          cp = {name: ts(inPseudo + 1, x), value: null};
           currentPart.pseudos.push(cp);
         }
         inParens = x;
@@ -560,6 +568,7 @@ goog.dom.query = (function() {
   };
 
   /**
+   * @param {(number|string|Node)} i
    * @param {Array=} opt_arr
    */
   function getArr(i, opt_arr) {
@@ -569,7 +578,7 @@ goog.dom.query = (function() {
       r.push(i);
     }
     return r;
-  };
+  }
 
   var isElement = function(n) {
     return (1 == n.nodeType);
@@ -618,7 +627,7 @@ goog.dom.query = (function() {
       var tval = ' ' + value;
       return function(elem) {
         var ea = ' ' + getAttr(elem, attr);
-        return (ea.lastIndexOf(value) == (ea.length - value.length));
+        return (ea.lastIndexOf(tval) == (ea.length - tval.length));
       }
     },
     '~=': function(attr, value) {
@@ -846,7 +855,7 @@ goog.dom.query = (function() {
     }
   };
 
-  var defaultGetter = (goog.userAgent.IE) ? function(cond) {
+  var defaultGetter = (legacyIE) ? function(cond) {
     var clc = cond.toLowerCase();
     if (clc == 'class') {
       cond = 'className';
@@ -1098,7 +1107,7 @@ goog.dom.query = (function() {
               return getArr(te, arr);
             }
           }
-        }
+        };
       } else if (
         ecs &&
         // isAlien check. Workaround for Prototype.js being totally evil/dumb.
@@ -1269,7 +1278,11 @@ goog.dom.query = (function() {
     (!goog.userAgent.WEBKIT || goog.userAgent.isVersionOrHigher('526'))
   );
 
-  /** @param {boolean=} opt_forceDOM */
+  /**
+   * @param {(string|Array)} query
+   * @param {boolean=} opt_forceDOM
+   * @return {function((string|Node)): !Array}
+   */
   var getQueryFunc = function(query, opt_forceDOM) {
 
     if (qsaAvail) {
@@ -1307,7 +1320,7 @@ goog.dom.query = (function() {
       //    http://www.w3.org/TR/css3-selectors/#w3cselgrammar
       (specials.indexOf(qcz) == -1) &&
       // IE's QSA impl sucks on pseudos
-      (!goog.userAgent.IE || (query.indexOf(':') == -1)) &&
+      (!legacyIE || (query.indexOf(':') == -1)) &&
 
       (!(cssCaseBug && (query.indexOf('.') >= 0))) &&
 
@@ -1341,14 +1354,14 @@ goog.dom.query = (function() {
           //  right now. Not elegant, but it's cheaper than running
           //  the query parser when we might not need to
           if (!((9 == root.nodeType) || nospace)) {
-            throw '';
+            throw new Error('');
           }
           var r = root[qsa](tq);
           // IE QSA queries may incorrectly include comment nodes, so we throw
           // the zipping function into 'remove' comments mode instead of the
           // normal 'skip it' which every other QSA-clued browser enjoys
           // skip expensive duplication checks and just wrap in an array.
-          if (goog.userAgent.IE) {
+          if (legacyIE) {
             r.commentStrip = true;
           } else {
             r.nozip = true;
@@ -1359,27 +1372,28 @@ goog.dom.query = (function() {
           // default that way in the future
           return getQueryFunc(query, true)(root);
         }
-      }
+      };
     } else {
       // DOM branch
       var parts = query.split(/\s*,\s*/);
-      return _queryFuncCacheDOM[query] = ((parts.length < 2) ?
-        // if not a compound query (e.g., '.foo, .bar'), cache and return a
-        // dispatcher
-        getStepQueryFunc(query) :
-        // if it *is* a complex query, break it up into its
-        // constituent parts and return a dispatcher that will
-        // merge the parts when run
-        function(root) {
-          var pindex = 0, // avoid array alloc for every invocation
-            ret = [],
-            tp;
-          while (tp = parts[pindex++]) {
-            ret = ret.concat(getStepQueryFunc(tp)(root));
-          }
-          return ret;
-        }
-      );
+      return _queryFuncCacheDOM[query] =
+                 ((parts.length < 2) ?
+                      // if not a compound query (e.g., '.foo, .bar'), cache and
+                      // return a dispatcher
+                      getStepQueryFunc(query) :
+                      // if it *is* a complex query, break it up into its
+                      // constituent parts and return a dispatcher that will
+                      // merge the parts when run
+                      function(root) {
+                        var pindex =
+                                0,  // avoid array alloc for every invocation
+                            ret = [],
+                            tp;
+                        while (tp = parts[pindex++]) {
+                          ret = ret.concat(getStepQueryFunc(tp)(root));
+                        }
+                        return ret;
+                      });
     }
   };
 
@@ -1388,7 +1402,7 @@ goog.dom.query = (function() {
   // NOTE:
   //    this function is Moo inspired, but our own impl to deal correctly
   //    with XML in IE
-  var _nodeUID = goog.userAgent.IE ? function(node) {
+  var _nodeUID = legacyIE ? function(node) {
     if (caseSensitive) {
       // XML docs don't have uniqueID on their nodes
       return node.getAttribute('_uid') ||
@@ -1440,7 +1454,7 @@ goog.dom.query = (function() {
 
     // we have to fork here for IE and XML docs because we can't set
     // expandos on their nodes (apparently). *sigh*
-    if (goog.userAgent.IE && caseSensitive) {
+    if (legacyIE && caseSensitive) {
       var szidx = _zipIdx + '';
       arr[0].setAttribute(_zipIdxName, szidx);
       for (var x = 1, te; te = arr[x]; x++) {
@@ -1449,7 +1463,7 @@ goog.dom.query = (function() {
         }
         te.setAttribute(_zipIdxName, szidx);
       }
-    } else if (goog.userAgent.IE && arr.commentStrip) {
+    } else if (legacyIE && arr.commentStrip) {
       try {
         for (var x = 1, te; te = arr[x]; x++) {
           if (isElement(te)) {
@@ -1474,10 +1488,10 @@ goog.dom.query = (function() {
   /**
    * The main executor. Type specification from above.
    * @param {string|Array} query The query.
-   * @param {(string|Node)=} root The root.
+   * @param {(string|Node)=} opt_root The root.
    * @return {!Array} The elements that matched the query.
    */
-  var query = function(query, root) {
+  var query = function(query, opt_root) {
     // NOTE: elementsById is not currently supported
     // NOTE: ignores xpath-ish queries for now
 
@@ -1496,6 +1510,7 @@ goog.dom.query = (function() {
       return [query];
     }
 
+    var root = opt_root;
     if (goog.isString(root)) {
       root = goog.dom.getElement(root);
       if (!root) {
@@ -1516,7 +1531,7 @@ goog.dom.query = (function() {
         goog.userAgent.OPERA &&
           (root.doctype || od.toString() == '[object XMLDocument]') ||
         !!od &&
-        (goog.userAgent.IE ? od.xml : (root.xmlVersion || od.xmlVersion));
+        (legacyIE ? od.xml : (root.xmlVersion || od.xmlVersion));
 
     // NOTE:
     //    adding 'true' as the 2nd argument to getQueryFunc is useful for
@@ -1530,7 +1545,7 @@ goog.dom.query = (function() {
       return r;
     }
     return _zip(r);
-  }
+  };
 
   // FIXME: need to add infrastructure for post-filtering pseudos, ala :last
   query.pseudos = pseudos;

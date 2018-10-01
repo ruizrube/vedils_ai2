@@ -22,6 +22,7 @@
  */
 goog.provide('goog.i18n.bidi');
 goog.provide('goog.i18n.bidi.Dir');
+goog.provide('goog.i18n.bidi.DirectionalString');
 goog.provide('goog.i18n.bidi.Format');
 
 
@@ -59,15 +60,21 @@ goog.define('goog.i18n.bidi.FORCE_RTL', false);
  * TODO(user): write a test that checks that this is a compile-time constant.
  */
 goog.i18n.bidi.IS_RTL = goog.i18n.bidi.FORCE_RTL ||
-    (goog.LOCALE.substring(0, 2).toLowerCase() == 'ar' ||
-     goog.LOCALE.substring(0, 2).toLowerCase() == 'fa' ||
-     goog.LOCALE.substring(0, 2).toLowerCase() == 'he' ||
-     goog.LOCALE.substring(0, 2).toLowerCase() == 'iw' ||
-     goog.LOCALE.substring(0, 2).toLowerCase() == 'ur' ||
-     goog.LOCALE.substring(0, 2).toLowerCase() == 'yi') &&
-    (goog.LOCALE.length == 2 ||
-     goog.LOCALE.substring(2, 3) == '-' ||
-     goog.LOCALE.substring(2, 3) == '_');
+    ((goog.LOCALE.substring(0, 2).toLowerCase() == 'ar' ||
+      goog.LOCALE.substring(0, 2).toLowerCase() == 'fa' ||
+      goog.LOCALE.substring(0, 2).toLowerCase() == 'he' ||
+      goog.LOCALE.substring(0, 2).toLowerCase() == 'iw' ||
+      goog.LOCALE.substring(0, 2).toLowerCase() == 'ps' ||
+      goog.LOCALE.substring(0, 2).toLowerCase() == 'sd' ||
+      goog.LOCALE.substring(0, 2).toLowerCase() == 'ug' ||
+      goog.LOCALE.substring(0, 2).toLowerCase() == 'ur' ||
+      goog.LOCALE.substring(0, 2).toLowerCase() == 'yi') &&
+     (goog.LOCALE.length == 2 || goog.LOCALE.substring(2, 3) == '-' ||
+      goog.LOCALE.substring(2, 3) == '_')) ||
+    (goog.LOCALE.length >= 3 &&
+     goog.LOCALE.substring(0, 3).toLowerCase() == 'ckb' &&
+     (goog.LOCALE.length == 3 || goog.LOCALE.substring(3, 4) == '-' ||
+      goog.LOCALE.substring(3, 4) == '_'));
 
 
 /**
@@ -106,13 +113,7 @@ goog.i18n.bidi.Dir = {
   /**
    * Neither left-to-right nor right-to-left.
    */
-  NEUTRAL: 0,
-
-  /**
-   * A historical misnomer for NEUTRAL.
-   * @deprecated For "neutral", use NEUTRAL; for "unknown", use null.
-   */
-  UNKNOWN: 0
+  NEUTRAL: 0
 };
 
 
@@ -134,16 +135,16 @@ goog.i18n.bidi.LEFT = 'left';
  * 'left' if locale is RTL, 'right' if not.
  * @type {string}
  */
-goog.i18n.bidi.I18N_RIGHT = goog.i18n.bidi.IS_RTL ? goog.i18n.bidi.LEFT :
-    goog.i18n.bidi.RIGHT;
+goog.i18n.bidi.I18N_RIGHT =
+    goog.i18n.bidi.IS_RTL ? goog.i18n.bidi.LEFT : goog.i18n.bidi.RIGHT;
 
 
 /**
  * 'right' if locale is RTL, 'left' if not.
  * @type {string}
  */
-goog.i18n.bidi.I18N_LEFT = goog.i18n.bidi.IS_RTL ? goog.i18n.bidi.RIGHT :
-    goog.i18n.bidi.LEFT;
+goog.i18n.bidi.I18N_LEFT =
+    goog.i18n.bidi.IS_RTL ? goog.i18n.bidi.RIGHT : goog.i18n.bidi.LEFT;
 
 
 /**
@@ -166,9 +167,9 @@ goog.i18n.bidi.I18N_LEFT = goog.i18n.bidi.IS_RTL ? goog.i18n.bidi.RIGHT :
 goog.i18n.bidi.toDir = function(givenDir, opt_noNeutral) {
   if (typeof givenDir == 'number') {
     // This includes the non-null goog.i18n.bidi.Dir case.
-    return givenDir > 0 ? goog.i18n.bidi.Dir.LTR :
-        givenDir < 0 ? goog.i18n.bidi.Dir.RTL :
-        opt_noNeutral ? null : goog.i18n.bidi.Dir.NEUTRAL;
+    return givenDir > 0 ? goog.i18n.bidi.Dir.LTR : givenDir < 0 ?
+                          goog.i18n.bidi.Dir.RTL :
+                          opt_noNeutral ? null : goog.i18n.bidi.Dir.NEUTRAL;
   } else if (givenDir == null) {
     return null;
   } else {
@@ -197,7 +198,8 @@ goog.i18n.bidi.ltrChars_ =
  * @type {string}
  * @private
  */
-goog.i18n.bidi.rtlChars_ = '\u0591-\u07FF\u200F\uFB1D-\uFDFF\uFE70-\uFEFC';
+goog.i18n.bidi.rtlChars_ =
+    '\u0591-\u06EF\u06FA-\u07FF\u200F\uFB1D-\uFDFF\uFE70-\uFEFC';
 
 
 /**
@@ -224,8 +226,7 @@ goog.i18n.bidi.htmlSkipReg_ = /<[^>]*>|&[^;]+;/g;
  * @private
  */
 goog.i18n.bidi.stripHtmlIfNeeded_ = function(str, opt_isStripNeeded) {
-  return opt_isStripNeeded ? str.replace(goog.i18n.bidi.htmlSkipReg_, '') :
-      str;
+  return opt_isStripNeeded ? str.replace(goog.i18n.bidi.htmlSkipReg_, '') : str;
 };
 
 
@@ -253,8 +254,8 @@ goog.i18n.bidi.ltrCharReg_ = new RegExp('[' + goog.i18n.bidi.ltrChars_ + ']');
  * @return {boolean} Whether the string contains RTL characters.
  */
 goog.i18n.bidi.hasAnyRtl = function(str, opt_isHtml) {
-  return goog.i18n.bidi.rtlCharReg_.test(goog.i18n.bidi.stripHtmlIfNeeded_(
-      str, opt_isHtml));
+  return goog.i18n.bidi.rtlCharReg_.test(
+      goog.i18n.bidi.stripHtmlIfNeeded_(str, opt_isHtml));
 };
 
 
@@ -275,8 +276,8 @@ goog.i18n.bidi.hasRtlChar = goog.i18n.bidi.hasAnyRtl;
  * @return {boolean} Whether the string contains LTR characters.
  */
 goog.i18n.bidi.hasAnyLtr = function(str, opt_isHtml) {
-  return goog.i18n.bidi.ltrCharReg_.test(goog.i18n.bidi.stripHtmlIfNeeded_(
-      str, opt_isHtml));
+  return goog.i18n.bidi.ltrCharReg_.test(
+      goog.i18n.bidi.stripHtmlIfNeeded_(str, opt_isHtml));
 };
 
 
@@ -357,8 +358,8 @@ goog.i18n.bidi.rtlDirCheckRe_ = new RegExp(
  *     strongly-directional character method.
  */
 goog.i18n.bidi.startsWithRtl = function(str, opt_isHtml) {
-  return goog.i18n.bidi.rtlDirCheckRe_.test(goog.i18n.bidi.stripHtmlIfNeeded_(
-      str, opt_isHtml));
+  return goog.i18n.bidi.rtlDirCheckRe_.test(
+      goog.i18n.bidi.stripHtmlIfNeeded_(str, opt_isHtml));
 };
 
 
@@ -383,8 +384,8 @@ goog.i18n.bidi.isRtlText = goog.i18n.bidi.startsWithRtl;
  *     strongly-directional character method.
  */
 goog.i18n.bidi.startsWithLtr = function(str, opt_isHtml) {
-  return goog.i18n.bidi.ltrDirCheckRe_.test(goog.i18n.bidi.stripHtmlIfNeeded_(
-      str, opt_isHtml));
+  return goog.i18n.bidi.ltrDirCheckRe_.test(
+      goog.i18n.bidi.stripHtmlIfNeeded_(str, opt_isHtml));
 };
 
 
@@ -505,8 +506,9 @@ goog.i18n.bidi.isRtlExitText = goog.i18n.bidi.endsWithRtl;
  * @private
  */
 goog.i18n.bidi.rtlLocalesRe_ = new RegExp(
-    '^(ar|dv|he|iw|fa|nqo|ps|sd|ug|ur|yi|.*[-_](Arab|Hebr|Thaa|Nkoo|Tfng))' +
-    '(?!.*[-_](Latn|Cyrl)($|-|_))($|-|_)',
+    '^(ar|ckb|dv|he|iw|fa|nqo|ps|sd|ug|ur|yi|' +
+        '.*[-_](Arab|Hebr|Thaa|Nkoo|Tfng))' +
+        '(?!.*[-_](Latn|Cyrl)($|-|_))($|-|_)',
     'i');
 
 
@@ -526,7 +528,7 @@ goog.i18n.bidi.rtlLocalesRe_ = new RegExp(
  * The languages usually written in a right-to-left script are taken as those
  * with Suppress-Script: Hebr|Arab|Thaa|Nkoo|Tfng  in
  * http://www.iana.org/assignments/language-subtag-registry,
- * as well as Sindhi (sd) and Uyghur (ug).
+ * as well as Central (or Sorani) Kurdish (ckb), Sindhi (sd) and Uyghur (ug).
  * Other subtags of the language code, e.g. regions like EG (Egypt), are
  * ignored.
  * @param {string} lang BCP 47 (a.k.a III) language code.
@@ -535,15 +537,6 @@ goog.i18n.bidi.rtlLocalesRe_ = new RegExp(
 goog.i18n.bidi.isRtlLanguage = function(lang) {
   return goog.i18n.bidi.rtlLocalesRe_.test(lang);
 };
-
-
-/**
- * Regular expression for bracket guard replacement in html.
- * @type {RegExp}
- * @private
- */
-goog.i18n.bidi.bracketGuardHtmlRe_ =
-    /(\(.*?\)+)|(\[.*?\]+)|(\{.*?\}+)|(&lt;.*?(&gt;)+)/g;
 
 
 /**
@@ -556,38 +549,19 @@ goog.i18n.bidi.bracketGuardTextRe_ =
 
 
 /**
- * Apply bracket guard using html span tag. This is to address the problem of
- * messy bracket display frequently happens in RTL layout.
- * @param {string} s The string that need to be processed.
- * @param {boolean=} opt_isRtlContext specifies default direction (usually
- *     direction of the UI).
- * @return {string} The processed string, with all bracket guarded.
- */
-goog.i18n.bidi.guardBracketInHtml = function(s, opt_isRtlContext) {
-  var useRtl = opt_isRtlContext === undefined ?
-      goog.i18n.bidi.hasAnyRtl(s) : opt_isRtlContext;
-  if (useRtl) {
-    return s.replace(goog.i18n.bidi.bracketGuardHtmlRe_,
-        '<span dir=rtl>$&</span>');
-  }
-  return s.replace(goog.i18n.bidi.bracketGuardHtmlRe_,
-      '<span dir=ltr>$&</span>');
-};
-
-
-/**
  * Apply bracket guard using LRM and RLM. This is to address the problem of
  * messy bracket display frequently happens in RTL layout.
- * This version works for both plain text and html. But it does not work as
- * good as guardBracketInHtml in some cases.
+ * This function works for plain text, not for HTML. In HTML, the opening
+ * bracket might be in a different context than the closing bracket (such as
+ * an attribute value).
  * @param {string} s The string that need to be processed.
  * @param {boolean=} opt_isRtlContext specifies default direction (usually
  *     direction of the UI).
  * @return {string} The processed string, with all bracket guarded.
  */
 goog.i18n.bidi.guardBracketInText = function(s, opt_isRtlContext) {
-  var useRtl = opt_isRtlContext === undefined ?
-      goog.i18n.bidi.hasAnyRtl(s) : opt_isRtlContext;
+  var useRtl = opt_isRtlContext === undefined ? goog.i18n.bidi.hasAnyRtl(s) :
+                                                opt_isRtlContext;
   var mark = useRtl ? goog.i18n.bidi.Format.RLM : goog.i18n.bidi.Format.LRM;
   return s.replace(goog.i18n.bidi.bracketGuardTextRe_, mark + '$&' + mark);
 };
@@ -695,12 +669,14 @@ goog.i18n.bidi.tempRe_ = /%%%%/g;
  * @return {string} Processed CSS specification string.
  */
 goog.i18n.bidi.mirrorCSS = function(cssStr) {
-  return cssStr.
+  return cssStr
+      .
       // reverse dimensions
-      replace(goog.i18n.bidi.dimensionsRe_, ':$1 $4 $3 $2').
-      replace(goog.i18n.bidi.leftRe_, '%%%%').          // swap left and right
-      replace(goog.i18n.bidi.rightRe_, goog.i18n.bidi.LEFT).
-      replace(goog.i18n.bidi.tempRe_, goog.i18n.bidi.RIGHT);
+      replace(goog.i18n.bidi.dimensionsRe_, ':$1 $4 $3 $2')
+      .replace(goog.i18n.bidi.leftRe_, '%%%%')
+      .  // swap left and right
+      replace(goog.i18n.bidi.rightRe_, goog.i18n.bidi.LEFT)
+      .replace(goog.i18n.bidi.tempRe_, goog.i18n.bidi.RIGHT);
 };
 
 
@@ -729,9 +705,8 @@ goog.i18n.bidi.singleQuoteSubstituteRe_ = /([\u0591-\u05f2])'/g;
  * @return {string} Processed string with double/single quote replaced.
  */
 goog.i18n.bidi.normalizeHebrewQuote = function(str) {
-  return str.
-      replace(goog.i18n.bidi.doubleQuoteSubstituteRe_, '$1\u05f4').
-      replace(goog.i18n.bidi.singleQuoteSubstituteRe_, '$1\u05f3');
+  return str.replace(goog.i18n.bidi.doubleQuoteSubstituteRe_, '$1\u05f4')
+      .replace(goog.i18n.bidi.singleQuoteSubstituteRe_, '$1\u05f3');
 };
 
 
@@ -748,10 +723,20 @@ goog.i18n.bidi.wordSeparatorRe_ = /\s+/;
  * Regular expression to check if a string contains any numerals. Used to
  * differentiate between completely neutral strings and those containing
  * numbers, which are weakly LTR.
+ *
+ * Native Arabic digits (\u0660 - \u0669) are not included because although they
+ * do flow left-to-right inside a number, this is the case even if the  overall
+ * directionality is RTL, and a mathematical expression using these digits is
+ * supposed to flow right-to-left overall, including unary plus and minus
+ * appearing to the right of a number, and this does depend on the overall
+ * directionality being RTL. The digits used in Farsi (\u06F0 - \u06F9), on the
+ * other hand, are included, since Farsi math (including unary plus and minus)
+ * does flow left-to-right.
+ *
  * @type {RegExp}
  * @private
  */
-goog.i18n.bidi.hasNumeralsRe_ = /\d/;
+goog.i18n.bidi.hasNumeralsRe_ = /[\d\u06f0-\u06f9]/;
 
 
 /**
@@ -778,8 +763,8 @@ goog.i18n.bidi.estimateDirection = function(str, opt_isHtml) {
   var rtlCount = 0;
   var totalCount = 0;
   var hasWeaklyLtr = false;
-  var tokens = goog.i18n.bidi.stripHtmlIfNeeded_(str, opt_isHtml).
-      split(goog.i18n.bidi.wordSeparatorRe_);
+  var tokens = goog.i18n.bidi.stripHtmlIfNeeded_(str, opt_isHtml)
+                   .split(goog.i18n.bidi.wordSeparatorRe_);
   for (var i = 0; i < tokens.length; i++) {
     var token = tokens[i];
     if (goog.i18n.bidi.startsWithRtl(token)) {
@@ -797,7 +782,8 @@ goog.i18n.bidi.estimateDirection = function(str, opt_isHtml) {
   return totalCount == 0 ?
       (hasWeaklyLtr ? goog.i18n.bidi.Dir.LTR : goog.i18n.bidi.Dir.NEUTRAL) :
       (rtlCount / totalCount > goog.i18n.bidi.rtlDetectionThreshold_ ?
-          goog.i18n.bidi.Dir.RTL : goog.i18n.bidi.Dir.LTR);
+           goog.i18n.bidi.Dir.RTL :
+           goog.i18n.bidi.Dir.LTR);
 };
 
 
@@ -831,9 +817,60 @@ goog.i18n.bidi.setElementDirAndAlign = function(element, dir) {
   if (element) {
     dir = goog.i18n.bidi.toDir(dir);
     if (dir) {
-      element.style.textAlign =
-          dir == goog.i18n.bidi.Dir.RTL ? 'right' : 'left';
+      element.style.textAlign = dir == goog.i18n.bidi.Dir.RTL ?
+          goog.i18n.bidi.RIGHT :
+          goog.i18n.bidi.LEFT;
       element.dir = dir == goog.i18n.bidi.Dir.RTL ? 'rtl' : 'ltr';
     }
   }
 };
+
+
+/**
+ * Sets element dir based on estimated directionality of the given text.
+ * @param {!Element} element
+ * @param {string} text
+ */
+goog.i18n.bidi.setElementDirByTextDirectionality = function(element, text) {
+  switch (goog.i18n.bidi.estimateDirection(text)) {
+    case (goog.i18n.bidi.Dir.LTR):
+      element.dir = 'ltr';
+      break;
+    case (goog.i18n.bidi.Dir.RTL):
+      element.dir = 'rtl';
+      break;
+    default:
+      // Default for no direction, inherit from document.
+      element.removeAttribute('dir');
+  }
+};
+
+
+
+/**
+ * Strings that have an (optional) known direction.
+ *
+ * Implementations of this interface are string-like objects that carry an
+ * attached direction, if known.
+ * @interface
+ */
+goog.i18n.bidi.DirectionalString = function() {};
+
+
+/**
+ * Interface marker of the DirectionalString interface.
+ *
+ * This property can be used to determine at runtime whether or not an object
+ * implements this interface.  All implementations of this interface set this
+ * property to {@code true}.
+ * @type {boolean}
+ */
+goog.i18n.bidi.DirectionalString.prototype
+    .implementsGoogI18nBidiDirectionalString;
+
+
+/**
+ * Retrieves this object's known direction (if any).
+ * @return {?goog.i18n.bidi.Dir} The known direction. Null if unknown.
+ */
+goog.i18n.bidi.DirectionalString.prototype.getDirection;

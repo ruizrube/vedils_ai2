@@ -15,16 +15,18 @@
 
 'use strict';
 
-goog.provide('Blockly.Instrument');
+goog.provide('AI.Blockly.Instrument');
+
+if (Blockly.Instrument === undefined) Blockly.Instrument = {};
 
 /** Is instrumentation turned on? */
-//Blockly.Instrument.isOn = true;
+// Blockly.Instrument.isOn = true;
 Blockly.Instrument.isOn = false; // [lyn, 04/08/14] Turn off for production
 
 /** Turn instrumentation on/off */
 Blockly.Instrument.setOn = function (bool) {
   Blockly.Instrument.isOn = bool;
-}
+};
 
 /** The following are global flags to control rendering.
  * The default settings give the best performance.

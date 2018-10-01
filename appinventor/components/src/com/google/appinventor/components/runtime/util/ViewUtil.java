@@ -36,6 +36,7 @@ public final class ViewUtil {
     return (int) (view.getContext().getResources().getDisplayMetrics().density * sizeInDP);
   }
 
+
   public static void setChildWidthForHorizontalLayout(View view, int width) {
     // In a horizontal layout, if a child's width is set to fill parent, we must set the
     // LayoutParams width to 0 and the weight to 1. For other widths, we set the weight to 0

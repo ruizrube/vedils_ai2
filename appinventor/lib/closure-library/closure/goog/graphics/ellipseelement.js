@@ -16,7 +16,6 @@
 /**
  * @fileoverview A thin wrapper around the DOM element for ellipses.
  * @author arv@google.com (Erik Arvidsson)
- * @author yoah@google.com (Yoah Bar-David)
  */
 
 
@@ -42,8 +41,8 @@ goog.require('goog.graphics.StrokeAndFillElement');
  *     http://en.wikipedia.org/wiki/Canvas_element for details.
  */
 goog.graphics.EllipseElement = function(element, graphics, stroke, fill) {
-  goog.graphics.StrokeAndFillElement.call(this, element, graphics, stroke,
-      fill);
+  goog.graphics.StrokeAndFillElement.call(
+      this, element, graphics, stroke, fill);
 };
 goog.inherits(goog.graphics.EllipseElement, goog.graphics.StrokeAndFillElement);
 

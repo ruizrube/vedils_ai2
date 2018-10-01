@@ -50,6 +50,7 @@ goog.require('goog.userAgent');
  * @param {Element|Document} element The element or document to listen on.
  * @constructor
  * @extends {goog.events.EventTarget}
+ * @final
  */
 goog.events.ActionHandler = function(element) {
   goog.events.EventTarget.call(this);
@@ -61,10 +62,11 @@ goog.events.ActionHandler = function(element) {
    */
   this.element_ = element;
 
-  goog.events.listen(element, goog.events.ActionHandler.KEY_EVENT_TYPE_,
-      this.handleKeyDown_, false, this);
-  goog.events.listen(element, goog.events.EventType.CLICK,
-      this.handleClick_, false, this);
+  goog.events.listen(
+      element, goog.events.ActionHandler.KEY_EVENT_TYPE_, this.handleKeyDown_,
+      false, this);
+  goog.events.listen(
+      element, goog.events.EventType.CLICK, this.handleClick_, false, this);
 };
 goog.inherits(goog.events.ActionHandler, goog.events.EventTarget);
 
@@ -143,10 +145,12 @@ goog.events.ActionHandler.prototype.dispatchEvents_ = function(e) {
 /** @override */
 goog.events.ActionHandler.prototype.disposeInternal = function() {
   goog.events.ActionHandler.superClass_.disposeInternal.call(this);
-  goog.events.unlisten(this.element_, goog.events.ActionHandler.KEY_EVENT_TYPE_,
+  goog.events.unlisten(
+      this.element_, goog.events.ActionHandler.KEY_EVENT_TYPE_,
       this.handleKeyDown_, false, this);
-  goog.events.unlisten(this.element_, goog.events.EventType.CLICK,
-      this.handleClick_, false, this);
+  goog.events.unlisten(
+      this.element_, goog.events.EventType.CLICK, this.handleClick_, false,
+      this);
   delete this.element_;
 };
 
@@ -157,6 +161,7 @@ goog.events.ActionHandler.prototype.disposeInternal = function() {
  * @param {!goog.events.BrowserEvent} browserEvent Browser event object.
  * @constructor
  * @extends {goog.events.BrowserEvent}
+ * @final
  */
 goog.events.ActionEvent = function(browserEvent) {
   goog.events.BrowserEvent.call(this, browserEvent.getBrowserEvent());
@@ -173,6 +178,7 @@ goog.inherits(goog.events.ActionEvent, goog.events.BrowserEvent);
  * @param {!goog.events.BrowserEvent} browserEvent Browser event object.
  * @constructor
  * @extends {goog.events.BrowserEvent}
+ * @final
  */
 goog.events.BeforeActionEvent = function(browserEvent) {
   goog.events.BrowserEvent.call(this, browserEvent.getBrowserEvent());

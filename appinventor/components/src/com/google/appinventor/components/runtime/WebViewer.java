@@ -11,6 +11,7 @@ import android.webkit.JavascriptInterface;
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
+import com.google.appinventor.components.annotations.SimpleEvent;
 import com.google.appinventor.components.annotations.SimpleFunction;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
@@ -22,6 +23,10 @@ import com.google.appinventor.components.common.YaVersion;
 import com.google.appinventor.components.runtime.util.EclairUtil;
 import com.google.appinventor.components.runtime.util.FroyoUtil;
 import com.google.appinventor.components.runtime.util.SdkLevel;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 import android.view.MotionEvent;
 import android.view.View;
@@ -64,9 +69,9 @@ import android.webkit.WebViewClient;
 
 @SimpleObject
 @UsesPermissions(permissionNames = "android.permission.INTERNET")
-public  class WebViewer extends AndroidViewComponent {
+public final class WebViewer extends AndroidViewComponent {
 
-  public final WebView webview;
+  private final WebView webview;
 
   // URL for the WebViewer to load initially
   private String homeUrl;
@@ -149,7 +154,6 @@ public  class WebViewer extends AndroidViewComponent {
   @SimpleProperty(category = PropertyCategory.BEHAVIOR)
   public void WebViewString(String newString) {
     wvInterface.setWebViewString(newString);
-    System.out.println("Me llaman diciendo: " + newString);
   }
 
   @Override
@@ -437,6 +441,11 @@ public  class WebViewer extends AndroidViewComponent {
     webview.clearCache(true);
   }
 
+  @SimpleEvent(description = "When the JavaScript calls AppInventor.setWebViewString this event is run.")
+  public void WebViewStringChange(String value) {
+    EventDispatcher.dispatchEvent(this, "WebViewStringChange", value);
+  }
+
   /**
    * Allows the setting of properties to be monitored from the javascript
    * in the WebView
@@ -465,11 +474,15 @@ public  class WebViewer extends AndroidViewComponent {
      * Sets the web view string
      */
     @JavascriptInterface
-    public void setWebViewString(String newString) {
+    public void setWebViewString(final String newString) {
       webViewString = newString;
-      System.out.println("Me llaman diciendo 2: " +newString);
+
+      container.$form().runOnUiThread(new Runnable() {
+        public void run() {
+          WebViewStringChange(newString);
+        }
+      });
     }
 
   }
 }
-

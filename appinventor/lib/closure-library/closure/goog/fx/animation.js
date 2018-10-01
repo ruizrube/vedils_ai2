@@ -17,6 +17,7 @@
  *
  * (Based loosly on my animation code for 13thparallel.org, with extra
  * inspiration from the DojoToolkit's modifications to my code)
+ * @author arv@google.com (Erik Arvidsson)
  */
 
 goog.provide('goog.fx.Animation');
@@ -25,28 +26,29 @@ goog.provide('goog.fx.Animation.State');
 goog.provide('goog.fx.AnimationEvent');
 
 goog.require('goog.array');
+goog.require('goog.asserts');
 goog.require('goog.events.Event');
-goog.require('goog.fx.Transition');  // Unreferenced: interface
-goog.require('goog.fx.Transition.EventType');
-goog.require('goog.fx.TransitionBase.State');
+goog.require('goog.fx.Transition');
+goog.require('goog.fx.TransitionBase');
 goog.require('goog.fx.anim');
-goog.require('goog.fx.anim.Animated');  // Unreferenced: interface
+goog.require('goog.fx.anim.Animated');
 
 
 
 /**
  * Constructor for an animation object.
- * @param {Array.<number>} start Array for start coordinates.
- * @param {Array.<number>} end Array for end coordinates.
+ * @param {Array<number>} start Array for start coordinates.
+ * @param {Array<number>} end Array for end coordinates.
  * @param {number} duration Length of animation in milliseconds.
  * @param {Function=} opt_acc Acceleration function, returns 0-1 for inputs 0-1.
  * @constructor
+ * @struct
  * @implements {goog.fx.anim.Animated}
  * @implements {goog.fx.Transition}
  * @extends {goog.fx.TransitionBase}
  */
 goog.fx.Animation = function(start, end, duration, opt_acc) {
-  goog.base(this);
+  goog.fx.Animation.base(this, 'constructor');
 
   if (!goog.isArray(start) || !goog.isArray(end)) {
     throw Error('Start and end parameters must be arrays');
@@ -58,14 +60,14 @@ goog.fx.Animation = function(start, end, duration, opt_acc) {
 
   /**
    * Start point.
-   * @type {Array.<number>}
+   * @type {Array<number>}
    * @protected
    */
   this.startPoint = start;
 
   /**
    * End point.
-   * @type {Array.<number>}
+   * @type {Array<number>}
    * @protected
    */
   this.endPoint = end;
@@ -87,7 +89,7 @@ goog.fx.Animation = function(start, end, duration, opt_acc) {
 
   /**
    * Current coordinate for animation.
-   * @type {Array.<number>}
+   * @type {Array<number>}
    * @protected
    */
   this.coords = [];
@@ -101,6 +103,24 @@ goog.fx.Animation = function(start, end, duration, opt_acc) {
    * @private
    */
   this.useRightPositioningForRtl_ = false;
+
+  /**
+   * Current frame rate.
+   * @private {number}
+   */
+  this.fps_ = 0;
+
+  /**
+   * Percent of the way through the animation.
+   * @protected {number}
+   */
+  this.progress = 0;
+
+  /**
+   * Timestamp for when last frame was run.
+   * @protected {?number}
+   */
+  this.lastFrame = null;
 };
 goog.inherits(goog.fx.Animation, goog.fx.TransitionBase);
 
@@ -113,8 +133,8 @@ goog.inherits(goog.fx.Animation, goog.fx.TransitionBase);
  * @param {boolean} useRightPositioningForRtl True if "right" should be used for
  *     positioning, false if "left" should be used for positioning.
  */
-goog.fx.Animation.prototype.enableRightPositioningForRtl =
-    function(useRightPositioningForRtl) {
+goog.fx.Animation.prototype.enableRightPositioningForRtl = function(
+    useRightPositioningForRtl) {
   this.useRightPositioningForRtl_ = useRightPositioningForRtl;
 };
 
@@ -217,30 +237,6 @@ goog.fx.Animation.setAnimationWindow = function(animationWindow) {
 
 
 /**
- * Current frame rate.
- * @type {number}
- * @private
- */
-goog.fx.Animation.prototype.fps_ = 0;
-
-
-/**
- * Percent of the way through the animation.
- * @type {number}
- * @protected
- */
-goog.fx.Animation.prototype.progress = 0;
-
-
-/**
- * Timestamp for when last frame was run.
- * @type {?number}
- * @protected
- */
-goog.fx.Animation.prototype.lastFrame = null;
-
-
-/**
  * Starts or resumes an animation.
  * @param {boolean=} opt_restart Whether to restart the
  *     animation from the beginning if it has been paused.
@@ -296,7 +292,7 @@ goog.fx.Animation.prototype.stop = function(opt_gotoEnd) {
   goog.fx.anim.unregisterAnimation(this);
   this.setStateStopped();
 
-  if (!!opt_gotoEnd) {
+  if (opt_gotoEnd) {
     this.progress = 1;
   }
 
@@ -357,7 +353,7 @@ goog.fx.Animation.prototype.disposeInternal = function() {
     this.stop(false);
   }
   this.onDestroy();
-  goog.base(this, 'disposeInternal');
+  goog.fx.Animation.base(this, 'disposeInternal');
 };
 
 
@@ -382,6 +378,9 @@ goog.fx.Animation.prototype.onAnimationFrame = function(now) {
  * @param {number} now The current time.
  */
 goog.fx.Animation.prototype.cycle = function(now) {
+  goog.asserts.assertNumber(this.startTime);
+  goog.asserts.assertNumber(this.endTime);
+  goog.asserts.assertNumber(this.lastFrame);
   this.progress = (now - this.startTime) / (this.endTime - this.startTime);
 
   if (this.progress >= 1) {
@@ -401,7 +400,7 @@ goog.fx.Animation.prototype.cycle = function(now) {
     this.onFinish();
     this.onEnd();
 
-  // Animation is still under way.
+    // Animation is still under way.
   } else if (this.isPlaying()) {
     this.onAnimate();
   }
@@ -410,7 +409,7 @@ goog.fx.Animation.prototype.cycle = function(now) {
 
 /**
  * Calculates current coordinates, based on the current state.  Applies
- * the accelleration function if it exists.
+ * the acceleration function if it exists.
  * @param {number} t Percentage of the way through the animation as a decimal.
  * @private
  */
@@ -420,8 +419,8 @@ goog.fx.Animation.prototype.updateCoords_ = function(t) {
   }
   this.coords = new Array(this.startPoint.length);
   for (var i = 0; i < this.startPoint.length; i++) {
-    this.coords[i] = (this.endPoint[i] - this.startPoint[i]) * t +
-        this.startPoint[i];
+    this.coords[i] =
+        (this.endPoint[i] - this.startPoint[i]) * t + this.startPoint[i];
   }
 };
 
@@ -458,14 +457,15 @@ goog.fx.Animation.prototype.dispatchAnimationEvent = function(type) {
  * @param {string} type Event type.
  * @param {goog.fx.Animation} anim An animation object.
  * @constructor
+ * @struct
  * @extends {goog.events.Event}
  */
 goog.fx.AnimationEvent = function(type, anim) {
-  goog.base(this, type);
+  goog.fx.AnimationEvent.base(this, 'constructor', type);
 
   /**
    * The current coordinates.
-   * @type {Array.<number>}
+   * @type {Array<number>}
    */
   this.coords = anim.coords;
 
@@ -522,7 +522,7 @@ goog.inherits(goog.fx.AnimationEvent, goog.events.Event);
 
 /**
  * Returns the coordinates as integers (rounded to nearest integer).
- * @return {Array.<number>} An array of the coordinates rounded to
+ * @return {!Array<number>} An array of the coordinates rounded to
  *     the nearest integer.
  */
 goog.fx.AnimationEvent.prototype.coordsAsInts = function() {

@@ -24,14 +24,12 @@
 
 goog.provide('goog.storage.mechanism.mechanismSeparationTester');
 
-goog.require('goog.iter.Iterator');
-goog.require('goog.storage.mechanism.IterableMechanism');
+goog.require('goog.iter.StopIteration');
+/** @suppress {extraRequire} */
+goog.require('goog.storage.mechanism.mechanismTestDefinition');
 goog.require('goog.testing.asserts');
+
 goog.setTestOnly('goog.storage.mechanism.mechanismSeparationTester');
-
-
-var mechanism = null;
-var mechanism_separate = null;
 
 
 function testSeparateSet() {
@@ -41,8 +39,9 @@ function testSeparateSet() {
   mechanism.set('first', 'one');
   assertNull(mechanism_separate.get('first'));
   assertEquals(0, mechanism_separate.getCount());
-  assertEquals(goog.iter.StopIteration,
-               assertThrows(mechanism_separate.__iterator__().next));
+  assertEquals(
+      goog.iter.StopIteration,
+      assertThrows(mechanism_separate.__iterator__().next));
 }
 
 
@@ -56,8 +55,7 @@ function testSeparateSetInverse() {
   assertEquals(1, mechanism.getCount());
   var iterator = mechanism.__iterator__();
   assertEquals('one', iterator.next());
-  assertEquals(goog.iter.StopIteration,
-               assertThrows(iterator.next));
+  assertEquals(goog.iter.StopIteration, assertThrows(iterator.next));
 }
 
 
@@ -71,8 +69,7 @@ function testSeparateRemove() {
   assertEquals(1, mechanism.getCount());
   var iterator = mechanism.__iterator__();
   assertEquals('one', iterator.next());
-  assertEquals(goog.iter.StopIteration,
-               assertThrows(iterator.next));
+  assertEquals(goog.iter.StopIteration, assertThrows(iterator.next));
 }
 
 
@@ -86,6 +83,5 @@ function testSeparateClean() {
   assertEquals(1, mechanism_separate.getCount());
   var iterator = mechanism_separate.__iterator__();
   assertEquals('two', iterator.next());
-  assertEquals(goog.iter.StopIteration,
-               assertThrows(iterator.next));
+  assertEquals(goog.iter.StopIteration, assertThrows(iterator.next));
 }

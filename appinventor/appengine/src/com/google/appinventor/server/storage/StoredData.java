@@ -69,6 +69,7 @@ public class StoredData {
     public int type;
     String sessionid;           // uuid of active session
     String password;            // Hashed (PBKDF2 hashing) password
+    
     // Path to template project passed as GET parameter
     String templatePath;
     boolean upgradedGCS;
@@ -306,5 +307,17 @@ public class StoredData {
     @Id public String id;              // "Secret" URL part
     @Indexed public Date timestamp; // So we know when to expire this objects
     public String email;            // Email of account in question
+  }
+
+  // A Shared backpack. Shared backpacks are not associated with
+  // any one user. Instead they are stored independent of projects
+  // and users. At login time a shared backpack may be specified.
+  // This requires an SSO Login from an external system to provide
+  // it.
+  @Cached(expirationSeconds=120)
+  @Unindexed
+  public static final class Backpack {
+    @Id public String id;
+    public String content;
   }
 }

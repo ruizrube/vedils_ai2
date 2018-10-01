@@ -1,6 +1,6 @@
 // -*- mode: java; c-basic-offset: 2; -*-
 // Copyright 2009-2011 Google, All Rights reserved
-// Copyright 2011-2012 MIT, All rights reserved
+// Copyright 2011-2017 MIT, All rights reserved
 // Released under the Apache License, Version 2.0
 // http://www.apache.org/licenses/LICENSE-2.0
 
@@ -26,6 +26,7 @@ import com.google.appinventor.shared.rpc.project.FileDescriptorWithContent;
 import com.google.appinventor.shared.rpc.project.NewProjectParameters;
 import com.google.appinventor.shared.rpc.project.ProjectRootNode;
 import com.google.appinventor.shared.rpc.project.ProjectService;
+import com.google.appinventor.shared.rpc.project.TextFile;
 import com.google.appinventor.shared.rpc.project.UserProject;
 import com.google.appinventor.shared.rpc.project.youngandroid.YoungAndroidProjectNode;
 import com.google.appinventor.shared.util.Base64Util;
@@ -63,6 +64,8 @@ public class ProjectServiceImpl extends OdeRemoteServiceServlet implements Proje
   // RPC implementation for YoungAndroid projects
   private final transient YoungAndroidProjectService youngAndroidProject =
       new YoungAndroidProjectService(storageIo);
+
+  private static final boolean DEBUG = Flag.createFlag("appinventor.debugging", false).get();
 
   /**
    * Creates a new project.
@@ -240,17 +243,7 @@ public class ProjectServiceImpl extends OdeRemoteServiceServlet implements Proje
   public List<UserProject> getProjectInfos() {
     String userId = userInfoProvider.getUserId();
     List<Long> projectIds = storageIo.getProjects(userId);
-    List<UserProject> projectInfos = Lists.newArrayListWithExpectedSize(projectIds.size());
-    for (Long projectId : projectIds) {
-      UserProject up = makeUserProject(userId, projectId);
-      if (up != null) {
-        projectInfos.add(up);
-      } else {
-        LOG.log(Level.WARNING, "ProjectId " + projectId +
-          " is missing at the lower level.");
-      }
-    }
-    return projectInfos;
+    return makeUserProjects(userId, projectIds);
   }
 
   /**
@@ -317,7 +310,22 @@ public class ProjectServiceImpl extends OdeRemoteServiceServlet implements Proje
     validateSessionId(sessionId);
     final String userId = userInfoProvider.getUserId();
     return getProjectRpcImpl(userId, projectId).deleteFiles(userId, projectId,
-        directory);
+            directory);
+  }
+
+    /**
+     * Deletes all files and folders that are contained inside the given directory. The given directory itself is deleted.
+     * @param sessionId session id
+     * @param projectId project ID
+     * @param directory path of the directory
+     * @return modification date for project
+     */
+  @Override
+  public long deleteFolder(String sessionId, long projectId, String directory) throws InvalidSessionException {
+      validateSessionId(sessionId);
+      final String userId = userInfoProvider.getUserId();
+      return getProjectRpcImpl(userId, projectId).deleteFolder(userId, projectId,
+              directory);
   }
 
   /**
@@ -487,6 +495,15 @@ public class ProjectServiceImpl extends OdeRemoteServiceServlet implements Proje
     return date;
   }
 
+  @Override
+  public RpcResult screenshot(String sessionId, long projectId, String fileId, String content)
+    throws InvalidSessionException {
+    validateSessionId(sessionId);
+    final String userId = userInfoProvider.getUserId();
+    return getProjectRpcImpl(userId, projectId).screenshot(userId, projectId, fileId,
+      content);
+  }
+
   /**
    * Invokes a build command for the project on the back-end.
    *
@@ -496,11 +513,11 @@ public class ProjectServiceImpl extends OdeRemoteServiceServlet implements Proje
    * @return  results of build
    */
   @Override
-  public RpcResult build(long projectId, String nonce, String target) {
+  public RpcResult build(long projectId, String nonce, String target, boolean secondBuildserver) {
     // Dispatch
     final String userId = userInfoProvider.getUserId();
     return getProjectRpcImpl(userId, projectId).build(
-      userInfoProvider.getUser(), projectId, nonce, target);
+      userInfoProvider.getUser(), projectId, nonce, target, secondBuildserver);
   }
 
   /**
@@ -519,7 +536,7 @@ public class ProjectServiceImpl extends OdeRemoteServiceServlet implements Proje
     // Dispatch
     final String userId = userInfoProvider.getUserId();
     return getProjectRpcImpl(userId, projectId).getBuildResult(
-        userInfoProvider.getUser(), projectId, target);
+      userInfoProvider.getUser(), projectId, target);
   }
 
   /*
@@ -536,6 +553,12 @@ public class ProjectServiceImpl extends OdeRemoteServiceServlet implements Proje
 
   private UserProject makeUserProject(String userId, long projectId) {
     return storageIo.getUserProject(userId, projectId);
+  }
+
+  // Bulk fetch UserProjects -- efficiently get all project infos asked for
+  // using a minimum number of datastore API calls
+  private List<UserProject> makeUserProjects(String userId, List<Long> projectIds) {
+    return storageIo.getUserProjects(userId, projectIds);
   }
 
   /*
@@ -567,6 +590,14 @@ public class ProjectServiceImpl extends OdeRemoteServiceServlet implements Proje
     return getProjectRpcImpl(userId, projectId).addFile(userId, projectId, fileId);
   }
 
+  @Override
+  public TextFile importMedia(String sessionId, long projectId, String url, boolean save)
+      throws InvalidSessionException, IOException {
+    validateSessionId(sessionId);
+    final String userId = userInfoProvider.getUserId();
+    return getProjectRpcImpl(userId, projectId).importMedia(userId, projectId, url, save);
+  }
+
   /**
    * This service is passed a URL to an aia file in GCS, of the form
    *    /gallery/apps/<galleryid>/aia
@@ -581,7 +612,9 @@ public class ProjectServiceImpl extends OdeRemoteServiceServlet implements Proje
       GcsService fileService = GcsServiceFactory.createGcsService();
       GcsFilename readableFile = new GcsFilename(Flag.createFlag("gallery.bucket", "").get(), galleryPath);
       GcsInputChannel readChannel = fileService.openPrefetchingReadChannel(readableFile, 0, 16384);
-      LOG.log(Level.INFO, "#### in newProjectFromGallery, past readChannel");
+      if (DEBUG) {
+        LOG.log(Level.INFO, "#### in newProjectFromGallery, past readChannel");
+      }
       InputStream gcsis = Channels.newInputStream(readChannel);
       // ok, we don't want to send the gcs stream because it can time out as we
       // process the zip. We need to copy to a byte buffer first, then send a bytestream
@@ -595,7 +628,9 @@ public class ProjectServiceImpl extends OdeRemoteServiceServlet implements Proje
       }
 
       InputStream bais = new ByteArrayInputStream(bao.toByteArray());
-      LOG.log(Level.INFO, "#### in newProjectFromGallery, past newInputStream");
+      if (DEBUG) {
+        LOG.log(Level.INFO, "#### in newProjectFromGallery, past newInputStream");
+      }
 
       // close the gcs
       readChannel.close();
@@ -603,7 +638,9 @@ public class ProjectServiceImpl extends OdeRemoteServiceServlet implements Proje
       FileImporter fileImporter = new FileImporterImpl();
       UserProject userProject = fileImporter.importProject(userInfoProvider.getUserId(),
         projectName, bais);
-      LOG.log(Level.INFO, "#### in newProjectFromGallery, past importProject");
+      if (DEBUG) {
+        LOG.log(Level.INFO, "#### in newProjectFromGallery, past importProject");
+      }
 
       // set the attribution id of the project
       storageIo.setProjectAttributionId(userInfoProvider.getUserId(), userProject.getProjectId(),galleryId);
@@ -635,15 +672,12 @@ public class ProjectServiceImpl extends OdeRemoteServiceServlet implements Proje
 
   private void validateSessionId(String sessionId) throws InvalidSessionException {
     String storedSessionId = userInfoProvider.getSessionId();
-    if (storedSessionId == null) {
-      LOG.info("storedSessionId is null");
-    } else {
-      LOG.info("storedSessionId = " + storedSessionId);
-    }
-    if (sessionId == null) {
-      LOG.info("sessionId is null");
-    } else {
-      LOG.info("sessionId = " + sessionId);
+    if (DEBUG) {
+      if (storedSessionId == null) {
+        LOG.info("storedSessionId is null");
+      } else {
+        LOG.info("storedSessionId = " + storedSessionId);
+      }
     }
     if (sessionId.equals("force")) { // If we are forcing our way -- no check
       return;

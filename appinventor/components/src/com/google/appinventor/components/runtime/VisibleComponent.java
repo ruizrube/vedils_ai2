@@ -37,6 +37,7 @@ public abstract class VisibleComponent implements Component {
    */
   @SimpleProperty
   public abstract void Width(int width);
+
   /**
    * Width property setter method.
    *
@@ -66,7 +67,7 @@ public abstract class VisibleComponent implements Component {
    */
   @SimpleProperty
   public abstract void Height(int height);
-  
+
   /**
    * Height property setter method.
    *

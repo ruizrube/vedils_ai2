@@ -49,6 +49,7 @@ public class SpeechRecognizer extends AndroidNonvisibleComponent
   private static final Map<String, Locale> iso3LanguageToLocaleMap = Maps.newHashMap();
   /*****************************************************************************************  EDSON*/
   
+
   /* Used to identify the call to startActivityForResult. Will be passed back
      into the resultReturned() callback method. */
   private int requestCode;
@@ -127,7 +128,6 @@ public class SpeechRecognizer extends AndroidNonvisibleComponent
   /*****************************************************************************************  EDSON*/
   
   
-  
   /**
    * Solicits speech input from the user.  After the speech is converted to
    * text, the AfterGettingText event will be raised.
@@ -180,5 +180,4 @@ public class SpeechRecognizer extends AndroidNonvisibleComponent
   public void AfterGettingText(String result) {
     EventDispatcher.dispatchEvent(this, "AfterGettingText", result);
   }
- 
 }

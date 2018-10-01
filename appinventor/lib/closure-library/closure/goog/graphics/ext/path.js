@@ -23,7 +23,6 @@ goog.provide('goog.graphics.ext.Path');
 
 goog.require('goog.graphics.AffineTransform');
 goog.require('goog.graphics.Path');
-goog.require('goog.math');
 goog.require('goog.math.Rect');
 
 
@@ -32,6 +31,7 @@ goog.require('goog.math.Rect');
  * Creates a path object
  * @constructor
  * @extends {goog.graphics.Path}
+ * @final
  */
 goog.graphics.ext.Path = function() {
   goog.graphics.Path.call(this);
@@ -88,18 +88,19 @@ goog.graphics.ext.Path.prototype.transform = function(tx) {
  *     by this number.
  * @param {number} yFactor After translation, all y coordinates are multiplied
  *     by this number.
- * @return {goog.graphics.ext.Path} The path itself.
+ * @return {!goog.graphics.ext.Path} The path itself.
  */
-goog.graphics.ext.Path.prototype.modifyBounds = function(deltaX, deltaY,
-    xFactor, yFactor) {
+goog.graphics.ext.Path.prototype.modifyBounds = function(
+    deltaX, deltaY, xFactor, yFactor) {
   if (!this.isSimple()) {
     var simple = goog.graphics.Path.createSimplifiedPath(this);
     this.clear();
     this.appendPath(simple);
   }
 
-  return this.transform(goog.graphics.AffineTransform.getScaleInstance(
-      xFactor, yFactor).translate(deltaX, deltaY));
+  return this.transform(
+      goog.graphics.AffineTransform.getScaleInstance(xFactor, yFactor)
+          .translate(deltaX, deltaY));
 };
 
 
@@ -124,8 +125,8 @@ goog.graphics.ext.Path.prototype.getBoundingBox = function() {
     var maxY;
     var maxX = maxY = Number.NEGATIVE_INFINITY;
 
-    var simplePath = this.isSimple() ? this :
-        goog.graphics.Path.createSimplifiedPath(this);
+    var simplePath =
+        this.isSimple() ? this : goog.graphics.Path.createSimplifiedPath(this);
     simplePath.forEachSegment(function(type, points) {
       for (var i = 0, len = points.length; i < len; i += 2) {
         minX = Math.min(minX, points[i]);

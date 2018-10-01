@@ -603,7 +603,6 @@ public final class VideoPlayer extends AndroidViewComponent implements
       // Log messages in this method are not commented out for testing the
       // changes
       // on other devices.
-
       boolean scaleHeight = false;
       boolean scaleWidth = false;
       float deviceDensity = container.$form().deviceDensity();

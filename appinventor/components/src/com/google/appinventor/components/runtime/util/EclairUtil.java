@@ -15,6 +15,9 @@ import android.webkit.GeolocationPermissions.Callback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
+import android.text.InputType;
+import android.widget.EditText;
+
 /**
  * Helper methods for calling methods added in Eclair (2.0, API level 5)
  *
@@ -81,8 +84,6 @@ public class EclairUtil {
       });
   }
 
-  
-  
   /**
    * Clear Stored Location permissions. When the geolocation API is used in
    * the WebViewer, the end user is prompted on a per URL basis for whether
@@ -101,4 +102,16 @@ public class EclairUtil {
     return form.getPackageManager().getInstallerPackageName(pname);
   }
 
+  
+  /**
+   * Disable suggestions on EditText widgets. This was added to
+   * support SDK levels where suggestions crashed apps without the
+   * appropriate Android Support library compiled into the app.
+   *
+   * @param textview EditText widget to have its suggestion feature
+   * disabled.
+   */
+  public static void disableSuggestions(EditText textview) {
+    textview.setInputType(textview.getInputType() | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+  }
 }

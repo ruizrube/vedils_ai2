@@ -52,9 +52,10 @@ goog.proto2.Serializer.prototype.serialize = goog.abstractMethod;
 
 
 /**
- * Returns the serialized form of the given value for the given field
- * if the field is a Message or Group and returns the value unchanged
- * otherwise.
+ * Returns the serialized form of the given value for the given field if the
+ * field is a Message or Group and returns the value unchanged otherwise, except
+ * for Infinity, -Infinity and NaN numerical values which are converted to
+ * string representation.
  *
  * @param {goog.proto2.FieldDescriptor} field The field from which this
  *     value came.
@@ -67,6 +68,8 @@ goog.proto2.Serializer.prototype.serialize = goog.abstractMethod;
 goog.proto2.Serializer.prototype.getSerializedValue = function(field, value) {
   if (field.isCompositeType()) {
     return this.serialize(/** @type {goog.proto2.Message} */ (value));
+  } else if (goog.isNumber(value) && !isFinite(value)) {
+    return value.toString();
   } else {
     return value;
   }
@@ -80,7 +83,7 @@ goog.proto2.Serializer.prototype.getSerializedValue = function(field, value) {
  *     to be created.
  * @param {*} data The data of the message.
  *
- * @return {goog.proto2.Message} The message created.
+ * @return {!goog.proto2.Message} The message created.
  */
 goog.proto2.Serializer.prototype.deserialize = function(descriptor, data) {
   var message = descriptor.createMessageInstance();
@@ -136,6 +139,17 @@ goog.proto2.Serializer.prototype.getDeserializedValue = function(field, value) {
         return enumType[value];
       }
     }
+
+    // If it's a string containing a positive integer, this looks like a viable
+    // enum int value. Return as numeric.
+    if (goog.isString(value) &&
+        goog.proto2.Serializer.INTEGER_REGEX.test(value)) {
+      var numeric = Number(value);
+      if (numeric > 0) {
+        return numeric;
+      }
+    }
+
     // Return unknown values as is for backward compatibility.
     return value;
   }
@@ -158,12 +172,18 @@ goog.proto2.Serializer.prototype.getDeserializedValue = function(field, value) {
       return String(value);
     }
   } else if (nativeType === Number) {
-    // JSON strings are sometimes used for large integer numeric values.
+    // JSON strings are sometimes used for large integer numeric values, as well
+    // as Infinity, -Infinity and NaN.
     if (goog.isString(value)) {
+      // Handle +/- Infinity and NaN values.
+      if (value === 'Infinity' || value === '-Infinity' || value === 'NaN') {
+        return Number(value);
+      }
+
       // Validate the string.  If the string is not an integral number, we would
       // rather have an assertion or error in the caller than a mysterious NaN
       // value.
-      if (/^-?[0-9]+$/.test(value)) {
+      if (goog.proto2.Serializer.INTEGER_REGEX.test(value)) {
         return Number(value);
       }
     }
@@ -171,3 +191,7 @@ goog.proto2.Serializer.prototype.getDeserializedValue = function(field, value) {
 
   return value;
 };
+
+
+/** @const {!RegExp} */
+goog.proto2.Serializer.INTEGER_REGEX = /^-?[0-9]+$/;

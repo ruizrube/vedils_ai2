@@ -28,10 +28,6 @@
  * event only once (when created or when it is changed) so if you move the DOM
  * node to another form it will not be cleared correctly before submitting.
  *
- * Known issue: Where the placeholder attribute isn't supported, screen reader
- * users encounter trouble because the label is deleted upon focus. For now we
- * set the "aria-label" attribute.
- *
  * @author arv@google.com (Erik Arvidsson)
  * @see ../demos/labelinput.html
  */
@@ -43,6 +39,8 @@ goog.require('goog.a11y.aria');
 goog.require('goog.a11y.aria.State');
 goog.require('goog.asserts');
 goog.require('goog.dom');
+goog.require('goog.dom.InputType');
+goog.require('goog.dom.TagName');
 goog.require('goog.dom.classlist');
 goog.require('goog.events.EventHandler');
 goog.require('goog.events.EventType');
@@ -69,6 +67,7 @@ goog.ui.LabelInput = function(opt_label, opt_domHelper) {
   this.label_ = opt_label || '';
 };
 goog.inherits(goog.ui.LabelInput, goog.ui.Component);
+goog.tagUnsealableClass(goog.ui.LabelInput);
 
 
 /**
@@ -88,14 +87,35 @@ goog.ui.LabelInput.prototype.ffKeyRestoreValue_ = null;
 goog.ui.LabelInput.prototype.labelRestoreDelayMs = 10;
 
 
+/** @private {boolean} */
+goog.ui.LabelInput.prototype.inFocusAndSelect_;
+
+
+/** @private {boolean} */
+goog.ui.LabelInput.prototype.formAttached_;
+
+
 /**
  * Indicates whether the browser supports the placeholder attribute, new in
  * HTML5.
- * @type {boolean}
+ * @type {?boolean}
  * @private
  */
-goog.ui.LabelInput.SUPPORTS_PLACEHOLDER_ = (
-    'placeholder' in document.createElement('input'));
+goog.ui.LabelInput.supportsPlaceholder_;
+
+
+/**
+ * Checks browser support for placeholder attribute.
+ * @return {boolean} Whether placeholder attribute is supported.
+ * @private
+ */
+goog.ui.LabelInput.isPlaceholderSupported_ = function() {
+  if (!goog.isDefAndNotNull(goog.ui.LabelInput.supportsPlaceholder_)) {
+    goog.ui.LabelInput.supportsPlaceholder_ =
+        ('placeholder' in goog.dom.createElement(goog.dom.TagName.INPUT));
+  }
+  return goog.ui.LabelInput.supportsPlaceholder_;
+};
 
 
 /**
@@ -118,7 +138,8 @@ goog.ui.LabelInput.prototype.hasFocus_ = false;
  */
 goog.ui.LabelInput.prototype.createDom = function() {
   this.setElementInternal(
-      this.getDomHelper().createDom('input', {'type': 'text'}));
+      this.getDomHelper().createDom(
+          goog.dom.TagName.INPUT, {'type': goog.dom.InputType.TEXT}));
 };
 
 
@@ -141,19 +162,17 @@ goog.ui.LabelInput.prototype.decorateInternal = function(element) {
     this.hasFocus_ = true;
     var el = this.getElement();
     goog.asserts.assert(el);
-    goog.dom.classlist.remove(el, this.LABEL_CLASS_NAME);
+    goog.dom.classlist.remove(el, this.labelCssClassName);
   }
 
-  if (goog.ui.LabelInput.SUPPORTS_PLACEHOLDER_) {
+  if (goog.ui.LabelInput.isPlaceholderSupported_()) {
     this.getElement().placeholder = this.label_;
-    return;
   }
   var labelInputElement = this.getElement();
-  goog.asserts.assert(labelInputElement,
-      'The label input element cannot be null.');
-  goog.a11y.aria.setState(labelInputElement,
-      goog.a11y.aria.State.LABEL,
-      this.label_);
+  goog.asserts.assert(
+      labelInputElement, 'The label input element cannot be null.');
+  goog.a11y.aria.setState(
+      labelInputElement, goog.a11y.aria.State.LABEL, this.label_);
 };
 
 
@@ -187,17 +206,19 @@ goog.ui.LabelInput.prototype.attachEvents_ = function() {
   eh.listen(this.getElement(), goog.events.EventType.FOCUS, this.handleFocus_);
   eh.listen(this.getElement(), goog.events.EventType.BLUR, this.handleBlur_);
 
-  if (goog.ui.LabelInput.SUPPORTS_PLACEHOLDER_) {
+  if (goog.ui.LabelInput.isPlaceholderSupported_()) {
     this.eventHandler_ = eh;
     return;
   }
 
   if (goog.userAgent.GECKO) {
-    eh.listen(this.getElement(), [
-      goog.events.EventType.KEYPRESS,
-      goog.events.EventType.KEYDOWN,
-      goog.events.EventType.KEYUP
-    ], this.handleEscapeKeys_);
+    eh.listen(
+        this.getElement(),
+        [
+          goog.events.EventType.KEYPRESS, goog.events.EventType.KEYDOWN,
+          goog.events.EventType.KEYUP
+        ],
+        this.handleEscapeKeys_);
   }
 
   // IE sets defaultValue upon load so we need to test that as well.
@@ -219,9 +240,9 @@ goog.ui.LabelInput.prototype.attachEventsToForm_ = function() {
   // in case we have are in a form we need to make sure the label is not
   // submitted
   if (!this.formAttached_ && this.eventHandler_ && this.getElement().form) {
-    this.eventHandler_.listen(this.getElement().form,
-                              goog.events.EventType.SUBMIT,
-                              this.handleFormSubmit_);
+    this.eventHandler_.listen(
+        this.getElement().form, goog.events.EventType.SUBMIT,
+        this.handleFormSubmit_);
     this.formAttached_ = true;
   }
 };
@@ -250,7 +271,7 @@ goog.ui.LabelInput.prototype.disposeInternal = function() {
  * The CSS class name to add to the input when the user has not entered a
  * value.
  */
-goog.ui.LabelInput.prototype.LABEL_CLASS_NAME =
+goog.ui.LabelInput.prototype.labelCssClassName =
     goog.getCssName('label-input-label');
 
 
@@ -263,8 +284,8 @@ goog.ui.LabelInput.prototype.handleFocus_ = function(e) {
   this.hasFocus_ = true;
   var el = this.getElement();
   goog.asserts.assert(el);
-  goog.dom.classlist.remove(el, this.LABEL_CLASS_NAME);
-  if (goog.ui.LabelInput.SUPPORTS_PLACEHOLDER_) {
+  goog.dom.classlist.remove(el, this.labelCssClassName);
+  if (goog.ui.LabelInput.isPlaceholderSupported_()) {
     return;
   }
   if (!this.hasChanged() && !this.inFocusAndSelect_) {
@@ -294,7 +315,7 @@ goog.ui.LabelInput.prototype.handleBlur_ = function(e) {
   // fake an artificial focus when the user clicks on the input box. However,
   // if the user clicks on something else (and we lose focus), there is no
   // need for an artificial focus event.
-  if (!goog.ui.LabelInput.SUPPORTS_PLACEHOLDER_) {
+  if (!goog.ui.LabelInput.isPlaceholderSupported_()) {
     this.eventHandler_.unlisten(
         this.getElement(), goog.events.EventType.CLICK, this.handleFocus_);
     this.ffKeyRestoreValue_ = null;
@@ -351,10 +372,9 @@ goog.ui.LabelInput.prototype.handleFormSubmit_ = function(e) {
 
 /**
  * Restore value after submit
- * @param {Event} e The event object passed in to the event handler.
  * @private
  */
-goog.ui.LabelInput.prototype.handleAfterSubmit_ = function(e) {
+goog.ui.LabelInput.prototype.handleAfterSubmit_ = function() {
   if (!this.hasChanged()) {
     this.getElement().value = this.label_;
   }
@@ -381,7 +401,7 @@ goog.ui.LabelInput.prototype.hasFocus = function() {
 
 
 /**
- * @return {boolean} Whether the value has changed been changed by the user.
+ * @return {boolean} Whether the value has been changed by the user.
  */
 goog.ui.LabelInput.prototype.hasChanged = function() {
   return !!this.getElement() && this.getElement().value != '' &&
@@ -439,33 +459,36 @@ goog.ui.LabelInput.prototype.getValue = function() {
     return this.ffKeyRestoreValue_;
   }
   return this.hasChanged() ? /** @type {string} */ (this.getElement().value) :
-      '';
+                                                   '';
 };
 
 
 /**
- * Sets the label text.
+ * Sets the label text as aria-label, and placeholder when supported.
  * @param {string} label The text to show as the label.
  */
 goog.ui.LabelInput.prototype.setLabel = function(label) {
-  if (goog.ui.LabelInput.SUPPORTS_PLACEHOLDER_) {
-    this.label_ = label;
-    if (this.getElement()) {
-      this.getElement().placeholder = this.label_;
-    }
-    return;
-  }
-  if (this.getElement() && !this.hasChanged()) {
-    this.getElement().value = '';
-  }
-  this.label_ = label;
-  this.restoreLabel_();
   var labelInputElement = this.getElement();
+
+  if (goog.ui.LabelInput.isPlaceholderSupported_()) {
+    if (labelInputElement) {
+      labelInputElement.placeholder = label;
+    }
+    this.label_ = label;
+  } else if (!this.hasChanged()) {
+    // The this.hasChanged() call relies on non-placeholder behavior checking
+    // prior to setting this.label_ - it also needs to happen prior to the
+    // this.restoreLabel_() call.
+    if (labelInputElement) {
+      labelInputElement.value = '';
+    }
+    this.label_ = label;
+    this.restoreLabel_();
+  }
   // Check if this has been called before DOM structure building
   if (labelInputElement) {
-    goog.a11y.aria.setState(labelInputElement,
-        goog.a11y.aria.State.LABEL,
-        this.label_);
+    goog.a11y.aria.setState(
+        labelInputElement, goog.a11y.aria.State.LABEL, this.label_);
   }
 };
 
@@ -484,41 +507,39 @@ goog.ui.LabelInput.prototype.getLabel = function() {
  */
 goog.ui.LabelInput.prototype.check_ = function() {
   var labelInputElement = this.getElement();
-  goog.asserts.assert(labelInputElement,
-      'The label input element cannot be null.');
-  if (!goog.ui.LabelInput.SUPPORTS_PLACEHOLDER_) {
+  goog.asserts.assert(
+      labelInputElement, 'The label input element cannot be null.');
+  if (!goog.ui.LabelInput.isPlaceholderSupported_()) {
     // if we haven't got a form yet try now
     this.attachEventsToForm_();
-    goog.a11y.aria.setState(labelInputElement,
-        goog.a11y.aria.State.LABEL,
-        this.label_);
   } else if (this.getElement().placeholder != this.label_) {
     this.getElement().placeholder = this.label_;
   }
+  goog.a11y.aria.setState(
+      labelInputElement, goog.a11y.aria.State.LABEL, this.label_);
 
   if (!this.hasChanged()) {
     if (!this.inFocusAndSelect_ && !this.hasFocus_) {
       var el = this.getElement();
       goog.asserts.assert(el);
-      goog.dom.classlist.add(el, this.LABEL_CLASS_NAME);
+      goog.dom.classlist.add(el, this.labelCssClassName);
     }
 
     // Allow browser to catchup with CSS changes before restoring the label.
-    if (!goog.ui.LabelInput.SUPPORTS_PLACEHOLDER_) {
-      goog.Timer.callOnce(this.restoreLabel_, this.labelRestoreDelayMs,
-          this);
+    if (!goog.ui.LabelInput.isPlaceholderSupported_()) {
+      goog.Timer.callOnce(this.restoreLabel_, this.labelRestoreDelayMs, this);
     }
   } else {
     var el = this.getElement();
     goog.asserts.assert(el);
-    goog.dom.classlist.remove(el, this.LABEL_CLASS_NAME);
+    goog.dom.classlist.remove(el, this.labelCssClassName);
   }
 };
 
 
 /**
- * This method focuses the input and if selects all the text. If the value
- * hasn't changed it will set the value to the label so that the label text is
+ * This method focuses the input and selects all the text. If the value hasn't
+ * changed it will set the value to the label so that the label text is
  * selected.
  */
 goog.ui.LabelInput.prototype.focusAndSelect = function() {
@@ -526,7 +547,7 @@ goog.ui.LabelInput.prototype.focusAndSelect = function() {
   var hc = this.hasChanged();
   this.inFocusAndSelect_ = true;
   this.getElement().focus();
-  if (!hc && !goog.ui.LabelInput.SUPPORTS_PLACEHOLDER_) {
+  if (!hc && !goog.ui.LabelInput.isPlaceholderSupported_()) {
     this.getElement().value = this.label_;
   }
   this.getElement().select();
@@ -535,7 +556,7 @@ goog.ui.LabelInput.prototype.focusAndSelect = function() {
   // click in the input element. The expected behavior when you click on
   // the default text is that it goes away and allows you to type...so we
   // have to fire an artificial focus event when we're in focusAndSelect mode.
-  if (goog.ui.LabelInput.SUPPORTS_PLACEHOLDER_) {
+  if (goog.ui.LabelInput.isPlaceholderSupported_()) {
     return;
   }
   if (this.eventHandler_) {
@@ -557,8 +578,8 @@ goog.ui.LabelInput.prototype.setEnabled = function(enabled) {
   this.getElement().disabled = !enabled;
   var el = this.getElement();
   goog.asserts.assert(el);
-  goog.dom.classlist.enable(el,
-      goog.getCssName(this.LABEL_CLASS_NAME, 'disabled'), !enabled);
+  goog.dom.classlist.enable(
+      el, goog.getCssName(this.labelCssClassName, 'disabled'), !enabled);
 };
 
 

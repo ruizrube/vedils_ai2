@@ -17,16 +17,19 @@
  *
  * Based on the Dojo code which in turn is based on the MochiKit code.
  *
+ * @author arv@google.com (Erik Arvidsson)
+ * @author brenneman@google.com (Shawn Brenneman)
  */
 
 goog.provide('goog.async.Deferred');
 goog.provide('goog.async.Deferred.AlreadyCalledError');
 goog.provide('goog.async.Deferred.CanceledError');
 
+goog.require('goog.Promise');
+goog.require('goog.Thenable');
 goog.require('goog.array');
 goog.require('goog.asserts');
 goog.require('goog.debug.Error');
-goog.require('goog.functions');
 
 
 
@@ -52,13 +55,13 @@ goog.require('goog.functions');
  *
  * Deferreds may be templated to a specific type they produce using generics
  * with syntax such as:
- * <code>
- *   /** @type {goog.async.Deferred.<string>} *&#47;
- *   var d = new goog.async.Deferred();
- *   // Compiler can infer that foo is a string.
- *   d.addCallback(function(foo) {...});
- *   d.callback('string');  // Checked to be passed a string
- * </code>
+ *
+ *    /** @type {goog.async.Deferred<string>} *\
+ *    var d = new goog.async.Deferred();
+ *    // Compiler can infer that foo is a string.
+ *    d.addCallback(function(foo) {...});
+ *    d.callback('string');  // Checked to be passed a string
+ *
  * Since deferreds are often used to produce different values across a chain,
  * the type information is not propagated across chains, but rather only
  * associated with specifically cast objects.
@@ -69,13 +72,14 @@ goog.require('goog.functions');
  * @param {Object=} opt_defaultScope The default object context to call
  *     callbacks and errbacks in.
  * @constructor
+ * @implements {goog.Thenable<VALUE>}
  * @template VALUE
  */
 goog.async.Deferred = function(opt_onCancelFunction, opt_defaultScope) {
   /**
    * Entries in the sequence are arrays containing a callback, an errback, and
    * an optional scope. The callback or errback in an entry may be null.
-   * @type {!Array.<!Array>}
+   * @type {!Array<!Array>}
    * @private
    */
   this.sequence_ = [];
@@ -147,11 +151,12 @@ goog.async.Deferred = function(opt_onCancelFunction, opt_defaultScope) {
   /**
    * If an error is thrown during Deferred execution with no errback to catch
    * it, the error is rethrown after a timeout. Reporting the error after a
-   * timeout allows execution to continue in the calling context.
+   * timeout allows execution to continue in the calling context (empty when
+   * no error is scheduled).
    * @type {number}
    * @private
    */
-  this.unhandledExceptionTimeoutId_ = 0;  // Falsish.
+  this.unhandledErrorId_ = 0;
 
   /**
    * If this Deferred was created by branch(), this will be the "parent"
@@ -182,7 +187,7 @@ goog.async.Deferred = function(opt_onCancelFunction, opt_defaultScope) {
       // Check if Error.captureStackTrace worked. It fails in gjstest.
       if (typeof target.stack == 'string') {
         // Remove first line and force stringify to prevent memory leak due to
-      // holding on to actual stack frames.
+        // holding on to actual stack frames.
         this.constructorStack_ = target.stack.replace(/^[^\n]*\n/, '');
       }
     }
@@ -201,7 +206,7 @@ goog.define('goog.async.Deferred.STRICT_ERRORS', false);
  * @define {boolean} Whether to attempt to make stack traces long.  Defaults to
  * the value of goog.DEBUG.
  */
-goog.define('goog.async.Deferred.LONG_STACK_TRACES', goog.DEBUG);
+goog.define('goog.async.Deferred.LONG_STACK_TRACES', false);
 
 
 /**
@@ -382,7 +387,7 @@ goog.async.Deferred.prototype.assertNotDeferred_ = function(obj) {
  * until that Deferred fires. Its result will be passed to the next callback (or
  * errback if it is an error result) in this Deferred's execution sequence.
  *
- * @param {!function(this:T,VALUE):?} cb The function to be called with a
+ * @param {function(this:T,VALUE):?} cb The function to be called with a
  *     successful result.
  * @param {T=} opt_scope An optional scope to call the callback in.
  * @return {!goog.async.Deferred} This Deferred.
@@ -406,10 +411,10 @@ goog.async.Deferred.prototype.addCallback = function(cb, opt_scope) {
  * until that Deferred fires. Its result will be passed to the next callback (or
  * errback if it is an error result) in this Deferred's execution sequence.
  *
- * @param {!function(this:T,?):?} eb The function to be called on an
+ * @param {function(this:T,?):?} eb The function to be called on an
  *     unsuccessful result.
  * @param {T=} opt_scope An optional scope to call the errback in.
- * @return {!goog.async.Deferred.<VALUE>} This Deferred.
+ * @return {!goog.async.Deferred<VALUE>} This Deferred.
  * @template T
  */
 goog.async.Deferred.prototype.addErrback = function(eb, opt_scope) {
@@ -420,13 +425,33 @@ goog.async.Deferred.prototype.addErrback = function(eb, opt_scope) {
 /**
  * Registers one function as both a callback and errback.
  *
- * @param {!function(this:T,?):?} f The function to be called on any result.
+ * @param {function(this:T,?):?} f The function to be called on any result.
  * @param {T=} opt_scope An optional scope to call the function in.
  * @return {!goog.async.Deferred} This Deferred.
  * @template T
  */
 goog.async.Deferred.prototype.addBoth = function(f, opt_scope) {
   return this.addCallbacks(f, f, opt_scope);
+};
+
+
+/**
+ * Like addBoth, but propagates uncaught exceptions in the errback.
+ *
+ * @param {function(this:T,?):?} f The function to be called on any result.
+ * @param {T=} opt_scope An optional scope to call the function in.
+ * @return {!goog.async.Deferred<VALUE>} This Deferred.
+ * @template T
+ */
+goog.async.Deferred.prototype.addFinally = function(f, opt_scope) {
+  var self = this;
+  return this.addCallbacks(f, function(err) {
+    var result = f.call(self, err);
+    if (!goog.isDef(result)) {
+      throw err;
+    }
+    return result;
+  }, opt_scope);
 };
 
 
@@ -438,9 +463,9 @@ goog.async.Deferred.prototype.addBoth = function(f, opt_scope) {
  * NOTE: This is not equivalent to {@code def.addCallback().addErrback()}! If
  * the callback is invoked, the errback will be skipped, and vice versa.
  *
- * @param {(function(this:T,VALUE):?)|null} cb The function to be called on a
+ * @param {?(function(this:T,VALUE):?)} cb The function to be called on a
  *     successful result.
- * @param {(function(this:T,?):?)|null} eb The function to be called on an
+ * @param {?(function(this:T,?):?)} eb The function to be called on an
  *     unsuccessful result.
  * @param {T=} opt_scope An optional scope to call the functions in.
  * @return {!goog.async.Deferred} This Deferred.
@@ -454,6 +479,38 @@ goog.async.Deferred.prototype.addCallbacks = function(cb, eb, opt_scope) {
   }
   return this;
 };
+
+
+/**
+ * Implements {@see goog.Thenable} for seamless integration with
+ * {@see goog.Promise}.
+ * Deferred results are mutable and may represent multiple values over
+ * their lifetime. Calling {@code then} on a Deferred returns a Promise
+ * with the result of the Deferred at that point in its callback chain.
+ * Note that if the Deferred result is never mutated, and only
+ * {@code then} calls are made, the Deferred will behave like a Promise.
+ *
+ * @override
+ */
+goog.async.Deferred.prototype.then = function(opt_onFulfilled, opt_onRejected,
+    opt_context) {
+  var resolve, reject;
+  var promise = new goog.Promise(function(res, rej) {
+    // Copying resolvers to outer scope, so that they are available when the
+    // deferred callback fires (which may be synchronous).
+    resolve = res;
+    reject = rej;
+  });
+  this.addCallbacks(resolve, function(reason) {
+    if (reason instanceof goog.async.Deferred.CanceledError) {
+      promise.cancel();
+    } else {
+      reject(reason);
+    }
+  });
+  return promise.then(opt_onFulfilled, opt_onRejected, opt_context);
+};
+goog.Thenable.addImplementation(goog.async.Deferred);
 
 
 /**
@@ -479,10 +536,17 @@ goog.async.Deferred.prototype.chainDeferred = function(otherDeferred) {
  * but doesn't prevent additional callbacks from being added to
  * {@code otherDeferred}.
  *
- * @param {!goog.async.Deferred} otherDeferred The Deferred to wait for.
+ * @param {!goog.async.Deferred|!goog.Thenable} otherDeferred The Deferred
+ *     to wait for.
  * @return {!goog.async.Deferred} This Deferred.
  */
 goog.async.Deferred.prototype.awaitDeferred = function(otherDeferred) {
+  if (!(otherDeferred instanceof goog.async.Deferred)) {
+    // The Thenable case.
+    return this.addCallback(function() {
+      return otherDeferred;
+    });
+  }
   return this.addCallback(goog.bind(otherDeferred.branch, otherDeferred));
 };
 
@@ -499,7 +563,7 @@ goog.async.Deferred.prototype.awaitDeferred = function(otherDeferred) {
  * @param {boolean=} opt_propagateCancel If cancel() is called on every child
  *     branch created with opt_propagateCancel, the parent will be canceled as
  *     well.
- * @return {!goog.async.Deferred.<VALUE>} A Deferred that will be started with
+ * @return {!goog.async.Deferred<VALUE>} A Deferred that will be started with
  *     the computed result from this stage in the execution sequence.
  */
 goog.async.Deferred.prototype.branch = function(opt_propagateCancel) {
@@ -554,13 +618,12 @@ goog.async.Deferred.prototype.hasErrback_ = function() {
  * @private
  */
 goog.async.Deferred.prototype.fire_ = function() {
-  if (this.unhandledExceptionTimeoutId_ && this.hasFired() &&
-      this.hasErrback_()) {
+  if (this.unhandledErrorId_ && this.hasFired() && this.hasErrback_()) {
     // It is possible to add errbacks after the Deferred has fired. If a new
     // errback is added immediately after the Deferred encountered an unhandled
-    // error, but before that error is rethrown, cancel the rethrow.
-    goog.global.clearTimeout(this.unhandledExceptionTimeoutId_);
-    delete this.unhandledExceptionTimeoutId_;
+    // error, but before that error is rethrown, the error is unscheduled.
+    goog.async.Deferred.unscheduleError_(this.unhandledErrorId_);
+    this.unhandledErrorId_ = 0;
   }
 
   if (this.parent_) {
@@ -592,7 +655,9 @@ goog.async.Deferred.prototype.fire_ = function() {
           this.result_ = res = ret;
         }
 
-        if (res instanceof goog.async.Deferred) {
+        if (goog.Thenable.isImplementedBy(res) ||
+            (typeof goog.global['Promise'] === 'function' &&
+            res instanceof goog.global['Promise'])) {
           isNewlyBlocked = true;
           this.blocked_ = true;
         }
@@ -614,10 +679,15 @@ goog.async.Deferred.prototype.fire_ = function() {
   this.result_ = res;
 
   if (isNewlyBlocked) {
-    res.addCallbacks(
-        goog.bind(this.continue_, this, true /* isSuccess */),
-        goog.bind(this.continue_, this, false /* isSuccess */));
-    res.blocking_ = true;
+    var onCallback = goog.bind(this.continue_, this, true /* isSuccess */);
+    var onErrback = goog.bind(this.continue_, this, false /* isSuccess */);
+
+    if (res instanceof goog.async.Deferred) {
+      res.addCallbacks(onCallback, onErrback);
+      res.blocking_ = true;
+    } else {
+      res.then(onCallback, onErrback);
+    }
   } else if (goog.async.Deferred.STRICT_ERRORS && this.isError(res) &&
       !(res instanceof goog.async.Deferred.CanceledError)) {
     this.hadError_ = true;
@@ -629,8 +699,7 @@ goog.async.Deferred.prototype.fire_ = function() {
     // the error will be seen by global handlers and the user. The throw will
     // be canceled if another errback is appended before the timeout executes.
     // The error's original stack trace is preserved where available.
-    this.unhandledExceptionTimeoutId_ = goog.global.setTimeout(
-        goog.functions.fail(res), 0);
+    this.unhandledErrorId_ = goog.async.Deferred.scheduleError_(res);
   }
 };
 
@@ -644,6 +713,24 @@ goog.async.Deferred.prototype.fire_ = function() {
 goog.async.Deferred.succeed = function(opt_result) {
   var d = new goog.async.Deferred();
   d.callback(opt_result);
+  return d;
+};
+
+
+/**
+ * Creates a Deferred that fires when the given promise resolves.
+ * Use only during migration to Promises.
+ *
+ * @param {!goog.Promise<T>} promise
+ * @return {!goog.async.Deferred<T>} The new Deferred.
+ * @template T
+ */
+goog.async.Deferred.fromPromise = function(promise) {
+  var d = new goog.async.Deferred();
+  d.callback();
+  d.addCallback(function() {
+    return promise;
+  });
   return d;
 };
 
@@ -699,7 +786,7 @@ goog.async.Deferred.canceled = function() {
  * </pre>
  *
  * @param {*} value Deferred or normal value to pass to the callback.
- * @param {!function(this:T, ?):?} callback The callback to execute.
+ * @param {function(this:T, ?):?} callback The callback to execute.
  * @param {T=} opt_scope An optional scope to call the callback in.
  * @return {!goog.async.Deferred} A new Deferred that will call the input
  *     callback with the input value.
@@ -769,3 +856,91 @@ goog.async.Deferred.CanceledError.prototype.message = 'Deferred was canceled';
 
 /** @override */
 goog.async.Deferred.CanceledError.prototype.name = 'CanceledError';
+
+
+
+/**
+ * Wrapper around errors that are scheduled to be thrown by failing deferreds
+ * after a timeout.
+ *
+ * @param {*} error Error from a failing deferred.
+ * @constructor
+ * @final
+ * @private
+ * @struct
+ */
+goog.async.Deferred.Error_ = function(error) {
+  /** @const @private {number} */
+  this.id_ = goog.global.setTimeout(goog.bind(this.throwError, this), 0);
+
+  /** @const @private {*} */
+  this.error_ = error;
+};
+
+
+/**
+ * Actually throws the error and removes it from the list of pending
+ * deferred errors.
+ */
+goog.async.Deferred.Error_.prototype.throwError = function() {
+  goog.asserts.assert(goog.async.Deferred.errorMap_[this.id_],
+      'Cannot throw an error that is not scheduled.');
+  delete goog.async.Deferred.errorMap_[this.id_];
+  throw this.error_;
+};
+
+
+/**
+ * Resets the error throw timer.
+ */
+goog.async.Deferred.Error_.prototype.resetTimer = function() {
+  goog.global.clearTimeout(this.id_);
+};
+
+
+/**
+ * Map of unhandled errors scheduled to be rethrown in a future timestep.
+ * @private {!Object<(number|string), goog.async.Deferred.Error_>}
+ */
+goog.async.Deferred.errorMap_ = {};
+
+
+/**
+ * Schedules an error to be thrown after a delay.
+ * @param {*} error Error from a failing deferred.
+ * @return {number} Id of the error.
+ * @private
+ */
+goog.async.Deferred.scheduleError_ = function(error) {
+  var deferredError = new goog.async.Deferred.Error_(error);
+  goog.async.Deferred.errorMap_[deferredError.id_] = deferredError;
+  return deferredError.id_;
+};
+
+
+/**
+ * Unschedules an error from being thrown.
+ * @param {number} id Id of the deferred error to unschedule.
+ * @private
+ */
+goog.async.Deferred.unscheduleError_ = function(id) {
+  var error = goog.async.Deferred.errorMap_[id];
+  if (error) {
+    error.resetTimer();
+    delete goog.async.Deferred.errorMap_[id];
+  }
+};
+
+
+/**
+ * Asserts that there are no pending deferred errors. If there are any
+ * scheduled errors, one will be thrown immediately to make this function fail.
+ */
+goog.async.Deferred.assertNoErrors = function() {
+  var map = goog.async.Deferred.errorMap_;
+  for (var key in map) {
+    var error = map[key];
+    error.resetTimer();
+    error.throwError();
+  }
+};

@@ -25,7 +25,7 @@ goog.provide('goog.ui.TableSorter.EventType');
 goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.dom.TagName');
-goog.require('goog.dom.classes');
+goog.require('goog.dom.classlist');
 goog.require('goog.events.EventType');
 goog.require('goog.functions');
 goog.require('goog.ui.Component');
@@ -71,12 +71,13 @@ goog.ui.TableSorter = function(opt_domHelper) {
 
   /**
    * Array of custom sorting functions per colun.
-   * @type {Array.<function(*, *) : number>}
+   * @type {Array<function(*, *) : number>}
    * @private
    */
   this.sortFunctions_ = [];
 };
 goog.inherits(goog.ui.TableSorter, goog.ui.Component);
+goog.tagUnsealableClass(goog.ui.TableSorter);
 
 
 /**
@@ -193,9 +194,8 @@ goog.ui.TableSorter.prototype.setSortFunction = function(column, sortFunction) {
 goog.ui.TableSorter.prototype.sort_ = function(e) {
   // Determine what column was clicked.
   // TODO(robbyw): If this table cell contains another table, this could break.
-  var target = /** @type {Node} */ (e.target);
-  var th = goog.dom.getAncestorByTagNameAndClass(target,
-      goog.dom.TagName.TH);
+  var target = e.target;
+  var th = goog.dom.getAncestorByTagNameAndClass(target, goog.dom.TagName.TH);
 
   // If the user clicks on the same column, sort it in reverse of what it is
   // now.  Otherwise, sort forward.
@@ -224,9 +224,10 @@ goog.ui.TableSorter.prototype.sort = function(column, opt_reverse) {
 
   // Remove old header classes.
   if (this.header_) {
-    goog.dom.classes.remove(this.header_, this.reversed_ ?
-        goog.getCssName('goog-tablesorter-sorted-reverse') :
-        goog.getCssName('goog-tablesorter-sorted'));
+    goog.dom.classlist.remove(
+        this.header_, this.reversed_ ?
+            goog.getCssName('goog-tablesorter-sorted-reverse') :
+            goog.getCssName('goog-tablesorter-sorted'));
   }
 
   // If the user clicks on the same column, sort it in reverse of what it is
@@ -253,21 +254,21 @@ goog.ui.TableSorter.prototype.sort = function(column, opt_reverse) {
     table.removeChild(tBody);
 
     // Sort the rows, using the resulting array.
-    goog.array.forEach(values, function(row) {
-      tBody.appendChild(row[2]);
-    });
+    goog.array.forEach(values, function(row) { tBody.appendChild(row[2]); });
 
     // Reinstate the tBody.
     table.insertBefore(tBody, nextSibling);
   });
 
   // Mark this as the last sorted column.
-  this.header_ = table.tHead.rows[this.sortableHeaderRowIndex_].cells[column];
+  this.header_ = /** @type {!HTMLTableCellElement} */
+      (table.tHead.rows[this.sortableHeaderRowIndex_].cells[column]);
 
   // Update the header class.
-  goog.dom.classes.add(this.header_, this.reversed_ ?
-      goog.getCssName('goog-tablesorter-sorted-reverse') :
-      goog.getCssName('goog-tablesorter-sorted'));
+  goog.dom.classlist.add(
+      this.header_, this.reversed_ ?
+          goog.getCssName('goog-tablesorter-sorted-reverse') :
+          goog.getCssName('goog-tablesorter-sorted'));
 
   return true;
 };
@@ -283,13 +284,21 @@ goog.ui.TableSorter.noSort = goog.functions.error('no sort');
 
 
 /**
- * A numeric sort function.
+ * A numeric sort function.  NaN values (or values that do not parse as float
+ * numbers) compare equal to each other and greater to any other number.
  * @param {*} a First sort value.
  * @param {*} b Second sort value.
  * @return {number} Negative if a < b, 0 if a = b, and positive if a > b.
  */
 goog.ui.TableSorter.numericSort = function(a, b) {
-  return parseFloat(a) - parseFloat(b);
+  a = parseFloat(a);
+  b = parseFloat(b);
+  // foo == foo is false if and only if foo is NaN.
+  if (a == a) {
+    return b == b ? a - b : -1;
+  } else {
+    return b == b ? 1 : 0;
+  }
 };
 
 
@@ -309,7 +318,5 @@ goog.ui.TableSorter.alphaSort = goog.array.defaultCompare;
  *     given sort function.
  */
 goog.ui.TableSorter.createReverseSort = function(sortFunction) {
-  return function(a, b) {
-    return -1 * sortFunction(a, b);
-  };
+  return function(a, b) { return -1 * sortFunction(a, b); };
 };

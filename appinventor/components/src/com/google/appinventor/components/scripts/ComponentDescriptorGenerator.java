@@ -1,6 +1,6 @@
 // -*- mode: java; c-basic-offset: 2; -*-
 // Copyright 2009-2011 Google, All Rights reserved
-// Copyright 2011-2012 MIT, All rights reserved
+// Copyright 2011-2018 MIT, All rights reserved
 // Released under the Apache License, Version 2.0
 // http://www.apache.org/licenses/LICENSE-2.0
 
@@ -19,44 +19,48 @@ import javax.tools.FileObject;
 
 /**
  * Tool to generate simple component descriptors as JSON.
- * 
- * The output is a sequence of component descriptions enclosed in square 
- * brackets and separated by commas. Each component description has the 
+ *
+ * The output is a sequence of component descriptions enclosed in square
+ * brackets and separated by commas. Each component description has the
  * following format:
- * { "name": "COMPONENT-TYPE-NAME",
+ * { "type": "COMPONENT-TYPE",
+ *   "name": "COMPONENT-TYPE-NAME",
+ *   "external": "true"|"false",
  *   "version": "VERSION",
  *   "categoryString": "PALETTE-CATEGORY",
  *   "helpString": “DESCRIPTION”,
  *   "showOnPalette": "true"|"false",
  *   "nonVisible": "true"|"false",
  *   "iconName": "ICON-FILE-NAME",
+ *   "androidMinSdk": "ANDROID-MIN-SDK",
  *   "properties": [
- *     { "name": "PROPERTY-NAME", 
- *        "editorType": "EDITOR-TYPE", 
+ *     { "name": "PROPERTY-NAME",
+ *        "editorType": "EDITOR-TYPE",
  *        "defaultValue": "DEFAULT-VALUE"},*
  *    ],
  *   "blockProperties": [
- *     { "name": "PROPERTY-NAME", 
- *        "description": "DESCRIPTION", 
+ *     { "name": "PROPERTY-NAME",
+ *        "description": "DESCRIPTION",
  *        "type": "YAIL-TYPE",
  *        "rw": "read-only"|"read-write"|"write-only"|"invisible"},*
  *   ],
  *   "events": [
- *     { "name": "EVENT-NAME", 
- *       "description": "DESCRIPTION", 
+ *     { "name": "EVENT-NAME",
+ *       "description": "DESCRIPTION",
  *       "params": [
- *         { "name": "PARAM-NAME", 
+ *         { "name": "PARAM-NAME",
  *           "type": "YAIL-TYPE"},*
  *       ]},+
  *   ],
  *   “methods”: [
- *     { "name": "METHOD-NAME", 
- *       "description": "DESCRIPTION", 
+ *     { "name": "METHOD-NAME",
+ *       "description": "DESCRIPTION",
  *       "params": [
- *         { "name": "PARAM-NAME", 
+ *         { "name": "PARAM-NAME",
  *       "type": "YAIL-TYPE"},*
  *     ]},+
- *   ]
+ *   ],
+ *   ("assets": ["FILENAME",*])?
  * }
  *
  * @author lizlooney@google.com (Liz Looney)
@@ -68,21 +72,29 @@ public final class ComponentDescriptorGenerator extends ComponentProcessor {
   private static final String OUTPUT_FILE_NAME = "simple_components.json";
 
   private void outputComponent(ComponentInfo component, StringBuilder sb) {
-    sb.append("{ \"name\": \"");
+    sb.append("{ \"type\": \"");
+    sb.append(component.type);
+    sb.append("\",\n  \"name\": \"");
     sb.append(component.name);
+    sb.append("\",\n  \"external\": \"");
+    sb.append(Boolean.toString(component.external));
     sb.append("\",\n  \"version\": \"");
     sb.append(component.getVersion());
     sb.append("\",\n  \"categoryString\": \"");
     sb.append(component.getCategoryString());
     sb.append("\",\n  \"helpString\": ");
     sb.append(formatDescription(component.getHelpDescription()));
+    sb.append(",\n  \"helpUrl\": ");
+    sb.append(formatDescription(component.getHelpUrl()));
     sb.append(",\n  \"showOnPalette\": \"");
     sb.append(component.getShowOnPalette());
     sb.append("\",\n  \"nonVisible\": \"");
     sb.append(component.getNonVisible());
     sb.append("\",\n  \"iconName\": \"");
     sb.append(component.getIconName());
-    sb.append("\",\n  \"properties\": [");
+    sb.append("\",\n  \"androidMinSdk\": ");
+    sb.append(component.getAndroidMinSdk());
+    sb.append(",\n  \"properties\": [");
     String separator = "";
     for (Map.Entry<String, DesignerProperty> entry : component.designerProperties.entrySet()) {
       String propertyName = entry.getKey();
@@ -119,7 +131,19 @@ public final class ComponentDescriptorGenerator extends ComponentProcessor {
       outputBlockMethod(method.name, method, sb, method.userVisible, method.deprecated);
       separator = ",\n    ";
     }
-    sb.append("]}\n");
+    sb.append("]");
+    // Output assets for extensions (consumed by ExternalComponentGenerator and buildserver)
+    if (component.external && component.assets.size() > 0) {
+      sb.append(",\n  \"assets\": [");
+      for (String asset : component.assets) {
+        sb.append("\"");
+        sb.append(asset.replaceAll("\\\\", "\\\\").replaceAll("\"", "\\\""));
+        sb.append("\",");
+      }
+      sb.setLength(sb.length() - 1);
+      sb.append("]");
+    }
+    sb.append("}\n");
   }
 
   private void outputProperty(String propertyName, DesignerProperty dp, StringBuilder sb) {
@@ -129,7 +153,28 @@ public final class ComponentDescriptorGenerator extends ComponentProcessor {
     sb.append(dp.editorType());
     sb.append("\", \"defaultValue\": \"");
     sb.append(dp.defaultValue().replace("\"", "\\\""));
-    sb.append("\"}");
+
+    sb.append("\", \"editorArgs\": ");
+    String[] editorArgs = dp.editorArgs();
+    for (int idx = 0; idx < editorArgs.length; idx += 1)
+      editorArgs[idx] = "\"" + editorArgs[idx].replace("\"", "\\\"") + "\"";
+
+    StringBuilder listLiteralBuilder = new StringBuilder();
+    listLiteralBuilder.append("[");
+
+    if (editorArgs.length > 0) {
+      listLiteralBuilder.append(editorArgs[0]);
+
+      for (int ind = 1; ind < editorArgs.length; ind += 1) {
+        listLiteralBuilder.append(", ");
+        listLiteralBuilder.append(editorArgs[ind]);
+      }
+    }
+
+    listLiteralBuilder.append("]");
+
+    sb.append(listLiteralBuilder.toString());
+    sb.append("}");
   }
 
   private void outputBlockProperty(String propertyName, Property prop, StringBuilder sb) {
@@ -147,7 +192,7 @@ public final class ComponentDescriptorGenerator extends ComponentProcessor {
     sb.append("\", \"deprecated\": \"" + prop.isDeprecated() + "\"");
     sb.append("}");
   }
-  
+
   private void outputBlockEvent(String eventName, Event event, StringBuilder sb,
                                 boolean userVisible, boolean deprecated) {
     sb.append("{ \"name\": \"");
@@ -164,7 +209,7 @@ public final class ComponentDescriptorGenerator extends ComponentProcessor {
     outputParameters(event.parameters, sb);
     sb.append("}\n");
   }
-  
+
   private void outputBlockMethod(String methodName, Method method, StringBuilder sb,
                                  boolean userVisible, boolean deprecated) {
     sb.append("{ \"name\": \"");
@@ -187,7 +232,7 @@ public final class ComponentDescriptorGenerator extends ComponentProcessor {
       sb.append("}");
     }
   }
-  
+
   /*
    *  Output a parameter list (including surrounding [])
    */
@@ -205,7 +250,7 @@ public final class ComponentDescriptorGenerator extends ComponentProcessor {
     }
     sb.append("]");
   }
-  
+
   @Override
   protected void outputResults() throws IOException {
     StringBuilder sb = new StringBuilder();
@@ -230,7 +275,7 @@ public final class ComponentDescriptorGenerator extends ComponentProcessor {
     writer.close();
     messager.printMessage(Diagnostic.Kind.NOTE, "Wrote file " + src.toUri());
   }
-  
+
   /*
    * Format a description string as a json string. Note that the returned value
    * include surrounding double quotes.

@@ -18,6 +18,7 @@ import com.google.appinventor.shared.rpc.user.User;
 import com.googlecode.objectify.Objectify;
 import com.google.appinventor.shared.rpc.user.SplashConfig;
 
+import java.io.InputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -243,6 +244,18 @@ public interface StorageIo {
   UserProject getUserProject(String userId, long projectId);
 
   /**
+<<<<<<< HEAD
+=======
+   * Bulk version of getUserProject.
+   * @param userId a userId
+   * @param projectIds a List of project ids
+   * @return new List of UserProject objects
+   */
+
+  List<UserProject> getUserProjects(String userId, List<Long> projectIds);
+
+  /**
+>>>>>>> upstream/master
    * Returns a project name.
    *
    * @param userId a user Id (the request is made on behalf of this user)
@@ -521,6 +534,37 @@ public interface StorageIo {
    */
   byte[] downloadRawFile(String userId, long projectId, String fileId);
 
+  /**
+   * Creates a temporary file with the given content and returns
+   * its file name, which will always begin with __TEMP__
+   * @param content the files content (bytes)
+   *
+   * @return fileName the temporary filename
+   */
+  String uploadTempFile(byte [] content) throws IOException;
+
+  /**
+   * Open an input stream to a temp file.
+   * Verifies it is a temp file by making sure the filename
+   * begins with __TEMP__
+   *
+   * @param fileName
+   *
+   * @return inputstream
+   */
+
+  InputStream openTempFile(String fileName) throws IOException;
+
+  /**
+   * delete a temporary file.
+   * Verify that it is a temporary file by making sure its filename
+   * starts with __TEMP__
+   *
+   * @param fileName
+   */
+
+  void deleteTempFile(String fileName) throws IOException;
+
   // MOTD management
 
   /**
@@ -542,11 +586,13 @@ public interface StorageIo {
    * @return  project with the content as requested by params.
    */
   ProjectSourceZip exportProjectSourceZip(String userId, long projectId,
-                                          boolean includeProjectHistory,
-                                          boolean includeAndroidKeystore,
-                                          @Nullable String zipName,
-                                          boolean includeYail,
-                                          boolean fatalError) throws IOException;
+    boolean includeProjectHistory,
+    boolean includeAndroidKeystore,
+    @Nullable String zipName,
+    final boolean includeYail,
+    final boolean includeScreenShots,
+    final boolean forGallery,
+    final boolean fatalError) throws IOException;
 
   /**
    * Find a user's id given their email address. Note that this query is case
@@ -620,4 +666,55 @@ public interface StorageIo {
   public void updateNumberOfTotalEmulatorDebugs(final long projectId);
   public void updateNumberOfTotalUSBDebugs(final long projectId);
   public void updateNumberOfTotalCompanionDebugs(final long projectId);
+
+  /**
+   * There are two kinds of backpacks. User backpacks, which are
+   * stored with the user's personal files (which today is just the
+   * backpack and the android keystore used for signing applications.
+   * The second kind of backpack is a shared backpack. It is
+   * identified by a uuid.  This code is associated with the shared
+   * backpack. Shared backpacks are used when a person is logged in
+   * via the SSO mechanism. It can optionally specify a backpack to
+   * use. If it doesn't specify a backpack, then the normal user
+   * specific version is used.
+   *
+   * @param backPackId uuid used to idenfity this backpack
+   * @return the contents of the backpack as an XML encoded string
+   */
+
+  public String downloadBackpack(String backPackId);
+
+  /**
+   * Used to upload a shared backpack Note: This code will over-write
+   * whatever contents is already stored in the the backpack. It is
+   * the responsibility of our caller to merge contents if desired.
+   *
+   * @param backPackId The uuid of the shared backpack to store
+   * @param String content the new contents of the backpack
+   */
+
+  public void uploadBackpack(String backPackId, String content);
+
+  /**
+   * Store the status of a pending build. We used to poll the buildserver
+   * for the progress of a build. However that was never correct as while
+   * polling you would likely wind up talking to a different buildserver
+   * then you originally started with! So now the buildserver does a callback
+   * to the server indicating progress. Here is where we store that
+   * progress. The reason we do this in this module is because we have
+   * different versions of storageio for our three (so far) backends, the
+   * App Engine based version, the stand alone version and the "scale-able"
+   * version. Each version will likely want to store this information in
+   * a different fashion.
+   *
+   * Note: The App Engine version uses memcache and if memcache isn't
+   * available (yes, it can be down!) then we cheat and just return
+   * 50 (for 50%).
+   *
+   */
+
+  public void storeBuildStatus(String userId, long projectId, int progress);
+
+  public int getBuildStatus(String userId, long projectId);
+
 }

@@ -68,7 +68,7 @@ goog.ds.DataNode.prototype.set = goog.abstractMethod;
  * Gets all of the child nodes of the current node.
  * Should return an empty DataNode list if no child nodes.
  * @param {string=} opt_selector String selector to choose child nodes.
- * @return {goog.ds.DataNodeList} The child nodes.
+ * @return {!goog.ds.DataNodeList} The child nodes.
  */
 goog.ds.DataNode.prototype.getChildNodes = goog.abstractMethod;
 
@@ -179,7 +179,7 @@ goog.ds.BaseDataNode.prototype.set = goog.abstractMethod;
  * Gets all of the child nodes of the current node.
  * Should return an empty DataNode list if no child nodes.
  * @param {string=} opt_selector String selector to choose child nodes.
- * @return {goog.ds.DataNodeList} The child nodes.
+ * @return {!goog.ds.DataNodeList} The child nodes.
  */
 goog.ds.BaseDataNode.prototype.getChildNodes = function(opt_selector) {
   return new goog.ds.EmptyNodeList();
@@ -224,10 +224,12 @@ goog.ds.BaseDataNode.prototype.getDataName = goog.abstractMethod;
 goog.ds.BaseDataNode.prototype.getDataPath = function() {
   var parentPath = '';
   var myName = this.getDataName();
-  if (this.getParent && this.getParent()) {
+  if (this.getParent()) {
     parentPath = this.getParent().getDataPath() +
-        (myName.indexOf(goog.ds.STR_ARRAY_START) != -1 ? '' :
-        goog.ds.STR_PATH_SEPARATOR);
+        (myName.indexOf(
+             /** @suppress {missingRequire} */ goog.ds.STR_ARRAY_START) != -1 ?
+             '' :
+             /** @suppress {missingRequire} */ goog.ds.STR_PATH_SEPARATOR);
   }
 
   return parentPath + myName;
@@ -251,10 +253,10 @@ goog.ds.BaseDataNode.prototype.getLoadState = function() {
 
 /**
  * Gets the parent node. Subclasses implement this function
- * @type {Function}
+ * @return {?goog.ds.DataNode}
  * @protected
  */
-goog.ds.BaseDataNode.prototype.getParent = null;
+goog.ds.BaseDataNode.prototype.getParent = goog.abstractMethod;
 
 
 /**
@@ -331,7 +333,7 @@ goog.ds.DataNodeList.prototype.removeNode = goog.abstractMethod;
  * names: eval, toSource, toString, unwatch, valueOf, watch. Behavior is
  * undefined if these names are used.
  *
- * @param {Array.<goog.ds.DataNode>=} opt_nodes optional nodes to add to list.
+ * @param {Array<goog.ds.DataNode>=} opt_nodes optional nodes to add to list.
  * @constructor
  * @extends {goog.ds.DataNodeList}
  */
@@ -460,6 +462,7 @@ goog.ds.BasicNodeList.prototype.indexOf = function(name) {
  * Immulatable empty node list
  * @extends {goog.ds.BasicNodeList}
  * @constructor
+ * @final
  */
 
 goog.ds.EmptyNodeList = function() {
@@ -496,7 +499,7 @@ goog.ds.EmptyNodeList.prototype.add = function(node) {
  *     node list is sorted. Should take 2 arguments to compare, and return a
  *     negative integer, zero, or a positive integer depending on whether the
  *     first argument is less than, equal to, or greater than the second.
- * @param {Array.<goog.ds.DataNode>=} opt_nodes optional nodes to add to list;
+ * @param {Array<goog.ds.DataNode>=} opt_nodes optional nodes to add to list;
  *    these are assumed to be in sorted order.
  * @extends {goog.ds.BasicNodeList}
  * @constructor
@@ -645,12 +648,11 @@ goog.ds.Util.makeReferenceNode = function(node, name) {
   /**
    * @constructor
    * @extends {goog.ds.DataNode}
+   * @final
    */
   var nodeCreator = function() {};
   nodeCreator.prototype = node;
   var newNode = new nodeCreator();
-  newNode.getDataName = function() {
-    return name;
-  };
+  newNode.getDataName = function() { return name; };
   return newNode;
 };

@@ -16,7 +16,7 @@
  * @fileoverview Provides a utility for tracing and debugging WebChannel
  *     requests.
  *
- * @visibility {//visibility:private}
+ * @visibility {:internal}
  */
 
 
@@ -32,6 +32,7 @@ goog.require('goog.log');
  *
  * @constructor
  * @struct
+ * @final
  */
 goog.labs.net.webChannel.WebChannelDebug = function() {
   /**
@@ -73,12 +74,11 @@ WebChannelDebug.prototype.browserOfflineResponse = function(url) {
  * @param {number} attempt Which attempt # the request was.
  * @param {?string} postData The data posted in the request.
  */
-WebChannelDebug.prototype.xmlHttpChannelRequest =
-    function(verb, uri, id, attempt, postData) {
+WebChannelDebug.prototype.xmlHttpChannelRequest = function(
+    verb, uri, id, attempt, postData) {
   this.info(
-      'XMLHTTP REQ (' + id + ') [attempt ' + attempt + ']: ' +
-      verb + '\n' + uri + '\n' +
-      this.maybeRedactPostData_(postData));
+      'XMLHTTP REQ (' + id + ') [attempt ' + attempt + ']: ' + verb + '\n' +
+      uri + '\n' + this.maybeRedactPostData_(postData));
 };
 
 
@@ -91,11 +91,11 @@ WebChannelDebug.prototype.xmlHttpChannelRequest =
  * @param {goog.net.XmlHttp.ReadyState} readyState The ready state.
  * @param {number} statusCode The HTTP status code.
  */
-WebChannelDebug.prototype.xmlHttpChannelResponseMetaData =
-    function(verb, uri, id, attempt, readyState, statusCode)  {
+WebChannelDebug.prototype.xmlHttpChannelResponseMetaData = function(
+    verb, uri, id, attempt, readyState, statusCode) {
   this.info(
-      'XMLHTTP RESP (' + id + ') [ attempt ' + attempt + ']: ' +
-      verb + '\n' + uri + '\n' + readyState + ' ' + statusCode);
+      'XMLHTTP RESP (' + id + ') [ attempt ' + attempt + ']: ' + verb + '\n' +
+      uri + '\n' + readyState + ' ' + statusCode);
 };
 
 
@@ -105,52 +105,11 @@ WebChannelDebug.prototype.xmlHttpChannelResponseMetaData =
  * @param {?string} responseText The response text.
  * @param {?string=} opt_desc Optional request description.
  */
-WebChannelDebug.prototype.xmlHttpChannelResponseText =
-    function(id, responseText, opt_desc) {
+WebChannelDebug.prototype.xmlHttpChannelResponseText = function(
+    id, responseText, opt_desc) {
   this.info(
-      'XMLHTTP TEXT (' + id + '): ' +
-      this.redactResponse_(responseText) +
+      'XMLHTTP TEXT (' + id + '): ' + this.redactResponse_(responseText) +
       (opt_desc ? ' ' + opt_desc : ''));
-};
-
-
-/**
- * Logs a Trident ActiveX request.
- * @param {string} verb The request type (GET/POST).
- * @param {goog.Uri} uri The request destination.
- * @param {string|number|undefined} id The request id.
- * @param {number} attempt Which attempt # the request was.
- */
-WebChannelDebug.prototype.tridentChannelRequest =
-    function(verb, uri, id, attempt) {
-  this.info(
-      'TRIDENT REQ (' + id + ') [ attempt ' + attempt + ']: ' +
-      verb + '\n' + uri);
-};
-
-
-/**
- * Logs the response text received from a Trident ActiveX request.
- * @param {string|number|undefined} id The request id.
- * @param {string} responseText The response text.
- */
-WebChannelDebug.prototype.tridentChannelResponseText =
-    function(id, responseText) {
-  this.info(
-      'TRIDENT TEXT (' + id + '): ' +
-      this.redactResponse_(responseText));
-};
-
-
-/**
- * Logs the done response received from a Trident ActiveX request.
- * @param {string|number|undefined} id The request id.
- * @param {boolean} successful Whether the request was successful.
- */
-WebChannelDebug.prototype.tridentChannelResponseDone =
-    function(id, successful) {
-  this.info(
-      'TRIDENT TEXT (' + id + '): ' + successful ? 'success' : 'failure');
 };
 
 
@@ -241,7 +200,7 @@ WebChannelDebug.prototype.redactResponse_ = function(responseText) {
 
 /**
  * Removes data from a response array that may be sensitive.
- * @param {!Array} array The array to clean.
+ * @param {!Array<?>} array The array to clean.
  * @private
  */
 WebChannelDebug.prototype.maybeRedactArray_ = function(array) {
@@ -290,7 +249,9 @@ WebChannelDebug.prototype.maybeRedactPostData_ = function(data) {
       if (keyParts.length >= 2 && keyParts[1] == 'type') {
         out += key + '=' + value + '&';
       } else {
-        out += key + '=' + 'redacted' + '&';
+        out += key + '=' +
+            'redacted' +
+            '&';
       }
     }
   }

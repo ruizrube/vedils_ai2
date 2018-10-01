@@ -30,6 +30,7 @@ goog.provide('goog.ds.DataManager');
 goog.require('goog.ds.BasicNodeList');
 goog.require('goog.ds.DataNode');
 goog.require('goog.ds.Expr');
+goog.require('goog.object');
 goog.require('goog.string');
 goog.require('goog.structs');
 goog.require('goog.structs.Map');
@@ -40,6 +41,7 @@ goog.require('goog.structs.Map');
  * Create a DataManger
  * @extends {goog.ds.DataNode}
  * @constructor
+ * @final
  */
 goog.ds.DataManager = function() {
   this.dataSources_ = new goog.ds.BasicNodeList();
@@ -62,7 +64,7 @@ goog.inherits(goog.ds.DataManager, goog.ds.DataNode);
 
 /**
  * Get the global instance
- * @return {goog.ds.DataManager} The data manager singleton.
+ * @return {!goog.ds.DataManager} The data manager singleton.
  */
 goog.ds.DataManager.getInstance = function() {
   if (!goog.ds.DataManager.instance_) {
@@ -88,8 +90,8 @@ goog.ds.DataManager.clearInstance = function() {
  * @param {string=} opt_name Optional name, can also get name
  *   from the datasource.
  */
-goog.ds.DataManager.prototype.addDataSource = function(ds, opt_autoload,
-    opt_name) {
+goog.ds.DataManager.prototype.addDataSource = function(
+    ds, opt_autoload, opt_name) {
   var autoload = !!opt_autoload;
   var name = opt_name || ds.getDataName();
   if (!goog.string.startsWith(name, '$')) {
@@ -167,7 +169,7 @@ goog.ds.DataManager.prototype.getDataSource = function(name) {
 
 /**
  * Get the value of the node
- * @return {Object} The value of the node, or null if no value.
+ * @return {!Object} The value of the node.
  * @override
  */
 goog.ds.DataManager.prototype.get = function() {
@@ -185,7 +187,7 @@ goog.ds.DataManager.prototype.set = function(value) {
 goog.ds.DataManager.prototype.getChildNodes = function(opt_selector) {
   if (opt_selector) {
     return new goog.ds.BasicNodeList(
-        [this.getChildNode(/** @type {string} */(opt_selector))]);
+        [this.getChildNode(/** @type {string} */ (opt_selector))]);
   } else {
     return this.dataSources_;
   }
@@ -344,8 +346,8 @@ goog.ds.DataManager.prototype.addListener = function(fn, dataPath, opt_id) {
  * @param {string=} opt_id A value passed back to the listener when the dataPath
  *   is matched.
  */
-goog.ds.DataManager.prototype.addIndexedListener = function(fn, dataPath,
-    opt_id) {
+goog.ds.DataManager.prototype.addIndexedListener = function(
+    fn, dataPath, opt_id) {
   var firstStarPos = dataPath.indexOf('*');
   // Just need a regular listener
   if (firstStarPos == -1) {
@@ -413,8 +415,8 @@ goog.ds.DataManager.prototype.removeIndexedListeners = function(
  * @param {string=} opt_id A value passed back to the listener when the dataPath
  *   is matched.
  */
-goog.ds.DataManager.prototype.removeListeners = function(fn, opt_dataPath,
-    opt_id) {
+goog.ds.DataManager.prototype.removeListeners = function(
+    fn, opt_dataPath, opt_id) {
 
   // Normalize data path root
   if (opt_dataPath && goog.string.endsWith(opt_dataPath, '/...')) {
@@ -453,8 +455,7 @@ goog.ds.DataManager.prototype.removeListenersByFunction_ = function(
       if ((!opt_dataPath || opt_dataPath == listener.dataPath) &&
           (!opt_id || opt_id == listener.id)) {
         if (indexed) {
-          this.removeListeners(
-              listener.fn, listener.dataPath, listener.id);
+          this.removeListeners(listener.fn, listener.dataPath, listener.id);
         }
         if (functionMatch.items) {
           for (var i = 0; i < functionMatch.items.length; i++) {
@@ -476,7 +477,7 @@ goog.ds.DataManager.prototype.removeListenersByFunction_ = function(
  */
 goog.ds.DataManager.prototype.getListenerCount = function() {
   var count = 0;
-  goog.structs.forEach(this.listenerMap_, function(matchingListeners) {
+  goog.object.forEach(this.listenerMap_, function(matchingListeners) {
     count += goog.structs.getCount(matchingListeners);
   });
   return count;

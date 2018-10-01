@@ -19,6 +19,7 @@ import com.google.appinventor.client.explorer.commands.SaveAllEditorsCommand;
 import com.google.appinventor.client.explorer.commands.ShowBarcodeCommand;
 import com.google.appinventor.client.explorer.commands.ShowProgressBarCommand;
 import com.google.appinventor.client.explorer.commands.WaitForBuildResultCommand;
+import com.google.appinventor.client.explorer.commands.WarningDialogCommand;
 import com.google.appinventor.client.explorer.project.Project;
 import com.google.appinventor.client.output.OdeLog;
 import com.google.appinventor.client.tracking.Tracking;
@@ -29,6 +30,8 @@ import com.google.appinventor.client.wizards.DownloadUserSourceWizard;
 import com.google.appinventor.client.wizards.KeystoreUploadWizard;
 import com.google.appinventor.client.wizards.ProjectUploadWizard;
 import com.google.appinventor.client.wizards.TemplateUploadWizard;
+import com.google.appinventor.client.wizards.ComponentImportWizard;
+import com.google.appinventor.client.wizards.ComponentUploadWizard;
 import com.google.appinventor.client.wizards.youngandroid.NewYoungAndroidProjectWizard;
 import com.google.appinventor.common.version.AppInventorFeatures;
 import com.google.appinventor.common.version.GitBuildId;
@@ -77,6 +80,8 @@ public class TopToolbar extends Composite {
   private static final String WIDGET_NAME_BUILD = "Build";
   private static final String WIDGET_NAME_BUILD_BARCODE = "Barcode";
   private static final String WIDGET_NAME_BUILD_DOWNLOAD = "Download";
+  private static final String WIDGET_NAME_BUILD_BARCODE2 = "Barcode2";
+  private static final String WIDGET_NAME_BUILD_DOWNLOAD2 = "Download2";
   private static final String WIDGET_NAME_BUILD_YAIL = "Yail";
   private static final String WIDGET_NAME_CONNECT_TO = "ConnectTo";
   private static final String WIDGET_NAME_WIRELESS_BUTTON = "Wireless";
@@ -90,6 +95,7 @@ public class TopToolbar extends Composite {
   private static final String WIDGET_NAME_LIBRARY = "Library";
   private static final String WIDGET_NAME_GETSTARTED = "GetStarted";
   private static final String WIDGET_NAME_TUTORIALS = "Tutorials";
+  private static final String WIDGET_NAME_EXTENSIONS = "Extensions";
   private static final String WIDGET_NAME_SHOWSPLASH = "ShowSplash";
   private static final String WIDGET_NAME_TROUBLESHOOTING = "Troubleshooting";
   private static final String WIDGET_NAME_FORUMS = "Forums";
@@ -100,6 +106,12 @@ public class TopToolbar extends Composite {
   private static final String WIDGET_NAME_IMPORTTEMPLATE = "ImportTemplate";
   private static final String WIDGET_NAME_EXPORTALLPROJECTS = "ExportAllProjects";
   private static final String WIDGET_NAME_EXPORTPROJECT = "ExportProject";
+  private static final String WIDGET_NAME_COMPONENTS = "Components";
+  private static final String WIDGET_NAME_MY_COMPONENTS = "MyComponents";
+  private static final String WIDGET_NAME_START_NEW_COMPONENT = "StartNewComponent";
+  private static final String WIDGET_NAME_IMPORT_COMPONENT = "ImportComponent";
+  private static final String WIDGET_NAME_BUILD_COMPONENT = "BuildComponent";
+  private static final String WIDGET_NAME_UPLOAD_COMPONENT = "UploadComponent";
 
   private static final String WIDGET_NAME_ADMIN = "Admin";
   private static final String WIDGET_NAME_USER_ADMIN = "UserAdmin";
@@ -115,18 +127,33 @@ public class TopToolbar extends Composite {
   public DropDownButton adminDropDown;
 
   private boolean isReadOnly;
+  
+  /**
+   * This flag is set to true when a check for the android.keystore file is in progress.
+   */
+  private volatile boolean isKeystoreCheckPending = false;
+  /**
+   * This flag is set to true when a call to {@link #updateKeystoreFileMenuButtons(boolean)} has
+   * returned and the value was cached.
+   */
+  private volatile boolean isKeystoreCached = false;
+  /**
+   * This flag is the cached result of an earlier check for android.keystore.
+   */
+  private volatile boolean isKeystorePresent = false;
 
   public TopToolbar() {
     /*
      * Layout is as follows:
-     * +--------------------------------------------------------------+
+     * +--------------------------------------------------+
      * | Project ▾ | Connect ▾ | Build ▾| Help ▾| Admin ▾ |
-     * +--------------------------------------------------------------+
+     * +--------------------------------------------------+
      */
     HorizontalPanel toolbar = new HorizontalPanel();
     toolbar.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
 
     List<DropDownItem> fileItems = Lists.newArrayList();
+    List<DropDownItem> componentItems = Lists.newArrayList();
     List<DropDownItem> connectItems = Lists.newArrayList();
     List<DropDownItem> buildItems = Lists.newArrayList();
     List<DropDownItem> helpItems = Lists.newArrayList();
@@ -187,9 +214,32 @@ public class TopToolbar extends Composite {
 
     // Build -> {Show Barcode; Download to Computer; Generate YAIL only when logged in as an admin}
     buildItems.add(new DropDownItem(WIDGET_NAME_BUILD_BARCODE, MESSAGES.showBarcodeMenuItem(),
-        new BarcodeAction()));
+        new BarcodeAction(false)));
     buildItems.add(new DropDownItem(WIDGET_NAME_BUILD_DOWNLOAD, MESSAGES.downloadToComputerMenuItem(),
-        new DownloadAction()));
+        new DownloadAction(false)));
+
+    // Second Buildserver Menu Items
+    //
+    // We may have a second buildserver which if present permits us to build applications
+    // using different components. This was added primarily to support the "target 26 SDK"
+    // effort where we needed a way for people to package applications against SDK 26 in
+    // order for them to be available in Google's Play Store (Google Requirement as of
+    // 8/1/2018). However such applications have a minSdk of 14 (Ice Cream Sandwich).
+    //
+    // To support the creation of packages for older devices, we leave the buildserver
+    // (as of 8/1/2018) generating minSdk 7 packages (no target SDK) which will run on
+    // much older devices. The second buildserver will package applications with a target
+    // SDK of 26 for those MIT App Inventor users who wish to put their applications in
+    // the Play Store after 8/1/2018.
+
+    if (Ode.getInstance().hasSecondBuildserver()) {
+      buildItems.add(null);
+      buildItems.add(new DropDownItem(WIDGET_NAME_BUILD_BARCODE2, MESSAGES.showBarcodeMenuItem2(),
+          new BarcodeAction(true)));
+      buildItems.add(new DropDownItem(WIDGET_NAME_BUILD_DOWNLOAD2, MESSAGES.downloadToComputerMenuItem2(),
+          new DownloadAction(true)));
+    }
+
     if (AppInventorFeatures.hasYailGenerationOption() && Ode.getInstance().getUser().getIsAdmin()) {
       buildItems.add(null);
       buildItems.add(new DropDownItem(WIDGET_NAME_BUILD_YAIL, MESSAGES.generateYailMenuItem(),
@@ -211,6 +261,12 @@ public class TopToolbar extends Composite {
     if (!Strings.isNullOrEmpty(getStartedUrl)) {
       helpItems.add(new DropDownItem(WIDGET_NAME_GETSTARTED, MESSAGES.getStartedMenuItem(),
           new WindowOpenAction(getStartedUrl)));
+    }
+
+    String extensionsUrl = config.getExtensionsUrl();
+    if (!Strings.isNullOrEmpty(extensionsUrl)) {
+      helpItems.add(new DropDownItem(WIDGET_NAME_EXTENSIONS, MESSAGES.extensionsMenuItem(),
+          new WindowOpenAction(extensionsUrl)));
     }
     String tutorialsUrl = config.getTutorialsUrl();
     if (!Strings.isNullOrEmpty(tutorialsUrl)) {
@@ -388,6 +444,12 @@ public class TopToolbar extends Composite {
   }
 
   private class BarcodeAction implements Command {
+    private boolean secondBuildserver = false;
+
+    public BarcodeAction(boolean secondBuildserver) {
+      this.secondBuildserver = secondBuildserver;
+    }
+
     @Override
     public void execute() {
       ProjectRootNode projectRootNode = Ode.getInstance().getCurrentYoungAndroidProjectRootNode();
@@ -395,16 +457,18 @@ public class TopToolbar extends Composite {
         String target = YoungAndroidProjectNode.YOUNG_ANDROID_TARGET_ANDROID;
         ChainableCommand cmd = new SaveAllEditorsCommand(
             new GenerateYailCommand(
-                new BuildCommand(target,
-                    new ShowProgressBarCommand(target,
-                        new WaitForBuildResultCommand(target,
-                            new ShowBarcodeCommand(target)), "BarcodeAction"))));
-//        updateBuildButton(true);
+                new BuildCommand(target, secondBuildserver,
+                  new ShowProgressBarCommand(target,
+                    new WaitForBuildResultCommand(target,
+                      new ShowBarcodeCommand(target)), "BarcodeAction"))));
+        if (!Ode.getInstance().getWarnBuild(secondBuildserver)) {
+          cmd = new WarningDialogCommand(target, secondBuildserver, cmd);
+          Ode.getInstance().setWarnBuild(secondBuildserver, true);
+        }
         cmd.startExecuteChain(Tracking.PROJECT_ACTION_BUILD_BARCODE_YA, projectRootNode,
             new Command() {
               @Override
               public void execute() {
-//                updateBuildButton(false);
               }
             });
       }
@@ -412,6 +476,13 @@ public class TopToolbar extends Composite {
   }
 
   private class DownloadAction implements Command {
+
+    private boolean secondBuildserver = false;
+
+    DownloadAction(boolean secondBuildserver) {
+      this.secondBuildserver = secondBuildserver;
+    }
+
     @Override
     public void execute() {
       ProjectRootNode projectRootNode = Ode.getInstance().getCurrentYoungAndroidProjectRootNode();
@@ -419,16 +490,18 @@ public class TopToolbar extends Composite {
         String target = YoungAndroidProjectNode.YOUNG_ANDROID_TARGET_ANDROID;
         ChainableCommand cmd = new SaveAllEditorsCommand(
             new GenerateYailCommand(
-                new BuildCommand(target,
-                    new ShowProgressBarCommand(target,
-                        new WaitForBuildResultCommand(target,
-                            new DownloadProjectOutputCommand(target)), "DownloadAction"))));
-//        updateBuildButton(true);
+                new BuildCommand(target, secondBuildserver,
+                  new ShowProgressBarCommand(target,
+                    new WaitForBuildResultCommand(target,
+                      new DownloadProjectOutputCommand(target)), "DownloadAction"))));
+        if (!Ode.getInstance().getWarnBuild(secondBuildserver)) {
+          cmd = new WarningDialogCommand(target, secondBuildserver, cmd);
+          Ode.getInstance().setWarnBuild(secondBuildserver, true);
+        }
         cmd.startExecuteChain(Tracking.PROJECT_ACTION_BUILD_DOWNLOAD_YA, projectRootNode,
             new Command() {
               @Override
               public void execute() {
-//                updateBuildButton(false);
               }
             });
       }
@@ -660,7 +733,12 @@ public class TopToolbar extends Composite {
                     new OdeAsyncCallback<Void>(errorMessage) {
                       @Override
                       public void onSuccess(Void result) {
-                        updateKeystoreFileMenuButtons();
+                        // The android.keystore shouldn't exist at this point, so reset cached values.
+                        isKeystoreCached = true;
+                        isKeystorePresent = false;
+                        isKeystoreCheckPending = false;
+                        fileDropDown.setItemEnabled(MESSAGES.deleteKeystoreMenuItem(), false);
+                        fileDropDown.setItemEnabled(MESSAGES.downloadKeystoreMenuItem(), false);
                       }
                     });
               }
@@ -698,7 +776,7 @@ public class TopToolbar extends Composite {
     @Override
     public void execute() {
       final DialogBox db = new DialogBox(false, true);
-      db.setText("About MIT App Inventor");
+      db.setText("About VEDILS");
       db.setStyleName("ode-DialogBox");
       db.setHeight("200px");
       db.setWidth("400px");
@@ -809,6 +887,27 @@ public class TopToolbar extends Composite {
     }
   }
 
+  private static class ImportComponentAction implements Command {
+    @Override
+    public void execute() {
+      new ComponentImportWizard().center();
+    }
+  }
+
+  private static class BuildComponentAction implements Command {
+    @Override
+    public void execute() {
+      // to be added
+    }
+  }
+
+  private static class UploadComponentAction implements Command {
+    @Override
+    public void execute() {
+      new ComponentUploadWizard().show();
+    }
+  }
+
   private void updateConnectToDropDownButton(boolean isEmulatorRunning, boolean isCompanionRunning, boolean isUsbRunning){
     if (!isEmulatorRunning && !isCompanionRunning && !isUsbRunning) {
       connectDropDown.setItemEnabled(MESSAGES.AICompanionMenuItem(), true);
@@ -841,7 +940,7 @@ public class TopToolbar extends Composite {
    * via Wireless.
    */
 
-  private void startRepl(boolean start, boolean forEmulator, boolean forUsb) {	
+  private void startRepl(boolean start, boolean forEmulator, boolean forUsb) {
     DesignToolbar.DesignProject currentProject = Ode.getInstance().getDesignToolbar().getCurrentProject();
     if (currentProject == null) {
       OdeLog.wlog("DesignToolbar.currentProject is null. "
@@ -914,7 +1013,7 @@ public class TopToolbar extends Composite {
       buildDropDown.setItemEnabled(MESSAGES.showBarcodeMenuItem(), true);
       buildDropDown.setItemEnabled(MESSAGES.downloadToComputerMenuItem(), true);
     }
-    updateKeystoreFileMenuButtons();
+    updateKeystoreFileMenuButtons(true);
   }
 
   /**
@@ -925,6 +1024,8 @@ public class TopToolbar extends Composite {
         new AsyncCallback<Boolean>() {
           @Override
           public void onSuccess(Boolean keystoreFileExists) {
+            isKeystoreCached = true;
+            isKeystorePresent = keystoreFileExists;
             fileDropDown.setItemEnabled(MESSAGES.deleteKeystoreMenuItem(), keystoreFileExists);
             fileDropDown.setItemEnabled(MESSAGES.downloadKeystoreMenuItem(), keystoreFileExists);
           }
@@ -938,6 +1039,45 @@ public class TopToolbar extends Composite {
         });
   }
 
+  /**
+   * Enables or disables buttons based on whether the user has an android.keystore file. If the
+   * useCache parameter is true, then the last value returned from the UserInfoService is used.
+   * Otherwise, the behavior is identical to {@link #updateKeystoreFileMenuButtons()}.
+   *
+   * @param useCache true if a cached value of a previous call is acceptable.
+   */
+  public void updateKeystoreFileMenuButtons(boolean useCache) {
+    if (useCache && isKeystoreCheckPending) {
+      return;
+    }
+    AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
+      @Override
+      public void onSuccess(Boolean keystoreFileExists) {
+        isKeystoreCached = true;
+        isKeystorePresent = keystoreFileExists;
+        isKeystoreCheckPending = false;
+        fileDropDown.setItemEnabled(MESSAGES.deleteKeystoreMenuItem(), keystoreFileExists);
+        fileDropDown.setItemEnabled(MESSAGES.downloadKeystoreMenuItem(), keystoreFileExists);
+      }
+
+      @Override
+      public void onFailure(Throwable caught) {
+        // Enable the MenuItems. If they are clicked, we'll check again if the keystore exists.
+        isKeystoreCached = false;
+        isKeystorePresent = true;
+        isKeystoreCheckPending = false;
+        fileDropDown.setItemEnabled(MESSAGES.deleteKeystoreMenuItem(), true);
+        fileDropDown.setItemEnabled(MESSAGES.downloadKeystoreMenuItem(), true);
+      }
+    };
+    if (useCache && isKeystoreCached) {
+      callback.onSuccess(isKeystorePresent);
+    } else {
+      isKeystoreCheckPending = true;
+      Ode.getInstance().getUserInfoService().hasUserFile(StorageUtil.ANDROID_KEYSTORE_FILENAME,
+          callback);
+    }
+  }
 
   //Admin commands
   private static class DownloadUserSourceAction implements Command {
@@ -960,5 +1100,4 @@ public class TopToolbar extends Composite {
       Ode.getInstance().switchToUserAdminPanel();
     }
   }
-
 }

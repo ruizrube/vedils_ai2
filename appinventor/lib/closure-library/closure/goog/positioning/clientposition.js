@@ -15,14 +15,15 @@
 /**
  * @fileoverview Client positioning class.
  *
+ * @author eae@google.com (Emil A Eklund)
+ * @author chrishenry@google.com (Chris Henry)
  */
 
 goog.provide('goog.positioning.ClientPosition');
 
 goog.require('goog.asserts');
-goog.require('goog.math.Box');
+goog.require('goog.dom');
 goog.require('goog.math.Coordinate');
-goog.require('goog.math.Size');
 goog.require('goog.positioning');
 goog.require('goog.positioning.AbstractPosition');
 goog.require('goog.style');
@@ -47,11 +48,12 @@ goog.positioning.ClientPosition = function(arg1, opt_arg2) {
    * Coordinate to position popup at.
    * @type {goog.math.Coordinate}
    */
-  this.coordinate = arg1 instanceof goog.math.Coordinate ? arg1 :
+  this.coordinate = arg1 instanceof goog.math.Coordinate ?
+      arg1 :
       new goog.math.Coordinate(/** @type {number} */ (arg1), opt_arg2);
 };
-goog.inherits(goog.positioning.ClientPosition,
-              goog.positioning.AbstractPosition);
+goog.inherits(
+    goog.positioning.ClientPosition, goog.positioning.AbstractPosition);
 
 
 /**

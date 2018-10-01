@@ -84,93 +84,63 @@ Blockly.Blocks['controls_if'] = {
     return container;
   },
   domToMutation: function (xmlElement) {
-    if (xmlElement.getAttribute('elseif') === null) {
-      this.elseifCount_ = 0;
-    } else {
-      this.elseifCount_ = window.parseInt(xmlElement.getAttribute('elseif'), 10);
-    }
-
-    this.elseCount_ = window.parseInt(xmlElement.getAttribute('else'), 10);
-    for (var x = 1; x <= this.elseifCount_; x++) {
-      this.appendValueInput('IF' + x)
-          .setCheck(Blockly.Blocks.Utilities.YailTypeToBlocklyType("boolean", Blockly.Blocks.Utilities.INPUT))
-          .appendField(Blockly.Msg.LANG_CONTROLS_IF_MSG_ELSEIF);
-      this.appendStatementInput('DO' + x)
-          .appendField(Blockly.Msg.LANG_CONTROLS_IF_MSG_THEN);
-    }
-    if (this.elseCount_) {
-      this.appendStatementInput('ELSE')
-          .appendField(Blockly.Msg.LANG_CONTROLS_IF_MSG_ELSE);
-    }
+    this.elseifCount_ = parseInt(xmlElement.getAttribute('elseif'), 10) || 0
+    this.elseCount_ = window.parseInt(xmlElement.getAttribute('else'), 10) || 0;
+    this.updateShape_();
   },
   decompose: function (workspace) {
-    var containerBlock = new Blockly.Block.obtain(workspace, 'controls_if_if');
+    var containerBlock = workspace.newBlock('controls_if_if');
     containerBlock.initSvg();
     var connection = containerBlock.getInput('STACK').connection;
     for (var x = 1; x <= this.elseifCount_; x++) {
-      var elseifBlock = new Blockly.Block.obtain(workspace, 'controls_if_elseif');
+      var elseifBlock = workspace.newBlock('controls_if_elseif');
       elseifBlock.initSvg();
       connection.connect(elseifBlock.previousConnection);
       connection = elseifBlock.nextConnection;
     }
     if (this.elseCount_) {
-      var elseBlock = new Blockly.Block.obtain(workspace, 'controls_if_else');
+      var elseBlock = workspace.newBlock('controls_if_else');
       elseBlock.initSvg();
       connection.connect(elseBlock.previousConnection);
     }
     return containerBlock;
   },
   compose: function (containerBlock) {
-    // Disconnect the else input blocks and destroy the inputs.
-    if (this.elseCount_) {
-      this.removeInput('ELSE');
-    }
-    this.elseCount_ = 0;
-    // Disconnect all the elseif input blocks and destroy the inputs.
-    for (var x = this.elseifCount_; x > 0; x--) {
-      this.removeInput('IF' + x);
-      this.removeInput('DO' + x);
-    }
-    this.elseifCount_ = 0;
-    // Rebuild the block's optional inputs.
     var clauseBlock = containerBlock.getInputTargetBlock('STACK');
+    this.elseifCount_ = 0;
+    this.elseCount_ = 0;
+    var valueConnections = [null];
+    var statementConnections = [null];
+    var elseStatementConnection = null;
     while (clauseBlock) {
       switch (clauseBlock.type) {
         case 'controls_if_elseif':
           this.elseifCount_++;
-          var ifInput = this.appendValueInput('IF' + this.elseifCount_)
-              .setCheck(Blockly.Blocks.Utilities.YailTypeToBlocklyType("boolean", Blockly.Blocks.Utilities.INPUT))
-              .appendField(Blockly.Msg.LANG_CONTROLS_IF_MSG_ELSEIF);
-          var doInput = this.appendStatementInput('DO' + this.elseifCount_);
-          doInput.appendField(Blockly.Msg.LANG_CONTROLS_IF_MSG_THEN);
-          // Reconnect any child blocks.
-          if (clauseBlock.valueConnection_) {
-            ifInput.connection.connect(clauseBlock.valueConnection_);
-          }
-          if (clauseBlock.statementConnection_) {
-            doInput.connection.connect(clauseBlock.statementConnection_);
-          }
+          valueConnections.push(clauseBlock.valueConnection_);
+          statementConnections.push(clauseBlock.statementConnection_);
           break;
         case 'controls_if_else':
           this.elseCount_++;
-          var elseInput = this.appendStatementInput('ELSE');
-          elseInput.appendField(Blockly.Msg.LANG_CONTROLS_IF_MSG_ELSE);
-          // Reconnect any child blocks.
-          if (clauseBlock.statementConnection_) {
-            elseInput.connection.connect(clauseBlock.statementConnection_);
-          }
+          elseStatementConnection = clauseBlock.statementConnection_;
           break;
         default:
           throw 'Unknown block type.';
       }
       clauseBlock = clauseBlock.nextConnection &&
-      clauseBlock.nextConnection.targetBlock();
+        clauseBlock.nextConnection.targetBlock();
     }
+    this.updateShape_();
+    // Reconnect any child blocks.
+    for (var i = 1; i <= this.elseifCount_; i++) {
+      Blockly.Mutator.reconnect(valueConnections[i], this, 'IF' + i);
+      Blockly.Mutator.reconnect(statementConnections[i], this, 'DO' + i);
+    }
+    Blockly.Mutator.reconnect(elseStatementConnection, this, 'ELSE');
   },
   saveConnections: function (containerBlock) {
     // Store a pointer to any connected child blocks.
     var inputDo;
-    var clauseBlock = containerBlock.getInputTargetBlock('STACK');
+    var clauseBlock = containerBlock.getInput('STACK').connection.targetBlock();
     var x = 1;
     while (clauseBlock) {
       switch (clauseBlock.type) {
@@ -195,7 +165,31 @@ Blockly.Blocks['controls_if'] = {
       clauseBlock.nextConnection.targetBlock();
     }
   },
-  typeblock: [{translatedName: Blockly.Msg.LANG_CONTROLS_IF_IF_TITLE_IF}]
+  typeblock: [{translatedName: Blockly.Msg.LANG_CONTROLS_IF_IF_TITLE_IF}],
+  updateShape_: function() {
+    // Delete everything.
+    if (this.getInput('ELSE')) {
+      this.removeInput('ELSE');
+    }
+    var i = 1;
+    while (this.getInput('IF' + i)) {
+      this.removeInput('IF' + i);
+      this.removeInput('DO' + i);
+      i++;
+    }
+    // Rebuild block.
+    for (var i = 1; i <= this.elseifCount_; i++) {
+      this.appendValueInput('IF' + i)
+        .setCheck(Blockly.Blocks.Utilities.YailTypeToBlocklyType('boolean', Blockly.Blocks.Utilities.INPUT))
+        .appendField(Blockly.Msg.LANG_CONTROLS_IF_MSG_ELSEIF);
+      this.appendStatementInput('DO' + i)
+        .appendField(Blockly.Msg.LANG_CONTROLS_IF_MSG_THEN);
+    }
+    if (this.elseCount_) {
+      this.appendStatementInput('ELSE')
+        .appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSE);
+    }
+  }
 };
 
 Blockly.Blocks['controls_if_if'] = {
@@ -422,61 +416,6 @@ Blockly.Blocks['controls_forEach'] = {
   typeblock: [{translatedName: Blockly.Msg.LANG_CONTROLS_FOREACH_INPUT_ITEM}]
 };
 
-/* [lyn 10/10/13] With parameter flydown changes,
-* I don't think a special GET block in the Control drawer is necesssary
-Blockly.Blocks.for_lexical_variable_get = {
-  // Variable getter.
-  category: 'Control',
-  helpUrl: Blockly.Msg.LANG_CONTROLS_GET_HELPURL,
-  init: function() {
-    this.setColour(Blockly.CONTROL_CATEGORY_HUE);
-    this.fieldVar_ = new Blockly.FieldLexicalVariable(" ");
-    this.fieldVar_.setBlock(this);
-    this.appendDummyInput()
-        .appendField("get")
-        .appendField(this.fieldVar_, 'VAR');
-    this.setOutput(true, null);
-    this.setTooltip(Blockly.Msg.LANG_VARIABLES_GET_TOOLTIP);
-    this.errors = [{name:"checkIsInDefinition"},{name:"checkDropDownContainsValidValue",dropDowns:["VAR"]}];
-  },
-  getVars: function() {
-    return [this.getFieldValue('VAR')];
-  },
-  onchange: function() {
-     // [lyn, 11/10/12] Checks if parent has changed. If so, checks if curent variable name
-     //    is still in scope. If so, keeps it as is; if not, changes to ???
-     //    *** NEED TO MAKE THIS BEHAVIOR BETTER!
-    if (this.fieldVar_) {
-       var currentName = this.fieldVar_.getText();
-       var nameList = this.fieldVar_.getNamesInScope();
-       var cachedParent = this.fieldVar_.getCachedParent();
-       var currentParent = this.fieldVar_.getBlock().getParent();
-       // [lyn, 11/10/12] Allow current name to stay if block moved to workspace in "untethered" way.
-       //   Only changed to ??? if tether an untethered block.
-       if (currentParent != cachedParent) {
-         this.fieldVar_.setCachedParent(currentParent);
-         if  (currentParent !== null) {
-           for (var i = 0; i < nameList.length; i++ ) {
-             if (nameList[i] === currentName) {
-               return; // no change
-             }
-           }
-           // Only get here if name not in list
-           this.fieldVar_.setText(" ");
-         }
-       }
-    }
-    Blockly.WarningHandler.checkErrors.call(this);
-  },
-  renameLexicalVar: function(oldName, newName) {
-    // console.log("Renaming lexical variable from " + oldName + " to " + newName);
-    if (oldName === this.getFieldValue('VAR')) {
-        this.setFieldValue(newName, 'VAR');
-    }
-  }
-};
-*/
-
 Blockly.Blocks['controls_while'] = {
   // While condition.
   category: 'Control',
@@ -539,7 +478,7 @@ Blockly.Blocks['controls_choose'] = {
 Blockly.Blocks['controls_do_then_return'] = {
   // String length.
   category: 'Control',
-  helpUrl: Blockly.Msg.LANG_PROCEDURES_DOTHENRETURN_HELPURL,
+  helpUrl: Blockly.Msg.LANG_CONTROLS_DO_THEN_RETURN_HELPURL,
   init: function () {
     this.setColour(Blockly.CONTROL_CATEGORY_HUE);
     this.appendStatementInput('STM')
@@ -567,24 +506,6 @@ Blockly.Blocks['controls_eval_but_ignore'] = {
   },
   typeblock: [{translatedName: Blockly.Msg.LANG_CONTROLS_EVAL_BUT_IGNORE_TITLE}]
 };
-
-/* [lyn 10/10/13] Hal doesn't like NOTHING. Must rethink
- // [lyn, 01/15/2013] Added
- Blockly.Blocks.controls_nothing = {
- // Expression for the nothing value
- category: 'Control',
- helpUrl: Blockly.Msg.LANG_CONTROLS_NOTHING_HELPURL,
- init: function() {
- this.setColour(Blockly.CONTROL_CATEGORY_HUE);
- this.appendDummyInput()
- .appendField("nothing");
- this.setOutput(true, null);
- this.setTooltip(Blockly.Msg.LANG_CONTROLS_NOTHING_TOOLTIP);
- },
- onchange: Blockly.WarningHandler.checkErrors,
- typeblock: [{ translatedName: Blockly.Msg.LANG_CONTROLS_NOTHING_TITLE }]
- };
- */
 
 Blockly.Blocks['controls_openAnotherScreen'] = {
   // Open another screen
@@ -709,4 +630,19 @@ Blockly.Blocks['controls_closeScreenWithPlainText'] = {
     this.setTooltip(Blockly.Msg.LANG_CONTROLS_CLOSE_SCREEN_WITH_PLAIN_TEXT_TOOLTIP);
   },
   typeblock: [{translatedName: Blockly.Msg.LANG_CONTROLS_CLOSE_SCREEN_WITH_PLAIN_TEXT_TITLE}]
+};
+
+Blockly.Blocks['controls_break'] = {
+    // generate a call to break (the escape from loops)
+  category: 'Control',
+  helpUrl: Blockly.Msg.LANG_CONTROLS_BREAK_HELPURL,
+  init: function () {
+    this.setColour(Blockly.CONTROL_CATEGORY_HUE);
+    this.appendDummyInput()
+        .appendField(Blockly.Msg.LANG_CONTROLS_BREAK_TITLE);
+    this.setPreviousStatement(true);
+    this.setTooltip(Blockly.Msg.LANG_CONTROLS_FLOW_STATEMENTS_TOOLTIP_BREAK);
+    this.errors = [{name:"checkIsNotInLoop"}];
+  },
+  typeblock: [{translatedName: Blockly.Msg.LANG_CONTROLS_BREAK_TITLE}]
 };

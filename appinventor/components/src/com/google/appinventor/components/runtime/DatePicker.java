@@ -108,7 +108,7 @@ public class DatePicker extends ButtonBase {
   public int Day() {
     return day;
   }
-  
+
   /**
    * Returns instant of the date that was last picked using the DatePicker.
    * @return instant of the date

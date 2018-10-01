@@ -1,5 +1,9 @@
+/* -*- mode: css; css-indent-offset: 2; -*- */
 /*
- * Copyright 2007 Google Inc. All Rights Reserved.
+ * Copyright 2007-2011 Google Inc. All Rights Reserved.
+ * Copyright 2011-2017 MIT, All Rights Reserved.
+ * Released under the Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  */
 
 /*
@@ -230,6 +234,52 @@ select {
 }
 
 /*
+ * ComponentList
+ */
+.ode-ComponentNameLabel {
+  font-weight: bold;
+  font-size: small;
+  color: #555;
+}
+
+.ode-ComponentTable {
+  padding: 0px;
+  margin: 0px;
+  border: 1px;
+}
+
+.ode-ComponentTable td {
+  border-collapse: collapse;
+  font-size: small;
+  color: #555;
+  text-align: left;
+  margin: 0px;
+}
+
+.ode-ComponentRowHighlighted {
+  border-bottom: 1px solid #ddd;
+  background-color: #fff6c3;
+  border-collapse: collapse;
+}
+
+.ode-ComponentRowUnHighlighted {
+  border-bottom: 1px solid #ddd;
+  background-color: white
+}
+
+.ode-ComponentHeaderRow {
+  background: url(images/toolbarBG.png) repeat;
+  border: 1px;
+  border-bottom: 1px solid #bbccff;
+}
+
+.ode-ComponentHeaderLabel {
+  color: #112abb;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+/*
  * TopPanel
  */
 
@@ -255,27 +305,24 @@ select {
 }
 
 .ode-Logo {
-  margin: 8px 4px 4px 4px;
-  -webkit-filter: drop-shadow(0px 0px 1px #222);
-  filter:         drop-shadow(0px 0px 1px #222);
+  margin: 0px 0px 4px 4px;
+/*  -webkit-filter: drop-shadow(0px 0px 1px #222);
+  filter:         drop-shadow(0px 0px 1px #222); */
 }
 
+/*
 .ode-Logo:hover {
   -webkit-filter: drop-shadow(0px 0px 3px #222);
   filter:         drop-shadow(0px 0px 3px #222);
 }
+*/
 
 .ode-LogoText {
   font-size: 16px;
   color: grey;
   font-weight: 500;
   text-shadow: 0px 0px 0px #404040;
-}
-
-.ode-LogoVersion {
-  font-size: 12px;
-  color: grey;
-  text-shadow: 0px 0px 0px #404040;
+  margin-bottom: 15px;
 }
 
 .ode-TopPanelAccount {
@@ -440,7 +487,7 @@ select {
 .MsgMeta .ActionButton {
   display: inline;
   margin-right: 20px;
-  background: #4EB8F2;
+  background: #D79191;
 }
 .MsgMeta .MsgSender {
   display: inline;
@@ -503,10 +550,6 @@ select {
   padding: 5px;
 }
 
-.ya-globalNonVisibleComponentsPanel {
-	height: 80px;
-}
-
 .ode-SimpleUiDesignerNonVisibleComponents .ode-Icon,
 .ode-SimpleUiDesignerNonVisibleComponents .ode-Icon-selected {
   display: inline-table;
@@ -542,7 +585,7 @@ select {
   color: black;
   font-size: 13px;
   text-align: center;
-  background-color: #eef2e0;
+  background-color: #DCD8D8;
   border: 2px solid #D79191;
 }
 
@@ -573,6 +616,11 @@ select {
   font-size: 12px;
   color: #555;
   cursor: default;
+  display: block !important;
+}
+
+.gwt-Tree .gwt-TreeItem-selected {
+  background: none;
 }
 
 .gwt-Tree .gwt-TreeItem span {
@@ -677,6 +725,18 @@ select {
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
+.destructive-action {
+  background: red;
+  color: white;
+  text-shadow: none;
+}
+
+.destructive-action:hover {
+  background: #FF6666;
+  color: white;
+  text-shadow: none;
+}
+
 .ya-Toolbar .ode-TextButton {
   font-size: 11px;
 }
@@ -752,12 +812,21 @@ select {
   background-color: white; /* needed on Firefox */
   height: 15px;
   cursor: pointer;
-  padding-bottom: 10px;
+  padding: 5px;
+}
+
+.ode-SimplePaletteItem-icon {
+  height: 16px;
+  width: 16px;
 }
 
 .ode-SimplePaletteItem-caption {
   font-size: 12px;
   color: #555;
+}
+
+.ode-SimplePaletteItem-button {
+  padding: 2px;
 }
 
 .gwt-SimplePanel {
@@ -916,6 +985,7 @@ select.ode-PropertyEditor[disabled] {
 }
 
 .ode-SimpleMockForm {
+  height: auto !important;
   background-color: #D79191;
   border: 2px solid black;
 }
@@ -926,7 +996,15 @@ select.ode-PropertyEditor[disabled] {
 
 .ode-SimpleMockFormTitleBar {
   background-color: dimgray;
+  color: white;
+  font-size: 90%;
   border-bottom: 1px solid lightgray;
+}
+
+.ode-SimpleMockFormTitleBar-ActionBar {
+  background-color: #a5cf47;
+  color: white;
+  font-size: 20px;
 }
 
 .ode-SimpleMockFormPhoneBar {
@@ -934,8 +1012,31 @@ select.ode-PropertyEditor[disabled] {
 }
 
 .ode-SimpleMockFormTitle {
+  padding: 0;
+  top: 4px;
+  left: 12px;
+  position: absolute;
+}
+
+.ode-SimpleMockFormTitleBar-ActionBar .ode-SimpleMockFormTitle {
+  padding: 16px;
+  top: 0;
+  left: 0;
+}
+
+.ode-SimpleMockFormMenuButton {
+  right: 0;
+  padding: 16px;
+  position: absolute;
+  border: 0;
+  background-color: transparent;
+  font: 20px Roboto bold;
   color: white;
-  font-size: 90%;
+  display: none;
+}
+
+.ode-SimpleMockFormTitleBar-ActionBar .ode-SimpleMockFormMenuButton {
+  display: inline-block;
 }
 
 .ode-SimpleMockContainer {
@@ -961,13 +1062,75 @@ select.ode-PropertyEditor[disabled] {
   border: 2px solid #641818;
 }
 
+.ode-SimpleMockMapFeature-selected svg * {
+  stroke: #641818;
+  stroke-opacity: 1;
+}
+
+path.ode-SimpleMockMapFeature-selected {
+  stroke: #641818;
+  stroke-opacity: 1;
+}
+
+.ode-SimpleMockMapFeature img {
+  padding: 2px;
+}
+
+.ode-SimpleMockMapFeature-selected img {
+  padding: 0;
+  border: 2px solid #641818;
+}
+
+.ode-SimpleMockContainer .leaflet-container .leaflet-toolbar-icon {
+  color: #888;
+}
+
+.ode-SimpleMockContainer .leaflet-container .leaflet-toolbar-icon:hover {
+  color: #0078A8;
+}
+
+.ode-SimpleMockContainer .leaflet-container .leaflet-toolbar-icon.locked .fa-unlock,
+.ode-SimpleMockContainer .leaflet-container .leaflet-toolbar-icon.locked:hover .fa-lock,
+.ode-SimpleMockContainer .leaflet-container .leaflet-toolbar-icon.unlocked .fa-lock,
+.ode-SimpleMockContainer .leaflet-container .leaflet-toolbar-icon.unlocked:hover .fa-unlock {
+  display: none;
+}
+
+.ode-SimpleMockContainer .leaflet-container .leaflet-toolbar-icon.locked:hover .fa-unlock,
+.ode-SimpleMockContainer .leaflet-container .leaflet-toolbar-icon.unlocked:hover .fa-lock {
+  display: inline-block;
+}
+
+.ode-SimpleMockContainer .leaflet-container .ai2-user-mock-location {
+    position: relative;
+    width: 32px;
+    height: 32px;
+}
+
+.ode-SimpleMockContainer .leaflet-container .ai2-user-mock-location img {
+    position: relative;
+    top: -50%;
+    left: -50%;
+    width: 32px;
+    height: 32px;
+}
+
 .ode-SimpleMockContainer-centerContents {
   text-align: center;
 }
 
 .ode-SimpleMockButton {
-  /* When updating this color also update MockButtonBase.setBackgroundColorProperty() */
-  background-color: #E8E8E8;
+  padding: 4px 8px;
+  text-shadow: none;
+  border: 0;
+  border-radius: 2px;
+  background-color: #d6d7d7;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.ode-SimpleMockForm-Dark .ode-SimpleMockButton {
+  background-color: #5a595b;
+  color: #fff;
 }
 
 /* class for the ListView Mock component */
@@ -1009,6 +1172,7 @@ select.ode-PropertyEditor[disabled] {
   border-bottom: 4px solid #641818;
   width: 20%;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.065);
+  z-index: 1000;
 }
 
 .ode-ComponentHelpPopup-TitleBar {
@@ -1128,6 +1292,7 @@ select.ode-PropertyEditor[disabled] {
   border-left: 4px solid #641818;
   border-right: 4px solid #641818;
   border-bottom: 4px solid #641818;
+  z-index: 1000;
 }
 
 .ode-DialogBox .gwt-CheckBox {
@@ -1169,6 +1334,29 @@ select.ode-PropertyEditor[disabled] {
 
 .ode-DialogBox .gwt-Button {
   margin: 10px;
+}
+
+.ode-DialogBox table {
+  width: 100%;
+}
+
+/* AI2 Extensions Styles */
+
+a.ode-ExtensionAnchor {
+  display: inline-block;
+  padding-bottom: 8px;
+  font-style: italic;
+  color: grey;
+  -o-transition:color .2s ease-out;
+  -ms-transition:color .2s ease-out;
+  -moz-transition:color .2s ease-out;
+  -webkit-transition:color .2s ease-out;
+  /* ...and now override with proper CSS property */
+  transition:color .2s ease-out;
+}
+
+a.ode-ExtensionAnchor:hover {
+  color: #5B5B5B;
 }
 
 /* Settings dialog boxes */
@@ -1257,6 +1445,10 @@ select.ode-PropertyEditor[disabled] {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+}
+
+.gwt-PopupPanelGlass {
+  z-index: 1000;
 }
 
 /*
@@ -2188,7 +2380,7 @@ textarea::-webkit-input-placeholder {
   display: block;
   width: 100%;
 }
-.gallery-page-single .gwt-TabBar .gwt-TabBarItem-D79191,
+.gallery-page-single .gwt-TabBar .gwt-TabBarItem-selected,
 .gallery-app-single .gwt-TabBar .gwt-TabBarItem-selected {
   color: #D79191;
   font-weight: 300;
@@ -2304,4 +2496,48 @@ textarea::-webkit-input-placeholder {
   display: block;
   height: 0;
   clear: both;
+}
+
+/* Blocks editor */
+.svg {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.ac-renderer {
+  font: normal 13px Arial, sans-serif;
+  position: absolute;
+  background: #fff;
+  border: 1px solid #666;
+  -moz-box-shadow: 2px 2px 2px rgba(102, 102, 102, .4);
+  -webkit-box-shadow: 2px 2px 2px rgba(102, 102, 102, .4);
+  width: 300px;
+  height: 294px;
+  overflow: auto;
+}
+.ac-row {
+  cursor: pointer;
+  padding: .4em;
+}
+.ac-highlighted {
+  font-weight: bold;
+}
+.ac-active {
+  background-color: #b2b4bf;
+}
+.ai_type_block {
+  position: absolute;
+  z-index: 2000;
+}
+
+.goog-hsva-palette, .goog-hsva-palette-sm {
+  border: 0;
+}
+
+div.vector-marker>svg, div.leaflet-marker-icon>img {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 2px;
 }

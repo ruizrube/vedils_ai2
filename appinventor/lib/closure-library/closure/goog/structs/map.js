@@ -16,13 +16,11 @@
  * @fileoverview Datastructure: Hash Map.
  *
  * @author arv@google.com (Erik Arvidsson)
- * @author jonp@google.com (Jon Perlow) Optimized for IE6
  *
  * This file contains an implementation of a Map structure. It implements a lot
  * of the methods used in goog.structs so those functions work on hashes. This
  * is best suited for complex key types. For simple keys such as numbers and
- * strings, and where special names like __proto__ are not a concern, consider
- * using the lighter-weight utilities in goog.object.
+ * strings consider using the lighter-weight utilities in goog.object.
  */
 
 
@@ -61,7 +59,7 @@ goog.structs.Map = function(opt_map, var_args) {
    * This array can contain deleted keys so it's necessary to check the map
    * as well to see if the key is still in the map (this doesn't require a
    * memory allocation in IE).
-   * @private {!Array.<string>}
+   * @private {!Array<string>}
    */
   this.keys_ = [];
 
@@ -102,7 +100,7 @@ goog.structs.Map.prototype.getCount = function() {
 
 /**
  * Returns the values of the map.
- * @return {!Array.<V>} The values in the map.
+ * @return {!Array<V>} The values in the map.
  */
 goog.structs.Map.prototype.getValues = function() {
   this.cleanupKeysArray_();
@@ -118,11 +116,11 @@ goog.structs.Map.prototype.getValues = function() {
 
 /**
  * Returns the keys of the map.
- * @return {!Array.<string>} Array of string values.
+ * @return {!Array<string>} Array of string values.
  */
 goog.structs.Map.prototype.getKeys = function() {
   this.cleanupKeysArray_();
-  return /** @type {!Array.<string>} */ (this.keys_.concat());
+  return /** @type {!Array<string>} */ (this.keys_.concat());
 };
 
 
@@ -225,7 +223,7 @@ goog.structs.Map.prototype.remove = function(key) {
     this.count_--;
     this.version_++;
 
-    // clean up the keys array if the threshhold is hit
+    // clean up the keys array if the threshold is hit
     if (this.keys_.length > 2 * this.count_) {
       this.cleanupKeysArray_();
     }
@@ -282,10 +280,10 @@ goog.structs.Map.prototype.cleanupKeysArray_ = function() {
  * Returns the value for the given key.  If the key is not found and the default
  * value is not given this will return {@code undefined}.
  * @param {*} key The key to get the value for.
- * @param {(T|V)=} opt_val The value to return if no item is found for the given
- *     key, defaults to undefined.
- * @return {V} The value for the given key.
- * @template T
+ * @param {DEFAULT=} opt_val The value to return if no item is found for the
+ *     given key, defaults to undefined.
+ * @return {V|DEFAULT} The value for the given key.
+ * @template DEFAULT
  */
 goog.structs.Map.prototype.get = function(key, opt_val) {
   if (goog.structs.Map.hasKey_(this.map_, key)) {
@@ -304,7 +302,9 @@ goog.structs.Map.prototype.get = function(key, opt_val) {
 goog.structs.Map.prototype.set = function(key, value) {
   if (!(goog.structs.Map.hasKey_(this.map_, key))) {
     this.count_++;
-    this.keys_.push(key);
+    // TODO(johnlenz): This class lies, it claims to return an array of string
+    // keys, but instead returns the original object used.
+    this.keys_.push(/** @type {?} */ (key));
     // Only change the version if we add a new key.
     this.version_++;
   }
@@ -329,6 +329,22 @@ goog.structs.Map.prototype.addAll = function(map) {
   // dependency just for this.
   for (var i = 0; i < keys.length; i++) {
     this.set(keys[i], values[i]);
+  }
+};
+
+
+/**
+ * Calls the given function on each entry in the map.
+ * @param {function(this:T, V, K, goog.structs.Map<K,V>)} f
+ * @param {T=} opt_obj The value of "this" inside f.
+ * @template T
+ */
+goog.structs.Map.prototype.forEach = function(f, opt_obj) {
+  var keys = this.getKeys();
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+    var value = this.get(key);
+    f.call(opt_obj, value, key, this);
   }
 };
 
@@ -410,23 +426,19 @@ goog.structs.Map.prototype.__iterator__ = function(opt_keys) {
   this.cleanupKeysArray_();
 
   var i = 0;
-  var keys = this.keys_;
-  var map = this.map_;
   var version = this.version_;
   var selfObj = this;
 
   var newIter = new goog.iter.Iterator;
   newIter.next = function() {
-    while (true) {
-      if (version != selfObj.version_) {
-        throw Error('The map has changed since the iterator was created');
-      }
-      if (i >= keys.length) {
-        throw goog.iter.StopIteration;
-      }
-      var key = keys[i++];
-      return opt_keys ? key : map[key];
+    if (version != selfObj.version_) {
+      throw Error('The map has changed since the iterator was created');
     }
+    if (i >= selfObj.keys_.length) {
+      throw goog.iter.StopIteration;
+    }
+    var key = selfObj.keys_[i++];
+    return opt_keys ? key : selfObj.map_[key];
   };
   return newIter;
 };

@@ -23,6 +23,7 @@ import com.google.gwt.user.client.DeferredCommand;
  */
 public final class UserSettings extends CommonSettings implements SettingsAccessProvider {
   private boolean loading;
+  private boolean loaded;
 
   /**
    * Creates new user settings object.
@@ -31,6 +32,7 @@ public final class UserSettings extends CommonSettings implements SettingsAccess
     addSettings(SettingsConstants.USER_GENERAL_SETTINGS, new GeneralSettings(user));
     addSettings(SettingsConstants.USER_YOUNG_ANDROID_SETTINGS, new YoungAndroidSettings(user));
     addSettings(SettingsConstants.SPLASH_SETTINGS, new SplashSettings(user));
+    addSettings(SettingsConstants.BLOCKS_SETTINGS, new BlocksSettings(user));
   }
 
   // SettingsAccessProvider implementation
@@ -45,6 +47,8 @@ public final class UserSettings extends CommonSettings implements SettingsAccess
             OdeLog.log("Loaded global settings: " + result);
             decodeSettings(result);
 
+            changed = false;
+            loaded = true;
             loading = false;
           }
 
@@ -69,6 +73,18 @@ public final class UserSettings extends CommonSettings implements SettingsAccess
           saveSettings(command);
         }
       });
+    } else if (!loaded) {
+      // Do not save settings that have not been loaded. We should
+      // only wind up in this state if we are in the early phases of
+      // loading the App Inventor client code. If saveSettings is
+      // called in this state, it is from the onWindowClosing
+      // handler. We do *not* want to over-write a persons valid
+      // settings with this empty version, so we just return.
+      return;
+
+    } else if (!changed) {
+      // Do not save UserSettings if they haven't changed.
+      return;
     } else {
       String s = encodeSettings();
       OdeLog.log("Saving global settings: " + s);
@@ -79,6 +95,7 @@ public final class UserSettings extends CommonSettings implements SettingsAccess
               MESSAGES.settingsSaveError()) {
             @Override
             public void onSuccess(Void result) {
+              changed = false;
               if (command != null) {
                 command.execute();
               }

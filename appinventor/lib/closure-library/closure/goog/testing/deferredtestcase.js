@@ -58,9 +58,9 @@
  * @see goog.testing.AsyncTestCase
  */
 
+goog.setTestOnly('goog.testing.DeferredTestCase');
 goog.provide('goog.testing.DeferredTestCase');
 
-goog.require('goog.async.Deferred');
 goog.require('goog.testing.AsyncTestCase');
 goog.require('goog.testing.TestCase');
 
@@ -71,6 +71,8 @@ goog.require('goog.testing.TestCase');
  * @param {string=} opt_name A descriptive name for the test case.
  * @constructor
  * @extends {goog.testing.AsyncTestCase}
+ * @deprecated Use goog.testing.TestCase instead. goog.testing.TestCase now
+ *    supports async testing using promises.
  */
 goog.testing.DeferredTestCase = function(opt_name) {
   goog.testing.AsyncTestCase.call(this, opt_name);
@@ -82,7 +84,7 @@ goog.inherits(goog.testing.DeferredTestCase, goog.testing.AsyncTestCase);
  * Preferred way of creating a DeferredTestCase. Creates one and initializes it
  * with the G_testRunner.
  * @param {string=} opt_name A descriptive name for the test case.
- * @return {goog.testing.DeferredTestCase} The created DeferredTestCase.
+ * @return {!goog.testing.DeferredTestCase} The created DeferredTestCase.
  */
 goog.testing.DeferredTestCase.createAndInstall = function(opt_name) {
   var deferredTestCase = new goog.testing.DeferredTestCase(opt_name);
@@ -127,7 +129,7 @@ goog.testing.DeferredTestCase.prototype.addWaitForAsync = function(msg, d) {
 /**
  * Wires up given Deferred object to the test case, then starts the
  * goog.async.Deferred object's callback.
- * @param {!string|goog.async.Deferred} a The wait status message or the
+ * @param {string|!goog.async.Deferred} a The wait status message or the
  *     deferred object to wait for.
  * @param {goog.async.Deferred=} opt_b The deferred object to wait for.
  */
@@ -143,13 +145,13 @@ goog.testing.DeferredTestCase.prototype.waitForDeferred = function(a, opt_b) {
       deferred = opt_b;
       waitMsg = a;
       break;
-    default: // Shouldn't be here in compiled mode
+    default:  // Shouldn't be here in compiled mode
       throw Error('Invalid number of arguments');
   }
   deferred.addCallbacks(this.onSuccess, this.onError, this);
   if (!waitMsg) {
     waitMsg = 'Waiting for deferred in ' + this.getCurrentStepName();
   }
-  this.waitForAsync( /** @type {!string} */ (waitMsg));
+  this.waitForAsync(/** @type {!string} */ (waitMsg));
   deferred.callback(true);
 };

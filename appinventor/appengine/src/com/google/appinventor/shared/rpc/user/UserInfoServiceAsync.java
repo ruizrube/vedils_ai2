@@ -22,6 +22,11 @@ public interface UserInfoServiceAsync {
   void getSystemConfig(String sessionId, AsyncCallback<Config> callback);
 
   /**
+   * @see UserInfoService#getUserBackpack()
+   */
+  void getUserBackpack(AsyncCallback<String> callback);
+
+  /**
    * @see UserInfoService#getUserInformation()
    */
   void getUserInformation(String sessionId, AsyncCallback<User> callback);
@@ -35,6 +40,11 @@ public interface UserInfoServiceAsync {
    * @see UserInfoService#loadUserSettings()
    */
   void loadUserSettings(AsyncCallback<String> callback);
+
+  /**
+   * @see UserInfoService#storeUserBackpack(String)
+   */
+  void storeUserBackpack(String backpack, AsyncCallback<Void> callback);
 
   /**
    * @see UserInfoService#storeUserSettings(String)
@@ -65,4 +75,20 @@ public interface UserInfoServiceAsync {
    * @see UserInfoService#deleteUserFile(String)
    */
   void deleteUserFile(String fileName, AsyncCallback<Void> callback);
+
+  /**
+   * @see UserInfoService#noop(String)
+   */
+  void noop(AsyncCallback<Void> callback);
+
+  /**
+   * @see UserInfoService#getSharedBackpack(String)
+   */
+  void getSharedBackpack(String backPackId, AsyncCallback<String> callback);
+
+  /**
+   * @see UserInfoService#storeSharedBackpack(String, String)
+   */
+  void storeSharedBackpack(String backPackId, String content, AsyncCallback<Void> callback);
+
 }

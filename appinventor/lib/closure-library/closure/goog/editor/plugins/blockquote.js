@@ -15,6 +15,7 @@
 /**
  * @fileoverview goog.editor plugin to handle splitting block quotes.
  *
+ * @author robbyw@google.com (Robby Walker)
  */
 
 goog.provide('goog.editor.plugins.Blockquote');
@@ -22,7 +23,7 @@ goog.provide('goog.editor.plugins.Blockquote');
 goog.require('goog.dom');
 goog.require('goog.dom.NodeType');
 goog.require('goog.dom.TagName');
-goog.require('goog.dom.classes');
+goog.require('goog.dom.classlist');
 goog.require('goog.editor.BrowserFeature');
 goog.require('goog.editor.Command');
 goog.require('goog.editor.Plugin');
@@ -42,9 +43,10 @@ goog.require('goog.log');
  *     blockquotes.  Defaults to 'tr_bq'.
  * @constructor
  * @extends {goog.editor.Plugin}
+ * @final
  */
-goog.editor.plugins.Blockquote = function(requiresClassNameToSplit,
-    opt_className) {
+goog.editor.plugins.Blockquote = function(
+    requiresClassNameToSplit, opt_className) {
   goog.editor.Plugin.call(this);
 
   /**
@@ -106,38 +108,6 @@ goog.editor.plugins.Blockquote.prototype.isSilentCommand = goog.functions.TRUE;
 
 
 /**
- * Checks if a node is a blockquote node.  If isAlreadySetup is set, it also
- * makes sure the node has the blockquote classname applied.  Otherwise, it
- * ensures that the blockquote does not already have the classname applied.
- * @param {Node} node DOM node to check.
- * @param {boolean} isAlreadySetup True to enforce that the classname must be
- *                  set in order for it to count as a blockquote, false to
- *                  enforce that the classname must not be set in order for
- *                  it to count as a blockquote.
- * @param {boolean} requiresClassNameToSplit Whether only blockquotes with the
- *     class name should be split.
- * @param {string} className The official blockquote class name.
- * @return {boolean} Whether node is a blockquote and if isAlreadySetup is
- *    true, then whether this is a setup blockquote.
- * @deprecated Use {@link #isSplittableBlockquote},
- *     {@link #isSetupBlockquote}, or {@link #isUnsetupBlockquote} instead
- *     since this has confusing behavior.
- */
-goog.editor.plugins.Blockquote.isBlockquote = function(node, isAlreadySetup,
-    requiresClassNameToSplit, className) {
-  if (node.tagName != goog.dom.TagName.BLOCKQUOTE) {
-    return false;
-  }
-  if (!requiresClassNameToSplit) {
-    return isAlreadySetup;
-  }
-  var hasClassName = goog.dom.classes.has(/** @type {Element} */ (node),
-      className);
-  return isAlreadySetup ? hasClassName : !hasClassName;
-};
-
-
-/**
  * Checks if a node is a blockquote which can be split. A splittable blockquote
  * meets the following criteria:
  * <ol>
@@ -149,9 +119,9 @@ goog.editor.plugins.Blockquote.isBlockquote = function(node, isAlreadySetup,
  * @param {Node} node DOM node in question.
  * @return {boolean} Whether the node is a splittable blockquote.
  */
-goog.editor.plugins.Blockquote.prototype.isSplittableBlockquote =
-    function(node) {
-  if (node.tagName != goog.dom.TagName.BLOCKQUOTE) {
+goog.editor.plugins.Blockquote.prototype.isSplittableBlockquote = function(
+    node) {
+  if (/** @type {!Element} */ (node).tagName != goog.dom.TagName.BLOCKQUOTE) {
     return false;
   }
 
@@ -159,7 +129,8 @@ goog.editor.plugins.Blockquote.prototype.isSplittableBlockquote =
     return true;
   }
 
-  return goog.dom.classes.has(node, this.className_);
+  return goog.dom.classlist.contains(
+      /** @type {!Element} */ (node), this.className_);
 };
 
 
@@ -169,10 +140,11 @@ goog.editor.plugins.Blockquote.prototype.isSplittableBlockquote =
  * @return {boolean} Whether the node is a blockquote with the required class
  *     name applied.
  */
-goog.editor.plugins.Blockquote.prototype.isSetupBlockquote =
-    function(node) {
-  return node.tagName == goog.dom.TagName.BLOCKQUOTE &&
-      goog.dom.classes.has(node, this.className_);
+goog.editor.plugins.Blockquote.prototype.isSetupBlockquote = function(node) {
+  return /** @type {!Element} */ (node).tagName ==
+      goog.dom.TagName.BLOCKQUOTE &&
+      goog.dom.classlist.contains(
+          /** @type {!Element} */ (node), this.className_);
 };
 
 
@@ -182,9 +154,9 @@ goog.editor.plugins.Blockquote.prototype.isSetupBlockquote =
  * @return {boolean} Whether the node is a blockquote without the required
  *     class name applied.
  */
-goog.editor.plugins.Blockquote.prototype.isUnsetupBlockquote =
-    function(node) {
-  return node.tagName == goog.dom.TagName.BLOCKQUOTE &&
+goog.editor.plugins.Blockquote.prototype.isUnsetupBlockquote = function(node) {
+  return /** @type {!Element} */ (node).tagName ==
+      goog.dom.TagName.BLOCKQUOTE &&
       !this.isSetupBlockquote(node);
 };
 
@@ -212,8 +184,8 @@ goog.editor.plugins.Blockquote.findAndRemoveSingleChildAncestor_ = function(
   var predicateFunc = function(parentNode) {
     return parentNode != root && parentNode.childNodes.length == 1;
   };
-  var ancestor = goog.editor.node.findHighestMatchingAncestor(node,
-      predicateFunc);
+  var ancestor =
+      goog.editor.node.findHighestMatchingAncestor(node, predicateFunc);
   if (!ancestor) {
     ancestor = node;
   }
@@ -223,7 +195,7 @@ goog.editor.plugins.Blockquote.findAndRemoveSingleChildAncestor_ = function(
 
 /**
  * Remove every nodes from the DOM tree that are all white space nodes.
- * @param {Array.<Node>} nodes Nodes to be checked.
+ * @param {Array<Node>} nodes Nodes to be checked.
  * @private
  */
 goog.editor.plugins.Blockquote.removeAllWhiteSpaceNodes_ = function(nodes) {
@@ -247,10 +219,10 @@ goog.editor.plugins.Blockquote.prototype.isSupportedCommand = function(
  * function returns true, the event that caused it to be called should be
  * canceled.
  * @param {string} command The command to execute.
- * @param {...*} var_args Single additional argument representing the
- *     current cursor position.  In IE, it is a single node.  In any other
- *     browser, it is an object with a {@code node} key and an {@code offset}
- *     key.
+ * @param {...*} var_args Single additional argument representing the current
+ *     cursor position. If BrowserFeature.HAS_W3C_RANGES it is an object with a
+ *     {@code node} key and an {@code offset} key. In other cases (legacy IE)
+ *     it is a single node.
  * @return {boolean|undefined} Boolean true when the quoted region has been
  *     split, false or undefined otherwise.
  * @override
@@ -273,8 +245,8 @@ goog.editor.plugins.Blockquote.prototype.execCommandInternal = function(
  * @return {boolean} Whether the blockquote was split.
  * @private
  */
-goog.editor.plugins.Blockquote.prototype.splitQuotedBlockW3C_ =
-    function(anchorPos) {
+goog.editor.plugins.Blockquote.prototype.splitQuotedBlockW3C_ = function(
+    anchorPos) {
   var cursorNode = anchorPos.node;
   var quoteNode = goog.editor.node.findTopMostEditableAncestor(
       cursorNode.parentNode, goog.bind(this.isSplittableBlockquote, this));
@@ -294,7 +266,6 @@ goog.editor.plugins.Blockquote.prototype.splitQuotedBlockW3C_ =
   //    empty subtree that ends in a 0 length text node. We account for that
   //    as a post-splitting operation.
   if (quoteNode) {
-
     // selection is in a line that has text in it
     if (cursorNode.nodeType == goog.dom.NodeType.TEXT) {
       if (anchorPos.offset == cursorNode.length) {
@@ -342,16 +313,15 @@ goog.editor.plugins.Blockquote.prototype.splitQuotedBlockW3C_ =
     return false;
   }
 
-  secondHalf = goog.editor.node.splitDomTreeAt(cursorNode, secondHalf,
-      quoteNode);
+  secondHalf =
+      goog.editor.node.splitDomTreeAt(cursorNode, secondHalf, quoteNode);
   goog.dom.insertSiblingAfter(secondHalf, quoteNode);
 
   // Set the insertion point.
   var dh = this.getFieldDomHelper();
-  var tagToInsert =
-      this.getFieldObject().queryCommandValue(
-          goog.editor.Command.DEFAULT_TAG) ||
-          goog.dom.TagName.DIV;
+  var tagToInsert = this.getFieldObject().queryCommandValue(
+                        goog.editor.Command.DEFAULT_TAG) ||
+      goog.dom.TagName.DIV;
   var container = dh.createElement(/** @type {string} */ (tagToInsert));
   container.innerHTML = '&nbsp;';  // Prevent the div from collapsing.
   quoteNode.parentNode.insertBefore(container, secondHalf);
@@ -393,8 +363,8 @@ goog.editor.plugins.Blockquote.prototype.insertEmptyTextNodeBeforeRange_ =
  * @return {boolean} Whether the blockquote was split.
  * @private
  */
-goog.editor.plugins.Blockquote.prototype.splitQuotedBlockIE_ =
-    function(splitNode) {
+goog.editor.plugins.Blockquote.prototype.splitQuotedBlockIE_ = function(
+    splitNode) {
   var dh = this.getFieldDomHelper();
   var quoteNode = goog.editor.node.findTopMostEditableAncestor(
       splitNode.parentNode, goog.bind(this.isSplittableBlockquote, this));
@@ -411,17 +381,17 @@ goog.editor.plugins.Blockquote.prototype.splitQuotedBlockIE_ =
   // dummy span that we create (splitNode) occurs before the BR and we split
   // on that.
   if (splitNode.nextSibling &&
-      splitNode.nextSibling.tagName == goog.dom.TagName.BR) {
+      /** @type {!Element} */ (splitNode.nextSibling).tagName ==
+          goog.dom.TagName.BR) {
     splitNode = splitNode.nextSibling;
   }
   var secondHalf = goog.editor.node.splitDomTreeAt(splitNode, clone, quoteNode);
   goog.dom.insertSiblingAfter(secondHalf, quoteNode);
 
   // Set insertion point.
-  var tagToInsert =
-      this.getFieldObject().queryCommandValue(
-          goog.editor.Command.DEFAULT_TAG) ||
-          goog.dom.TagName.DIV;
+  var tagToInsert = this.getFieldObject().queryCommandValue(
+                        goog.editor.Command.DEFAULT_TAG) ||
+      goog.dom.TagName.DIV;
   var div = dh.createElement(/** @type {string} */ (tagToInsert));
   quoteNode.parentNode.insertBefore(div, secondHalf);
 
@@ -437,7 +407,7 @@ goog.editor.plugins.Blockquote.prototype.splitQuotedBlockIE_ =
   range.select();
 
   // Remove the no-longer-necessary nbsp.
-  div.innerHTML = '';
+  goog.dom.removeChildren(div);
 
   // Clear the original selection.
   range.pasteHTML('');

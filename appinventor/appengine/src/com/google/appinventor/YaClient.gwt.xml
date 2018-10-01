@@ -12,7 +12,6 @@
   IRR: 
   
   <set-property name="user.agent" value="safari" />
-  
   -->
 
   <inherits name='com.google.gwt.user.UserAgent'/>
@@ -39,6 +38,10 @@
   <inherits name="com.allen_sauer.gwt.dnd.gwt-dnd" />
 
   <!-- servlets -->
+  <inherits name="com.google.gwt.query.Query" />
+
+  <!-- servlets -->
+  <servlet path="/components" class="com.google.appinventor.server.ComponentServiceImpl" />
   <servlet path="/download" class="com.google.appinventor.server.DownloadServlet" />
   <servlet path="/getmotd" class="com.google.appinventor.server.GetMotdServiceImpl" />
   <servlet path="/help" class="com.google.appinventor.server.HelpServiceImpl" />
@@ -89,6 +92,7 @@
   <source path="shared/util"/>
   <source path="shared/youngandroid"/>
   <source path="shared/properties/json"/>
+  <source path="shared/rpc/component"/>
   <source path="shared/rpc/help"/>
   <source path="shared/rpc/launch"/>
   <source path="shared/rpc/project"/>
@@ -111,24 +115,32 @@
     <when-type-assignable class="com.google.gwt.user.client.rpc.RemoteService" />
   </generate-with>
 
-  <!-- English and Spanish languages -->
+  <!-- English language, independent of country -->
   <extend-property name="locale" values="en"/>
-  <extend-property name="locale" values="es_ES"/>
-  
-  
-  <!--  IRR   
-  
+  <!-- Simplified Chinese -->
   <extend-property name="locale" values="zh_CN"/>
+  <!-- Traditional Chinese -->
   <extend-property name="locale" values="zh_TW"/>
+  <!-- Spanish from Spain -->
   <extend-property name="locale" values="es_ES"/>
+  <!-- French -->
   <extend-property name="locale" values="fr_FR"/>
+  <!-- Italian -->
   <extend-property name="locale" values="it_IT"/>
+  <!-- Russian -->
   <extend-property name="locale" values="ru"/>
+  <!-- Korean -->
   <extend-property name="locale" values="ko_KR"/>
+  <!-- Swedish -->
   <extend-property name="locale" values="sv"/>
+  <!-- Portuguese (Brazilian) -->
   <extend-property name="locale" values="pt_BR"/>
-  -->
+  <!-- Portuguese (Portugal) -->
+  <extend-property name="locale" values="pt"/>
+  <!-- Dutch -->
+  <extend-property name="locale" values="nl"/>
 
   <set-property-fallback name="locale" value="en"/>
+  <collapse-all-properties/>
 
 </module>

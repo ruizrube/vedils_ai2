@@ -32,7 +32,7 @@ goog.require('goog.array');
  * @param {string} str String to split.
  * @param {boolean=} opt_keepNewlines Whether to keep the newlines in the
  *     resulting strings. Defaults to false.
- * @return {!Array.<string>} String split into lines.
+ * @return {!Array<string>} String split into lines.
  */
 goog.string.newlines.splitLines = function(str, opt_keepNewlines) {
   var lines = goog.string.newlines.getLines(str);
@@ -61,9 +61,10 @@ goog.string.newlines.splitLines = function(str, opt_keepNewlines) {
  *     newlines.
  * @constructor
  * @struct
+ * @final
  */
-goog.string.newlines.Line = function(string, startLineIndex,
-                                     endContentIndex, endLineIndex) {
+goog.string.newlines.Line = function(
+    string, startLineIndex, endContentIndex, endLineIndex) {
   /**
    * The original string.
    * @type {string}
@@ -122,7 +123,7 @@ goog.string.newlines.Line.prototype.getNewline = function() {
 /**
  * Splits a string into an array of line metadata.
  * @param {string} str String to split.
- * @return {!Array.<!goog.string.newlines.Line>} Array of line metadata.
+ * @return {!Array<!goog.string.newlines.Line>} Array of line metadata.
  */
 goog.string.newlines.getLines = function(str) {
   // We use the constructor because literals are evaluated only once in
@@ -144,8 +145,8 @@ goog.string.newlines.getLines = function(str) {
 
   // If the string does not end with a newline, add the last line.
   if (sliceIndex < str.length) {
-    var line = new goog.string.newlines.Line(
-        str, sliceIndex, str.length, str.length);
+    var line =
+        new goog.string.newlines.Line(str, sliceIndex, str.length, str.length);
     lines.push(line);
   }
 

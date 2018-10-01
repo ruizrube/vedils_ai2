@@ -18,15 +18,16 @@
  * @author robbyw@google.com (Robby Walker)
  */
 
+goog.setTestOnly('goog.testing.graphics');
 goog.provide('goog.testing.graphics');
 
-goog.require('goog.graphics.Path.Segment');
+goog.require('goog.graphics.Path');
 goog.require('goog.testing.asserts');
 
 
 /**
  * Array mapping numeric segment constant to a descriptive character.
- * @type {Array.<string>}
+ * @type {Array<string>}
  * @private
  */
 goog.testing.graphics.SEGMENT_NAMES_ = function() {
@@ -42,7 +43,7 @@ goog.testing.graphics.SEGMENT_NAMES_ = function() {
 
 /**
  * Test if the given path matches the expected array of commands and parameters.
- * @param {Array.<string|number>} expected The expected array of commands and
+ * @param {Array<string|number>} expected The expected array of commands and
  *     parameters.
  * @param {goog.graphics.Path} path The path to test against.
  */

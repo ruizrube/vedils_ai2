@@ -15,6 +15,8 @@ import java.util.Map;
 import com.google.appinventor.client.TranslationDesignerPallete;
 import com.google.appinventor.client.editor.simple.SimpleComponentDatabase;
 import com.google.appinventor.client.editor.simple.components.MockComponent;
+import com.google.appinventor.client.ComponentsTranslation;
+import com.google.appinventor.client.editor.simple.components.utils.PropertiesUtil;
 import com.google.appinventor.client.editor.simple.palette.DropTargetProvider;
 import com.google.appinventor.client.editor.simple.palette.SimpleComponentDescriptor;
 import com.google.appinventor.client.editor.simple.palette.SimplePaletteItem;
@@ -73,8 +75,16 @@ import com.google.appinventor.shared.simple.ComponentDatabaseInterface.PropertyD
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.appinventor.client.ComponentsTranslation;
 
+import com.google.appinventor.client.explorer.project.ComponentDatabaseChangeListener;
+import com.google.appinventor.client.wizards.ComponentImportWizard;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import java.util.List;
+
+import static com.google.appinventor.client.Ode.MESSAGES;
 
 /**
  * Panel showing Simple components which can be dropped onto the Young Android
@@ -82,263 +92,211 @@ import com.google.appinventor.client.ComponentsTranslation;
  *
  * @author lizlooney@google.com (Liz Looney)
  */
-public class YoungAndroidPalettePanel extends Composite implements SimplePalettePanel {
+public class YoungAndroidPalettePanel extends Composite implements SimplePalettePanel, ComponentDatabaseChangeListener {
 
-	// Component database: information about components (including their
-	// properties and events)
-	private static final SimpleComponentDatabase COMPONENT_DATABASE = SimpleComponentDatabase.getInstance();
+  // Component database: information about components (including their properties and events)
+  private final SimpleComponentDatabase COMPONENT_DATABASE;
 
-	// Associated editor
-	private final YaFormEditor editor;
+  // Associated editor
+  private final YaFormEditor editor;
 
-	private final StackPanel stackPalette;
-	private final Map<ComponentCategory, VerticalPanel> categoryPanels;
+  private final Map<ComponentCategory, PaletteHelper> paletteHelpers;
 
-	// Lista de objetos de tipo tracker
-	private static final String[] TRACKERS_TYPES = { "ARTextTracker", "ARImageTracker", "ARMarkerTracker",
-			"ARObjectTracker" };
-	// Lista de objetos de tipo asset
-	private static final String[] ASSETS_TYPES = { "AR3DModelAsset", "ARImageAsset", "ARTextAsset" };
-	// Listas de terminaciones de ficheros
-	private static final String[] MODEL_FILETYPES = { "md2", "obj", "3ds", "asc","bones" };
+  private final StackPanel stackPalette;
+  private final Map<ComponentCategory, VerticalPanel> categoryPanels;
+  // store Component Type along with SimplePaleteItem to enable removal of components
+  private final Map<String, SimplePaletteItem> simplePaletteItems;
 
-	private static final String[] MATERIAL_FILETYPES = { "mtl" };
+  private DropTargetProvider dropTargetProvider;
 
-	private static final String[] IMAGE_FILETYPES = { "png", "jpg", "jpeg" };
+  /**
+   * Creates a new component palette panel.
+   *
+   * @param editor parent editor of this panel
+   */
+  public YoungAndroidPalettePanel(YaFormEditor editor) {
+    this.editor = editor;
+    COMPONENT_DATABASE = SimpleComponentDatabase.getInstance(editor.getProjectId());
 
-	private final Map<ComponentCategory, PaletteHelper> paletteHelpers;
+    stackPalette = new StackPanel();
 
-	/**
-	 * Creates a new component palette panel.
-	 *
-	 * @param editor
-	 *            parent editor of this panel
-	 */
-	public YoungAndroidPalettePanel(YaFormEditor editor) {
-		this.editor = editor;
+    paletteHelpers = new HashMap<ComponentCategory, PaletteHelper>();
+    // If a category has a palette helper, add it to the paletteHelpers map here.
+    paletteHelpers.put(ComponentCategory.LEGOMINDSTORMS, new LegoPaletteHelper());
 
-		stackPalette = new StackPanel();
-		paletteHelpers = new HashMap<ComponentCategory, PaletteHelper>();
-		// If a category has a palette helper, add it to the paletteHelpers map
-		// here.
-		paletteHelpers.put(ComponentCategory.LEGOMINDSTORMS, new NxtPaletteHelper());
-		categoryPanels = new HashMap<ComponentCategory, VerticalPanel>();
+    categoryPanels = new HashMap<ComponentCategory, VerticalPanel>();
+    simplePaletteItems = new HashMap<String, SimplePaletteItem>();
 
-		for (ComponentCategory category : ComponentCategory.values()) {
-			if (showCategory(category)) {
-				VerticalPanel categoryPanel = new VerticalPanel();
-				categoryPanel.setWidth("100%");
-				categoryPanels.put(category, categoryPanel);
-				stackPalette.add(categoryPanel, TranslationDesignerPallete.getCorrespondingString(category.getName()));
-			}
-		}
+    for (ComponentCategory category : ComponentCategory.values()) {
+      if (showCategory(category)) {
+        VerticalPanel categoryPanel = new VerticalPanel();
+        categoryPanel.setWidth("100%");
+        categoryPanels.put(category, categoryPanel);
+        // The production version will not include a mapping for Extension because
+        // only compile-time categories are included. This allows us to i18n the
+        // Extension title for the palette.
+        String title = ComponentCategory.EXTENSION.equals(category) ?
+          MESSAGES.extensionComponentPallette() :
+          ComponentsTranslation.getCategoryName(category.getName());
+        stackPalette.add(categoryPanel, title);
+      }
+    }
 
-		stackPalette.setWidth("100%");
-		initWidget(stackPalette);
-	}
+    initExtensionPanel();
 
-	private static boolean showCategory(ComponentCategory category) {
-		if (category == ComponentCategory.UNINITIALIZED) {
-			return false;
-		}
-		if (category == ComponentCategory.INTERNAL && !AppInventorFeatures.showInternalComponentsCategory()) {
-			return false;
-		}
-		return true;
-	}
+    stackPalette.setWidth("100%");
+    initWidget(stackPalette);
+  }
 
-	/**
-	 * Loads all components to be shown on this palette. Specifically, for each
-	 * component (except for those whose category is UNINITIALIZED, or whose
-	 * category is INTERNAL and we're running on a production server, or who are
-	 * specifically marked as not to be shown on the palette), this creates a
-	 * corresponding {@link SimplePaletteItem} with the passed
-	 * {@link DropTargetProvider} and adds it to the panel corresponding to its
-	 * category.
-	 *
-	 * @param dropTargetProvider
-	 *            provider of targets that palette items can be dropped on
-	 */
-	@Override
-	public void loadComponents(DropTargetProvider dropTargetProvider) {
-		for (String component : COMPONENT_DATABASE.getComponentNames()) {
-			String categoryString = COMPONENT_DATABASE.getCategoryString(component);
-			String helpString = COMPONENT_DATABASE.getHelpString(component);
-			String categoryDocUrlString = COMPONENT_DATABASE.getCategoryDocUrlString(component);
-			Boolean showOnPalette = COMPONENT_DATABASE.getShowOnPalette(component);
-			Boolean nonVisible = COMPONENT_DATABASE.getNonVisible(component);
-			ComponentCategory category = ComponentCategory.valueOf(categoryString);
-			if (showOnPalette && showCategory(category)) {
-				addPaletteItem(new SimplePaletteItem(new SimpleComponentDescriptor(component, editor, helpString,
-						categoryDocUrlString, showOnPalette, nonVisible), dropTargetProvider), category);
-			}
-		}
-	}
+  private static boolean showCategory(ComponentCategory category) {
+    if (category == ComponentCategory.UNINITIALIZED) {
+      return false;
+    }
+    if (category == ComponentCategory.INTERNAL &&
+        !AppInventorFeatures.showInternalComponentsCategory()) {
+      return false;
+    }
+    return true;
+  }
 
-	@Override
-	public void configureComponent(MockComponent mockComponent) {
-		for (PropertyDefinition property : COMPONENT_DATABASE.getPropertyDefinitions(mockComponent.getType())) {
-			mockComponent.addProperty(property.getName(), property.getDefaultValue(),
-					ComponentsTranslation.getPropertyName(property.getCaption()),
-					createPropertyEditor(property.getEditorType(), mockComponent.getType()));
-			/*
-			 * OdeLog.log("Property Caption: " + property.getCaption() + ", " +
-			 * TranslationComponentProperty.getName(property.getCaption()));
-			 */
-		}
-	}
+  /**
+   * Loads all components to be shown on this palette.  Specifically, for
+   * each component (except for those whose category is UNINITIALIZED, or
+   * whose category is INTERNAL and we're running on a production server,
+   * or who are specifically marked as not to be shown on the palette),
+   * this creates a corresponding {@link SimplePaletteItem} with the passed
+   * {@link DropTargetProvider} and adds it to the panel corresponding to
+   * its category.
+   *
+   * @param dropTargetProvider provider of targets that palette items can be
+   *                           dropped on
+   */
+  @Override
+  public void loadComponents(DropTargetProvider dropTargetProvider) {
+    this.dropTargetProvider = dropTargetProvider;
+    for (String component : COMPONENT_DATABASE.getComponentNames()) {
+      this.addComponent(component);
+    }
+  }
 
-	/*
-	 * Creates a new property editor.
-	 */
-	private PropertyEditor createPropertyEditor(String editorType, String componentType) {
-		if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_HORIZONTAL_ALIGNMENT)) {
-			return new YoungAndroidHorizontalAlignmentChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_VERTICAL_ALIGNMENT)) {
-			return new YoungAndroidVerticalAlignmentChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ASSET)) {
-			return new YoungAndroidAssetSelectorPropertyEditor(editor);
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_BLUETOOTHCLIENT)) {
-			return new YoungAndroidComponentSelectorPropertyEditor(editor,
-					// Pass the set of component types that will be shown in the
-					// property editor,
-					// in this case, just "BluetoothClient".
-					Collections.singleton("BluetoothClient"), false);
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN)) {
-			return new YoungAndroidBooleanPropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_BUTTON_SHAPE)) {
-			return new YoungAndroidButtonShapeChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_COLOR)) {
-			return new YoungAndroidColorChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_COMPONENT)) {
-			return new YoungAndroidComponentSelectorPropertyEditor(editor);
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_FLOAT)) {
-			return new FloatPropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_INTEGER)) {
-			return new IntegerPropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_LEGO_NXT_SENSOR_PORT)) {
-			return new YoungAndroidLegoNxtSensorPortChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_LEGO_NXT_GENERATED_COLOR)) {
-			return new YoungAndroidColorChoicePropertyEditor(
-					YoungAndroidColorChoicePropertyEditor.NXT_GENERATED_COLORS);
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_NON_NEGATIVE_FLOAT)) {
-			return new NonNegativeFloatPropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_NON_NEGATIVE_INTEGER)) {
-			return new NonNegativeIntegerPropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_SCREEN_ORIENTATION)) {
-			return new YoungAndroidScreenOrientationChoicePropertyEditor();
-		}else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_QUALITY_YOUTUBE)) {
-				return new YoungAndroidQualityYoutubeChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_SCREEN_ANIMATION)) {
-			return new YoungAndroidScreenAnimationChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_SENSOR_DIST_INTERVAL)) {
-			return new YoungAndroidSensorDistIntervalChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_SENSOR_TIME_INTERVAL)) {
-			return new YoungAndroidSensorTimeIntervalChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_STRING)) {
-			return new StringPropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TEXTALIGNMENT)) {
-			return new YoungAndroidAlignmentChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TEXTAREA)) {
-			return new TextAreaPropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TOAST_LENGTH)) {
-			return new YoungAndroidToastLengthChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TYPEFACE)) {
-			return new YoungAndroidFontTypefaceChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_CHECKABLETREEFORACTIVITYTRACKER)) {
-			return new YoungAndroidCheckableTreeSelectorForActivityTracker(editor, COMPONENT_DATABASE, componentType);
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TEXTBOX_AND_HYPERLINK_FORACTIVITYTRACKER)) {
-			return new StringAndHyperlinkPropertyEditorForActivityTracker(editor);
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_CONSTANT_HYPERLINK)) {
-			return new YoungAndroidAnchorProperty();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_SYNCHRONIZATIONMODE)) {
-			return new YoungAndroidSynchronizationModeChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_CHARTTYPE)) {
-			return new YoungAndroidChartTypeChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_CHECKABLETREEFORDATA)) {
-			return new YoungAndroidCheckableTreeSelectorForData(editor, COMPONENT_DATABASE);
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_CHECKABLETREEFORAGGREGATEDDATA)) {
-			return new YoungAndroidCheckableTreeSelectorForAggregatedData(editor, COMPONENT_DATABASE);
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_COLUMNTOAGGREGATE)) {
-			return new YoungAndroidColumntToAggregateChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_COMMUNICATIONMODE)) {
-			return new YoungAndroidCommunicationModeChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_STORAGEMODE)) {
-			return new YoungAndroidStorageModeChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_VISIBILITY)) {
-			return new YoungAndroidBooleanPropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TEXT_RECEIVING)) {
-			return new YoungAndroidTextReceivingPropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ACCELEROMETER_SENSITIVITY)) {
-			return new YoungAndroidAccelerometerSensitivityChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TEXT_TO_SPEECH_COUNTRIES)) {
-			return new CountryChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TEXT_TO_SPEECH_LANGUAGES)) {
-			return new LanguageChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_SIZING)) {
-			return new YoungAndroidSizingChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_KIND_OF_TRACKERS)) {
-			return new YoungAndroidComponentSelectorPropertyEditor(editor,
-					new HashSet<String>(Arrays.asList(TRACKERS_TYPES)), false);
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_KIND_OF_VISUALASSETS)) {
-			return new YoungAndroidComponentSelectorPropertyEditor(editor,
-					new HashSet<String>(Arrays.asList(ASSETS_TYPES)), false);
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_VRSCENE)) {
-			return new YoungAndroidComponentSelectorPropertyEditor(editor, Collections.singleton("VRScene"), false);
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_TTS)) {
-			return new YoungAndroidComponentSelectorPropertyEditor(editor, Collections.singleton("TextToSpeech"), false);
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_ARCAMERA)) {
-			return new YoungAndroidComponentSelectorPropertyEditor(editor, Collections.singleton("ARCamera"), false);
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_ARCAMERAOVERLAYER)) {
-			return new YoungAndroidComponentSelectorPropertyEditor(editor, Collections.singleton("ARCameraOverLayer"), false);
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_QUERY)) {
+  public void loadComponents() {
+    for (String component : COMPONENT_DATABASE.getComponentNames()) {
+      this.addComponent(component);
+    }
+  }
 
-			HashSet<String> set = new HashSet<String>();
-			set.add("ActivitySimpleQuery");
-			set.add("ActivityAggregationQuery");
-			return new YoungAndroidComponentSelectorPropertyEditor(editor, set, false);
+  @Override
+  public void configureComponent(MockComponent mockComponent) {
+    String componentType = mockComponent.getType();
+    PropertiesUtil.populateProperties(mockComponent, COMPONENT_DATABASE.getPropertyDefinitions(componentType), editor);
 
-		} else if(editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ONLY_USER)) {
-			HashSet<String> set = new HashSet<String>();
-			set.add("User");
-			return new YoungAndroidComponentSelectorPropertyEditor(editor, set, true);
-			
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ASSET_3DMODEL)) {
-			return new YoungAndroidAssetSelectorPropertyEditor(editor, MODEL_FILETYPES);
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ASSET_MATERIAL)) {
-			return new YoungAndroidAssetSelectorPropertyEditor(editor, MATERIAL_FILETYPES);
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ASSET_IMAGE)) {
-			return new YoungAndroidAssetSelectorPropertyEditor(editor, IMAGE_FILETYPES);
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ASSET_DATABASE_DAT)) {
-			return new YoungAndroidAssetSelectorPropertyEditor(editor, new String[] { "dat" });
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ASSET_DATABASE_XML)) {
-			return new YoungAndroidAssetSelectorPropertyEditor(editor, new String[] { "xml" });
-		}else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_ASSET_TEXTURES_LIST)) {
-			return new YoungAndroidCheckableTreeSelectorForTextures(editor,IMAGE_FILETYPES);
-		}
-		else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_SCALING)) {
-			return new ScalingChoicePropertyEditor();
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_FIREBASE_URL)) {
-			return new YoungAndroidDefaultURLPropertyEditor("DEFAULT");
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_EEG)) {
-			return new YoungAndroidEEGDeviceChoicePropertyEditor();	
-		} else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TREEFORSEMANTICTYPE)) {
-			return new YoungAndroidTreeSelectorForSemanticType(editor);
-		} else {
-			return new TextPropertyEditor();
-		}
-	}
+  }
 
-	/*
-	 * Adds a component entry to the palette.
-	 */
-	private void addPaletteItem(SimplePaletteItem component, ComponentCategory category) {
-		VerticalPanel panel = categoryPanels.get(category);
-		PaletteHelper paletteHelper = paletteHelpers.get(category);
-		if (paletteHelper != null) {
-			paletteHelper.addPaletteItem(panel, component);
-		} else {
-			panel.add(component);
-		}
-	}
+  /**
+   *  Loads a single Component to Palette. Used for adding Components.
+   */
+  @Override
+  public void addComponent(String componentTypeName) {
+    if (simplePaletteItems.containsKey(componentTypeName)) { // We are upgrading
+      removeComponent(componentTypeName);
+    }
+    int version = COMPONENT_DATABASE.getComponentVersion(componentTypeName);
+    String helpString = COMPONENT_DATABASE.getHelpString(componentTypeName);
+    String helpUrl = COMPONENT_DATABASE.getHelpUrl(componentTypeName);
+    String categoryDocUrlString = COMPONENT_DATABASE.getCategoryDocUrlString(componentTypeName);
+    String categoryString = COMPONENT_DATABASE.getCategoryString(componentTypeName);
+    Boolean showOnPalette = COMPONENT_DATABASE.getShowOnPalette(componentTypeName);
+    Boolean nonVisible = COMPONENT_DATABASE.getNonVisible(componentTypeName);
+    Boolean external = COMPONENT_DATABASE.getComponentExternal(componentTypeName);
+    ComponentCategory category = ComponentCategory.valueOf(categoryString);
+    if (showOnPalette && showCategory(category)) {
+      SimplePaletteItem item = new SimplePaletteItem(
+          new SimpleComponentDescriptor(componentTypeName, editor, version, helpString, helpUrl,
+              categoryDocUrlString, showOnPalette, nonVisible, external),
+            dropTargetProvider);
+      simplePaletteItems.put(componentTypeName, item);
+      addPaletteItem(item, category);
+    }
+  }
+
+  public void removeComponent(String componentTypeName) {
+    String categoryString = COMPONENT_DATABASE.getCategoryString(componentTypeName);
+    ComponentCategory category = ComponentCategory.valueOf(categoryString);
+    removePaletteItem(simplePaletteItems.get(componentTypeName), category);
+  }
+
+
+
+  /*
+   * Adds a component entry to the palette.
+   */
+  private void addPaletteItem(SimplePaletteItem component, ComponentCategory category) {
+    VerticalPanel panel = categoryPanels.get(category);
+    PaletteHelper paletteHelper = paletteHelpers.get(category);
+    if (paletteHelper != null) {
+      paletteHelper.addPaletteItem(panel, component);
+    } else {
+      panel.add(component);
+    }
+  }
+
+  private void removePaletteItem(SimplePaletteItem component, ComponentCategory category) {
+    VerticalPanel panel = categoryPanels.get(category);
+    panel.remove(component);
+  }
+
+  private void initExtensionPanel() {
+    Anchor addComponentAnchor = new Anchor(MESSAGES.importExtensionMenuItem());
+    addComponentAnchor.setStylePrimaryName("ode-ExtensionAnchor");
+    addComponentAnchor.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        new ComponentImportWizard().center();
+      }
+    });
+
+    categoryPanels.get(ComponentCategory.EXTENSION).add(addComponentAnchor);
+    categoryPanels.get(ComponentCategory.EXTENSION).setCellHorizontalAlignment(
+        addComponentAnchor, HasHorizontalAlignment.ALIGN_CENTER);
+  }
+
+  @Override
+  public void onComponentTypeAdded(List<String> componentTypes) {
+    for (String componentType : componentTypes) {
+      this.addComponent(componentType);
+    }
+  }
+
+  @Override
+  public boolean beforeComponentTypeRemoved(List<String> componentTypes) {
+    boolean result = true;
+    for (String componentType : componentTypes) {
+      this.removeComponent(componentType);
+    }
+    return result;
+  }
+
+  @Override
+  public void onComponentTypeRemoved(Map<String, String> componentTypes) {
+
+  }
+
+  @Override
+  public void onResetDatabase() {
+    reloadComponents();
+  }
+
+  @Override
+  public void clearComponents() {
+    for (ComponentCategory category : categoryPanels.keySet()) {
+      VerticalPanel panel = categoryPanels.get(category);
+      panel.clear();
+    }
+  }
+
+  @Override
+  public void reloadComponents() {
+    clearComponents();
+    loadComponents();
+  }
 }

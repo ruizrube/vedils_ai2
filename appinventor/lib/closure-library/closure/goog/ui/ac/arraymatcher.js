@@ -27,7 +27,7 @@ goog.require('goog.string');
 /**
  * Basic class for matching words in an array
  * @constructor
- * @param {Array} rows Dictionary of items to match.  Can be objects if they
+ * @param {Array<?>} rows Dictionary of items to match.  Can be objects if they
  *     have a toString method that returns the value to match against.
  * @param {boolean=} opt_noSimilar if true, do not do similarity matches for the
  *     input token against the dictionary.
@@ -40,7 +40,7 @@ goog.ui.ac.ArrayMatcher = function(rows, opt_noSimilar) {
 
 /**
  * Replaces the rows that this object searches over.
- * @param {Array} rows Dictionary of items to match.
+ * @param {Array<?>} rows Dictionary of items to match.
  */
 goog.ui.ac.ArrayMatcher.prototype.setRows = function(rows) {
   this.rows_ = rows || [];
@@ -54,8 +54,8 @@ goog.ui.ac.ArrayMatcher.prototype.setRows = function(rows) {
  * @param {Function} matchHandler callback to execute after matching.
  * @param {string=} opt_fullString The full string from the input box.
  */
-goog.ui.ac.ArrayMatcher.prototype.requestMatchingRows =
-    function(token, maxMatches, matchHandler, opt_fullString) {
+goog.ui.ac.ArrayMatcher.prototype.requestMatchingRows = function(
+    token, maxMatches, matchHandler, opt_fullString) {
 
   var matches = this.useSimilar_ ?
       goog.ui.ac.ArrayMatcher.getMatchesForRows(token, maxMatches, this.rows_) :
@@ -71,18 +71,17 @@ goog.ui.ac.ArrayMatcher.prototype.requestMatchingRows =
  *
  * @param {string} token Token to match.
  * @param {number} maxMatches Max number of matches to return.
- * @param {!Array} rows Rows to search for matches. Can be objects if they have
- *     a toString method that returns the value to match against.
- * @return {!Array} Rows that match.
+ * @param {!Array<?>} rows Rows to search for matches. Can be objects if they
+ *     have a toString method that returns the value to match against.
+ * @return {!Array<?>} Rows that match.
  */
-goog.ui.ac.ArrayMatcher.getMatchesForRows =
-    function(token, maxMatches, rows) {
+goog.ui.ac.ArrayMatcher.getMatchesForRows = function(token, maxMatches, rows) {
   var matches =
       goog.ui.ac.ArrayMatcher.getPrefixMatchesForRows(token, maxMatches, rows);
 
   if (matches.length == 0) {
-    matches = goog.ui.ac.ArrayMatcher.getSimilarMatchesForRows(token,
-        maxMatches, rows);
+    matches = goog.ui.ac.ArrayMatcher.getSimilarMatchesForRows(
+        token, maxMatches, rows);
   }
   return matches;
 };
@@ -92,12 +91,12 @@ goog.ui.ac.ArrayMatcher.getMatchesForRows =
  * Matches the token against the start of words in the row.
  * @param {string} token Token to match.
  * @param {number} maxMatches Max number of matches to return.
- * @return {Array} Rows that match.
+ * @return {!Array<?>} Rows that match.
  */
-goog.ui.ac.ArrayMatcher.prototype.getPrefixMatches =
-    function(token, maxMatches) {
-  return goog.ui.ac.ArrayMatcher.getPrefixMatchesForRows(token, maxMatches,
-      this.rows_);
+goog.ui.ac.ArrayMatcher.prototype.getPrefixMatches = function(
+    token, maxMatches) {
+  return goog.ui.ac.ArrayMatcher.getPrefixMatchesForRows(
+      token, maxMatches, this.rows_);
 };
 
 
@@ -105,12 +104,13 @@ goog.ui.ac.ArrayMatcher.prototype.getPrefixMatches =
  * Matches the token against the start of words in the row.
  * @param {string} token Token to match.
  * @param {number} maxMatches Max number of matches to return.
- * @param {!Array} rows Rows to search for matches. Can be objects if they have
+ * @param {!Array<?>} rows Rows to search for matches. Can be objects if they
+ * have
  *     a toString method that returns the value to match against.
- * @return {!Array} Rows that match.
+ * @return {!Array<?>} Rows that match.
  */
-goog.ui.ac.ArrayMatcher.getPrefixMatchesForRows =
-    function(token, maxMatches, rows) {
+goog.ui.ac.ArrayMatcher.getPrefixMatchesForRows = function(
+    token, maxMatches, rows) {
   var matches = [];
 
   if (token != '') {
@@ -133,11 +133,11 @@ goog.ui.ac.ArrayMatcher.getPrefixMatchesForRows =
  * terms.
  * @param {string} token Token to match.
  * @param {number} maxMatches Max number of matches to return.
- * @return {Array} The best maxMatches rows.
+ * @return {!Array<?>} The best maxMatches rows.
  */
 goog.ui.ac.ArrayMatcher.prototype.getSimilarRows = function(token, maxMatches) {
-  return goog.ui.ac.ArrayMatcher.getSimilarMatchesForRows(token, maxMatches,
-      this.rows_);
+  return goog.ui.ac.ArrayMatcher.getSimilarMatchesForRows(
+      token, maxMatches, this.rows_);
 };
 
 
@@ -146,12 +146,13 @@ goog.ui.ac.ArrayMatcher.prototype.getSimilarRows = function(token, maxMatches) {
  * terms.
  * @param {string} token Token to match.
  * @param {number} maxMatches Max number of matches to return.
- * @param {!Array} rows Rows to search for matches. Can be objects if they have
- *     a toString method that returns the value to match against.
- * @return {!Array} The best maxMatches rows.
+ * @param {!Array<?>} rows Rows to search for matches. Can be objects
+ *     if they have a toString method that returns the value to
+ *     match against.
+ * @return {!Array<?>} The best maxMatches rows.
  */
-goog.ui.ac.ArrayMatcher.getSimilarMatchesForRows =
-    function(token, maxMatches, rows) {
+goog.ui.ac.ArrayMatcher.getSimilarMatchesForRows = function(
+    token, maxMatches, rows) {
   var results = [];
 
   for (var index = 0; index < rows.length; index++) {
@@ -190,11 +191,7 @@ goog.ui.ac.ArrayMatcher.getSimilarMatchesForRows =
     }
 
     if (score < str.length * 6) {
-      results.push({
-        str: row,
-        score: score,
-        index: index
-      });
+      results.push({str: row, score: score, index: index});
     }
   }
 

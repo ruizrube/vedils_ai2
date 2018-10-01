@@ -21,7 +21,7 @@ import com.google.appinventor.components.common.PropertyTypeConstants;
 public abstract class AndroidNonvisibleComponent implements Component {
 
   protected final Form form;
-  
+
   // Fields for ActivityTracker Component.
   private String activitiesNames;
   private String name;

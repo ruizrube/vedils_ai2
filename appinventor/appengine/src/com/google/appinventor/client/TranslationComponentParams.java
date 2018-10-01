@@ -187,7 +187,7 @@ public class TranslationComponentParams {
     map.put("selection", MESSAGES.selectionParams());
     map.put("valueIfTagNotThere", MESSAGES.valueIfTagNotThereParams());
     map.put("query", MESSAGES.queryParams());
-    map.put("ImagePath", MESSAGES.ImagePathParams());
+    map.put("ImagePath", MESSAGES.imagePathParams());
     map.put("ms", MESSAGES.msParams());
     map.put("translation", MESSAGES.translationParams());
     map.put("languageToTranslateTo", MESSAGES.languageToTranslateToParams());

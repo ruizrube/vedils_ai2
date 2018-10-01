@@ -16,7 +16,6 @@
  * @fileoverview A class for managing the editor toolbar.
  *
  * @author attila@google.com (Attila Bodis)
- * @author jparent@google.com (Julie Parent)
  * @see ../../demos/editor/editor.html
  */
 
@@ -52,7 +51,7 @@ goog.ui.editor.ToolbarController = function(field, toolbar) {
 
   /**
    * Event handler to listen for field events and user actions.
-   * @type {!goog.events.EventHandler}
+   * @type {!goog.events.EventHandler<!goog.ui.editor.ToolbarController>}
    * @private
    */
   this.handler_ = new goog.events.EventHandler(this);
@@ -73,7 +72,7 @@ goog.ui.editor.ToolbarController = function(field, toolbar) {
 
   /**
    * Editing commands whose state is to be queried when updating the toolbar.
-   * @type {!Array.<string>}
+   * @type {!Array<string>}
    * @private
    */
   this.queryCommands_ = [];
@@ -92,11 +91,12 @@ goog.ui.editor.ToolbarController = function(field, toolbar) {
 
   // Hook up handlers that update the toolbar in response to field events,
   // and to execute editor commands in response to toolbar events.
-  this.handler_.
-      listen(this.field_, goog.editor.Field.EventType.COMMAND_VALUE_CHANGE,
-          this.updateToolbar).
-      listen(this.toolbar_, goog.ui.Component.EventType.ACTION,
-          this.handleAction);
+  this.handler_
+      .listen(
+          this.field_, goog.editor.Field.EventType.COMMAND_VALUE_CHANGE,
+          this.updateToolbar)
+      .listen(
+          this.toolbar_, goog.ui.Component.EventType.ACTION, this.handleAction);
 };
 goog.inherits(goog.ui.editor.ToolbarController, goog.events.EventTarget);
 
@@ -138,8 +138,10 @@ goog.ui.editor.ToolbarController.prototype.getCommand = function(id) {
 /**
  * Returns the event handler object for the editor toolbar.  Useful for classes
  * that extend {@code goog.ui.editor.ToolbarController}.
- * @return {!goog.events.EventHandler} The event handler object.
+ * @return {!goog.events.EventHandler<T>} The event handler object.
  * @protected
+ * @this {T}
+ * @template T
  */
 goog.ui.editor.ToolbarController.prototype.getHandler = function() {
   return this.handler_;
@@ -237,7 +239,7 @@ goog.ui.editor.ToolbarController.prototype.disposeInternal = function() {
  * @protected
  */
 goog.ui.editor.ToolbarController.prototype.updateToolbar = function(e) {
-  if (!this.toolbar_.isEnabled() ||
+  if (!this.toolbar_.isEnabled() || !this.field_.isSelectionEditable() ||
       !this.dispatchEvent(goog.ui.Component.EventType.CHANGE)) {
     return;
   }
@@ -246,8 +248,8 @@ goog.ui.editor.ToolbarController.prototype.updateToolbar = function(e) {
 
   /** @preserveTry */
   try {
-    /** @type {Array.<string>} */
-    e.commands; // Added by dispatchEvent.
+    /** @type {Array<string>} */
+    e.commands;  // Added by dispatchEvent.
 
     // If the COMMAND_VALUE_CHANGE event specifies which commands changed
     // state, then we only need to update those ones, otherwise update all
@@ -267,8 +269,8 @@ goog.ui.editor.ToolbarController.prototype.updateToolbar = function(e) {
  * Updates the toolbar to reflect a given state.
  * @param {Object} state Object mapping editor commands to values.
  */
-goog.ui.editor.ToolbarController.prototype.updateToolbarFromState =
-    function(state) {
+goog.ui.editor.ToolbarController.prototype.updateToolbarFromState = function(
+    state) {
   for (var command in state) {
     var button = this.toolbar_.getChild(this.getComponentId(command));
     if (button) {

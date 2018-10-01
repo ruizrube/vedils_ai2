@@ -554,7 +554,9 @@ public final class Canvas extends AndroidViewComponent implements ComponentConta
           Log.e(LOG_TAG, "Unable to load " + backgroundImagePath);
         }
       }
+
       setBackground();
+
       clearDrawingLayer();  // will call invalidate()
     }
 
@@ -723,6 +725,7 @@ public final class Canvas extends AndroidViewComponent implements ComponentConta
     extensionGestureDetectors.remove(detector);
   }
 
+
   // Methods related to getting the dimensions of this Canvas
 
   /**
@@ -874,6 +877,7 @@ public final class Canvas extends AndroidViewComponent implements ComponentConta
 
  /**
   * Set the canvas width
+  *
   * The width can only be set to >0 or -1 (automatic) or -2 (fill parent)
   * or to a value less then or equal to LENGTH_PERCENT_TAG (which is later
   * converted to pixels.
@@ -1068,7 +1072,9 @@ public final class Canvas extends AndroidViewComponent implements ComponentConta
    */
   @SimpleProperty(description = "Determines the alignment of the " +
       "text drawn by DrawText() or DrawAngle() with respect to the " +
-      "point specified by that command.",
+      "point specified by that command: point at the left of the text, point at the center " +
+      "of the text, or point at the right of the text.",
+//    TODO: (Hal) Check that this is still correct for RTL languages.
       category = PropertyCategory.APPEARANCE,
       userVisible = true)
   public int TextAlignment() {
@@ -1439,7 +1445,7 @@ public final class Canvas extends AndroidViewComponent implements ComponentConta
     }
     return "";
   }
-  
+
   class FlingGestureListener extends GestureDetector.SimpleOnGestureListener {
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
@@ -1479,4 +1485,3 @@ public final class Canvas extends AndroidViewComponent implements ComponentConta
     }
   }
 }
-

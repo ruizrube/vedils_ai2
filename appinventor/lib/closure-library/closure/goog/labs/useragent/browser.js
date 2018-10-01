@@ -19,23 +19,29 @@
  * sub-namespaces in goog.labs.userAgent, goog.labs.userAgent.platform,
  * goog.labs.userAgent.device respectively.)
  *
+ * @author martone@google.com (Andy Martone)
  */
 
 goog.provide('goog.labs.userAgent.browser');
 
 goog.require('goog.array');
-goog.require('goog.asserts');
 goog.require('goog.labs.userAgent.util');
+goog.require('goog.object');
 goog.require('goog.string');
 
 
+// TODO(nnaze): Refactor to remove excessive exclusion logic in matching
+// functions.
+
+
 /**
- * @return {boolean} Whether the user's browser is Opera.
+ * @return {boolean} Whether the user's browser is Opera.  Note: Chromium
+ *     based Opera (Opera 15+) is detected as Chrome to avoid unnecessary
+ *     special casing.
  * @private
  */
 goog.labs.userAgent.browser.matchOpera_ = function() {
-  return goog.labs.userAgent.util.matchUserAgent('Opera') ||
-      goog.labs.userAgent.util.matchUserAgent('OPR');
+  return goog.labs.userAgent.util.matchUserAgent('Opera');
 };
 
 
@@ -46,6 +52,15 @@ goog.labs.userAgent.browser.matchOpera_ = function() {
 goog.labs.userAgent.browser.matchIE_ = function() {
   return goog.labs.userAgent.util.matchUserAgent('Trident') ||
       goog.labs.userAgent.util.matchUserAgent('MSIE');
+};
+
+
+/**
+ * @return {boolean} Whether the user's browser is Edge.
+ * @private
+ */
+goog.labs.userAgent.browser.matchEdge_ = function() {
+  return goog.labs.userAgent.util.matchUserAgent('Edge');
 };
 
 
@@ -64,9 +79,38 @@ goog.labs.userAgent.browser.matchFirefox_ = function() {
  */
 goog.labs.userAgent.browser.matchSafari_ = function() {
   return goog.labs.userAgent.util.matchUserAgent('Safari') &&
-      !goog.labs.userAgent.util.matchUserAgent('Chrome') &&
-      !goog.labs.userAgent.util.matchUserAgent('CriOS') &&
-      !goog.labs.userAgent.util.matchUserAgent('Android');
+      !(goog.labs.userAgent.browser.matchChrome_() ||
+        goog.labs.userAgent.browser.matchCoast_() ||
+        goog.labs.userAgent.browser.matchOpera_() ||
+        goog.labs.userAgent.browser.matchEdge_() ||
+        goog.labs.userAgent.browser.isSilk() ||
+        goog.labs.userAgent.util.matchUserAgent('Android'));
+};
+
+
+/**
+ * @return {boolean} Whether the user's browser is Coast (Opera's Webkit-based
+ *     iOS browser).
+ * @private
+ */
+goog.labs.userAgent.browser.matchCoast_ = function() {
+  return goog.labs.userAgent.util.matchUserAgent('Coast');
+};
+
+
+/**
+ * @return {boolean} Whether the user's browser is iOS Webview.
+ * @private
+ */
+goog.labs.userAgent.browser.matchIosWebview_ = function() {
+  // iOS Webview does not show up as Chrome or Safari. Also check for Opera's
+  // WebKit-based iOS browser, Coast.
+  return (goog.labs.userAgent.util.matchUserAgent('iPad') ||
+          goog.labs.userAgent.util.matchUserAgent('iPhone')) &&
+      !goog.labs.userAgent.browser.matchSafari_() &&
+      !goog.labs.userAgent.browser.matchChrome_() &&
+      !goog.labs.userAgent.browser.matchCoast_() &&
+      goog.labs.userAgent.util.matchUserAgent('AppleWebKit');
 };
 
 
@@ -75,8 +119,9 @@ goog.labs.userAgent.browser.matchSafari_ = function() {
  * @private
  */
 goog.labs.userAgent.browser.matchChrome_ = function() {
-  return goog.labs.userAgent.util.matchUserAgent('Chrome') ||
-      goog.labs.userAgent.util.matchUserAgent('CriOS');
+  return (goog.labs.userAgent.util.matchUserAgent('Chrome') ||
+          goog.labs.userAgent.util.matchUserAgent('CriOS')) &&
+      !goog.labs.userAgent.browser.matchEdge_();
 };
 
 
@@ -85,9 +130,13 @@ goog.labs.userAgent.browser.matchChrome_ = function() {
  * @private
  */
 goog.labs.userAgent.browser.matchAndroidBrowser_ = function() {
+  // Android can appear in the user agent string for Chrome on Android.
+  // This is not the Android standalone browser if it does.
   return goog.labs.userAgent.util.matchUserAgent('Android') &&
-      !goog.labs.userAgent.util.matchUserAgent('Chrome') &&
-      !goog.labs.userAgent.util.matchUserAgent('CriOS');
+      !(goog.labs.userAgent.browser.isChrome() ||
+        goog.labs.userAgent.browser.isFirefox() ||
+        goog.labs.userAgent.browser.isOpera() ||
+        goog.labs.userAgent.browser.isSilk());
 };
 
 
@@ -104,6 +153,12 @@ goog.labs.userAgent.browser.isIE = goog.labs.userAgent.browser.matchIE_;
 
 
 /**
+ * @return {boolean} Whether the user's browser is Edge.
+ */
+goog.labs.userAgent.browser.isEdge = goog.labs.userAgent.browser.matchEdge_;
+
+
+/**
  * @return {boolean} Whether the user's browser is Firefox.
  */
 goog.labs.userAgent.browser.isFirefox =
@@ -113,15 +168,27 @@ goog.labs.userAgent.browser.isFirefox =
 /**
  * @return {boolean} Whether the user's browser is Safari.
  */
-goog.labs.userAgent.browser.isSafari =
-    goog.labs.userAgent.browser.matchSafari_;
+goog.labs.userAgent.browser.isSafari = goog.labs.userAgent.browser.matchSafari_;
+
+
+/**
+ * @return {boolean} Whether the user's browser is Coast (Opera's Webkit-based
+ *     iOS browser).
+ */
+goog.labs.userAgent.browser.isCoast = goog.labs.userAgent.browser.matchCoast_;
+
+
+/**
+ * @return {boolean} Whether the user's browser is iOS Webview.
+ */
+goog.labs.userAgent.browser.isIosWebview =
+    goog.labs.userAgent.browser.matchIosWebview_;
 
 
 /**
  * @return {boolean} Whether the user's browser is Chrome.
  */
-goog.labs.userAgent.browser.isChrome =
-    goog.labs.userAgent.browser.matchChrome_;
+goog.labs.userAgent.browser.isChrome = goog.labs.userAgent.browser.matchChrome_;
 
 
 /**
@@ -158,13 +225,49 @@ goog.labs.userAgent.browser.getVersion = function() {
     return goog.labs.userAgent.browser.getIEVersion_(userAgentString);
   }
 
-  if (goog.labs.userAgent.browser.isOpera()) {
-    return goog.labs.userAgent.browser.getOperaVersion_(userAgentString);
-  }
-
   var versionTuples =
       goog.labs.userAgent.util.extractVersionTuples(userAgentString);
-  return goog.labs.userAgent.browser.getVersionFromTuples_(versionTuples);
+
+  // Construct a map for easy lookup.
+  var versionMap = {};
+  goog.array.forEach(versionTuples, function(tuple) {
+    // Note that the tuple is of length three, but we only care about the
+    // first two.
+    var key = tuple[0];
+    var value = tuple[1];
+    versionMap[key] = value;
+  });
+
+  var versionMapHasKey = goog.partial(goog.object.containsKey, versionMap);
+
+  // Gives the value with the first key it finds, otherwise empty string.
+  function lookUpValueWithKeys(keys) {
+    var key = goog.array.find(keys, versionMapHasKey);
+    return versionMap[key] || '';
+  }
+
+  // Check Opera before Chrome since Opera 15+ has "Chrome" in the string.
+  // See
+  // http://my.opera.com/ODIN/blog/2013/07/15/opera-user-agent-strings-opera-15-and-beyond
+  if (goog.labs.userAgent.browser.isOpera()) {
+    // Opera 10 has Version/10.0 but Opera/9.8, so look for "Version" first.
+    // Opera uses 'OPR' for more recent UAs.
+    return lookUpValueWithKeys(['Version', 'Opera']);
+  }
+
+  // Check Edge before Chrome since it has Chrome in the string.
+  if (goog.labs.userAgent.browser.isEdge()) {
+    return lookUpValueWithKeys(['Edge']);
+  }
+
+  if (goog.labs.userAgent.browser.isChrome()) {
+    return lookUpValueWithKeys(['Chrome', 'CriOS']);
+  }
+
+  // Usually products browser versions are in the third tuple after "Mozilla"
+  // and the engine.
+  var tuple = versionTuples[2];
+  return tuple && tuple[1] || '';
 };
 
 
@@ -174,8 +277,8 @@ goog.labs.userAgent.browser.getVersion = function() {
  *     given version.
  */
 goog.labs.userAgent.browser.isVersionOrHigher = function(version) {
-  return goog.string.compareVersions(goog.labs.userAgent.browser.getVersion(),
-                                     version) >= 0;
+  return goog.string.compareVersions(
+             goog.labs.userAgent.browser.getVersion(), version) >= 0;
 };
 
 
@@ -191,14 +294,24 @@ goog.labs.userAgent.browser.isVersionOrHigher = function(version) {
  * @private
  */
 goog.labs.userAgent.browser.getIEVersion_ = function(userAgent) {
+  // IE11 may identify itself as MSIE 9.0 or MSIE 10.0 due to an IE 11 upgrade
+  // bug. Example UA:
+  // Mozilla/5.0 (MSIE 9.0; Windows NT 6.1; WOW64; Trident/7.0; rv:11.0)
+  // like Gecko.
+  // See http://www.whatismybrowser.com/developers/unknown-user-agent-fragments.
+  var rv = /rv: *([\d\.]*)/.exec(userAgent);
+  if (rv && rv[1]) {
+    return rv[1];
+  }
+
   var version = '';
-  var arr = /\b(?:MSIE|rv)[: ]([^\);]+)(?:\)|;)/.exec(userAgent);
-  if (arr && arr[1]) {
-    if (arr[1] == '7.0') {
-      // IE in compatibility mode identifies itself as MSIE 7.0. Here we use the
-      // Trident version to determine the version of IE. For more details, see
-      // the links above.
-      var tridentVersion = /Trident\/(\d.\d)/.exec(userAgent);
+  var msie = /MSIE +([\d\.]+)/.exec(userAgent);
+  if (msie && msie[1]) {
+    // IE in compatibility mode usually identifies itself as MSIE 7.0; in this
+    // case, use the Trident version to determine the version of IE. For more
+    // details, see the links above.
+    var tridentVersion = /Trident\/(\d.\d)/.exec(userAgent);
+    if (msie[1] == '7.0') {
       if (tridentVersion && tridentVersion[1]) {
         switch (tridentVersion[1]) {
           case '4.0':
@@ -210,49 +323,16 @@ goog.labs.userAgent.browser.getIEVersion_ = function(userAgent) {
           case '6.0':
             version = '10.0';
             break;
+          case '7.0':
+            version = '11.0';
+            break;
         }
       } else {
         version = '7.0';
       }
     } else {
-      version = arr[1];
+      version = msie[1];
     }
   }
   return version;
-};
-
-
-/**
- * Determines Opera version. More information:
- * http://my.opera.com/ODIN/blog/2013/07/15/opera-user-agent-strings-opera-15-and-beyond
- *
- * @param {string} userAgent The User-Agent.
- * @return {string}
- * @private
- */
-goog.labs.userAgent.browser.getOperaVersion_ = function(userAgent) {
-  var versionTuples =
-      goog.labs.userAgent.util.extractVersionTuples(userAgent);
-  var lastTuple = goog.array.peek(versionTuples);
-  if (lastTuple[0] == 'OPR' && lastTuple[1]) {
-    return lastTuple[1];
-  }
-
-  return goog.labs.userAgent.browser.getVersionFromTuples_(versionTuples);
-};
-
-
-/**
- * Nearly all User-Agents start with Mozilla/N.0. This looks at the second tuple
- * for the actual browser version number.
- * @param {!Array.<!Array.<string>>} versionTuples
- * @return {string} The version or empty string if it cannot be determined.
- * @private
- */
-goog.labs.userAgent.browser.getVersionFromTuples_ = function(versionTuples) {
-  // versionTuples[2] (The first X/Y tuple after the parenthesis) contains the
-  // browser version number.
-  goog.asserts.assert(versionTuples.length > 2,
-      'Couldn\'t extract version tuple from user agent string');
-  return versionTuples[2] && versionTuples[2][1] ? versionTuples[2][1] : '';
 };

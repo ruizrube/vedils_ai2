@@ -25,9 +25,8 @@ goog.setTestOnly('goog.string.newlinesTest');
 
 // test for goog.string.splitLines
 function testSplitLines() {
-
   /**
-   * @param {!Array.<string>} expected
+   * @param {!Array<string>} expected
    * @param {string} string
    * @param {boolean=} opt_keepNewlines
    */
@@ -45,11 +44,11 @@ function testSplitLines() {
   assertSplitLines(['abc', 'def', 'ghi', ''], 'abc\ndef\r\nghi\n\r');
   assertSplitLines(['', 'abc', 'def', 'ghi', ''], '\nabc\ndef\r\nghi\n\r');
   assertSplitLines(['', 'abc', 'def', 'ghi', ''], '\nabc\ndef\r\nghi\n\r');
-  assertSplitLines(['\n', 'abc\n', 'def\r\n', 'ghi\n', '\r'],
-                   '\nabc\ndef\r\nghi\n\r', true);
+  assertSplitLines(
+      ['\n', 'abc\n', 'def\r\n', 'ghi\n', '\r'], '\nabc\ndef\r\nghi\n\r', true);
   assertSplitLines(['', 'abc', 'def', 'ghi', ''], '\nabc\ndef\r\nghi\n\r');
-  assertSplitLines(['\n', 'abc\n', 'def\r\n', 'ghi\n', '\r'],
-                   '\nabc\ndef\r\nghi\n\r', true);
+  assertSplitLines(
+      ['\n', 'abc\n', 'def\r\n', 'ghi\n', '\r'], '\nabc\ndef\r\nghi\n\r', true);
 }
 
 function testGetLines() {

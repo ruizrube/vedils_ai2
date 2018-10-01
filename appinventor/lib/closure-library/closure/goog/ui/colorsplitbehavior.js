@@ -40,13 +40,13 @@ goog.require('goog.ui.SplitBehavior');
  *     document interaction.
  * @extends {goog.ui.SplitBehavior}
  * @constructor
+ * @final
  */
 goog.ui.ColorSplitBehavior = function(colorButton, opt_domHelper) {
-  goog.base(this, colorButton,
+  goog.ui.ColorSplitBehavior.base(
+      this, 'constructor', colorButton,
       new goog.ui.ColorMenuButton(goog.ui.ColorSplitBehavior.ZERO_WIDTH_SPACE_),
-      goog.ui.SplitBehavior.DefaultHandlers.VALUE,
-      undefined,
-      opt_domHelper);
+      goog.ui.SplitBehavior.DefaultHandlers.VALUE, undefined, opt_domHelper);
 };
 goog.inherits(goog.ui.ColorSplitBehavior, goog.ui.SplitBehavior);
 
@@ -57,4 +57,3 @@ goog.inherits(goog.ui.ColorSplitBehavior, goog.ui.SplitBehavior);
  * @private
  */
 goog.ui.ColorSplitBehavior.ZERO_WIDTH_SPACE_ = '\uFEFF';
-

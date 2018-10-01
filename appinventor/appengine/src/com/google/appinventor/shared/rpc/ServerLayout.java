@@ -36,6 +36,13 @@ public class ServerLayout {
 
   /**
    * Relative path of the
+   * {@link com.google.appinventor.server.component.ComponentService} within
+   * the ODE GWT module.
+   */
+  public static final String COMPONENT_SERVICE = "components";
+
+  /**
+   * Relative path of the
    * {@link com.google.appinventor.shared.rpc.project.ProjectService} within
    * the ODE GWT module.
    */
@@ -154,6 +161,12 @@ public class ServerLayout {
 
   /**
    * Relative path within {@link com.google.appinventor.server.UploadServlet}
+   * for uploading a component
+   */
+  public static final String UPLOAD_COMPONENT = "component";
+
+  /**
+   * Relative path within {@link com.google.appinventor.server.UploadServlet}
    * for uploading a file
    */
   public static final String UPLOAD_FILE = "file";
@@ -233,6 +246,19 @@ public class ServerLayout {
   
   public static final String EXPORTRDFDATA_SERVLET_BASE = "exportRDFData";
    
+  /**
+   * 
+   * Name of the form element to upload component archives.
+   */
+  public static final String UPLOAD_COMPONENT_ARCHIVE_FORM_ELEMENT = "uploadComponentArchive";
+
+
+  /**
+   * Relative path of the
+   * {@link com.google.appinventor.shared.rpc.cloudDB.CloudDBAuthService} within the
+   * ODE GWT module.
+   */
+  public static final String CLOUD_DB_AUTH_SERVICE = "cloudDBAuth";
 
   public static String genRelativeDownloadPath(long projectId, String target) {
     return DOWNLOAD_SERVLET_BASE + DOWNLOAD_PROJECT_OUTPUT + "/" + projectId + "/" + target;

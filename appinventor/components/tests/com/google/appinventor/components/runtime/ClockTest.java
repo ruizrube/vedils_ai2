@@ -18,6 +18,7 @@ import java.util.TimeZone;
 
 public class ClockTest extends TestCase {
 
+
   private final Calendar tc1 = Clock.MakeInstant("10/11/1941 09:30:00");
   private final Calendar tc2 = Clock.MakeInstant("10/25/1941 09:30:00"); // t1 + 14days
   private final Calendar tc3 = Clock.MakeInstant("10/11/1941 12:30:00"); // t1 + 3hours
@@ -47,7 +48,7 @@ public class ClockTest extends TestCase {
   }
 
   public void testMakeInstantFromMillis() throws Exception {
-    assertEquals("Jan 1, 1970 00:00:00 AM",
+    assertEquals("Jan 1, 1970 12:00:00 AM",
         Clock.FormatDateTime(Clock.MakeInstantFromMillis(0
                                       - TimeZone.getDefault().getRawOffset()),""));
   }
@@ -74,12 +75,12 @@ public class ClockTest extends TestCase {
   }
 
   public void testAddWeeks() throws Exception {
-    assertEquals("Sep 10, 2002 00:00:00 AM", Clock.FormatDateTime(
+    assertEquals("Sep 10, 2002 12:00:00 AM", Clock.FormatDateTime(
         Clock.AddWeeks(Clock.MakeInstant("9/11/2001 00:00:00"), 52), ""));
   }
 
   public void testAddWeeks2() throws Exception {
-    assertEquals("Sep 18, 2001 00:00:00 AM", Clock.FormatDateTime(
+    assertEquals("Sep 18, 2001 12:00:00 AM", Clock.FormatDateTime(
         Clock.AddWeeks(Clock.MakeInstant("9/11/2001 00:00:00"), 1), ""));
   }
 

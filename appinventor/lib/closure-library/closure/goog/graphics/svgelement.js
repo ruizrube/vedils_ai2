@@ -17,7 +17,6 @@
  * @fileoverview Thin wrappers around the DOM element returned from
  * the different draw methods of the graphics. This is the SVG implementation.
  * @author arv@google.com (Erik Arvidsson)
- * @author yoah@google.com (Yoah Bar-David)
  */
 
 goog.provide('goog.graphics.SvgEllipseElement');
@@ -50,6 +49,7 @@ goog.require('goog.graphics.TextElement');
  * @deprecated goog.graphics is deprecated. It existed to abstract over browser
  *     differences before the canvas tag was widely supported.  See
  *     http://en.wikipedia.org/wiki/Canvas_element for details.
+ * @final
  */
 goog.graphics.SvgGroupElement = function(element, graphics) {
   goog.graphics.GroupElement.call(this, element, graphics);
@@ -73,8 +73,8 @@ goog.graphics.SvgGroupElement.prototype.clear = function() {
  * @override
  */
 goog.graphics.SvgGroupElement.prototype.setSize = function(width, height) {
-  this.getGraphics().setElementAttributes(this.getElement(),
-      {'width': width, 'height': height});
+  this.getGraphics().setElementAttributes(
+      this.getElement(), {'width': width, 'height': height});
 };
 
 
@@ -91,6 +91,7 @@ goog.graphics.SvgGroupElement.prototype.setSize = function(width, height) {
  * @param {goog.graphics.Fill?} fill The fill to use for this element.
  * @constructor
  * @extends {goog.graphics.EllipseElement}
+ * @final
  */
 goog.graphics.SvgEllipseElement = function(element, graphics, stroke, fill) {
   goog.graphics.EllipseElement.call(this, element, graphics, stroke, fill);
@@ -105,8 +106,8 @@ goog.inherits(goog.graphics.SvgEllipseElement, goog.graphics.EllipseElement);
  * @override
  */
 goog.graphics.SvgEllipseElement.prototype.setCenter = function(cx, cy) {
-  this.getGraphics().setElementAttributes(this.getElement(),
-      {'cx': cx, 'cy': cy});
+  this.getGraphics().setElementAttributes(
+      this.getElement(), {'cx': cx, 'cy': cy});
 };
 
 
@@ -117,8 +118,8 @@ goog.graphics.SvgEllipseElement.prototype.setCenter = function(cx, cy) {
  * @override
  */
 goog.graphics.SvgEllipseElement.prototype.setRadius = function(rx, ry) {
-  this.getGraphics().setElementAttributes(this.getElement(),
-      {'rx': rx, 'ry': ry});
+  this.getGraphics().setElementAttributes(
+      this.getElement(), {'rx': rx, 'ry': ry});
 };
 
 
@@ -135,6 +136,7 @@ goog.graphics.SvgEllipseElement.prototype.setRadius = function(rx, ry) {
  * @param {goog.graphics.Fill?} fill The fill to use for this element.
  * @constructor
  * @extends {goog.graphics.RectElement}
+ * @final
  */
 goog.graphics.SvgRectElement = function(element, graphics, stroke, fill) {
   goog.graphics.RectElement.call(this, element, graphics, stroke, fill);
@@ -160,8 +162,8 @@ goog.graphics.SvgRectElement.prototype.setPosition = function(x, y) {
  * @override
  */
 goog.graphics.SvgRectElement.prototype.setSize = function(width, height) {
-  this.getGraphics().setElementAttributes(this.getElement(),
-      {'width': width, 'height': height});
+  this.getGraphics().setElementAttributes(
+      this.getElement(), {'width': width, 'height': height});
 };
 
 
@@ -178,6 +180,7 @@ goog.graphics.SvgRectElement.prototype.setSize = function(width, height) {
  * @param {goog.graphics.Fill?} fill The fill to use for this element.
  * @constructor
  * @extends {goog.graphics.PathElement}
+ * @final
  */
 goog.graphics.SvgPathElement = function(element, graphics, stroke, fill) {
   goog.graphics.PathElement.call(this, element, graphics, stroke, fill);
@@ -191,9 +194,9 @@ goog.inherits(goog.graphics.SvgPathElement, goog.graphics.PathElement);
  * @override
  */
 goog.graphics.SvgPathElement.prototype.setPath = function(path) {
-  this.getGraphics().setElementAttributes(this.getElement(),
-      {'d': /** @suppress {missingRequire} */
-            goog.graphics.SvgGraphics.getSvgPath(path)});
+  /** @suppress {missingRequire} goog.graphics.SvgGraphics */
+  this.getGraphics().setElementAttributes(
+      this.getElement(), {'d': goog.graphics.SvgGraphics.getSvgPath(path)});
 };
 
 
@@ -210,6 +213,7 @@ goog.graphics.SvgPathElement.prototype.setPath = function(path) {
  * @param {goog.graphics.Fill?} fill The fill to use for this element.
  * @constructor
  * @extends {goog.graphics.TextElement}
+ * @final
  */
 goog.graphics.SvgTextElement = function(element, graphics, stroke, fill) {
   goog.graphics.TextElement.call(this, element, graphics, stroke, fill);
@@ -238,6 +242,7 @@ goog.graphics.SvgTextElement.prototype.setText = function(text) {
  *     this element.
  * @constructor
  * @extends {goog.graphics.ImageElement}
+ * @final
  */
 goog.graphics.SvgImageElement = function(element, graphics) {
   goog.graphics.ImageElement.call(this, element, graphics);
@@ -263,8 +268,8 @@ goog.graphics.SvgImageElement.prototype.setPosition = function(x, y) {
  * @override
  */
 goog.graphics.SvgImageElement.prototype.setSize = function(width, height) {
-  this.getGraphics().setElementAttributes(this.getElement(),
-      {'width': width, 'height': height});
+  this.getGraphics().setElementAttributes(
+      this.getElement(), {'width': width, 'height': height});
 };
 
 
@@ -274,6 +279,6 @@ goog.graphics.SvgImageElement.prototype.setSize = function(width, height) {
  * @override
  */
 goog.graphics.SvgImageElement.prototype.setSource = function(src) {
-  this.getGraphics().setElementAttributes(this.getElement(),
-      {'xlink:href': src});
+  this.getGraphics().setElementAttributes(
+      this.getElement(), {'xlink:href': src});
 };

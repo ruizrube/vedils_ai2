@@ -1,6 +1,6 @@
 // -*- mode: java; c-basic-offset: 2; -*-
 // Copyright 2009-2011 Google, All Rights reserved
-// Copyright 2011-2012 MIT, All rights reserved
+// Copyright 2011-2017 MIT, All rights reserved
 // Released under the Apache License, Version 2.0
 // http://www.apache.org/licenses/LICENSE-2.0
 
@@ -15,6 +15,7 @@ import com.google.appinventor.shared.rpc.project.ChecksumedFileException;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -143,6 +144,15 @@ public interface ProjectService extends RemoteService {
   long deleteFiles(String sessionId, long projectId, String directory) throws InvalidSessionException;
 
   /**
+   * Deletes all files and folders that are contained in the given directory.The given directory itself is deleted.
+   * @param sessionId current session id
+   * @param projectId project ID
+   * @param directory path of the directory
+   * @return modification date for project
+   */
+  long deleteFolder(String sessionId, long projectId, String directory) throws InvalidSessionException;
+
+  /**
    * Loads the file information associated with a node in the project tree. The
    * actual return value depends on the file kind. Source (text) files should
    * typically return their contents. Image files will be more likely to return
@@ -253,15 +263,29 @@ public interface ProjectService extends RemoteService {
       BlocksTruncatedException;
 
   /**
+   * Saves a screenshot of the blocks
+   * This is called on the client side when a user leaves a blocks editor
+   *
+   * @param sessionId the current session id used to detect multiple sessions
+   * @param projectId the project ID
+   * @param fileId the fileId (filename) of the screenshot
+   * @param content the base64 encoded screenshot
+   */
+
+  public RpcResult screenshot(String sessionId, long projectId, String fileId, String content)
+    throws InvalidSessionException;
+
+  /**
    * Invokes a build command for the project on the back-end.
    *
    * @param projectId  project ID
    * @param nonce used to access the built project -- random string
    * @param target  build target (optional, implementation dependent)
+   * @param secondBuildserver whether to use the second buildserver
    *
    * @return  results of invoking the build command
    */
-  RpcResult build(long projectId, String nonce, String target);
+  RpcResult build(long projectId, String nonce, String target, boolean secondBuildserver);
 
   /**
    * Gets the result of a build command for the project from the back-end.
@@ -284,6 +308,18 @@ public interface ProjectService extends RemoteService {
    * @return modification date for project
    */
   long addFile(long projectId, String fileId);
+
+  /**
+   * Imports a media file from a URL and returns the contents.
+   *
+   * @param sessionId  session id
+   * @param projectId  project id
+   * @param url  url of the source file
+   * @param save  if true, the object will be saved in the project assets
+   * @return content at url as an array of bytes
+   */
+  TextFile importMedia(String sessionId, long projectId, String url, boolean save)
+    throws InvalidSessionException, IOException;
 
   /**
    * creates a new project from a gallery app

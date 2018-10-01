@@ -25,8 +25,7 @@ goog.provide('goog.math.interpolator.Interpolator1');
  * An interface for one dimensional data interpolation.
  * @interface
  */
-goog.math.interpolator.Interpolator1 = function() {
-};
+goog.math.interpolator.Interpolator1 = function() {};
 
 
 /**
@@ -36,8 +35,8 @@ goog.math.interpolator.Interpolator1 = function() {
  * results, the correct call should be setData([0, 1], [1, 3]).
  * Calling setData multiple times does not merge the data samples. The last
  * call to setData is the one used when computing the interpolation.
- * @param {!Array.<number>} x The abscissa of the data points.
- * @param {!Array.<number>} y The ordinate of the data points.
+ * @param {!Array<number>} x The abscissa of the data points.
+ * @param {!Array<number>} y The ordinate of the data points.
  */
 goog.math.interpolator.Interpolator1.prototype.setData;
 

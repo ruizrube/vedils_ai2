@@ -23,9 +23,7 @@
  * https://bugzilla.mozilla.org/show_bug.cgi?id=669026.
  *
  * @author gboyer@google.com (Garrett Boyer)
- * @author jparent@google.com (Julie Parent)
  * @author nicksantos@google.com (Nick Santos)
- * @author ojan@google.com (Ojan Vafai)
  */
 
 
@@ -78,8 +76,9 @@ goog.editor.ContentEditableField.prototype.turnOnDesignModeGecko =
 
 /** @override */
 goog.editor.ContentEditableField.prototype.installStyles = function() {
-  goog.asserts.assert(!this.cssStyles, 'ContentEditableField does not support' +
-      ' CSS styles; instead just write plain old CSS on the main page.');
+  goog.asserts.assert(
+      !this.cssStyles, 'ContentEditableField does not support' +
+          ' CSS styles; instead just write plain old CSS on the main page.');
 };
 
 
@@ -106,5 +105,4 @@ goog.editor.ContentEditableField.prototype.makeEditableInternal = function(
  * ContentEditableField does not make any changes to the DOM when it is made
  * editable other than setting contentEditable to true.
  */
-goog.editor.ContentEditableField.prototype.restoreDom =
-    goog.nullFunction;
+goog.editor.ContentEditableField.prototype.restoreDom = goog.nullFunction;

@@ -1,6 +1,6 @@
 // -*- mode: java; c-basic-offset: 2; -*-
 // Copyright 2009-2011 Google, All Rights reserved
-// Copyright 2011-2012 MIT, All rights reserved
+// Copyright 2011-2017 MIT, All rights reserved
 // Released under the Apache License, Version 2.0
 // http://www.apache.org/licenses/LICENSE-2.0
 
@@ -39,6 +39,7 @@ public abstract class AndroidViewComponent extends VisibleComponent {
   // Fields for ActivityTracker component.
   private String activitiesNames;
   private String name;
+
   /**
    * Creates a new AndroidViewComponent.
    *
@@ -73,7 +74,7 @@ public abstract class AndroidViewComponent extends VisibleComponent {
       defaultValue = "True")
   @SimpleProperty(description = "Specifies whether the component should be visible on the screen. "
       + "Value is true if the component is showing and false if hidden.")
-  public void Visible(Boolean visibility) {
+  public void Visible(boolean visibility) {
     // The principle of least astonishment suggests we not offer the
     // Android option INVISIBLE.
     getView().setVisibility(visibility ? View.VISIBLE : View.GONE);
@@ -105,7 +106,7 @@ public abstract class AndroidViewComponent extends VisibleComponent {
     if (width <= Component.LENGTH_PERCENT_TAG)
       container.$form().registerPercentLength(this, width, Form.PercentStorageRecord.Dim.WIDTH);
   }
-  
+
   /**
    * Specifies the component's horizontal width as a percentage
    * of the Width of its parent Component.

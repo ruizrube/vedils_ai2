@@ -58,12 +58,13 @@ goog.require('goog.object');
  *   source.dispatchEvent('foo'); // will call handleEvent
  * </pre>
  *
- * TODO(user|johnlenz): Consider a more modern, less viral
+ * TODO(chrishenry|johnlenz): Consider a more modern, less viral
  * (not based on inheritance) replacement of goog.Disposable, which will allow
  * goog.events.EventTarget to not be disposable.
  *
  * @constructor
  * @implements {goog.events.Listenable}
+ * @final
  */
 goog.labs.events.NonDisposableEventTarget = function() {
   /**
@@ -122,7 +123,7 @@ goog.labs.events.NonDisposableEventTarget.prototype.dispatchEvent = function(
       ancestorsTree.push(ancestor);
       goog.asserts.assert(
           (++ancestorCount <
-                  goog.labs.events.NonDisposableEventTarget.MAX_ANCESTORS_),
+           goog.labs.events.NonDisposableEventTarget.MAX_ANCESTORS_),
           'infinite loop');
     }
   }
@@ -137,7 +138,8 @@ goog.labs.events.NonDisposableEventTarget.prototype.listen = function(
     type, listener, opt_useCapture, opt_listenerScope) {
   this.assertInitialized_();
   return this.eventTargetListeners_.add(
-      type, listener, false /* callOnce */, opt_useCapture, opt_listenerScope);
+      String(type), listener, false /* callOnce */, opt_useCapture,
+      opt_listenerScope);
 };
 
 
@@ -145,7 +147,8 @@ goog.labs.events.NonDisposableEventTarget.prototype.listen = function(
 goog.labs.events.NonDisposableEventTarget.prototype.listenOnce = function(
     type, listener, opt_useCapture, opt_listenerScope) {
   return this.eventTargetListeners_.add(
-      type, listener, true /* callOnce */, opt_useCapture, opt_listenerScope);
+      String(type), listener, true /* callOnce */, opt_useCapture,
+      opt_listenerScope);
 };
 
 
@@ -153,7 +156,7 @@ goog.labs.events.NonDisposableEventTarget.prototype.listenOnce = function(
 goog.labs.events.NonDisposableEventTarget.prototype.unlisten = function(
     type, listener, opt_useCapture, opt_listenerScope) {
   return this.eventTargetListeners_.remove(
-      type, listener, opt_useCapture, opt_listenerScope);
+      String(type), listener, opt_useCapture, opt_listenerScope);
 };
 
 
@@ -174,11 +177,11 @@ goog.labs.events.NonDisposableEventTarget.prototype.removeAllListeners =
 /** @override */
 goog.labs.events.NonDisposableEventTarget.prototype.fireListeners = function(
     type, capture, eventObject) {
-  // TODO(user): Original code avoids array creation when there
+  // TODO(chrishenry): Original code avoids array creation when there
   // is no listener, so we do the same. If this optimization turns
   // out to be not required, we can replace this with
   // getListeners(type, capture) instead, which is simpler.
-  var listenerArray = this.eventTargetListeners_.listeners[type];
+  var listenerArray = this.eventTargetListeners_.listeners[String(type)];
   if (!listenerArray) {
     return true;
   }
@@ -206,7 +209,7 @@ goog.labs.events.NonDisposableEventTarget.prototype.fireListeners = function(
 /** @override */
 goog.labs.events.NonDisposableEventTarget.prototype.getListeners = function(
     type, capture) {
-  return this.eventTargetListeners_.getListeners(type, capture);
+  return this.eventTargetListeners_.getListeners(String(type), capture);
 };
 
 
@@ -214,14 +217,15 @@ goog.labs.events.NonDisposableEventTarget.prototype.getListeners = function(
 goog.labs.events.NonDisposableEventTarget.prototype.getListener = function(
     type, listener, capture, opt_listenerScope) {
   return this.eventTargetListeners_.getListener(
-      type, listener, capture, opt_listenerScope);
+      String(type), listener, capture, opt_listenerScope);
 };
 
 
 /** @override */
 goog.labs.events.NonDisposableEventTarget.prototype.hasListener = function(
     opt_type, opt_capture) {
-  return this.eventTargetListeners_.hasListener(opt_type, opt_capture);
+  var id = goog.isDef(opt_type) ? String(opt_type) : undefined;
+  return this.eventTargetListeners_.hasListener(id, opt_capture);
 };
 
 
@@ -234,19 +238,19 @@ goog.labs.events.NonDisposableEventTarget.prototype.assertInitialized_ =
   goog.asserts.assert(
       this.eventTargetListeners_,
       'Event target is not initialized. Did you call the superclass ' +
-      '(goog.labs.events.NonDisposableEventTarget) constructor?');
+          '(goog.labs.events.NonDisposableEventTarget) constructor?');
 };
 
 
 /**
  * Dispatches the given event on the ancestorsTree.
  *
- * TODO(user): Look for a way to reuse this logic in
+ * TODO(chrishenry): Look for a way to reuse this logic in
  * goog.events, if possible.
  *
  * @param {!Object} target The target to dispatch on.
  * @param {goog.events.Event|Object|string} e The event object.
- * @param {Array.<goog.events.Listenable>=} opt_ancestorsTree The ancestors
+ * @param {Array<goog.events.Listenable>=} opt_ancestorsTree The ancestors
  *     tree of the target, in reverse order from the closest ancestor
  *     to the root event target. May be null if the target has no ancestor.
  * @return {boolean} If anyone called preventDefault on the event object (or

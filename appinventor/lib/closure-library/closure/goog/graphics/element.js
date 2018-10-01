@@ -18,12 +18,12 @@
  * the different draw methods of the graphics implementation, and
  * all interfaces that the various element types support.
  * @author arv@google.com (Erik Arvidsson)
- * @author yoah@google.com (Yoah Bar-David)
  */
 
 
 goog.provide('goog.graphics.Element');
 
+goog.require('goog.asserts');
 goog.require('goog.events');
 goog.require('goog.events.EventTarget');
 goog.require('goog.events.Listenable');
@@ -101,51 +101,66 @@ goog.graphics.Element.prototype.getGraphics = function() {
 
 
 /**
- * Set the transformation of the element.
+ * Set the translation and rotation of the element.
+ *
+ * If a more general affine transform is needed than this provides
+ * (e.g. skew and scale) then use setTransform.
  * @param {number} x The x coordinate of the translation transform.
  * @param {number} y The y coordinate of the translation transform.
  * @param {number} rotate The angle of the rotation transform.
  * @param {number} centerX The horizontal center of the rotation transform.
  * @param {number} centerY The vertical center of the rotation transform.
  */
-goog.graphics.Element.prototype.setTransformation = function(x, y, rotate,
-    centerX, centerY) {
-  // TODO(robbyw): Add skew and scale.
-
-  this.transform_ = goog.graphics.AffineTransform.getRotateInstance(
-      goog.math.toRadians(rotate), centerX, centerY).translate(x, y);
+goog.graphics.Element.prototype.setTransformation = function(
+    x, y, rotate, centerX, centerY) {
+  this.transform_ =
+      goog.graphics.AffineTransform
+          .getRotateInstance(goog.math.toRadians(rotate), centerX, centerY)
+          .translate(x, y);
   this.getGraphics().setElementTransform(this, x, y, rotate, centerX, centerY);
 };
 
 
 /**
- * @return {goog.graphics.AffineTransform} The transformation applied to
+ * @return {!goog.graphics.AffineTransform} The transformation applied to
  *     this element.
  */
 goog.graphics.Element.prototype.getTransform = function() {
   return this.transform_ ? this.transform_.clone() :
-      new goog.graphics.AffineTransform();
+                           new goog.graphics.AffineTransform();
+};
+
+
+/**
+ * Set the affine transform of the element.
+ * @param {!goog.graphics.AffineTransform} affineTransform The
+ *     transformation applied to this element.
+ */
+goog.graphics.Element.prototype.setTransform = function(affineTransform) {
+  this.transform_ = affineTransform.clone();
+  this.getGraphics().setElementAffineTransform(this, affineTransform);
 };
 
 
 /** @override */
 goog.graphics.Element.prototype.addEventListener = function(
     type, handler, opt_capture, opt_handlerScope) {
-  goog.events.listen(this.element_, type, handler, opt_capture,
-      opt_handlerScope);
+  goog.events.listen(
+      this.element_, type, handler, opt_capture, opt_handlerScope);
 };
 
 
 /** @override */
 goog.graphics.Element.prototype.removeEventListener = function(
     type, handler, opt_capture, opt_handlerScope) {
-  goog.events.unlisten(this.element_, type, handler, opt_capture,
-      opt_handlerScope);
+  goog.events.unlisten(
+      this.element_, type, handler, opt_capture, opt_handlerScope);
 };
 
 
 /** @override */
 goog.graphics.Element.prototype.disposeInternal = function() {
   goog.graphics.Element.superClass_.disposeInternal.call(this);
+  goog.asserts.assert(this.element_);
   goog.events.removeAll(this.element_);
 };

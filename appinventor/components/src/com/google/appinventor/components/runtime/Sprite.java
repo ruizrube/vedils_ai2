@@ -484,10 +484,7 @@ public abstract class Sprite extends VisibleComponent
    * @param heading  the heading of the fling
    * @param xvel  the speed in x-direction of the fling
    * @param yvel  the speed in y-direction of the fling
-<<<<<<< HEAD
-=======
 
->>>>>>> upstream/master
    */
   @SimpleEvent
   public void Flung(float x, float y, float speed, float heading, float xvel, float yvel) {
@@ -955,5 +952,4 @@ public abstract class Sprite extends VisibleComponent
    * @param canvas the canvas on which to draw
    */
   protected abstract void onDraw(android.graphics.Canvas canvas);
-  
 }

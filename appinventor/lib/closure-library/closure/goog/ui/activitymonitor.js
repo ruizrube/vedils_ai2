@@ -38,7 +38,7 @@ goog.require('goog.events.EventType');
  * Once initialized with a document, the activity monitor can be queried for
  * the current idle time.
  *
- * @param {goog.dom.DomHelper|Array.<goog.dom.DomHelper>=} opt_domHelper
+ * @param {goog.dom.DomHelper|Array<goog.dom.DomHelper>=} opt_domHelper
  *     DomHelper which contains the document(s) to listen to.  If null, the
  *     default document is usedinstead.
  * @param {boolean=} opt_useBubble Whether to use the bubble phase to listen for
@@ -55,7 +55,7 @@ goog.ui.ActivityMonitor = function(opt_domHelper, opt_useBubble) {
 
   /**
    * Array of documents that are being listened to.
-   * @type {Array.<Document>}
+   * @type {Array<Document>}
    * @private
    */
   this.documents_ = [];
@@ -69,7 +69,7 @@ goog.ui.ActivityMonitor = function(opt_domHelper, opt_useBubble) {
 
   /**
    * The event handler.
-   * @type {goog.events.EventHandler}
+   * @type {goog.events.EventHandler<!goog.ui.ActivityMonitor>}
    * @private
    */
   this.eventHandler_ = new goog.events.EventHandler(this);
@@ -101,6 +101,7 @@ goog.ui.ActivityMonitor = function(opt_domHelper, opt_useBubble) {
 
 };
 goog.inherits(goog.ui.ActivityMonitor, goog.events.EventTarget);
+goog.tagUnsealableClass(goog.ui.ActivityMonitor);
 
 
 /**
@@ -144,14 +145,12 @@ goog.ui.ActivityMonitor.MIN_EVENT_SPACING = 3 * 1000;
 
 /**
  * If a user executes one of these events, s/he is considered not idle.
- * @type {Array.<goog.events.EventType>}
+ * @type {Array<goog.events.EventType>}
  * @private
  */
 goog.ui.ActivityMonitor.userEventTypesBody_ = [
-  goog.events.EventType.CLICK,
-  goog.events.EventType.DBLCLICK,
-  goog.events.EventType.MOUSEDOWN,
-  goog.events.EventType.MOUSEMOVE,
+  goog.events.EventType.CLICK, goog.events.EventType.DBLCLICK,
+  goog.events.EventType.MOUSEDOWN, goog.events.EventType.MOUSEMOVE,
   goog.events.EventType.MOUSEUP
 ];
 
@@ -159,19 +158,18 @@ goog.ui.ActivityMonitor.userEventTypesBody_ = [
 /**
  * If a user executes one of these events, s/he is considered not idle.
  * Note: monitoring touch events within iframe cause problems in iOS.
- * @type {Array.<goog.events.EventType>}
+ * @type {Array<goog.events.EventType>}
  * @private
  */
 goog.ui.ActivityMonitor.userTouchEventTypesBody_ = [
-  goog.events.EventType.TOUCHEND,
-  goog.events.EventType.TOUCHMOVE,
+  goog.events.EventType.TOUCHEND, goog.events.EventType.TOUCHMOVE,
   goog.events.EventType.TOUCHSTART
 ];
 
 
 /**
  * If a user executes one of these events, s/he is considered not idle.
- * @type {Array.<goog.events.EventType>}
+ * @type {Array<goog.events.EventType>}
  * @private
  */
 goog.ui.ActivityMonitor.userEventTypesDocuments_ =
@@ -219,12 +217,12 @@ goog.ui.ActivityMonitor.prototype.addDocument = function(doc) {
     // so just ignore these events. This shouldn't matter much given that a
     // touchstart event followed by touchend event produces a click event,
     // which is being monitored correctly.
-    goog.array.extend(eventsToListenTo,
-        goog.ui.ActivityMonitor.userTouchEventTypesBody_);
+    goog.array.extend(
+        eventsToListenTo, goog.ui.ActivityMonitor.userTouchEventTypesBody_);
   }
 
-  this.eventHandler_.listen(doc, eventsToListenTo, this.handleEvent_,
-      useCapture);
+  this.eventHandler_.listen(
+      doc, eventsToListenTo, this.handleEvent_, useCapture);
 };
 
 
@@ -246,12 +244,12 @@ goog.ui.ActivityMonitor.prototype.removeDocument = function(doc) {
 
   if (!this.isIframe_) {
     // See note above about monitoring touch events in iframe.
-    goog.array.extend(eventsToUnlistenTo,
-        goog.ui.ActivityMonitor.userTouchEventTypesBody_);
+    goog.array.extend(
+        eventsToUnlistenTo, goog.ui.ActivityMonitor.userTouchEventTypesBody_);
   }
 
-  this.eventHandler_.unlisten(doc, eventsToUnlistenTo, this.handleEvent_,
-      useCapture);
+  this.eventHandler_.unlisten(
+      doc, eventsToUnlistenTo, this.handleEvent_, useCapture);
 };
 
 
@@ -267,9 +265,9 @@ goog.ui.ActivityMonitor.prototype.handleEvent_ = function(e) {
       // In FF 1.5, we get spurious mouseover and mouseout events when the UI
       // redraws. We only want to update the idle time if the mouse has moved.
       if (typeof this.lastMouseX_ == 'number' &&
-          this.lastMouseX_ != e.clientX ||
+              this.lastMouseX_ != e.clientX ||
           typeof this.lastMouseY_ == 'number' &&
-          this.lastMouseY_ != e.clientY) {
+              this.lastMouseY_ != e.clientY) {
         update = true;
       }
       this.lastMouseX_ = e.clientX;

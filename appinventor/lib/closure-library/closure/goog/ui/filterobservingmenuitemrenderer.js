@@ -30,16 +30,18 @@ goog.require('goog.ui.MenuItemRenderer');
 /**
  * Default renderer for {@link goog.ui.FilterObservingMenuItem}s. Each item has
  * the following structure:
+ *
  *    <div class="goog-filterobsmenuitem"><div>...(content)...</div></div>
  *
  * @constructor
  * @extends {goog.ui.MenuItemRenderer}
+ * @final
  */
 goog.ui.FilterObservingMenuItemRenderer = function() {
   goog.ui.MenuItemRenderer.call(this);
 };
-goog.inherits(goog.ui.FilterObservingMenuItemRenderer,
-              goog.ui.MenuItemRenderer);
+goog.inherits(
+    goog.ui.FilterObservingMenuItemRenderer, goog.ui.MenuItemRenderer);
 goog.addSingletonGetter(goog.ui.FilterObservingMenuItemRenderer);
 
 

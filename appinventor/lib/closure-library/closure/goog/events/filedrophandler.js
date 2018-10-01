@@ -24,12 +24,12 @@ goog.provide('goog.events.FileDropHandler.EventType');
 
 goog.require('goog.array');
 goog.require('goog.dom');
-goog.require('goog.events');
 goog.require('goog.events.BrowserEvent');
 goog.require('goog.events.EventHandler');
 goog.require('goog.events.EventTarget');
 goog.require('goog.events.EventType');
 goog.require('goog.log');
+goog.require('goog.log.Level');
 
 
 
@@ -43,13 +43,14 @@ goog.require('goog.log');
  *     area outside the {@code element}. Default false.
  * @constructor
  * @extends {goog.events.EventTarget}
+ * @final
  */
 goog.events.FileDropHandler = function(element, opt_preventDropOutside) {
   goog.events.EventTarget.call(this);
 
   /**
    * Handler for drag/drop events.
-   * @type {!goog.events.EventHandler}
+   * @type {!goog.events.EventHandler<!goog.events.FileDropHandler>}
    * @private
    */
   this.eventHandler_ = new goog.events.EventHandler(this);
@@ -60,25 +61,21 @@ goog.events.FileDropHandler = function(element, opt_preventDropOutside) {
   }
 
   // Add dragenter listener to the owner document of the element.
-  this.eventHandler_.listen(doc,
-                            goog.events.EventType.DRAGENTER,
-                            this.onDocDragEnter_);
+  this.eventHandler_.listen(
+      doc, goog.events.EventType.DRAGENTER, this.onDocDragEnter_);
 
   // Add dragover listener to the owner document of the element only if the
   // document is not the element itself.
   if (doc != element) {
-    this.eventHandler_.listen(doc,
-                              goog.events.EventType.DRAGOVER,
-                              this.onDocDragOver_);
+    this.eventHandler_.listen(
+        doc, goog.events.EventType.DRAGOVER, this.onDocDragOver_);
   }
 
   // Add dragover and drop listeners to the element.
-  this.eventHandler_.listen(element,
-                            goog.events.EventType.DRAGOVER,
-                            this.onElemDragOver_);
-  this.eventHandler_.listen(element,
-                            goog.events.EventType.DROP,
-                            this.onElemDrop_);
+  this.eventHandler_.listen(
+      element, goog.events.EventType.DRAGOVER, this.onElemDragOver_);
+  this.eventHandler_.listen(
+      element, goog.events.EventType.DROP, this.onElemDrop_);
 };
 goog.inherits(goog.events.FileDropHandler, goog.events.EventTarget);
 
@@ -143,21 +140,22 @@ goog.events.FileDropHandler.prototype.dispatch_ = function(e) {
  * @private
  */
 goog.events.FileDropHandler.prototype.onDocDragEnter_ = function(e) {
-  goog.log.log(this.logger_, goog.log.Level.FINER,
+  goog.log.log(
+      this.logger_, goog.log.Level.FINER,
       '"' + e.target.id + '" (' + e.target + ') dispatched: ' + e.type);
   var dt = e.getBrowserEvent().dataTransfer;
   // Check whether the drag event contains files.
-  this.dndContainsFiles_ = !!(dt &&
-      ((dt.types &&
-          (goog.array.contains(dt.types, 'Files') ||
-          goog.array.contains(dt.types, 'public.file-url'))) ||
-      (dt.files && dt.files.length > 0)));
+  this.dndContainsFiles_ = !!(
+      dt && ((dt.types && (goog.array.contains(dt.types, 'Files') ||
+                           goog.array.contains(dt.types, 'public.file-url'))) ||
+             (dt.files && dt.files.length > 0)));
   // If it does
   if (this.dndContainsFiles_) {
     // Prevent default actions.
     e.preventDefault();
   }
-  goog.log.log(this.logger_, goog.log.Level.FINER,
+  goog.log.log(
+      this.logger_, goog.log.Level.FINER,
       'dndContainsFiles_: ' + this.dndContainsFiles_);
 };
 
@@ -168,7 +166,8 @@ goog.events.FileDropHandler.prototype.onDocDragEnter_ = function(e) {
  * @private
  */
 goog.events.FileDropHandler.prototype.onDocDragOver_ = function(e) {
-  goog.log.log(this.logger_, goog.log.Level.FINEST,
+  goog.log.log(
+      this.logger_, goog.log.Level.FINEST,
       '"' + e.target.id + '" (' + e.target + ') dispatched: ' + e.type);
   if (this.dndContainsFiles_) {
     // Prevent default actions.
@@ -186,7 +185,8 @@ goog.events.FileDropHandler.prototype.onDocDragOver_ = function(e) {
  * @private
  */
 goog.events.FileDropHandler.prototype.onElemDragOver_ = function(e) {
-  goog.log.log(this.logger_, goog.log.Level.FINEST,
+  goog.log.log(
+      this.logger_, goog.log.Level.FINEST,
       '"' + e.target.id + '" (' + e.target + ') dispatched: ' + e.type);
   if (this.dndContainsFiles_) {
     // Prevent default actions and stop the event from propagating further to
@@ -195,7 +195,14 @@ goog.events.FileDropHandler.prototype.onElemDragOver_ = function(e) {
     e.stopPropagation();
     // Allow the drop on the drop zone.
     var dt = e.getBrowserEvent().dataTransfer;
-    dt.effectAllowed = 'all';
+
+    // IE bug #811625 (https://goo.gl/UWuxX0) will throw error SCRIPT65535
+    // when attempting to set property effectAllowed on IE10+.
+    // See more: https://github.com/google/closure-library/issues/485.
+    try {
+      dt.effectAllowed = 'all';
+    } catch (err) {
+    }
     dt.dropEffect = 'copy';
   }
 };
@@ -207,7 +214,8 @@ goog.events.FileDropHandler.prototype.onElemDragOver_ = function(e) {
  * @private
  */
 goog.events.FileDropHandler.prototype.onElemDrop_ = function(e) {
-  goog.log.log(this.logger_, goog.log.Level.FINER,
+  goog.log.log(
+      this.logger_, goog.log.Level.FINER,
       '"' + e.target.id + '" (' + e.target + ') dispatched: ' + e.type);
   // If the drag and drop event contains files.
   if (this.dndContainsFiles_) {

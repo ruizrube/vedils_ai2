@@ -15,6 +15,7 @@ import com.google.appinventor.shared.rpc.project.RawFile;
 import com.google.appinventor.shared.storage.StorageUtil;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,32 +51,32 @@ public final class FileExporterImpl implements FileExporter {
     for (String fileName : files) {
       if (fileName.endsWith(".apk")) {
         byte[] content = storageIo.downloadRawFile(userId, projectId, fileName);
-        
         //For SPI-FM user analytics
         storageIo.updateNumberOfTotalBuilds(projectId);
-        
         return new RawFile(StorageUtil.basename(fileName), content);
       }
     }
 
-    throw new IllegalArgumentException("No files to download");
+    throw new FileNotFoundException("No files to download");
   }
 
   @Override
   public ProjectSourceZip exportProjectSourceZip(String userId, long projectId,
-                                                 boolean includeProjectHistory,
-                                                 boolean includeAndroidKeystore,
-                                                 @Nullable String zipName,
-                                                 boolean includeYail,
-                                                 boolean fatalError) throws IOException {
+    boolean includeProjectHistory,
+    boolean includeAndroidKeystore,
+    @Nullable String zipName,
+    boolean includeYail,
+    boolean includeScreenShots,
+    boolean fatalError,
+    boolean forGallery) throws IOException {
     // Download project source files as a zip.
     if (storageIo instanceof ObjectifyStorageIo) {
     	
-      //For SPI-FM user analytics
-      storageIo.updateNumberOfTotalAIAExports(projectId);	
+    	//For SPI-FM user analytics
+        storageIo.updateNumberOfTotalAIAExports(projectId);	
     	
       return ((ObjectifyStorageIo)storageIo).exportProjectSourceZip(userId, projectId,
-          includeProjectHistory, includeAndroidKeystore, zipName, includeYail, fatalError);
+        includeProjectHistory, includeAndroidKeystore, zipName, includeYail, includeScreenShots, forGallery, fatalError);
     } else {
       throw new IllegalArgumentException("Objectify only");
     }
@@ -100,7 +101,7 @@ public final class FileExporterImpl implements FileExporter {
         // even for Admins. If you are an admin and want to debug a project, download
         // it explicitly.
         ProjectSourceZip projectSourceZip =
-            exportProjectSourceZip(userId, projectId, false, false, null, false, false);
+          exportProjectSourceZip(userId, projectId, false, false, null, false, false, false, false);
         byte[] data = projectSourceZip.getContent();
         String name = projectSourceZip.getFileName();
 

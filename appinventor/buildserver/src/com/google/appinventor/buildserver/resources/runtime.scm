@@ -23,6 +23,11 @@
 
 (define *this-is-the-repl* #f)
 
+;;; If set we avoid calling to java components such as Form
+;;; because we are running in a test environment that is not
+;;; inside a phone, so components are not defined
+(define *testing* #f)
+
 (define (android-log message)
   (when *debug* (android.util.Log:i "YAIL" message)))
 
@@ -36,8 +41,8 @@
     (syntax-case stx ()
       ((_ short-component-type-name)
        (datum->syntax-object stx
-                 (string-append simple-component-package-name
-                        "."
+                 (string-append ""
+                        ""
                         (symbol->string #'short-component-type-name)))))))
 
 ;;; (add-component Screen1 Label Label1)
@@ -248,7 +253,12 @@
 (define-syntax lexical-value
   (syntax-rules ()
     ((_ var-name)
-     var-name)))
+     (if (instance? var-name <java.lang.Package>)
+         (signal-runtime-error
+          (string-append "The variable " (get-display-representation `var-name)
+                         " is not bound in the current context")
+          "Unbound Variable")
+         var-name))))
 
 ;;; Lexical Set Variable
 ;;; (set-lexical! var 10)
@@ -386,8 +396,9 @@
 ;;         (com.google.appinventor.components.runtime.ReplApplication:reportError ex)
          (if isrepl
              (when ((this):toastAllowed)
-                   (begin (send-error (ex:getMessage))
-                          ((android.widget.Toast:makeText (this) (ex:getMessage) 5):show)))
+                   (let ((message (if (instance? ex java.lang.Error) (ex:toString) (ex:getMessage))))
+                     (send-error message)
+                     ((android.widget.Toast:makeText (this) message 5):show)))
 
              (com.google.appinventor.components.runtime.util.RuntimeErrorAlert:alert
               (this)
@@ -756,26 +767,99 @@
         (*:addParent (KawaEnvironment:getCurrent) *test-environment*)
         (set! *test-global-var-environment* (gnu.mapping.Environment:make 'test-global-var-env)))))
 
-(define-syntax foreach
-  (syntax-rules ()
-    ((_ lambda-arg-name body-form list)
-     (yail-for-each (lambda (lambda-arg-name) body-form) list))))
+;; Note: (Jeff Schiller) The macro below is intentionally
+;; unhygienic. We need to make sure that if there is a *yail-break*
+;; form inside bodyform that it does not get shadowed by the macro
+;; (which it would if this was a hygienic macro).
 
+(define-macro (foreach arg-name bodyform list-of-args)
+  `(call-with-current-continuation
+    (lambda (*yail-break*)
+      (let ((proc (lambda (,arg-name) ,bodyform)))
+        (yail-for-each proc ,list-of-args)))))
 
-(define-syntax forrange
-  (syntax-rules ()
-    ((_ lambda-arg-name body-form start end step)
-     (yail-for-range (lambda (lambda-arg-name) body-form) start end step))))
+;; This yail procedure should be called only if "*yail-break*" is used
+;; outside of a foreach, forrange or while macro.  The blocks editor
+;; should give an error if the break block is placed outside of a
+;; loop.  So the only way this yail procedure would be called should
+;; be by running do-it on an isolated break block.  See
+;; blocklyeditor/src/warninghandler.js checkIsNotInLoop
 
-(define-syntax while
+(define (*yail-break* ignore)
+  (signal-runtime-error
+     "Break should be run only from within a loop"
+     "Bad use of Break"))
+
+;; Also unhygienic (see comment above about foreach)
+
+(define-macro (forrange lambda-arg-name body-form start end step)
+  `(call-with-current-continuation
+    (lambda (*yail-break*)
+      (yail-for-range (lambda (,lambda-arg-name) ,body-form) ,start ,end ,step))))
+
+;; Also unhygienic (see comment above about foreach)
+
+;; The structure of this macro is important. If the argument to
+;; call-with-current-continuation is a lambda expression, then Kawa
+;; attempts to optimize it. This optimization fails spectacularly when
+;; the lambda expression is tail-recursive (like ours is). By binding
+;; the lambda expression to a variable and then calling via the
+;; variable, the optimizer is not invoked and the code produced, while
+;; not optmized, is correct.
+
+(define-macro (while condition body . rest)
+  `(let ((cont (lambda (*yail-break*)
+                 (let *yail-loop* ()
+                   (if ,condition
+                       (begin (begin ,body . ,rest)
+                              (*yail-loop*))
+                       #!null)))))
+     (call-with-current-continuation cont)))
+
+;; Below are hygienic versions of the forrange, foreach and while
+;; macros. They are here to be "future aware". A future version of
+;; MIT App Inventor will use these hygienic versions which require
+;; and additional argument, and therefore different YAIL generation
+
+(define-syntax foreach-with-break
   (syntax-rules ()
-    ((_ condition body ...)
-     (let loop ()
-       (if condition
-       (begin
-         body ...
-         (loop))
-       *the-null-value*)))))
+    ((_ escapename arg-name bodyform list-of-args)
+     (call-with-current-continuation
+      (lambda (escapename)
+	(let ((proc (lambda (arg-name) bodyform)))
+	  (yail-for-each proc list-of-args)))))))
+
+  ;; To call this foreach-with-break macro, we must pass a symbol that
+  ;; will be the name of an escape procedure referenced in the body of
+  ;; the proc argument.  For example
+  ;;
+  ;; (foreach-with-break
+  ;;  *yail-break*
+  ;;  x
+  ;;  (if (= x 17)
+  ;;      (begin (display "escape") (*yail-break* #f))
+  ;;      (begin (display x) (display " "))
+  ;;      )
+  ;;  '(100 200 17 300))
+
+(define-syntax forrange-with-break
+  (syntax-rules ()
+    ((_ escapename lambda-arg-name body-form start end step)
+     (call-with-current-continuation
+      (lambda (escapename)
+	(yail-for-range (lambda (lambda-arg-name) body-form) start end step))))))
+
+(define-syntax while-with-break
+  (syntax-rules ()
+    ((_ escapename condition body ...)
+     (call-with-current-continuation
+      (lambda (escapename)
+	(let loop ()
+	  (if condition
+	      (begin
+		body ...
+		(loop))
+	      *the-null-value*)))))))
 
 ;;; RUNTIME library
 
@@ -798,6 +882,7 @@
 (define-alias YailList <com.google.appinventor.components.runtime.util.YailList>)
 (define-alias YailNumberToString <com.google.appinventor.components.runtime.util.YailNumberToString>)
 (define-alias YailRuntimeError <com.google.appinventor.components.runtime.errors.YailRuntimeError>)
+(define-alias JavaJoinListOfStrings <com.google.appinventor.components.runtime.util.JavaJoinListOfStrings>)
 
 (define-alias JavaCollection <java.util.Collection>)
 (define-alias JavaIterator <java.util.Iterator>)
@@ -1038,6 +1123,12 @@
   ;; (android-log "signal-runtime-error ")
   (primitive-throw (make YailRuntimeError message error-type)))
 
+(define (signal-runtime-form-error function-name error-number message)
+  ;; this is like signal-runtime-error, but it generates an error in
+  ;; the current Screen that can be modified by the Screen.ErrorOccurred handler
+  (*:runtimeFormErrorOccurredEvent *this-form* function-name error-number message)
+)
+
 ;;; Kludge based on Kawa compilation issues with 'not'
 (define (yail-not foo) (not foo))
 
@@ -1095,13 +1186,8 @@
     (let loop ((result "") (rest-elements bracketed))
       (if (null? rest-elements)
           result
-          (loop (string-append result " " (car rest-elements))
+          (loop (string-append result ", " (car rest-elements))
                 (cdr rest-elements))))))
-
-
-;;(define (show-arglist-no-parens args)
-;;  (let ((s (get-display-representation args)))
-;;    (substring s 1 (- (string-length s) 1))))
 
 ;;; Coerce the list of args to the corresponding list of types
 
@@ -1169,15 +1255,12 @@
             *non-coercible-value*))))
 
 (define (type->class type-name)
-  ;; TODO(sharon):
-  ;; Note that the following will have to change when we have the CDK and
-  ;; components may be defined in packages other than
-  ;; com.google.appinventor.components.runtime
-  (symbol-append
-   'com.google.appinventor.components.runtime.
-   (if (eq? type-name 'Screen)
-       'Form
-       type-name)))
+  ;; This function returns the fully qualified java name of the given YAIL type
+  ;; All Components except Screen are represented in YAIL by their fully qualified java name
+  ;; Screen refers to the class com.google.appinventor.components.runtime.Form
+  (if (eq? type-name 'Screen)
+     'com.google.appinventor.components.runtime.Form
+     type-name))
 
 (define (coerce-to-number arg)
   (cond
@@ -1186,6 +1269,11 @@
     (or (padded-string->number arg) *non-coercible-value*))
    (else *non-coercible-value*)))
 
+(define-syntax use-json-format
+  (syntax-rules ()
+    ((_)
+     (if *testing* #t
+         (*:ShowListsAsJson (SimpleForm:getActiveForm))))))
 
 (define (coerce-to-string arg)
   (cond ((eq? arg *the-null-value*) *the-null-value-printed-rep*)
@@ -1194,8 +1282,11 @@
         ((boolean? arg) (boolean->string arg))
         ((yail-list? arg) (coerce-to-string (yail-list->kawa-list arg)))
         ((list? arg)
-         (let ((pieces (map coerce-to-string arg)))
-            (call-with-output-string (lambda (port) (display pieces port)))))
+         (if (use-json-format)
+             (let ((pieces (map get-json-display-representation arg)))
+               (string-append "[" (join-strings pieces ", ") "]"))
+             (let ((pieces (map coerce-to-string arg)))
+               (call-with-output-string (lambda (port) (display pieces port))))))
         (else (call-with-output-string (lambda (port) (display arg port))))))
 
 ;;; This is very similar to coerce-to-string, but is intended for places where we
@@ -1203,9 +1294,16 @@
 ;;; be explicity shown in error messages.
 ;;; This procedure is currently almost completely redundant with coerce-to-string
 ;;; but it give us flexibility to tailor display for other data types
+
 (define get-display-representation
-  ;; there seems to be a bug in Kawa that makes (/ -1 0) equal to (/ 1 0)
-  ;; which is why this uses 1.0 and -1.0
+    (lambda (arg)
+      (if (use-json-format)
+          (get-json-display-representation arg)
+          (get-original-display-representation arg))))
+
+(define get-original-display-representation
+   ;;there seems to be a bug in Kawa that makes (/ -1 0) equal to (/ 1 0)
+   ;;which is why this uses 1.0 and -1.0
   (let ((+inf (/ 1.0 0))
         (-inf (/ -1.0 0)))
     (lambda (arg)
@@ -1226,8 +1324,78 @@
                (call-with-output-string (lambda (port) (display pieces port)))))
             (else (call-with-output-string (lambda (port) (display arg port))))))))
 
+(define get-json-display-representation
+  ;; there seems to be a bug in Kawa that makes (/ -1 0) equal to (/ 1 0)
+  ;; which is why this uses 1.0 and -1.0
+  (let ((+inf (/ 1.0 0))
+        (-inf (/ -1.0 0)))
+    (lambda (arg)
+      (cond ((= arg +inf) "+infinity")
+            ((= arg -inf) "-infinity")
+            ((eq? arg *the-null-value*) *the-null-value-printed-rep*)
+            ((symbol? arg)
+             (symbol->string arg))
+            ((string? arg) (string-append "\"" arg "\""))
+            ((number? arg) (appinventor-number->string arg))
+            ((boolean? arg) (boolean->string arg))
+            ((yail-list? arg) (get-json-display-representation (yail-list->kawa-list arg)))
+            ((list? arg)
+             (let ((pieces (map get-json-display-representation arg)))
+                (string-append "[" (join-strings pieces ", ") "]")))
+            (else (call-with-output-string (lambda (port) (display arg port))))))))
+
+
+;;; join-strings:  Combine all the strings in a list, separated by a specified separator string.
+;;; WARNING: The elements of list-of-strings must be actual strings.   Otherwise, we'll get type
+;;; errors.
+
+;;; We're using Java for joining collections of strings, because doing it
+;;; in Kawa seems to run out of memory (or stack?) on large collections
+;;; a small-memory phones (like the original emulator).
+
+;; Here's the original recursive version that overflows stack
+;; (define (join-strings list-of-strings separator)
+;;    (cond ((null? list-of-strings) "")
+;;          ((null? (cdr list-of-strings)) (car list-of-strings))
+;;          (else ;; have at least two strings
+;;            (apply string-append
+;;                   (cons (car list-of-strings)
+;;                         (let recur ((strs (cdr list-of-strings)))
+;;                           (if (null? strs)
+;;                               '()
+;;                               (cons separator (cons (car strs) (recur (cdr strs)))))))))))
+
+
+;;; Here's a replacement tail-recursive version that runs out of
+;;; memory in the emulator.  Is this due to inadequate tail recursion in Kawa?
+
+;; (define (join-strings list-of-strings separator)
+;;   (join-strings-iter list-of-strings separator))
+
+;; (define (join-strings-iter list-of-strings separator)
+;;   (if (null? list-of-strings)
+;;       ""
+;;       (let ((rstrings (reverse list-of-strings)))
+;;      (let loop ((remaining (cdr rstrings))
+;;                 (joined-so-far (car rstrings)))
+;;        (if (null? remaining)
+;;            joined-so-far
+;;            (loop (cdr remaining)
+;;                  (string-append (car remaining) separator joined-so-far)))))))
+
+;;; Here's the Java version
+
+(define (join-strings list-of-strings separator)
+  ;; NOTE: The elements in list-of-strings should be Kawa strings
+  ;; but they might not be Java strings, since some (all?) Kawa strings
+  ;; are FStrings.  See JavaJoinListOfStrings in components/runtime/utils
+  (JavaJoinListOfStrings:joinStrings list-of-strings separator))
+
+;;; end of join-strings
+
 ;; Note: This is not general substring replacement. It just replaces one string with another
 ;; using the replacement table
+
 (define (string-replace original replacement-table)
   (cond ((null? replacement-table) original)
         ((string=? original (caar replacement-table)) (cadar replacement-table))
@@ -1454,27 +1622,40 @@
     (lambda (x)
       (max lowest (min x highest)))))
 
+(define-alias errorMessages <com.google.appinventor.components.runtime.util.ErrorMessages>)
+(define ERROR_DIVISION_BY_ZERO errorMessages:ERROR_DIVISION_BY_ZERO)
 
-;;; This codes around the complexity (or Kawa bug?) that
-;;; inexact infinity is different from exact infinity.  For example
-;;; (floor (/ 1 0)) gives an error, while floor (/ 1 0.0) is +inf.
-;;; Also (/ 0 0) gives an error, while (/ 0 0.0) gives Nan.
-;;; We could make division by zero always signal a runtime error,
-;;; but it seems better to minimize runtime errors, even though that
-;;; makes Nan and =/- infinity visible to users.  Maybe we should avoid Nan
-;;; by making (/ 0 0) and (/ 0 0.0) be runtime errors, even though we keep
-;;; infinity.
 (define (yail-divide n d)
-  (if (= d 0)
-      (/ n 0.0)
-      ;; force inexactness so that integer division does not produce
-      ;; rationals, which is simpler for App Inventor users.
-      ;; In most cases, rationals are converted to decimals anyway at higher levels
-      ;; of the system, so that the forcing to inexact would be unnecessary.  But
-      ;; there are places where the conversion doesn't happen.  For example, if we
-      ;; inserted the result of dividing 2 by 3 into a ListView or a picker,
-      ;; which would appear as the string "2/3" if the division produced a rational.
-      (exact->inexact (/ n d))))
+  ;; For divide by 0 exceptions, we show a notification to the user, but still return
+  ;; a result.  The app developer can
+  ;; change the error  action using the Screen.ErrorOccurred event handler.
+  (cond ((and (= d 0) (= n 0))
+         ;; Treat 0/0 as a special case, returning 0.
+         ;; We do this because Kawa throws an exception of its own if you divide
+         ;; 0 by 0. Whereas it returns "1/0" or +-Inf.0 if the numerator is non-zero.
+         (begin (signal-runtime-form-error "Division" ERROR_DIVISION_BY_ZERO n)
+                ;; return 0 in this case.  The zero was chosen arbitrarily.
+                n))
+        ((= d 0)
+         (begin
+           ;; If numerator is not zero, but we're deviding by 0, we show the warning, and
+           ;; Let Kawa do the dvision and return the result, which will be plus or minus infinity.
+           ;; Note that division by zero does not produce a Kawa exception.
+           ;; We also convert the result to inexact, to code around the complexity (or Kawa bug?) that
+           ;; inexact infinity is different from exact infinity.  For example
+           ;; (floor (/ 1 0)) gives an error, while floor (/ 1 0.0) is +inf.
+           (signal-runtime-form-error "Division" ERROR_DIVISION_BY_ZERO n)
+           (exact->inexact (/ n d))))
+        (else
+         ;; Otherise, return the result of the Kawa devision.
+         ;; We force inexactness so that integer division does not produce
+         ;; rationals, which is simpler for App Inventor users.
+         ;; In most cases, rationals are converted to decimals anyway at higher levels
+         ;; of the system, so that the forcing to inexact would be unnecessary.  But
+         ;; there are places where the conversion doesn't happen.  For example, if we
+         ;; were to insert the result of dividing 2 by 3 into a ListView or a picker,
+         ;; which would appear as the string "2/3" if the division produced a rational.
+         (exact->inexact (/ n d)))))
 
 ;;; Trigonometric functions
 (define *pi* 3.14159265)
@@ -1763,22 +1944,24 @@ list, use the make-yail-list constructor with no arguments.
 
 ;;; converts a yail list to a CSV-formatted table and returns the text.
 ;;; yl should be a YailList, each element of which is a YailList as well.
-;;; inner list elements sanitized
+;;; inner list elements are sanitized
+;;; TODO(hal): do better checking that the input is well-formed
 (define (yail-list-to-csv-table yl)
   (if (not (yail-list? yl))
     (signal-runtime-error "Argument value to \"list to csv table\" must be a list" "Expecting list")
-    (CsvUtil:toCsvTable (apply make-yail-list (map convert-to-strings (yail-list-contents yl))))))
+    (CsvUtil:toCsvTable (apply make-yail-list (map convert-to-strings-for-csv (yail-list-contents yl))))))
 
 ;;; converts a yail list to a CSV-formatted row and returns the text.
 ;;; yl should be a YailList
 ;;; atomic elements sanitized
+;;; TODO(hal): do better checking that the input is well-formed
 (define (yail-list-to-csv-row yl)
   (if (not (yail-list? yl))
     (signal-runtime-error "Argument value to \"list to csv row\" must be a list" "Expecting list")
-    (CsvUtil:toCsvRow (convert-to-strings yl))))
+    (CsvUtil:toCsvRow (convert-to-strings-for-csv yl))))
 
 ;; convert each element of YailList yl to a string and return the resulting YailList
-(define (convert-to-strings yl)
+(define (convert-to-strings-for-csv yl)
   (cond ((yail-list-empty? yl) yl)
     ((not (yail-list? yl)) (make-yail-list yl))
     (else (apply make-yail-list (map coerce-to-string (yail-list-contents yl))))))
@@ -2759,12 +2942,14 @@ list, use the make-yail-list constructor with no arguments.
                              (android-log (exception:getMessage))
                              (list "NOK"
                                    (exception:getMessage))))
-                 (exception java.lang.Exception
+                 (exception java.lang.Throwable
                             (android-log (exception:getMessage))
                             (exception:printStackTrace)
                             (list
                              "NOK"
-                             (exception:getMessage)))))))))
+                             (if (instance? exception java.lang.Error)
+                                 (exception:toString)
+                                 (exception:getMessage))))))))))
 
 ;; send-to-block is used for all communication back to the blocks editor
 ;; Calls on report are also generated for code from the blocks compiler

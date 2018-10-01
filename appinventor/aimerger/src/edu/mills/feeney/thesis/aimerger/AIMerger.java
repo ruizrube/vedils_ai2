@@ -244,7 +244,6 @@ public class AIMerger extends JFrame {
         try {
           mergeProjectPath = getFileToSaveTo();
           ZipOutputStream outZip = new ZipOutputStream(new FileOutputStream(mergeProjectPath));
-
           byte[] buf = new byte[4096];
 
           ZipInputStream mainZipInput = new ZipInputStream(new BufferedInputStream(
@@ -487,6 +486,7 @@ public class AIMerger extends JFrame {
         return false;
       }
     }
+
     for (String asset : mainProjectAssetsCBL.getChecked()) {
       if (secondProjectAssetsCBL.getChecked().contains(asset) && asset != "Check All") {
         JOptionPane.showMessageDialog(myCP, "You cannot select two assets with the "
@@ -532,7 +532,7 @@ public class AIMerger extends JFrame {
     }
   }
 
-  /*an
+  /*
    * Updates the lower left part of the screen to display the main project.
    */
   private static void updateMainProjectView() {
@@ -841,4 +841,5 @@ public class AIMerger extends JFrame {
   public static void main(String[] args) {
     instance = new AIMerger();
   }
+
 }

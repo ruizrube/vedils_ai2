@@ -14,6 +14,10 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import android.os.Looper;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.net.InetAddress;
@@ -38,6 +42,9 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class AppInvHTTPD extends NanoHTTPD {
 
@@ -119,6 +126,7 @@ public class AppInvHTTPD extends NanoHTTPD {
 
 
     if (uri.equals("/_newblocks")) { // Handle AJAX calls from the newblocks code
+      adoptMainThreadClassLoader();
       String inSeq = parms.getProperty("seq", "0");
       int iseq = Integer.parseInt(inSeq);
       String blockid = parms.getProperty("blockid");
@@ -225,9 +233,13 @@ public class AppInvHTTPD extends NanoHTTPD {
         String versionName = pInfo.versionName;
         if (installer == null)
           installer = "Not Known";
+        // fcqn = true indicates we accept FullyQualifiedComponentNames (FQCN)
+        // This informs the blocks editor whether or not we can accept the new style
+        // fully qualified component names
         res = new Response(HTTP_OK, MIME_JSON, "{\"version\" : \"" + versionName +
           "\", \"fingerprint\" : \"" + Build.FINGERPRINT + "\"," +
-          " \"installer\" : \"" + installer + "\", \"package\" : \"" + packageName + "\" }");
+          " \"installer\" : \"" + installer + "\", \"package\" : \"" +
+          packageName + "\", \"fqcn\" : true }");
       } catch (NameNotFoundException n) {
         n.printStackTrace();
         res = new Response(HTTP_OK, MIME_JSON, "{\"verison\" : \"Unknown\"");
@@ -317,6 +329,8 @@ public class AppInvHTTPD extends NanoHTTPD {
       res.addHeader("Access-Control-Allow-Methods", "POST,OPTIONS,GET,HEAD,PUT");
       res.addHeader("Allow", "POST,OPTIONS,GET,HEAD,PUT");
       return (res);
+    } else if (uri.equals("/_extensions")) {
+      return processLoadExtensionsRequest(parms);
     }
 
     if (method.equals("PUT")) { // Asset File Upload for newblocks
@@ -335,6 +349,10 @@ public class AppInvHTTPD extends NanoHTTPD {
         if (filename != null) { // We have a filename and it has not been declared
                                 // invalid by the code above
           File fileTo = new File(rootDir + "/" + filename);
+          File parentFileTo = fileTo.getParentFile();
+          if (!parentFileTo.exists()) {
+            parentFileTo.mkdirs();
+          }
           if (!fileFrom.renameTo(fileTo)) { // First try rename
             copyFile(fileFrom, fileTo);
             fileFrom.delete();  // Remove temp file
@@ -428,6 +446,75 @@ public class AppInvHTTPD extends NanoHTTPD {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  private Response processLoadExtensionsRequest(Properties parms) {
+    try {
+      JSONArray array = new JSONArray(parms.getProperty("extensions", "[]"));
+      List<String> extensionsToLoad = new ArrayList<String>();
+      for (int i = 0; i < array.length(); i++) {
+        String extensionName = array.optString(i);
+        if (extensionName != null) {
+          extensionsToLoad.add(extensionName);
+        } else {
+          return error("Invalid JSON content at index " + i);
+        }
+      }
+      try {
+        form.loadComponents(extensionsToLoad);
+      } catch (Exception e) {
+        return error(e);
+      }
+      return message("OK");
+    } catch (JSONException e) {
+      return error(e);
+    }
+  }
+
+  /**
+   * Updates the current thread's context class loader to match the main thread's context class
+   * loader. This is used to ensure that all threads see the same classes (the "same" class loaded
+   * by two different class loaders are not identical from the VMs point of view). This ensures
+   * that Scheme code spawned by AppInvHTTPD can find extensions previously loaded by another
+   * thread.
+   */
+  private void adoptMainThreadClassLoader() {
+    ClassLoader mainClassLoader = Looper.getMainLooper().getThread().getContextClassLoader();
+    Thread myThread = Thread.currentThread();
+    if (myThread.getContextClassLoader() != mainClassLoader) {
+      myThread.setContextClassLoader(mainClassLoader);
+    }
+  }
+
+  private Response message(String txt) {
+    return addHeaders(new Response(HTTP_OK, MIME_PLAINTEXT, txt));
+  }
+
+  private Response json(String json) {
+    return addHeaders(new Response(HTTP_OK, MIME_JSON, json));
+  }
+
+  private Response error(String msg) {
+    JSONObject result = new JSONObject();
+    try {
+      result.put("status", "BAD");
+      result.put("message", msg);
+    } catch(JSONException e) {
+      Log.wtf(LOG_TAG, "Unable to write basic JSON content", e);
+    }
+    return addHeaders(new Response(HTTP_OK, MIME_JSON, result.toString()));
+  }
+
+  private Response error(Throwable t) {
+    return error(t.toString());
+  }
+
+  private Response addHeaders(Response res) {
+    res.addHeader("Access-Control-Allow-Origin", "*");
+    res.addHeader("Access-Control-Allow-Headers", "origin, content-type");
+    res.addHeader("Access-Control-Allow-Methods", "POST,OPTIONS,GET,HEAD,PUT");
+    res.addHeader("Allow", "POST,OPTIONS,GET,HEAD,PUT");
+    return res;
   }
 
   /**

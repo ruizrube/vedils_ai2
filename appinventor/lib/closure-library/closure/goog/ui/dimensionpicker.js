@@ -17,7 +17,6 @@
  * user to visually select a row and column count.
  *
  * @author robbyw@google.com (Robby Walker)
- * @author abefettig@google.com (Abe Fettig)
  * @see ../demos/dimensionpicker.html
  * @see ../demos/dimensionpicker_rtl.html
  */
@@ -49,10 +48,11 @@ goog.require('goog.ui.registry');
  *     document interaction.
  * @constructor
  * @extends {goog.ui.Control}
+ * @final
  */
 goog.ui.DimensionPicker = function(opt_renderer, opt_domHelper) {
-  goog.ui.Control.call(this, null,
-      opt_renderer || goog.ui.DimensionPickerRenderer.getInstance(),
+  goog.ui.Control.call(
+      this, null, opt_renderer || goog.ui.DimensionPickerRenderer.getInstance(),
       opt_domHelper);
 
   this.size_ = new goog.math.Size(this.minColumns, this.minRows);
@@ -117,10 +117,12 @@ goog.ui.DimensionPicker.prototype.enterDocument = function() {
   goog.ui.DimensionPicker.superClass_.enterDocument.call(this);
 
   var handler = this.getHandler();
-  handler.
-      listen(this.getRenderer().getMouseMoveElement(this),
-          goog.events.EventType.MOUSEMOVE, this.handleMouseMove).
-      listen(this.getDomHelper().getWindow(), goog.events.EventType.RESIZE,
+  handler
+      .listen(
+          this.getRenderer().getMouseMoveElement(this),
+          goog.events.EventType.MOUSEMOVE, this.handleMouseMove)
+      .listen(
+          this.getDomHelper().getWindow(), goog.events.EventType.RESIZE,
           this.handleWindowResize);
 
   var parent = this.getParent();
@@ -135,16 +137,18 @@ goog.ui.DimensionPicker.prototype.exitDocument = function() {
   goog.ui.DimensionPicker.superClass_.exitDocument.call(this);
 
   var handler = this.getHandler();
-  handler.
-      unlisten(this.getRenderer().getMouseMoveElement(this),
-          goog.events.EventType.MOUSEMOVE, this.handleMouseMove).
-      unlisten(this.getDomHelper().getWindow(), goog.events.EventType.RESIZE,
+  handler
+      .unlisten(
+          this.getRenderer().getMouseMoveElement(this),
+          goog.events.EventType.MOUSEMOVE, this.handleMouseMove)
+      .unlisten(
+          this.getDomHelper().getWindow(), goog.events.EventType.RESIZE,
           this.handleWindowResize);
 
   var parent = this.getParent();
   if (parent) {
-    handler.unlisten(parent, goog.ui.Component.EventType.SHOW,
-        this.handleShow_);
+    handler.unlisten(
+        parent, goog.ui.Component.EventType.SHOW, this.handleShow_);
   }
 };
 
@@ -177,8 +181,10 @@ goog.ui.DimensionPicker.prototype.disposeInternal = function() {
  * @protected
  */
 goog.ui.DimensionPicker.prototype.handleMouseMove = function(e) {
-  var highlightedSizeX = this.getRenderer().getGridOffsetX(this,
-      this.isRightToLeft() ? e.target.offsetWidth - e.offsetX : e.offsetX);
+  var highlightedSizeX = this.getRenderer().getGridOffsetX(
+      this, this.isRightToLeft() ?
+          /** @type {!HTMLElement} */ (e.target).offsetWidth - e.offsetX :
+          e.offsetX);
   var highlightedSizeY = this.getRenderer().getGridOffsetY(this, e.offsetY);
 
   this.setValue(highlightedSizeX, highlightedSizeY);
@@ -214,15 +220,28 @@ goog.ui.DimensionPicker.prototype.handleKeyEvent = function(e) {
       rows--;
       break;
     case goog.events.KeyCodes.LEFT:
-      if (columns == 1) {
-        // Delegate to parent.
-        return false;
+      if (this.isRightToLeft()) {
+        columns++;
       } else {
-        columns--;
+        if (columns == 1) {
+          // Delegate to parent.
+          return false;
+        } else {
+          columns--;
+        }
       }
       break;
     case goog.events.KeyCodes.RIGHT:
-      columns++;
+      if (this.isRightToLeft()) {
+        if (columns == 1) {
+          // Delegate to parent.
+          return false;
+        } else {
+          columns--;
+        }
+      } else {
+        columns++;
+      }
       break;
     default:
       return goog.ui.DimensionPicker.superClass_.handleKeyEvent.call(this, e);
@@ -260,8 +279,7 @@ goog.ui.DimensionPicker.prototype.getValue = function() {
  * @param {number=} opt_rows The number of rows to highlight.  Can be
  *     omitted when columns is a good.math.Size object.
  */
-goog.ui.DimensionPicker.prototype.setValue = function(columns,
-    opt_rows) {
+goog.ui.DimensionPicker.prototype.setValue = function(columns, opt_rows) {
   if (!goog.isDef(opt_rows)) {
     columns = /** @type {!goog.math.Size} */ (columns);
     opt_rows = columns.height;
@@ -282,10 +300,10 @@ goog.ui.DimensionPicker.prototype.setValue = function(columns,
     var renderer = this.getRenderer();
     // Show one more row/column than highlighted so the user understands the
     // palette can grow.
-    this.size_.width = Math.max(
-        Math.min(columns + 1, this.maxColumns), this.minColumns);
-    this.size_.height = Math.max(
-        Math.min(opt_rows + 1, this.maxRows), this.minRows);
+    this.size_.width =
+        Math.max(Math.min(columns + 1, this.maxColumns), this.minColumns);
+    this.size_.height =
+        Math.max(Math.min(opt_rows + 1, this.maxRows), this.minRows);
     renderer.updateSize(this, this.getElement());
 
     this.highlightedColumns_ = columns;
@@ -300,6 +318,4 @@ goog.ui.DimensionPicker.prototype.setValue = function(columns,
  */
 goog.ui.registry.setDecoratorByClassName(
     goog.ui.DimensionPickerRenderer.CSS_CLASS,
-    function() {
-      return new goog.ui.DimensionPicker();
-    });
+    function() { return new goog.ui.DimensionPicker(); });

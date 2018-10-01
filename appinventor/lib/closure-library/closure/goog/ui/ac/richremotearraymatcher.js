@@ -22,7 +22,7 @@
 
 goog.provide('goog.ui.ac.RichRemoteArrayMatcher');
 
-goog.require('goog.json');
+goog.require('goog.dom');
 goog.require('goog.ui.ac.RemoteArrayMatcher');
 
 
@@ -30,6 +30,7 @@ goog.require('goog.ui.ac.RemoteArrayMatcher');
 /**
  * An array matcher that requests rich matches via ajax and converts them into
  * rich rows.
+ *
  * @param {string} url The Uri which generates the auto complete matches.  The
  *     search term is passed to the server as the 'token' query param.
  * @param {boolean=} opt_noSimilar If true, request that the server does not do
@@ -77,8 +78,8 @@ goog.ui.ac.RichRemoteArrayMatcher.prototype.setRowFilter = function(rowFilter) {
  *     matching.
  * @override
  */
-goog.ui.ac.RichRemoteArrayMatcher.prototype.requestMatchingRows =
-    function(token, maxMatches, matchHandler) {
+goog.ui.ac.RichRemoteArrayMatcher.prototype.requestMatchingRows = function(
+    token, maxMatches, matchHandler) {
   // The RichRemoteArrayMatcher must map over the results and filter them
   // before calling the request matchHandler.  This is done by passing
   // myMatchHandler to RemoteArrayMatcher.requestMatchingRows which maps,
@@ -88,16 +89,15 @@ goog.ui.ac.RichRemoteArrayMatcher.prototype.requestMatchingRows =
     try {
       var rows = [];
       for (var i = 0; i < matches.length; i++) {
-        var func =  /** @type {!Function} */
-            (goog.json.unsafeParse(matches[i][0]));
+        var func = /** @type {!Function} */ (eval(matches[i][0]));
         for (var j = 1; j < matches[i].length; j++) {
           var richRow = func(matches[i][j]);
           rows.push(richRow);
 
-          // If no render function was provided, set the node's innerHTML.
+          // If no render function was provided, set the node's textContent.
           if (typeof richRow.render == 'undefined') {
             richRow.render = function(node, token) {
-              node.innerHTML = richRow.toString();
+              goog.dom.setTextContent(node, richRow.toString());
             };
           }
 
@@ -120,6 +120,6 @@ goog.ui.ac.RichRemoteArrayMatcher.prototype.requestMatchingRows =
   }, this);
 
   // Call the super's requestMatchingRows with myMatchHandler
-  goog.ui.ac.RichRemoteArrayMatcher.superClass_
-      .requestMatchingRows.call(this, token, maxMatches, myMatchHandler);
+  goog.ui.ac.RichRemoteArrayMatcher.superClass_.requestMatchingRows.call(
+      this, token, maxMatches, myMatchHandler);
 };

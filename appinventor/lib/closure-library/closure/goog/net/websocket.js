@@ -65,15 +65,15 @@ goog.require('goog.log');
  * @extends {goog.events.EventTarget}
  */
 goog.net.WebSocket = function(opt_autoReconnect, opt_getNextReconnect) {
-  goog.base(this);
+  goog.net.WebSocket.base(this, 'constructor');
 
   /**
    * True if the web socket should automatically reconnect or not.
    * @type {boolean}
    * @private
    */
-  this.autoReconnect_ = goog.isDef(opt_autoReconnect) ?
-      opt_autoReconnect : true;
+  this.autoReconnect_ =
+      goog.isDef(opt_autoReconnect) ? opt_autoReconnect : true;
 
   /**
    * A function for obtaining the time until the next reconnect attempt.
@@ -83,8 +83,8 @@ goog.net.WebSocket = function(opt_autoReconnect, opt_getNextReconnect) {
    * @type {function(number):number}
    * @private
    */
-  this.getNextReconnect_ = opt_getNextReconnect ||
-      goog.net.WebSocket.EXPONENTIAL_BACKOFF_;
+  this.getNextReconnect_ =
+      opt_getNextReconnect || goog.net.WebSocket.EXPONENTIAL_BACKOFF_;
 
   /**
    * The time, in milliseconds, that must elapse before the next attempt to
@@ -138,13 +138,16 @@ goog.net.WebSocket.prototype.closeExpected_ = false;
 goog.net.WebSocket.prototype.reconnectAttempt_ = 0;
 
 
+/** @private {?number} */
+goog.net.WebSocket.prototype.reconnectTimer_ = null;
+
+
 /**
  * The logger for this class.
  * @type {goog.log.Logger}
  * @private
  */
-goog.net.WebSocket.prototype.logger_ = goog.log.getLogger(
-    'goog.net.WebSocket');
+goog.net.WebSocket.prototype.logger_ = goog.log.getLogger('goog.net.WebSocket');
 
 
 /**
@@ -230,14 +233,14 @@ goog.net.WebSocket.EXPONENTIAL_BACKOFF_ = function(attempt) {
  *     protect the entry points.
  */
 goog.net.WebSocket.protectEntryPoints = function(errorHandler) {
-  goog.net.WebSocket.prototype.onOpen_ = errorHandler.protectEntryPoint(
-      goog.net.WebSocket.prototype.onOpen_);
-  goog.net.WebSocket.prototype.onClose_ = errorHandler.protectEntryPoint(
-      goog.net.WebSocket.prototype.onClose_);
-  goog.net.WebSocket.prototype.onMessage_ = errorHandler.protectEntryPoint(
-      goog.net.WebSocket.prototype.onMessage_);
-  goog.net.WebSocket.prototype.onError_ = errorHandler.protectEntryPoint(
-      goog.net.WebSocket.prototype.onError_);
+  goog.net.WebSocket.prototype.onOpen_ =
+      errorHandler.protectEntryPoint(goog.net.WebSocket.prototype.onOpen_);
+  goog.net.WebSocket.prototype.onClose_ =
+      errorHandler.protectEntryPoint(goog.net.WebSocket.prototype.onClose_);
+  goog.net.WebSocket.prototype.onMessage_ =
+      errorHandler.protectEntryPoint(goog.net.WebSocket.prototype.onMessage_);
+  goog.net.WebSocket.prototype.onError_ =
+      errorHandler.protectEntryPoint(goog.net.WebSocket.prototype.onError_);
 };
 
 
@@ -255,8 +258,8 @@ goog.net.WebSocket.protectEntryPoints = function(errorHandler) {
  */
 goog.net.WebSocket.prototype.open = function(url, opt_protocol) {
   // Sanity check.  This works only in modern browsers.
-  goog.asserts.assert(goog.global['WebSocket'],
-      'This browser does not support WebSocket');
+  goog.asserts.assert(
+      goog.global['WebSocket'], 'This browser does not support WebSocket');
 
   // Don't do anything if the web socket is already open.
   goog.asserts.assert(!this.isOpen(), 'The WebSocket is already open');
@@ -271,8 +274,9 @@ goog.net.WebSocket.prototype.open = function(url, opt_protocol) {
   // This check has to be made otherwise you get protocol mismatch exceptions
   // for passing undefined, null, '', or [].
   if (this.protocol_) {
-    goog.log.info(this.logger_, 'Opening the WebSocket on ' + this.url_ +
-        ' with protocol ' + this.protocol_);
+    goog.log.info(
+        this.logger_, 'Opening the WebSocket on ' + this.url_ +
+            ' with protocol ' + this.protocol_);
     this.webSocket_ = new WebSocket(this.url_, this.protocol_);
   } else {
     goog.log.info(this.logger_, 'Opening the WebSocket on ' + this.url_);
@@ -316,7 +320,7 @@ goog.net.WebSocket.prototype.close = function() {
 /**
  * Sends the message over the web socket.
  *
- * @param {string} message The message to send.
+ * @param {string|!ArrayBuffer|!ArrayBufferView} message The message to send.
  */
 goog.net.WebSocket.prototype.send = function(message) {
   // Make sure the socket is ready to go before sending a message.
@@ -335,6 +339,17 @@ goog.net.WebSocket.prototype.send = function(message) {
 goog.net.WebSocket.prototype.isOpen = function() {
   return !!this.webSocket_ &&
       this.webSocket_.readyState == goog.net.WebSocket.ReadyState_.OPEN;
+};
+
+
+/**
+ * Gets the number of bytes of data that have been queued using calls to send()
+ * but not yet transmitted to the network.
+ *
+ * @return {number} Number of bytes of data that have been queued.
+ */
+goog.net.WebSocket.prototype.getBufferedAmount = function() {
+  return this.webSocket_.bufferedAmount;
 };
 
 
@@ -376,15 +391,15 @@ goog.net.WebSocket.prototype.onClose_ = function(event) {
     this.protocol_ = undefined;
   } else {
     // Unexpected, so try to reconnect.
-    goog.log.error(this.logger_, 'The WebSocket disconnected unexpectedly: ' +
-        event.data);
+    goog.log.error(
+        this.logger_, 'The WebSocket disconnected unexpectedly: ' + event.data);
 
     // Only try to reconnect if it is enabled.
     if (this.autoReconnect_) {
       // Log the reconnect attempt.
       var seconds = Math.floor(this.nextReconnect_ / 1000);
-      goog.log.info(this.logger_,
-          'Seconds until next reconnect attempt: ' + seconds);
+      goog.log.info(
+          this.logger_, 'Seconds until next reconnect attempt: ' + seconds);
 
       // Actually schedule the timer.
       this.reconnectTimer_ = goog.Timer.callOnce(
@@ -403,11 +418,11 @@ goog.net.WebSocket.prototype.onClose_ = function(event) {
 /**
  * Called when a new message arrives from the server.
  *
- * @param {MessageEvent} event The web socket message event.
+ * @param {MessageEvent<string>} event The web socket message event.
  * @private
  */
 goog.net.WebSocket.prototype.onMessage_ = function(event) {
-  var message = /** @type {string} */ (event.data);
+  var message = event.data;
   this.dispatchEvent(new goog.net.WebSocket.MessageEvent(message));
 };
 
@@ -440,7 +455,7 @@ goog.net.WebSocket.prototype.clearReconnectTimer_ = function() {
 
 /** @override */
 goog.net.WebSocket.prototype.disposeInternal = function() {
-  goog.base(this, 'disposeInternal');
+  goog.net.WebSocket.base(this, 'disposeInternal');
   this.close();
 };
 
@@ -452,9 +467,11 @@ goog.net.WebSocket.prototype.disposeInternal = function() {
  * @param {string} message The raw message coming from the web socket.
  * @extends {goog.events.Event}
  * @constructor
+ * @final
  */
 goog.net.WebSocket.MessageEvent = function(message) {
-  goog.base(this, goog.net.WebSocket.EventType.MESSAGE);
+  goog.net.WebSocket.MessageEvent.base(
+      this, 'constructor', goog.net.WebSocket.EventType.MESSAGE);
 
   /**
    * The new message from the web socket.
@@ -473,9 +490,11 @@ goog.inherits(goog.net.WebSocket.MessageEvent, goog.events.Event);
  * @param {string} data The error data.
  * @extends {goog.events.Event}
  * @constructor
+ * @final
  */
 goog.net.WebSocket.ErrorEvent = function(data) {
-  goog.base(this, goog.net.WebSocket.EventType.ERROR);
+  goog.net.WebSocket.ErrorEvent.base(
+      this, 'constructor', goog.net.WebSocket.EventType.ERROR);
 
   /**
    * The error data coming from the web socket.

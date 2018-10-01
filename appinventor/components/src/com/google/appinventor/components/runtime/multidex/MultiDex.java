@@ -514,4 +514,5 @@ public final class MultiDex {
             expandFieldArray(loader, "mDexs", extraDexs);
         }
     }
+
 }

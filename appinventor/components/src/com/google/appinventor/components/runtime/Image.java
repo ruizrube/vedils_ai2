@@ -68,7 +68,6 @@ public final class Image extends AndroidViewComponent {
         return true;
       }
     };
-
     view.setFocusable(true);
 
     // Adds the component to its designated container

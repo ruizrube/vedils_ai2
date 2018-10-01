@@ -30,6 +30,7 @@ goog.require('goog.dom.pattern.MatchType');
  * @param {goog.dom.NodeType} nodeType The node type to match.
  * @constructor
  * @extends {goog.dom.pattern.AbstractPattern}
+ * @final
  */
 goog.dom.pattern.NodeType = function(nodeType) {
   /**
@@ -52,7 +53,6 @@ goog.inherits(goog.dom.pattern.NodeType, goog.dom.pattern.AbstractPattern);
  * @override
  */
 goog.dom.pattern.NodeType.prototype.matchToken = function(token, type) {
-  return token.nodeType == this.nodeType_ ?
-      goog.dom.pattern.MatchType.MATCH :
-      goog.dom.pattern.MatchType.NO_MATCH;
+  return token.nodeType == this.nodeType_ ? goog.dom.pattern.MatchType.MATCH :
+                                            goog.dom.pattern.MatchType.NO_MATCH;
 };

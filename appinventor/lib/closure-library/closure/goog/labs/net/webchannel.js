@@ -36,6 +36,14 @@
  * Client-to-client messaging via WebRTC based transport may also be support
  * via the same WebChannel API in future.
  *
+ * Note that we have no immediate plan to move this API out of labs. While
+ * the implementation is production ready, the API is subject to change
+ * (addition only):
+ * 1. Adopt new Web APIs (mainly whatwg streams) and goog.net.streams.
+ * 2. New programming models for cloud (on the server-side) may require
+ *    new APIs to be defined.
+ * 3. WebRTC DataChannel alignment
+ *
  */
 
 goog.provide('goog.net.WebChannel');
@@ -66,25 +74,42 @@ goog.net.WebChannel = function() {};
  * {@link WebChannelTransport}. The configuration parameters are specified
  * when a new instance of WebChannel is created via {@link WebChannelTransport}.
  *
- * spdyRequestLimit: the maximum number of in-flight HTTP requests allowed
- *                   when SPDY is enabled. Currently we only detect SPDY
- *                   in Chrome. This parameter defaults to 10. When SPDY is
- *                   not enabled, this parameter will have no effect.
- *
- * testUrl: the test URL for detecting connectivity during the initial
- *          handshake. This parameter defaults to "/<channel_url>/test".
- *
  * messageHeaders: custom headers to be added to every message sent to the
- *                 server.
+ * server. This object is mutable, and custom headers may be changed, removed,
+ * or added during the runtime after a channel has been opened.
  *
  * messageUrlParams: custom url query parameters to be added to every message
- *                   sent to the server.
+ * sent to the server. This object is mutable, and custom parameters may be
+ * changed, removed or added during the runtime after a channel has been opened.
+ *
+ * clientProtocolHeaderRequired: whether a special header should be added to
+ * each message so that the server can dispatch webchannel messages without
+ * knowing the URL path prefix. Defaults to false.
+ *
+ * concurrentRequestLimit: the maximum number of in-flight HTTP requests allowed
+ * when SPDY is enabled. Currently we only detect SPDY in Chrome.
+ * This parameter defaults to 10. When SPDY is not enabled, this parameter
+ * will have no effect.
+ *
+ * supportsCrossDomainXhr: setting this to true to allow the use of sub-domains
+ * (as configured by the server) to send XHRs with the CORS withCredentials
+ * bit set to true.
+ *
+ * testUrl: the test URL for detecting connectivity during the initial
+ * handshake. This parameter defaults to "/<channel_url>/test".
+ *
+ * sendRawJson: whether to bypass v8 encoding of client-sent messages. Will be
+ * deprecated after v9 wire protocol is introduced. Only safe to set if the
+ * server is known to support this feature.
  *
  * @typedef {{
- *   spdyRequestLimit: (number|undefined),
+ *   messageHeaders: (!Object<string, string>|undefined),
+ *   messageUrlParams: (!Object<string, string>|undefined),
+ *   clientProtocolHeaderRequired: (boolean|undefined),
+ *   concurrentRequestLimit: (number|undefined),
+ *   supportsCrossDomainXhr: (boolean|undefined),
  *   testUrl: (string|undefined),
- *   messageHeaders: (!Object.<string, string>|undefined),
- *   messageUrlParams: (!Object.<string, string>|undefined)
+ *   sendRawJson: (boolean|undefined)
  * }}
  */
 goog.net.WebChannel.Options;
@@ -93,7 +118,13 @@ goog.net.WebChannel.Options;
 /**
  * Types that are allowed as message data.
  *
- * @typedef {(ArrayBuffer|Blob|Object.<string, string>|Array)}
+ * Note that JS objects (sent by the client) can only have string encoded
+ * values due to the limitation of the current wire protocol.
+ *
+ * Unicode strings (sent by the server) may or may not need be escaped, as
+ * decided by the server.
+ *
+ * @typedef {(ArrayBuffer|Blob|Object<string, string>|Array)}
  */
 goog.net.WebChannel.MessageData;
 
@@ -146,7 +177,8 @@ goog.net.WebChannel.EventType = {
  * @extends {goog.events.Event}
  */
 goog.net.WebChannel.MessageEvent = function() {
-  goog.base(this, goog.net.WebChannel.EventType.MESSAGE);
+  goog.net.WebChannel.MessageEvent.base(
+      this, 'constructor', goog.net.WebChannel.EventType.MESSAGE);
 };
 goog.inherits(goog.net.WebChannel.MessageEvent, goog.events.Event);
 
@@ -183,7 +215,8 @@ goog.net.WebChannel.ErrorStatus = {
  * @extends {goog.events.Event}
  */
 goog.net.WebChannel.ErrorEvent = function() {
-  goog.base(this, goog.net.WebChannel.EventType.ERROR);
+  goog.net.WebChannel.ErrorEvent.base(
+      this, 'constructor', goog.net.WebChannel.EventType.ERROR);
 };
 goog.inherits(goog.net.WebChannel.ErrorEvent, goog.events.Event);
 
@@ -205,10 +238,10 @@ goog.net.WebChannel.prototype.getRuntimeProperties = goog.abstractMethod;
 
 
 /**
- * The readonly runtime properties of the WebChannel instance.
+ * The runtime properties of the WebChannel instance.
  *
- * This class is defined for debugging and monitoring purposes, and for
- * optimization functions that the application may choose to manage by itself.
+ * This class is defined for debugging and monitoring purposes, as well as for
+ * runtime functions that the application may choose to manage by itself.
  *
  * @interface
  */
@@ -216,7 +249,104 @@ goog.net.WebChannel.RuntimeProperties = function() {};
 
 
 /**
- * @return {number} The effective request limit for the channel.
+ * @return {number} The effective limit for the number of concurrent HTTP
+ * requests that are allowed to be made for sending messages from the client
+ * to the server. When SPDY is not enabled, this limit will be one.
  */
-goog.net.WebChannel.RuntimeProperties.prototype.getSpdyRequestLimit =
+goog.net.WebChannel.RuntimeProperties.prototype.getConcurrentRequestLimit =
     goog.abstractMethod;
+
+
+/**
+ * For applications that need support multiple channels (e.g. from
+ * different tabs) to the same origin, use this method to decide if SPDY is
+ * enabled and therefore it is safe to open multiple channels.
+ *
+ * If SPDY is disabled, the application may choose to limit the number of active
+ * channels to one or use other means such as sub-domains to work around
+ * the browser connection limit.
+ *
+ * @return {boolean} Whether SPDY is enabled for the origin against which
+ * the channel is created.
+ */
+goog.net.WebChannel.RuntimeProperties.prototype.isSpdyEnabled =
+    goog.abstractMethod;
+
+
+/**
+ * This method generates an in-band commit request to the server, which will
+ * ack the commit request as soon as all messages sent prior to this commit
+ * request have been committed by the application.
+ *
+ * Committing a message has a stronger semantics than delivering a message
+ * to the application. Detail spec:
+ * https://github.com/bidiweb/webchannel/blob/master/commit.md
+ *
+ * Timeout or cancellation is not supported and the application may have to
+ * abort the channel if the commit-ack fails to arrive in time.
+ *
+ * @param {function()} callback The callback will be invoked once an
+ * ack has been received for the current commit or any newly issued commit.
+ */
+goog.net.WebChannel.RuntimeProperties.prototype.commit = goog.abstractMethod;
+
+
+/**
+ * This method may be used by the application to recover from a peer failure
+ * or to enable sender-initiated flow-control.
+ *
+ * Detail spec: https://github.com/bidiweb/webchannel/blob/master/commit.md
+ *
+ * @return {number} The total number of messages that have not received
+ * commit-ack from the server; or if no commit has been issued, the number
+ * of messages that have not been delivered to the server application.
+ */
+goog.net.WebChannel.RuntimeProperties.prototype.getNonAckedMessageCount =
+    goog.abstractMethod;
+
+
+/**
+ * This method registers a callback to handle the commit request sent
+ * by the server. Commit protocol spec:
+ * https://github.com/bidiweb/webchannel/blob/master/commit.md
+ *
+ * @param {function(!Object)} callback The callback will take an opaque
+ * commitId which needs be passed back to the server when an ack-commit
+ * response is generated by the client application, via ackCommit().
+ */
+goog.net.WebChannel.RuntimeProperties.prototype.onCommit = goog.abstractMethod;
+
+
+/**
+ * This method is used by the application to generate an ack-commit response
+ * for the given commitId. Commit protocol spec:
+ * https://github.com/bidiweb/webchannel/blob/master/commit.md
+ *
+ * @param {!Object} commitId The commitId which denotes the commit request
+ * from the server that needs be ack'ed.
+ */
+goog.net.WebChannel.RuntimeProperties.prototype.ackCommit = goog.abstractMethod;
+
+
+/**
+ * @return {number} The last HTTP status code received by the channel.
+ */
+goog.net.WebChannel.RuntimeProperties.prototype.getLastStatusCode =
+    goog.abstractMethod;
+
+
+/**
+ * A special header to indicate to the server what messaging protocol
+ * each HTTP message is speaking.
+ *
+ * @type {string}
+ */
+goog.net.WebChannel.X_CLIENT_PROTOCOL = 'X-Client-Protocol';
+
+
+/**
+ * The value for x-client-protocol when the messaging protocol is WebChannel.
+ *
+ * @type {string}
+ */
+goog.net.WebChannel.X_CLIENT_PROTOCOL_WEB_CHANNEL = 'webchannel';

@@ -26,6 +26,13 @@ public interface UserInfoService extends RemoteService {
   Config getSystemConfig(String sessionId);
 
   /**
+   * Retrieve's the stored Backpack
+   *
+   * @return the backpack as an xml string
+   */
+  String getUserBackpack();
+
+  /**
    * Retrieves information about the current user
    *
    * (Obsoleted by getSystemConfig())
@@ -47,6 +54,12 @@ public interface UserInfoService extends RemoteService {
    * @return  user's settings
    */
   String loadUserSettings();
+
+  /**
+   * Store the user's backpack
+   * @param backpack string containing the backpack xml
+   */
+  void storeUserBackpack(String backpack);
 
   /**
    * Stores the user's settings.
@@ -82,5 +95,20 @@ public interface UserInfoService extends RemoteService {
    */
   void deleteUserFile(String fileName);
 
+  /**
+   * No-Op Do nothing, but will refresh the session cookie as a side-effect
+   */
+  void noop();
+
+  /**
+   * Retrieve the contents of a shared backpack.
+   */
+  public String getSharedBackpack(String backPackId);
+
+  /**
+   * Store the contents of a shared backpack.
+   */
+
+  public void storeSharedBackpack(String backPackId, String content);
 
 }

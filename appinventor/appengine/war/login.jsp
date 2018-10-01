@@ -46,9 +46,11 @@ If you have experienced problems to access, please contact with us at vedils at 
 <br/>
 Si tiene problemas para acceder, póngase en contacto con nosotros en el correo vedils(arroba)uca.es
 </p></center>
+<!--
 <%    if (useGoogleLabel != null && useGoogleLabel.equals("true")) { %>
 <center><p><a href="/login/google" style="text-decoration:none;">Click Here to use your Google Account to login</a></p></center>
 <%    } %>
+-->
 <footer>
 <center>
 <%    if (locale != null && locale.equals("zh_CN")) { %>
@@ -60,4 +62,3 @@ Si tiene problemas para acceder, póngase en contacto con nosotros en el correo 
 <p></p>
 </footer>
 </body></html>
-

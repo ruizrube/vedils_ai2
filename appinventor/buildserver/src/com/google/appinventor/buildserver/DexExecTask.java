@@ -202,8 +202,10 @@ public class DexExecTask  {
         if (mVerbose) {
             commandLineList.add("--verbose");
         }
+        
         //IRR
         commandLineList.add("--force-jumbo");
+        
         commandLineList.add("--output=" + output);
 
         for (File input : inputs) {

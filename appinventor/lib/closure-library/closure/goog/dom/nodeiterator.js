@@ -62,11 +62,12 @@ goog.require('goog.dom.TagIterator');
  * @param {number=} opt_depth The starting tree depth.
  * @constructor
  * @extends {goog.dom.TagIterator}
+ * @final
  */
-goog.dom.NodeIterator = function(opt_node, opt_reversed,
-    opt_unconstrained, opt_depth) {
-  goog.dom.TagIterator.call(this, opt_node, opt_reversed, opt_unconstrained,
-      null, opt_depth);
+goog.dom.NodeIterator = function(
+    opt_node, opt_reversed, opt_unconstrained, opt_depth) {
+  goog.dom.TagIterator.call(
+      this, opt_node, opt_reversed, opt_unconstrained, null, opt_depth);
 };
 goog.inherits(goog.dom.NodeIterator, goog.dom.TagIterator);
 

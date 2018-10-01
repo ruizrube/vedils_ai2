@@ -1,6 +1,6 @@
 // -*- mode: java; c-basic-offset: 2; -*-
 // Copyright 2009-2011 Google, All Rights reserved
-// Copyright 2011-2012 MIT, All rights reserved
+// Copyright 2011-2018 MIT, All rights reserved
 // Released under the Apache License, Version 2.0
 // http://www.apache.org/licenses/LICENSE-2.0
 
@@ -13,6 +13,7 @@ import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.annotations.UsesPermissions;
 import com.google.appinventor.components.common.PropertyTypeConstants;
+import com.google.appinventor.components.runtime.util.IceCreamSandwichUtil;
 import com.google.appinventor.components.runtime.util.MediaUtil;
 import com.google.appinventor.components.runtime.util.TextViewUtil;
 import com.google.appinventor.components.runtime.util.ViewUtil;
@@ -24,6 +25,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.graphics.drawable.shapes.RectShape;
 import android.graphics.drawable.shapes.RoundRectShape;
+import android.graphics.PorterDuff;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -116,6 +118,7 @@ public abstract class ButtonBase extends AndroidViewComponent
     view.setOnFocusChangeListener(this);
     view.setOnLongClickListener(this);
     view.setOnTouchListener(this);
+    IceCreamSandwichUtil.setAllCaps(view, false);
 
     // Default property values
     TextAlignment(Component.ALIGNMENT_CENTER);
@@ -258,19 +261,11 @@ public abstract class ButtonBase extends AndroidViewComponent
   /**
    * Specifies the style the button. This does not check that the argument is a legal value.
    *
-<<<<<<< HEAD
-   * @param shape one of {@link Component#BUTTON_SHAPE_DEFAULT}, 
-   *          {@link Component#BUTTON_SHAPE_ROUNDED},
-   *          {@link Component#BUTTON_SHAPE_RECT} or
-   *          {@link Component#BUTTON_SHAPE_OVAL}
-   *   
-=======
    * @param shape one of {@link Component#BUTTON_SHAPE_DEFAULT},
    *          {@link Component#BUTTON_SHAPE_ROUNDED},
    *          {@link Component#BUTTON_SHAPE_RECT} or
    *          {@link Component#BUTTON_SHAPE_OVAL}
    *
->>>>>>> upstream/master
    * @throws IllegalArgumentException if shape is not a legal value.
    */
   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BUTTON_SHAPE,
@@ -379,8 +374,10 @@ public abstract class ButtonBase extends AndroidViewComponent
         } else {
           // Clear the background image.
           ViewUtil.setBackgroundDrawable(view, null);
-          // Set to the specified color (possibly COLOR_NONE for transparent).
-          TextViewUtil.setBackgroundColor(view, backgroundColor);
+          //Now we set again the default drawable
+          ViewUtil.setBackgroundDrawable(view, defaultButtonDrawable);
+          //@Author NMD (Next Mobile Development) [nmdofficialhelp@gmail.com]
+          view.getBackground().setColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP);
         }
       } else {
         // If there is no background image and the shape is something other than default,

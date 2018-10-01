@@ -17,8 +17,6 @@
  * References:
  * - W3C: http://dev.w3.org/csswg/cssom/
  * - MSDN: http://msdn.microsoft.com/en-us/library/ms531209(VS.85).aspx.
- * @supported in FF3, IE6, IE7, Safari 3.1.2, Chrome
- * TODO(user): Fix in Opera.
  * TODO(user): Consider hacking page, media, etc.. to work.
  *     This would be pretty challenging. IE returns the text for any rule
  *     regardless of whether or not the media is correct or not. Firefox at
@@ -31,6 +29,7 @@ goog.provide('goog.cssom.CssRuleType');
 
 goog.require('goog.array');
 goog.require('goog.dom');
+goog.require('goog.dom.TagName');
 
 
 /**
@@ -64,11 +63,11 @@ goog.cssom.getAllCssText = function(opt_styleSheet) {
  * CSSStyleSheet.
  * Note that this excludes any CSSImportRules, CSSMediaRules, etc..
  * @param {(CSSStyleSheet|StyleSheetList)=} opt_styleSheet The CSSStyleSheet.
- * @return {Array.<CSSStyleRule>} A list of CSSStyleRules.
+ * @return {Array<CSSStyleRule>} A list of CSSStyleRules.
  */
 goog.cssom.getAllCssStyleRules = function(opt_styleSheet) {
   var styleSheet = opt_styleSheet || document.styleSheets;
-  return /** @type {Array.<CSSStyleRule>} */ (
+  return /** @type {!Array<CSSStyleRule>} */ (
       goog.cssom.getAllCss_(styleSheet, false));
 };
 
@@ -88,8 +87,14 @@ goog.cssom.getAllCssStyleRules = function(opt_styleSheet) {
 goog.cssom.getCssRulesFromStyleSheet = function(styleSheet) {
   var cssRuleList = null;
   try {
-    // IE is .rules, W3c is cssRules.
-    cssRuleList = styleSheet.rules || styleSheet.cssRules;
+    // Select cssRules unless it isn't present.  For pre-IE9 IE, use the rules
+    // collection instead.
+    // It's important to be consistent in using only the W3C or IE apis on
+    // IE9+ where both are present to ensure that there is no indexing
+    // mismatches - the collections are subtly different in what the include or
+    // exclude which can lead to one collection being longer than the other
+    // depending on the page's construction.
+    cssRuleList = styleSheet.cssRules /* W3C */ || styleSheet.rules /* IE */;
   } catch (e) {
     // This can happen if we try to access the CSSOM before it's "ready".
     if (e.code == 15) {
@@ -112,35 +117,37 @@ goog.cssom.getCssRulesFromStyleSheet = function(styleSheet) {
  * @param {(CSSStyleSheet|StyleSheetList)=} opt_styleSheet A CSSStyleSheet.
  * @param {boolean=} opt_includeDisabled If true, includes disabled stylesheets,
  *    defaults to false.
- * @return {Array.<CSSStyleSheet>} A list of CSSStyleSheet objects.
+ * @return {!Array<CSSStyleSheet>} A list of CSSStyleSheet objects.
  */
-goog.cssom.getAllCssStyleSheets = function(opt_styleSheet,
-    opt_includeDisabled) {
+goog.cssom.getAllCssStyleSheets = function(
+    opt_styleSheet, opt_includeDisabled) {
   var styleSheetsOutput = [];
   var styleSheet = opt_styleSheet || document.styleSheets;
-  var includeDisabled = goog.isDef(opt_includeDisabled) ? opt_includeDisabled :
-      false;
+  var includeDisabled =
+      goog.isDef(opt_includeDisabled) ? opt_includeDisabled : false;
 
   // Imports need to go first.
   if (styleSheet.imports && styleSheet.imports.length) {
     for (var i = 0, n = styleSheet.imports.length; i < n; i++) {
-      goog.array.extend(styleSheetsOutput,
-          goog.cssom.getAllCssStyleSheets(styleSheet.imports[i]));
+      goog.array.extend(
+          styleSheetsOutput,
+          goog.cssom.getAllCssStyleSheets(
+              /** @type {CSSStyleSheet} */ (styleSheet.imports[i])));
     }
 
   } else if (styleSheet.length) {
     // In case we get a StyleSheetList object.
     // http://dev.w3.org/csswg/cssom/#the-stylesheetlist
     for (var i = 0, n = styleSheet.length; i < n; i++) {
-      goog.array.extend(styleSheetsOutput,
-          goog.cssom.getAllCssStyleSheets(styleSheet[i]));
+      goog.array.extend(
+          styleSheetsOutput, goog.cssom.getAllCssStyleSheets(styleSheet[i]));
     }
   } else {
     // We need to walk through rules in browsers which implement .cssRules
     // to see if there are styleSheets buried in there.
     // If we have a CSSStyleSheet within CssRules.
     var cssRuleList = goog.cssom.getCssRulesFromStyleSheet(
-        /** @type {CSSStyleSheet} */ (styleSheet));
+        /** @type {!CSSStyleSheet} */ (styleSheet));
     if (cssRuleList && cssRuleList.length) {
       // Chrome does not evaluate cssRuleList[i] to undefined when i >=n;
       // so we use a (i < n) check instead of cssRuleList[i] in the loop below
@@ -150,7 +157,8 @@ goog.cssom.getAllCssStyleSheets = function(opt_styleSheet,
         cssRule = cssRuleList[i];
         // There are more stylesheets to get on this object..
         if (cssRule.styleSheet) {
-          goog.array.extend(styleSheetsOutput,
+          goog.array.extend(
+              styleSheetsOutput,
               goog.cssom.getAllCssStyleSheets(cssRule.styleSheet));
         }
       }
@@ -183,9 +191,10 @@ goog.cssom.getCssTextFromCssRule = function(cssRule) {
     // FF and Webkit.
     // We also remove the special properties that we may have added in
     // getAllCssStyleRules since IE includes those in the cssText.
-    var styleCssText = cssRule.style.cssText.
-        replace(/\s*-closure-parent-stylesheet:\s*\[object\];?\s*/gi, '').
-        replace(/\s*-closure-rule-index:\s*[\d]+;?\s*/gi, '');
+    var styleCssText =
+        cssRule.style.cssText
+            .replace(/\s*-closure-parent-stylesheet:\s*\[object\];?\s*/gi, '')
+            .replace(/\s*-closure-rule-index:\s*[\d]+;?\s*/gi, '');
     var thisCssText = cssRule.selectorText + ' { ' + styleCssText + ' }';
     cssText = thisCssText;
   }
@@ -202,15 +211,15 @@ goog.cssom.getCssTextFromCssRule = function(cssRule) {
  * @throws {Error} When we cannot get the parentStyleSheet.
  * @return {number} The index of the CSSRule, or -1.
  */
-goog.cssom.getCssRuleIndexInParentStyleSheet = function(cssRule,
-    opt_parentStyleSheet) {
+goog.cssom.getCssRuleIndexInParentStyleSheet = function(
+    cssRule, opt_parentStyleSheet) {
   // Look for our special style.ruleIndex property from getAllCss.
   if (cssRule.style && cssRule.style['-closure-rule-index']) {
     return cssRule.style['-closure-rule-index'];
   }
 
-  var parentStyleSheet = opt_parentStyleSheet ||
-      goog.cssom.getParentStyleSheet(cssRule);
+  var parentStyleSheet =
+      opt_parentStyleSheet || goog.cssom.getParentStyleSheet(cssRule);
 
   if (!parentStyleSheet) {
     // We could call getAllCssStyleRules() here to get our special indexes on
@@ -240,8 +249,7 @@ goog.cssom.getCssRuleIndexInParentStyleSheet = function(cssRule,
  */
 goog.cssom.getParentStyleSheet = function(cssRule) {
   return cssRule.parentStyleSheet ||
-      cssRule.style &&
-      cssRule.style['-closure-parent-stylesheet'];
+      cssRule.style && cssRule.style['-closure-parent-stylesheet'];
 };
 
 
@@ -259,12 +267,13 @@ goog.cssom.getParentStyleSheet = function(cssRule) {
  * @throws {Error} If we cannot find a parentStyleSheet.
  * @throws {Error} If we cannot find a css rule index.
  */
-goog.cssom.replaceCssRule = function(cssRule, cssText, opt_parentStyleSheet,
-    opt_index) {
-  var parentStyleSheet = opt_parentStyleSheet ||
-      goog.cssom.getParentStyleSheet(cssRule);
+goog.cssom.replaceCssRule = function(
+    cssRule, cssText, opt_parentStyleSheet, opt_index) {
+  var parentStyleSheet =
+      opt_parentStyleSheet || goog.cssom.getParentStyleSheet(cssRule);
   if (parentStyleSheet) {
-    var index = opt_index >= 0 ? opt_index :
+    var index = Number(opt_index) >= 0 ?
+        Number(opt_index) :
         goog.cssom.getCssRuleIndexInParentStyleSheet(cssRule, parentStyleSheet);
     if (index >= 0) {
       goog.cssom.removeCssRule(parentStyleSheet, index);
@@ -291,18 +300,10 @@ goog.cssom.replaceCssRule = function(cssRule, cssText, opt_parentStyleSheet,
  */
 goog.cssom.addCssRule = function(cssStyleSheet, cssText, opt_index) {
   var index = opt_index;
-  if (index < 0 || index == undefined) {
+  if (index == undefined || index < 0) {
     // If no index specified, insert at the end of the current list
     // of rules.
-
-    // Select cssRules unless it isn't present.  For pre-IE9 IE, use the rules
-    // collection instead.
-    // It's important to be consistent in using only the W3C or IE apis on
-    // IE9+ where both are present to ensure that there is no indexing
-    // mismatches - the collections are subtly different in what the include or
-    // exclude which can lead to one collection being longer than the other
-    // depending on the page's construction.
-    var rules = cssStyleSheet.cssRules || cssStyleSheet.rules;
+    var rules = goog.cssom.getCssRulesFromStyleSheet(cssStyleSheet);
     index = rules.length;
   }
   if (cssStyleSheet.insertRule) {
@@ -348,14 +349,14 @@ goog.cssom.removeCssRule = function(cssStyleSheet, index) {
  * @param {string} cssText CSS to add to the end of the document.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper user for
  *     document interactions.
- * @return {Element} The newly created STYLE element.
+ * @return {!Element} The newly created STYLE element.
  */
 goog.cssom.addCssText = function(cssText, opt_domHelper) {
-  var document = opt_domHelper ? opt_domHelper.getDocument() :
-      goog.dom.getDocument();
-  var cssNode = document.createElement('style');
+  var domHelper = opt_domHelper || goog.dom.getDomHelper();
+  var document = domHelper.getDocument();
+  var cssNode = domHelper.createElement(goog.dom.TagName.STYLE);
   cssNode.type = 'text/css';
-  var head = document.getElementsByTagName('head')[0];
+  var head = domHelper.getElementsByTagName(goog.dom.TagName.HEAD)[0];
   head.appendChild(cssNode);
   if (cssNode.styleSheet) {
     // IE.
@@ -398,7 +399,7 @@ goog.cssom.getFileNameFromStyleSheet = function(styleSheet) {
  * Recursively gets all CSS text or rules.
  * @param {CSSStyleSheet|StyleSheetList} styleSheet The CSSStyleSheet.
  * @param {boolean} isTextOutput If true, output is cssText, otherwise cssRules.
- * @return {string|Array.<CSSRule>} cssText or cssRules.
+ * @return {string|!Array<CSSRule>} cssText or cssRules.
  * @private
  */
 goog.cssom.getAllCss_ = function(styleSheet, isTextOutput) {
@@ -409,12 +410,7 @@ goog.cssom.getAllCss_ = function(styleSheet, isTextOutput) {
     var cssRuleList = goog.cssom.getCssRulesFromStyleSheet(styleSheet);
 
     if (cssRuleList && cssRuleList.length) {
-
-      // We're going to track cssRule index if we want rule output.
-      if (!isTextOutput) {
-        var ruleIndex = 0;
-      }
-
+      var ruleIndex = 0;
       for (var j = 0, n = cssRuleList.length, cssRule; j < n; j++) {
         cssRule = cssRuleList[j];
         // Gets cssText output, ignoring CSSImportRules.
@@ -440,11 +436,11 @@ goog.cssom.getAllCss_ = function(styleSheet, isTextOutput) {
             // onto the style object as a property.
             // Unfortunately we have to use the style object to store these
             // pieces of info since the rule object is read-only.
-            cssRule.style['-closure-rule-index'] = ruleIndex;
+            cssRule.style['-closure-rule-index'] =
+                isTextOutput ? undefined : ruleIndex;
           }
           cssOut.push(cssRule);
         }
-
         if (!isTextOutput) {
           ruleIndex++;
         }
@@ -453,4 +449,3 @@ goog.cssom.getAllCss_ = function(styleSheet, isTextOutput) {
   }
   return isTextOutput ? cssOut.join(' ') : cssOut;
 };
-

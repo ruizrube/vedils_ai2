@@ -34,9 +34,10 @@ goog.require('goog.events.EventTarget');
  *
  * @constructor
  * @extends {goog.events.EventTarget}
+ * @final
  */
 goog.db.Cursor = function() {
-  goog.base(this);
+  goog.db.Cursor.base(this, 'constructor');
 };
 goog.inherits(goog.db.Cursor, goog.events.EventTarget);
 
@@ -89,9 +90,7 @@ goog.db.Cursor.prototype.update = function(value) {
     d.errback(goog.db.Error.fromException(err, msg));
     return d;
   }
-  request.onsuccess = function(ev) {
-    d.callback();
-  };
+  request.onsuccess = function(ev) { d.callback(); };
   request.onerror = function(ev) {
     msg += goog.debug.deepExpose(value);
     d.errback(goog.db.Error.fromRequest(ev.target, msg));
@@ -117,9 +116,7 @@ goog.db.Cursor.prototype.remove = function() {
     d.errback(goog.db.Error.fromException(err, msg));
     return d;
   }
-  request.onsuccess = function(ev) {
-    d.callback();
-  };
+  request.onsuccess = function(ev) { d.callback(); };
   request.onerror = function(ev) {
     d.errback(goog.db.Error.fromRequest(ev.target, msg));
   };

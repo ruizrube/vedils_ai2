@@ -9,6 +9,7 @@ package com.google.appinventor.client.editor;
 import com.google.appinventor.client.Ode;
 import com.google.appinventor.shared.rpc.project.FileNode;
 import com.google.appinventor.shared.rpc.project.ProjectRootNode;
+import com.google.gwt.core.client.Callback;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Composite;
 
@@ -155,22 +156,22 @@ public abstract class FileEditor extends Composite {
   }
 
   /**
-   * Update the language setting within BlocklyPanel.java and switch to
-   * the desired language.
-   *
-   * @param newLanguage
-   *          The desired new language setting
-   * @param formName
-   */
-  public void switchLanguage(String newLanguage) {
-  }
-
-  /**
    * Trigger and Update of the Companion.
    *
    */
 
   public void updateCompanion() {
+  }
+
+  public void getBlocksImage(Callback<String, String> callback) {
+  }
+
+  /**
+   * Make the workspace managed by the file editor the active workspace.
+   * This is called on a YaBlocksEditor to transition between screens when working with the
+   * companion.
+   */
+  public void makeActiveWorkspace() {
   }
 
 }

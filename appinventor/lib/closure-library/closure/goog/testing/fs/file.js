@@ -17,6 +17,7 @@
  *
  */
 
+goog.setTestOnly('goog.testing.fs.File');
 goog.provide('goog.testing.fs.File');
 
 goog.require('goog.testing.fs.Blob');
@@ -33,9 +34,10 @@ goog.require('goog.testing.fs.Blob');
  * @param {string=} opt_type The mime type of the blob.
  * @constructor
  * @extends {goog.testing.fs.Blob}
+ * @final
  */
 goog.testing.fs.File = function(name, opt_lastModified, opt_data, opt_type) {
-  goog.base(this, opt_data, opt_type);
+  goog.testing.fs.File.base(this, 'constructor', opt_data, opt_type);
 
   /**
    * @see http://www.w3.org/TR/FileAPI/#dfn-name

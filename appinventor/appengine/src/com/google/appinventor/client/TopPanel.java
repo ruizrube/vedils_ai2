@@ -251,6 +251,10 @@ public class TopPanel extends Composite {
       nativeName = MESSAGES.SwitchToSwedish();
     } else if (localeName == "pt_BR") {
       nativeName = MESSAGES.switchToPortugueseBR();
+    } else if (localeName == "pt") {
+      nativeName = MESSAGES.switchToPortuguese();
+    } else if (localeName == "nl") {
+      nativeName = MESSAGES.switchToDutch();
     }
     return nativeName;
   }
@@ -267,29 +271,28 @@ public class TopPanel extends Composite {
   }
 
   private void addLogo(HorizontalPanel panel) {
-    // Logo should be a link to App Inv homepage. Currently, after the user
-    // has logged in, the top level *is* ODE; so for now don't make it a link.
-    // Add timestamp to logo url to get around browsers that agressively cache
-    // the image! This same trick is used in StorageUtil.getFilePath().
+    // Logo is a link to App Inv homepage. Add timestamp to logo url
+    // to get around browsers that agressively cache the image! This
+    // same trick is used in StorageUtil.getFilePath().
     Image logo = new Image(LOGO_IMAGE_URL + "?t=" + System.currentTimeMillis());
-    logo.setSize("40px", "40px");
+    logo.setSize("70px", "70px");
     logo.setStyleName("ode-Logo");
     String logoUrl = ode.getSystemConfig().getLogoUrl();
     if (!Strings.isNullOrEmpty(logoUrl)) {
       logo.addClickHandler(new WindowOpenClickHandler(logoUrl));
     }
     panel.add(logo);
-    panel.setCellWidth(logo, "50px");
-    Label title = new Label("VEDILS");
-    Label version = new Label("Beta");
-    title.setStyleName("ode-LogoText");
-    version.setStyleName("ode-LogoVersion");
-    VerticalPanel titleContainer = new VerticalPanel();
-    titleContainer.add(title);
-    titleContainer.add(version);
-    titleContainer.setCellHorizontalAlignment(version, HorizontalPanel.ALIGN_RIGHT);
-    panel.add(titleContainer);
-    panel.setCellWidth(titleContainer, "180px");
+    panel.setCellWidth(logo, "60px");
+    //Label title = new Label("VEDILS");
+    //Label version = new Label("Beta");
+    //title.setStyleName("ode-LogoText");
+    //version.setStyleName("ode-LogoVersion");
+    //VerticalPanel titleContainer = new VerticalPanel();
+    //titleContainer.add(title);
+    //titleContainer.add(version);
+    //titleContainer.setCellHorizontalAlignment(version, HorizontalPanel.ALIGN_RIGHT);
+    //panel.add(titleContainer);
+    //panel.setCellWidth(titleContainer, "200px");
     panel.setCellHorizontalAlignment(logo, HorizontalPanel.ALIGN_LEFT);
     panel.setCellVerticalAlignment(logo, HorizontalPanel.ALIGN_MIDDLE);
   }
@@ -347,7 +350,13 @@ public class TopPanel extends Composite {
   private static class SignOutAction implements Command {
     @Override
     public void execute() {
-      Window.Location.replace(SIGNOUT_URL);
+      // Maybe take a screenshot
+      Ode.getInstance().screenShotMaybe(new Runnable() {
+          @Override
+          public void run() {
+            Window.Location.replace(SIGNOUT_URL);
+          }
+        }, true);               // Wait for i/o
     }
   }
 

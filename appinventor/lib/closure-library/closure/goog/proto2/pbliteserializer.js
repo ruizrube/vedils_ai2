@@ -83,7 +83,7 @@ goog.proto2.PbLiteSerializer.prototype.setZeroIndexed = function(zeroIndexing) {
  * Serializes a message to a PB-Lite object.
  *
  * @param {goog.proto2.Message} message The message to be serialized.
- * @return {!Array} The serialized form of the message.
+ * @return {!Array<?>} The serialized form of the message.
  * @override
  */
 goog.proto2.PbLiteSerializer.prototype.serialize = function(message) {
@@ -127,19 +127,21 @@ goog.proto2.PbLiteSerializer.prototype.serialize = function(message) {
 
 
 /** @override */
-goog.proto2.PbLiteSerializer.prototype.deserializeField =
-    function(message, field, value) {
+goog.proto2.PbLiteSerializer.prototype.deserializeField = function(
+    message, field, value) {
 
   if (value == null) {
     // Since value double-equals null, it may be either null or undefined.
     // Ensure we return the same one, since they have different meanings.
+    // TODO(user): If the field is repeated, this method should probably
+    // return [] instead of null.
     return value;
   }
 
   if (field.isRepeated()) {
     var data = [];
 
-    goog.asserts.assert(goog.isArray(value));
+    goog.asserts.assert(goog.isArray(value), 'Value must be array: %s', value);
 
     for (var i = 0; i < value.length; i++) {
       data[i] = this.getDeserializedValue(field, value[i]);
@@ -153,36 +155,37 @@ goog.proto2.PbLiteSerializer.prototype.deserializeField =
 
 
 /** @override */
-goog.proto2.PbLiteSerializer.prototype.getSerializedValue =
-    function(field, value) {
+goog.proto2.PbLiteSerializer.prototype.getSerializedValue = function(
+    field, value) {
   if (field.getFieldType() == goog.proto2.FieldDescriptor.FieldType.BOOL) {
     // Booleans are serialized in numeric form.
     return value ? 1 : 0;
   }
 
-  return goog.proto2.Serializer.prototype.getSerializedValue.apply(this,
-                                                                   arguments);
+  return goog.proto2.Serializer.prototype.getSerializedValue.apply(
+      this, arguments);
 };
 
 
 /** @override */
-goog.proto2.PbLiteSerializer.prototype.getDeserializedValue =
-    function(field, value) {
+goog.proto2.PbLiteSerializer.prototype.getDeserializedValue = function(
+    field, value) {
 
   if (field.getFieldType() == goog.proto2.FieldDescriptor.FieldType.BOOL) {
-    goog.asserts.assert(goog.isNumber(value) || goog.isBoolean(value),
+    goog.asserts.assert(
+        goog.isNumber(value) || goog.isBoolean(value),
         'Value is expected to be a number or boolean');
     return !!value;
   }
 
-  return goog.proto2.Serializer.prototype.getDeserializedValue.apply(this,
-                                                                     arguments);
+  return goog.proto2.Serializer.prototype.getDeserializedValue.apply(
+      this, arguments);
 };
 
 
 /** @override */
-goog.proto2.PbLiteSerializer.prototype.deserialize =
-    function(descriptor, data) {
+goog.proto2.PbLiteSerializer.prototype.deserialize = function(
+    descriptor, data) {
   var toConvert = data;
   if (this.zeroIndexing_) {
     // Make the data align with tag-IDs (1-indexed) by shifting everything
@@ -192,5 +195,6 @@ goog.proto2.PbLiteSerializer.prototype.deserialize =
       toConvert[parseInt(key, 10) + 1] = data[key];
     }
   }
-  return goog.base(this, 'deserialize', descriptor, toConvert);
+  return goog.proto2.PbLiteSerializer.base(
+      this, 'deserialize', descriptor, toConvert);
 };

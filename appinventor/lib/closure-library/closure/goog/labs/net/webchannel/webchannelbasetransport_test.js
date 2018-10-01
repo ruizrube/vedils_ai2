@@ -22,10 +22,15 @@
 goog.provide('goog.labs.net.webChannel.webChannelBaseTransportTest');
 
 goog.require('goog.events');
+goog.require('goog.functions');
+goog.require('goog.json');
+goog.require('goog.labs.net.webChannel.ChannelRequest');
+goog.require('goog.labs.net.webChannel.WebChannelBase');
 goog.require('goog.labs.net.webChannel.WebChannelBaseTransport');
 goog.require('goog.net.WebChannel');
 goog.require('goog.testing.PropertyReplacer');
 goog.require('goog.testing.jsunit');
+
 
 goog.setTestOnly('goog.labs.net.webChannel.webChannelBaseTransportTest');
 
@@ -33,19 +38,41 @@ goog.setTestOnly('goog.labs.net.webChannel.webChannelBaseTransportTest');
 var webChannel;
 var channelUrl = 'http://127.0.0.1:8080/channel';
 
-var propertyReplacer = new goog.testing.PropertyReplacer();
+var stubs = new goog.testing.PropertyReplacer();
 
 
-function setUp() {
-  propertyReplacer.set(
-      /** @suppress {missingRequire} */ goog.labs.net.webChannel,
-      'WebChannelBase',
-      MockWebChannelBase);
+function shouldRunTests() {
+  return goog.labs.net.webChannel.ChannelRequest.supportsXhrStreaming();
 }
 
+
+function setUp() {}
+
+
 function tearDown() {
-  propertyReplacer.reset();
   goog.dispose(webChannel);
+  stubs.reset();
+}
+
+
+/**
+ * Stubs goog.labs.net.webChannel.ChannelRequest.
+ */
+function stubChannelRequest() {
+  stubs.set(
+      goog.labs.net.webChannel.ChannelRequest, 'supportsXhrStreaming',
+      goog.functions.FALSE);
+}
+
+
+function testUnsupportedTransports() {
+  stubChannelRequest();
+
+  var err = assertThrows(function() {
+    var webChannelTransport =
+        new goog.labs.net.webChannel.WebChannelBaseTransport();
+  });
+  assertContains('error', err.message);
 }
 
 function testOpenWithUrl() {
@@ -54,10 +81,9 @@ function testOpenWithUrl() {
   webChannel = webChannelTransport.createWebChannel(channelUrl);
 
   var eventFired = false;
-  goog.events.listen(webChannel, goog.net.WebChannel.EventType.OPEN,
-      function(e) {
-        eventFired = true;
-      });
+  goog.events.listen(
+      webChannel, goog.net.WebChannel.EventType.OPEN,
+      function(e) { eventFired = true; });
 
   webChannel.open();
   assertFalse(eventFired);
@@ -74,9 +100,10 @@ function testOpenWithTestUrl() {
       new goog.labs.net.webChannel.WebChannelBaseTransport();
   var options = {'testUrl': channelUrl + '/footest'};
   webChannel = webChannelTransport.createWebChannel(channelUrl, options);
+  webChannel.open();
 
-  var testPath = webChannel.testPath_;
-  assertNotNull(testPath);
+  var testPath = webChannel.channel_.connectionTest_.path_;
+  assertNotNullNorUndefined(testPath);
 }
 
 function testOpenWithCustomHeaders() {
@@ -86,8 +113,48 @@ function testOpenWithCustomHeaders() {
   webChannel = webChannelTransport.createWebChannel(channelUrl, options);
   webChannel.open();
 
-  var extraHeaders_ = webChannel.extraHeaders_;
-  assertNotNull(extraHeaders_);
+  var extraHeaders_ = webChannel.channel_.extraHeaders_;
+  assertNotNullNorUndefined(extraHeaders_);
+  assertEquals('foo-value', extraHeaders_['foo-key']);
+  assertEquals(undefined, extraHeaders_['X-Client-Protocol']);
+}
+
+function testClientProtocolHeaderRequired() {
+  var webChannelTransport =
+      new goog.labs.net.webChannel.WebChannelBaseTransport();
+  var options = {'clientProtocolHeaderRequired': true};
+  webChannel = webChannelTransport.createWebChannel(channelUrl, options);
+  webChannel.open();
+
+  var extraHeaders_ = webChannel.channel_.extraHeaders_;
+  assertNotNullNorUndefined(extraHeaders_);
+  assertEquals('webchannel', extraHeaders_['X-Client-Protocol']);
+}
+
+function testClientProtocolHeaderNotRequiredByDefault() {
+  var webChannelTransport =
+      new goog.labs.net.webChannel.WebChannelBaseTransport();
+  webChannel = webChannelTransport.createWebChannel(channelUrl);
+  webChannel.open();
+
+  var extraHeaders_ = webChannel.channel_.extraHeaders_;
+  assertNull(extraHeaders_);
+}
+
+function testClientProtocolHeaderRequiredWithCustomHeader() {
+  var webChannelTransport =
+      new goog.labs.net.webChannel.WebChannelBaseTransport();
+  var options = {
+    'clientProtocolHeaderRequired': true,
+    'messageHeaders': {'foo-key': 'foo-value'}
+  };
+  webChannel = webChannelTransport.createWebChannel(channelUrl, options);
+  webChannel.open();
+
+  var extraHeaders_ = webChannel.channel_.extraHeaders_;
+  assertNotNullNorUndefined(extraHeaders_);
+  assertEquals('foo-value', extraHeaders_['foo-key']);
+  assertEquals('webchannel', extraHeaders_['X-Client-Protocol']);
 }
 
 function testOpenWithCustomParams() {
@@ -97,8 +164,36 @@ function testOpenWithCustomParams() {
   webChannel = webChannelTransport.createWebChannel(channelUrl, options);
   webChannel.open();
 
-  var extraParams = webChannel.extraUrlParams_;
-  assertNotNull(extraParams);
+  var extraParams = webChannel.channel_.extraParams_;
+  assertNotNullNorUndefined(extraParams);
+}
+
+function testOpenWithCorsEnabled() {
+  var webChannelTransport =
+      new goog.labs.net.webChannel.WebChannelBaseTransport();
+  var options = {'supportsCrossDomainXhr': true};
+  webChannel = webChannelTransport.createWebChannel(channelUrl, options);
+  webChannel.open();
+
+  assertTrue(webChannel.channel_.supportsCrossDomainXhrs_);
+}
+
+function testSendRawJson() {
+  var channelMsg;
+  stubs.set(
+      goog.labs.net.webChannel.WebChannelBase.prototype, 'sendMap',
+      function(message) { channelMsg = message; });
+
+  var webChannelTransport =
+      new goog.labs.net.webChannel.WebChannelBaseTransport();
+  var options = {'sendRawJson': true};
+  webChannel = webChannelTransport.createWebChannel(channelUrl, options);
+  webChannel.open();
+
+  webChannel.send({foo: 'bar'});
+
+  var receivedMsg = goog.json.parse(channelMsg['__data__']);
+  assertEquals('bar', receivedMsg.foo);
 }
 
 function testOpenThenCloseChannel() {
@@ -107,10 +202,9 @@ function testOpenThenCloseChannel() {
   webChannel = webChannelTransport.createWebChannel(channelUrl);
 
   var eventFired = false;
-  goog.events.listen(webChannel, goog.net.WebChannel.EventType.CLOSE,
-      function(e) {
-        eventFired = true;
-      });
+  goog.events.listen(
+      webChannel, goog.net.WebChannel.EventType.CLOSE,
+      function(e) { eventFired = true; });
 
   webChannel.open();
   assertFalse(eventFired);
@@ -129,8 +223,8 @@ function testChannelError() {
   webChannel = webChannelTransport.createWebChannel(channelUrl);
 
   var eventFired = false;
-  goog.events.listen(webChannel, goog.net.WebChannel.EventType.ERROR,
-      function(e) {
+  goog.events.listen(
+      webChannel, goog.net.WebChannel.EventType.ERROR, function(e) {
         eventFired = true;
         assertEquals(goog.net.WebChannel.ErrorStatus.NETWORK_ERROR, e.status);
       });
@@ -153,8 +247,8 @@ function testChannelMessage() {
 
   var eventFired = false;
   var data = 'foo';
-  goog.events.listen(webChannel, goog.net.WebChannel.EventType.MESSAGE,
-      function(e) {
+  goog.events.listen(
+      webChannel, goog.net.WebChannel.EventType.MESSAGE, function(e) {
         eventFired = true;
         assertEquals(e.data, data);
       });
@@ -172,114 +266,40 @@ function testChannelMessage() {
 
 /**
  * Simulates the WebChannelBase firing the open event for the given channel.
- * @param {!MockWebChannelBase} bc The mock WebChannelBase.
+ * @param {!goog.labs.net.webChannel.WebChannelBase} channel The WebChannelBase.
  */
-function simulateOpenEvent(bc) {
-  assertNotNull(bc.getHandler());
-  bc.getHandler().channelOpened();
+function simulateOpenEvent(channel) {
+  assertNotNull(channel.getHandler());
+  channel.getHandler().channelOpened();
 }
 
 
 /**
  * Simulates the WebChannelBase firing the close event for the given channel.
- * @param {!MockWebChannelBase} bc The mock WebChannelBase.
+ * @param {!goog.labs.net.webChannel.WebChannelBase} channel The WebChannelBase.
  */
-function simulateCloseEvent(bc) {
-  assertNotNull(bc.getHandler());
-  bc.getHandler().channelClosed();
+function simulateCloseEvent(channel) {
+  assertNotNull(channel.getHandler());
+  channel.getHandler().channelClosed();
 }
 
 
 /**
  * Simulates the WebChannelBase firing the error event for the given channel.
- * @param {!MockWebChannelBase} bc The mock WebChannelBase.
+ * @param {!goog.labs.net.webChannel.WebChannelBase} channel The WebChannelBase.
  */
-function simulateErrorEvent(bc) {
-  assertNotNull(bc.getHandler());
-  bc.getHandler().channelError();
+function simulateErrorEvent(channel) {
+  assertNotNull(channel.getHandler());
+  channel.getHandler().channelError();
 }
 
 
 /**
  * Simulates the WebChannelBase firing the message event for the given channel.
- * @param {!MockWebChannelBase} bc The mock WebChannelBase.
+ * @param {!goog.labs.net.webChannel.WebChannelBase} channel The WebChannelBase.
  * @param {String} data The message data.
  */
-function simulateMessageEvent(bc, data) {
-  assertNotNull(bc.getHandler());
-  bc.getHandler().channelHandleArray(bc, data);
+function simulateMessageEvent(channel, data) {
+  assertNotNull(channel.getHandler());
+  channel.getHandler().channelHandleArray(channel, data);
 }
-
-
-
-/**
- * Mock WebChannelBase constructor. Fields are cached values for validation.
- * @constructor
- * @struct
- */
-MockWebChannelBase = function() {
-  /** @private {?goog.labs.net.webChannel.WebChannelBase.Handler} */
-  this.handler_ = null;
-
-  /** @private {?string} */
-  this.testPath_ = null;
-
-  /** @private {Object} */
-  this.extraHeaders_ = null;
-
-  /** @private {Object} */
-  this.extraUrlParams_ = null;
-};
-
-
-/**
- * Mocks out the setHandler method of the WebChannelBase.
- */
-MockWebChannelBase.prototype.setHandler = function(handler) {
-  this.handler_ = handler;
-};
-
-
-/**
- * Mocks out the getHandler method of the WebChannelBase.
- *
- * @return {?goog.labs.net.webChannel.WebChannelBase.Handler} The handler.
- */
-MockWebChannelBase.prototype.getHandler = function(handler) {
-  return this.handler_;
-};
-
-
-/**
- * Mocks out the connect method of the WebChannelBase.
- */
-MockWebChannelBase.prototype.connect = function(testPath, channelPath,
-    opt_extraUrlParams) {
-  this.testPath_ = testPath;
-  this.extraUrlParams_ = opt_extraUrlParams || null;
-};
-
-
-/**
- * Mocks out the disconnect method of the WebChannelBase.
- */
-MockWebChannelBase.prototype.disconnect = function() {
-  // Nothing to do here.
-};
-
-
-/**
- * Mocks out the sendMap method of the WebChannelBase.
- */
-MockWebChannelBase.prototype.sendMap = function(message) {
-  // Nothing to do here.
-};
-
-
-/**
- * Mocks out the setExtraHeaders method of the WebChannelBase.
- * @param {Object} extraHeaders The HTTP headers.
- */
-MockWebChannelBase.prototype.setExtraHeaders = function(extraHeaders) {
-  this.extraHeaders_ = extraHeaders;
-};

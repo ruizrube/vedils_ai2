@@ -1,5 +1,5 @@
 // -*- mode: java; c-basic-offset: 2; -*-
-// Copyright 2012 Massachusetts Institute of Technology. All rights reserved.
+// Copyright © 2012-2016 Massachusetts Institute of Technology. All rights reserved.
 
 /**
  * @license
@@ -8,6 +8,7 @@
  *
  * @author mckinney@mit.edu (Andrew F. McKinney)
  * @author sharon@google.com (Sharon Perl)
+ * @author ewpatton@mit.edu (Evan W. Patton)
  */
 
 'use strict';
@@ -21,6 +22,13 @@ goog.require('Blockly.TranslationProperties');
 goog.require('Blockly.TranslationEvents');
 goog.require('Blockly.TranslationMethods');
 goog.require('Blockly.TranslationParams');
+
+// App Inventor extensions to Blockly
+goog.require('Blockly.TypeBlock');
+
+if (Blockly.Component === undefined) Blockly.Component = {};
+if (Blockly.ComponentTypes === undefined) Blockly.ComponentTypes = {};
+if (Blockly.ComponentInstances === undefined) Blockly.ComponentInstances = {};
 
 Blockly.Component.add = function(name, uid) {
   if (Blockly.ComponentInstances.haveInstance(name, uid)) {
@@ -37,7 +45,7 @@ Blockly.Component.add = function(name, uid) {
  * @param oldname the Component's current name, e.g., Button1
  * @param newname the newname the component will be given, e.g., Button2
  * @param uid the component's unique id
- * 
+ *
  * Here are the various places that a component's name must be changed, using Button1
  *  as an example name.
  * Blockly.ComponentInstances -- an index containing an entry for each Component used by the app
@@ -162,6 +170,22 @@ Blockly.Component.buildComponentMap = function(warnings, errors, forRepl, compil
 };
 
 /**
+ * Verify all blocks after a Component upgrade
+ */
+Blockly.Component.verifyAllBlocks = function () {
+  // We can only verify blocks once the workspace has been injected...
+  if (Blockly.mainWorkspace != null) {
+    var allBlocks = Blockly.mainWorkspace.getAllBlocks();
+    for (var x = 0, block; block = allBlocks[x]; ++x) {
+      if (block.category != 'Component') {
+        continue;
+      }
+      block.verify();
+    }
+  }
+};
+
+/**
  * Blockly.ComponentTypes
  *
  * Object whose fields are names of component types. For a given component type object, the "componentInfo"
@@ -175,7 +199,9 @@ Blockly.Component.buildComponentMap = function(warnings, errors, forRepl, compil
  *
  * The componentInfo has the following format (where upper-case strings are
  * non-terminals and lower-case strings are literals):
- * { "name": "COMPONENT-TYPE-NAME",
+ * { "type": "COMPONENT-TYPE",
+ *   "name": "COMPONENT-TYPE-NAME",
+ *   "external": "true"|"false",
  *   "version": "VERSION",
  *   "categoryString": "PALETTE-CATEGORY",
  *   "helpString": "DESCRIPTION",
@@ -219,14 +245,18 @@ Blockly.ComponentTypes.haveType = function(typeName) {
 /**
  * Populate Blockly.ComponentTypes object
  *
+ * @param projectId the projectid whose types we are loading. Note: projectId is
+ *        a string at this point. We will convert it to a long in Java code we call
+ *        later.
  */
-Blockly.ComponentTypes.populateTypes = function() {
-  
-  var componentInfoArray = JSON.parse(window.parent.BlocklyPanel_getComponentsJSONString());
+Blockly.ComponentTypes.populateTypes = function(projectId) {
+  var componentInfoArray = JSON.parse(window.parent.BlocklyPanel_getComponentsJSONString(projectId));
   for(var i=0;i<componentInfoArray.length;i++) {
     var componentInfo = componentInfoArray[i];
     var typeName = componentInfo.name;
     Blockly.ComponentTypes[typeName] = {};
+    Blockly.ComponentTypes[typeName].type = componentInfo.type;
+    Blockly.ComponentTypes[typeName].external = componentInfo.external;
     Blockly.ComponentTypes[typeName].componentInfo = componentInfo;
     Blockly.ComponentTypes[typeName].eventDictionary = {};
     Blockly.ComponentTypes[typeName].methodDictionary = {};
@@ -286,16 +316,15 @@ Blockly.ComponentInstances.getInstanceNames = function() {
     }
   }
   return instanceNames;
-}
+};
 
 Blockly.Component.instanceNameToSemanticTypeValue = function(instanceName) {
   return window.parent.BlocklyPanel_getComponentInstanceSemanticTypeValue(Blockly.BlocklyEditor.formName,instanceName);
-}
+};
 
 Blockly.Component.instanceNameToTypeName = function(instanceName) {
   return window.parent.BlocklyPanel_getComponentInstanceTypeName(Blockly.BlocklyEditor.formName,instanceName);
-}
-
+};
 
 Blockly.Component.getComponentNamesByType = function(componentType) {
   var componentNameArray = [];

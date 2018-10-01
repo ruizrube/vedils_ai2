@@ -44,9 +44,10 @@ goog.require('goog.events.EventTarget');
  *     which this code is executing.
  * @constructor
  * @extends {goog.events.EventTarget}
+ * @final
  */
 goog.labs.style.PixelDensityMonitor = function(opt_domHelper) {
-  goog.base(this);
+  goog.labs.style.PixelDensityMonitor.base(this, 'constructor');
 
   /**
    * @type {Window}
@@ -74,8 +75,10 @@ goog.labs.style.PixelDensityMonitor = function(opt_domHelper) {
    * @type {?MediaQueryList}
    * @private
    */
-  this.mediaQueryList_ = this.window_.matchMedia ? this.window_.matchMedia(
-      goog.labs.style.PixelDensityMonitor.HIGH_DENSITY_QUERY_) : null;
+  this.mediaQueryList_ = this.window_.matchMedia ?
+      this.window_.matchMedia(
+          goog.labs.style.PixelDensityMonitor.HIGH_DENSITY_QUERY_) :
+      null;
 };
 goog.inherits(goog.labs.style.PixelDensityMonitor, goog.events.EventTarget);
 
@@ -174,5 +177,5 @@ goog.labs.style.PixelDensityMonitor.prototype.disposeInternal = function() {
   if (this.mediaQueryList_) {
     this.mediaQueryList_.removeListener(this.listener_);
   }
-  goog.base(this, 'disposeInternal');
+  goog.labs.style.PixelDensityMonitor.base(this, 'disposeInternal');
 };

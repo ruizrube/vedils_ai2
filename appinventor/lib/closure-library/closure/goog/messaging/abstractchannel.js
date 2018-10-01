@@ -24,10 +24,9 @@
 goog.provide('goog.messaging.AbstractChannel');
 
 goog.require('goog.Disposable');
-goog.require('goog.debug');
 goog.require('goog.json');
 goog.require('goog.log');
-goog.require('goog.messaging.MessageChannel'); // interface
+goog.require('goog.messaging.MessageChannel');  // interface
 
 
 
@@ -39,11 +38,11 @@ goog.require('goog.messaging.MessageChannel'); // interface
  * @implements {goog.messaging.MessageChannel}
  */
 goog.messaging.AbstractChannel = function() {
-  goog.base(this);
+  goog.messaging.AbstractChannel.base(this, 'constructor');
 
   /**
    * The services registered for this channel.
-   * @type {Object.<string, {callback: function((string|!Object)),
+   * @type {Object<string, {callback: function((string|!Object)),
                              objectPayload: boolean}>}
    * @private
    */
@@ -95,8 +94,8 @@ goog.messaging.AbstractChannel.prototype.isConnected = function() {
 
 
 /** @override */
-goog.messaging.AbstractChannel.prototype.registerService =
-    function(serviceName, callback, opt_objectPayload) {
+goog.messaging.AbstractChannel.prototype.registerService = function(
+    serviceName, callback, opt_objectPayload) {
   this.services_[serviceName] = {
     callback: callback,
     objectPayload: !!opt_objectPayload
@@ -105,8 +104,8 @@ goog.messaging.AbstractChannel.prototype.registerService =
 
 
 /** @override */
-goog.messaging.AbstractChannel.prototype.registerDefaultService =
-    function(callback) {
+goog.messaging.AbstractChannel.prototype.registerDefaultService = function(
+    callback) {
   this.defaultService_ = callback;
 };
 
@@ -189,9 +188,9 @@ goog.messaging.AbstractChannel.prototype.decodePayload = function(
     try {
       return goog.json.parse(payload);
     } catch (err) {
-      goog.log.warning(this.logger,
-          'Expected JSON payload for ' + serviceName +
-          ', was "' + payload + '"');
+      goog.log.warning(
+          this.logger, 'Expected JSON payload for ' + serviceName + ', was "' +
+              payload + '"');
       return null;
     }
   } else if (!objectPayload && !goog.isString(payload)) {
@@ -203,7 +202,7 @@ goog.messaging.AbstractChannel.prototype.decodePayload = function(
 
 /** @override */
 goog.messaging.AbstractChannel.prototype.disposeInternal = function() {
-  goog.base(this, 'disposeInternal');
+  goog.messaging.AbstractChannel.base(this, 'disposeInternal');
   delete this.logger;
   delete this.services_;
   delete this.defaultService_;

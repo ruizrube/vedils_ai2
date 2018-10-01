@@ -1,6 +1,6 @@
 // -*- mode: java; c-basic-offset: 2; -*-
 // Copyright 2009-2011 Google, All Rights reserved
-// Copyright 2011-2012 MIT, All rights reserved
+// Copyright 2011-2017 MIT, All rights reserved
 // Released under the Apache License, Version 2.0
 // http://www.apache.org/licenses/LICENSE-2.0
 package com.google.appinventor.components.common;
@@ -340,5 +340,100 @@ public class PropertyTypeConstants {
 	 */
 	public static final String PROPERTY_TYPE_SCALING = "scaling";
 	
-	
+
+  /**
+   * A latitude, longitude pair expressed as a comma-separated string.
+   * @see com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidGeographicPointPropertyEditor
+   */
+  public static final String PROPERTY_TYPE_GEOGRAPHIC_POINT = "geographic_point";
+
+  
+  /**
+   * Floating-point values limited to valid latitudes [-90, 90].
+   * @see com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidFloatRangePropertyEditor
+   */
+  public static final String PROPERTY_TYPE_LATITUDE = "latitude";
+
+
+  /**
+   * Lego EV3 sensor ports.
+   * @see
+   * com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidLegoEv3SensorPortChoicePropertyEditor
+   */
+  public static final String PROPERTY_TYPE_LEGO_EV3_SENSOR_PORT = "lego_ev3_sensor_port";
+
+  /**
+   * Lego EV3 sound sensor mode.
+   * @see
+   * com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidLegoEv3SensorSoundModeChoicePropertyEditor
+   */
+  public static final String PROPERTY_TYPE_LEGO_EV3_SOUND_SENSOR_MODE = "lego_ev3_sound_sensor_mode";
+
+  /**
+   * Lego EV3 color sensor mode.
+   * @see
+   * com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidLegoEv3SensorColorModeChoicePropertyEditor
+   */
+  public static final String PROPERTY_TYPE_LEGO_EV3_COLOR_SENSOR_MODE = "lego_ev3_color_sensor_mode";
+
+  /**
+   * Lego EV3 ultrasonic sensor mode.
+   * @see
+   * com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidLegoEv3UltrasonicSensorModeChoicePropertyEditor
+   */
+  public static final String PROPERTY_TYPE_LEGO_EV3_ULTRASONIC_SENSOR_MODE = "lego_ev3_ultrasonic_sensor_mode";
+
+  /**
+   * Lego EV3 gyro sensor mode.
+   * @see
+   * com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidLegoEv3SensorgyroModeChoicePropertyEditor
+   */
+  public static final String PROPERTY_TYPE_LEGO_EV3_GYRO_SENSOR_MODE = "lego_ev3_gyro_sensor_mode";
+
+  /**
+   * Colors recognizable by Lego EV3 sensors.
+   * @see
+   * com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidColorChoicePropertyEditor#EV3_GENERATED_COLORS
+   */
+  public static final String PROPERTY_TYPE_LEGO_EV3_GENERATED_COLOR = "lego_ev3_generated_color";
+
+  /**
+   * Choices.
+   * @see
+   * com.google.appinventor.client.widgets.properties.ChoicePropertyEditor
+   */
+  public static final String PROPERTY_TYPE_CHOICES = "choices";
+
+  /**
+   * Floating-point values in the range of valid longitudes [-180, 180].
+   * @see com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidFloatRangePropertyEditor
+   */
+  public static final String PROPERTY_TYPE_LONGITUDE = "longitude";
+
+  /**
+   * Map types supported by the Map component.
+   * @see
+   * com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidMapTypePropertyEditor
+   */
+  public static final String PROPERTY_TYPE_MAP_TYPE = "map_type";
+
+  /**
+   * Integer values limited to the range of valid map zoom levels [1, 18].
+   * @see com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidMapZoomPropertyEditor
+   */
+  public static final String PROPERTY_TYPE_MAP_ZOOM = "map_zoom";
+
+  /**
+   * GeoJSON from media or URL for the FeatureCollection component.
+   * @see
+   *  com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidGeoJSONPropertyEditor
+   */
+  public static final String PROPERTY_TYPE_GEOJSON_TYPE = "geojson_type";
+  
+
+  /**
+   * Choices of theming for App Inventor apps.
+   * See {@link com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidThemeChoicePropertyEditor}
+   */
+  public static final String PROPERTY_TYPE_THEME = "theme";
 }

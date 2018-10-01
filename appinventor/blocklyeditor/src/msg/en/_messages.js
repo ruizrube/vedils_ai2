@@ -1,11 +1,11 @@
 // -*- mode: java; c-basic-offset: 2; -*-
-// Copyright 2012 Massachusetts Institute of Technology. All rights reserved.
+// Copyright © 2012-2016 Massachusetts Institute of Technology. All rights reserved.
 
 /**
  * Visual Blocks Language
  *
- * Copyright 2012 Google Inc.
- * http://blockly.googlecode.com/
+ * Copyright © 2012 Google Inc.
+ * Copyright © 2012-2017 Massachusetts Institute of Technology
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,9 @@
  */
 'use strict';
 
-goog.provide('Blockly.Msg.en');
+goog.provide('AI.Blockly.Msg.en');
+
+goog.require('Blockly.Msg.en');
 
 /**
  * Due to the frequency of long strings, the 80-column wrap rule need not apply
@@ -39,6 +41,9 @@ Blockly.Msg.en.switch_language_to_english = {
   helpUrl: '',
   init: function() {
 // Context menus.
+    Blockly.Msg.UNDO = 'Undo';
+    Blockly.Msg.REDO = 'Redo';
+    Blockly.Msg.CLEAN_UP = 'Clean up Blocks';
     Blockly.Msg.DUPLICATE_BLOCK = 'Duplicate';
     Blockly.Msg.REMOVE_COMMENT = 'Remove Comment';
     Blockly.Msg.ADD_COMMENT = 'Add Comment';
@@ -46,6 +51,8 @@ Blockly.Msg.en.switch_language_to_english = {
     Blockly.Msg.INLINE_INPUTS = 'Inline Inputs';
     Blockly.Msg.HORIZONTAL_PARAMETERS = 'Arrange Parameters Horizontally';
     Blockly.Msg.VERTICAL_PARAMETERS = 'Arrange Parameters Vertically';
+    Blockly.Msg.CONFIRM_DELETE = 'Confirm deletion';
+    Blockly.Msg.DELETE_ALL_BLOCKS = "Delete all %1 blocks?";
     Blockly.Msg.DELETE_BLOCK = 'Delete Block';
     Blockly.Msg.DELETE_X_BLOCKS = 'Delete %1 Blocks';
     Blockly.Msg.COLLAPSE_BLOCK = 'Collapse Block';
@@ -64,6 +71,7 @@ Blockly.Msg.en.switch_language_to_english = {
     Blockly.Msg.SORT_C = 'Sort Blocks by Category';
     Blockly.Msg.COPY_TO_BACKPACK = 'Add to Backpack';
     Blockly.Msg.COPY_ALLBLOCKS = 'Copy All Blocks to Backpack';
+    Blockly.Msg.REMOVE_FROM_BACKPACK = 'Remove from Backpack';
     Blockly.Msg.BACKPACK_GET = 'Paste All Blocks from Backpack';
     Blockly.Msg.BACKPACK_EMPTY = 'Empty the Backpack';
     Blockly.Msg.BACKPACK_CONFIRM_EMPTY = 'Are you sure you want to empty the backpack?';
@@ -73,11 +81,16 @@ Blockly.Msg.en.switch_language_to_english = {
    " and paste them into another project or screen. " +
    " To copy, you can drag-and-drop blocks into the Backpack. To paste, click on the Backpack icon and " +
    " drag-and-drop blocks into the workspace." +
-   "</p><p>The contents of the Backpack will persist throughout " +
-   " an App Inventor session. When you quit App Inventor or refresh its web page in the browser, " +
-   " the Backpack will be re-initialized -- i.e., emptied." +
+   "</p><p>If you leave MIT App Inventor with blocks left in your backpack, " +
+   " they will be there the next time you login." +
    "</p><p>For further documentation and a 'how to' video, see:" +
    '</p><p><a href="http://ai2.appinventor.mit.edu/reference/other/backpack.html" target="_blank">http://ai2.appinventor.mit.edu/reference/other/backpack.html</a>';
+    Blockly.Msg.ENABLE_GRID = 'Enable Workspace Grid';
+    Blockly.Msg.DISABLE_GRID = 'Disable Workspace Grid';
+    Blockly.Msg.ENABLE_SNAPPING = 'Enable Snap to Grid';
+    Blockly.Msg.DISABLE_SNAPPING = 'Disable Snap to Grid';
+    Blockly.Msg.DISABLE_ALL_BLOCKS = 'Disable All Blocks';
+    Blockly.Msg.ENABLE_ALL_BLOCKS = 'Enable All Blocks';
 
 // Variable renaming.
     Blockly.MSG_CHANGE_VALUE_TITLE = 'Change value:';
@@ -95,6 +108,8 @@ Blockly.Msg.en.switch_language_to_english = {
     Blockly.ERROR_SELECT_VALID_ITEM_FROM_DROPDOWN = "Select a valid item in the drop down.";
     Blockly.ERROR_DUPLICATE_EVENT_HANDLER = "This is a duplicate event handler for this component.";
     Blockly.ERROR_COMPONENT_DOES_NOT_EXIST = "Component does not exist";
+    Blockly.ERROR_BLOCK_IS_NOT_DEFINED = "This block is not defined. Delete this block!";
+    Blockly.ERROR_BREAK_ONLY_IN_LOOP = "The break block should be used only within loops";
 
 // Colour Blocks.
     Blockly.Msg.LANG_COLOUR_PICKER_HELPURL = 'http://appinventor.mit.edu/explore/ai2/support/blocks/colors#basic';
@@ -296,6 +311,11 @@ Blockly.Msg.en.switch_language_to_english = {
     Blockly.Msg.LANG_CONTROLS_CLOSE_SCREEN_WITH_PLAIN_TEXT_TOOLTIP = 'Closes the current screen and returns text to the app that '
         + 'opened this one.   This command is for returning text to non-App Inventor activities, not to App Inventor screens. '
         + 'For App Inventor Screens, as in multiple screen apps, use Close Screen with Value, not Close Screen with Plain Text.';
+
+    Blockly.Msg.LANG_CONTROLS_BREAK_HELPURL = 'http://appinventor.mit.edu/explore/ai2/support/blocks/control#break';
+    Blockly.Msg.LANG_CONTROLS_BREAK_TITLE = 'break';
+    Blockly.Msg.LANG_CONTROLS_BREAK_INPUT_TEXT = 'value';
+    Blockly.Msg.LANG_CONTROLS_BREAK_COLLAPSED_TEXT = 'break';
 
 // Logic Blocks.
     Blockly.Msg.LANG_CATEGORY_LOGIC = 'Logic';
@@ -699,6 +719,11 @@ Blockly.Msg.en.switch_language_to_english = {
     Blockly.Msg.LANG_TEXT_REPLACE_ALL_TOOLTIP = 'Returns a new text obtained by replacing all occurrences\n'
         + 'of the segment with the replacement.';
 
+    Blockly.Msg.LANG_TEXT_TEXT_IS_STRING_HELPURL = 'http://appinventor.mit.edu/explore/ai2/support/blocks/text#isstring';
+    Blockly.Msg.LANG_TEXT_TEXT_IS_STRING_TITLE = 'is a string?';
+    Blockly.Msg.LANG_TEXT_TEXT_IS_STRING_INPUT_THING = 'thing';
+    Blockly.Msg.LANG_TEXT_TEXT_IS_STRING_TOOLTIP = 'Returns true if <code>thing</code> is a string.';
+
 // Lists Blocks.
     Blockly.Msg.LANG_CATEGORY_LISTS = 'Lists';
 //Blockly.Msg.LANG_LISTS_CREATE_EMPTY_HELPURL = 'http://en.wikipedia.org/wiki/Linked_list#Empty_lists';
@@ -979,6 +1004,8 @@ Blockly.Msg.en.switch_language_to_english = {
     Blockly.Msg.LANG_PROCEDURES_MUTATORARG_TOOLTIP = '';
 
 // Components Blocks.
+    Blockly.Msg.UNDEFINED_BLOCK_TOOLTIP = "This block is not defined. Delete this block!";
+
     Blockly.Msg.LANG_COMPONENT_BLOCK_HELPURL = '';
     Blockly.Msg.LANG_COMPONENT_BLOCK_TITLE_WHEN = 'when ';
     Blockly.Msg.LANG_COMPONENT_BLOCK_TITLE_DO = 'do';
@@ -1367,4 +1394,5 @@ Blockly.Msg.en.switch_language_to_english = {
 };
 
 // Initalize language definition to English
+Blockly.Msg.en.switch_blockly_language_to_en.init();
 Blockly.Msg.en.switch_language_to_english.init();

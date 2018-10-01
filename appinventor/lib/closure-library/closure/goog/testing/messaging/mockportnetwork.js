@@ -18,9 +18,10 @@
  *
  */
 
+goog.setTestOnly('goog.testing.messaging.MockPortNetwork');
 goog.provide('goog.testing.messaging.MockPortNetwork');
 
-goog.require('goog.messaging.PortNetwork'); // interface
+goog.require('goog.messaging.PortNetwork');  // interface
 goog.require('goog.testing.messaging.MockMessageChannel');
 
 
@@ -32,6 +33,7 @@ goog.require('goog.testing.messaging.MockMessageChannel');
  *     the mock message channels.
  * @constructor
  * @implements {goog.messaging.PortNetwork}
+ * @final
  */
 goog.testing.messaging.MockPortNetwork = function(mockControl) {
   /**
@@ -43,7 +45,7 @@ goog.testing.messaging.MockPortNetwork = function(mockControl) {
 
   /**
    * The mock ports that have been created.
-   * @type {!Object.<!goog.testing.messaging.MockMessageChannel>}
+   * @type {!Object<!goog.testing.messaging.MockMessageChannel>}
    * @private
    */
   this.ports_ = {};

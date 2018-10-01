@@ -29,15 +29,16 @@ goog.require('goog.storage.RichStorage');
 
 
 /**
- * Provides a storage with expirning keys and a collection method.
+ * Provides a storage with expiring keys and a collection method.
  *
  * @param {!goog.storage.mechanism.IterableMechanism} mechanism The underlying
  *     storage mechanism.
  * @constructor
+ * @struct
  * @extends {goog.storage.ExpiringStorage}
  */
 goog.storage.CollectableStorage = function(mechanism) {
-  goog.base(this, mechanism);
+  goog.storage.CollectableStorage.base(this, 'constructor', mechanism);
 };
 goog.inherits(goog.storage.CollectableStorage, goog.storage.ExpiringStorage);
 
@@ -47,11 +48,11 @@ goog.inherits(goog.storage.CollectableStorage, goog.storage.ExpiringStorage);
  *
  * @param {goog.iter.Iterable} keys keys to iterate over.
  * @param {boolean=} opt_strict Also return invalid keys.
- * @return {!Array.<string>} Keys of values that expired.
+ * @return {!Array<string>} Keys of values that expired.
  * @private
  */
-goog.storage.CollectableStorage.prototype.getExpiredKeys_ =
-    function(keys, opt_strict) {
+goog.storage.CollectableStorage.prototype.getExpiredKeys_ = function(
+    keys, opt_strict) {
   var keysToRemove = [];
   goog.iter.forEach(keys, function(key) {
     // Get the wrapper.
@@ -106,9 +107,9 @@ goog.storage.CollectableStorage.prototype.getExpiredKeys_ =
 /**
  * Cleans up the storage by removing expired keys.
  *
- * @param {Array.<string>} keys List of all keys.
+ * @param {goog.iter.Iterable} keys List of all keys.
  * @param {boolean=} opt_strict Also remove invalid keys.
- * @return {!Array.<string>} a list of expired keys.
+ * @return {!Array<string>} a list of expired keys.
  * @protected
  */
 goog.storage.CollectableStorage.prototype.collectInternal = function(
@@ -127,5 +128,8 @@ goog.storage.CollectableStorage.prototype.collectInternal = function(
  * @param {boolean=} opt_strict Also remove invalid keys.
  */
 goog.storage.CollectableStorage.prototype.collect = function(opt_strict) {
-  this.collectInternal(this.mechanism.__iterator__(true), opt_strict);
+  this.collectInternal(
+      /** @type {goog.storage.mechanism.IterableMechanism} */ (this.mechanism)
+          .__iterator__(true),
+      opt_strict);
 };

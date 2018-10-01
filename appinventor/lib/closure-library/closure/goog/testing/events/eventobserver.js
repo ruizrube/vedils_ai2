@@ -32,6 +32,7 @@
  * @author nnaze@google.com (Nathan Naze)
  */
 
+goog.setTestOnly('goog.testing.events.EventObserver');
 goog.provide('goog.testing.events.EventObserver');
 
 goog.require('goog.array');
@@ -44,13 +45,14 @@ goog.require('goog.array');
  * @see goog.events.listen
  * @see goog.events.EventHandler
  * @constructor
+ * @final
  */
 goog.testing.events.EventObserver = function() {
 
   /**
    * A list of events handled by the observer in order of handling, oldest to
    * newest.
-   * @type {!Array.<!goog.events.Event>}
+   * @type {!Array<!goog.events.Event>}
    * @private
    */
   this.events_ = [];
@@ -71,16 +73,21 @@ goog.testing.events.EventObserver.prototype.handleEvent = function(e) {
 
 /**
  * @param {string=} opt_type If given, only return events of this type.
- * @return {!Array.<!goog.events.Event>} The events handled, oldest to newest.
+ * @return {!Array<!goog.events.Event>} The events handled, oldest to newest.
  */
 goog.testing.events.EventObserver.prototype.getEvents = function(opt_type) {
   var events = goog.array.clone(this.events_);
 
   if (opt_type) {
-    events = goog.array.filter(events, function(event) {
-      return event.type == opt_type;
-    });
+    events = goog.array.filter(
+        events, function(event) { return event.type == opt_type; });
   }
 
   return events;
+};
+
+
+/** Clears the list of events seen by this observer. */
+goog.testing.events.EventObserver.prototype.clear = function() {
+  this.events_ = [];
 };

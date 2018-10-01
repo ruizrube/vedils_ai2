@@ -112,8 +112,10 @@ public final class EditorManager {
         // Tell the DesignToolbar about this project
         Ode.getInstance().getDesignToolbar().addProject(projectId, projectRootNode.getName());
 
+        // Prepare the project before Loading into the editor.
+        // Components are prepared before the project is actually loaded.
         // Load the project into the editor. The actual loading is asynchronous.
-        projectEditor.loadProject();
+        projectEditor.processProject();
       }
     }
     return projectEditor;
@@ -193,6 +195,15 @@ public final class EditorManager {
       OdeLog.log("Not saving blocks for " + fileEditor.getFileId() + " because it is damaged.");
     }
     scheduleAutoSaveTimer();
+  }
+
+  /**
+   * Check whether there is an open project editor.
+   *
+   * @return true if at least one project is open (or in the process of opening), otherwise false
+   */
+  public boolean hasOpenEditor() {
+    return openProjectEditors.size() > 0;
   }
 
   /**

@@ -16,7 +16,6 @@
  * @fileoverview Plain text spell checker implementation.
  *
  * @author eae@google.com (Emil A Eklund)
- * @author sergeys@google.com (Sergey Solyanik)
  * @see ../demos/plaintextspellchecker.html
  */
 
@@ -26,6 +25,7 @@ goog.require('goog.Timer');
 goog.require('goog.a11y.aria');
 goog.require('goog.asserts');
 goog.require('goog.dom');
+goog.require('goog.dom.TagName');
 goog.require('goog.events.EventHandler');
 goog.require('goog.events.EventType');
 goog.require('goog.events.KeyCodes');
@@ -47,17 +47,16 @@ goog.require('goog.userAgent');
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
  * @extends {goog.ui.AbstractSpellChecker}
+ * @final
  */
 goog.ui.PlainTextSpellChecker = function(handler, opt_domHelper) {
   goog.ui.AbstractSpellChecker.call(this, handler, opt_domHelper);
 
   /**
    * Correction UI container.
-   * @type {HTMLDivElement}
-   * @private
+   * @private {!HTMLDivElement}
    */
-  this.overlay_ = /** @type {HTMLDivElement} */
-      (this.getDomHelper().createDom('div'));
+  this.overlay_ = this.getDomHelper().createDom(goog.dom.TagName.DIV);
   goog.style.setPreWrap(this.overlay_);
 
   /**
@@ -119,15 +118,6 @@ goog.ui.PlainTextSpellChecker.prototype.winSize_;
 
 
 /**
- * Numeric Id of the element that has focus. 0 when not set.
- *
- * @type {number}
- * @private
- */
-goog.ui.AbstractSpellChecker.prototype.focusedElementId_ = 0;
-
-
-/**
  * Event handler for listening to events without leaking.
  * @type {goog.events.EventHandler|undefined}
  * @private
@@ -143,12 +133,25 @@ goog.ui.PlainTextSpellChecker.prototype.eventHandler_;
 goog.ui.PlainTextSpellChecker.prototype.keyHandler_;
 
 
+/** @private {number} */
+goog.ui.PlainTextSpellChecker.prototype.textArrayIndex_;
+
+
+/** @private {!Array<string>} */
+goog.ui.PlainTextSpellChecker.prototype.textArray_;
+
+
+/** @private {!Array<boolean>} */
+goog.ui.PlainTextSpellChecker.prototype.textArrayProcess_;
+
+
 /**
  * Creates the initial DOM representation for the component.
  * @override
  */
 goog.ui.PlainTextSpellChecker.prototype.createDom = function() {
-  this.setElementInternal(this.getDomHelper().createElement('textarea'));
+  this.setElementInternal(
+      this.getDomHelper().createElement(goog.dom.TagName.TEXTAREA));
 };
 
 
@@ -186,8 +189,9 @@ goog.ui.PlainTextSpellChecker.prototype.exitDocument = function() {
  */
 goog.ui.PlainTextSpellChecker.prototype.initSuggestionsMenu = function() {
   goog.ui.PlainTextSpellChecker.superClass_.initSuggestionsMenu.call(this);
-  this.eventHandler_.listen(/** @type {goog.ui.PopupMenu} */ (this.getMenu()),
-      goog.ui.Component.EventType.BLUR, this.onCorrectionBlur_);
+  this.eventHandler_.listen(
+      /** @type {goog.ui.PopupMenu} */ (this.getMenu()),
+      goog.ui.Component.EventType.HIDE, this.onCorrectionHide_);
 };
 
 
@@ -200,7 +204,7 @@ goog.ui.PlainTextSpellChecker.prototype.check = function() {
   this.getElement().readOnly = true;
 
   // Prepare and position correction UI.
-  this.overlay_.innerHTML = '';
+  goog.dom.removeChildren(this.overlay_);
   this.overlay_.className = this.correctionPaneClassName;
   if (this.getElement().parentNode != this.overlay_.parentNode) {
     this.getElement().parentNode.appendChild(this.overlay_);
@@ -223,7 +227,8 @@ goog.ui.PlainTextSpellChecker.prototype.finishCheck_ = function() {
 
   var eh = this.eventHandler_;
   eh.listen(this.overlay_, goog.events.EventType.CLICK, this.onWordClick_);
-  eh.listen(/** @type {goog.events.KeyHandler} */ (this.keyHandler_),
+  eh.listen(
+      /** @type {goog.events.KeyHandler} */ (this.keyHandler_),
       goog.events.KeyHandler.EventType.KEY, this.handleOverlayKeyEvent);
 
   // The position and size of the overlay element needs to be recalculated if
@@ -243,8 +248,9 @@ goog.ui.PlainTextSpellChecker.prototype.finishCheck_ = function() {
  * @private
  */
 goog.ui.PlainTextSpellChecker.prototype.preChargeDictionary_ = function(text) {
-  this.eventHandler_.listen(this.spellCheck,
-      goog.spell.SpellCheck.EventType.READY, this.onDictionaryCharged_, true);
+  this.eventHandler_.listen(
+      this.spellCheck, goog.spell.SpellCheck.EventType.READY,
+      this.onDictionaryCharged_, true);
 
   this.populateDictionary(text, this.dictionaryPreScanSize_);
 };
@@ -258,8 +264,9 @@ goog.ui.PlainTextSpellChecker.prototype.preChargeDictionary_ = function(text) {
  */
 goog.ui.PlainTextSpellChecker.prototype.onDictionaryCharged_ = function(e) {
   e.stopPropagation();
-  this.eventHandler_.unlisten(this.spellCheck,
-      goog.spell.SpellCheck.EventType.READY, this.onDictionaryCharged_, true);
+  this.eventHandler_.unlisten(
+      this.spellCheck, goog.spell.SpellCheck.EventType.READY,
+      this.onDictionaryCharged_, true);
   this.checkAsync_(this.getElement().value);
 };
 
@@ -316,8 +323,8 @@ goog.ui.PlainTextSpellChecker.prototype.initTextArray_ = function(text) {
       break;
     }
     var excludedRange = result[0];
-    var includedRange = text.substr(stringSegmentStart, result.index -
-        stringSegmentStart);
+    var includedRange =
+        text.substr(stringSegmentStart, result.index - stringSegmentStart);
     if (includedRange) {
       this.textArray_.push(includedRange);
       this.textArrayProcess_.push(true);
@@ -382,8 +389,8 @@ goog.ui.PlainTextSpellChecker.prototype.continueAsync_ = function() {
  * @param {goog.spell.SpellCheck.WordStatus} status Status of word.
  * @override
  */
-goog.ui.PlainTextSpellChecker.prototype.processWord = function(node, word,
-    status) {
+goog.ui.PlainTextSpellChecker.prototype.processWord = function(
+    node, word, status) {
   node.appendChild(this.createWordElement(word, status));
 };
 
@@ -404,7 +411,7 @@ goog.ui.PlainTextSpellChecker.prototype.processRange = function(node, text) {
     }
     node.appendChild(this.getDomHelper().createTextNode(result[1]));
     if (result[2]) {
-      node.appendChild(this.getDomHelper().createElement('br'));
+      node.appendChild(this.getDomHelper().createElement(goog.dom.TagName.BR));
     }
   }
 };
@@ -425,11 +432,12 @@ goog.ui.PlainTextSpellChecker.prototype.resume = function() {
 
   if (wasVisible) {
     this.getElement().value = goog.dom.getRawTextContent(this.overlay_);
-    this.overlay_.innerHTML = '';
+    goog.dom.removeChildren(this.overlay_);
 
     var eh = this.eventHandler_;
     eh.unlisten(this.overlay_, goog.events.EventType.CLICK, this.onWordClick_);
-    eh.unlisten(/** @type {goog.events.KeyHandler} */ (this.keyHandler_),
+    eh.unlisten(
+        /** @type {goog.events.KeyHandler} */ (this.keyHandler_),
         goog.events.KeyHandler.EventType.KEY, this.handleOverlayKeyEvent);
 
     var win = goog.dom.getWindow(this.getDomHelper().getDocument()) || window;
@@ -442,11 +450,11 @@ goog.ui.PlainTextSpellChecker.prototype.resume = function() {
  * Returns desired element properties for the specified status.
  *
  * @param {goog.spell.SpellCheck.WordStatus} status Status of word.
- * @return {Object} Properties to apply to word element.
+ * @return {!Object} Properties to apply to word element.
  * @override
  */
-goog.ui.PlainTextSpellChecker.prototype.getElementProperties =
-    function(status) {
+goog.ui.PlainTextSpellChecker.prototype.getElementProperties = function(
+    status) {
   if (status == goog.spell.SpellCheck.WordStatus.INVALID) {
     return {'class': this.invalidWordClassName};
   } else if (status == goog.spell.SpellCheck.WordStatus.CORRECTED) {
@@ -465,7 +473,7 @@ goog.ui.PlainTextSpellChecker.prototype.getElementProperties =
 goog.ui.PlainTextSpellChecker.prototype.onWordClick_ = function(event) {
   if (event.target.className == this.invalidWordClassName ||
       event.target.className == this.correctedWordClassName) {
-    this.showSuggestionsMenu(/** @type {Element} */ (event.target), event);
+    this.showSuggestionsMenu(/** @type {!Element} */ (event.target), event);
 
     // Prevent document click handler from closing the menu.
     event.stopPropagation();
@@ -539,7 +547,8 @@ goog.ui.PlainTextSpellChecker.prototype.disposeInternal = function() {
  * @private
  */
 goog.ui.PlainTextSpellChecker.prototype.initAccessibility_ = function() {
-  goog.asserts.assert(this.overlay_,
+  goog.asserts.assert(
+      this.overlay_,
       'The plain text spell checker DOM element cannot be null.');
   goog.a11y.aria.setRole(this.overlay_, 'region');
   goog.a11y.aria.setState(this.overlay_, 'live', 'assertive');
@@ -554,35 +563,35 @@ goog.ui.PlainTextSpellChecker.prototype.initAccessibility_ = function() {
 /**
  * Handles key down for overlay.
  * @param {goog.events.BrowserEvent} e The browser event.
- * @return {boolean|undefined} The handled value.
+ * @return {boolean} The handled value.
  */
 goog.ui.PlainTextSpellChecker.prototype.handleOverlayKeyEvent = function(e) {
   var handled = false;
   switch (e.keyCode) {
     case goog.events.KeyCodes.RIGHT:
       if (e.ctrlKey) {
-        handled = this.navigate_(goog.ui.AbstractSpellChecker.Direction.NEXT);
+        handled = this.navigate(goog.ui.AbstractSpellChecker.Direction.NEXT);
       }
       break;
 
     case goog.events.KeyCodes.LEFT:
       if (e.ctrlKey) {
-        handled = this.navigate_(
-            goog.ui.AbstractSpellChecker.Direction.PREVIOUS);
+        handled =
+            this.navigate(goog.ui.AbstractSpellChecker.Direction.PREVIOUS);
       }
       break;
 
     case goog.events.KeyCodes.DOWN:
-      if (this.focusedElementId_) {
-        var el = this.getDomHelper().getElement(this.makeElementId(
-            this.focusedElementId_));
+      if (this.getFocusedElementIndex()) {
+        var el = this.getDomHelper().getElement(
+            this.makeElementId(this.getFocusedElementIndex()));
         if (el) {
           var position = goog.style.getPosition(el);
           var size = goog.style.getSize(el);
           position.x += size.width / 2;
           position.y += size.height / 2;
           this.showSuggestionsMenu(el, position);
-          handled = undefined;
+          handled = true;
         }
       }
       break;
@@ -597,48 +606,14 @@ goog.ui.PlainTextSpellChecker.prototype.handleOverlayKeyEvent = function(e) {
 
 
 /**
- * Navigate keyboard focus in the given direction.
- *
- * @param {goog.ui.AbstractSpellChecker.Direction} direction The direction to
- *     navigate in.
- * @return {boolean} Whether the action is handled here.  If not handled
- *     here, the initiating event may be propagated.
- * @private
- */
-goog.ui.PlainTextSpellChecker.prototype.navigate_ = function(direction) {
-  var handled = false;
-  var previous = direction == goog.ui.AbstractSpellChecker.Direction.PREVIOUS;
-  var lastId = goog.ui.AbstractSpellChecker.getNextId();
-  var focusedId = this.focusedElementId_;
-
-  var el;
-  do {
-    focusedId += previous ? -1 : 1;
-    if (focusedId < 1 || focusedId > lastId) {
-      focusedId = 0;
-      break;
-    }
-  } while (!(el = this.getElementById(focusedId)));
-
-  if (el) {
-    el.focus();
-    this.focusedElementId_ = focusedId;
-    handled = true;
-  }
-
-  return handled;
-};
-
-
-/**
  * Handles correction menu actions.
  *
  * @param {goog.events.Event} event Action event.
  * @override
  */
 goog.ui.PlainTextSpellChecker.prototype.onCorrectionAction = function(event) {
-  goog.ui.PlainTextSpellChecker.superClass_.onCorrectionAction.call(this,
-      event);
+  goog.ui.PlainTextSpellChecker.superClass_.onCorrectionAction.call(
+      this, event);
 
   // In case of editWord base class has already set the focus (on the input),
   // otherwise set the focus back on the word.
@@ -649,11 +624,12 @@ goog.ui.PlainTextSpellChecker.prototype.onCorrectionAction = function(event) {
 
 
 /**
- * Handles blur on the menu.
+ * Restores focus when the suggestion menu is hidden.
+ *
  * @param {goog.events.BrowserEvent} event Blur event.
  * @private
  */
-goog.ui.PlainTextSpellChecker.prototype.onCorrectionBlur_ = function(event) {
+goog.ui.PlainTextSpellChecker.prototype.onCorrectionHide_ = function(event) {
   this.reFocus_();
 };
 
@@ -663,7 +639,7 @@ goog.ui.PlainTextSpellChecker.prototype.onCorrectionBlur_ = function(event) {
  * @private
  */
 goog.ui.PlainTextSpellChecker.prototype.reFocus_ = function() {
-  var el = this.getElementById(this.focusedElementId_);
+  var el = this.getElementByIndex(this.getFocusedElementIndex());
   if (el) {
     el.focus();
   } else {

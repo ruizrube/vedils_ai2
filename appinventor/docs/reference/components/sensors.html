@@ -80,8 +80,8 @@
       }
       #logo img{
       /*background: url(../images/logo_text.png) no-repeat;*/
-      width: auto;
-      height: 50px;
+      width: 180px;
+      height: 40px;
       display: block;
       }
       #logo img:hover {
@@ -417,7 +417,7 @@
         <div id="top_bar">
           <div id="branding">
             <div id="logo"><a class="active" title="Home page" href="http://appinventor.mit.edu">
-                <img alt="Explore MIT App Inventor logo" src="images/logo2.png" /></a></div>
+                <img alt="Explore MIT App Inventor logo" src="images/codi_long.png" /></a></div>
           </div>
           <div class="nav clearfix" id="menu-bar">
             <nav id="block-superfish-1" class="block block-superfish block-odd block-count-1 block-region-menu-bar menu-wrapper clearfix" role="navigation">
@@ -456,6 +456,7 @@
                     <li> <a href="#LocationSensor"> LocationSensor </a></li>
                     <li> <a href="#NearField">NearField</a></li>
                     <li> <a href="#OrientationSensor"> OrientationSensor </a>
+                    <li> <a href="#Pedometer">Pedometer</a></li>
                     <li> <a href="#ProximitySensor"> ProximitySensor </a>
                     </li>
                   </ul>
@@ -466,7 +467,7 @@
 <p>Non-visible component that can detect shaking and measure acceleration approximately in three dimensions using SI units (m/s<sup>2</sup>).  The components are: <ul>
 <li> <strong>xAccel</strong>: 0 when the phone is at rest on a flat      surface, positive when the phone is tilted to the right (i.e.,      its left side is raised), and negative when the phone is tilted      to the left (i.e., its right size is raised).</li>
  <li> <strong>yAccel</strong>: 0 when the phone is at rest on a flat      surface, positive when its bottom is raised, and negative when      its top is raised. </li>
- <li> <strong>zAccel</strong>: Equal to -9.8 (earth's gravity in meters per      second per second when the device is at rest parallel to the ground      with the display facing up,      0 when perpindicular to the ground, and +9.8 when facing down.       The value can also be affected by accelerating it with or against      gravity. </li></ul></p>
+ <li> <strong>zAccel</strong>: Equal to -9.8 (earth's gravity in meters per      second per second when the device is at rest parallel to the ground      with the display facing up,      0 when perpendicular to the ground, and +9.8 when facing down.       The value can also be affected by accelerating it with or against      gravity. </li></ul></p>
 
 <h3>Properties</h3>
 <dl>
@@ -474,6 +475,20 @@
   <dd></dd>
   <dt><code>Enabled</code></dt>
   <dd></dd>
+  <dt><code>LegacyMode</code> (designer only)</dt>
+  <dd>Prior to the release that added this property the AccelerometerSensor
+    component passed through sensor values directly as received from the
+    Android system. However these values do not compensate for tablets
+    that default to Landscape mode, requiring the MIT App Inventor
+    programmer to compensate. However compensating would result in
+    incorrect results in Portrait mode devices such as phones.
+    We now detect Landscape mode tablets and perform the compensation.
+    However if your project is already compensating for the change, you
+    will now get incorrect results. Although our preferred solution is for
+    you to update your project, you can also just set this property to “true”
+    and our compensation code will be deactivated. Note: We recommend that
+    you update your project as we may remove this property in a future
+    release.</dd>
   <dt><code>MinimumInterval</code></dt>
   <dd>The minimum interval, in milliseconds, between phone shakes</dd>
   <dt><code>Sensitivity</code></dt>
@@ -524,7 +539,7 @@ none
  <h2 id="Clock"> Clock </h2>
   <img src="images/clock.png" alt="" />
   <p>Non-visible component that provides the instant in time using the internal clock on the phone.It can fire a timer at regularly set intervals and perform time calculations, manipulations, and conversions.</p>
-  <p>Methods to convert an instant to text are also available. Acceptable patterns are empty string, MM/DD/YYYY HH:mm:ss a, or MMM d, yyyy HH:mm. The empty string will provide the default format, which is "MMM d, yyyy HH:mm:ss a" for FormatDateTime, "MMM d, yyyy" for FormatDate. To see all possible format, please see <a href="https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html">here</a>. </p>
+  <p>Methods to convert an instant to text are also available. Acceptable patterns are empty string, MM/dd/YYYY HH:mm:ss a, or MMM d, yyyy HH:mm. The empty string will provide the default format, which is "MMM d, yyyy HH:mm:ss a" for FormatDateTime, "MMM d, yyyy" for FormatDate. To see all possible format, please see <a href="https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html">here</a>. </p>
   <p> Date and Time are formatted with InstantInTime and Duration. </p>
   <ul>
       <li> <strong> Instant </strong> : consists of Year, Month, DayOfMonth, Hour, Minute, and Second.
@@ -589,7 +604,7 @@ none
       <dt> <code> number Hour(InstantInTime instant) </code> </dt>
       <dd> Returns the hour of the day(0-23) from the instant </dd>
       <dt> <code> InstantInTime MakeInstant(text from) </code> </dt>
-      <dd> Returns an instant specified by MM/DD/YYYY hh:mm:ss or MM/DD/YYYY or hh:mm. An example text input is "06/22/2015 12:18"</dd>
+      <dd> Returns an instant specified by MM/dd/YYYY hh:mm:ss or MM/dd/YYYY or hh:mm. An example text input is "06/22/2015 12:18"</dd>
       <dt> <code> InstantInTime MakeInstantFromMillis(number millis) </code> </dt>
       <dd> Returns an instant in time specified by the milliseconds since 1970. </dd>
       <dt> <code> number Minute(InstantInTime instant) </code> </dt>
@@ -644,7 +659,7 @@ none
 
 <h2 id="LocationSensor">LocationSensor</h2>
 
-<p>Non-visible component providing location information, including longitude, latitude, altitude (if supported by the device), and address.  This can also perform "geocoding", converting a given address (not necessarily the current one) to a latitude (with the <code>LatitudeFromAddress</code> method) and a longitude (with the <code>LongitudeFromAddress</code> method).</p>
+<p>Non-visible component providing location information, including longitude, latitude, altitude (if supported by the device), speed (if supported by the device), and address.  This can also perform "geocoding", converting a given address (not necessarily the current one) to a latitude (with the <code>LatitudeFromAddress</code> method) and a longitude (with the <code>LongitudeFromAddress</code> method).</p>
 <p>In order to function, the component must have its <code>Enabled</code> property set to True, and the device must have location sensing enabled through wireless networks or GPS satellites (if outdoors).</p>
 Location information might not be immediately available when an app starts.  You'll have to wait a short time for a location provider to be found and used, or wait for the OnLocationChanged event</p>
 
@@ -682,7 +697,7 @@ Location information might not be immediately available when an app starts.  You
 
 <h3>Events</h3>
 <dl>
-  <dt><code>LocationChanged(number latitude, number longitude, number altitude)</code></dt>
+  <dt><code>LocationChanged(number latitude, number longitude, number altitude, number speed)</code></dt>
   <dd>Indicates that a new location has been detected.</dd>
   <dt><code>StatusChanged(text provider, text status)</code></dt>
   <dd>Indicates that the status of the location provider service has changed, such as when a
@@ -791,6 +806,55 @@ none
                         pitch, number roll) </code> </dt>
                     <dd> Called when the orientation has changed. </dd>
                   </dl>
+
+                  <h2 id="Pedometer">Pedometer</h2>
+
+                  <p>A Component that acts like a Pedometer. It senses
+                  motion via the Accerleromter and attempts to
+                  determine if a step has been taken. Using a
+                  configurable stride length, it can estimate the
+                  distance traveled as well. </p>
+
+                  <h3>Properties</h3>
+                  <dl>
+                    <dt><code><em>Distance</em></code></dt>
+                    <dd>The approximate distance traveled in meters.</dd>
+                    <dt><code><em>ElapsedTime</em></code></dt>
+                    <dd>Time elapsed in milliseconds since the pedometer was started.</dd>
+                    <dt><code><em>SimpleSteps</em></code></dt>
+                    <dd>The number of simple steps taken since the pedometer has started.</dd>
+                    <dt><code>StopDetectionTimeout</code></dt>
+                    <dd>The duration in milliseconds of idleness (no steps detected) after which to go into a "stopped" state</dd>
+                    <dt><code>StrideLength</code></dt>
+                    <dd>Set the average stride length in meters.</dd>
+                    <dt><code><em>WalkSteps</em></code></dt>
+                    <dd>the number of walk steps taken since the pedometer has started.</dd>
+                  </dl>
+
+                  <h3>Events</h3>
+                  <dl>
+                    <dt><code>SimpleStep(number simpleSteps, number distance)</code></dt>
+                    <dd>This event is run when a raw step is detected</dd>
+                    <dt><code>WalkStep(number walkSteps, number distance)</code></dt>
+                    <dd>This event is run when a walking step is detected. A walking step is a step that appears to be involved in forward motion.</dd>
+                  </dl>
+
+                  <h3>Methods</h3>
+                  <dl>
+                    <dt><code>Pause()</code></dt>
+                    <dd>Pause counting of steps and distance.</dd>
+                    <dt><code>Reset()</code></dt>
+                    <dd>Resets the step counter, distance measure and time running.</dd>
+                    <dt><code>Resume()</code></dt>
+                    <dd>Resumes counting, synonym of Start.</dd>
+                    <dt><code>Save()</code></dt>
+                    <dd>Saves the pedometer state to the phone. Permits permits accumulation of steps and distance between invocations of an App that uses the pedometer. Different Apps will have their own saved state.</dd>
+                    <dt><code>Start()</code></dt>
+                    <dd>Start counting steps</dd>
+                    <dt><code>Stop()</code></dt>
+                    <dd>Stop counting steps</dd>
+                  </dl>
+
                   <!-- ===== start: ProximitySensor ==== -->
                   <h2 id="ProximitySensor">ProximitySensor </h2>
                   <p> A sensor component that can measure the proximity of an object (in cm)

@@ -1,11 +1,12 @@
 // -*- mode: java; c-basic-offset: 2; -*-
 // Copyright 2009-2011 Google, All Rights reserved
-// Copyright 2011-2012 MIT, All rights reserved
+// Copyright 2011-2017 MIT, All rights reserved
 // Released under the Apache License, Version 2.0
 // http://www.apache.org/licenses/LICENSE-2.0
 
 package com.google.appinventor.client.editor.simple.components;
 
+import com.google.appinventor.client.Ode;
 import static com.google.appinventor.client.Ode.MESSAGES;
 
 import java.util.HashMap;
@@ -19,12 +20,17 @@ import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroid
 import com.google.appinventor.client.output.OdeLog;
 import com.google.appinventor.client.properties.BadPropertyEditorException;
 import com.google.appinventor.client.widgets.properties.EditableProperties;
+import com.google.appinventor.components.common.ComponentConstants;
 import com.google.appinventor.shared.settings.SettingsConstants;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
+
+import com.google.gwt.user.client.Timer;
+
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -45,11 +51,15 @@ public final class MockForm extends MockContainer {
    * Widget for the mock form title bar.
    */
   private class TitleBar extends Composite {
-    private static final int HEIGHT = 24;
+    private static final int TITLEBAR_HEIGHT = 24;
+    private static final int ACTIONBAR_HEIGHT = 56;
 
     // UI elements
     private Label title;
+    private Button menuButton;
     private AbsolutePanel bar;
+    private boolean actionBar;
+    private String backgroundColor;
 
     /*
      * Creates a new title bar.
@@ -59,13 +69,18 @@ public final class MockForm extends MockContainer {
       title.setStylePrimaryName("ode-SimpleMockFormTitle");
       title.setHorizontalAlignment(Label.ALIGN_LEFT);
 
+      menuButton = new Button();
+      menuButton.setText("\u22ee");
+      menuButton.setStylePrimaryName("ode-SimpleMockFormMenuButton");
+
       bar = new AbsolutePanel();
-      bar.add(title, 12, 4);
+      bar.add(title);
+      bar.add(menuButton);
 
       initWidget(bar);
 
       setStylePrimaryName("ode-SimpleMockFormTitleBar");
-      setSize("100%", HEIGHT + "px");
+      setSize("100%", TITLEBAR_HEIGHT + "px");
     }
 
     /*
@@ -73,6 +88,29 @@ public final class MockForm extends MockContainer {
      */
     void changeTitle(String newTitle) {
       title.setText(newTitle);
+    }
+
+    void setActionBar(boolean actionBar) {
+      this.actionBar = actionBar;
+      setSize("100%", (actionBar ? ACTIONBAR_HEIGHT : TITLEBAR_HEIGHT) + "px");
+      if (actionBar) {
+        addStyleDependentName("ActionBar");
+        MockComponentsUtil.setWidgetBackgroundColor(titleBar.bar, backgroundColor);
+      } else {
+        removeStyleDependentName("ActionBar");
+        MockComponentsUtil.setWidgetBackgroundColor(titleBar.bar, "&HFF696969");
+      }
+    }
+
+    void setBackgroundColor(String color) {
+      this.backgroundColor = color;
+      if (actionBar) {
+        MockComponentsUtil.setWidgetBackgroundColor(titleBar.bar, color);
+      }
+    }
+
+    int getHeight() {
+      return actionBar ? ACTIONBAR_HEIGHT : TITLEBAR_HEIGHT;
     }
   }
 
@@ -170,6 +208,15 @@ public final class MockForm extends MockContainer {
   private static final String PROPERTY_NAME_VNAME = "VersionName";
   private static final String PROPERTY_NAME_ANAME = "AppName";
   private static final String PROPERTY_NAME_SIZING = "Sizing"; // Don't show except on screen1
+  private static final String PROPERTY_NAME_TITLEVISIBLE = "TitleVisible";
+  // Don't show except on screen1
+  private static final String PROPERTY_NAME_SHOW_LISTS_AS_JSON = "ShowListsAsJson";
+  private static final String PROPERTY_NAME_TUTORIAL_URL = "TutorialURL";
+  private static final String PROPERTY_NAME_ACTIONBAR = "ActionBar";
+  private static final String PROPERTY_NAME_PRIMARY_COLOR = "PrimaryColor";
+  private static final String PROPERTY_NAME_PRIMARY_COLOR_DARK = "PrimaryColorDark";
+  private static final String PROPERTY_NAME_ACCENT_COLOR = "AccentColor";
+  private static final String PROPERTY_NAME_THEME = "Theme";
 
   // Form UI components
   AbsolutePanel formWidget;
@@ -271,7 +318,7 @@ public final class MockForm extends MockContainer {
   private void resizePanel(int newWidth, int newHeight){
     screenWidth = newWidth;
     screenHeight = newHeight;
-    usableScreenHeight = screenHeight - PhoneBar.HEIGHT - TitleBar.HEIGHT - NavigationBar.HEIGHT;
+    usableScreenHeight = screenHeight - PhoneBar.HEIGHT - titleBar.getHeight() - NavigationBar.HEIGHT;
 
 
     rootPanel.setPixelSize(screenWidth, usableScreenHeight);
@@ -417,6 +464,36 @@ public final class MockForm extends MockContainer {
       return editor.isScreen1();
     }
 
+    if (propertyName.equals(PROPERTY_NAME_SHOW_LISTS_AS_JSON)) {
+      // The ShowListsAsJson property actually applies to the application and is only visible on Screen1.
+      return editor.isScreen1();
+    }
+
+    if (propertyName.equals(PROPERTY_NAME_TUTORIAL_URL)) {
+      // The TutorialURL property actually applies to the application and is only visible on Screen1.
+      return editor.isScreen1();
+    }
+
+    if (propertyName.equals(PROPERTY_NAME_ACTIONBAR)) {
+      return false;
+    }
+
+    if (propertyName.equals(PROPERTY_NAME_PRIMARY_COLOR)) {
+      return editor.isScreen1();
+    }
+
+    if (propertyName.equals(PROPERTY_NAME_PRIMARY_COLOR_DARK)) {
+      return editor.isScreen1();
+    }
+
+    if (propertyName.equals(PROPERTY_NAME_ACCENT_COLOR)) {
+      return editor.isScreen1();
+    }
+
+    if (propertyName.equals(PROPERTY_NAME_THEME)) {
+      return editor.isScreen1();
+    }
+
     return super.isPropertyVisible(propertyName);
   }
 
@@ -456,7 +533,7 @@ public final class MockForm extends MockContainer {
         screenHeight = PORTRAIT_HEIGHT;
         landscape = false;
       }
-      usableScreenHeight = screenHeight - PhoneBar.HEIGHT - TitleBar.HEIGHT - NavigationBar.HEIGHT;
+      usableScreenHeight = screenHeight - PhoneBar.HEIGHT - titleBar.getHeight() - NavigationBar.HEIGHT;
       resizePanel(screenWidth, screenHeight);
 
       changeProperty(PROPERTY_NAME_WIDTH, "" + screenWidth);
@@ -519,6 +596,28 @@ public final class MockForm extends MockContainer {
     }
   }
 
+  private void setShowListsAsJsonProperty(String asJson) {
+    // This property actually applies to the application and is only visible on
+    // Screen1. When we load a form that is not Screen1, this method will be called with the
+    // default value for ShowListsAsJsonProperty (false). We need to ignore that.
+    if (editor.isScreen1()) {
+      editor.getProjectEditor().changeProjectSettingsProperty(
+          SettingsConstants.PROJECT_YOUNG_ANDROID_SETTINGS,
+          SettingsConstants.YOUNG_ANDROID_SETTINGS_SHOW_LISTS_AS_JSON, asJson);
+    }
+  }
+
+  private void setTutorialURLProperty(String asJson) {
+    // This property actually applies to the application and is only visible on
+    // Screen1. When we load a form that is not Screen1, this method will be called with the
+    // default value for TutorialURL (""). We need to ignore that.
+    if (editor.isScreen1()) {
+      editor.getProjectEditor().changeProjectSettingsProperty(
+          SettingsConstants.PROJECT_YOUNG_ANDROID_SETTINGS,
+          SettingsConstants.YOUNG_ANDROID_SETTINGS_TUTORIAL_URL, asJson);
+    }
+  }
+
   private void setANameProperty(String aname) {
     // The AppName property actually applies to the application and is only visible on Screen1.
     // When we load a form that is not Screen1, this method will be called with the default value
@@ -528,11 +627,132 @@ public final class MockForm extends MockContainer {
           SettingsConstants.YOUNG_ANDROID_SETTINGS_APP_NAME, aname);
     }
   }
+  
+  private void setTitleVisibleProperty(String text) {
+    boolean visible = Boolean.parseBoolean(text);
+    titleBar.setVisible(visible);
+  }
+
+  private void setActionBarProperty(String actionBar) {
+    if (editor.isScreen1()) {
+      editor.getProjectEditor().changeProjectSettingsProperty(
+          SettingsConstants.PROJECT_YOUNG_ANDROID_SETTINGS,
+          SettingsConstants.YOUNG_ANDROID_SETTINGS_ACTIONBAR, actionBar);
+    }
+    titleBar.setActionBar(Boolean.parseBoolean(actionBar));
+    if (initialized) {
+      resizePanel(screenWidth, screenHeight);  // update screen due to titlebar size change.
+    }
+  }
+
+  private void setPrimaryColor(String color) {
+    if (editor.isScreen1()) {
+      editor.getProjectEditor().changeProjectSettingsProperty(
+          SettingsConstants.PROJECT_YOUNG_ANDROID_SETTINGS,
+          SettingsConstants.YOUNG_ANDROID_SETTINGS_PRIMARY_COLOR, color);
+    }
+    if (color.equals("&H00000000")) {
+      // Replace Default with actual default color
+      color = ComponentConstants.DEFAULT_PRIMARY_COLOR;
+    }
+    titleBar.setBackgroundColor(color);
+  }
+
+  private void setPrimaryColorDark(String color) {
+    if (editor.isScreen1()) {
+      editor.getProjectEditor().changeProjectSettingsProperty(
+          SettingsConstants.PROJECT_YOUNG_ANDROID_SETTINGS,
+          SettingsConstants.YOUNG_ANDROID_SETTINGS_PRIMARY_COLOR_DARK, color);
+    }
+  }
+
+  private void setAccentColor(String color) {
+    if (editor.isScreen1()) {
+      editor.getProjectEditor().changeProjectSettingsProperty(
+          SettingsConstants.PROJECT_YOUNG_ANDROID_SETTINGS,
+          SettingsConstants.YOUNG_ANDROID_SETTINGS_ACCENT_COLOR, color);
+    }
+  }
+
+  private void setTheme(String theme) {
+    if (editor.isScreen1()) {
+      editor.getProjectEditor().changeProjectSettingsProperty(
+          SettingsConstants.PROJECT_YOUNG_ANDROID_SETTINGS,
+          SettingsConstants.YOUNG_ANDROID_SETTINGS_THEME, theme);
+    }
+    if (theme.equals("AppTheme.Light")) {
+      final String newColor = "&HFF000000";
+      MockComponentsUtil.setWidgetTextColor(titleBar.bar, newColor);
+      MockComponentsUtil.setWidgetTextColor(titleBar.menuButton, newColor);
+      MockComponentsUtil.setWidgetTextColor(titleBar.title, newColor);
+    } else {
+      final String newColor = "&HFFFFFFFF";
+      MockComponentsUtil.setWidgetTextColor(titleBar.bar, newColor);
+      MockComponentsUtil.setWidgetTextColor(titleBar.menuButton, newColor);
+      MockComponentsUtil.setWidgetTextColor(titleBar.title, newColor);
+    }
+    if (theme.equals("AppTheme")) {
+      formWidget.addStyleDependentName("Dark");
+    } else {
+      formWidget.removeStyleDependentName("Dark");
+    }
+  }
 
   /**
    * Forces a re-layout of the child components of the container.
+   *
+   * Each components onPropertyChange listener calls us. This is
+   * reasonable during interactive editing because we have to make
+   * sure the screen reflects what the user is doing.  However during
+   * project load we will be called many times, when really we should
+   * only be called after the project's UI is really finished loading.
+   *
+   * We could add a bunch of complicated code to inhibit refreshes
+   * until we know the project's UI is loaded and stable. However that
+   * is a change that will be spread over several modules, making it
+   * hard to understand what is going on.
+   *
+   * Instead, I am opting to keep this change self contained within
+   * this module. The idea is to see how quickly we are being
+   * called. If we receive a call which is close in time (within
+   * seconds) of a previous call, we set a timer to fire in the
+   * reasonable future (say 2 seconds). While this timer is counting
+   * down, we ignore any other calls to refresh. Whatever refreshing
+   * they would do will be handled by the call done when the timer
+   * fires. This approach does not reduce the number of calls to
+   * refresh during project loading to 1. But it significantly reduces
+   * the number of calls and gets us out of the exponential explosion
+   * in time and memory that we see with projects with hundreds of
+   * design elements (yes, people do that, and I have seen at least
+   * one project that was this big and reasonable!).  -Jeff Schiller
+   * (jis@mit.edu).
+   *
    */
+
+  private Timer refreshTimer = null;
   public final void refresh() {
+    Ode.CLog("MockForm: refresh() called.");
+    if (refreshTimer != null) return;
+    refreshTimer = new Timer() {
+      @Override
+      public void run() {
+        doRefresh();
+        refreshTimer = null;
+      }
+    };
+    refreshTimer.schedule(0);
+  }
+
+  /*
+   * Do the actual refresh.
+   *
+   * This method is public because it is called directly from MockComponent for refreshes
+   * which bypass throttling.
+   *
+   */
+
+  public final void doRefresh() {
+    Ode.CLog("MockForm: doRefresh() called");
     Map<MockComponent, LayoutInfo> layoutInfoMap = new HashMap<MockComponent, LayoutInfo>();
 
     collectLayoutInfos(layoutInfoMap, this);
@@ -546,6 +766,7 @@ public final class MockForm extends MockContainer {
       layoutInfo.cleanUp();
     }
     layoutInfoMap.clear();
+    Ode.CLog("MockForm: doRefresh() done.");
   }
 
   /*
@@ -732,11 +953,33 @@ public final class MockForm extends MockContainer {
       setVNameProperty(newValue);
     } else if (propertyName.equals(PROPERTY_NAME_ANAME)) {
       setANameProperty(newValue);
+    } else if (propertyName.equals(PROPERTY_NAME_SHOW_LISTS_AS_JSON)) {
+      setShowListsAsJsonProperty(newValue);
+    } else if (propertyName.equals(PROPERTY_NAME_TUTORIAL_URL)) {
+      setTutorialURLProperty(newValue);
+    } else if (propertyName.equals(PROPERTY_NAME_ACTIONBAR)) {
+      setActionBarProperty(newValue);
+    } else if (propertyName.equals(PROPERTY_NAME_THEME)) {
+      setTheme(newValue);
+      if ("Classic".equals(newValue)) {
+        getProperties().getExistingProperty(PROPERTY_NAME_ACTIONBAR).setValue("False");
+      } else {
+        getProperties().getExistingProperty(PROPERTY_NAME_ACTIONBAR).setValue("True");
+      }
+    } else if (propertyName.equals(PROPERTY_NAME_PRIMARY_COLOR)) {
+      setPrimaryColor(newValue);
+    } else if (propertyName.equals(PROPERTY_NAME_PRIMARY_COLOR_DARK)) {
+      setPrimaryColorDark(newValue);
+    } else if (propertyName.equals(PROPERTY_NAME_ACCENT_COLOR)) {
+      setAccentColor(newValue);
     } else if (propertyName.equals(PROPERTY_NAME_HORIZONTAL_ALIGNMENT)) {
       myLayout.setHAlignmentFlags(newValue);
       refreshForm();
     } else if (propertyName.equals(PROPERTY_NAME_VERTICAL_ALIGNMENT)) {
       myLayout.setVAlignmentFlags(newValue);
+      refreshForm();
+    } else if (propertyName.equals(PROPERTY_NAME_TITLEVISIBLE)) {
+      setTitleVisibleProperty(newValue);
       refreshForm();
     }
   }
@@ -761,15 +1004,44 @@ public final class MockForm extends MockContainer {
   @Override
   public EditableProperties getProperties() {
     // Before we return the Properties object, we make sure that the
-    // Sizing property has the value from the project's properties
-    // this is because Sizing is per project, not per Screen(Form)
-    // We only have to do this on screens other then screen1 because
-    // screen1's value is definitive.
-    if(!editor.isScreen1()) {
+    // Sizing, ShowListsAsJson and TutorialURL properties have the
+    // value from the project's properties this is because these are
+    // per project, not per Screen(Form) We only have to do this on
+    // screens other then screen1 because screen1's value is
+    // definitive.
+    if (!editor.isScreen1()) {
       properties.changePropertyValue(SettingsConstants.YOUNG_ANDROID_SETTINGS_SIZING,
         editor.getProjectEditor().getProjectSettingsProperty(
           SettingsConstants.PROJECT_YOUNG_ANDROID_SETTINGS,
           SettingsConstants.YOUNG_ANDROID_SETTINGS_SIZING));
+      properties.changePropertyValue(SettingsConstants.YOUNG_ANDROID_SETTINGS_SHOW_LISTS_AS_JSON,
+          editor.getProjectEditor().getProjectSettingsProperty(
+            SettingsConstants.PROJECT_YOUNG_ANDROID_SETTINGS,
+            SettingsConstants.YOUNG_ANDROID_SETTINGS_SHOW_LISTS_AS_JSON));
+      properties.changePropertyValue(SettingsConstants.YOUNG_ANDROID_SETTINGS_TUTORIAL_URL,
+          editor.getProjectEditor().getProjectSettingsProperty(
+            SettingsConstants.PROJECT_YOUNG_ANDROID_SETTINGS,
+            SettingsConstants.YOUNG_ANDROID_SETTINGS_TUTORIAL_URL));
+      properties.changePropertyValue(SettingsConstants.YOUNG_ANDROID_SETTINGS_ACTIONBAR,
+          editor.getProjectEditor().getProjectSettingsProperty(
+            SettingsConstants.PROJECT_YOUNG_ANDROID_SETTINGS,
+            SettingsConstants.YOUNG_ANDROID_SETTINGS_ACTIONBAR));
+      properties.changePropertyValue(SettingsConstants.YOUNG_ANDROID_SETTINGS_THEME,
+          editor.getProjectEditor().getProjectSettingsProperty(
+            SettingsConstants.PROJECT_YOUNG_ANDROID_SETTINGS,
+            SettingsConstants.YOUNG_ANDROID_SETTINGS_THEME));
+      properties.changePropertyValue(SettingsConstants.YOUNG_ANDROID_SETTINGS_PRIMARY_COLOR,
+          editor.getProjectEditor().getProjectSettingsProperty(
+            SettingsConstants.PROJECT_YOUNG_ANDROID_SETTINGS,
+            SettingsConstants.YOUNG_ANDROID_SETTINGS_PRIMARY_COLOR));
+      properties.changePropertyValue(SettingsConstants.YOUNG_ANDROID_SETTINGS_PRIMARY_COLOR_DARK,
+          editor.getProjectEditor().getProjectSettingsProperty(
+            SettingsConstants.PROJECT_YOUNG_ANDROID_SETTINGS,
+            SettingsConstants.YOUNG_ANDROID_SETTINGS_PRIMARY_COLOR_DARK));
+      properties.changePropertyValue(SettingsConstants.YOUNG_ANDROID_SETTINGS_ACCENT_COLOR,
+          editor.getProjectEditor().getProjectSettingsProperty(
+            SettingsConstants.PROJECT_YOUNG_ANDROID_SETTINGS,
+            SettingsConstants.YOUNG_ANDROID_SETTINGS_ACCENT_COLOR));
     }
     return properties;
   }

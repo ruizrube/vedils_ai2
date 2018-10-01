@@ -16,7 +16,6 @@
  * @fileoverview Event Types.
  *
  * @author arv@google.com (Erik Arvidsson)
- * @author mirkov@google.com (Mirko Visontai)
  */
 
 
@@ -33,9 +32,10 @@ goog.require('goog.userAgent');
  * @private
  */
 goog.events.getVendorPrefixedName_ = function(eventName) {
-  return goog.userAgent.WEBKIT ? 'webkit' + eventName :
+  return goog.userAgent.WEBKIT ?
+      'webkit' + eventName :
       (goog.userAgent.OPERA ? 'o' + eventName.toLowerCase() :
-          eventName.toLowerCase());
+                              eventName.toLowerCase());
 };
 
 
@@ -46,13 +46,24 @@ goog.events.getVendorPrefixedName_ = function(eventName) {
 goog.events.EventType = {
   // Mouse events
   CLICK: 'click',
+  RIGHTCLICK: 'rightclick',
   DBLCLICK: 'dblclick',
   MOUSEDOWN: 'mousedown',
   MOUSEUP: 'mouseup',
   MOUSEOVER: 'mouseover',
   MOUSEOUT: 'mouseout',
   MOUSEMOVE: 'mousemove',
-  SELECTSTART: 'selectstart', // IE, Safari, Chrome
+  MOUSEENTER: 'mouseenter',
+  MOUSELEAVE: 'mouseleave',
+
+  // Selection events.
+  // https://www.w3.org/TR/selection-api/
+  SELECTIONCHANGE: 'selectionchange',
+  SELECTSTART: 'selectstart',  // IE, Safari, Chrome
+
+  // Wheel events
+  // http://www.w3.org/TR/DOM-Level-3-Events/#events-wheelevents
+  WHEEL: 'wheel',
 
   // Key events
   KEYPRESS: 'keypress',
@@ -62,7 +73,7 @@ goog.events.EventType = {
   // Focus
   BLUR: 'blur',
   FOCUS: 'focus',
-  DEACTIVATE: 'deactivate', // IE only
+  DEACTIVATE: 'deactivate',  // IE only
   // NOTE: The following two events are not stable in cross-browser usage.
   //     WebKit and Opera implement DOMFocusIn/Out.
   //     IE implements focusin/out.
@@ -76,10 +87,11 @@ goog.events.EventType = {
 
   // Forms
   CHANGE: 'change',
+  RESET: 'reset',
   SELECT: 'select',
   SUBMIT: 'submit',
   INPUT: 'input',
-  PROPERTYCHANGE: 'propertychange', // IE only
+  PROPERTYCHANGE: 'propertychange',  // IE only
 
   // Drag and drop
   DRAGSTART: 'dragstart',
@@ -90,7 +102,9 @@ goog.events.EventType = {
   DROP: 'drop',
   DRAGEND: 'dragend',
 
-  // WebKit touch events.
+  // Touch events
+  // Note that other touch events exist, but we should follow the W3C list here.
+  // http://www.w3.org/TR/touch-events/#list-of-touchevent-types
   TOUCHSTART: 'touchstart',
   TOUCHMOVE: 'touchmove',
   TOUCHEND: 'touchend',
@@ -111,8 +125,28 @@ goog.events.EventType = {
   SCROLL: 'scroll',
   UNLOAD: 'unload',
 
+  // Media events
+  CANPLAY: 'canplay',
+  CANPLAYTHROUGH: 'canplaythrough',
+  DURATIONCHANGE: 'durationchange',
+  EMPTIED: 'emptied',
+  ENDED: 'ended',
+  LOADEDDATA: 'loadeddata',
+  LOADEDMETADATA: 'loadedmetadata',
+  PAUSE: 'pause',
+  PLAY: 'play',
+  PLAYING: 'playing',
+  RATECHANGE: 'ratechange',
+  SEEKED: 'seeked',
+  SEEKING: 'seeking',
+  STALLED: 'stalled',
+  SUSPEND: 'suspend',
+  TIMEUPDATE: 'timeupdate',
+  VOLUMECHANGE: 'volumechange',
+  WAITING: 'waiting',
+
   // HTML 5 History events
-  // See http://www.w3.org/TR/html5/history.html#event-definitions
+  // See http://www.w3.org/TR/html5/browsers.html#event-definitions-0
   HASHCHANGE: 'hashchange',
   PAGEHIDE: 'pagehide',
   PAGESHOW: 'pageshow',
@@ -186,7 +220,8 @@ goog.events.EventType = {
   MSPOINTERUP: 'MSPointerUp',
 
   // Native IMEs/input tools events.
-  TEXTINPUT: 'textinput',
+  TEXT: 'text',
+  TEXTINPUT: 'textInput',
   COMPOSITIONSTART: 'compositionstart',
   COMPOSITIONUPDATE: 'compositionupdate',
   COMPOSITIONEND: 'compositionend',
@@ -205,5 +240,21 @@ goog.events.EventType = {
 
   // HTML5 Page Visibility API.  See details at
   // {@code goog.labs.dom.PageVisibilityMonitor}.
-  VISIBILITYCHANGE: 'visibilitychange'
+  VISIBILITYCHANGE: 'visibilitychange',
+
+  // LocalStorage event.
+  STORAGE: 'storage',
+
+  // DOM Level 2 mutation events (deprecated).
+  DOMSUBTREEMODIFIED: 'DOMSubtreeModified',
+  DOMNODEINSERTED: 'DOMNodeInserted',
+  DOMNODEREMOVED: 'DOMNodeRemoved',
+  DOMNODEREMOVEDFROMDOCUMENT: 'DOMNodeRemovedFromDocument',
+  DOMNODEINSERTEDINTODOCUMENT: 'DOMNodeInsertedIntoDocument',
+  DOMATTRMODIFIED: 'DOMAttrModified',
+  DOMCHARACTERDATAMODIFIED: 'DOMCharacterDataModified',
+
+  // Print events.
+  BEFOREPRINT: 'beforeprint',
+  AFTERPRINT: 'afterprint'
 };

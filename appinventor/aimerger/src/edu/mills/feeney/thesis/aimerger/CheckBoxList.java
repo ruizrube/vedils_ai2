@@ -53,6 +53,7 @@ public class CheckBoxList extends JList {
   public LinkedList<String> getChecked() {
     return checked;
   }
+
   /**
    * Clears the list of checked items.
    */

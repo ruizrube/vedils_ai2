@@ -2,6 +2,7 @@
 
 <!-- ======================================================================
      Copyright 2011 Google Inc.  All Rights Reserved.
+     Copyright 2012-2017 Massachusetts Institute of Technology, All rights reserved.
 
      App Inventor component libraries
      ====================================================================== -->
@@ -10,11 +11,10 @@
   <description>
     App Inventor component libraries
   </description>
-
-    <!-- ANDROID API VERSION (la de por defecto es 4.2.2)-->
+  
+  <!-- ANDROID API VERSION (la de por defecto es 4.2.2)-->
   <property name="android.version" value="5.1" />
-  
-  
+
   <target name="all"
           depends="CommonConstants,AndroidRuntime,
                    JsonComponentDescription,XmlComponentDescription,
@@ -31,9 +31,20 @@
   <import file="../build-common.xml" />
 
   <!-- =====================================================================
-       Define base package path.
+       Define base package path for internal components.
        ===================================================================== -->
   <property name="components.pkg" value="com/google/appinventor/components" />
+  <property name="zxing.pkg" value="com/google/zxing" />
+
+  <!-- =====================================================================
+       Define external components properties.
+       ===================================================================== -->
+  <property name="ExternalComponentGenerator-class.dir" location="${class.dir}/ExternalComponentGenerator" />
+  <property name="ExternalComponent.dir" location="${local.build.dir}/externalComponents" />
+  <property name="ExternalComponent-class.dir" location="${local.build.dir}/externalComponents-class" />
+  <property name="Extensions.dir" location="${local.build.dir}/extensions" />
+  <!-- Can be used by extension authors to use the old-style AIX package layout -->
+  <property name="extensions.packagefqcn" value="false" />
 
   <!-- =====================================================================
        CommonConstants: library of constants used across App Inventor
@@ -108,13 +119,12 @@
   <!-- =====================================================================
        AndroidRuntime: library providing runtime support for components
        ===================================================================== -->
+  <property name="AndroidRuntime-class.dir" location="${class.dir}/AndroidRuntime" />
   <target name="AndroidRuntime"
           description="Generate runtime library implementing components"
           depends="CommonConstants,HtmlEntities,common_CommonVersion">
-    <property name="AndroidRuntime-class.dir" location="${class.dir}/AndroidRuntime" />
     <mkdir dir="${AndroidRuntime-class.dir}" />
-    <mkdir dir="${AspectJAndroidRuntime-class.dir}" />
-    
+	
     <!-- AspectJ compilation -->
     
     <echo level="info">--- AspectJ (start) ---</echo>
@@ -140,31 +150,37 @@
            <pathelement location="${lib.dir}/la4ai/aspectjrt-1.8.8.jar"/>
            <!-- JavaC ClassPath -->
            
-	        <pathelement location="${local.build.dir}/HtmlEntities.jar" />
-	        <pathelement location="${public.build.dir}/CommonConstants.jar" />
-	        <pathelement location="${build.dir}/common/CommonVersion.jar" />
-	       
-	        <pathelement location="${lib.dir}/android/${android.version}/android.jar" />
-	        
-	        <pathelement location="${lib.dir}/kawa/kawa-1.11-modified.jar" />
-	        <pathelement location="${lib.dir}/acra/acra-4.4.0.jar" />
-	        <pathelement location="${lib.dir}/guava/guava-14.0.1.jar" />
-	        <!-- Conditionally included libraries -->
-	        
-	        <pathelement location="${lib.dir}/apache-http/httpcore-4.3.2.jar" />
-	        <pathelement location="${lib.dir}/apache-http/httpmime-4.3.4.jar" />
-	        <pathelement location="${lib.dir}/twitter/twitter4j-core-3.0.5.jar" />
-	        <pathelement location="${lib.dir}/twitter/twitter4j-media-support-3.0.5.jar" />
-	        <pathelement location="${lib.dir}/fusiontables/fusiontables.jar" />
-	        <pathelement location="${lib.dir}/oauth/google-api-client-1.10.3-beta.jar" />
-	        <pathelement location="${lib.dir}/oauth/google-api-client-android2-1.10.3-beta.jar" />
-	        <pathelement location="${lib.dir}/oauth/google-http-client-1.10.3-beta.jar" />
-	        <pathelement location="${lib.dir}/oauth/google-http-client-android2-1.10.3-beta.jar" />
-	        <pathelement location="${lib.dir}/oauth/google-http-client-android3-1.10.3-beta.jar" />
-	        <pathelement location="${lib.dir}/oauth/google-oauth-client-1.10.1-beta.jar" />
-	        <pathelement location="${lib.dir}/firebase/firebase-client-android-2.5.0.jar" />
-	        <pathelement location="${lib.dir}/gson/gson-2.1.jar" />
-	        <pathelement location="${lib.dir}/json/json.jar" />
+           <pathelement location="${local.build.dir}/HtmlEntities.jar" />
+        <pathelement location="${public.build.dir}/CommonConstants.jar" />
+        <pathelement location="${build.dir}/common/CommonVersion.jar" />
+        <pathelement location="${lib.dir}/android/5.1.1/android.jar" />
+        <pathelement location="${lib.dir}/android/support/appcompat-v7-22.2.1.jar" />
+        <pathelement location="${lib.dir}/android/support/internal_impl-22.2.1.jar" />
+        <pathelement location="${lib.dir}/android/support/support-annotations-22.2.1.jar" />
+        <!--  <pathelement location="${lib.dir}/android/support/support-v4-22.2.1.jar" /> -->
+        <pathelement location="${lib.dir}/kawa/kawa-1.11-modified.jar" />
+        <pathelement location="${lib.dir}/acra/acra-4.4.0.jar" />
+        <pathelement location="${lib.dir}/guava/guava-14.0.1.jar" />
+        <!-- Conditionally included libraries -->
+        <pathelement location="${lib.dir}/twitter/twitter4j-core-3.0.5.jar" />
+        <pathelement location="${lib.dir}/twitter/twitter4j-media-support-3.0.5.jar" />
+        <pathelement location="${lib.dir}/apache-http/httpcore-4.3.2.jar" />
+        <pathelement location="${lib.dir}/apache-http/httpmime-4.3.4.jar" />
+        <pathelement location="${lib.dir}/fusiontables/fusiontables.jar" />
+        <pathelement location="${lib.dir}/firebase/firebase-client-android-2.5.0.jar" />
+        <pathelement location="${lib.dir}/oauth/google-api-client-1.10.3-beta.jar" />
+        <pathelement location="${lib.dir}/oauth/google-api-client-android2-1.10.3-beta.jar" />
+        <pathelement location="${lib.dir}/oauth/google-http-client-1.10.3-beta.jar" />
+        <pathelement location="${lib.dir}/oauth/google-http-client-android2-1.10.3-beta.jar" />
+        <pathelement location="${lib.dir}/oauth/google-http-client-android3-1.10.3-beta.jar" />
+        <pathelement location="${lib.dir}/oauth/google-oauth-client-1.10.1-beta.jar" />
+        <pathelement location="${lib.dir}/jedis/jedis-3.0.0-SNAPSHOT-jar-with-dependencies.jar" />
+        <pathelement location="${lib.dir}/commons-pool/commons-pool2-2.0.jar" />
+        <pathelement location="${lib.dir}/gson/gson-2.1.jar" />
+        <pathelement location="${lib.dir}/json/json.jar" />
+        <pathelement location="${lib.dir}/osmdroid/osmdroid-5.6.6.jar" />
+        <pathelement location="${lib.dir}/jts/jts-core-1.15.0-20170823.040415-301.jar" />
+        <pathelement location="${lib.dir}/androidsvg/androidsvg-d4ec6d8.jar" />
 	        
 	        <pathelement location="${lib.dir}/sphero/RobotLibrary.jar" />
 	        <pathelement location="${lib.dir}/ar4ai/ar4ai.jar" />
@@ -207,7 +223,7 @@
        
 	  
       		  
-	         	      <!--    <pathelement location="${lib.dir}/dialog4ai/slf4j-android-1.7.25.jar" /> -->
+	        <!--    <pathelement location="${lib.dir}/dialog4ai/slf4j-android-1.7.25.jar" /> -->
 	         
 	       
         </classpath>
@@ -231,73 +247,6 @@
      <echo level="info">--- RetroLambda (end) ---</echo>
      
      <delete dir="${AspectJAndroidRuntime-class.dir}"/>
-    
-    <!--  
-    <ai.javac5 destdir="${AndroidRuntime-class.dir}">
-      <include name="${components.pkg}/annotations/*.java" />
-      <include name="${components.pkg}/runtime/**/*.java" />
-      <classpath>
-        <pathelement location="${local.build.dir}/HtmlEntities.jar" />
-        <pathelement location="${public.build.dir}/CommonConstants.jar" />
-        <pathelement location="${build.dir}/common/CommonVersion.jar" />
-        <pathelement location="${lib.dir}/android/${android.version}/android.jar" />
-       
-        
-        <pathelement location="${lib.dir}/kawa/kawa-1.11-modified.jar" />
-        <pathelement location="${lib.dir}/acra/acra-4.4.0.jar" />
-        <pathelement location="${lib.dir}/guava/guava-14.0.1.jar" />
-
-        <pathelement location="${lib.dir}/twitter/twitter4j-core-3.0.5.jar" />
-        <pathelement location="${lib.dir}/twitter/twitter4j-media-support-3.0.5.jar" />
-        <pathelement location="${lib.dir}/fusiontables/fusiontables.jar" />
-        
-        <pathelement location="${lib.dir}/twitter/twitter4j-core-3.0.5.jar" />
-        <pathelement location="${lib.dir}/twitter/twitter4j-media-support-3.0.5.jar" />
-        <pathelement location="${lib.dir}/apache-http/httpcore-4.3.2.jar" />
-        <pathelement location="${lib.dir}/apache-http/httpmime-4.3.4.jar" />
-        <pathelement location="${lib.dir}/fusiontables/fusiontables.jar" />
-        <pathelement location="${lib.dir}/firebase/firebase-client-android-2.5.0.jar" />
-        <pathelement location="${lib.dir}/oauth/google-api-client-1.10.3-beta.jar" />
-        <pathelement location="${lib.dir}/oauth/google-api-client-android2-1.10.3-beta.jar" />
-        <pathelement location="${lib.dir}/oauth/google-http-client-1.10.3-beta.jar" />
-        <pathelement location="${lib.dir}/oauth/google-http-client-android2-1.10.3-beta.jar" />
-        <pathelement location="${lib.dir}/oauth/google-http-client-android3-1.10.3-beta.jar" />
-        <pathelement location="${lib.dir}/oauth/google-oauth-client-1.10.1-beta.jar" />
-        <pathelement location="${lib.dir}/gson/gson-2.1.jar" />
-        <pathelement location="${lib.dir}/json/json.jar" />
-        
-         <pathelement location="${lib.dir}/sphero/RobotLibrary.jar" />
-	     <pathelement location="${lib.dir}/ar4ai/ar4ai.jar" />
-         <pathelement location="${lib.dir}/ar4ai/Vuforia.jar" />
-         <pathelement location="${lib.dir}/ar4ai/jpct_ae.jar" />
-         <pathelement location="${lib.dir}/ar4ai/jpct_shaders.zip" />
-         
-         <pathelement location="${lib.dir}/ar4ai/android-support-v4.jar" />
-         
-         <pathelement location="${lib.dir}/la4ai/la4ai.jar" />
-         
-         <pathelement location="${lib.dir}/la4ai/stream/stream-1.1.7.jar" />
-         
-         <pathelement location="${lib.dir}/gc4ai/LeapJava.jar" />
-         
-         <pathelement location="${lib.dir}/gca4ai/Myo-connector.jar" />
-       
-         <pathelement location="${lib.dir}/brain4ai/bedk.jar" />
-         
-         <pathelement location="${lib.dir}/3d4ai/3d4ai.jar" />
-         
-         <pathelement location="${lib.dir}/vr4ai/vr4ai.jar" />
-	     <pathelement location="${lib.dir}/vr4ai/cardboard.jar" />
-	     <pathelement location="${lib.dir}/vr4ai/libprotobuf-java-2.3-nano.jar" />
-	    
-	     <pathelement location="${lib.dir}/dialog4ai/libai-1.6.12.jar" />
-	     <pathelement location="${lib.dir}/dialog4ai/slf4j-api-1.7.25.jar" />
-	     <pathelement location="${lib.dir}/dialog4ai/gson-2.8.1.jar" />
-	      
-	     <pathelement location="${lib.dir}/workflow4ai/bsh-2.0b4.jar" />
-         
-      </classpath>
-    </ai.javac5> -->
 
     <jar basedir="${AndroidRuntime-class.dir}"
          destfile="${public.build.dir}/AndroidRuntime.jar">
@@ -320,16 +269,25 @@
     <pathelement location="${lib.dir}/junit4/tl4j-junit4-1.1.3.jar" />
     <pathelement location="${lib.dir}/kawa/kawa-1.11-modified.jar" />
     <pathelement location="${lib.dir}/acra/acra-4.4.0.jar" />
+    <pathelement location="${lib.dir}/guava/guava-20.0.jar" />
+    <pathelement location="${lib.dir}/bouncycastle/bcprov-jdk15on-149.jar" />
+    <pathelement location="${lib.dir}/osmdroid/osmdroid-5.6.6.jar" />
+    <pathelement location="${lib.dir}/jts/jts-core-1.15.0-20170823.040415-301.jar" />
+    <pathelement location="${lib.dir}/androidsvg/androidsvg-d4ec6d8.jar" />
     <pathelement location="${lib.dir}/powermock/cglib-nodep-2.2.jar" />
     <pathelement location="${lib.dir}/powermock/easymock-3.0.jar" />
     <pathelement location="${lib.dir}/powermock/javassist-3.18.0-GA.jar" />
     <pathelement location="${lib.dir}/powermock/objenesis-1.2.jar" />
     <pathelement location="${lib.dir}/powermock/powermock-easymock-1.4.10-full.jar" />
+    <pathelement location="${lib.dir}/android/support/appcompat-v7-22.2.1.jar" />
+    <pathelement location="${lib.dir}/android/support/internal_impl-22.2.1.jar" />
+    <pathelement location="${lib.dir}/android/support/support-annotations-22.2.1.jar" />
+    <!-- <pathelement location="${lib.dir}/android/support/support-v4-22.2.1.jar" /> -->
+    <pathelement location="${lib.dir}/android/support/testing-support-R-classes.jar" />
     <!-- android.jar must go last on the classpath list
          so that its junit (or other) stubs don't override the real ones -->
-    <pathelement location="${lib.dir}/android/${android.version}/android.jar" />
-    
-    
+    <pathelement location="${lib.dir}/robolectric/robolectric-3.3.2-all-deps.jar" />
+    <pathelement location="${lib.dir}/android/5.1.1/android.jar" />
   </path>
 
   <path id="AndroidRuntimeTests.path">
@@ -342,6 +300,10 @@
           description="build and run the test suite" >
     <ai.dojunit aij-testingtarget="AndroidRuntimeTests"
                 aij-dir="${components.pkg}/runtime" >
+      <!-- Include extra classes from Robolectric that need to be compiled with the sources -->
+      <aij-supplemental-includes>
+        <include name="org/robolectric/**/*.java" />
+      </aij-supplemental-includes>
     </ai.dojunit>
   </target>
 
@@ -375,24 +337,32 @@
         </fileset>
       </delete>
       <javac destdir="@{apt-classdir}"
+             encoding="utf-8"
              sourcepath=""
              srcdir="${src.dir}"
              includeantruntime="false">
         <include name="${components.pkg}/runtime/*.java" />
+        <include name="**/*.java" /> <!-- include all java files -->
+        <exclude name="${zxing.pkg}/**/*.java" /> <!-- exclude zxing package -->
+        <exclude name="${components.pkg}/scripts/**/*.java" /> <!-- exclude components/script package -->
+        <exclude name="${components.pkg}/common/**/*.java" /> <!-- exclude components/common package -->
+        <exclude name="${components.pkg}/annotations/**/*.java" /> <!-- exclude components/annotations package -->
         <classpath>
           <pathelement location="${public.build.dir}/AndroidRuntime.jar" />
           <pathelement location="${local.build.dir}/HtmlEntities.jar" />
           <pathelement location="${public.build.dir}/CommonConstants.jar" />
-      
-          <pathelement location="${lib.dir}/android/${android.version}/android.jar" />
-          
+          <pathelement location="${lib.dir}/android/5.1.1/android.jar" />
+          <pathelement location="${lib.dir}/android/support/appcompat-v7-22.2.1.jar" />
+          <pathelement location="${lib.dir}/android/support/support-annotations-22.2.1.jar" />
+          <!-- <pathelement location="${lib.dir}/android/support/support-v4-22.2.1.jar" /> -->
+          <pathelement location="${lib.dir}/android/support/internal_impl-22.2.1.jar" />
           <pathelement location="${lib.dir}/guava/guava-14.0.1.jar" />
           <pathelement location="${lib.dir}/gson/gson-2.1.jar" />
           <pathelement location="${lib.dir}/json/json.jar" />
           <pathelement location="${lib.dir}/kawa/kawa-1.11-modified.jar" />
           <pathelement location="${lib.dir}/acra/acra-4.4.0.jar" />
           <pathelement location="${lib.dir}/twitter/twitter4j-core-3.0.5.jar" />
-          <pathelement location="${lib.dir}/twitter/twitter4j-media-support-3.0.5.jar" />  
+          <pathelement location="${lib.dir}/twitter/twitter4j-media-support-3.0.5.jar" />
           <pathelement location="${lib.dir}/apache-http/httpcore-4.3.2.jar" />
           <pathelement location="${lib.dir}/apache-http/httpmime-4.3.4.jar" />
           <pathelement location="${lib.dir}/fusiontables/fusiontables.jar" />
@@ -403,6 +373,12 @@
           <pathelement location="${lib.dir}/oauth/google-http-client-android2-1.10.3-beta.jar" />
           <pathelement location="${lib.dir}/oauth/google-http-client-android3-1.10.3-beta.jar" />
           <pathelement location="${lib.dir}/oauth/google-oauth-client-1.10.1-beta.jar" />
+          <pathelement location="${lib.dir}/jedis/jedis-3.0.0-SNAPSHOT-jar-with-dependencies.jar" />
+          <pathelement location="${lib.dir}/commons-pool/commons-pool2-2.0.jar" />
+          <pathelement location="${lib.dir}/osmdroid/osmdroid-5.6.6.jar" />
+          <pathelement location="${lib.dir}/jts/jts-core-1.15.0-20170823.040415-301.jar" />
+          <pathelement location="${lib.dir}/androidsvg/androidsvg-d4ec6d8.jar" />
+          
           <pathelement location="${lib.dir}/guava/guava-14.0.1.jar" />
           
          <pathelement location="${lib.dir}/ar4ai/jME3-android.jar" />
@@ -447,10 +423,6 @@
 	     <pathelement location="${lib.dir}/dialog4ai/gson-2.8.1.jar" />
 	       
 	     <pathelement location="${lib.dir}/workflow4ai/bsh-2.0b4.jar" />
-       
-      
-	     	   <!--   <pathelement location="${lib.dir}/dialog4ai/slf4j-android-1.7.25.jar" /> -->
-	     
         </classpath>
         <compilerarg line="-processorpath ${local.build.dir}/AnnotationProcessors.jar"/>
         <compilerarg line="-processor @{apt-processor}" />
@@ -469,14 +441,18 @@
               location="${class.dir}/ComponentProcessingLib" />
     <mkdir dir="${ComponentProcessingLib-class.dir}" />
 
-    <ai.javac5 destdir="${ComponentProcessingLib-class.dir}">
+    <ai.javac destdir="${ComponentProcessingLib-class.dir}"
+         source="1.7" target="1.7">
       <include name="${components.pkg}/scripts/ComponentProcessor.java" />
       <include name="${components.pkg}/annotations/*.java" />
+      <include name="${components.pkg}/scripts/ComponentProcessor.java" />
+      <include name="${components.pkg}/annotations/*.java" />
+      <include name="${components.pkg}/annotations/androidmanifest/*.java" />
       <classpath>
         <pathelement location="${public.build.dir}/CommonConstants.jar" />
         <pathelement location="${lib.dir}/guava/guava-14.0.1.jar" />
       </classpath>
-    </ai.javac5>
+    </ai.javac>
 
     <jar basedir="${ComponentProcessingLib-class.dir}"
          destfile="${local.build.dir}/ComponentProcessingLib.jar" />
@@ -496,8 +472,11 @@
               location="${class.dir}/AnnotationProcessors" />
     <mkdir dir="${AnnotationProcessors-class.dir}" />
 
-    <ai.javac5 destdir="${AnnotationProcessors-class.dir}">
+    <ai.javac destdir="${AnnotationProcessors-class.dir}"
+         source="1.7" target="1.7">
       <include name="${components.pkg}/scripts/*.java" />
+      <include name="${components.pkg}/scripts/*.java" />
+      <exclude name="${components.pkg}/scripts/ExternalComponentGenerator.java" />
       <classpath>
         <pathelement location="${local.build.dir}/ComponentProcessingLib.jar"/>
         <pathelement location="${local.build.dir}/HtmlEntities.jar" />
@@ -505,7 +484,7 @@
         <pathelement location="${build.dir}/common/CommonUtils.jar" />
         <pathelement location="${lib.dir}/guava/guava-14.0.1.jar" />
       </classpath>
-    </ai.javac5>
+    </ai.javac>
 
     <copy todir="${AnnotationProcessors-class.dir}">
       <fileset dir="${src.dir}">
@@ -540,60 +519,60 @@
           todir="${public.build.dir}"/>
   </target>
 
-  <!-- =====================================================================
-       XmlComponentDescription: create lang_def.xml for Blocks Editor.
-       ===================================================================== -->
-  <target name="XmlComponentDescription"
-          description="Make ya_lang_def.xml file for Blocks Editor."
-          depends="AnnotationProcessors,AndroidRuntime,HtmlEntities,CommonConstants">
-    <property name="XmlComponentDescription-class.dir"
-              location="${class.dir}/XmlComponentDescription" />
-    <ai.apt apt-classdir="${XmlComponentDescription-class.dir}"
-            apt-processor="com.google.appinventor.components.scripts.LangDefXmlGenerator"
-            apt-target="${XmlComponentDescription-class.dir}/ya_lang_def.xml"/>
+    <!-- =====================================================================
+         XmlComponentDescription: create lang_def.xml for Blocks Editor.
+         ===================================================================== -->
+    <target name="XmlComponentDescription"
+            description="Make ya_lang_def.xml file for Blocks Editor."
+            depends="AnnotationProcessors,AndroidRuntime,HtmlEntities,CommonConstants">
+      <property name="XmlComponentDescription-class.dir"
+                location="${class.dir}/XmlComponentDescription" />
+      <ai.apt apt-classdir="${XmlComponentDescription-class.dir}"
+              apt-processor="com.google.appinventor.components.scripts.LangDefXmlGenerator"
+              apt-target="${XmlComponentDescription-class.dir}/ya_lang_def.xml"/>
 
-    <copy file="${XmlComponentDescription-class.dir}/ya_lang_def.xml"
-          todir="${public.build.dir}"/>
-  </target>
+      <copy file="${XmlComponentDescription-class.dir}/ya_lang_def.xml"
+            todir="${public.build.dir}"/>
+    </target>
 
-  <!-- =====================================================================
-       ComponentList: create simple_components.txt and
-                      simple_components_build_info.json
-       ===================================================================== -->
-  <target name="ComponentList"
-          description="Make simple_components.txt and simple_components_build_info.json."
-          depends="AnnotationProcessors,AndroidRuntime,HtmlEntities,CommonConstants,Barcode">
-    <property name="ComponentList-class.dir" location="${class.dir}/ComponentList" />
-    <mkdir dir="${ComponentList-class.dir}" />
+    <!-- =====================================================================
+         ComponentList: create simple_components.txt and
+                        simple_components_build_info.json
+         ===================================================================== -->
+    <target name="ComponentList"
+            description="Make simple_components.txt and simple_components_build_info.json."
+            depends="AnnotationProcessors,AndroidRuntime,HtmlEntities,CommonConstants,Barcode">
+      <property name="ComponentList-class.dir" location="${class.dir}/ComponentList" />
+      <mkdir dir="${ComponentList-class.dir}" />
 
-    <ai.apt apt-classdir="${ComponentList-class.dir}"
-            apt-processor="com.google.appinventor.components.scripts.ComponentListGenerator"
-            apt-target="${ComponentList-class.dir}/simple_components.txt"/>
+      <ai.apt apt-classdir="${ComponentList-class.dir}"
+              apt-processor="com.google.appinventor.components.scripts.ComponentListGenerator"
+              apt-target="${ComponentList-class.dir}/simple_components.txt"/>
 
-    <copy file="${ComponentList-class.dir}/simple_components.txt"
-          todir="${public.build.dir}"/>
-    <copy file="${ComponentList-class.dir}/simple_components_build_info.json"
-          todir="${public.build.dir}"/>
-  </target>
+      <copy file="${ComponentList-class.dir}/simple_components.txt"
+            todir="${public.build.dir}"/>
+      <copy file="${ComponentList-class.dir}/simple_components_build_info.json"
+            todir="${public.build.dir}"/>
+    </target>
 
-  <!-- =====================================================================
-       ComponentTranslation: create ComponentsTranslation.java
-       ===================================================================== -->
-  <target name="ComponentTranslation"
-          description="Build ComponentsTranslation.java at build time
-                       from annotations"
-          depends="AnnotationProcessors,AndroidRuntime,HtmlEntities,CommonConstants">
-    <property name="ComponentTranslation-class.dir" location="${class.dir}/ComponentTranslation" />
-    <mkdir dir="${ComponentTranslation-class.dir}" />
+    <!-- =====================================================================
+         ComponentTranslation: create ComponentsTranslation.java
+         ===================================================================== -->
+    <target name="ComponentTranslation"
+            description="Build ComponentsTranslation.java at build time
+                         from annotations"
+            depends="AnnotationProcessors,AndroidRuntime,HtmlEntities,CommonConstants">
+      <property name="ComponentTranslation-class.dir" location="${class.dir}/ComponentTranslation" />
+      <mkdir dir="${ComponentTranslation-class.dir}" />
 
-    <ai.apt apt-classdir="${ComponentTranslation-class.dir}"
-            apt-processor="com.google.appinventor.components.scripts.ComponentTranslationGenerator"
-            apt-target="${ComponentTranslation-class.dir}/ComponentsTranslation.java"/>
+      <ai.apt apt-classdir="${ComponentTranslation-class.dir}"
+              apt-processor="com.google.appinventor.components.scripts.ComponentTranslationGenerator"
+              apt-target="${ComponentTranslation-class.dir}/ComponentsTranslation.java"/>
 
-    <copy file="${ComponentTranslation-class.dir}/ComponentsTranslation.java"
-          todir="${public.build.dir}/ComponentTranslation/src/com/google/appinventor/client/" />
+      <copy file="${ComponentTranslation-class.dir}/ComponentsTranslation.java"
+            todir="${public.build.dir}/ComponentTranslation/src/com/google/appinventor/client/" />
 
-  </target>
+    </target>
 
   <!-- =====================================================================
        ComponentDocumentation: create component documentation from source
@@ -636,19 +615,148 @@
     <property name="Barcode-class.dir" location="${class.dir}/Barcode" />
     <mkdir dir="${Barcode-class.dir}" />
 
-    <ai.javac5 destdir="${Barcode-class.dir}">
+    <ai.javac destdir="${Barcode-class.dir}"
+         source="1.7" target="1.7">
       <include name="${barcode.pkg}/**/*.java" />
       <classpath>
         <pathelement location="${lib.dir}/QRGenerator/core.jar" />
-        <pathelement location="${lib.dir}/android/${android.version}/android.jar" />
-        
-        
+        <pathelement location="${lib.dir}/android/5.1.1/android.jar" />
       </classpath>
-    </ai.javac5>
+    </ai.javac>
 
     <jar basedir="${Barcode-class.dir}"
          destfile="${public.build.dir}/Barcode.jar" />
 
+  </target>
+
+
+  <!-- =====================================================================
+       ExternalComponentGenerator: create required extension files
+       ===================================================================== -->
+  <target name="ExternalComponentGenerator"
+          description="generate extension files"
+          depends="AndroidRuntime, JsonComponentDescription, ComponentList">
+    <property  name="buildserver.files.library.dir" location="../buildserver/build/classes/BuildServer/files"/>
+    <mkdir dir="${ExternalComponentGenerator-class.dir}" />
+    <mkdir dir="${ExternalComponent.dir}" />
+    <mkdir dir="${ExternalComponent-class.dir}" />
+    <ai.javac5 destdir="${ExternalComponentGenerator-class.dir}">
+      <include name="${components.pkg}/scripts/ExternalComponentGenerator.java" />
+      <classpath>
+        <pathelement location="${lib.dir}/json/json.jar" />
+      </classpath>
+    </ai.javac5>
+    <java classname="com.google.appinventor.components.scripts.ExternalComponentGenerator">
+      <arg value="${public.build.dir}/simple_components.json" />
+      <arg value="${public.build.dir}/simple_components_build_info.json" />
+      <arg value="${ExternalComponent.dir}"/>
+      <arg value="${AndroidRuntime-class.dir}" />
+      <arg value="${buildserver.files.library.dir}"/>
+      <arg value="${ExternalComponent-class.dir}"/>
+      <arg value="${extensions.packagefqcn}"/>
+      <classpath>
+        <pathelement location="${ExternalComponentGenerator-class.dir}" />
+        <pathelement location="${lib.dir}/json/json.jar" />
+      </classpath>
+    </java>
+  </target>
+
+  <!-- =====================================================================
+        unjarAllExtensionLibraries : Unjarring extension's library in order for the extensions'dex to work properly.
+        ===================================================================== -->
+  <target name="unjarAllExtensionLibraries" depends="ExternalComponentGenerator">
+    <foreach target="unjarExtensionLibraries" param="extension" inheritall="true">
+      <path>
+        <dirset dir="${ExternalComponent-class.dir}">
+          <include name="*" />
+        </dirset>
+      </path>
+    </foreach>
+  </target>
+
+  <target name="unjarExtensionLibraries">
+    <basename property="extensionClassFolder" file="${extension}" />
+    <unzip dest="${ExternalComponent-class.dir}/${extensionClassFolder}">
+      <fileset dir="${ExternalComponent-class.dir}/${extensionClassFolder}">
+        <include name="**/*.jar" />
+      </fileset>
+    </unzip>
+  </target>
+
+  <!-- =====================================================================
+       jarAllExtensions: create ${extension}.jar and AndroidRuntime.jar for each extension.
+       ===================================================================== -->
+  <target name="jarAllExtensions" depends="unjarAllExtensionLibraries" >
+    <foreach target="jarExtension" param="extension" inheritall="true">
+      <path>
+        <dirset dir="${ExternalComponent-class.dir}">
+          <include name="*" />
+        </dirset>
+      </path>
+    </foreach>
+  </target>
+
+  <target name="jarExtension">
+    <basename property="extensionClassFolder" file="${extension}" />
+    <jar destfile="${ExternalComponent-class.dir}/${extensionClassFolder}.jar"
+         basedir="${ExternalComponent-class.dir}/${extensionClassFolder}"
+         includes="**/*.class"
+         excludes="*.jar" />
+    <copy file="${ExternalComponent-class.dir}/${extensionClassFolder}.jar"
+          tofile="${ExternalComponent.dir}/${extensionClassFolder}/files/AndroidRuntime.jar"/>
+    <echo>Generated build file AndroidRuntime.jar [${extensionClassFolder}]</echo>
+  </target>
+
+  <!-- =====================================================================
+       dexAllExtensions: create classes.dex for each extension.
+       ===================================================================== -->
+  <target name="dexAllExtensions" depends="jarAllExtensions">
+    <foreach target="dexExtension" param="extension">
+      <path>
+        <fileset dir="${ExternalComponent-class.dir}" >
+          <include name="*.jar"/>
+        </fileset>
+      </path>
+    </foreach>
+  </target>
+
+  <target name="dexExtension" depends="">
+    <basename property="extensionType" file="${extension}" suffix=".jar"/>
+    <java jar="${lib.dir}/android/tools/dx.jar"
+          fork="true"
+          failonerror="true">
+      <arg value="--dex"/>
+      <arg value="--no-strict"/>
+      <arg value="--output"/>
+      <arg value="${ExternalComponent.dir}/${extensionType}/classes.jar"/>
+      <arg value="${ExternalComponent-class.dir}/${extensionType}.jar"/>
+    </java>
+    <echo>Dexing extension: ${extensionType}</echo>
+  </target>
+
+
+
+  <!-- =====================================================================
+      extensions: create ${extension}.aix for each external component.
+       ===================================================================== -->
+  <target name="packExtension">
+    <basename property="extensionType" file="${extension}" />
+    <zip destfile="${Extensions.dir}/${extensionType}.aix"
+         basedir="${ExternalComponent.dir}"
+         includes="${extensionType}/"
+    />
+
+  </target>
+
+  <target name="extensions" depends="ExternalComponentGenerator, jarAllExtensions, dexAllExtensions">
+    <mkdir dir="${Extensions.dir}" />
+    <foreach target="packExtension" param="extension" inheritall="true">
+      <path>
+        <dirset dir="${ExternalComponent.dir}">
+          <include name="*" />
+        </dirset>
+      </path>
+    </foreach>
   </target>
 
 </project>

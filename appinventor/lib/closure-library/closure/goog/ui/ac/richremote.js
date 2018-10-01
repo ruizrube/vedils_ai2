@@ -46,6 +46,7 @@ goog.require('goog.ui.ac.RichRemoteArrayMatcher');
  * inputbox or textarea from data provided via ajax.  The server returns a
  * complex data structure that is used with client-side javascript functions to
  * render the results.
+ *
  * @param {string} url The Uri which generates the auto complete matches.
  * @param {Element} input Input element or text area.
  * @param {boolean=} opt_multi Whether to allow multiple entries; defaults
@@ -77,8 +78,7 @@ goog.ui.ac.RichRemote = function(url, input, opt_multi, opt_useSimilar) {
    * @type {goog.ui.ac.RichRemoteArrayMatcher}
    * @private
    */
-  var matcher = new goog.ui.ac.RichRemoteArrayMatcher(url,
-      !opt_useSimilar);
+  var matcher = new goog.ui.ac.RichRemoteArrayMatcher(url, !opt_useSimilar);
   this.matcher_ = matcher;
 
   /**
@@ -86,8 +86,8 @@ goog.ui.ac.RichRemote = function(url, input, opt_multi, opt_useSimilar) {
    * @type {goog.ui.ac.RichInputHandler}
    * @private
    */
-  var inputhandler = new goog.ui.ac.RichInputHandler(null, null,
-      !!opt_multi, 300);
+  var inputhandler =
+      new goog.ui.ac.RichInputHandler(null, null, !!opt_multi, 300);
 
   // Create the widget and connect it to the input handler.
   goog.ui.ac.AutoComplete.call(this, matcher, renderer, inputhandler);

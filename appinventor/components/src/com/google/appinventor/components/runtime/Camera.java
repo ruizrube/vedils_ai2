@@ -190,7 +190,7 @@ public class Camera extends AndroidNonvisibleComponent
     mediaScanIntent.setData(contentUri);
     container.$context().getApplicationContext().sendBroadcast(mediaScanIntent);
   }
-  
+
   private void deleteFile(Uri fileUri) {
     File fileToDelete = new File(fileUri.getPath());
     try {

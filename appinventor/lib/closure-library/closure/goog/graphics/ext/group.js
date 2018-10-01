@@ -21,6 +21,7 @@
 
 goog.provide('goog.graphics.ext.Group');
 
+goog.require('goog.array');
 goog.require('goog.graphics.ext.Element');
 
 
@@ -36,13 +37,13 @@ goog.require('goog.graphics.ext.Element');
  * @extends {goog.graphics.ext.Element}
  */
 goog.graphics.ext.Group = function(group, opt_wrapper) {
-  opt_wrapper = opt_wrapper || group.getGraphicsImplementation().createGroup(
-      group.getWrapper());
+  opt_wrapper = opt_wrapper ||
+      group.getGraphicsImplementation().createGroup(group.getWrapper());
   goog.graphics.ext.Element.call(this, group, opt_wrapper);
 
   /**
    * Array of child elements this group contains.
-   * @type {Array.<goog.graphics.ext.Element>}
+   * @type {Array<goog.graphics.ext.Element>}
    * @private
    */
   this.children_ = [];
@@ -109,7 +110,7 @@ goog.graphics.ext.Group.prototype.forEachChild = function(f, opt_obj) {
 
 /**
  * @return {goog.graphics.GroupElement} The underlying thin wrapper.
- * @protected
+ * @override
  */
 goog.graphics.ext.Group.prototype.getWrapper;
 

@@ -1,6 +1,6 @@
 // -*- mode: java; c-basic-offset: 2; -*-
 // Copyright 2009-2011 Google, All Rights reserved
-// Copyright 2011-2012 MIT, All rights reserved
+// Copyright 2011-2017 MIT, All rights reserved
 // Released under the Apache License, Version 2.0
 // http://www.apache.org/licenses/LICENSE-2.0
 
@@ -13,10 +13,20 @@ import com.google.appinventor.components.annotations.SimpleEvent;
 import com.google.appinventor.components.annotations.SimpleFunction;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
+import com.google.appinventor.components.annotations.SimpleBroadcastReceiver;
 import com.google.appinventor.components.annotations.UsesAssets;
 import com.google.appinventor.components.annotations.UsesLibraries;
 import com.google.appinventor.components.annotations.UsesNativeLibraries;
 import com.google.appinventor.components.annotations.UsesPermissions;
+import com.google.appinventor.components.annotations.UsesActivities;
+import com.google.appinventor.components.annotations.UsesBroadcastReceivers;
+import com.google.appinventor.components.annotations.androidmanifest.ActivityElement;
+import com.google.appinventor.components.annotations.androidmanifest.ReceiverElement;
+import com.google.appinventor.components.annotations.androidmanifest.IntentFilterElement;
+import com.google.appinventor.components.annotations.androidmanifest.MetaDataElement;
+import com.google.appinventor.components.annotations.androidmanifest.ActionElement;
+import com.google.appinventor.components.annotations.androidmanifest.DataElement;
+import com.google.appinventor.components.annotations.androidmanifest.CategoryElement;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -24,6 +34,10 @@ import com.google.common.collect.Sets;
 
 import java.io.IOException;
 import java.io.Writer;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -47,6 +61,17 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
+import javax.lang.model.util.AbstractTypeVisitor7;
+import javax.lang.model.util.Elements;
+import javax.lang.model.util.SimpleTypeVisitor7;
+import javax.lang.model.util.Types;
+
+import java.lang.annotation.Annotation;
+
+import java.lang.reflect.InvocationTargetException;
+
+import javax.tools.Diagnostic;
+import javax.tools.Diagnostic.Kind;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
 
@@ -77,9 +102,16 @@ import javax.tools.StandardLocation;
  * [lyn, 2015/12/29] Added deprecated instance variable to ParameterizedFeature.
  *   This is inherited by Event, Method, and Property, which are modified
  *   slightly to handle it.
+ *
+ * [Will, 2016/9/20] Added methods to process annotations in the package
+ *   com.google.appinventor.components.annotations.androidmanifest and the
+ *   appropriate calls in {@link #processComponent(Element)}.
  */
 public abstract class ComponentProcessor extends AbstractProcessor {
   private static final String OUTPUT_PACKAGE = "";
+
+  public static final String MISSING_SIMPLE_PROPERTY_ANNOTATION =
+      "Designer property %s does not have a corresponding @SimpleProperty annotation.";
 
   // Returned by getSupportedAnnotationTypes()
   private static final Set<String> SUPPORTED_ANNOTATION_TYPES = ImmutableSet.of(
@@ -89,9 +121,16 @@ public abstract class ComponentProcessor extends AbstractProcessor {
       "com.google.appinventor.components.annotations.SimpleFunction",
       "com.google.appinventor.components.annotations.SimpleObject",
       "com.google.appinventor.components.annotations.SimpleProperty",
+      // TODO(Will): Remove the following string once the deprecated
+      //             @SimpleBroadcastReceiver annotation is removed. It should
+      //             should remain for the time being because otherwise we'll break
+      //             extensions currently using @SimpleBroadcastReceiver.
+      "com.google.appinventor.components.annotations.SimpleBroadcastReceiver",
       "com.google.appinventor.components.annotations.UsesAssets",
       "com.google.appinventor.components.annotations.UsesLibraries",
       "com.google.appinventor.components.annotations.UsesNativeLibraries",
+      "com.google.appinventor.components.annotations.UsesActivities",
+      "com.google.appinventor.components.annotations.UsesBroadcastReceivers",
       "com.google.appinventor.components.annotations.UsesPermissions");
 
   // Returned by getRwString()
@@ -131,6 +170,13 @@ public abstract class ComponentProcessor extends AbstractProcessor {
   protected final SortedMap<String, ComponentInfo> components = Maps.newTreeMap();
 
   private final List<String> componentTypes = Lists.newArrayList();
+
+  /**
+   * A set of visited types in the class hierarchy. This is used to reduce the complexity of
+   * detecting whether a class implements {@link com.google.appinventor.components.runtime.Component}
+   * from O(n^2) to O(n) by tracking visited nodes to prevent repeat explorations of the class tree.
+   */
+  private final Set<String> visitedTypes = new HashSet<>();
 
   /**
    * Represents a parameter consisting of a name and a type.  The type is a
@@ -460,6 +506,25 @@ public abstract class ComponentProcessor extends AbstractProcessor {
     protected final Set<String> assets;
 
     /**
+     * Activities required by this component.
+     */
+    protected final Set<String> activities;
+
+    /**
+     * Broadcast receivers required by this component.
+     */
+    protected final Set<String> broadcastReceivers;
+  
+    /**
+     * TODO(Will): Remove the following field once the deprecated {@link SimpleBroadcastReceiver}
+     *             annotation is removed. It should should remain for the time being
+     *             because otherwise we'll break extensions currently using it.
+     *
+     * Class Name and Filter Actions for a simple Broadcast Receiver
+     */
+    protected final Set<String> classNameAndActionsBR;
+
+    /**
      * Properties of this component that are visible in the Designer.
      * @see DesignerProperty
      */
@@ -496,7 +561,11 @@ public abstract class ComponentProcessor extends AbstractProcessor {
      */
     protected final String displayName;
 
+    protected final String type;
+    protected boolean external;
+
     private String helpDescription;  // Shorter popup description
+    private String helpUrl;  // Custom help URL for extensions
     private String category;
     private String categoryString;
     private boolean simpleObject;
@@ -505,26 +574,34 @@ public abstract class ComponentProcessor extends AbstractProcessor {
     private boolean showOnPalette;
     private boolean nonVisible;
     private String iconName;
+    private int androidMinSdk;
 
     protected ComponentInfo(Element element) {
       super(element.getSimpleName().toString(),  // Short name
             elementUtils.getDocComment(element),
             "Component");
+      type = element.asType().toString();
       displayName = getDisplayNameForComponentType(name);
       permissions = Sets.newHashSet();
       libraries = Sets.newHashSet();
       nativeLibraries = Sets.newHashSet();
       assets = Sets.newHashSet();
+      activities = Sets.newHashSet();
+      broadcastReceivers = Sets.newHashSet();
+      classNameAndActionsBR = Sets.newHashSet();
       designerProperties = Maps.newTreeMap();
       properties = Maps.newTreeMap();
       methods = Maps.newTreeMap();
       events = Maps.newTreeMap();
       abstractClass = element.getModifiers().contains(Modifier.ABSTRACT);
+      external = false;
       for (AnnotationMirror am : element.getAnnotationMirrors()) {
         DeclaredType dt = am.getAnnotationType();
         String annotationName = am.getAnnotationType().toString();
         if (annotationName.equals(SimpleObject.class.getName())) {
           simpleObject = true;
+          SimpleObject simpleObjectAnnotation = element.getAnnotation(SimpleObject.class);
+          external = simpleObjectAnnotation.external();
         }
         if (annotationName.equals(DesignerComponent.class.getName())) {
           designerComponent = true;
@@ -544,6 +621,10 @@ public abstract class ComponentProcessor extends AbstractProcessor {
           if (helpDescription.isEmpty()) {
             helpDescription = description;
           }
+          helpUrl = designerComponentAnnotation.helpUrl();
+          if (!helpUrl.startsWith("http:") && !helpUrl.startsWith("https:")) {
+            helpUrl = "";  // only accept http: or https: URLs (e.g., no javascript:)
+          }
 
           category = designerComponentAnnotation.category().getName();
           categoryString = designerComponentAnnotation.category().toString();
@@ -551,6 +632,7 @@ public abstract class ComponentProcessor extends AbstractProcessor {
           showOnPalette = designerComponentAnnotation.showOnPalette();
           nonVisible = designerComponentAnnotation.nonVisible();
           iconName = designerComponentAnnotation.iconName();
+          androidMinSdk = designerComponentAnnotation.androidMinSdk();
         }
       }
     }
@@ -567,6 +649,15 @@ public abstract class ComponentProcessor extends AbstractProcessor {
      */
     protected String getHelpDescription() {
       return helpDescription;
+    }
+
+    /**
+     * Custom help URL to documentation for a component (typically an extension)
+     *
+     * @return  the custom help URL, if any, for the component
+     */
+    protected String getHelpUrl() {
+      return helpUrl;
     }
 
     /**
@@ -623,6 +714,15 @@ public abstract class ComponentProcessor extends AbstractProcessor {
     }
 
     /**
+     * Returns whether this component is an external component or not.
+     *
+     * @return true if the component is external. false otherwise.
+     */
+    protected boolean getExternal() {
+      return external;
+    }
+
+    /**
      * Returns the name of the icon file used on the Designer palette, as specified in
      * {@link DesignerComponent#iconName()}.
      *
@@ -630,6 +730,16 @@ public abstract class ComponentProcessor extends AbstractProcessor {
      */
     protected String getIconName() {
       return iconName;
+    }
+
+    /**
+     * Returns the minimum Android SDK required for the component to run, as specified in
+     * {@link DesignerComponent#androidMinSdk()}.
+     *
+     * @return the minimum Android sdk for the component
+     */
+    protected int getAndroidMinSdk() {
+      return androidMinSdk;
     }
 
     private String getDisplayNameForComponentType(String componentTypeName) {
@@ -680,17 +790,31 @@ public abstract class ComponentProcessor extends AbstractProcessor {
 
     messager = processingEnv.getMessager();
 
+    List<Element> elements = new ArrayList<>();
+    List<Element> excludedElements = new ArrayList<>();
     for (TypeElement te : annotations) {
-      if (te.getSimpleName().toString().equals("DesignerComponent")
-          || te.getSimpleName().toString().equals("SimpleObject")) {
+      if (te.getSimpleName().toString().equals("DesignerComponent")) {
+        elements.addAll(roundEnv.getElementsAnnotatedWith(te));
+      } else if (te.getSimpleName().toString().equals("SimpleObject")) {
         for (Element element : roundEnv.getElementsAnnotatedWith(te)) {
-          processComponent(element);
+          SimpleObject annotation = element.getAnnotation(SimpleObject.class);
+          if (!annotation.external()) {
+            elements.add(element);
+          } else {
+            excludedElements.add(element);
+          }
         }
       }
+    }
+    for (Element element : elements) {
+      processComponent(element);
     }
 
     // Put the component class names (including abstract classes)
     componentTypes.addAll(components.keySet());
+    for (Element element : excludedElements) {
+      componentTypes.add(element.asType().toString());  // allow extensions to reference one another
+    }
 
     // Remove non-components before calling outputResults.
     List<String> removeList = Lists.newArrayList();
@@ -727,7 +851,7 @@ public abstract class ComponentProcessor extends AbstractProcessor {
     }
 
     // If we already processed this component, return early.
-    String longComponentName = element.asType().toString();
+    String longComponentName = ((TypeElement) element).getQualifiedName().toString();
     if (components.containsKey(longComponentName)) {
       return;
     }
@@ -741,6 +865,8 @@ public abstract class ComponentProcessor extends AbstractProcessor {
       // Only look at the first one.  Later ones would be interfaces,
       // which we don't care about.
       String parentName = directSupertypes.get(0).toString();
+      Element e = ((DeclaredType) directSupertypes.get(0)).asElement();
+      parentName = ((TypeElement) e).getQualifiedName().toString();
       ComponentInfo parentComponent = components.get(parentName);
       if (parentComponent == null) {
         // Try to process the parent component now.
@@ -760,6 +886,13 @@ public abstract class ComponentProcessor extends AbstractProcessor {
         componentInfo.libraries.addAll(parentComponent.libraries);
         componentInfo.nativeLibraries.addAll(parentComponent.nativeLibraries);
         componentInfo.assets.addAll(parentComponent.assets);
+        componentInfo.activities.addAll(parentComponent.activities);
+        componentInfo.broadcastReceivers.addAll(parentComponent.broadcastReceivers);
+        // TODO(Will): Remove the following call once the deprecated
+        //             @SimpleBroadcastReceiver annotation is removed. It should
+        //             should remain for the time being because otherwise we'll break
+        //             extensions currently using @SimpleBroadcastReceiver.
+        componentInfo.classNameAndActionsBR.addAll(parentComponent.classNameAndActionsBR);
         // Since we don't modify DesignerProperties, we can just call Map.putAll to copy the
         // designer properties from parentComponent to componentInfo.
         componentInfo.designerProperties.putAll(parentComponent.designerProperties);
@@ -784,7 +917,7 @@ public abstract class ComponentProcessor extends AbstractProcessor {
     UsesPermissions usesPermissions = element.getAnnotation(UsesPermissions.class);
     if (usesPermissions != null) {
       for (String permission : usesPermissions.permissionNames().split(",")) {
-        componentInfo.permissions.add(permission.trim());
+        updateWithNonEmptyValue(componentInfo.permissions, permission);
       }
     }
 
@@ -792,7 +925,7 @@ public abstract class ComponentProcessor extends AbstractProcessor {
     UsesLibraries usesLibraries = element.getAnnotation(UsesLibraries.class);
     if (usesLibraries != null) {
       for (String library : usesLibraries.libraries().split(",")) {
-        componentInfo.libraries.add(library.trim());
+        updateWithNonEmptyValue(componentInfo.libraries, library);
       }
     }
 
@@ -800,10 +933,10 @@ public abstract class ComponentProcessor extends AbstractProcessor {
     UsesNativeLibraries usesNativeLibraries = element.getAnnotation(UsesNativeLibraries.class);
     if (usesNativeLibraries != null) {
       for (String nativeLibrary : usesNativeLibraries.libraries().split(",")) {
-        componentInfo.nativeLibraries.add(nativeLibrary.trim());
+        updateWithNonEmptyValue(componentInfo.nativeLibraries, nativeLibrary);
       }
       for (String v7aLibrary : usesNativeLibraries.v7aLibraries().split(",")) {
-        componentInfo.nativeLibraries.add(v7aLibrary.trim() + ARMEABI_V7A_SUFFIX);
+        updateWithNonEmptyValue(componentInfo.nativeLibraries, v7aLibrary.trim() + ARMEABI_V7A_SUFFIX);
       }
     }
 
@@ -811,7 +944,66 @@ public abstract class ComponentProcessor extends AbstractProcessor {
     UsesAssets usesAssets = element.getAnnotation(UsesAssets.class);
     if (usesAssets != null) {
       for (String file : usesAssets.fileNames().split(",")) {
-        componentInfo.assets.add(file.trim());
+        updateWithNonEmptyValue(componentInfo.assets, file);
+      }
+    }
+
+    // Gather the required activities and build their element strings.
+    UsesActivities usesActivities = element.getAnnotation(UsesActivities.class);
+    if (usesActivities != null) {
+      try {
+        for (ActivityElement ae : usesActivities.activities()) {
+          updateWithNonEmptyValue(componentInfo.activities, activityElementToString(ae));
+        }
+      } catch (IllegalAccessException e) {
+        messager.printMessage(Diagnostic.Kind.ERROR, "IllegalAccessException when gathering " +
+            "activity attributes and subelements for component " + componentInfo.name);
+        throw new RuntimeException(e);
+      } catch (InvocationTargetException e) {
+        messager.printMessage(Diagnostic.Kind.ERROR, "InvocationTargetException when gathering " +
+            "activity attributes and subelements for component " + componentInfo.name);
+        throw new RuntimeException(e);
+      }
+    }
+
+    // Gather the required broadcast receivers and build their element strings.
+    UsesBroadcastReceivers usesBroadcastReceivers = element.getAnnotation(UsesBroadcastReceivers.class);
+    if (usesBroadcastReceivers != null) {
+      try {
+        for (ReceiverElement re : usesBroadcastReceivers.receivers()) {
+          updateWithNonEmptyValue(componentInfo.broadcastReceivers, receiverElementToString(re));
+        }
+      } catch (IllegalAccessException e) {
+        messager.printMessage(Diagnostic.Kind.ERROR, "IllegalAccessException when gathering " +
+            "broadcast receiver attributes and subelements for component " + componentInfo.name);
+        throw new RuntimeException(e);
+      } catch (InvocationTargetException e) {
+        messager.printMessage(Diagnostic.Kind.ERROR, "InvocationTargetException when gathering " +
+            "broadcast receiver attributes and subelements for component " + componentInfo.name);
+        throw new RuntimeException(e);
+      }
+    }
+  
+    // TODO(Will): Remove the following legacy code once the deprecated
+    //             @SimpleBroadcastReceiver annotation is removed. It should
+    //             should remain for the time being because otherwise we'll break
+    //             extensions currently using @SimpleBroadcastReceiver.
+    //
+    // Gather required actions for legacy Broadcast Receivers. The annotation
+    // has a Class Name and zero or more Filter Actions.  In the
+    // resulting String, Class name will go first, and each Action
+    // will be added, separated by a comma.
+  
+    SimpleBroadcastReceiver simpleBroadcastReceiver = element.getAnnotation(SimpleBroadcastReceiver.class);
+    if (simpleBroadcastReceiver != null) {
+      for (String className : simpleBroadcastReceiver.className().split(",")){
+        StringBuffer nameAndActions = new StringBuffer();
+        nameAndActions.append(className.trim());
+        for (String action : simpleBroadcastReceiver.actions().split(",")) {
+          nameAndActions.append("," + action.trim());
+        }
+        componentInfo.classNameAndActionsBR.add(nameAndActions.toString());
+        break; // We only need one class name; If more than one is passed, ignore all but first.
       }
     }
 
@@ -876,6 +1068,7 @@ public abstract class ComponentProcessor extends AbstractProcessor {
     // Use typeMirror to set the property's type.
     if (!typeMirror.getKind().equals(TypeKind.VOID)) {
       property.type = typeMirror.toString();
+      updateComponentTypes(typeMirror);
     }
 
     property.componentInfoName = componentInfoName;
@@ -883,9 +1076,168 @@ public abstract class ComponentProcessor extends AbstractProcessor {
     return property;
   }
 
+  // Transform an @ActivityElement into an XML element String for use later
+  // in creating AndroidManifest.xml.
+  private static String activityElementToString(ActivityElement element)
+      throws IllegalAccessException, InvocationTargetException {
+    // First, we build the <activity> element's opening tag including any
+    // receiver element attributes.
+    StringBuilder elementString = new StringBuilder("    <activity ");
+    elementString.append(elementAttributesToString(element));
+    elementString.append(">\\n");
+
+    // Now, we collect any <activity> subelements.
+    elementString.append(subelementsToString(element.metaDataElements()));
+    elementString.append(subelementsToString(element.intentFilters()));
+
+    // Finally, we close the <activity> element and create its String.
+    return elementString.append("    </activity>\\n").toString();
+  }
+
+  // Transform a @ReceiverElement into an XML element String for use later
+  // in creating AndroidManifest.xml.
+  private static String receiverElementToString(ReceiverElement element)
+      throws IllegalAccessException, InvocationTargetException {
+    // First, we build the <receiver> element's opening tag including any
+    // receiver element attributes.
+    StringBuilder elementString = new StringBuilder("    <receiver ");
+    elementString.append(elementAttributesToString(element));
+    elementString.append(">\\n");
+
+    // Now, we collect any <receiver> subelements.
+    elementString.append(subelementsToString(element.metaDataElements()));
+    elementString.append(subelementsToString(element.intentFilters()));
+
+    // Finally, we close the <receiver> element and create its String.
+    return elementString.append("    </receiver>\\n").toString();
+  }
+
+  // Transform a @MetaDataElement into an XML element String for use later
+  // in creating AndroidManifest.xml.
+  private static String metaDataElementToString(MetaDataElement element)
+      throws IllegalAccessException, InvocationTargetException {
+    // First, we build the <meta-data> element's opening tag including any
+    // receiver element attributes.
+    StringBuilder elementString = new StringBuilder("      <meta-data ");
+    elementString.append(elementAttributesToString(element));
+    // Finally, we close the <meta-data> element and create its String.
+    return elementString.append("/>\\n").toString();
+  }
+
+  // Transform an @IntentFilterElement into an XML element String for use later
+  // in creating AndroidManifest.xml.
+  private static String intentFilterElementToString(IntentFilterElement element)
+      throws IllegalAccessException, InvocationTargetException {
+    // First, we build the <intent-filter> element's opening tag including any
+    // receiver element attributes.
+    StringBuilder elementString = new StringBuilder("      <intent-filter ");
+    elementString.append(elementAttributesToString(element));
+    elementString.append(">\\n");
+    
+    // Now, we collect any <intent-filter> subelements.
+    elementString.append(subelementsToString(element.actionElements()));
+    elementString.append(subelementsToString(element.categoryElements()));
+    elementString.append(subelementsToString(element.dataElements()));
+
+    // Finally, we close the <intent-filter> element and create its String.
+    return elementString.append("    </intent-filter>\\n").toString();
+  }
+
+  // Transform an @ActionElement into an XML element String for use later
+  // in creating AndroidManifest.xml.
+  private static String actionElementToString(ActionElement element)
+      throws IllegalAccessException, InvocationTargetException {
+    // First, we build the <action> element's opening tag including any
+    // receiver element attributes.
+    StringBuilder elementString = new StringBuilder("        <action ");
+    elementString.append(elementAttributesToString(element));
+    // Finally, we close the <action> element and create its String.
+    return elementString.append("/>\\n").toString();
+  }
+
+  // Transform an @CategoryElement into an XML element String for use later
+  // in creating AndroidManifest.xml.
+  private static String categoryElementToString(CategoryElement element)
+      throws IllegalAccessException, InvocationTargetException {
+    // First, we build the <category> element's opening tag including any
+    // receiver element attributes.
+    StringBuilder elementString = new StringBuilder("        <category ");
+    elementString.append(elementAttributesToString(element));
+    // Finally, we close the <category> element and create its String.
+    return elementString.append("/>\\n").toString();
+  }
+
+  // Transform an @DataElement into an XML element String for use later
+  // in creating AndroidManifest.xml.
+  private static String dataElementToString(DataElement element)
+      throws IllegalAccessException, InvocationTargetException {
+    // First, we build the <data> element's opening tag including any
+    // receiver element attributes.
+    StringBuilder elementString = new StringBuilder("        <data ");
+    elementString.append(elementAttributesToString(element));
+    // Finally, we close the <data> element and create its String.
+    return elementString.append("/>\\n").toString();
+  }
+
+  // Build the attribute String for a given XML element modeled by an
+  // annotation.
+  //
+  // Note that we use the fully qualified names for certain classes in the
+  // "java.lang.reflect" package to avoid namespace collisions.
+  private static String elementAttributesToString(Annotation element)
+      throws IllegalAccessException, InvocationTargetException {
+    StringBuilder attributeString = new StringBuilder("");
+    Class<? extends Annotation> clazz = element.annotationType();
+    java.lang.reflect.Method[] methods = clazz.getDeclaredMethods();
+    String attributeSeparator = "";
+    for (java.lang.reflect.Method method : methods) {
+      int modCode = method.getModifiers();
+      if (java.lang.reflect.Modifier.isPublic(modCode)
+          && !java.lang.reflect.Modifier.isStatic(modCode)) {
+        if (method.getReturnType().getSimpleName().equals("String")) {
+          // It is an XML element attribute.
+          String attributeValue = (String) method.invoke(clazz.cast(element));
+          if (!attributeValue.equals("")) {
+            attributeString.append(attributeSeparator);
+            attributeString.append("android:");
+            attributeString.append(method.getName());
+            attributeString.append("=\\\"");
+            attributeString.append(attributeValue);
+            attributeString.append("\\\"");
+            attributeSeparator = " ";
+          }
+        }
+      }
+    }
+    return attributeString.toString();
+  }
+  
+  // Build the subelement String for a given array of XML elements modeled by
+  // corresponding annotations.
+  private static String subelementsToString(Annotation[] subelements)
+      throws IllegalAccessException, InvocationTargetException {
+    StringBuilder subelementString = new StringBuilder("");
+    for (Annotation subelement : subelements) {
+      if (subelement instanceof MetaDataElement) {
+        subelementString.append(metaDataElementToString((MetaDataElement) subelement));
+      } else if (subelement instanceof IntentFilterElement) {
+        subelementString.append(intentFilterElementToString((IntentFilterElement) subelement));
+      } else if (subelement instanceof ActionElement) {
+        subelementString.append(actionElementToString((ActionElement) subelement));
+      } else if (subelement instanceof CategoryElement) {
+        subelementString.append(categoryElementToString((CategoryElement) subelement));
+      } else if (subelement instanceof DataElement) {
+        subelementString.append(dataElementToString((DataElement) subelement));
+      }
+    }
+    return subelementString.toString();
+  }
+
   private void processProperties(ComponentInfo componentInfo,
                                  Element componentElement) {
     // We no longer support properties that use the variant type.
+
+    Map<String, Element> propertyElementsToCheck = new HashMap<>();
 
     for (Element element : componentElement.getEnclosedElements()) {
       if (!isPublicMethod(element)) {
@@ -899,6 +1251,7 @@ public abstract class ComponentProcessor extends AbstractProcessor {
       DesignerProperty designerProperty = element.getAnnotation(DesignerProperty.class);
       if (designerProperty != null) {
         componentInfo.designerProperties.put(propertyName, designerProperty);
+        propertyElementsToCheck.put(propertyName, element);
       }
 
       // If property is overridden without again using SimpleProperty, remove
@@ -968,6 +1321,20 @@ public abstract class ComponentProcessor extends AbstractProcessor {
         }
       }
     }
+
+    // Verify that every DesignerComponent has a corresponding property entry. A mismatch results
+    // in App Inventor being unable to generate code for the designer since the type information
+    // is in the block property only. We check that the designer property name is also present
+    // in the block properties. If not, an error is reported and the build terminates.
+    Set<String> propertyNames = new HashSet<>(componentInfo.designerProperties.keySet());
+    propertyNames.removeAll(componentInfo.properties.keySet());
+    if (!propertyNames.isEmpty()) {
+      for (String propertyName : propertyNames) {
+        messager.printMessage(Kind.ERROR,
+            String.format(MISSING_SIMPLE_PROPERTY_ANNOTATION, propertyName),
+            propertyElementsToCheck.get(propertyName));
+      }
+    }
   }
 
   // Note: The top halves of the bodies of processEvent() and processMethods()
@@ -1019,6 +1386,7 @@ public abstract class ComponentProcessor extends AbstractProcessor {
         for (VariableElement ve : e.getParameters()) {
           event.addParameter(ve.getSimpleName().toString(),
                              ve.asType().toString());
+          updateComponentTypes(ve.asType());
         }
       }
     }
@@ -1070,11 +1438,13 @@ public abstract class ComponentProcessor extends AbstractProcessor {
         for (VariableElement ve : e.getParameters()) {
           method.addParameter(ve.getSimpleName().toString(),
                               ve.asType().toString());
+          updateComponentTypes(ve.asType());
         }
 
         // Extract the return type.
         if (e.getReturnType().getKind() != TypeKind.VOID) {
           method.returnType = e.getReturnType().toString();
+          updateComponentTypes(e.getReturnType());
         }
       }
     }
@@ -1110,9 +1480,9 @@ public abstract class ComponentProcessor extends AbstractProcessor {
     if (type.equals("java.lang.String")) {
       return "text";
     }
-    // {float, double, int, short, long} -> number
+    // {float, double, int, short, long, byte} -> number
     if (type.equals("float") || type.equals("double") || type.equals("int") ||
-        type.equals("short") || type.equals("long")) {
+        type.equals("short") || type.equals("long") || type.equals("byte")) {
       return "number";
     }
     // YailList -> list
@@ -1136,6 +1506,10 @@ public abstract class ComponentProcessor extends AbstractProcessor {
 
     if (type.equals("java.lang.Object")) {
       return "any";
+    }
+
+    if (type.equals("com.google.appinventor.components.runtime.Component")) {
+      return "component";
     }
 
     // Check if it's a component.
@@ -1171,5 +1545,49 @@ public abstract class ComponentProcessor extends AbstractProcessor {
    */
   protected Writer getOutputWriter(String fileName) throws IOException {
     return createOutputFileObject(fileName).openWriter();
+  }
+
+  /**
+   * Tracks the superclass and superinterfaces for the given type and if the type inherits from
+   * {@link com.google.appinventor.components.runtime.Component} then it adds the class to the
+   * componentTypes list. This allows properties, methods, and events to use concrete Component
+   * types as parameters and return values.
+   *
+   * @param type a TypeMirror representing a type on the class path
+   */
+  private void updateComponentTypes(TypeMirror type) {
+    if (type.getKind() == TypeKind.DECLARED) {
+      type.accept(new SimpleTypeVisitor7<Boolean, Set<String>>(false) {
+        @Override
+        public Boolean visitDeclared(DeclaredType t, Set<String> types) {
+          final String typeName = t.asElement().toString();
+          if ("com.google.appinventor.components.runtime.Component".equals(typeName)) {
+            return true;
+          }
+          if (!types.contains(typeName)) {
+            types.add(typeName);
+            final TypeElement typeElement = (TypeElement) t.asElement();
+            if (typeElement.getSuperclass().accept(this, types)) {
+              componentTypes.add(typeName);
+              return true;
+            }
+            for (TypeMirror iface : typeElement.getInterfaces()) {
+              if (iface.accept(this, types)) {
+                componentTypes.add(typeName);
+                return true;
+              }
+            }
+          }
+          return componentTypes.contains(typeName);
+        }
+      }, visitedTypes);
+    }
+  }
+
+  private void updateWithNonEmptyValue(Set<String> collection, String value) {
+    String trimmedValue = value.trim();
+    if (!trimmedValue.isEmpty()) {
+      collection.add(trimmedValue);
+    }
   }
 }

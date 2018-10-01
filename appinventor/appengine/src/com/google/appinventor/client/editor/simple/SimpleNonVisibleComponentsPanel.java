@@ -14,6 +14,7 @@ import java.util.List;
 import com.google.appinventor.client.editor.simple.components.MockComponent;
 import com.google.appinventor.client.editor.simple.components.MockForm;
 import com.google.appinventor.client.editor.simple.palette.SimplePaletteItem;
+import com.google.appinventor.client.explorer.project.ComponentDatabaseChangeListener;
 import com.google.appinventor.client.widgets.dnd.DragSource;
 import com.google.appinventor.client.widgets.dnd.DropTarget;
 import com.google.gwt.user.client.ui.Composite;
@@ -21,12 +22,13 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import java.util.Map;
 
 /**
  * Panel in the Simple design editor holding non-visible Simple components.
  *
  */
-public final class SimpleNonVisibleComponentsPanel extends Composite implements DropTarget {
+public final class SimpleNonVisibleComponentsPanel extends Composite implements DropTarget, ComponentDatabaseChangeListener {
 
   // UI elements
   private final Label heading;
@@ -67,7 +69,7 @@ public final class SimpleNonVisibleComponentsPanel extends Composite implements 
     heading = new Label("");
     heading.setStyleName("ya-NonVisibleComponentsHeader");
     panel.add(heading);
-    
+
     componentsPanel = new FlowPanel();
     componentsPanel.setStyleName("ode-SimpleUiDesignerNonVisibleComponents");
     panel.add(componentsPanel);
@@ -164,5 +166,25 @@ public final class SimpleNonVisibleComponentsPanel extends Composite implements 
     // Add component to this panel
     addComponent(sourceComponent);
     sourceComponent.select();
+  }
+
+  @Override
+  public void onComponentTypeAdded(List<String> componentTypes) {
+
+  }
+
+  @Override
+  public boolean beforeComponentTypeRemoved(List<String> componentTypes) {
+    return true;
+  }
+
+  @Override
+  public void onComponentTypeRemoved(Map<String, String> componentTypes) {
+
+  }
+
+  @Override
+  public void onResetDatabase() {
+
   }
 }

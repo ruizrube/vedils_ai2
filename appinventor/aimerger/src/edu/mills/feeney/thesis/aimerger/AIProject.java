@@ -36,6 +36,7 @@ public class AIProject {
 
   /**
    * Creates a new AIProject.
+   *
    * @param projectPath the path to the project from the home directory
    */
   public AIProject(String projectPath) {
@@ -84,6 +85,7 @@ public class AIProject {
 
   /**
    * Returns the AIProject's name.
+   *
    * @return AIProject's name
    */
   public String getProjectName() {
@@ -98,6 +100,7 @@ public class AIProject {
 
   /**
    * Returns the AIProject's path from home directory.
+   *
    * @return AIProject's path from home directory
    */
   public String getProjectPath() {
@@ -106,6 +109,7 @@ public class AIProject {
 
   /**
    * Returns the AIProject's list of AIScreens.
+   *
    * @return list of project's AIScreens
    */
   public List<AIScreen> getScreensList() {
@@ -114,6 +118,7 @@ public class AIProject {
 
   /**
    * Returns the AIProject's list of AIAssets.
+   *
    * @return list of project's AIAssets
    */
   public List<AIAsset> getAssetsList() {
@@ -122,6 +127,7 @@ public class AIProject {
 
   /**
    * Returns the path to the projects properties file from project file.
+   *
    * @return path to project's properties file within the project file
    */
   public String getPropertiesFilePath() {
@@ -130,6 +136,7 @@ public class AIProject {
 
   /**
    * Sets the projects properties file
+   *
    * @param propertiesFilePath the path to the project's properties file within the project
    */
   public void setPropertiesFilePath(String propertiesFilePath) {
@@ -138,6 +145,7 @@ public class AIProject {
 
   /**
    * Returns if the project is valid and can be used for a merge.
+   *
    * @return if project is valid
    */
   public boolean isValid() {

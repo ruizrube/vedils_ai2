@@ -21,14 +21,13 @@
 goog.provide('goog.json.NativeJsonProcessor');
 
 goog.require('goog.asserts');
-goog.require('goog.json');
 goog.require('goog.json.Processor');
 
 
 
 /**
  * A class that parses and stringifies JSON using the browser's built-in JSON
- * library, if it is avaliable.
+ * library, if it is available.
  *
  * Note that the native JSON api has subtle differences across browsers, so
  * use this implementation with care.  See json_test#assertSerialize
@@ -43,6 +42,7 @@ goog.require('goog.json.Processor');
  *     parsing.
  * @constructor
  * @implements {goog.json.Processor}
+ * @final
  */
 goog.json.NativeJsonProcessor = function(opt_replacer, opt_reviver) {
   goog.asserts.assert(goog.isDef(goog.global['JSON']), 'JSON not defined');

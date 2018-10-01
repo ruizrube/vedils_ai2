@@ -22,7 +22,6 @@ public class AIAsset {
   }
 
   /**
-   * Returns an AIAsset's directory path within the project file.
    * @return AIAsset's directory path within the project file
    */
   public String getPath() {

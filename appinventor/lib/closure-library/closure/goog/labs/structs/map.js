@@ -20,13 +20,13 @@
  * not be usable using a normal object literal {}. Some examples
  * include __proto__ (all newer browsers), toString/hasOwnProperty (IE
  * <= 8).
+ * @author chrishenry@google.com (Chris Henry)
  */
 
 goog.provide('goog.labs.structs.Map');
 
 goog.require('goog.array');
 goog.require('goog.asserts');
-goog.require('goog.labs.object');
 goog.require('goog.object');
 
 
@@ -35,6 +35,7 @@ goog.require('goog.object');
  * Creates a new map.
  * @constructor
  * @struct
+ * @final
  */
 goog.labs.structs.Map = function() {
   // clear() initializes the map to the empty state.
@@ -54,8 +55,7 @@ goog.labs.structs.Map.objectPropertyIsEnumerable_ =
  * @type {function(this: Object, string): boolean}
  * @private
  */
-goog.labs.structs.Map.objectHasOwnProperty_ =
-    Object.prototype.hasOwnProperty;
+goog.labs.structs.Map.objectHasOwnProperty_ = Object.prototype.hasOwnProperty;
 
 
 /**
@@ -69,7 +69,7 @@ goog.labs.structs.Map.prototype.map_;
 /**
  * Secondary backing store for keys. The index corresponds to the
  * index for secondaryStoreValues_.
- * @type {!Array.<string>}
+ * @type {!Array<string>}
  * @private
  */
 goog.labs.structs.Map.prototype.secondaryStoreKeys_;
@@ -78,7 +78,7 @@ goog.labs.structs.Map.prototype.secondaryStoreKeys_;
 /**
  * Secondary backing store for keys. The index corresponds to the
  * index for secondaryStoreValues_.
- * @type {!Array.<*>}
+ * @type {!Array<*>}
  * @private
  */
 goog.labs.structs.Map.prototype.secondaryStoreValues_;
@@ -173,9 +173,8 @@ goog.labs.structs.Map.prototype.remove = function(key) {
  * @param {!goog.labs.structs.Map} map The map to add.
  */
 goog.labs.structs.Map.prototype.addAll = function(map) {
-  goog.array.forEach(map.getKeys(), function(key) {
-    this.set(key, map.get(key));
-  }, this);
+  goog.array.forEach(
+      map.getKeys(), function(key) { this.set(key, map.get(key)); }, this);
 };
 
 
@@ -215,15 +214,14 @@ goog.labs.structs.Map.prototype.containsKey = function(key) {
  */
 goog.labs.structs.Map.prototype.containsValue = function(value) {
   var found = goog.object.some(this.map_, function(v, k) {
-    return this.hasKeyInPrimaryStore_(k) &&
-        goog.labs.object.is(v, value);
+    return this.hasKeyInPrimaryStore_(k) && goog.object.is(v, value);
   }, this);
   return found || goog.array.contains(this.secondaryStoreValues_, value);
 };
 
 
 /**
- * @return {!Array.<string>} An array of all the keys contained in this map.
+ * @return {!Array<string>} An array of all the keys contained in this map.
  */
 goog.labs.structs.Map.prototype.getKeys = function() {
   var keys;
@@ -244,7 +242,7 @@ goog.labs.structs.Map.prototype.getKeys = function() {
 
 
 /**
- * @return {!Array.<*>} An array of all the values contained in this map.
+ * @return {!Array<*>} An array of all the values contained in this map.
  *     There may be duplicates.
  */
 goog.labs.structs.Map.prototype.getValues = function() {
@@ -258,7 +256,7 @@ goog.labs.structs.Map.prototype.getValues = function() {
 
 
 /**
- * @return {!Array.<Array>} An array of entries. Each entry is of the
+ * @return {!Array<Array<?>>} An array of entries. Each entry is of the
  *     form [key, value]. Do not rely on consistent ordering of entries.
  */
 goog.labs.structs.Map.prototype.getEntries = function() {
@@ -277,7 +275,8 @@ goog.labs.structs.Map.prototype.getEntries = function() {
  */
 goog.labs.structs.Map.prototype.clear = function() {
   this.map_ = goog.labs.structs.Map.BrowserFeature.OBJECT_CREATE_SUPPORTED ?
-      Object.create(null) : {};
+      Object.create(null) :
+      {};
   this.secondaryStoreKeys_ = [];
   this.secondaryStoreValues_ = [];
   this.count_ = 0;
@@ -333,7 +332,7 @@ goog.labs.structs.Map.prototype.assertKeyIsString_ = function(key) {
  * @enum {boolean}
  */
 goog.labs.structs.Map.BrowserFeature = {
-  // TODO(user): Replace with goog.userAgent detection.
+  // TODO(chrishenry): Replace with goog.userAgent detection.
   /**
    * Whether Object.create method is supported.
    */

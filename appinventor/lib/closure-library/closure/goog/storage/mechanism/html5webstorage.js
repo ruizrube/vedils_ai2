@@ -33,32 +33,29 @@ goog.require('goog.storage.mechanism.IterableMechanism');
  *
  * @param {Storage} storage The Web storage object.
  * @constructor
+ * @struct
  * @extends {goog.storage.mechanism.IterableMechanism}
  */
 goog.storage.mechanism.HTML5WebStorage = function(storage) {
-  goog.base(this);
+  goog.storage.mechanism.HTML5WebStorage.base(this, 'constructor');
+
+  /**
+   * The web storage object (window.localStorage or window.sessionStorage).
+   * @private {Storage}
+   */
   this.storage_ = storage;
 };
-goog.inherits(goog.storage.mechanism.HTML5WebStorage,
-              goog.storage.mechanism.IterableMechanism);
+goog.inherits(
+    goog.storage.mechanism.HTML5WebStorage,
+    goog.storage.mechanism.IterableMechanism);
 
 
 /**
  * The key used to check if the storage instance is available.
- * @type {string}
+ * @private {string}
  * @const
- * @private
  */
 goog.storage.mechanism.HTML5WebStorage.STORAGE_AVAILABLE_KEY_ = '__sak';
-
-
-/**
- * The web storage object (window.localStorage or window.sessionStorage).
- *
- * @type {Storage}
- * @private
- */
-goog.storage.mechanism.HTML5WebStorage.prototype.storage_;
 
 
 /**

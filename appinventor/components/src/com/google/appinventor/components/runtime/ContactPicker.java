@@ -28,12 +28,14 @@ import com.google.appinventor.components.common.YaVersion;
 import com.google.appinventor.components.runtime.util.HoneycombMR1Util;
 import com.google.appinventor.components.runtime.util.ErrorMessages;
 import com.google.appinventor.components.runtime.util.SdkLevel;
+
 /**
  * Component enabling a user to select a contact.
  *
  * @author sharon@google.com (Sharon Perl)
  * @author markf@google.com (Mark Friedman)
  * @author: Yifan(Evan) Li (for contact Uri)
+
  */
 @DesignerComponent(version = YaVersion.CONTACTPICKER_COMPONENT_VERSION,
     description = "A button that, when clicked on, displays a list of " +
@@ -95,6 +97,7 @@ public class ContactPicker extends Picker implements ActivityResultListener {
   protected ContactPicker(ComponentContainer container, Uri intentUri) {
     super(container);
     activityContext = container.$context();
+
     if (SdkLevel.getLevel() >= SdkLevel.LEVEL_HONEYCOMB_MR1 && intentUri.equals(Contacts.People.CONTENT_URI)) {
       this.intentUri = HoneycombMR1Util.getContentUri();
     } else if (SdkLevel.getLevel() >= SdkLevel.LEVEL_HONEYCOMB_MR1 && intentUri.equals(Contacts.Phones.CONTENT_URI)) {
