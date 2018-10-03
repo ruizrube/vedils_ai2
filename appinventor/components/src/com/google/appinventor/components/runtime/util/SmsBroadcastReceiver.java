@@ -10,6 +10,7 @@
  */
 package com.google.appinventor.components.runtime.util;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import com.google.appinventor.components.common.ComponentConstants;
@@ -225,7 +226,13 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
       note.defaults |= Notification.DEFAULT_SOUND;
 
       PendingIntent activity = PendingIntent.getActivity(context, 0, newIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-      note.setLatestEventInfo(context, "Sms from " + phone, msg, activity);
+      //note.setLatestEventInfo(context, "Sms from " + phone, msg, activity);
+      try {
+          Method deprecatedMethod = note.getClass().getMethod("setLatestEventInfo", Context.class, CharSequence.class, CharSequence.class, PendingIntent.class);
+          deprecatedMethod.invoke(context, "Sms from " + phone, msg, activity);
+      } catch (Exception e) {
+          Log.w(TAG, "Method not found (Android 8.0 problem)", e);
+      }
       note.number = Texting.getCachedMsgCount();
       nm.notify(null, NOTIFICATION_ID, note);
       Log.i(TAG, "Notification sent, classname: " + classname);

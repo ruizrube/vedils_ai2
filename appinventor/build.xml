@@ -13,7 +13,7 @@
   </description>
 
   <!-- ANDROID API VERSION (la de por defecto es 4.2.2). He probado con 5.1-->
-  <property name="android.version" value="5.1" />
+  <property name="android.version" value="8" />
   
   <target name="all">
     <ant inheritAll="false" useNativeBasedir="true" dir="appengine"/>
@@ -97,7 +97,8 @@
         <pathelement location="components/src" />
       </sourcepath>
       <classpath>
-        <pathelement location="lib/android/5.1.1/android.jar" />
+        <!--  <pathelement location="lib/android/5.1.1/android.jar" /> -->
+        <pathelement location="lib/android/8.0/android.jar" />
         <pathelement location="lib/android/tools/ddmlib.jar"/>
         <pathelement location="lib/bouncycastle/bcprov-jdk15on-149.jar"/>
         <pathelement location="lib/bouncycastle/bcpkix-jdk15on-149.jar"/>

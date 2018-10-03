@@ -153,7 +153,8 @@
            <pathelement location="${local.build.dir}/HtmlEntities.jar" />
         <pathelement location="${public.build.dir}/CommonConstants.jar" />
         <pathelement location="${build.dir}/common/CommonVersion.jar" />
-        <pathelement location="${lib.dir}/android/5.1.1/android.jar" />
+        <!--  <pathelement location="${lib.dir}/android/5.1.1/android.jar" /> -->
+        <pathelement location="${lib.dir}/android/8.0/android.jar" />
         <pathelement location="${lib.dir}/android/support/appcompat-v7-22.2.1.jar" />
         <pathelement location="${lib.dir}/android/support/internal_impl-22.2.1.jar" />
         <pathelement location="${lib.dir}/android/support/support-annotations-22.2.1.jar" />
