@@ -429,7 +429,7 @@ public final class Compiler {
 			// or have us specify higher SDK versions when the program uses a
 			// component that uses
 			// features from a later SDK (e.g. Bluetooth).
-			out.write("  <uses-sdk android:minSdkVersion=\"" + minSDK + "\" android:targetSdkVersion=\"22\" />\n");
+			out.write("  <uses-sdk android:minSdkVersion=\"" + minSDK + "\" android:targetSdkVersion=\"26\" />\n");
 
 			// IRR out.write(" <uses-sdk android:minSdkVersion=\"3\" />\n");
 
