@@ -22,7 +22,6 @@ import com.google.appinventor.client.explorer.SourceStructureExplorer;
 import com.google.appinventor.client.explorer.SourceStructureExplorerItem;
 import com.google.appinventor.client.output.OdeLog;
 import com.google.appinventor.client.widgets.dnd.DropTarget;
-import com.google.appinventor.components.common.YaVersion;
 import com.google.appinventor.client.editor.youngandroid.BlocklyPanel.BlocklyWorkspaceChangeListener;
 import com.google.appinventor.client.editor.youngandroid.events.EventHelper;
 import com.google.appinventor.client.explorer.project.ComponentDatabaseChangeListener;
@@ -35,7 +34,6 @@ import com.google.common.collect.Maps;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Window;
@@ -63,7 +61,7 @@ public final class YaBlocksEditor extends FileEditor
   private static final int VIEWER_WINDOW_OFFSET = 170;
 
   // Database of component type descriptions
-  private static SimpleComponentDatabase COMPONENT_DATABASE;
+  private final SimpleComponentDatabase COMPONENT_DATABASE;
 
   // Keep a map from projectid_formname -> YaBlocksEditor for handling blocks workspace changed
   // callbacks from the BlocklyPanel objects. This has to be static because it is used by
@@ -171,7 +169,10 @@ public final class YaBlocksEditor extends FileEditor
           this.onFailure(e);
           return;
         }
-        String formJson = myFormEditor.preUpgradeJsonString(); // [lyn, 2014/10/27] added formJson for upgrading
+        String formJson = "";
+        if(myFormEditor != null) {
+        	formJson = myFormEditor.preUpgradeJsonString(); // [lyn, 2014/10/27] added formJson for upgrading
+        }
         try {
           blocksArea.loadBlocksContent(formJson, blkFileContent);
           blocksArea.addChangeListener(YaBlocksEditor.this);
@@ -385,8 +386,8 @@ public final class YaBlocksEditor extends FileEditor
 	//use form name to get blocks editor
 	YaBlocksEditor blocksEditor = formToBlocksEditor.get(formName);
    //get type name from form editor
-   return blocksEditor.myFormEditor.getComponentInstanceSemanticTypeValue(instanceName);
-  }
+	return blocksEditor.myFormEditor.getComponentInstanceSemanticTypeValue(instanceName);
+  } 
 
   public void addComponent(String typeName, String instanceName, String uuid) {
     if (componentUuids.add(uuid)) {

@@ -191,6 +191,4 @@
 
   <!-- Enable concurrency in the app engine server -->
   <threadsafe>true</threadsafe>
-
-
 </appengine-web-app>

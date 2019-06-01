@@ -475,7 +475,7 @@ Blockly.Blocks.component_method = {
   
 	        this.appendDummyInput()
 	          .appendField(Blockly.Msg.LANG_COMPONENT_BLOCK_METHOD_TITLE_CALL)
-	          .appendField(this.componentDropDown, "COMPONENT_SELECTOR")
+	          .appendField(this.componentDropDown, Blockly.ComponentBlock.COMPONENT_SELECTOR)
 	          .appendField('.Retrieve Property')
 	          .appendField(dataPropertiesDropDown, "DATA_PROPERTY")
 	          .appendField(appendix);

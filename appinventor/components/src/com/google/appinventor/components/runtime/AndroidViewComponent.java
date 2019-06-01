@@ -38,7 +38,7 @@ public abstract class AndroidViewComponent extends VisibleComponent {
   
   // Fields for ActivityTracker component.
   private String activitiesNames;
-  private String name;
+  protected String name;
 
   /**
    * Creates a new AndroidViewComponent.

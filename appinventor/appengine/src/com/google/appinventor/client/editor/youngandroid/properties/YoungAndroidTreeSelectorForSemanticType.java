@@ -34,7 +34,6 @@ public final class YoungAndroidTreeSelectorForSemanticType extends AdditionalCho
 
 	Tree tree;
 	private String recordedItems;
-	private final YaFormEditor editor;
 	private String RDF_URI;
 	TreeItem mainTree;
 	
@@ -58,8 +57,6 @@ public final class YoungAndroidTreeSelectorForSemanticType extends AdditionalCho
 		tree.addSelectionHandler(new MyHandler());
 
 		tree.addOpenHandler(new MyOpenHandler());
-		
-		this.editor = editor;
 
 		// Cargamos el primer nivel
 		//retrieveChildren(mainTree);

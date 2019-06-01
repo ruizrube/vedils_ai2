@@ -384,7 +384,7 @@ public abstract class MockComponent extends Composite implements PropertyChangeL
       @Override
       public void delete() {
         if (!isForm()) {
-          if (Window.confirm(MESSAGES.reallyDeleteComponent())) {
+          /*if (Window.confirm(MESSAGES.reallyDeleteComponent())) {
             MockComponent.this.editor.getProjectEditor().clearLocation(MockComponent.this.getName());
             getForm().select();
             // Pass true to indicate that the component is being permanently deleted.
@@ -393,7 +393,7 @@ public abstract class MockComponent extends Composite implements PropertyChangeL
             MockComponent.this.onRemoved();
             properties.removePropertyChangeListener(MockComponent.this);
             properties.clear();
-          }
+          }*/
           new DeleteDialog().center();
         }
       }
@@ -481,7 +481,7 @@ public abstract class MockComponent extends Composite implements PropertyChangeL
    * caption may want to initialize the caption to match the component's name.
    */
   public void onCreateFromPalette() {
-	  changeProperty(PROPERTY_COMPONENT_NAME, getName());
+	  //changeProperty(PROPERTY_COMPONENT_NAME, getName());
   }
 
   /**
