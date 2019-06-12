@@ -87,8 +87,8 @@ public class VRVideo360RenderScene implements CardboardView.StereoRenderer, YouT
         Log.v("CARGAESCENA", "");
         this.frameBuffer.flush();
         (this.world = new World()).setAmbientLight(255, 255, 255);
-        try {
-            this.object3D = Object3D.mergeAll(new Object3D[] { Util.loadOBJ(this.mActivity.getApplicationContext().getAssets().open("sphere_paranomic.obj"), 1.0f) });
+        try {        
+            this.object3D = Object3D.mergeAll(new Object3D[] { Util.loadOBJ(this.mActivity.getApplicationContext().getAssets().open("sphere_paranomic.obj"), 1.0f) });            
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -96,7 +96,7 @@ public class VRVideo360RenderScene implements CardboardView.StereoRenderer, YouT
         this.object3D.setTransparency(100);
         this.object3D.rotateZ(3.1415927f);
         this.object3D.rotateMesh();
-        this.object3D.getRotationMatrix().setIdentity();
+        this.object3D.getRotationMatrix().setIdentity();        
         try {
             final String vertexShader = Util.readContents(this.mActivity.getApplicationContext().getAssets().open("defaultVertexShaderTex0.src"));
             final String fragmentShader = Util.readContents(this.mActivity.getApplicationContext().getAssets().open("surface_fragment_shader.txt"));
@@ -106,7 +106,8 @@ public class VRVideo360RenderScene implements CardboardView.StereoRenderer, YouT
         catch (IOException e) {
             throw new RuntimeException(e);
         }
-        this.object3D.setTexture("video_texture");
+        this.object3D.setTexture("video_texture");        
+        
         this.object3D.build();
         this.world.addObject(this.object3D);
         if (this.surfaceTexture != null) {
@@ -252,25 +253,31 @@ public class VRVideo360RenderScene implements CardboardView.StereoRenderer, YouT
         return null;
     }
     
+    
+    
     public void onDrawEye(final Eye eye) {
         if (this.frameBuffer == null) {
-            this.frameBuffer = new FrameBuffer(eye.getViewport().width, eye.getViewport().height);
+            this.frameBuffer = new FrameBuffer(eye.getViewport().width,eye.getViewport().height);
         }
         if (this.renderWaitWorld) {
             this.world = this.waitWorld;
         }
         final Matrix camBack = this.world.getCamera().getBack();
-        camBack.setIdentity();
+        camBack.setIdentity();      
         this.tempTransform.setDump(eye.getEyeView());
         this.tempTransform.transformToGL();
-        camBack.matMul(this.tempTransform);
+        //Edson
+        float var= (float) - 1.047198; //Edson 60 grados aproximado va bien 
+        tempTransform.rotateY(var);       
+        //Edson                
+        camBack.matMul(this.tempTransform);        
         this.world.getCamera().setBack(camBack);
         this.frameBuffer.clear(RGBColor.BLACK);
         if (this.renderWaitWorld) {
             this.skyBox.render(this.world, this.frameBuffer);
             this.frameBuffer.clearZBufferOnly();
         }
-        this.world.renderScene(this.frameBuffer);
+        this.world.renderScene(this.frameBuffer);        
         this.world.draw(this.frameBuffer);
         this.frameBuffer.display();
     }
@@ -302,7 +309,7 @@ public class VRVideo360RenderScene implements CardboardView.StereoRenderer, YouT
                 this.surfaceTexture.updateTexImage();
                 this.frameAvailable = false;
             }
-        }
+        }        
     }
     
     public void onRendererShutdown() {
@@ -316,7 +323,7 @@ public class VRVideo360RenderScene implements CardboardView.StereoRenderer, YouT
     public void onSurfaceChanged(final int arg0, final int arg1) {
         Log.v("SURFACECHANGE", "PI");
         this.loadWaitScene();
-        MemoryHelper.compact();
+        MemoryHelper.compact();       
     }
     
     public void onSurfaceCreated(final EGLConfig arg0) {

@@ -198,6 +198,7 @@
 	        <pathelement location="${lib.dir}/vr4ai/vr4ai.jar" />
 	        <pathelement location="${lib.dir}/vr4ai/cardboard.jar" />
 	        <pathelement location="${lib.dir}/vr4ai/libprotobuf-java-2.3-nano.jar" />
+			<pathelement location="${lib.dir}/vr4ai/GoogleVR4ai.jar" /> <!-- Edson -->	        
 	       
 	         <pathelement location="${lib.dir}/dialog4ai/libai-1.6.12.jar" />
 	         <pathelement location="${lib.dir}/dialog4ai/slf4j-api-1.7.25.jar" />
@@ -441,6 +442,7 @@
          <pathelement location="${lib.dir}/vr4ai/vr4ai.jar" />
 	     <pathelement location="${lib.dir}/vr4ai/cardboard.jar" />
 	     <pathelement location="${lib.dir}/vr4ai/libprotobuf-java-2.3-nano.jar" />
+		 <pathelement location="${lib.dir}/vr4ai/GoogleVR4ai.jar" /> <!-- Edson -->	     
         
 	     <pathelement location="${lib.dir}/dialog4ai/libai-1.6.12.jar" />
 	     <pathelement location="${lib.dir}/dialog4ai/slf4j-api-1.7.25.jar" />

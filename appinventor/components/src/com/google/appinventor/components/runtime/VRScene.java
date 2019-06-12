@@ -19,6 +19,9 @@ import com.google.appinventor.components.runtime.vr4ai.VRActivity;
 import com.google.appinventor.components.runtime.vr4ai.util.Object3DParcelable;
 import com.google.appinventor.components.runtime.vr4ai.util.Video360Parcelable;
 
+//Edson
+import com.google.appinventor.components.runtime.gvr.VideoActivity;
+
 import android.util.Log;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -26,20 +29,26 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 
-@UsesLibraries(libraries = "vr4ai.jar, jpct_ae.jar, cardboard.jar, libprotobuf-java-2.3-nano.jar, android-support-v4.jar")
+@UsesLibraries(libraries = "vr4ai.jar, jpct_ae.jar, cardboard.jar, libprotobuf-java-2.3-nano.jar, GoogleVR4ai.jar, android-support-v4.jar")
 @SimpleObject
 @DesignerComponent(nonVisible = true, version = 1, description = "Scene container for VR (by SPI-FM at UCA)", category = ComponentCategory.VEDILSVIRTUALREALITY, iconName = "images/virtualRealityScene.png")
-@UsesPermissions(permissionNames = "android.permission.NFC, android.permission.VIBRATE ,android.permission.WRITE_EXTERNAL_STORAGE, android.permission.READ_EXTERNAL_STORAGE,android.permission.INTERNET")
+@UsesPermissions(permissionNames = "android.permission.NFC, android.permission.VIBRATE ,android.permission.WRITE_EXTERNAL_STORAGE, android.permission.READ_EXTERNAL_STORAGE,android.permission.INTERNET,android.permission.RECORD_AUDIO")
 
 public class VRScene  extends AndroidNonvisibleComponent implements OnInitializeListener, OnResumeListener, OnPauseListener, OnStopListener, OnDestroyListener, ActivityResultListener {
 
 	
-	private static final String VR_ACTIVITY_CLASS = "com.google.appinventor.components.runtime.vr4ai.VRActivity";
+	//protected String VR_ACTIVITY_CLASS = "com.google.appinventor.components.runtime.vr4ai.VRActivity";
+	//Edson unificando
+	private static String GVR_ACTIVITY_CLASS = "com.google.appinventor.components.runtime.gvr.VideoActivity";
+	public boolean cardboard = true;
+
+
+	private static String VR_ACTIVITY_CLASS = "com.google.appinventor.components.runtime.vr4ai.VRActivity";
 	private ComponentContainer container;
-	private final int requestCode;
+	private int requestCode;
 	Intent intent = new Intent();
 	public boolean is3DObject=false;
-	public boolean isImage360=false;
+	public boolean isImage360=false; 
 	public boolean isVideo360=false;
 	public boolean hasController=false;
 	public String  model3DPath="";
@@ -71,11 +80,11 @@ public class VRScene  extends AndroidNonvisibleComponent implements OnInitialize
 		container.$form().registerForOnDestroy(this);
 		Log.v("VRSCENE", "pidiendo request code");
 		requestCode = form.registerForActivityResult(this);
-		Log.v("VRSCENE", "seteando clase del intent");
+		Log.v("VRSCENE", "seteando clase del intent");		
 		intent.setClassName(container.$context(), VR_ACTIVITY_CLASS);
 		instance = this;
 		this.receiverV360EventsRegistered = false;
-	
+		Log.v("Unificando", "seteando clase del intent cardboard: "+cardboard);	
 	}
 	public BroadcastReceiver doubleTapTouchEventBroadCastReceiver = new BroadcastReceiver() {
 		@Override
@@ -133,7 +142,7 @@ public class VRScene  extends AndroidNonvisibleComponent implements OnInitialize
 	@SimpleProperty(userVisible = true)
 	public void SkyboxImage(String path) {
 
-		this.skyboxPath = path;
+		this.skyboxPath = path;		
 
 		Log.d("sender", path);
 
@@ -143,15 +152,25 @@ public class VRScene  extends AndroidNonvisibleComponent implements OnInitialize
 	public void Stereo(boolean bin) {
 		
 		this.stereoMode=bin;
-		
+		this.cardboard=bin;
+		Log.d("Unificando", "aqui asigna.");
 		
 	}
 	@SimpleFunction(description = "Stop vrScene", userVisible = true)
-	public void Stop() {
-	
-		
+	public void Stop() 
+	{
+		//Edson Unificando inicio
+		if (cardboard)
+		{		
 		    Intent stopIntent = new Intent(VRActivity.VR_STOP);
 			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(stopIntent);
+		}
+		else
+		{
+		Intent stopIntent = new Intent(VideoActivity.VR_STOP);
+		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(stopIntent);				
+		}
+		//Edson Unificando fin
 
 	}
 	@SimpleFunction(description = "Move focus to next Object3D", userVisible = true)
@@ -205,16 +224,38 @@ public class VRScene  extends AndroidNonvisibleComponent implements OnInitialize
 		
 		intent.putExtra("StereoMode", stereoMode);
 		intent.putExtra("Controller", hasController);
-		intent.putExtra(VRActivity.VR_COMPANION, container.$form() instanceof ReplForm);
+		//intent.putExtra(VRActivity.VR_COMPANION, container.$form() instanceof ReplForm);
+
+		//Edson Unificando inicio
+		if (cardboard)
+		{
+			intent.putExtra(VRActivity.VR_COMPANION, container.$form() instanceof ReplForm);
+			LocalBroadcastManager.getInstance(container.$form()).registerReceiver(doubleTapTouchEventBroadCastReceiver,
+					new IntentFilter(VRActivity.VR_EVENT_TOUCH_DOBLETAP));
+			
+			LocalBroadcastManager.getInstance(container.$form()).registerReceiver(singleTapTouchEventBroadCastReceiver,
+					new IntentFilter(VRActivity.VR_EVENT_TOUCH_SINGLETAP));
+			
+			LocalBroadcastManager.getInstance(container.$form()).registerReceiver(longPressTouchEventBroadCastReceiver,
+					new IntentFilter(VRActivity.VR_EVENT_TOUCH_LONGPRESS));
+		}
+		else
+		{
+			intent.setClassName(container.$context(), GVR_ACTIVITY_CLASS);
+			intent.putExtra(VideoActivity.VR_COMPANION, container.$form() instanceof ReplForm);
+			LocalBroadcastManager.getInstance(container.$form()).registerReceiver(doubleTapTouchEventBroadCastReceiver,
+				new IntentFilter(VideoActivity.VR_EVENT_TOUCH_DOBLETAP));
 		
-		LocalBroadcastManager.getInstance(container.$form()).registerReceiver(doubleTapTouchEventBroadCastReceiver,
-				new IntentFilter(VRActivity.VR_EVENT_TOUCH_DOBLETAP));
-		
-		LocalBroadcastManager.getInstance(container.$form()).registerReceiver(singleTapTouchEventBroadCastReceiver,
-				new IntentFilter(VRActivity.VR_EVENT_TOUCH_SINGLETAP));
-		
-		LocalBroadcastManager.getInstance(container.$form()).registerReceiver(longPressTouchEventBroadCastReceiver,
-				new IntentFilter(VRActivity.VR_EVENT_TOUCH_LONGPRESS));
+			LocalBroadcastManager.getInstance(container.$form()).registerReceiver(singleTapTouchEventBroadCastReceiver,
+					new IntentFilter(VideoActivity.VR_EVENT_TOUCH_SINGLETAP));
+			
+			LocalBroadcastManager.getInstance(container.$form()).registerReceiver(longPressTouchEventBroadCastReceiver,
+					new IntentFilter(VideoActivity.VR_EVENT_TOUCH_LONGPRESS));
+		}
+		//Edson Unificando fin
+			
+
+
 		
 		//OBJECT3D//
 		if(is3DObject)
@@ -254,15 +295,41 @@ public class VRScene  extends AndroidNonvisibleComponent implements OnInitialize
 			//intent.putExtra("Video360Volume", vrV360.video360Volume);
 			//intent.putExtra("Video360Quality", vrV360.video360Quality);
 			
-			intent.putExtra("Video360", true);	
-			intent.putExtra("Video360Object", video360Par);
+			//intent.putExtra("Video360", true);	
+			//intent.putExtra("Video360Object", video360Par);			
 			
-			if(!this.receiverV360EventsRegistered) {
-				LocalBroadcastManager.getInstance(container.$form()).registerReceiver(vrV360.videoEndEventBroadCastReceiver,
-						new IntentFilter(VRActivity.VR_EVENT_VIDEO_END));
-				LocalBroadcastManager.getInstance(container.$form()).registerReceiver(vrV360.videoStartEventBroadCastReceiver,
-						new IntentFilter(VRActivity.VR_EVENT_VIDEO_START));
-				this.receiverV360EventsRegistered = true;
+			if (cardboard)
+			{
+				intent.putExtra("Video360", true);	
+				intent.putExtra("Video360Object", video360Par);
+			}
+			else
+			{
+				//intent.putExtra("Video360Volume",video360Par.getVideo360Volumen());
+				//intent.putExtra("StereoMode", stereoMode);
+				//intent.putExtra("urlToPlay", video360Par.getVideo360Path());
+				intent.putExtra("Video360Object", video360Par);
+			}
+			
+			if(!this.receiverV360EventsRegistered) 
+			{
+				//Edson Unificando inicio
+				if (cardboard)
+				{
+					LocalBroadcastManager.getInstance(container.$form()).registerReceiver(vrV360.videoEndEventBroadCastReceiver,
+							new IntentFilter(VRActivity.VR_EVENT_VIDEO_END));
+					LocalBroadcastManager.getInstance(container.$form()).registerReceiver(vrV360.videoStartEventBroadCastReceiver,
+							new IntentFilter(VRActivity.VR_EVENT_VIDEO_START));			
+				}
+				else
+				{
+					LocalBroadcastManager.getInstance(container.$form()).registerReceiver( vrV360.videoEndEventBroadCastReceiver,
+							new IntentFilter(VideoActivity.VR_EVENT_VIDEO_END));
+					LocalBroadcastManager.getInstance(container.$form()).registerReceiver(vrV360.videoStartEventBroadCastReceiver,
+							new IntentFilter(VideoActivity.VR_EVENT_VIDEO_START));
+				}
+				//Edson Unificando fin
+				this.receiverV360EventsRegistered = true;		
 			} 
 
 		}

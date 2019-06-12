@@ -72,6 +72,9 @@ public final class Compiler {
 	
 	private static final String VR_ACTIVITY_CLASS = "com.google.appinventor.components.runtime.vr4ai.VRActivity";
 
+	//Edson
+	private static final String GVR_ACTIVITY_CLASS = "com.google.appinventor.components.runtime.gvr.VideoActivity";	
+
 	// IRR
 	private static final String ARSCENE_JPCT_SHADERS = "jpct_shaders.zip";
 	// "/Users/ivanruizrube/Documents/Proyectos/workspaceRA/appinventor/lib/ar4ai/jpct_shaders.zip";
@@ -629,7 +632,18 @@ public final class Compiler {
 				
 						if (componentTypes.contains("VRScene")) {
 							out.write("    <activity android:name=\"" + VR_ACTIVITY_CLASS + "\" "
-									+ "android:configChanges=\"orientation|screenSize\" "
+									+ "android:configChanges=\"orientation|screenSize|uiMode|navigation\" "
+									+ "android:theme=\"@android:style/Theme.NoTitleBar.Fullscreen\" "
+									+ "android:screenOrientation=\"landscape\">\n");
+							out.write("    </activity>\n");
+						}
+
+			// Edson GVR4AI
+						
+						if (componentTypes.contains("VRScene")) {
+							out.write("    <activity android:name=\"" + GVR_ACTIVITY_CLASS + "\" "
+									+ "android:configChanges=\"orientation|screenSize|uiMode|navigation\" "
+									//+ "android:configChanges=\"orientation|screenSize\" "
 									+ "android:theme=\"@android:style/Theme.NoTitleBar.Fullscreen\" "
 									+ "android:screenOrientation=\"landscape\">\n");
 							out.write("    </activity>\n");
@@ -705,8 +719,9 @@ public final class Compiler {
 				out.write("              android:windowSoftInputMode=\"stateAlwaysHidden\" />\n");
 			}
 
+			// Edson Remove Google's Forbidden Permissions
 			// BroadcastReceiver for Texting Component
-			if (componentTypes.contains("Texting")) {
+			/*if (componentTypes.contains("Texting")) {
 				System.out.println("Android Manifest: including <receiver> tag");
 				out.write("<receiver \n"
 						+ "android:name=\"com.google.appinventor.components.runtime.util.SmsBroadcastReceiver\" \n"
@@ -715,7 +730,7 @@ public final class Compiler {
 						+ "android:name=\"com.google.android.apps.googlevoice.SMS_RECEIVED\" \n"
 						+ "android:permission=\"com.google.android.apps.googlevoice.permission.RECEIVE_SMS\" /> \n"
 						+ "</intent-filter>  \n" + "</receiver> \n");
-			}
+			}*/	
 
 			out.write("  </application>\n");
 			out.write("</manifest>\n");

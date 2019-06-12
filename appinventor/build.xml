@@ -154,6 +154,7 @@
         <pathelement location="lib/vr4ai/vr4ai.jar" />
         <pathelement location="lib/vr4ai/cardboard.jar" />
         <pathelement location="lib/vr4ai/libprotobuf-java-2.3-nano.jar" />
+		    <pathelement location="lib/vr4ai/GoogleVR4ai.jar" /> <!-- Edson -->        
        
         <!-- DIALOG4AI -->
         <pathelement location="lib/dialog4ai/libai-1.6.12.jar" />

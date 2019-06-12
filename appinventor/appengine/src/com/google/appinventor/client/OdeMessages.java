@@ -674,6 +674,10 @@ public interface OdeMessages extends Messages {
 
 	// VIDEO360
 
+	@DefaultMessage("PlaySection")
+	@Description("")
+	String PlaySectionMethods();	
+	
 	@DefaultMessage("Video360 Asset")
 	@Description("")
 	String Video360AssetProperties();
@@ -705,6 +709,7 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("getVolume")
 	@Description("")
 	String getVolumeProperties();
+	
 
 	@DefaultMessage("Start video360")
 	@Description("")
