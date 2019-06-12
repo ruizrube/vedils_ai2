@@ -17,17 +17,12 @@ import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
 import com.google.appinventor.components.common.YaVersion;
 import com.google.appinventor.components.runtime.util.ErrorMessages;
-import com.google.appinventor.components.runtime.vr4ai.VRActivity;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.support.v4.content.LocalBroadcastManager;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -111,14 +106,14 @@ public class AccelerometerSensor extends AndroidNonvisibleComponent
   
   //////////////////prueba vr
   
-  private BroadcastReceiver shakeEventBroadCastReceiver = new BroadcastReceiver() {
+  /*private BroadcastReceiver shakeEventBroadCastReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 
 		Shaking();
 		}
 
-	};
+	};*/
 
   /**
    * Creates a new AccelerometerSensor component.
@@ -137,8 +132,8 @@ public class AccelerometerSensor extends AndroidNonvisibleComponent
     MinimumInterval(400);
     Sensitivity(Component.ACCELEROMETER_SENSITIVITY_MODERATE);
     //////////////////prueba vr////////////////////
-    LocalBroadcastManager.getInstance(container.$form()).registerReceiver(shakeEventBroadCastReceiver,
-			new IntentFilter(VRActivity.VR_EVENT_SHAKE));
+    //LocalBroadcastManager.getInstance(container.$form()).registerReceiver(shakeEventBroadCastReceiver,
+			//new IntentFilter(VRActivity.VR_EVENT_SHAKE));
   }
 
 
