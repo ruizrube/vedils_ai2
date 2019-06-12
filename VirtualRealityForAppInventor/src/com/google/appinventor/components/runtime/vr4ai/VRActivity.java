@@ -182,68 +182,9 @@ public class VRActivity extends CardboardActivity
             	final int endposition = intent.getIntExtra("EndSection", 0);
             	VRActivity.this.rendererVideo360.mediaPlayer.seekTo(startposition);
             	VRActivity.this.rendererVideo360.mediaPlayer.start();
-            	
-            	Log.d("Handler", "antes del Running Handler");
-            	
-            	final Handler handler = new Handler();
-            	
-            	 
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //Write whatever to want to do after delay specified (1 sec)
-                        //Log.d("Handler", "Running Handler getCurrentPosition: "+VRActivity.this.rendererVideo360.mediaPlayer.getCurrentPosition());
-            	
-            	        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                            	boolean interrupted = true;
-                            	while(interrupted){
-                            	Log.d("Handler", "Running Handler getCurrentPosition: "+VRActivity.this.rendererVideo360.mediaPlayer.getCurrentPosition());
-                    	        	if (endposition < VRActivity.this.rendererVideo360.mediaPlayer.getCurrentPosition())
-	                    	        {
-	                    	        	VRActivity.this.rendererVideo360.mediaPlayer.pause();                    	        	
-	                    	        	handler.removeCallbacksAndMessages(this);
-	       	                            final Intent intentVideoEnd = new Intent("com.google.appinventor.components.runtime.vr4ai.VRActivity.endVideo");
-	    	                            LocalBroadcastManager.getInstance(VRActivity.this).sendBroadcast(intentVideoEnd);
-	    	                            Log.v("MEDIACOMPLETADO", "Running Handler video acabado");	
-	    	                            interrupted=false;
-	                    	        }
-                            	}//while
-                    	        	
-                            }
-                        });        
-            	        /*if (endposition > VRActivity.this.rendererVideo360.mediaPlayer.getCurrentPosition())
-            	        	handler.postDelayed(this, 500);  	      
-            	        else
-            	        	handler.removeCallbacksAndMessages(null);*/
-                    }                    
-                }, 500);            	            	
             }
         };           
-        //Edson fin
-        
-        /*
-         *                                 boolean interrupted= true;
-                            	while (interrupted)
-                            	{
-                            		Log.d("Handler", "Running Handler getCurrentPosition: "+VRActivity.this.rendererVideo360.mediaPlayer.getCurrentPosition());
-        	                    	
-        	            	        if (endposition < VRActivity.this.rendererVideo360.mediaPlayer.getCurrentPosition())
-        	            	        {
-        	            	        	VRActivity.this.rendererVideo360.mediaPlayer.pause();                    	        	
-        	            	        	handler.removeCallbacksAndMessages(this);
-        	                            final Intent intentVideoEnd = new Intent("com.google.appinventor.components.runtime.vr4ai.VRActivity.endVideo");
-        	                            LocalBroadcastManager.getInstance(VRActivity.this).sendBroadcast(intentVideoEnd);
-        	                            Log.v("MEDIACOMPLETADO", "Running Handlervideo acabado");	            	        	
-        	            	        	interrupted= false;	            	        	
-        	            	        }                      
-        	            	        else	            	        	
-        	            	        	handler.postDelayed(this, 500); 
-         */
-        
-        
-        
+      //Edson fin
         
         this.stopVideoEventBroadCastReceiver = new BroadcastReceiver() {
             public void onReceive(final Context context, final Intent intent) {
