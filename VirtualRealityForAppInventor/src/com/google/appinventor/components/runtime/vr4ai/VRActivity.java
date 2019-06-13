@@ -28,7 +28,6 @@ import com.google.appinventor.components.runtime.vr4ai.util.ShakeListener;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.os.Bundle;
-import android.os.Handler;
 
 import com.threed.jpct.Texture;
 import android.media.MediaPlayer;

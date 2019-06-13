@@ -1,27 +1,23 @@
 package com.google.appinventor.components.runtime.gvr;
 
-
 import android.net.Uri;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
-import android.util.Log;
 import android.util.SparseArray;
 import android.webkit.MimeTypeMap;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLDecoder;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import javax.net.ssl.HttpsURLConnection;
+
 import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
 import static java.util.Arrays.asList;
 
@@ -91,9 +87,7 @@ public final class YouTubeExtractor {
                     StringBuilder builder = new StringBuilder();
                     String line;
 
-                    while ((line = reader.readLine()) != null && !mCancelled) builder.append(line);
-                    
-                    System.out.println("BlackScreen yotube line: "+line);
+                    while ((line = reader.readLine()) != null && !mCancelled) builder.append(line);                    
                     
                     reader.close();
 
@@ -104,8 +98,7 @@ public final class YouTubeExtractor {
                             @Override public void run() {
                                 if (!mCancelled && listener != null) {
                                     listener.onSuccess(result);
-                                }
-                                System.out.println("BlackScreen yotube mCalled: "+mCancelled+" listener: "+listener);
+                                }                                
                             }
                         });
                     }
@@ -182,36 +175,15 @@ public final class YouTubeExtractor {
                     }
                 }
             }
-            String prueba="";//Edson
+            
             for (Integer videoQuality : mPreferredVideoQualities) {
                 if (streamLinks.get(videoQuality, null) != null) {
                     String streamLink = streamLinks.get(videoQuality);
                     videoUri = Uri.parse(streamLink);
-                    prueba = streamLink;
                     break;
                 }
             }
-            
-            //Edson prueba
-            //URL url = new URL(prueba);
-            //HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-            //connection.setRequestMethod("GET");
-            //connection.connect();
-            //int code = connection.getResponseCode();
-            //Log.d("TAG", "Comprobando: "+code);//Edson
-            
-
-            //Edson prueba 2     
-            
-            String url1 = prueba;
-            
-            System.out.println("Comprobando: antes: "+url1);
-            if (isValid(url1))  
-                System.out.println("Comprobando: Yes: "+url1); 
-            else
-                System.out.println("Comprobando: No: "+url1);      
-                  
-            
+                      
             
             //Edson forzando una calidad especifica si no hay otra en el playinfo.
             if (videoUri == null){
@@ -224,9 +196,6 @@ public final class YouTubeExtractor {
             		videoUri = Uri.parse(streamLink);
             	}
             }           
-            System.out.println("BlackScreen  youtube array de streamLings " + streamLinks);
-            System.out.println("BlackScreen: youtube valor que escoge en  video Uri" +videoUri);            
-
             
             final Uri mediumThumbUri = video.containsKey("iurlmq") ? Uri.parse(video.get("iurlmq")) : null;
             final Uri highThumbUri = video.containsKey("iurlhq") ? Uri.parse(video.get("iurlhq")) : null;
@@ -283,54 +252,5 @@ public final class YouTubeExtractor {
         void onSuccess(YouTubeExtractorResult result);
         void onFailure(Error error);
     }
-    
-    
-    //Edson prueba 2
-    /* Returns true if url is valid */
-    public static boolean isValid(String url) 
-    { 
-        /* Try creating a valid URL */
-        try { 
-            new URL(url).toURI(); 
-            return true; 
-        } 
-          
-        // If there was an Exception 
-        // while creating URL object 
-        catch (Exception e) { 
-            return false; 
-        } 
-    } 
-    
-    //Edson prueba 1
-    public static String callURL(String myURL) {
-		System.out.println("Requeted URL:" + myURL);
-		StringBuilder sb = new StringBuilder();
-		URLConnection urlConn = null;
-		InputStreamReader in = null;
-		try {
-			URL url = new URL(myURL);
-			urlConn = url.openConnection();
-			if (urlConn != null)
-				urlConn.setReadTimeout(60 * 1000);
-			if (urlConn != null && urlConn.getInputStream() != null) {
-				in = new InputStreamReader(urlConn.getInputStream(),
-						Charset.defaultCharset());
-				BufferedReader bufferedReader = new BufferedReader(in);
-				if (bufferedReader != null) {
-					int cp;
-					while ((cp = bufferedReader.read()) != -1) {
-						sb.append((char) cp);
-					}
-					bufferedReader.close();
-				}
-			}
-		in.close();
-		} catch (Exception e) {
-			throw new RuntimeException("Exception while calling URL:"+ myURL, e);
-		} 
- 
-		return sb.toString();
-	}    
-    
+  
 }
