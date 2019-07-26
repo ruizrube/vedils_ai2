@@ -59,6 +59,8 @@ public class Workflow extends AndroidNonvisibleComponent implements Component {
 	private WorkflowDefinition process;
 
 	private String bpmnPath = "";
+	
+	private static int SubprocessLoops=0;
 
 	/**
 	 * Creates a SpeechRecognizer component.
@@ -194,6 +196,8 @@ public class Workflow extends AndroidNonvisibleComponent implements Component {
 					dispatchEvent(currentNode);
 				} else if (currentNode.getNodeType().equals("GATEWAY")) {
 					dispatchGateway(currentNode);
+				} else if (currentNode.getNodeType().equals("SUBPROCESS")){
+					dispatchSubProcess(currentNode);				
 				} else {
 					WorkflowError("CurrentNodeType unknown");
 				}
@@ -325,6 +329,10 @@ public class Workflow extends AndroidNonvisibleComponent implements Component {
 			WorkflowStarted();
 		} else if (currentNode.getSubType().equals("END")) {
 			WorkflowEnded();
+		} else if (currentNode.getSubType().equals("START_SUBPROCESS")) {
+			this.CompleteTask();
+		} else if (currentNode.getSubType().equals("END_SUBPROCESS")){
+			this.CompleteTask();
 		} else {
 			WorkflowError("CurrentNodeSubType unknown");
 
@@ -338,4 +346,35 @@ public class Workflow extends AndroidNonvisibleComponent implements Component {
 		// WorkflowError("CurrentNodeType unknown");
 	}
 
+	//Edson
+	private void dispatchSubProcess(WorkflowNode node) {
+		String dataParam = (String) node.getArguments().get(0);
+		int numLoops = Integer.parseInt((String) node.getArguments().get(1));
+		String loops = (String) node.getArguments().get(2);
+	
+		if (loops.equals("true") && SubprocessLoops < numLoops){
+			SubprocessLoops ++;
+			this.PutData(dataParam, (Object)"Start");			
+			this.CompleteTask();
+		}else if(loops.equals("true") && SubprocessLoops >= numLoops){
+			this.PutData(dataParam, (Object)"Exit");
+			SubprocessLoops=0;
+			this.CompleteTask();			
+		}else if(loops.equals("false") && SubprocessLoops == 0){
+			SubprocessLoops ++;
+			this.PutData(dataParam, (Object)"Start");			
+			this.CompleteTask();			
+		}else if(loops.equals("false") && SubprocessLoops >= 1){
+			this.PutData(dataParam, (Object)"Exit");
+			SubprocessLoops=0;
+			this.CompleteTask();			
+		}else{
+			this.PutData(dataParam, (Object)"Exit");
+			SubprocessLoops=0;
+			this.CompleteTask();			
+		}
+		Log.d("Workflow", "Executing in SubbProcess in loop ... " + SubprocessLoops);
+		
+	}	
+	
 }

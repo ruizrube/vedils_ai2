@@ -132,6 +132,7 @@
         <copy toFile="${classes.files.dir}/loadIMG.png" file="${lib.dir}/vr4ai/loadIMG.png" />
         <copy toFile="${classes.files.dir}/surface_fragment_shader.txt" file="${lib.dir}/vr4ai/surface_fragment_shader.txt" />
         <copy toFile="${classes.files.dir}/sphere_paranomic.obj" file="${lib.dir}/vr4ai/sphere_paranomic.obj" />
+		<copy toFile="${classes.files.dir}/GoogleVR4ai.jar" file="${lib.dir}/vr4ai/GoogleVR4ai.jar" /> <!-- Edson -->        
 
         <!-- DIALOG4AI -->
         <copy toFile="${classes.files.dir}/libai-1.6.12.jar" file="${lib.dir}/dialog4ai/libai-1.6.12.jar" />

@@ -14,6 +14,9 @@ import com.google.appinventor.components.common.PropertyTypeConstants;
 import com.google.appinventor.components.runtime.vr4ai.VRActivity;
 import com.google.appinventor.components.runtime.vr4ai.util.Video360Parcelable;
 
+//Edson
+import com.google.appinventor.components.runtime.gvr.VideoActivity;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -33,7 +36,11 @@ public class VRVideo360 extends AndroidNonvisibleComponent {
 	public String video360Quality = "240";
 	public UUID id = UUID.randomUUID();
 	public Video360Parcelable video360par = new Video360Parcelable();
-
+	
+	//Edson Unificando inicio
+	public boolean ScrollScreen;
+	//Edson Unificando fin
+	
 	public BroadcastReceiver videoEndEventBroadCastReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -88,11 +95,31 @@ public class VRVideo360 extends AndroidNonvisibleComponent {
 			scene.isVideo360 = true;
 			scene.video360Par = video360par;
 			scene.setAssetToExtract(this);
-
+			//Edson unificando inicio
+			Log.d("Unificando", "Probando donde pregunta.");
+			if (scene.cardboard)
+				ScrollScreen = true;
+			else
+				ScrollScreen = false;
+			//	System.out.println("REdson prueba VR_ACTIVITY_CLASS: "+scene.VR_ACTIVITY_CLASS);
+			//Edosn unificando fin
 		}
-
+	}
+	//Edosn unificando inicio
+	//@DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN, defaultValue = "true")
+	//@SimpleProperty(userVisible = true)
+	public void CardBoard(boolean board)
+	{
+		ScrollScreen = board;
 	}
 
+	//@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
+	public boolean getCardboard()
+	{
+		return ScrollScreen;
+	}	
+	//Edosn unificando fin
+	
 	@SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = true)
 	public String getVideo360Asset() {
 
@@ -182,48 +209,113 @@ public class VRVideo360 extends AndroidNonvisibleComponent {
 	}
 	// al existir ahora mas de un video en la escena, tengo que pensar bien estos
 	// eventos
+//Edson Unificando inicio
+	@SimpleFunction(description = "Stop video360", userVisible = true)
+	public void Stop() 
+	{
+		if (ScrollScreen)
+		{
+			Intent stopIntent = new Intent(VRActivity.VR_VIDEO_STOP);
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(stopIntent);
+		}
+		else
+		{
+			Intent stopIntent = new Intent(VideoActivity.VR_VIDEO_STOP);
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(stopIntent);
+		}
+
+	}
+	
+	@SimpleFunction(description = "Play a custom start end video both in milliseconds.", userVisible = true)
+	public void PlaySection(int start, int end) 
+	{
+			if (ScrollScreen)
+			{
+				Intent PlaySectionIntent = new Intent(VRActivity.VR_VIDEO_PLAYSECTION);
+				PlaySectionIntent.putExtra("StartSection", start);
+				PlaySectionIntent.putExtra("EndSection", end);
+				LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(PlaySectionIntent);
+				Log.d("GVR", "Lanza el VRActivity PlaySection: "+ScrollScreen);	
+			}
+			else
+			{	
+				/*Intent PlaySectionIntent = new Intent(VideoActivity.VR_VIDEO_PLAYSECTION);
+				PlaySectionIntent.putExtra("StartSection", start);
+				PlaySectionIntent.putExtra("EndSection", end);
+				LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(PlaySectionIntent);*/
+				Log.d("GVR", "Lanza el VideoActivity PlaySection: "+ScrollScreen);			
+			}
+
+		}	
+	
 
 	@SimpleFunction(description = "Stop video360", userVisible = true)
-	public void Stop() {
-
-		Intent stopIntent = new Intent(VRActivity.VR_VIDEO_STOP);
-		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(stopIntent);
+	public void Play() 
+	{
+		if (ScrollScreen)
+		{
+			Intent playIntent = new Intent(VRActivity.VR_VIDEO_PLAY);
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(playIntent);
+		}
+		else
+		{
+			Intent playIntent = new Intent(VideoActivity.VR_VIDEO_PLAY);
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(playIntent);
+		}
 
 	}
 
 	@SimpleFunction(description = "Stop video360", userVisible = true)
-	public void Play() {
-
-		Intent playIntent = new Intent(VRActivity.VR_VIDEO_PLAY);
-		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(playIntent);
+	public void Pause() 
+	{
+		if (ScrollScreen)
+		{
+			Intent pauseIntent = new Intent(VRActivity.VR_VIDEO_PAUSE);
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(pauseIntent);
+		}
+		else
+		{
+			Intent pauseIntent = new Intent(VideoActivity.VR_VIDEO_PAUSE);
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(pauseIntent);			
+		}
 
 	}
 
 	@SimpleFunction(description = "Stop video360", userVisible = true)
-	public void Pause() {
-
-		Intent pauseIntent = new Intent(VRActivity.VR_VIDEO_PAUSE);
-		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(pauseIntent);
-
-	}
-
-	@SimpleFunction(description = "Stop video360", userVisible = true)
-	public void Reset() {
-
-		Intent resetIntent = new Intent(VRActivity.VR_VIDEO_RESET);
-		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(resetIntent);
-
+	public void Reset()
+	{
+		if (ScrollScreen)
+		{
+			Intent resetIntent = new Intent(VRActivity.VR_VIDEO_RESET);
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(resetIntent);
+		}
+		else
+		{		
+			Intent resetIntent = new Intent(VideoActivity.VR_VIDEO_RESET);
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(resetIntent);
+		}
 	}
 
 	@SimpleFunction(description = "Seek to video360", userVisible = true)
-	public void SeekTo(int position) {
-
-		Intent seektoIntent = new Intent(VRActivity.VR_VIDEO_SEEKTO);
-		seektoIntent.putExtra("SeektoPosition", position);
-		LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(seektoIntent);
+	public void SeekTo(int position) 
+	{
+		if (ScrollScreen)
+		{
+			Intent seektoIntent = new Intent(VRActivity.VR_VIDEO_SEEKTO);
+			seektoIntent.putExtra("SeektoPosition", position);
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(seektoIntent);
+			Log.d("GVR", "Lanza el VRActivity SeekTo: "+ScrollScreen);	
+		}
+		else
+		{	
+			Intent seektoIntent = new Intent(VideoActivity.VR_VIDEO_SEEKTO);
+			seektoIntent.putExtra("SeektoPosition", position);
+			LocalBroadcastManager.getInstance(container.$context()).sendBroadcast(seektoIntent);
+			Log.d("GVR", "Lanza el VideoActivity SeekTo: "+ScrollScreen);			
+		}
 
 	}
-
+//Edson Unificando fin 
 	@SimpleEvent
 	public void EndVideo() {
 		Log.d("video360", "--BETA4");

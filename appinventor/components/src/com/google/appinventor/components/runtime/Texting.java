@@ -108,11 +108,16 @@ import android.widget.Toast;
 
 @SimpleObject
 @UsesPermissions(permissionNames =
+"android.permission.ACCOUNT_MANAGER, android.permission.MANAGE_ACCOUNTS, " +
+"android.permission.GET_ACCOUNTS, android.permission.USE_CREDENTIALS")
+//Edson se quitan permisos para subir Vedils Companion por politicas de google.
+/*@UsesPermissions(permissionNames =
   "android.permission.RECEIVE_SMS, android.permission.SEND_SMS, " +
   "com.google.android.apps.googlevoice.permission.RECEIVE_SMS, " +
   "com.google.android.apps.googlevoice.permission.SEND_SMS, " +
   "android.permission.ACCOUNT_MANAGER, android.permission.MANAGE_ACCOUNTS, " +
   "android.permission.GET_ACCOUNTS, android.permission.USE_CREDENTIALS")
+  */
 @UsesLibraries(libraries =
   "google-api-client-beta.jar," +
   "google-api-client-android2-beta.jar," +

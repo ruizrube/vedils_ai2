@@ -15,6 +15,8 @@ import com.threed.jpct.Config;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.LinearLayout.LayoutParams;
+
 import java.io.IOException;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -24,7 +26,9 @@ import android.content.Context;
 import android.content.BroadcastReceiver;
 import com.google.appinventor.components.runtime.vr4ai.util.ShakeListener;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.os.Bundle;
+
 import com.threed.jpct.Texture;
 import android.media.MediaPlayer;
 import com.google.appinventor.components.runtime.vr4ai.util.Object3DParcelable;
@@ -75,6 +79,9 @@ public class VRActivity extends CardboardActivity
     public static final String VR_ACTIVITY_CLASS = "com.google.appinventor.components.runtime.vr4ai.VRActivity";
     public static final String VR_COMPANION = "com.google.appinventor.components.runtime.vr4ai.VRActivity.isCompanion";
     public static final String VR_VIDEO_SEEKTO = "com.google.appinventor.components.runtime.vr4ai.VRActivity.seekToVideo";
+    //Edson inicio
+    public static final String VR_VIDEO_PLAYSECTION = "com.google.appinventor.components.runtime.vr4ai.VRActivity.playSection";
+    //Edson fin 
     public static final String VR_VIDEO_STOP = "com.google.appinventor.components.runtime.vr4ai.VRActivity.stopVideo";
     public static final String VR_VIDEO_PLAY = "com.google.appinventor.components.runtime.vr4ai.VRActivity.playVideo";
     public static final String VR_VIDEO_PAUSE = "com.google.appinventor.components.runtime.vr4ai.VRActivity.pauseVideo";
@@ -119,6 +126,9 @@ public class VRActivity extends CardboardActivity
     private ShakeListener mShaker;
     private BroadcastReceiver stopBroadCastReceiver;
     private BroadcastReceiver seekToVideoEventBroadCastReceiver;
+    //Edson inicio
+    private BroadcastReceiver PlaySectionBroadCastReceiver;
+    //Edson fin 
     private BroadcastReceiver stopVideoEventBroadCastReceiver;
     private BroadcastReceiver playVideoEventBroadCastReceiver;
     private BroadcastReceiver pauseVideoEventBroadCastReceiver;
@@ -160,9 +170,21 @@ public class VRActivity extends CardboardActivity
         this.seekToVideoEventBroadCastReceiver = new BroadcastReceiver() {
             public void onReceive(final Context context, final Intent intent) {
                 final int position = intent.getIntExtra("SeektoPosition", 0);
-                VRActivity.this.rendererVideo360.mediaPlayer.seekTo(position);
+                VRActivity.this.rendererVideo360.mediaPlayer.seekTo(position);                
             }
         };
+        
+        //Edson inicio
+        this.PlaySectionBroadCastReceiver = new BroadcastReceiver() {
+            public void onReceive(final Context context, final Intent intent) {
+            	final int startposition = intent.getIntExtra("StartSection", 0);
+            	final int endposition = intent.getIntExtra("EndSection", 0);
+            	VRActivity.this.rendererVideo360.mediaPlayer.seekTo(startposition);
+            	VRActivity.this.rendererVideo360.mediaPlayer.start();
+            }
+        };           
+      //Edson fin
+        
         this.stopVideoEventBroadCastReceiver = new BroadcastReceiver() {
             public void onReceive(final Context context, final Intent intent) {
                 VRActivity.this.videoState("stop");
@@ -639,11 +661,13 @@ public class VRActivity extends CardboardActivity
         }
     }
     
+    @Override
     protected void onPause() {
         this.unregisterReceivers();
         super.onPause();
     }
     
+    @Override
     protected void onDestroy() {
         this.unregisterReceivers();
         super.onDestroy();
@@ -652,6 +676,7 @@ public class VRActivity extends CardboardActivity
         }
     }
     
+    @Override
     protected void onResume() {
         Log.v("ONRESUME", "HELLO");
         super.onResume();
@@ -663,6 +688,7 @@ public class VRActivity extends CardboardActivity
         }
     }
     
+    @Override
     public void onBackPressed() {
         this.unregisterReceivers();
         super.onBackPressed();
@@ -695,6 +721,8 @@ public class VRActivity extends CardboardActivity
             LocalBroadcastManager.getInstance((Context)this).registerReceiver(this.pauseVideoEventBroadCastReceiver, new IntentFilter("com.google.appinventor.components.runtime.vr4ai.VRActivity.pauseVideo"));
             LocalBroadcastManager.getInstance((Context)this).registerReceiver(this.resetVideoEventBroadCastReceiver, new IntentFilter("com.google.appinventor.components.runtime.vr4ai.VRActivity.resetVideo"));
             LocalBroadcastManager.getInstance((Context)this).registerReceiver(this.seekToVideoEventBroadCastReceiver, new IntentFilter("com.google.appinventor.components.runtime.vr4ai.VRActivity.seekToVideo"));
+           //Edson
+            LocalBroadcastManager.getInstance((Context)this).registerReceiver(this.PlaySectionBroadCastReceiver, new IntentFilter("com.google.appinventor.components.runtime.vr4ai.VRActivity.playSection"));
         }
     }
     
@@ -707,6 +735,8 @@ public class VRActivity extends CardboardActivity
             LocalBroadcastManager.getInstance((Context)this).unregisterReceiver(this.pauseVideoEventBroadCastReceiver);
             LocalBroadcastManager.getInstance((Context)this).unregisterReceiver(this.resetVideoEventBroadCastReceiver);
             LocalBroadcastManager.getInstance((Context)this).unregisterReceiver(this.seekToVideoEventBroadCastReceiver);
+            //Edson
+            LocalBroadcastManager.getInstance((Context)this).unregisterReceiver(this.PlaySectionBroadCastReceiver);
         }
         if (this.object3D) {
             LocalBroadcastManager.getInstance((Context)this).unregisterReceiver(this.reset3DObjectEventBroadCastReceiver);
