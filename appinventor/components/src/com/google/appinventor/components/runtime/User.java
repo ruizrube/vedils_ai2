@@ -31,7 +31,7 @@ public class User extends AndroidNonvisibleComponent implements Component {
 		this.email = "";
 		this.twitterAccount = "";
 		this.facebookAccount = "";
-		this.linkedinAccount = "";
+		this.linkedinAccount = ""; 
 	}
 	
 	/**

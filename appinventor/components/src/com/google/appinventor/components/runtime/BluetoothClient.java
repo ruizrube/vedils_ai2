@@ -6,18 +6,26 @@
 
 package com.google.appinventor.components.runtime;
 
+import com.annimon.stream.Stream;
 import com.google.appinventor.components.annotations.DesignerComponent;
+import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
+import com.google.appinventor.components.annotations.SimpleEvent;
 import com.google.appinventor.components.annotations.SimpleFunction;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
+import com.google.appinventor.components.annotations.UsesLibraries;
 import com.google.appinventor.components.annotations.UsesPermissions;
 import com.google.appinventor.components.common.ComponentCategory;
+import com.google.appinventor.components.common.PropertyTypeConstants;
 import com.google.appinventor.components.common.YaVersion;
 import com.google.appinventor.components.runtime.util.BluetoothReflection;
+import com.google.appinventor.components.runtime.util.BluetoothStreamEventsTimerInput;
+import com.google.appinventor.components.runtime.util.BluetoothStreamEventsTimerOutput;
 import com.google.appinventor.components.runtime.util.ErrorMessages;
 import com.google.appinventor.components.runtime.util.SdkLevel;
 
+import android.app.Activity;
 import android.util.Log;
 
 import java.io.IOException;
@@ -25,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Timer;
 import java.util.UUID;
 
 /**
@@ -32,6 +41,7 @@ import java.util.UUID;
  *
  * @author lizlooney@google.com (Liz Looney)
  */
+@UsesLibraries(libraries = "stream-1.1.7.jar")
 @DesignerComponent(version = YaVersion.BLUETOOTHCLIENT_COMPONENT_VERSION,
     description = "Bluetooth client component",
     category = ComponentCategory.CONNECTIVITY,
@@ -46,12 +56,24 @@ public final class BluetoothClient extends BluetoothConnectionBase {
 
   private final List<Component> attachedComponents = new ArrayList<Component>();
   private Set<Integer> acceptableDeviceClasses;
+  
+  //SPI-FM
+  public Stream<Integer> availableSignedDataStream;
+  private BluetoothStreamEventsTimerInput timerIN;
+  private BluetoothStreamEventsTimerOutput timerOUT;
+  
+  public Activity activity;
 
   /**
    * Creates a new BluetoothClient.
    */
   public BluetoothClient(ComponentContainer container) {
     super(container, "BluetoothClient");
+    
+    this.activity = container.$context();
+    this.timerIN = new BluetoothStreamEventsTimerInput(this);
+    new Timer().schedule(this.timerIN, 0, 1000);
+    this.timerOUT = new BluetoothStreamEventsTimerOutput(this);
   }
 
   boolean attachComponent(Component component, Set<Integer> acceptableDeviceClasses) {
@@ -91,6 +113,24 @@ public final class BluetoothClient extends BluetoothConnectionBase {
       acceptableDeviceClasses = null;
     }
   }
+  
+  /**
+   * SPI-FM
+   * Time to streaming data received using Bluetooth connection
+   * @param seconds
+   */
+  @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_NON_NEGATIVE_INTEGER, defaultValue = "0")
+	@SimpleProperty(category = PropertyCategory.BEHAVIOR, userVisible = false)
+	public void SecondsToGetStreamData(int seconds) {
+		new Timer().schedule(this.timerOUT, 0, seconds * 1000);
+  }
+  
+  
+  @SimpleEvent(description = "Returns streaming data received using Bluetooth connection.", userVisible = true)
+	public void StreamDataReceived(Stream<Integer> data) {
+		EventDispatcher.dispatchEvent(this, "StreamDataReceived", data.toList());
+  }
+  
 
   /**
    * Checks whether the Bluetooth device with the given address is paired.

@@ -364,7 +364,8 @@ public class FlinkClientDAO {
 	
 	protected String readFromKafkaQueue(String idQuery, String topic) throws Exception {
 		
-		String usedTopic = topic + "_" + idQuery;
+		//String usedTopic = topic + "_" + idQuery;
+		String usedTopic = topic;
 		LOGGER.info("readFromKafkaQueue method, topic used: " +usedTopic);
 		
 		Properties props = new Properties();

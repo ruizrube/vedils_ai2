@@ -381,10 +381,21 @@ public class ActivityTracker extends AndroidNonvisibleComponent implements Compo
 	 * Function to notify a specific action (version to send multiple data in List(key,value) format).
 	 * 
 	 */
+	@SimpleFunction(description="Function to send an specific xAPI statment.")
+	public void SendStatement(String actionId, Object data) {
+		activityTrackerManager.prepareQueryManual(actionId, data);
+	}
+	
+	
+	/**
+	 * Function to notify a specific action (version to send multiple data in List(key,value) format).
+	 * 
+	 */
 	@SimpleFunction(description="Function to notify a specific action (version to send multiple data in List(key,value) format).")
 	public void NotifyWithData(String actionId, Object data) {
 		activityTrackerManager.prepareQueryManual(actionId, data);
 	}
+	
 	
 	/**
 	 * Function to notify a specific action (version to send multiple data in List(key,value) format).
