@@ -176,6 +176,10 @@ public interface OdeMessages extends Messages {
 	//
 	// ActivityTracker
 	//
+	
+	@DefaultMessage("SecondsToGetStreamData")
+	@Description("")
+	String SecondsToGetStreamDataProperties();
 
 	@DefaultMessage("StorageMode")
 	@Description("")
@@ -188,6 +192,10 @@ public interface OdeMessages extends Messages {
 	@DefaultMessage("NotifyWithData")
 	@Description("")
 	String NotifyWithDataMethods();
+	
+	@DefaultMessage("SendStatement")
+	@Description("")
+	String SendStatementMethods();
 	
 	@DefaultMessage("NotifyAndReturnStatement")
 	@Description("")
